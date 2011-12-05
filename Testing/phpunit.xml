@@ -1,0 +1,17 @@
+<phpunit
+    stopOnError="true"
+    stopOnFailure="true"
+    strict="true"
+    bootstrap="../bootstrap.php">
+    <filter>
+        <whitelist>
+            <!-- path to the brickoo library files to include -->
+            <directory suffix=".php">../Library</directory>
+            <exclude>
+                <!-- exclude interfaces from the code coverage report -->
+                <directory>../Library/*/Interfaces</directory>
+                <!-- files to exclude from code coverage during framework development -->
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>

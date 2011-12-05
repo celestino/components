@@ -1,0 +1,285 @@
+<?php
+
+    /*
+     * Copyright (c) 2008-2011, Celestino Diaz Teran <celestino@users.sourceforge.net>.
+     * All rights reserved.
+     *
+     * Redistribution and use in source and binary forms, with or without
+     * modification, are permitted provided that the following conditions
+     * are met:
+     *
+     * 1. Redistributions of source code must retain the above copyright
+     *    notice, this list of conditions and the following disclaimer.
+     * 2. Redistributions in binary form must reproduce the above copyright
+     *    notice, this list of conditions and the following disclaimer in the
+     *    documentation and/or other materials provided with the distribution.
+     * 3. Neither the name of Brickoo nor the names of its contributors may be used
+     *    to endorse or promote products derived from this software without specific
+     *    prior written permission.
+     *
+     * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+     * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+     * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+     * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+     * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+     * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+     * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+     * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+     * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+     * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+     * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+     */
+
+    /**
+     * Test case for the Autoloader class.
+     * @see Brickoo\Library\Core\Autoloader
+     * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
+     * @version $Id: $
+     */
+
+    use Brickoo\Library\Core\Autoloader;
+
+    // require PHPUnit Autoloader
+    require_once ('PHPUnit/Autoload.php');
+
+    /**
+     * Test case for the Repository class.
+     * @see Brickoo\Library\Storage\Repository
+     * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
+     * @version $Id: $
+     */
+
+    class AutoloaderTest extends PHPUnit_Framework_TestCase
+    {
+
+        /**
+         * Holds the Autoloader  object.
+         * @var Autoloader\Autoloader
+         */
+        public $Autoloader;
+
+        /**
+         * Set up the Autoloader object used.
+         */
+        public function setUp()
+        {
+            $this->Autoloader = new Autoloader();
+        }
+
+        /**
+         * Test if the class can be created.
+         * @covers Brickoo\Library\Core\Autoloader::__construct
+         * @covers Brickoo\Library\Core\Autoloader::clearNamespaces
+         */
+        public function testAutoloaderConstructor()
+        {
+            $this->assertInstanceOf
+            (
+                '\Brickoo\Library\Core\Autoloader',
+                $this->Autoloader
+             );
+        }
+
+        /**
+         * Test if a namespace with its path can be registered.
+         * @covers Brickoo\Library\Core\Autoloader::registerNamespace
+         */
+        public function testRegisterNamespace()
+        {
+            $this->assertSame
+            (
+                $this->Autoloader,
+                $this->Autoloader->registerNamespace('TestNamespace', dirname(__FILE__))
+            );
+        }
+
+        /**
+         * Test if the not valid argumentsthrows an exception.
+         * @covers Brickoo\Library\Core\Autoloader::registerNamespace
+         * @expectedException InvalidArgumentException
+         */
+        public function testRegisterNamespaceArgumentException()
+        {
+            $this->Autoloader->registerNamespace(array('wrongType'), null);
+        }
+
+        /**
+         * Test if assigning the same namespace throws an exception.
+         * @covers Brickoo\Library\Core\Autoloader::registerNamespace
+         * @covers Brickoo\Library\Core\Exception\AutoloaderException
+         * @expectedException Brickoo\Library\Core\Exception\AutoloaderException
+         */
+        public function testRegisterNamespaceDoubleException()
+        {
+            $this->Autoloader->registerNamespace('TestNamespace', dirname(__FILE__));
+            $this->Autoloader->registerNamespace('TestNamespace', dirname(__FILE__));
+        }
+
+        /**
+         * Test if a namespace with its path has been unregistered.
+         * @covers Brickoo\Library\Core\Autoloader::unregisterNamespace
+         */
+        public function testUnregisterNamespace()
+        {
+            $this->Autoloader->registerNamespace('TestNamespace', dirname(__FILE__));
+            $this->assertSame($this->Autoloader, $this->Autoloader->unregisterNamespace('TestNamespace'));
+        }
+
+        /**
+         * Test if not assigned namespace throws an exception.
+         * @covers Brickoo\Library\Core\Autoloader::unregisterNamespace
+         * @covers Brickoo\Library\Core\Exception\AutoloaderException
+         * @expectedException Brickoo\Library\Core\Exception\AutoloaderException
+         */
+        public function testUnregisterNamespaceException()
+        {
+            $this->Autoloader->unregisterNamespace('NotRegisteredNamespace');
+        }
+
+        /**
+         * Test if a namespace is returned in the namespaces container.
+         * @covers Brickoo\Library\Core\Autoloader::getAvailableNamespaces
+         */
+        public function testGetAvailableNamespaces()
+        {
+            $this->Autoloader->registerNamespace('TestNamespace', dirname(__FILE__));
+            $this->assertContains('TESTNAMESPACE', $this->Autoloader->getAvailableNamespaces());
+        }
+
+        /**
+         * Test if a namespace has been registered before.
+         * @covers Brickoo\Library\Core\Autoloader::isNamespaceRegistered
+         */
+        public function testIsNamespaceRegistered()
+        {
+            $this->Autoloader->registerNamespace('TestNamespace', dirname(__FILE__));
+            $this->assertTrue($this->Autoloader->isNamespaceRegistered('testnamespace'));
+            $this->assertFalse($this->Autoloader->isNamespaceRegistered('fail'));
+        }
+
+        /** Test if an not valid argument throws an exception.
+         * @covers Brickoo\Library\Core\Autoloader::isNamespaceRegistered
+         * @expectedException InvalidArgumentException
+         */
+        public function testIsNamespaceRegisteredArgumentException()
+        {
+            $this->assertFalse($this->Autoloader->isNamespaceRegistered(' '));
+        }
+
+        /**
+         * Test if the namespace path is returned by its namespace.
+         * @covers Brickoo\Library\Core\Autoloader::getNamespacePath
+         */
+        public function testGetNamespacePath()
+        {
+            $this->Autoloader->registerNamespace('TestNamespace', dirname(__FILE__));
+            $this->assertEquals(dirname(__FILE__), $this->Autoloader->getNamespacePath('testnamespace'));
+            $this->assertFalse($this->Autoloader->getNamespacePath('doesNotExistNamespace'));
+        }
+
+        /** Test if an not valid argument throws an exception.
+         * @covers Brickoo\Library\Core\Autoloader::getNamespacePath
+         * @expectedException InvalidArgumentException
+         */
+        public function testGetNamespacePathArgumentException()
+        {
+            $this->Autoloader->getNamespacePath(true);
+        }
+
+        /**
+         * Test if the namespace path is returned by its namespace and class name.
+         * @covers Brickoo\Library\Core\Autoloader::getAbsolutePath
+         */
+        public function testGetAbsolutePath()
+        {
+            $this->Autoloader->registerNamespace('TestNamespace', dirname(__FILE__));
+            $path = str_replace('/', DIRECTORY_SEPARATOR, 'path\to\the\Class');
+            $this->assertEquals
+            (
+                dirname(__FILE__) .DIRECTORY_SEPARATOR . $path . '.php',
+                $this->Autoloader->getAbsolutePath('testnamespace\path\to\the\Class')
+            );
+            $this->assertFalse($this->Autoloader->getAbsolutePath('\namespace\is\not\registered'));
+        }
+
+        /** Test if an not valid argument throws an exception.
+         * @covers Brickoo\Library\Core\Autoloader::getAbsolutePath
+         * @expectedException InvalidArgumentException
+         */
+        public function testGetAbsolutePathArgumentException()
+        {
+            $this->Autoloader->getAbsolutePath(null);
+        }
+
+        /**
+         * Test if the Registry (or any other) class can be loaded.
+         * Need to disable the default Autoloader for this test
+         * and register it after the test again for further tests.
+         * @covers Brickoo\Library\Core\Autoloader::load
+         */
+        public function testLoad()
+        {
+            $this->Autoloader->registerNamespace('Brickoo', BRICKOO_DIR);
+            $this->assertTrue($this->Autoloader->load('Brickoo\Library\Storage\Registry'));
+            $this->assertFalse($this->Autoloader->load('Namespace\not\registred'));
+        }
+
+        /** Test if an file which does exist throws an exception.
+         * @covers Brickoo\Library\Core\Autoloader::load
+         * @covers Brickoo\Library\Core\Exception\AutoloaderException::__construct
+         * @expectedException Brickoo\Library\Core\Exception\AutoloaderException
+         */
+        public function testLoadFileException()
+        {
+            $this->Autoloader->registerNamespace('Brickoo', BRICKOO_DIR);
+            $this->Autoloader->load('Brickoo\Library\Storage\DoesNotExist');
+        }
+
+        /**
+         * Test if the autoloader is can be registred.
+         * @covers Brickoo\Library\Core\Autoloader::registerAutoloader
+         */
+        public function testRegisterAutoloader()
+        {
+            $this->assertSame($this->Autoloader, $this->Autoloader->registerAutoloader());
+        }
+
+        /**
+         * Test if the registering of the same autloader throws an exception.
+         * @covers Brickoo\Library\Core\Autoloader::registerAutoloader
+         * @covers Brickoo\Library\Core\Exception\AutoloaderException::__construct
+         * @expectedException Brickoo\Library\Core\Exception\AutoloaderException
+         */
+        public function testRegisterAutoloaderException()
+        {
+            $this->Autoloader->registerAutoloader();
+            $this->Autoloader->registerAutoloader();
+        }
+
+        /**
+         * Test if the autoloader can be unregistered.
+         * @covers Brickoo\Library\Core\Autoloader::unregisterAutoloader
+         */
+        public function testUnregisterAutoloader()
+        {
+            $this->assertSame($this->Autoloader, $this->Autoloader->registerAutoloader());
+            $this->assertSame($this->Autoloader, $this->Autoloader->unregisterAutoloader());
+        }
+
+        /**
+         * Test if trying to unregister an not registered autoloader
+         * throws an exception
+         * @covers Brickoo\Library\Core\Autoloader::unregisterAutoloader
+         * @covers Brickoo\Library\Core\Exception\AutoloaderException::__construct
+         * @expectedException Brickoo\Library\Core\Exception\AutoloaderException
+         */
+        public function testUnregisterAutolaoderException()
+        {
+            $this->assertSame($this->Autoloader, $this->Autoloader->registerAutoloader());
+            $this->assertSame($this->Autoloader, $this->Autoloader->unregisterAutoloader());
+            $this->Autoloader->unregisterAutoloader();
+        }
+
+     }
+
+?>
