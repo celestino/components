@@ -115,24 +115,6 @@
             );
         }
 
-        /**
-         * Test if the values can be registered and retrieved from the Registry.
-         * @covers Brickoo\Library\Core\Brickoo::getRegistryEntry
-         * @covers Brickoo\Library\Core\Brickoo::addRegistryEntry
-         */
-        public function testGetAndAddRegistryEntry()
-        {
-            $this->Brickoo->reset();
-
-            $this->assertSame
-            (
-                $this->Brickoo->getRegistry(),
-                $this->Brickoo->addRegistryEntry('name', 'John')
-            );
-
-            $this->assertEquals('John', $this->Brickoo->getRegistryEntry('name'));
-        }
-
     }
 
     /**

@@ -96,31 +96,6 @@
             }
 
             return self::$Registry;
-
-
-        }
-
-        /**
-         * Returns the registered entry.
-         * @see \Brickoo\Library\Storage\Registry::getRegistered
-         * @param string|integer $identifier the identifier registered
-         * @return mixed the registered identifier value
-         */
-        public function getRegistryEntry($identifier)
-        {
-            return $this->getRegistry()->getRegistered($identifier);
-        }
-
-        /**
-         * Registers an identifier to the registry.
-         * @see \Brickoo\Library\Storage\Registry::register
-         * @param string|integer $identifier the identifier to register
-         * @param mixed $value the value to assign
-         * @return boolean success
-         */
-        public function addRegistryEntry($identifier, $value = null)
-        {
-            return $this->getRegistry()->register($identifier, $value);
         }
 
     }
