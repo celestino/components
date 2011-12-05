@@ -49,6 +49,7 @@
 
         /**
          * Test if validation works if the arguments are expected.
+         * @covers Brickoo\Library\Validator\TypeValidator::Reset
          * @covers Brickoo\Library\Validator\TypeValidator::Validate
          * @covers Brickoo\Library\Validator\TypeValidator::CheckValidation
          * @covers Brickoo\Library\Validator\TypeValidator::isString
@@ -56,6 +57,7 @@
          */
         public function testValidate()
         {
+            TypeValidator::Reset();
             $this->assertTrue(TypeValidator::Validate('isString', array('john', 'mike', 'george')));
             $this->assertTrue(TypeValidator::Validate('isArray', array(array('john', 'mike', 'george'))));
         }
@@ -313,6 +315,21 @@
             TypeValidator::Validate('useRegex', array('wrongType'));
         }
 
+    }
+
+    /**
+     * Class need to reset the static Validator assigned.
+     */
+    class TypeValidatorFixture extends TypeValidator
+    {
+        /**
+         * Resets the static validator assigned.
+         * @return void
+         */
+        public static function Reset()
+        {
+            static::$Validator = null;
+        }
     }
 
 ?>

@@ -67,6 +67,15 @@
         protected static $Validator;
 
         /**
+        * Resets the static Validator instance.
+        * @return void
+        */
+        public static function Reset()
+        {
+            static::$Validator = null;
+        }
+
+        /**
          * Throws an InvalidArgumentException.
          * @param string $method the method called for validation
          * @param integer $index the index of the paramters which throws the exception
@@ -112,6 +121,11 @@
             return $valid;
         }
 
+        /**
+         * Checks if the method is available.
+         * @param string $method the method to check
+         * @return boolean check result
+         */
         protected function isMethodAvailable($method)
         {
             return (
@@ -121,6 +135,11 @@
             );
         }
 
+        /**
+         * Checks if the flag is supported.
+         * @param integer|null $flag the flag to check
+         * @return boolean check result
+         */
         protected function isFlagSupported($flag)
         {
             return (
