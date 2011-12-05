@@ -327,7 +327,7 @@
          * @param integer $version the version to restore
          * @throws RepositoryException if the Repository is locked
          * @throws RepositoryException if the Repository version is passed and not available
-         * @return boolean success
+         * @return object reference
          */
         public function restore($version)
         {
@@ -435,7 +435,7 @@
          * @throws InvalidArgumentException if the repository passed is empty
          * @throws RepositoryException if the Repository is locked
          * @throws RepositoryException if the Repository has not incremented key order
-         * @return boolean success
+         * @return object reference
          */
         public function import(array $repository)
         {

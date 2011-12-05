@@ -235,7 +235,18 @@
         }
 
         /**
-         * Check if the argument is a array.
+         * Checks if the arguments is a float.
+         * @param float $argument the argument to check
+         * @param integer $flag currently not supported
+         * @return boolean check result
+         */
+        public function isFloat($argument, $flag = null)
+        {
+            return is_float($argument);
+        }
+
+        /**
+         * Check if the argument is an array.
          * @param string $argument the argument to validate
          * @param integer $flag the flag to allow empty arrays
          * @return boolean check result
@@ -259,7 +270,7 @@
         }
 
         /**
-         * Check if the argument is boolean.
+         * Check if the argument is a boolean.
          * @param string $argument the argument to validate
          * @param integer $flag does not affect
          * @return boolean check result
@@ -311,7 +322,7 @@
                 return false;
             }
 
-            self::Validate('isString', array($argument[1]));
+            self::Validate('isString', array($argument[0], $argument[1]));
 
             return (
                 (
