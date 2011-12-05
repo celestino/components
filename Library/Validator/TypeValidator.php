@@ -39,7 +39,7 @@
      * Throws an InvalidArgumentException if the validation fails.
      * @see http://php.net/manual/de/class.invalidargumentexception.php
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
 
     class TypeValidator

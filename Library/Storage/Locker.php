@@ -43,7 +43,7 @@
      * Contains one abstract method (public boolean Locker::isIdentifierAvailable($identifier)).
      * This abstract method is to allow only identifiers which are available on the main class.
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
 
     abstract class Locker implements \Countable

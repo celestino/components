@@ -43,7 +43,7 @@
      * If the repository is locked the methods comit, import, restore and remove do not work
      * until the lock has been removed to give full access for any user.
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
 
     class Repository implements \Countable

@@ -44,7 +44,7 @@
      *
      * Holds the request arguments and provides utility methods.
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
 
     class Request implements RequestInterface

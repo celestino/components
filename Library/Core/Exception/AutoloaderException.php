@@ -38,7 +38,7 @@
      * Exception throwed by the Autolaoder class.
      * @see Brickoo\Library\Core\Autoloader
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
 
     class AutoloaderException extends \Exception

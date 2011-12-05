@@ -41,7 +41,7 @@
      * Describes the methods implemented by this interface.
      * @see Brickoo\Library\Http\Request;
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
 
     Interface RequestInterface

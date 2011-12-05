@@ -40,7 +40,7 @@
      * Describes the methods implemented by this interface.
      * @see Brickoo\Library\Cli\Request;
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
 
     Interface CliRequestInterface

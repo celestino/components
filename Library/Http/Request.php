@@ -43,7 +43,7 @@
      *
      * Request class for accessing Http request content.
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
 
     class Request implements HttpRequestInterface

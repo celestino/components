@@ -41,7 +41,7 @@
      *
      * Url class for Uniform Resoruce Locator specified tasks.
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
 
     class Url implements UrlInterface, \Countable

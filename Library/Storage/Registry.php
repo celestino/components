@@ -43,7 +43,7 @@
      * Provides lock functionality for each identifer and an read only mode for all identifiers.
      * This class can be used for example as an class properties container.
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
 
     class Registry extends Locker implements \Countable

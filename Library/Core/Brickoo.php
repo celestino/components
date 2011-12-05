@@ -40,7 +40,7 @@
      *
      * Holds an object of the \Brickoo\Library\Storage\Registry.
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
 
     class Brickoo

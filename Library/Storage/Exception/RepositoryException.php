@@ -38,7 +38,7 @@
      * Exception throwed by the Locker class.
      * @see Brickoo\Library\Storage\Locker
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
 
     class RepositoryException extends \Exception

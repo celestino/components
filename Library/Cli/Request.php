@@ -41,7 +41,7 @@
      *
      * Request class for accessing cli arguments.
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
 
     class Request implements CliRequestInterface
