@@ -107,13 +107,6 @@
         {
             $this->assertInstanceOf
             (
-                '\Brickoo\Library\Http\Url',
-                new Url($this->getRequestStub())
-            );
-
-            $UrlMock = $this->getMock('\Brickoo\Library\Http\Interfaces\UrlInterface');
-            $this->assertInstanceOf
-            (
                 '\Brickoo\Library\Http\Interfaces\UrlInterface',
                 new Url($this->getRequestStub())
             );
@@ -131,6 +124,7 @@
                 array('isSecureConnection' => false)
             );
             $Url = new Url($RequestStub);
+
             $this->assertEquals('http', $Url->getScheme());
         }
 
@@ -146,6 +140,7 @@
                 array('isSecureConnection' => true)
             );
             $Url = new Url($RequestStub);
+
             $this->assertEquals('https', $Url->getScheme());
         }
 
@@ -161,6 +156,7 @@
                 array('getHTTPHeader' => 'testdomain.net')
             );
             $Url = new Url($RequestStub);
+
             $this->assertEquals('testdomain.net', $Url->getHost());
         }
 

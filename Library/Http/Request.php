@@ -64,8 +64,8 @@
         protected $_Url;
 
         /**
-         * Returns the Url object.
-         * If the object does not exist, it wll be created.
+         * Lazy initialization of the Url instance.
+         * @see Bricko\Library\Http\Url
          * @return object Url implementing the UrlInterface
          */
         public function Url()
@@ -79,7 +79,7 @@
         }
 
         /**
-         * Lazy initialization of the Url instance.
+         * Adds Url support by adding or creating the Url instance.
          * @return object reference
          */
         public function addUrlSupport(UrlInterface $Url = null)
@@ -238,19 +238,19 @@
         protected $HTTPheaders;
 
         /**
-         * Cleans the headers by modifing the key.
+         * Filters the headers by the keys used.
          * @param array $headers the key-value pairs to add
          * @param boolean $override flag to force overriding
          * @return array the cleaned headers to add.
          */
-        protected function cleanHeadersToAdd(array $headers, $override = false)
+        protected function filterHeaders(array $headers, $override = false)
         {
             TypeValidator::Validate('isArray', array($headers));
             TypeValidator::Validate('isBoolean', array($override));
 
             $headersModified = array();
 
-            foreach ($headers as  $headerKey => $headerValue)
+            foreach ($headers as $headerKey => $headerValue)
             {
                 if
                 (
@@ -286,7 +286,7 @@
             TypeValidator::Validate('isArray', array($headers));
             TypeValidator::Validate('isBoolean', array($override));
 
-            $headers = $this->cleanHeadersToAdd($headers, $override);
+            $headers = $this->filterHeaders($headers, $override);
 
             if (! empty($headers))
             {
@@ -431,7 +431,7 @@
                 ($acceptHeader = $this->getHTTPHeader('Accept'))
             )
             {
-                $this->acceptTypes = $this->getAcceptHeaderContentByRegex
+                $this->acceptTypes = $this->getAcceptHeaderByRegex
                 (
                     '~^(?<type>[a-z\/\+\-\*]+)\s*(\;\s*q\=(?<quality>(0\.\d{1,5}|1\.0|[01])))?~i',
                     'type',
@@ -474,7 +474,7 @@
                 ($acceptLanguageHeader = $this->getHTTPHeader('Accept.Language'))
             )
             {
-                $this->acceptLanguages = $this->getAcceptHeaderContentByRegex
+                $this->acceptLanguages = $this->getAcceptHeaderByRegex
                 (
                     '~^(?<language>[a-z\-\*]+)\s*(\;\s*q\=(?<quality>(0\.\d{1,5}|1\.0|[01])))?$~i',
                     'language',
@@ -517,7 +517,7 @@
                 ($acceptEncodingHeader = $this->getHTTPHeader('Accept.Encoding'))
             )
             {
-                $this->acceptEncodings = $this->getAcceptHeaderContentByRegex
+                $this->acceptEncodings = $this->getAcceptHeaderByRegex
                 (
                     '~^(?<encoding>[a-z\-\*]+)\s*(\;\s*q\=(?<quality>(0\.\d{1,5}|1\.0|[01])))?$~i',
                     'encoding',
@@ -560,7 +560,7 @@
                 ($acceptEncodingHeader = $this->getHTTPHeader('Accept.Charset'))
             )
             {
-                $this->acceptCharsets = $this->getAcceptHeaderContentByRegex
+                $this->acceptCharsets = $this->getAcceptHeaderByRegex
                 (
                     '~^(?<charset>[a-z0-9\-\*]+)\s*(\;\s*q\=(?<quality>(0\.\d{1,5}|1\.0|[01])))?$~i',
                     'charset',
@@ -590,7 +590,7 @@
          * @param string $acceptHeader the accept header to retireve the values from
          * @return array the result containing the header values
          */
-        public function getAcceptHeaderContentByRegex($regex, $keyName, $acceptHeader)
+        public function getAcceptHeaderByRegex($regex, $keyName, $acceptHeader)
         {
             TypeValidator::Validate('isString', array($regex, $keyName, $acceptHeader));
 

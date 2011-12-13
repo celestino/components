@@ -39,7 +39,7 @@
     /**
      * Url
      *
-     * Url class for Uniform Resoruce Locator specified tasks.
+     * Url class for Uniform Resource Locator specified tasks.
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      * @version $Id$
      */
@@ -62,7 +62,7 @@
 
         /**
          * Returns the request scheme.
-         * @return string
+         * @return string the request scheme
          */
         public function getScheme()
         {
@@ -76,7 +76,7 @@
 
         /**
          * Holds the host name or ip adress of the host.
-         * @var string
+         * @var string the host name or adress
          */
         protected $hostname;
 
@@ -109,7 +109,7 @@
 
         /**
          * Returns the port handling request.
-         * @return string
+         * @return string the server port
          */
         public function getPort()
         {
@@ -153,7 +153,7 @@
         /**
          * Returns the segment value of the passed position.
          * @param integer $position the position of the segment to return
-         * @throws OutOfRangeException if the index is out of range
+         * @throws OutOfRangeException if the position is out of range
          * @return string the segment value
          */
         public function getSegment($position)
@@ -237,7 +237,7 @@
 
         /**
          * Returns the request path.
-         * @return string path
+         * @return string the request path
          */
         public function getRequestPath()
         {
@@ -267,7 +267,7 @@
         /**
          * Returns the request url.
          * @param boolean $withPort return the url including port
-         * @return string
+         * @return string the request url
          */
         public function getRequestUrl($withPort = false)
         {

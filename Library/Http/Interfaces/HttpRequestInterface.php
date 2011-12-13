@@ -180,7 +180,7 @@
          * @param string $acceptHeader the accept header to retireve the values from
          * @return array the result containing the header values
          */
-        public function getAcceptHeaderContentByRegex($regex, $keyName, $acceptHeader);
+        public function getAcceptHeaderByRegex($regex, $keyName, $acceptHeader);
 
         /**
          * Returns the request method.

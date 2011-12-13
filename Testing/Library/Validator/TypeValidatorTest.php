@@ -225,6 +225,25 @@
         }
 
         /**
+         * Test if validation of the isFloat method works without flags.
+         * @covers Brickoo\Library\Validator\TypeValidator::isFloat
+         */
+        public function testIsFloat()
+        {
+            $this->assertTrue(TypeValidator::Validate('isFloat', array(1.234)));
+        }
+
+        /**
+         * Test if validation of the isFloat method throws an exception.
+         * @covers Brickoo\Library\Validator\TypeValidator::isFloat
+         * @expectedException InvalidArgumentException
+         */
+        public function testIsFloatException()
+        {
+            TypeValidator::Validate('isFloat', array(1));
+        }
+
+        /**
          * Test if validation of the isNotEmpty method.
          * @covers Brickoo\Library\Validator\TypeValidator::isNotEmpty
          */

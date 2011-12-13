@@ -61,10 +61,20 @@
     {
 
         /**
-         * Holds an instance of the HttpRequest class.
-         * @var object HttpRequest
+         * Returns an Core Request Stub for the Http Request to look up for server variables.
+         * @param array $requestMethods the request methods to attach and its return values
+         * @return object implementing the Brickoo\Library\Core\Interfaces\Request
          */
-        public $HttpRequest;
+        protected function getRequestStub(array $requestMethods = null)
+        {
+            $RequestStub = $this->getMock
+            (
+                'Brickoo\Library\Core\Request',
+                ($requestMethods === null ? null : array_values($requestMethods))
+            );
+
+            return $RequestStub;
+        }
 
         /**
          * Set up the HttpRequest object used.
@@ -79,8 +89,6 @@
             $_SERVER['HTTP_ACCEPT_ENCODING'] = 'gzip,deflate,sdch    ; q=0.1';
             $_SERVER['HTTP_ACCEPT_CHARSET'] = 'ISO-8859-1,utf-8    ;    q=0.7,*;q=0.3';
             $_SERVER['REQUEST_METHOD'] = 'GET';
-
-            $this->HttpRequest = new Request(new Core\Request);
         }
 
         /**
@@ -93,15 +101,8 @@
         {
             $this->assertInstanceOf
             (
-                '\Brickoo\Library\Http\Request',
-                $this->HttpRequest
-            );
-
-            $HttpRequestMock = $this->getMock('\Brickoo\Library\Http\Interfaces\HttpRequestInterface');
-            $this->assertInstanceOf
-            (
                 '\Brickoo\Library\Http\Interfaces\HttpRequestInterface',
-                $HttpRequestMock
+                new Request($this->getRequestStub())
             );
         }
 
@@ -112,7 +113,8 @@
          */
         public function testGetUrlObject()
         {
-            $this->assertInstanceOf('\Brickoo\Library\Http\Url', $this->HttpRequest->Url());
+            $HttpRequest = new Request($this->getRequestStub());
+            $this->assertInstanceOf('\Brickoo\Library\Http\Url', $HttpRequest->Url());
         }
 
         /**
@@ -121,9 +123,10 @@
          */
         public function testAddUrlPassedSupport()
         {
-            $TestUrl = new Url(new Core\Request);
-            $this->HttpRequest->AddUrlSupport($TestUrl);
-            $this->assertSame($TestUrl, $this->HttpRequest->Url());
+            $UrlMock = $this->getMock('\Brickoo\Library\Http\Interfaces\UrlInterface');
+            $HttpRequest = new Request($this->getRequestStub());
+            $HttpRequest->AddUrlSupport($UrlMock);
+            $this->assertSame($UrlMock, $HttpRequest->Url());
         }
 
         /**
@@ -133,8 +136,10 @@
          */
         public function testAddUrlSupportLogicException()
         {
-            $Url = $this->HttpRequest->Url();
-            $this->HttpRequest->AddUrlSupport(new Url(new Core\Request));
+            $HttpRequest = new Request($this->getRequestStub());
+            $Url = $HttpRequest->Url();
+            $UrlMock = $this->getMock('\Brickoo\Library\Http\Interfaces\UrlInterface');
+            $HttpRequest->AddUrlSupport($UrlMock);
         }
 
         /**
@@ -143,8 +148,9 @@
          */
         public function testGetVariablesOrder()
         {
-            $this->assertContainsOnly('string', $this->HttpRequest->getVariablesOrder());
-            $this->assertEquals(array('G', 'P', 'C'), $this->HttpRequest->getVariablesOrder());
+            $HttpRequest = new Request($this->getRequestStub());
+            $this->assertContainsOnly('string', $HttpRequest->getVariablesOrder());
+            $this->assertEquals(array('G', 'P', 'C'), $HttpRequest->getVariablesOrder());
         }
 
         /**
@@ -154,17 +160,24 @@
          */
         public function testSetVariablesOrder()
         {
-            $this->assertSame($this->HttpRequest, $this->HttpRequest->setVariablesOrder('g'));
-            $this->assertSame($this->HttpRequest, $this->HttpRequest->setVariablesOrder('GpC'));
+            $HttpRequest = new Request($this->getRequestStub());
+            $this->assertSame($HttpRequest, $HttpRequest->setVariablesOrder('g'));
+            $this->assertSame($HttpRequest, $HttpRequest->setVariablesOrder('GpC'));
 
-            $this->assertSame($this->HttpRequest, $this->HttpRequest->setVariablesOrder('ggg'));
-            $this->assertContains('G', $this->HttpRequest->getVariablesOrder());
-            $this->assertEquals(array('G'), $this->HttpRequest->getVariablesOrder());
+            $this->assertSame($HttpRequest, $HttpRequest->setVariablesOrder('ggg'));
+            $this->assertContains('G', $HttpRequest->getVariablesOrder());
+            $this->assertEquals(array('G'), $HttpRequest->getVariablesOrder());
+        }
 
-            /*
-            $this->assertFalse($this->HttpRequest->setVariablesOrder('EEEEEEEE'));
-            $this->assertFalse($this->HttpRequest->setVariablesOrder(array('wronType')));
-            */
+        /**
+         * Test is a wrong argument type throws an exception.
+         * @covers Brickoo\Library\Http\Request::setVariablesOrder
+         * @expectedException InvalidArgumentException
+         */
+        public function testSetVariablesOrderArgumentException()
+        {
+            $HttpRequest = new Request($this->getRequestStub());
+            $HttpRequest->setVariablesOrder(array());
         }
 
         /**
@@ -174,8 +187,9 @@
          */
         public function testGetParams()
         {
-            $this->assertInternalType('array', $this->HttpRequest->getParams());
-            $this->assertArrayHasKey('UNIT_TEST', $this->HttpRequest->getParams());
+            $HttpRequest = new Request($this->getRequestStub());
+            $this->assertInternalType('array', $HttpRequest->getParams());
+            $this->assertArrayHasKey('UNIT_TEST', $HttpRequest->getParams());
         }
 
         /**
@@ -185,13 +199,21 @@
          */
         public function testGetParam()
         {
-            $this->assertEquals('HttpTest', $this->HttpRequest->getParam('UNIT_TEST'));
-            $this->assertEquals(null, $this->HttpRequest->getParam('unit_test'));
-            $this->assertEquals('defaultValue', $this->HttpRequest->getParam('doesNotExist', 'defaultValue'));
+            $HttpRequest = new Request($this->getRequestStub());
+            $this->assertEquals('HttpTest', $HttpRequest->getParam('UNIT_TEST'));
+            $this->assertEquals(null, $HttpRequest->getParam('unit_test'));
+            $this->assertEquals('defaultValue', $HttpRequest->getParam('doesNotExist', 'defaultValue'));
+        }
 
-            /*
-            $this->assertFalse($this->HttpRequest->getParam(array('wrongType')));
-            */
+        /**
+         * Test is a wrong argument type throws an exception.
+         * @covers Brickoo\Library\Http\Request::getParam
+         * @expectedException InvalidArgumentException
+         */
+        public function testGetParamArgumentException()
+        {
+            $HttpRequest = new Request($this->getRequestStub());
+            $HttpRequest->getParam(array());
         }
 
         /**
@@ -202,8 +224,9 @@
          */
         public function testGetHttpHeaders()
         {
-            $this->assertInternalType('array', $this->HttpRequest->getHttpHeaders());
-            $this->assertArrayHasKey('UNIT_TEST', $this->HttpRequest->getHttpHeaders());
+            $HttpRequest = new Request($this->getRequestStub());
+            $this->assertInternalType('array', $HttpRequest->getHttpHeaders());
+            $this->assertArrayHasKey('UNIT_TEST', $HttpRequest->getHttpHeaders());
         }
 
         /**
@@ -213,16 +236,23 @@
          */
         public function testGetHttpHeader()
         {
-            $this->assertEquals('HttpTest', $this->HttpRequest->getHttpHeader('UNIT_TEST'));
-            $this->assertEquals('HttpTest', $this->HttpRequest->getHttpHeader('unit test'));
-            $this->assertEquals('HttpTest', $this->HttpRequest->getHttpHeader('unit.test'));
-            $this->assertEquals('HttpTest', $this->HttpRequest->getHttpHeader('unit-test'));
-            $this->assertEquals('defaultValue', $this->HttpRequest->getHttpHeader('doesNotExist', 'defaultValue'));
+            $HttpRequest = new Request($this->getRequestStub());
+            $this->assertEquals('HttpTest', $HttpRequest->getHttpHeader('UNIT_TEST'));
+            $this->assertEquals('HttpTest', $HttpRequest->getHttpHeader('unit test'));
+            $this->assertEquals('HttpTest', $HttpRequest->getHttpHeader('unit.test'));
+            $this->assertEquals('HttpTest', $HttpRequest->getHttpHeader('unit-test'));
+            $this->assertEquals('defaultValue', $HttpRequest->getHttpHeader('doesNotExist', 'defaultValue'));
+        }
 
-            /*
-            $this->assertFalse($this->HttpRequest->getHttpHeader(null));
-            $this->assertFalse($this->HttpRequest->getHttpHeader(array('wrongType')));
-            */
+        /**
+         * Test is a wrong argument type throws an exception.
+         * @covers Brickoo\Library\Http\Request::getHttpHeader
+         * @expectedException InvalidArgumentException
+         */
+        public function testGetHttpHeaderArgumentException()
+        {
+            $HttpRequest = new Request($this->getRequestStub());
+            $HttpRequest->getHttpHeader(array());
         }
 
         /**
@@ -232,52 +262,64 @@
          */
         public function testIsHttpHeaderAvailable()
         {
-            $this->assertTrue($this->HttpRequest->isHttpHeaderAvailable('UNIT_TEST'));
-            $this->assertTrue($this->HttpRequest->isHttpHeaderAvailable('unit test'));
-            $this->assertTrue($this->HttpRequest->isHttpHeaderAvailable('unit.test'));
-            $this->assertTrue($this->HttpRequest->isHttpHeaderAvailable('unit-test'));
+            $HttpRequest = new Request($this->getRequestStub());
+            $this->assertTrue($HttpRequest->isHttpHeaderAvailable('UNIT_TEST'));
+            $this->assertTrue($HttpRequest->isHttpHeaderAvailable('unit test'));
+            $this->assertTrue($HttpRequest->isHttpHeaderAvailable('unit.test'));
+            $this->assertTrue($HttpRequest->isHttpHeaderAvailable('unit-test'));
+        }
 
-            /*
-            $this->assertFalse($this->HttpRequest->isHttpHeaderAvailable(null));
-            $this->assertFalse($this->HttpRequest->isHttpHeaderAvailable(array('wrongType')));
-            */
+        /**
+         * Test is a wrong argument type throws an exception.
+         * @covers Brickoo\Library\Http\Request::isHttpHeaderAvailable
+         * @expectedException InvalidArgumentException
+         */
+        public function testIsHttpHeaderAvailableArgumentException()
+        {
+            $HttpRequest = new Request($this->getRequestStub());
+            $HttpRequest->isHttpHeaderAvailable(array());
         }
 
         /**
          * Test if http headers can be added and overridden.
          * @covers Brickoo\Library\Http\Request::addHttpHeaders
          * @covers Brickoo\Library\Http\Request::isHttpHeaderAvailable
-         * @covers Brickoo\Library\Http\Request::cleanHeadersToAdd
+         * @covers Brickoo\Library\Http\Request::filterHeaders
          */
         public function testAddHttpHeaders()
         {
-            $this->assertSame($this->HttpRequest, $this->HttpRequest->addHttpHeaders(array('NEW_VALUE' => 'something')));
-            $this->assertEquals('something', $this->HttpRequest->getHttpHeader('NEW_VALUE'));
-            $this->assertSame($this->HttpRequest, $this->HttpRequest->addHttpHeaders(array('UNIT_TEST' => 'value 2', null), true));
-            $this->assertSame($this->HttpRequest, $this->HttpRequest->addHttpHeaders(array('UNIT_TEST' => 'value 3'), true));
-            $this->assertEquals('value 3', $this->HttpRequest->getHttpHeader('UNIT_TEST'));
+            $HttpRequest = new Request($this->getRequestStub());
+            $this->assertSame($HttpRequest, $HttpRequest->addHttpHeaders(array('NEW_VALUE' => 'something')));
+            $this->assertEquals('something', $HttpRequest->getHttpHeader('NEW_VALUE'));
+            $this->assertSame($HttpRequest, $HttpRequest->addHttpHeaders(array('UNIT_TEST' => 'value 2', null), true));
+            $this->assertSame($HttpRequest, $HttpRequest->addHttpHeaders(array('UNIT_TEST' => 'value 3'), true));
+            $this->assertEquals('value 3', $HttpRequest->getHttpHeader('UNIT_TEST'));
+        }
 
-            /*
-            $this->assertFalse($this->HttpRequest->addHttpHeaders(array()));
-            $this->assertFalse($this->HttpRequest->addHttpHeaders(array(null)));
-            $this->assertFalse($this->HttpRequest->addHttpHeaders(array('UNIT_TEST' => 'value')));
-            $this->assertFalse($this->HttpRequest->addHttpHeaders(array('UNIT_TEST' => 'value', null)));
-            $this->assertFalse($this->HttpRequest->addHttpHeaders(array(12345 => 'wrontType')));
-            */
+        /**
+         * Test is a wrong argument type throws an exception.
+         * @covers Brickoo\Library\Http\Request::addHttpHeaders
+         * @expectedException InvalidArgumentException
+         */
+        public function testAddHttpHeadersArgumentException()
+        {
+            $HttpRequest = new Request($this->getRequestStub());
+            $HttpRequest->addHttpHeaders(array());
         }
 
         /**
          * Test if the accept types can be retrieved.
          * @covers Brickoo\Library\Http\Request::getAcceptTypes
-         * @covers Brickoo\Library\Http\Request::getAcceptHeaderContentByRegex
+         * @covers Brickoo\Library\Http\Request::getAcceptHeaderByRegex
          */
         public function testGetAcceptTypes()
         {
-            $this->assertInternalType('array', $this->HttpRequest->getAcceptTypes());
-            $this->assertArrayHasKey('application/xml', $this->HttpRequest->getAcceptTypes());
-            $this->assertArrayHasKey('text/html', $this->HttpRequest->getAcceptTypes());
-            $this->assertArrayHasKey('application/xhtml+xml', $this->HttpRequest->getAcceptTypes());
-            $this->assertArrayHasKey('*/*', $this->HttpRequest->getAcceptTypes());
+            $HttpRequest = new Request($this->getRequestStub());
+            $this->assertInternalType('array', $HttpRequest->getAcceptTypes());
+            $this->assertArrayHasKey('application/xml', $HttpRequest->getAcceptTypes());
+            $this->assertArrayHasKey('text/html', $HttpRequest->getAcceptTypes());
+            $this->assertArrayHasKey('application/xhtml+xml', $HttpRequest->getAcceptTypes());
+            $this->assertArrayHasKey('*/*', $HttpRequest->getAcceptTypes());
         }
 
         /**
@@ -286,29 +328,36 @@
          */
         public function testIsTypeSupported()
         {
-            $this->assertTrue($this->HttpRequest->isTypeSupported('application/xml'));
-            $this->assertTrue($this->HttpRequest->isTypeSupported('text/html'));
-            $this->assertTrue($this->HttpRequest->isTypeSupported('*/*'));
+            $HttpRequest = new Request($this->getRequestStub());
+            $this->assertTrue($HttpRequest->isTypeSupported('application/xml'));
+            $this->assertTrue($HttpRequest->isTypeSupported('text/html'));
+            $this->assertTrue($HttpRequest->isTypeSupported('*/*'));
+        }
 
-            /*
-            $this->assertFalse($this->HttpRequest->isTypeSupported(null));
-            $this->assertFalse($this->HttpRequest->isTypeSupported(array('wrongType')));
-            $this->assertFalse($this->HttpRequest->isTypeSupported('bu11sh1t'));
-            */
+        /**
+         * Test is a wrong argument type throws an exception.
+         * @covers Brickoo\Library\Http\Request::isTypeSupported
+         * @expectedException InvalidArgumentException
+         */
+        public function testIsTypeSupportedArgumentException()
+        {
+            $HttpRequest = new Request($this->getRequestStub());
+            $HttpRequest->isTypeSupported(null);
         }
 
         /**
          * Test if the accept languages can be retrieved.
          * @covers Brickoo\Library\Http\Request::getAcceptLanguages
-         * @covers Brickoo\Library\Http\Request::getAcceptHeaderContentByRegex
+         * @covers Brickoo\Library\Http\Request::getAcceptHeaderByRegex
          */
         public function testGetAcceptLanguages()
         {
-            $this->assertInternalType('array', $this->HttpRequest->getAcceptLanguages());
-            $this->assertArrayHasKey('de-DE', $this->HttpRequest->getAcceptLanguages());
-            $this->assertArrayHasKey('de', $this->HttpRequest->getAcceptLanguages());
-            $this->assertArrayHasKey('en-US', $this->HttpRequest->getAcceptLanguages());
-            $this->assertArrayHasKey('en', $this->HttpRequest->getAcceptLanguages());
+            $HttpRequest = new Request($this->getRequestStub());
+            $this->assertInternalType('array', $HttpRequest->getAcceptLanguages());
+            $this->assertArrayHasKey('de-DE', $HttpRequest->getAcceptLanguages());
+            $this->assertArrayHasKey('de', $HttpRequest->getAcceptLanguages());
+            $this->assertArrayHasKey('en-US', $HttpRequest->getAcceptLanguages());
+            $this->assertArrayHasKey('en', $HttpRequest->getAcceptLanguages());
         }
 
         /**
@@ -317,29 +366,36 @@
          */
         public function testIsLanguageSupported()
         {
-            $this->assertTrue($this->HttpRequest->isLanguageSupported('de-DE'));
-            $this->assertTrue($this->HttpRequest->isLanguageSupported('de'));
-            $this->assertTrue($this->HttpRequest->isLanguageSupported('en-US'));
-            $this->assertTrue($this->HttpRequest->isLanguageSupported('en'));
+            $HttpRequest = new Request($this->getRequestStub());
+            $this->assertTrue($HttpRequest->isLanguageSupported('de-DE'));
+            $this->assertTrue($HttpRequest->isLanguageSupported('de'));
+            $this->assertTrue($HttpRequest->isLanguageSupported('en-US'));
+            $this->assertTrue($HttpRequest->isLanguageSupported('en'));
+        }
 
-            /*
-            $this->assertFalse($this->HttpRequest->isLanguageSupported(null));
-            $this->assertFalse($this->HttpRequest->isLanguageSupported(array('wrongType')));
-            $this->assertFalse($this->HttpRequest->isLanguageSupported('bu11sh1t'));
-            */
+        /**
+         * Test is a wrong argument type throws an exception.
+         * @covers Brickoo\Library\Http\Request::isLanguageSupported
+         * @expectedException InvalidArgumentException
+         */
+        public function testIsLanguageSupportedArgumentException()
+        {
+            $HttpRequest = new Request($this->getRequestStub());
+            $HttpRequest->isLanguageSupported(null);
         }
 
         /**
          * Test if the accept encodings can be retrieved.
          * @covers Brickoo\Library\Http\Request::getAcceptEncodings
-         * @covers Brickoo\Library\Http\Request::getAcceptHeaderContentByRegex
+         * @covers Brickoo\Library\Http\Request::getAcceptHeaderByRegex
          */
         public function testGetAcceptEncodings()
         {
-            $this->assertInternalType('array', $this->HttpRequest->getAcceptEncodings());
-            $this->assertArrayHasKey('gzip', $this->HttpRequest->getAcceptEncodings());
-            $this->assertArrayHasKey('deflate', $this->HttpRequest->getAcceptEncodings());
-            $this->assertArrayHasKey('sdch', $this->HttpRequest->getAcceptEncodings());
+            $HttpRequest = new Request($this->getRequestStub());
+            $this->assertInternalType('array', $HttpRequest->getAcceptEncodings());
+            $this->assertArrayHasKey('gzip', $HttpRequest->getAcceptEncodings());
+            $this->assertArrayHasKey('deflate', $HttpRequest->getAcceptEncodings());
+            $this->assertArrayHasKey('sdch', $HttpRequest->getAcceptEncodings());
         }
 
         /**
@@ -348,28 +404,35 @@
          */
         public function testIsEncodingSupported()
         {
-            $this->assertTrue($this->HttpRequest->isEncodingSupported('deflate'));
-            $this->assertTrue($this->HttpRequest->isEncodingSupported('gzip'));
-            $this->assertTrue($this->HttpRequest->isEncodingSupported('sdch'));
+            $HttpRequest = new Request($this->getRequestStub());
+            $this->assertTrue($HttpRequest->isEncodingSupported('deflate'));
+            $this->assertTrue($HttpRequest->isEncodingSupported('gzip'));
+            $this->assertTrue($HttpRequest->isEncodingSupported('sdch'));
+        }
 
-            /*
-            $this->assertFalse($this->HttpRequest->isEncodingSupported(null));
-            $this->assertFalse($this->HttpRequest->isEncodingSupported(array('wrongType')));
-            $this->assertFalse($this->HttpRequest->isEncodingSupported('bu11sh1t'));
-            */
+        /**
+         * Test is a wrong argument type throws an exception.
+         * @covers Brickoo\Library\Http\Request::isEncodingSupported
+         * @expectedException InvalidArgumentException
+         */
+        public function testIsEncodingSupportedArgumentException()
+        {
+            $HttpRequest = new Request($this->getRequestStub());
+            $HttpRequest->isEncodingSupported(null);
         }
 
         /**
          * Test if the accept charsets can be retrieved.
          * @covers Brickoo\Library\Http\Request::getAcceptCharsets
-         * @covers Brickoo\Library\Http\Request::getAcceptHeaderContentByRegex
+         * @covers Brickoo\Library\Http\Request::getAcceptHeaderByRegex
          */
         public function testGetAcceptCharsets()
         {
-            $this->assertInternalType('array', $this->HttpRequest->getAcceptCharsets());
-            $this->assertArrayHasKey('ISO-8859-1', $this->HttpRequest->getAcceptCharsets());
-            $this->assertArrayHasKey('utf-8', $this->HttpRequest->getAcceptCharsets());
-            $this->assertArrayHasKey('*', $this->HttpRequest->getAcceptCharsets());
+            $HttpRequest = new Request($this->getRequestStub());
+            $this->assertInternalType('array', $HttpRequest->getAcceptCharsets());
+            $this->assertArrayHasKey('ISO-8859-1', $HttpRequest->getAcceptCharsets());
+            $this->assertArrayHasKey('utf-8', $HttpRequest->getAcceptCharsets());
+            $this->assertArrayHasKey('*', $HttpRequest->getAcceptCharsets());
         }
 
         /**
@@ -378,9 +441,10 @@
          */
         public function testIsCharsetSupported()
         {
-            $this->assertTrue($this->HttpRequest->isCharsetSupported('ISO-8859-1'));
-            $this->assertTrue($this->HttpRequest->isCharsetSupported('utf-8'));
-            $this->assertTrue($this->HttpRequest->isCharsetSupported('*'));
+            $HttpRequest = new Request($this->getRequestStub());
+            $this->assertTrue($HttpRequest->isCharsetSupported('ISO-8859-1'));
+            $this->assertTrue($HttpRequest->isCharsetSupported('utf-8'));
+            $this->assertTrue($HttpRequest->isCharsetSupported('*'));
         }
 
         /**
@@ -390,23 +454,25 @@
          */
         public function testIsCharsetSupportedArgumentException()
         {
-            $this->HttpRequest->isCharsetSupported(array('wrongType'));
+            $HttpRequest = new Request($this->getRequestStub());
+            $HttpRequest->isCharsetSupported(array('wrongType'));
         }
 
         /**
          * Test if the parameters are validated.
-         * @covers Brickoo\Library\Http\Request::getAcceptHeaderContentByRegex
+         * @covers Brickoo\Library\Http\Request::getAcceptHeaderByRegex
          */
-        public function testGetAcceptHeaderContentByRegex()
+        public function testGetAcceptHeaderByRegex()
         {
+            $HttpRequest = new Request($this->getRequestStub());
             $this->assertArrayHasKey
             (
                 'ISO-8859-1',
-                $this->HttpRequest->getAcceptHeaderContentByRegex
+                $HttpRequest->getAcceptHeaderByRegex
                 (
                     '~^(?<charset>[a-z0-9\-\*]+)\s*(\;\s*q\=(?<quality>(0\.\d{1,5}|1\.0|[01])))?$~i',
                     'charset',
-                    $this->HttpRequest->getHTTPHeader('Accept.Charset')
+                    $HttpRequest->getHTTPHeader('Accept.Charset')
                 )
             );
         }
@@ -417,7 +483,8 @@
          */
         public function testGetHttpMethod()
         {
-            $this->assertEquals('GET', $this->HttpRequest->getRequestMethod());
+            $HttpRequest = new Request($this->getRequestStub());
+            $this->assertEquals('GET', $HttpRequest->getRequestMethod());
         }
 
         /**
@@ -427,7 +494,8 @@
          */
         public function testGetRawBody()
         {
-            $this->assertInternalType('string', $this->HttpRequest->getRawBody());
+            $HttpRequest = new Request($this->getRequestStub());
+            $this->assertInternalType('string', $HttpRequest->getRawBody());
         }
 
         /**
@@ -436,8 +504,18 @@
          */
         public function testIsSecureConnection()
         {
-            $_SERVER['HTTPS'] = 1;
-            $this->assertTrue($this->HttpRequest->isSecureConnection());
+            $map = array(
+                array('X.Forwarded.Proto', null),
+                array('ssl.https', null),
+                array('https', null, 1)
+            );
+            $RequestStub = $this->getRequestStub(array('getServerVar'));
+            $RequestStub->expects($this->exactly(3))
+                        ->method('getServerVar')
+                        ->will($this->returnValueMap($map));
+            $HttpRequest = new Request($RequestStub);
+
+            $this->assertTrue($HttpRequest->isSecureConnection());
         }
 
         /**
@@ -446,8 +524,16 @@
          */
         public function testIsSecureConnectionForwarded()
         {
-            $_SERVER['X-FORWARDED-PROTO'] = 'https';
-            $this->assertTrue($this->HttpRequest->isSecureConnection());
+            $map = array(
+                array('X.Forwarded.Proto', null, 'https')
+            );
+            $RequestStub = $this->getRequestStub(array('getServerVar'));
+            $RequestStub->expects($this->exactly(1))
+                        ->method('getServerVar')
+                        ->will($this->returnValueMap($map));
+            $HttpRequest = new Request($RequestStub);
+
+            $this->assertTrue($HttpRequest->isSecureConnection());
         }
 
         /**
@@ -456,8 +542,16 @@
          */
         public function testisAjaxRequest()
         {
-            $_SERVER['X-Requested-With'] = 'XMLHttpRequest';
-            $this->assertTrue($this->HttpRequest->isAjaxRequest());
+            $map = array(
+                array('X.Requested.With', null, 'XMLHttpRequest')
+            );
+            $RequestStub = $this->getRequestStub(array('getServerVar'));
+            $RequestStub->expects($this->exactly(1))
+                        ->method('getServerVar')
+                        ->will($this->returnValueMap($map));
+            $HttpRequest = new Request($RequestStub);
+
+            $this->assertTrue($HttpRequest->isAjaxRequest());
         }
 
     }
