@@ -33,26 +33,26 @@
     namespace Brickoo\Library\Error\Exceptions;
 
     /**
-     * ErrorHandlerNotRegisteredException
+     * OutputException
      *
-     * Exception throwed by the ErrorHandler class if trying to unregister
-     * an unregistered error handler instance.
-     * @see Brickoo\Library\Error\ErrorHandler::register
+     * Expected Exception throwed by the ExceptionHandler class if the exception should be displayed.
+     * @see Brickoo\Library\Error\ErrorHandler::handleException
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      * @version $Id$
      */
 
-    class ErrorHandlerNotRegisteredException extends \Exception
+    class OutputException extends \Exception
     {
 
         /**
          * Class constructor.
          * Calls the parent Exception constructor.
+         * @param string $errorMessage the message passed by the exception handler
          * @return void
          */
-        public function __construct()
+        public function __construct($errorMessage)
         {
-            parent::__construct('The error handler is not registered.');
+            parent::__construct($errorMessage);
         }
 
     }

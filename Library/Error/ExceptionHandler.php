@@ -32,62 +32,39 @@
 
     namespace Brickoo\Library\Error;
 
+    use Brickoo\Library\Error\Exceptions\ErrorHandlerException;
+
     use Brickoo\Library\Core;
     use Brickoo\Library\Error\Exceptions;
     use Brickoo\Library\Log\Interfaces\LogHandlerInterface;
     use Brickoo\Library\Validator\TypeValidator;
 
     /**
-     * ErrorHandler
+     * ExceptionHandler
      *
-     * Handles user defined and system errors.
-     * Errors can be logged using an instance implementing the LogHandlerInterface.
-     * Otherwise throws an exception if the error level is expected.
+     * Handles user defined or system exception.
+     * Exceptions can be logged using an instance implementing the LogHandlerInterface.
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      * @version $Id$
      */
 
-    class ErrorHandler
+    class ExceptionHandler
     {
 
         /**
-         * Holds the bitwise error level to convert erros to exceptions.
-         * @var integer
+         * Hold the setting for displaying exceptions.
+         * @var boolean
          */
-        protected $errorLevel;
+        public $displayExceptions;
 
         /**
-         * Returns the current error level.
-         * @return integer the current error level
-         */
-        public function getErrorLevel()
-        {
-            return $this->errorLevel;
-        }
-
-        /**
-         * Sets the bitwise error level to convert errors to exceptions.
-         * @param integer $errorLevel the error level to set
-         * @throws InvalidArgumentException if the argument is not an integer
-         * @return object reference
-         */
-        public function setErrorLevel($errorLevel)
-        {
-            TypeValidator::Validate('isInteger', array($errorLevel));
-
-            $this->errorLevel = $errorLevel;
-
-            return $this;
-        }
-
-        /**
-         * Holds the status of instance registration as error handler.
+         * Holds the status of instance registration as exception handler.
          * @var boolean
          */
         protected $isRegistered;
 
         /**
-         * Checks if the instance is registered as an error handler.
+         * Checks if the instance is registered as an exception handler.
          * @return boolean check result
          */
         public function isRegistered()
@@ -96,7 +73,7 @@
         }
 
         /**
-         * Registers the instance as error handler.
+         * Registers the instance as exception handler.
          * @throws DuplicateHandlerRegistrationException if the instance is already registred
          * @return object reference
          */
@@ -104,17 +81,17 @@
         {
             if ($this->isRegistered())
             {
-                throw new Exceptions\DuplicateHandlerRegistrationException('ErrorHandler');
+                throw new Exceptions\DuplicateHandlerRegistrationException('ExceptionHandler');
             }
 
-            set_error_handler(array($this, 'handleError'));
+            set_exception_handler(array($this, 'handleException'));
             $this->isRegistered = true;
 
             return $this;
         }
 
         /**
-         * Unregisters the instance as error handler by restoring previous error handler.
+         * Unregisters the instance as exception handler by restoring previous exception handler.
          * @throws HandlerNotRegisteredException if the instance is not registred as handler
          * @return object reference
          */
@@ -122,10 +99,10 @@
         {
             if (! $this->isRegistered())
             {
-                throw new Exceptions\HandlerNotRegisteredException('ErrorHandler');
+                throw new Exceptions\HandlerNotRegisteredException('ExceptionHandler');
             }
 
-            restore_error_handler();
+            restore_exception_handler();
             $this->isRegistered = false;
 
             return $this;
@@ -156,7 +133,7 @@
         }
 
         /**
-         * Removes the assigned log handler.
+         * Removes the assigned log handler dependency.
          * @throws DependencyNotAvailableException if trying to remove an not assigned dependency
          * @return object reference
          */
@@ -202,38 +179,51 @@
                 $this->unregister();
             }
 
-            $this->isRegistered    = false;
-            $this->errorLevel      = 0;
-            $this->LogHandler      = null;
+            $this->displayExceptions    = false;
+            $this->isRegistered         = false;
+            $this->LogHandler           = null;
 
             return $this;
         }
 
         /**
-         * Handles the error reported by the user or system.
-         * Uses the LogHandler if assigned or
-         * throws an exception if the error level matches the error message level.
+         * Returns the exception message created by the exception content.
+         * @param Exception $Exception the Exception throwed
+         * @return string the exception message
+         */
+        protected function getExceptionMessage(\Exception $Exception)
+        {
+            $message     = '[' . $Exception->getCode() . ']: ';
+            $message    .= $Exception->getMessage();
+
+            if (! $Exception instanceof ErrorHandlerException)
+            {
+                $message    .= ' throwed in ' . $Exception->getFile();
+                $message    .= ' on line ' . $Exception->getLine();
+            }
+
+            return $message;
+        }
+
+        /**
+         * Handles the exception throwed by the user or system.
+         * Uses the LogHandler if assigned or displays the exception message.
          * @param integer $errorCode the error code number
-         * @param string $errorMessage the error message
-         * @param string $errorFile the error file name
-         * @param integer $errorLine the error line number
-         * @throws ErrorHandlerException if the error level matches
          * @return boolean if an LogHandler is used otherwise void
          */
-        public function handleError($errorCode, $errorMessage, $errorFile, $errorLine)
+        public function handleException(\Exception $Exception)
         {
-            if (($errorCode & $this->errorLevel) !== 0)
-            {
-                $message = $errorMessage . ' throwed in ' . $errorFile . ' on line ' . $errorLine;
+            $message = $this->getExceptionMessage($Exception);
 
-                if ($this->hasLogHandler())
-                {
-                    return $this->LogHandler->log('[' . $errorCode . ']: ' . $message);
-                }
-                else
-                {
-                    throw new Exceptions\ErrorHandlerException($message);
-                }
+            if ($this->hasLogHandler())
+            {
+                return $this->LogHandler->log($message);
+            }
+
+            if ($this->displayExceptions !== false)
+            {
+                $this->clear();
+                throw new Exceptions\OutputException($message);
             }
         }
 
