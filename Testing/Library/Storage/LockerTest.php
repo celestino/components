@@ -41,7 +41,7 @@
      * Test case for the Locker class.
      * @see Brickoo\Library\Storage\Locker
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
 
     class LockerTest extends PHPUnit_Framework_TestCase
@@ -100,10 +100,10 @@
         /**
          * Test if not passed identifiers throws an exception.
          * @covers Brickoo\Library\Storage\Locker::lock
-         * @covers Brickoo\Library\Storage\Exception\LockerException
-         * @expectedException  Brickoo\Library\Storage\Exception\LockerException
+         * @covers Brickoo\Library\Storage\Exceptions\LockFailedException
+         * @expectedException  Brickoo\Library\Storage\Exceptions\LockFailedException
          */
-        public function testLockLockerException()
+        public function testLockFailedException()
         {
             $this->LockerFixture->lock(array());
         }
@@ -138,10 +138,10 @@
         /**
          * Test if not passed identifiers throws an exception.
          * @covers Brickoo\Library\Storage\Locker::unlock
-         * @covers Brickoo\Library\Storage\Exception\LockerException
-         * @expectedException Brickoo\Library\Storage\Exception\LockerException
+         * @covers Brickoo\Library\Storage\Exceptions\UnlockFailedException
+         * @expectedException Brickoo\Library\Storage\Exceptions\UnlockFailedException
          */
-        public function testUnlockLockerException()
+        public function testUnlockFailedException()
         {
             $this->LockerFixture->unlock('notLocked');
         }

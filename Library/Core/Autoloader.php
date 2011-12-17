@@ -32,10 +32,13 @@
 
     namespace Brickoo\Library\Core;
 
-    use Brickoo\Library\Core\Exception\AutoloaderException;
+    use Brickoo\Library\Core\Exceptions;
 
-    // Autoloader Exception
-    require_once ('Exception/AutoloaderException.php');
+    require_once ('Exceptions/AutoloaderNotRegisteredExeption.php');
+    require_once ('Exceptions/AutoloadFileDoesNotExistException.php');
+    require_once ('Exceptions/DuplicateAutloaderRegistrationException.php');
+    require_once ('Exceptions/DuplicateNamespaceRegistrationException.php');
+    require_once ('Exceptions/NamespaceNotRegisteredException.php');
 
     /**
      * Autoloader
@@ -65,7 +68,7 @@
          * @param string $namespace the namespace to register
          * @param string $namespacePath the absolute path to the namespace
          * @throws InvalidArgumentException if passed arguments are not valid
-         * @throws AutoloaderException if the namespace is already registered
+         * @throws DuplicateNamespaceRegistrationException if the namespace is already registered
          * @return object reference
          */
         public function registerNamespace($namespace, $namespacePath)
@@ -83,7 +86,7 @@
 
             if ($this->isNamespaceRegistered($namespace))
             {
-                throw new AutoloaderException('Namespace is already registered.', E_ERROR);
+                throw new Exceptions\DuplicateNamespaceRegistrationException($namespace);
             }
 
             $this->namespaces[strtoupper($namespace)] = $namespacePath;
@@ -94,14 +97,14 @@
         /**
          * Unregister the namespace available by the given name.
          * @param string $namespace the name of the namespace to remove
-         * @throws AutoloaderException if the namespace is not registered
+         * @throws NamspaceNotRegisteredException if the namespace is not registered
          * @return object reference
          */
         public function unregisterNamespace($namespace)
         {
             if (! $this->isNamespaceRegistered($namespace))
             {
-                throw new AutoloaderException('Namespace is not registered.', E_ERROR);
+                throw new Exceptions\NamespaceNotRegisteredException($namespace);
             }
 
             unset($this->namespaces[strtoupper($namespace)]);
@@ -142,7 +145,6 @@
          * Returns the namespace path of the assigned namespace name.
          * @param string $namespace the namespace name to return the path from
          * @throws InvalidArgumentException if the passe namespace is not a string
-         * @throws AutoloaderException if the $namespace is not registered.
          * @return string the namespace path or false if the namespace is not registered
          */
         public function getNamespacePath($namespace)
@@ -187,7 +189,6 @@
          * It requires an registered namespace.
          * @param string $className the class to retrieve the path for
          * @throws InvalidArgumentException if the class name is not a string
-         * @throws AutoloaderException if the class path is too short
          * @return string the absolute file path or false if the namespace is not registered
          */
         public function getAbsolutePath($className)
@@ -218,11 +219,10 @@
         /**
          * Requires the given class by using the assigned namespaces.
          * @param string $className the class name to require containing the namespace
-         * @throws AutoloaderException if the class name is not registered
-         * @throws RuntimeException throws an exception if the file does not exists
+         * @throws AutoloadFileDoesNotExistException throws an exception if the file does not exists
          * @return boolean success
          */
-        public function load($className)
+        public function loadClass($className)
         {
             if(! $absolutePath = $this->getAbsolutePath($className))
             {
@@ -231,7 +231,7 @@
 
             if (! file_exists($absolutePath))
             {
-                throw new AutoloaderException('File does not exists : '. $absolutePath, E_ERROR);
+                throw new Exceptions\AutoloadFileDoesNotExistException($absolutePath);
             }
 
             require_once ($absolutePath);
@@ -240,33 +240,33 @@
         }
 
         /**
-         * Registers the object method Autoloader:load for autoloading.
-         * @throws AutoloaderException if the autoloader is already registered
+         * Registers the instance with method Autoloader:loadClass for autoloading.
+         * @throws DuplicateAutoloaderRegistrationException if the autoloader is already registered
          * @return object reference
          */
-        public function registerAutoloader()
+        public function register()
         {
             if ($this->isRegistered)
             {
-                throw new AutoloaderException('This is already registered as autoloader', E_ERROR);
+                throw new Exceptions\DuplicateAutoloaderRegistrationException();
             }
 
-            spl_autoload_register(array($this, 'load'));
+            spl_autoload_register(array($this, 'loadClass'));
             $this->isRegistered = true;
 
             return $this;
         }
 
         /**
-         * Unregisters the object from the autoloading.
-         * @throws AutoloaderException if the autoloader did not be registered
+         * Unregisters the instance from the autoloading.
+         * @throws AutoloaderNotRegisteredExeption if the autoloader did not be registered
          * @return object reference
          */
-        public function unregisterAutoloader()
+        public function unregister()
         {
             if (! $this->isRegistered)
             {
-                throw new AutoloaderException('This is not registered as autoloader', E_ERROR);
+                throw new Exceptions\AutoloaderNotRegisteredExeption();
             }
 
             spl_autoload_unregister(array($this, 'load'));

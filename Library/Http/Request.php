@@ -32,8 +32,8 @@
 
     namespace Brickoo\Library\Http;
 
+    use Brickoo\Library\Core;
     use Brickoo\Library\Core\Interfaces\RequestInterface;
-    use Brickoo\Library\Http\Exception\HttpRequestException;
     use Brickoo\Library\Http\Interfaces\HttpRequestInterface;
     use Brickoo\Library\Http\Interfaces\UrlInterface;
     use Brickoo\Library\Validator\TypeValidator;
@@ -84,21 +84,18 @@
          */
         public function addUrlSupport(UrlInterface $Url = null)
         {
-            if ($Url !== null)
+            if ($this->_Url !== null)
             {
-                if ($this->_Url !== null)
-                {
-                    throw new \LogicException('Url instance already assigned', E_ERROR);
-                }
+                throw new Core\Exceptions\DependencyOverrideException('UrlInterface');
+            }
 
+            if ($Url instanceof UrlInterface)
+            {
                 $this->_Url = $Url;
             }
             else
             {
-                if ($this->_Url === null)
-                {
-                    $this->_Url = new Url($this->Request);
-                }
+                $this->_Url = new Url($this->Request);
             }
 
             return $this;
@@ -127,7 +124,7 @@
         public function setVariablesOrder($order)
         {
             TypeValidator::Validate('isString', array($order));
-            TypeValidator::Validate('useRegex', array(array('~^[GPC]{1,3}$~i', $order)));
+            TypeValidator::Validate('useRegex', array(array('~^[GPCF]{1,3}$~i', $order)));
 
             $this->variablesOrder = $this->filterOrderChars($order);
             $this->params = null;
@@ -225,6 +222,9 @@
                             break;
                         case 'C':
                             $this->params = array_replace($this->params, $_COOKIE);
+                            break;
+                        case 'F':
+                            $this->params = array_replace($this->params, $_FILES);
                             break;
                     }
                 };
@@ -610,7 +610,6 @@
             }
 
             arsort($results);
-
             return $results;
         }
 
@@ -685,7 +684,7 @@
         {
             $this->_Url               = null;
             $this->serverVars         = array();
-            $this->variablesOrder     = array('G', 'P', 'C');
+            $this->variablesOrder     = array('G', 'P', 'C', 'F');
             $this->HTTPheaders        = array();
             $this->params             = array();
             $this->acceptTypes        = array();

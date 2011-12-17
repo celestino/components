@@ -32,7 +32,9 @@
 
     namespace Brickoo\Library\Storage;
 
-    use Brickoo\Library\Storage\Exception\RegistryException;
+    use Brickoo\Library\Storage\Exceptions\IdentifierNotRegisteredException;
+
+    use Brickoo\Library\Storage\Exceptions;
     use Brickoo\Library\Validator\TypeValidator;
 
     /**
@@ -86,7 +88,7 @@
          * Returns the registered value from the given identifier.
          * @param string|integer $identifier the identifier so retrieve the value from
          * @throws InvalidArgumentException if the identifier is not valid
-         * @throws RegistryException if the identifier is not registered
+         * @throws IdentifierNotRegisteredException if the identifier is not registered
          * @return mixed the value of the registered identifier
          */
         public function getRegistered($identifier)
@@ -95,11 +97,7 @@
 
             if (! $this->isRegistered($identifier))
             {
-                throw new RegistryException
-                (
-                    'The identifier ('. $identifier .') is not registered.',
-                    E_WARNING
-                );
+                throw new Exceptions\IdentifierNotRegisteredException($identifier);
             }
 
             return $this->registrations[$identifier];
@@ -111,31 +109,22 @@
          * as an reference the changes applys to the registerd objects as well.
          * @param string|integer $identifier the identifier to register
          * @param mixed $value the identifier value to reguister with
-         * @throws RegistryExceptionif the identifier is already registered
-         * or the Registry is currently in read only mode
+         * @throws DuplicateRegistrationException the identifier is already registered
+         * @throws ReadonlyModeException if the mode is currently read only
          * @return object reference
          */
         public function register($identifier, $value)
         {
             TypeValidator::Validate('isStringOrInteger', array($identifier));
 
-            if ($this->isRegistered($identifier))
-            {
-                throw new RegistryException
-                (
-                    'The identifier ('. $identifier .') is already registered.',
-                    E_WARNING
-                );
-            }
-
             if ($this->isReadOnly())
             {
-                throw new RegistryException
-                (
-                    'The Registry is on read only mode while trying to register '.
-                    '('. $identifier .').',
-                    E_WARNING
-                );
+                throw new Exceptions\ReadonlyModeException();
+            }
+
+            if ($this->isRegistered($identifier))
+            {
+                throw new Exceptions\DuplicateRegistrationException($identifier);
             }
 
             $this->registrations[$identifier] = $value;
@@ -148,29 +137,22 @@
          * If the identifer ist not registered it will be registered.
          * @param string|integer $identifier the identifier to register
          * @param mixed $value the identifier value to register
+         * @throws ReadonlyModeException if the mode is currently read only
+         * @throws IdentifierLockedException if the identifier is locked
          * @return object reference
          */
         public function override($identifier, $value)
         {
             TypeValidator::Validate('isStringOrInteger', array($identifier));
 
-            if ($this->isLocked($identifier))
-            {
-                throw new RegistryException
-                (
-                    'The identifier ('. $identifier .') is currently locked.',
-                    E_WARNING
-                );
-            }
-
             if ($this->isReadOnly())
             {
-                throw new RegistryException
-                (
-                    'The Registry is on read only mode while trying to register '.
-                    '('. $identifier .').',
-                    E_WARNING
-                );
+                throw new Exceptions\ReadonlyModeException();
+            }
+
+            if ($this->isLocked($identifier))
+            {
+                throw new Exceptions\IdentifierLockedException($identifier);
             }
 
             $this->registrations[$identifier] = $value;
@@ -181,39 +163,28 @@
         /**
          * Unregister the indentifier and his value.
          * @param string|integer $identifier the identifier to unregister
+         * @throws ReadonlyModeException if the mode is currently read only
+         * @throws IdentifierLockedException if the identifier is locked
+         * @throws IdentifierNotRegisteredException if the identifier is not registered
          * @return object reference
          */
         public function unregister($identifier)
         {
             TypeValidator::Validate('isStringOrInteger', array($identifier));
 
-            if ($this->isLocked($identifier))
-            {
-                throw new RegistryException
-                (
-                    'The identifier ('. $identifier .') is currently locked.',
-                    E_WARNING
-                );
-            }
-
             if ($this->isReadOnly())
             {
-                throw new RegistryException
-                (
-                    'The Registry is on read only mode while trying to unregister '.
-                    '('. $identifier .').',
-                    E_WARNING
-                );
+                throw new Exceptions\ReadonlyModeException();
+            }
+
+            if ($this->isLocked($identifier))
+            {
+                throw new Exceptions\IdentifierLockedException($identifier);
             }
 
             if (! $this->isRegistered($identifier))
             {
-                throw new RegistryException
-                (
-                    'The identifier ('. $identifier .') is not registred.'.
-                    '('. $identifier .').',
-                    E_WARNING
-                );
+                throw new Exceptions\IdentifierNotRegisteredException($identifier);
             }
 
             unset ($this->registrations[$identifier]);

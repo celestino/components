@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <phpunit
     stopOnError="true"
     stopOnFailure="true"
@@ -5,12 +6,11 @@
     bootstrap="../bootstrap.php">
     <filter>
         <whitelist>
-            <!-- path to the brickoo library files to include -->
+            <!-- path to the brickoo library -->
             <directory suffix=".php">../Library</directory>
             <exclude>
-                <!-- exclude interfaces from the code coverage report -->
+                <!-- exclude interfaces from the code coverage -->
                 <directory>../Library/*/Interfaces</directory>
-                <!-- files to exclude from code coverage during framework development -->
             </exclude>
         </whitelist>
     </filter>

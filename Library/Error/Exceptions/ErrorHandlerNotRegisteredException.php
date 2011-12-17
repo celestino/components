@@ -1,7 +1,5 @@
 <?php
 
-    namespace Brickoo;
-
     /*
      * Copyright (c) 2008-2011, Celestino Diaz Teran <celestino@users.sourceforge.net>.
      * All rights reserved.
@@ -32,40 +30,31 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Core\Autoloader;
+    namespace Brickoo\Library\Error\Exceptions;
 
     /**
-     * Bootstrap for the Brickoo Framework.
-     * Defines framework constants and initializes the required autoloader.
+     * ErrorHandlerNotRegisteredException
+     *
+     * Exception throwed by the ErrorHandler class if trying to unregister
+     * an unregistered error handler instance.
+     * @see Brickoo\Library\Error\ErrorHandler::register
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
 
-    // set error reporting to strict (optional)
-    error_reporting ( E_ALL | E_STRICT );
-
-    // enable displaying runtime errors while development(optional)
-    ini_set ('display_errors', 1);
-
-    // set default timezone for Date functions (optional)
-    date_default_timezone_set ('UTC');
-
-    // define the Brickoo Framework root directory
-    if (! defined ('BRICKOO_DIR'))
+    class ErrorHandlerNotRegisteredException extends \Exception
     {
-        define ('BRICKOO_DIR',  realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR);
+
+        /**
+         * Class constructor.
+         * Calls the parent Exception constructor.
+         * @return void
+         */
+        public function __construct()
+        {
+            parent::__construct('The error handler is not registered.');
+        }
+
     }
-
-    // require the default autoloader must implement the AutoloaderInterface
-    require_once ('Library'. DIRECTORY_SEPARATOR .'Core'. DIRECTORY_SEPARATOR .'Autoloader.php');
-
-    // create the class autoloader instance
-    $Autoloader = new Autoloader();
-
-    // register the brickoo path as new namespace to the autoloader
-    $Autoloader->registerNamespace('Brickoo', BRICKOO_DIR);
-
-    // register the autoloader instance to php
-    $Autoloader->register();
 
 ?>

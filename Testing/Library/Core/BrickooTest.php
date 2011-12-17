@@ -40,7 +40,7 @@
      * Test case for the Brickoo class.
      * @see Brickoo\Library\Core\BrickooObject
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
 
     class BrickooTest extends PHPUnit_Framework_TestCase
@@ -83,8 +83,8 @@
         {
             $this->Brickoo->reset();
 
-            $Registry = new Registry();
-            $this->assertSame($Registry, $this->Brickoo->setRegistry($Registry));
+            $RegistryMock = $this->getMock('Brickoo\Library\Storage\Registry');
+            $this->assertSame($RegistryMock, $this->Brickoo->setRegistry($RegistryMock));
         }
 
         /**
@@ -96,8 +96,10 @@
         {
             $this->Brickoo->reset();
 
+            $RegistryMock = $this->getMock('Brickoo\Library\Storage\Registry');
+
             $this->Brickoo->setRegistry();
-            $this->Brickoo->setRegistry(new Registry());
+            $this->Brickoo->setRegistry($RegistryMock);
         }
 
         /**

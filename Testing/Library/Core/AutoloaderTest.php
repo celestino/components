@@ -34,7 +34,7 @@
      * Test case for the Autoloader class.
      * @see Brickoo\Library\Core\Autoloader
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
 
     use Brickoo\Library\Core\Autoloader;
@@ -46,7 +46,7 @@
      * Test case for the Repository class.
      * @see Brickoo\Library\Storage\Repository
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
 
     class AutoloaderTest extends PHPUnit_Framework_TestCase
@@ -106,10 +106,10 @@
         /**
          * Test if assigning the same namespace throws an exception.
          * @covers Brickoo\Library\Core\Autoloader::registerNamespace
-         * @covers Brickoo\Library\Core\Exception\AutoloaderException
-         * @expectedException Brickoo\Library\Core\Exception\AutoloaderException
+         * @covers Brickoo\Library\Core\Exceptions\DuplicateNamespaceRegistrationException
+         * @expectedException Brickoo\Library\Core\Exceptions\DuplicateNamespaceRegistrationException
          */
-        public function testRegisterNamespaceDoubleException()
+        public function testDuplicateNamespaceRegistrationException()
         {
             $this->Autoloader->registerNamespace('TestNamespace', dirname(__FILE__));
             $this->Autoloader->registerNamespace('TestNamespace', dirname(__FILE__));
@@ -128,10 +128,10 @@
         /**
          * Test if not assigned namespace throws an exception.
          * @covers Brickoo\Library\Core\Autoloader::unregisterNamespace
-         * @covers Brickoo\Library\Core\Exception\AutoloaderException
-         * @expectedException Brickoo\Library\Core\Exception\AutoloaderException
+         * @covers Brickoo\Library\Core\Exceptions\NamespaceNotRegisteredException
+         * @expectedException Brickoo\Library\Core\Exceptions\NamespaceNotRegisteredException
          */
-        public function testUnregisterNamespaceException()
+        public function testNamespaceNotRegisteredException()
         {
             $this->Autoloader->unregisterNamespace('NotRegisteredNamespace');
         }
@@ -215,69 +215,69 @@
          * Test if the Registry (or any other) class can be loaded.
          * Need to disable the default Autoloader for this test
          * and register it after the test again for further tests.
-         * @covers Brickoo\Library\Core\Autoloader::load
+         * @covers Brickoo\Library\Core\Autoloader::loadClass
          */
-        public function testLoad()
+        public function testLoadClass()
         {
             $this->Autoloader->registerNamespace('Brickoo', BRICKOO_DIR);
-            $this->assertTrue($this->Autoloader->load('Brickoo\Library\Storage\Registry'));
-            $this->assertFalse($this->Autoloader->load('Namespace\not\registred'));
+            $this->assertTrue($this->Autoloader->loadClass('Brickoo\Library\Storage\Registry'));
+            $this->assertFalse($this->Autoloader->loadClass('Namespace\not\registred'));
         }
 
         /** Test if an file which does exist throws an exception.
-         * @covers Brickoo\Library\Core\Autoloader::load
-         * @covers Brickoo\Library\Core\Exception\AutoloaderException::__construct
-         * @expectedException Brickoo\Library\Core\Exception\AutoloaderException
+         * @covers Brickoo\Library\Core\Autoloader::loadClass
+         * @covers Brickoo\Library\Core\Exceptions\AutoloadFileDoesNotExistException
+         * @expectedException Brickoo\Library\Core\Exceptions\AutoloadFileDoesNotExistException
          */
-        public function testLoadFileException()
+        public function testAutoloadFileDoesNotExistException()
         {
             $this->Autoloader->registerNamespace('Brickoo', BRICKOO_DIR);
-            $this->Autoloader->load('Brickoo\Library\Storage\DoesNotExist');
+            $this->Autoloader->loadClass('Brickoo\Library\Storage\DoesNotExist');
         }
 
         /**
          * Test if the autoloader is can be registred.
-         * @covers Brickoo\Library\Core\Autoloader::registerAutoloader
+         * @covers Brickoo\Library\Core\Autoloader::register
          */
         public function testRegisterAutoloader()
         {
-            $this->assertSame($this->Autoloader, $this->Autoloader->registerAutoloader());
+            $this->assertSame($this->Autoloader, $this->Autoloader->register());
         }
 
         /**
          * Test if the registering of the same autloader throws an exception.
-         * @covers Brickoo\Library\Core\Autoloader::registerAutoloader
-         * @covers Brickoo\Library\Core\Exception\AutoloaderException::__construct
-         * @expectedException Brickoo\Library\Core\Exception\AutoloaderException
+         * @covers Brickoo\Library\Core\Autoloader::register
+         * @covers Brickoo\Library\Core\Exceptions\DuplicateAutoloaderRegistrationException
+         * @expectedException Brickoo\Library\Core\Exceptions\DuplicateAutoloaderRegistrationException
          */
-        public function testRegisterAutoloaderException()
+        public function testDuplicateAutoloaderRegistrationException()
         {
-            $this->Autoloader->registerAutoloader();
-            $this->Autoloader->registerAutoloader();
+            $this->Autoloader->register();
+            $this->Autoloader->register();
         }
 
         /**
          * Test if the autoloader can be unregistered.
-         * @covers Brickoo\Library\Core\Autoloader::unregisterAutoloader
+         * @covers Brickoo\Library\Core\Autoloader::unregister
          */
-        public function testUnregisterAutoloader()
+        public function testUnregister()
         {
-            $this->assertSame($this->Autoloader, $this->Autoloader->registerAutoloader());
-            $this->assertSame($this->Autoloader, $this->Autoloader->unregisterAutoloader());
+            $this->assertSame($this->Autoloader, $this->Autoloader->register());
+            $this->assertSame($this->Autoloader, $this->Autoloader->unregister());
         }
 
         /**
          * Test if trying to unregister an not registered autoloader
          * throws an exception
-         * @covers Brickoo\Library\Core\Autoloader::unregisterAutoloader
-         * @covers Brickoo\Library\Core\Exception\AutoloaderException::__construct
-         * @expectedException Brickoo\Library\Core\Exception\AutoloaderException
+         * @covers Brickoo\Library\Core\Autoloader::unregister
+         * @covers Brickoo\Library\Core\Exceptions\AutoloaderNotRegisteredExeption
+         * @expectedException Brickoo\Library\Core\Exceptions\AutoloaderNotRegisteredExeption
          */
-        public function testUnregisterAutolaoderException()
+        public function testAutoloaderNotRegisteredExeption()
         {
-            $this->assertSame($this->Autoloader, $this->Autoloader->registerAutoloader());
-            $this->assertSame($this->Autoloader, $this->Autoloader->unregisterAutoloader());
-            $this->Autoloader->unregisterAutoloader();
+            $this->assertSame($this->Autoloader, $this->Autoloader->register());
+            $this->assertSame($this->Autoloader, $this->Autoloader->unregister());
+            $this->Autoloader->unregister();
         }
 
      }

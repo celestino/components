@@ -32,7 +32,7 @@
 
     namespace Brickoo\Library\Storage;
 
-    use Brickoo\Library\Storage\Exception\LockerException;
+    use Brickoo\Library\Storage\Exceptions;
     use Brickoo\Library\Validator\TypeValidator;
 
     /**
@@ -84,7 +84,7 @@
          * Extended by the Registry class, override and unregister methods of the
          * Registry class are disabled for this identifier(s)
          * @param string|integer|array $identifiers the identifiers to lock
-         * @throws LockerException if all the identifiers can not be locked
+         * @throws LockFailedException if all the identifiers can not be locked
          * @return object reference
          */
         public function lock($identifiers)
@@ -100,7 +100,7 @@
 
             if (empty($identifiers))
             {
-                throw new Exception\LockerException('Unable to lock any identifiers ', E_WARNING);
+                throw new Exceptions\LockFailedException();
             }
 
             $this->locked = array_merge($this->locked, $identifiers);
@@ -136,7 +136,7 @@
          * If a array is given and just a few identifiers
          * are not locked the method does not fail.
          * @param string|integer|array $identifiers the identifier(s) which should be unlocked
-         * @throws LockerException if all the identifiers can not be unlocked
+         * @throws UnlockFailedException if all the identifiers can not be unlocked
          * @return object reference
          */
         public function unlock($identifiers)
@@ -152,7 +152,7 @@
 
             if (empty($identifiers))
             {
-                throw new Exception\LockerException('Unable to unlock all identifiers ', E_WARNING);
+                throw new Exceptions\UnlockFailedException();
             }
 
             $this->locked = array_diff($this->locked, $identifiers);

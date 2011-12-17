@@ -32,7 +32,7 @@
 
     namespace Brickoo\Library\Storage;
 
-    use Brickoo\Library\Storage\Exception\RepositoryException;
+    use Brickoo\Library\Storage\Exceptions;
     use Brickoo\Library\Validator\TypeValidator;
 
     /**
@@ -228,7 +228,7 @@
         /**
          * Returns the revision by the given version.
          * @param integer $version the revision version to retrieve from
-         * @throws RepositoryException if the verion passed is not available
+         * @throws VersionNotAvailableException if the verion passed is not available
          * @throws InvalidArgumentException if the version passed is not a integer
          * @return array the revision content
          */
@@ -246,7 +246,7 @@
                 ! $this->isVersionAvailable($version)
             )
             {
-                throw new RepositoryException('The version ('. $version .') is not available.', E_ERROR);
+                throw new Exceptions\VersionNotAvailableException($version);
             }
 
             return array
@@ -294,14 +294,14 @@
         /**
          * Stores the given content under the current revision.
          * @param mixed $content the content to store under the next revision
-         * @throws RepositoryException if the Repository is locked
+         * @throws RepositoryLockedException if the Repository is locked
          * @return object reference
          */
         public function commit($content)
         {
             if ($this->isLocked())
             {
-                throw new RepositoryException('Unable to commit, the Repository is currently locked.', E_ERROR);
+                throw new Exceptions\RepositoryLockedException();
             }
 
             $this->setCurrentVersion(++$this->currentVersion);
@@ -325,8 +325,8 @@
          * Restores an available version from the current repository
          * or the next version on stack if the version is not passed.
          * @param integer $version the version to restore
-         * @throws RepositoryException if the Repository is locked
-         * @throws RepositoryException if the Repository version is passed and not available
+         * @throws RepositoryLockedException if the Repository is locked
+         * @throws VersionNotAvailableException if the Repository version is passed and not available
          * @return object reference
          */
         public function restore($version)
@@ -335,20 +335,12 @@
 
             if ($this->isLocked())
             {
-                throw new RepositoryException
-                (
-                    'Unable to restore to version ('. $version .'), the Repository is locked.',
-                    E_ERROR
-                );
+                throw new Exceptions\RepositoryLockedException();
             }
 
             if (! $this->isVersionAvailable($version))
             {
-                throw new RepositoryException
-                (
-                    'Unable to restore to version ('. $version .'), the version is not available.',
-                    E_ERROR
-                );
+                throw new Exceptions\VersionNotAvailableException($version);
             }
 
             return $this->commit($this->export($version));
@@ -360,8 +352,8 @@
          * it will be set back to the previous version.
          * If a previous version does not exist it will be set to zero.
          * @param integer $version the version to remove
-         * @throws RepositoryException if the Repository is locked
-         * @throws RepositoryException if the Repository version is passed and not available
+         * @throws RepositoryLockedException if the Repository is locked
+         * @throws VersionNotAvailableException if the Repository version is passed and not available
          * @return object reference
          */
         public function remove($version)
@@ -370,20 +362,12 @@
 
             if ($this->isLocked())
             {
-                throw new RepositoryException
-                (
-                    'Unable to remove version ('. $version .'), the Repository is locked.',
-                    E_ERROR
-                );
+                throw new Exceptions\RepositoryLockedException();
             }
 
             if (! $this->isVersionAvailable($version))
             {
-                throw new RepositoryException
-                (
-                    'Unable to remove version ('. $version .'), the version is not available.',
-                    E_ERROR
-                );
+                throw new Exceptions\VersionNotAvailableException($version);
             }
 
             unset ($this->repository[$version]);
@@ -433,8 +417,8 @@
          * The last repositoryList key will be used as currennt version.
          * @param array $repository the repository to import, can not be empty
          * @throws InvalidArgumentException if the repository passed is empty
-         * @throws RepositoryException if the Repository is locked
-         * @throws RepositoryException if the Repository has not incremented key order
+         * @throws RepositoryLockedException if the Repository is locked
+         * @throws InvalidRepositoryStructureException if the Repository has not incremented key order
          * @return object reference
          */
         public function import(array $repository)
@@ -443,20 +427,12 @@
 
             if ($this->isLocked())
             {
-                throw new RepositoryException
-                (
-                    'Unable to import repository, the Repository is locked.',
-                    E_ERROR
-                );
+                throw new Exceptions\RepositoryLockedException();
             }
 
             if (! $checkPassed = $this->checkImportVersions($repository))
             {
-                throw new RepositoryException
-                (
-                    'Unable to import repository, the passed repository has not an increment key order.',
-                    E_ERROR
-                );
+                throw new Exceptions\InvalidRepositoryStructureException();
             }
 
             $this->clearRepository()->setRepository($repository)->useLastVersion();
@@ -484,11 +460,7 @@
                 ! $this->isVersionAvailable($version)
             )
             {
-                throw new RepositoryException
-                (
-                    'Unable to export version ('. $version .'), the version is not available.',
-                    E_ERROR
-                );
+                throw new Exceptions\VersionNotAvailableException($version);
             }
 
             if ($version !== null)

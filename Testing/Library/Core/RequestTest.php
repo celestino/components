@@ -39,7 +39,7 @@
      * Test case for the Core Request class.
      * @see Brickoo\Library\Core\Request
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
 
     class RequestTest extends PHPUnit_Framework_TestCase
@@ -153,9 +153,10 @@
         /**
          * Test if the reassigning an Http instance throws an exception.
          * @covers Brickoo\Library\Core\Request::addHttpSupport
-         * @expectedException LogicException
+         * @covers Brickoo\Library\Core\Exceptions\DependencyOverrideException
+         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverrideException
          */
-        public function testAddHttpSupportLogicException()
+        public function testAddHttpSupportDependencException()
         {
             $this->assertSame($this->Request,$this->Request->addHttpSupport());
 
@@ -200,9 +201,10 @@
         /**
          * Test if the reassigning an Cli instance throws an exception.
          * @covers Brickoo\Library\Core\Request::addCliSupport
-         * @expectedException LogicException
+         * @covers Brickoo\Library\Core\Exceptions\DependencyOverrideException
+         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverrideException
          */
-        public function testAddCliSupportLogicException()
+        public function testAddCliSupportDependencyException()
         {
             $this->assertSame($this->Request, $this->Request->addCliSupport());
 

@@ -41,7 +41,7 @@
      * Test case for the Repository class.
      * @see Brickoo\Library\Storage\Repository
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
 
      class RepositoryTest extends PHPUnit_Framework_TestCase
@@ -204,8 +204,8 @@
         /**
          * Test if a wrong argument throws an execption.
          * @covers Brickoo\Library\Storage\Repository::checkout
-         * @covers Brickoo\Library\Storage\Exception\RepositoryException::__construct
-         * @expectedException Brickoo\Library\Storage\Exception\RepositoryException
+         * @covers Brickoo\Library\Storage\Exceptions\VersionNotAvailableException
+         * @expectedException Brickoo\Library\Storage\Exceptions\VersionNotAvailableException
          */
         public function testCheckoutVersionException()
         {
@@ -229,7 +229,8 @@
         /**
          * Test if while the repository is locked commit throws an execption.
          * @covers Brickoo\Library\Storage\Repository::commit
-         * @expectedException Brickoo\Library\Storage\Exception\RepositoryException
+         * @covers Brickoo\Library\Storage\Exceptions\RepositoryLockedException
+         * @expectedException Brickoo\Library\Storage\Exceptions\RepositoryLockedException
          */
         public function testCommitLockedException()
         {
@@ -264,7 +265,8 @@
         /**
          * Test if while the repository is locked restore throws an execption.
          * @covers Brickoo\Library\Storage\Repository::restore
-         * @expectedException Brickoo\Library\Storage\Exception\RepositoryException
+         * @covers Brickoo\Library\Storage\Exceptions\RepositoryLockedException
+         * @expectedException Brickoo\Library\Storage\Exceptions\RepositoryLockedException
          */
         public function testRestoreLockedException()
         {
@@ -275,7 +277,8 @@
         /**
          * Test if a version is not available restore throws an execption.
          * @covers Brickoo\Library\Storage\Repository::restore
-         * @expectedException Brickoo\Library\Storage\Exception\RepositoryException
+         * @covers Brickoo\Library\Storage\Exceptions\VersionNotAvailableException
+         * @expectedException Brickoo\Library\Storage\Exceptions\VersionNotAvailableException
          */
         public function testRestoreVersionException()
         {
@@ -307,7 +310,8 @@
         /**
          * Test if while the repository is locked remove throws an execption.
          * @covers Brickoo\Library\Storage\Repository::remove
-         * @expectedException Brickoo\Library\Storage\Exception\RepositoryException
+         * @covers Brickoo\Library\Storage\Exceptions\RepositoryLockedException
+         * @expectedException Brickoo\Library\Storage\Exceptions\RepositoryLockedException
          */
         public function testRemoveLockedException()
         {
@@ -319,7 +323,8 @@
         /**
          * Test if a version is not available remove throws an execption.
          * @covers Brickoo\Library\Storage\Repository::remove
-         * @expectedException Brickoo\Library\Storage\Exception\RepositoryException
+         * @covers Brickoo\Library\Storage\Exceptions\VersionNotAvailableException
+         * @expectedException Brickoo\Library\Storage\Exceptions\VersionNotAvailableException
          */
         public function testRemoveVersionException()
         {
@@ -353,7 +358,8 @@
         /**
          * Test if while the repository is locked import throws an execption.
          * @covers Brickoo\Library\Storage\Repository::import
-         * @expectedException Brickoo\Library\Storage\Exception\RepositoryException
+         * @covers Brickoo\Library\Storage\Exceptions\RepositoryLockedException
+         * @expectedException Brickoo\Library\Storage\Exceptions\RepositoryLockedException
          */
         public function testImportLockedException()
         {
@@ -367,7 +373,8 @@
          * Test if a wrong order keys import throws an execption.
          * @covers Brickoo\Library\Storage\Repository::import
          * @covers Brickoo\Library\Storage\Repository::checkImportVersions
-         * @expectedException Brickoo\Library\Storage\Exception\RepositoryException
+         * @covers Brickoo\Library\Storage\Exceptions\InvalidRepositoryStructureException
+         * @expectedException Brickoo\Library\Storage\Exceptions\InvalidRepositoryStructureException
          */
         public function testImportOrderException()
         {
@@ -399,7 +406,8 @@
         /**
          * Test if a version is not available export throws an execption.
          * @covers Brickoo\Library\Storage\Repository::export
-         * @expectedException Brickoo\Library\Storage\Exception\RepositoryException
+         * @covers Brickoo\Library\Storage\Exceptions\VersionNotAvailableException
+         * @expectedException Brickoo\Library\Storage\Exceptions\VersionNotAvailableException
          */
         public function testExportVersionException()
         {

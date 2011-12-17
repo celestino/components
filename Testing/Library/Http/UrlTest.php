@@ -45,7 +45,7 @@
      * Test case for the Http Url class.
      * @see Brickoo\Library\Http\Url
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
 
     class UrlTest extends PHPUnit_Framework_TestCase
@@ -54,7 +54,7 @@
         /**
          * Returns an Core Request Stub for the Url to look up for server variables or http calls.
          * To the request Stub you can add also the Http configuration of methods and values to return.
-         * @param array $requestMethods the request methods to attach and its return values
+         * @param array $requestMethods the request methods to attach
          * @param array $httpMethods the http request methods to attach and its return values
          * @return object implementing the Brickoo\Library\Core\Interfaces\Request
          */
@@ -89,7 +89,7 @@
         }
 
         /**
-         * Set up the Url object used.
+         * Set up the environment variables used.
          * @return void
          */
         public function setUp()

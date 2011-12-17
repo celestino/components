@@ -30,31 +30,29 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Core\Exception;
+    namespace Brickoo\Library\Storage\Exceptions;
 
     /**
-     * AutoloaderException
+     * IdentifierNotRegisteredException
      *
-     * Exception throwed by the Autolaoder class.
-     * @see Brickoo\Library\Core\Autoloader
+     * Exception throwed by the Registry class if trying to retrieve an not registered identifier.
+     * @see Brickoo\Library\Storage\Registry:getRegistred
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      * @version $Id$
      */
 
-    class AutoloaderException extends \Exception
+    class IdentifierNotRegisteredException extends \Exception
     {
 
         /**
          * Class constructor.
          * Calls the parent Exception constructor.
-         * @param string $message the message to throw
-         * @param integer $code the code to append
-         * @see Exception::__construct()
+         * @param string $identifier the identifier which is not registred.
          * @return void
          */
-        public function __construct($message, $code = 0)
+        public function __construct($identifier)
         {
-            parent::__construct($message, $code);
+            parent::__construct(sprintf('The identifier `%s` is not registered.', $identifier));
         }
 
     }

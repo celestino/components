@@ -30,31 +30,28 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Storage\Exception;
+    namespace Brickoo\Library\Core\Exceptions;
 
     /**
-     * RepositoryException
+     * DuplicateAutoloaderRegistrationException
      *
-     * Exception throwed by the Locker class.
-     * @see Brickoo\Library\Storage\Locker
+     * Exception throwed by the Autoloader class if trying to register the same Autoloader.
+     * @see Brickoo\Library\Core\Autoloader::register
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      * @version $Id$
      */
 
-    class RepositoryException extends \Exception
+    class DuplicateAutoloaderRegistrationException extends \Exception
     {
 
         /**
          * Class constructor.
          * Calls the parent Exception constructor.
-         * @param string $message the message to throw
-         * @param integer $code the code to append
-         * @see Exception::__construct()
          * @return void
          */
-        public function __construct($message, $code = 0)
+        public function __construct()
         {
-            parent::__construct($message, $code);
+            parent::__construct('Autoloader instance already registered.');
         }
 
     }

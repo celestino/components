@@ -32,6 +32,7 @@
 
     namespace Brickoo\Library\Core;
 
+    use Brickoo\Library\Core\Exceptions;
     use Brickoo\Library\Core\Interfaces\RequestInterface;
     use Brickoo\Library\Http\Request as HttpRequest;
     use Brickoo\Library\Cli\Request as CliRequest;
@@ -75,24 +76,23 @@
         /**
          * Lazy initialization of the Cli Request instance.
          * @see Bricko\Library\Cli\Interfaces\CliRequestInterface
+         * @throws DependencyOverrideException if trying to override the dependency
          * @return object reference
          */
         public function addCliSupport(CliRequestInterface $Cli = null)
         {
-            if ($Cli !== null)
+            if ($this->_Cli !== null)
             {
-                if ($this->_Cli !== null)
-                {
-                    throw new \LogicException('Cli Request instance already assigned.', E_ERROR);
-                }
+                throw new Exceptions\DependencyOverrideException('CliRequestInterface');
+            }
+
+            if ($Cli instanceof CliRequestInterface)
+            {
                 $this->_Cli = $Cli;
             }
             else
             {
-                if ($this->_Cli === null)
-                {
-                    $this->_Cli = new CliRequest($this);
-                }
+                $this->_Cli = new CliRequest($this);
             }
 
             return $this;
@@ -123,24 +123,23 @@
         /**
          * Lazy initialization of the Http Request instance.
          * @see Bricko\Library\HTTP\Interfaces\HttpRequestInterface
+         * @throws DependencyOverrideException if trying to override the dependency
          * @return object reference
          */
         public function addHttpSupport(HttpRequestInterface $Http = null)
         {
-            if ($Http !== null)
+            if ($this->_Http !== null)
             {
-                if ($this->_Http !== null)
-                {
-                    throw new \LogicException('Http Request instance already assigned.', E_ERROR);
-                }
+                throw new Exceptions\DependencyOverrideException('HttpRequestInterface');
+            }
+
+            if ($Http instanceof HttpRequestInterface)
+            {
                 $this->_Http = $Http;
             }
             else
             {
-                if ($this->_Http === null)
-                {
-                    $this->_Http = new HttpRequest($this);
-                }
+                $this->_Http = new HttpRequest($this);
             }
 
             return $this;
@@ -225,8 +224,9 @@
          */
         public function clear()
         {
-            $this->_Http    = null;
-            $this->_Cli     = null;
+            $this->_Http         = null;
+            $this->_Cli          = null;
+            $this->serverVars    = array();
 
             return $this;
         }

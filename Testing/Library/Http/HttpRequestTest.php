@@ -54,7 +54,7 @@
      * Test case for the Http Request class.
      * @see Brickoo\Library\Http\Request
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
 
     class HttpRequestTest extends PHPUnit_Framework_TestCase
@@ -62,7 +62,7 @@
 
         /**
          * Returns an Core Request Stub for the Http Request to look up for server variables.
-         * @param array $requestMethods the request methods to attach and its return values
+         * @param array $requestMethods the request methods
          * @return object implementing the Brickoo\Library\Core\Interfaces\Request
          */
         protected function getRequestStub(array $requestMethods = null)
@@ -77,7 +77,7 @@
         }
 
         /**
-         * Set up the HttpRequest object used.
+         * Set up the environment.
          * @return void
          */
         public function setUp()
@@ -132,9 +132,10 @@
         /**
          * Test if trying to override the Url object throws an exception.
          * @covers Brickoo\Library\Http\Request::addUrlSupport
-         * @expectedException LogicException
+         * @covers Brickoo\Library\Core\Exceptions\DependencyOverrideException
+         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverrideException
          */
-        public function testAddUrlSupportLogicException()
+        public function testAddUrlDependencyException()
         {
             $HttpRequest = new Request($this->getRequestStub());
             $Url = $HttpRequest->Url();
@@ -150,7 +151,7 @@
         {
             $HttpRequest = new Request($this->getRequestStub());
             $this->assertContainsOnly('string', $HttpRequest->getVariablesOrder());
-            $this->assertEquals(array('G', 'P', 'C'), $HttpRequest->getVariablesOrder());
+            $this->assertEquals(array('G', 'P', 'C', 'F'), $HttpRequest->getVariablesOrder());
         }
 
         /**

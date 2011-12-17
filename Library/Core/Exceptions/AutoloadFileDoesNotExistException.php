@@ -30,31 +30,29 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Storage\Exception;
+    namespace Brickoo\Library\Core\Exceptions;
 
     /**
-     * RegistryException
+     * AutoloadFileDoesNotExistException
      *
-     * Exception throwed by the Registry class.
-     * @see Brickoo\Library\Storage\Registry
+     * Exception throwed by the Autoloader class if trying to load a file which does not exist.
+     * @see Brickoo\Library\Core\Autoloader::load
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      * @version $Id$
      */
 
-    class RegistryException extends \Exception
+    class AutoloadFileDoesNotExistException extends \Exception
     {
 
         /**
          * Class constructor.
          * Calls the parent Exception constructor.
-         * @param string $message the message to throw
-         * @param integer $code the code to append
-         * @see Exception::__construct()
+         * @param string $filepath the filepath which does not exists
          * @return void
          */
-        public function __construct($message, $code = 0)
+        public function __construct($filepath)
         {
-            parent::__construct($message, $code);
+            parent::__construct(sprintf('File does not exists `%s`.', $filepath));
         }
 
     }

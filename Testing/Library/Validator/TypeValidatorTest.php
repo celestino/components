@@ -41,7 +41,7 @@
      * Test case for the TypeValidator class.
      * @see Brickoo\Library\Storage\Locker
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
 
     class TypeValidatorTest extends PHPUnit_Framework_TestCase

@@ -89,10 +89,7 @@
             }
             else
             {
-               if (self::$Registry === null)
-               {
-                   self::$Registry = new Registry();
-               }
+               self::$Registry = new Registry();
             }
 
             return self::$Registry;
