@@ -36,7 +36,7 @@
 
     use Brickoo\Library\Core;
     use Brickoo\Library\Error\Exceptions;
-    use Brickoo\Library\Log\Interfaces\LogHandlerInterface;
+    use Brickoo\Library\Log\Interfaces\LoggerInterface;
     use Brickoo\Library\Validator\TypeValidator;
 
     /**
@@ -48,7 +48,7 @@
      * @version $Id$
      */
 
-    class ExceptionHandler
+    class ExceptionHandler extends AbstractErrorHandler
     {
 
         /**
@@ -109,56 +109,6 @@
         }
 
         /**
-         * Holds an instance of an LogHandler.
-         * @var Brickoo\Library\Log\Interfaces\LogHandlerInterface
-         */
-        protected $LogHandler;
-
-        /**
-         * Adds an instance implementing the LogHandlerInterface for custom error logging.
-         * @param LogHandlerInterface $LogHandler the log handler to add
-         * @throws DependencyOverrideException if trying to override the current dependency
-         * @return object reference
-         */
-        public function addLogHandler(LogHandlerInterface $LogHandler)
-        {
-            if ($this->LogHandler instanceof LogHandlerInterface)
-            {
-                throw new Core\Exceptions\DependencyOverrideException('LogHandlerInterface');
-            }
-
-            $this->LogHandler = $LogHandler;
-
-            return $this;
-        }
-
-        /**
-         * Removes the assigned log handler dependency.
-         * @throws DependencyNotAvailableException if trying to remove an not assigned dependency
-         * @return object reference
-         */
-        public function removeLogHandler()
-        {
-            if (! $this->LogHandler instanceof LogHandlerInterface)
-            {
-                throw new Core\Exceptions\DependencyNotAvailableException('LogHandlerInterface');
-            }
-
-            $this->LogHandler = null;
-
-            return $this;
-        }
-
-        /**
-         * Checks if the error handler instance has an log handler assigned.
-         * @return boolean check result
-         */
-        public function hasLogHandler()
-        {
-            return ($this->LogHandler instanceof LogHandlerInterface);
-        }
-
-        /**
          * Class constructor.
          * Initializes the class properties.
          * @return void
@@ -181,7 +131,7 @@
 
             $this->displayExceptions    = false;
             $this->isRegistered         = false;
-            $this->LogHandler           = null;
+            $this->Logger               = null;
 
             return $this;
         }
@@ -215,9 +165,9 @@
         {
             $message = $this->getExceptionMessage($Exception);
 
-            if ($this->hasLogHandler())
+            if ($this->hasLogger())
             {
-                return $this->LogHandler->log($message);
+                return $this->Logger->log($message, LOG_ERR);
             }
 
             if ($this->displayExceptions !== false)

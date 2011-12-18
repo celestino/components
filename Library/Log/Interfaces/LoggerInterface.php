@@ -33,23 +33,37 @@
     namespace Brickoo\Library\Log\Interfaces;
 
     /**
-     * LogHandlerInterface
+     * LoggerInterface
      *
-     * The LogHandlerInterface for implementing an adapter to storage of messages to a location.
+     * The LoggerInterface for implementing the storage of messages to a location.
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      * @version $Id$
      */
 
-    interface LogHandlerInterface
+    interface LoggerInterface
     {
 
         /**
-         * Logs the passed message to the location.
-         * @param array $messages the messages to log
-         * @param integer $severity the severity level to add
-         * @return boolean success
+        * Returns the current default log severity.
+        * @return integer the default log severity
+        */
+        public function getDefaultSeverity();
+
+        /**
+         * Sets the default log severity to use.
+         * @link http://www.php.net/manual/en/network.constants.php
+         * @param integer $logSeverity the default log severity to set
+         * @return object reference
          */
-        public function log(array $messages, $severity);
+        public function setDefaultSeverity($severity);
+
+        /**
+         * Logs the passed message to the location.
+         * @param string $message the message to log
+         * @param integer $severity the serverity level
+         * @return object reference
+         */
+        public function log($message, $severity = null);
 
     }
 

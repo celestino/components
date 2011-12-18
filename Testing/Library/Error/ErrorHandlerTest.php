@@ -49,18 +49,18 @@
     {
 
         /**
-         * Returns an LogHandler Stub for testing the logging of messages.
-         * @return object implementing the Brickoo\Library\Log\Interfaces\LogHandlerInterface
+         * Returns an Logger Stub for testing the logging of messages.
+         * @return object implementing the Brickoo\Library\Log\Interfaces\LoggerInterface
          */
-        protected function getLogHandlerStub()
+        protected function getLoggerStub()
         {
-            $LogHandlerStub = $this->getMock
+            $LoggerStub = $this->getMock
             (
-                'Brickoo\Library\Log\Interfaces\LogHandlerInterface',
+                'Brickoo\Library\Log\Interfaces\LoggerInterface',
                 array('log')
             );
 
-            return $LogHandlerStub;
+            return $LoggerStub;
         }
 
         /**
@@ -187,60 +187,60 @@
 
         /**
          * Test if the log handler can be checked of availability.
-         * @covers Brickoo\Library\Error\ErrorHandler::hasLogHandler
+         * @covers Brickoo\Library\Error\ErrorHandler::hasLogger
          */
         public function testHasLogHandler()
         {
-            $LogHandlerStub = $this->getLogHandlerStub();
+            $LoggerStub = $this->getLoggerStub();
 
-            $this->assertFalse($this->ErrorHandler->hasLogHandler());
-            $this->assertSame($this->ErrorHandler, $this->ErrorHandler->addLogHandler($LogHandlerStub));
-            $this->assertTrue($this->ErrorHandler->hasLogHandler());
+            $this->assertFalse($this->ErrorHandler->hasLogger());
+            $this->assertSame($this->ErrorHandler, $this->ErrorHandler->addLogger($LoggerStub));
+            $this->assertTrue($this->ErrorHandler->hasLogger());
         }
 
         /**
          * Test if the log handler can be assigned as dependency.
-         * @covers Brickoo\Library\Error\ErrorHandler::addLogHandler
+         * @covers Brickoo\Library\Error\ErrorHandler::addLogger
          */
         public function testAddLogHandler()
         {
-            $LogHandlerStub = $this->getLogHandlerStub();
-            $this->assertSame($this->ErrorHandler, $this->ErrorHandler->addLogHandler($LogHandlerStub));
+            $LoggerStub = $this->getLoggerStub();
+            $this->assertSame($this->ErrorHandler, $this->ErrorHandler->addLogger($LoggerStub));
         }
 
         /**
          * Test if the trying to override the LogHandler dependecy throws an exception.
-         * @covers Brickoo\Library\Error\ErrorHandler::addLogHandler
+         * @covers Brickoo\Library\Error\ErrorHandler::addLogger
          * @covers Brickoo\Library\Core\Exceptions\DependencyOverrideException
          * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverrideException
          */
         public function testAddLogHandlerDependencyException()
         {
-            $LogHandlerStub = $this->getLogHandlerStub();
-            $this->assertSame($this->ErrorHandler, $this->ErrorHandler->addLogHandler($LogHandlerStub));
-            $this->ErrorHandler->addLogHandler($LogHandlerStub);
+            $LoggerStub = $this->getLoggerStub();
+            $this->assertSame($this->ErrorHandler, $this->ErrorHandler->addLogger($LoggerStub));
+            $this->ErrorHandler->addLogger($LoggerStub);
         }
 
         /**
          * Test if the log handler can be removed.
-         * @covers Brickoo\Library\Error\ErrorHandler::removeLogHandler
+         * @covers Brickoo\Library\Error\ErrorHandler::removeLogger
          */
         public function testRemoveLogHandler()
         {
-            $LogHandlerStub = $this->getLogHandlerStub();
-            $this->assertSame($this->ErrorHandler, $this->ErrorHandler->addLogHandler($LogHandlerStub));
-            $this->assertSame($this->ErrorHandler, $this->ErrorHandler->removeLogHandler());
+            $LoggerStub = $this->getLoggerStub();
+            $this->assertSame($this->ErrorHandler, $this->ErrorHandler->addLogger($LoggerStub));
+            $this->assertSame($this->ErrorHandler, $this->ErrorHandler->removeLogger());
         }
 
         /**
          * Test if the trying to remove an not assigend LogHandler dependecy throws an exception.
-         * @covers Brickoo\Library\Error\ErrorHandler::removeLogHandler
+         * @covers Brickoo\Library\Error\ErrorHandler::removeLogger
          * @covers Brickoo\Library\Core\Exceptions\DependencyNotAvailableException
          * @expectedException Brickoo\Library\Core\Exceptions\DependencyNotAvailableException
          */
         public function testRemoveLogHandlerDependencyException()
         {
-            $this->ErrorHandler->removeLogHandler();
+            $this->ErrorHandler->removeLogger();
         }
 
         /**
@@ -270,13 +270,13 @@
          */
         public function testHandleErrorWithLogHandler()
         {
-            $LogHandlerStub = $this->getLogHandlerStub();
-            $LogHandlerStub->expects($this->any())
+            $LoggerStub = $this->getLoggerStub();
+            $LoggerStub->expects($this->any())
                            ->method('log')
                            ->will($this->returnArgument(0));
             $this->ErrorHandler->setErrorLevel(777);
 
-            $this->assertSame($this->ErrorHandler, $this->ErrorHandler->addLogHandler($LogHandlerStub));
+            $this->assertSame($this->ErrorHandler, $this->ErrorHandler->addLogger($LoggerStub));
             $this->assertEquals
             (
                 '[777]: message throwed in myFile.php on line 123',
