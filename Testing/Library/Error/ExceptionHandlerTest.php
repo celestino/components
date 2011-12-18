@@ -57,7 +57,7 @@
             $LogHandlerStub = $this->getMock
             (
                 'Brickoo\Library\Log\Interfaces\LoggerInterface',
-                array('log')
+                array('log', 'getDefaultSeverity', 'setDefaultSeverity')
             );
 
             return $LogHandlerStub;
