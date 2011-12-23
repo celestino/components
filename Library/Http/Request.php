@@ -33,9 +33,7 @@
     namespace Brickoo\Library\Http;
 
     use Brickoo\Library\Core;
-    use Brickoo\Library\Core\Interfaces\RequestInterface;
-    use Brickoo\Library\Http\Interfaces\HttpRequestInterface;
-    use Brickoo\Library\Http\Interfaces\UrlInterface;
+    use Brickoo\Library\Http\Interfaces;
     use Brickoo\Library\Validator\TypeValidator;
 
     /**
@@ -46,7 +44,7 @@
      * @version $Id$
      */
 
-    class Request implements HttpRequestInterface
+    class Request implements Interfaces\RequestInterface
     {
 
         /**
@@ -64,39 +62,33 @@
         protected $_Url;
 
         /**
-         * Lazy initialization of the Url instance.
-         * @see Bricko\Library\Http\Url
+         * Returns the Url object.
+         * If the object does not exist, it wll be created.
          * @return object Url implementing the UrlInterface
          */
         public function Url()
         {
-            if (! $this->_Url instanceof UrlInterface)
+            if (! $this->_Url instanceof Interfaces\UrlInterface)
             {
-                $this->addUrlSupport();
+                $this->setUrlSupport(new Url($this->Request));
             }
 
             return $this->_Url;
         }
 
         /**
-         * Adds Url support by adding or creating the Url instance.
+         * Lazy initialization of the Url instance.
+         * @param UrlInterface $Url the Url objetc implementing the UrlInterface
          * @return object reference
          */
-        public function addUrlSupport(UrlInterface $Url = null)
+        public function setUrlSupport(\Brickoo\Library\Http\Interfaces\UrlInterface $Url)
         {
             if ($this->_Url !== null)
             {
-                throw new Core\Exceptions\DependencyOverrideException('UrlInterface');
+                throw new Core\Exceptions\DependencyOverrideException('Http\Interfaces\UrlInterface');
             }
 
-            if ($Url instanceof UrlInterface)
-            {
-                $this->_Url = $Url;
-            }
-            else
-            {
-                $this->_Url = new Url($this->Request);
-            }
+            $this->_Url = $Url;
 
             return $this;
         }
@@ -667,10 +659,10 @@
         /**
          * Class constructor.
          * Initializes the class properties.
-         * @param object implementing the Brickoo\Library\Core\RequestInterface
+         * @param object implementing the Brickoo\Library\Core\Interfaces\RequestInterface
          * @return void
          */
-        public function __construct(RequestInterface $Request)
+        public function __construct(\Brickoo\Library\Core\Interfaces\RequestInterface $Request)
         {
             $this->Request = $Request;
             $this->clear();

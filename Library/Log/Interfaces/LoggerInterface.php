@@ -44,9 +44,24 @@
     {
 
         /**
-        * Returns the current default log severity.
-        * @return integer the default log severity
-        */
+         * Retrieve the log handler assigned.
+         * @throws Core\Exceptions\DependencyNotAvailableException if no log handler instance is assigned
+         * @return object log handler implementing the LogHandlerInterface
+         */
+        public function getLogHandler();
+
+        /**
+         * Sets the log handler instance to use for logging.
+         * @param LogHandlerInterface $LogHandler the log handler instance
+         * @throws Core\Exceptions\DependencyOverrideException if trying to override the log handler
+         * @return object reference
+         */
+        public function injectLogHandler(\Brickoo\Library\Log\Interfaces\LogHandlerInterface $LogHandler);
+
+        /**
+         * Returns the current default log severity.
+         * @return integer the default log severity
+         */
         public function getDefaultSeverity();
 
         /**
@@ -58,12 +73,24 @@
         public function setDefaultSeverity($severity);
 
         /**
-         * Logs the passed message to the location.
-         * @param string $message the message to log
-         * @param integer $severity the serverity level
-         * @return object reference
+        * Class constructor.
+        * Initializes the class properties.
+        * @return void
+        */
+        public function __construct();
+
+        /**
+        * Clears the class properties.
+        * @return object reference
+        */
+        public function clear();
+
+        /**
+         * Sends the log messages using log handler assigned.
+         * @param array|string $messages the messages to send
+         * @return void
          */
-        public function log($message, $severity = null);
+        public function log($messages, $severity = null);
 
     }
 

@@ -82,9 +82,9 @@
          */
         public function testGetRepository()
         {
-            $this->assertSame($this->Repository, $this->Repository->commit('someValue'));
-            $this->assertSame($this->Repository, $this->Repository->commit('someValue'));
-            $this->assertSame($this->Repository, $this->Repository->commit('someValue'));
+            $this->Repository->commit('someValue');
+            $this->Repository->commit('someValue');
+            $this->Repository->commit('someValue');
             $this->assertInternalType('array', $this->Repository->getRepository());
             $this->assertArrayHasKey(3, $this->Repository->getRepository());
         }
@@ -95,9 +95,9 @@
         */
         public function testGetRepositoryVersions()
         {
-            $this->assertSame($this->Repository, $this->Repository->commit('someValue'));
-            $this->assertSame($this->Repository, $this->Repository->commit('someValue'));
-            $this->assertSame($this->Repository, $this->Repository->commit('someValue'));
+            $this->Repository->commit('someValue');
+            $this->Repository->commit('someValue');
+            $this->Repository->commit('someValue');
             $this->assertContains(1, $this->Repository->getRepositoryVersions());
             $this->assertContains(2, $this->Repository->getRepositoryVersions());
             $this->assertContains(3, $this->Repository->getRepositoryVersions());
@@ -109,7 +109,7 @@
          */
         public function testIsVersionAvailable()
         {
-            $this->assertSame($this->Repository, $this->Repository->commit('someValue'));
+            $this->Repository->commit('someValue');
             $this->assertTrue($this->Repository->isVersionAvailable(1));
         }
 
@@ -127,10 +127,11 @@
          * Test if the respository can be set to the last version available.
          * @covers Brickoo\Library\Storage\Repository::useLastVersion
          * @covers Brickoo\Library\Storage\Repository::setCurrentVersion
+         * @covers Brickoo\Library\Storage\Repository::getCurrentVersion
          */
         public function testUseLastVersion()
         {
-            $this->assertSame($this->Repository, $this->Repository->commit('someValue'));
+            $this->Repository->commit('someValue');
             $this->assertSame($this->Repository,$this->Repository->useLastVersion());
             $this->assertEquals(1, $this->Repository->getCurrentVersion());
 
@@ -146,7 +147,7 @@
          */
         public function testGetCurrentVersion()
         {
-            $this->assertSame($this->Repository, $this->Repository->commit('someValue'));
+            $this->Repository->commit('someValue');
             $this->assertInternalType('int', $this->Repository->getCurrentVersion());
             $this->assertEquals(1, $this->Repository->getCurrentVersion());
         }
@@ -177,7 +178,7 @@
         public function testMagicFunctionCount()
         {
             $this->assertEquals(1, count($this->Repository));
-            $this->assertSame($this->Repository, $this->Repository->commit('someValue'));
+            $this->Repository->commit('someValue');
             $this->assertEquals(2, count($this->Repository));
         }
 
@@ -213,7 +214,7 @@
         }
 
         /**
-         * Test if a commit posible with different argumets.
+         * Test if a commit posible with different arguments.
          * @covers Brickoo\Library\Storage\Repository::commit
          * @covers Brickoo\Library\Storage\Repository::getRecursiveCommit
          */
@@ -244,7 +245,7 @@
          */
         public function testRestore()
         {
-            $this->assertSame($this->Repository, $this->Repository->commit('someValue'));
+            $this->Repository->commit('someValue');
             $this->assertEquals(1, $this->Repository->getCurrentVersion());
             $this->assertSame($this->Repository, $this->Repository->restore(0));
             $this->assertEquals(2, $this->Repository->getCurrentVersion());
@@ -288,10 +289,11 @@
         /**
          * Test if a version can be removed from repository.
          * @covers Brickoo\Library\Storage\Repository::remove
+         * @covers Brickoo\Library\Storage\Repository::getCurrentVersion
          */
         public function testRemove()
         {
-            $this->assertSame($this->Repository, $this->Repository->commit('someValue'));
+            $this->Repository->commit('someValue');
             $this->assertEquals(1, $this->Repository->getCurrentVersion());
             $this->assertSame($this->Repository,$this->Repository->remove(1));
             $this->assertEquals(0, $this->Repository->getCurrentVersion());
@@ -315,7 +317,7 @@
          */
         public function testRemoveLockedException()
         {
-            $this->assertSame($this->Repository, $this->Repository->commit('someValue'));
+            $this->Repository->commit('someValue');
             $this->Repository->lock();
             $this->Repository->remove(1);
         }
@@ -332,7 +334,7 @@
         }
 
         /**
-         * Test if a repository backup can be imported.
+         * Test if a repository backup can be imported and the highest version is recognized.
          * @covers Brickoo\Library\Storage\Repository::import
          * @covers Brickoo\Library\Storage\Repository::setRepository
          * @covers Brickoo\Library\Storage\Repository::checkImportVersions
@@ -383,13 +385,14 @@
         }
 
         /**
-         * Test if a repository can be exported.
+         * Test if a repository can be exported and returns the initialized value
+         * or the latest version commited.
          * @covers Brickoo\Library\Storage\Repository::export
          */
         public function testExport()
         {
             $this->assertEquals('initialized', $this->Repository->export(0));
-            $this->assertSame($this->Repository, $this->Repository->commit('someValue'));
+            $this->Repository->commit('someValue');
             $this->assertEquals('someValue', $this->Repository->export());
         }
 

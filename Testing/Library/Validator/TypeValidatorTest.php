@@ -106,15 +106,23 @@
         }
 
         /**
-         * Test if validation of the isString method works without flags.
+         * Test if validation of the isString method works without flags and different arguments.
          * @covers Brickoo\Library\Validator\TypeValidator::isString
-         * @expectedException InvalidArgumentException
          */
         public function testIsString()
         {
             $this->assertTrue(TypeValidator::Validate('isString', array('john')));
             $this->assertTrue(TypeValidator::Validate('isString', array('john', 'mike', 'george')));
-            TypeValidator::Validate('isString', array(' '));
+        }
+
+        /**
+         * Test if validation of the isString method throws an exception without flag.
+         * @covers Brickoo\Library\Validator\TypeValidator::isString
+         * @expectedException InvalidArgumentException
+         */
+        public function testIsStringArgumentException()
+        {
+            TypeValidator::Validate('isString', array(' '), TypeValidator::FLAG_INTEGER_CAN_NOT_BE_ZERO);
         }
 
         /**
@@ -145,14 +153,24 @@
         }
 
         /**
-         * Test if validation of the isInteger method works without flags.
+         * Test if validation of the isInteger method works without flags and accepts zero.
          * @covers Brickoo\Library\Validator\TypeValidator::isInteger
          */
         public function testIsInteger()
         {
             $this->assertTrue(TypeValidator::Validate('isInteger', array(1234)));
             $this->assertTrue(TypeValidator::Validate('isInteger', array(1, 2, 3)));
-            TypeValidator::Validate('isInteger', array(0));
+            $this->assertTrue(TypeValidator::Validate('isInteger', array(0)));
+        }
+
+        /**
+         * Test if validation of the isInteger method throws an exception with not zero flag.
+         * @covers Brickoo\Library\Validator\TypeValidator::isInteger
+         * @expectedException InvalidArgumentException
+         */
+        public function testIsIntegerArgumentException()
+        {
+            TypeValidator::Validate('isInteger', array(0), TypeValidator::FLAG_INTEGER_CAN_NOT_BE_ZERO);
         }
 
         /**
@@ -166,7 +184,7 @@
         }
 
         /**
-         * Test if validation of the isArray method works without flags.
+         * Test if validation of the isArray method works without flags and different arguments.
          * @covers Brickoo\Library\Validator\TypeValidator::isArray
          * @expectedException InvalidArgumentException
          */
@@ -174,6 +192,15 @@
         {
             $this->assertTrue(TypeValidator::Validate('isArray', array(1234)));
             $this->assertTrue(TypeValidator::Validate('isArray', array(1, 2, 3)));
+        }
+
+        /**
+         * Test if validation of the isArray method throws an exception without flag.
+         * @covers Brickoo\Library\Validator\TypeValidator::isArray
+         * @expectedException InvalidArgumentException
+         */
+        public function testIsArrayArgumentException()
+        {
             TypeValidator::Validate('isArray', array(array()));
         }
 

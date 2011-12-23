@@ -36,7 +36,6 @@
      * IdentifierLockedException
      *
      * Exception throwed by the Registry class if trying to change an locked identifier.
-     * @see Brickoo\Library\Storage\Registry
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      * @version $Id$
      */

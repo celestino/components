@@ -64,7 +64,6 @@
         /**
          * Test if the class can be created.
          * @covers Brickoo\Library\Core\Request::__construct
-         * @covers Brickoo\Library\Core\Interfaces\RequestInterface
          */
         public function testRequestConstructor()
         {
@@ -85,7 +84,7 @@
         }
 
         /**
-         * Test if a server value can be retrieved.
+         * Test if a server value can be retrieved and the default value is returned.
          * @covers Brickoo\Library\Core\Request::getServerVar
          * @covers Brickoo\Library\Core\Request::collectServerVars
          */
@@ -118,98 +117,77 @@
         /**
          * Test if the Http Request object is returned.
          * @covers Brickoo\Library\Core\Request::Http
-         * @covers Brickoo\Library\Core\Request::addHttpSupport
-         * @covers Brickoo\Library\Http\Interfaces\HttpRequestInterface
+         * @covers Brickoo\Library\Core\Request::injectHttpRequest
          */
         public function testGetHttpObject()
         {
             $this->assertInstanceOf
             (
-                '\Brickoo\Library\Http\Interfaces\HttpRequestInterface',
+                '\Brickoo\Library\Http\Interfaces\RequestInterface',
                 $this->Request->Http()
             );
         }
 
         /**
          * Test if the Http support is availabe.
-         * @covers Brickoo\Library\Core\Request::addHttpSupport
-         * @covers Brickoo\Library\Http\Interfaces\HttpRequestInterface
+         * @covers Brickoo\Library\Core\Request::injectHttpRequest
          */
-        public function testAddHttpSupport()
-        {
-            $this->assertSame($this->Request, $this->Request->addHttpSupport());
-        }
-
-        /**
-         * Test if the Http support is availabe through passed reference.
-         * @covers Brickoo\Library\Core\Request::addHttpSupport
-         */
-        public function testAddHttpSupportPassed()
+        public function testSetHttpSupport()
         {
             $HttpRequest = new \Brickoo\Library\Http\Request($this->Request);
-            $this->assertSame($this->Request, $this->Request->addHttpSupport($HttpRequest));
+            $this->Request->injectHttpRequest($HttpRequest);
+            $this->assertSame($HttpRequest, $this->Request->Http());
         }
 
         /**
          * Test if the reassigning an Http instance throws an exception.
-         * @covers Brickoo\Library\Core\Request::addHttpSupport
+         * @covers Brickoo\Library\Core\Request::injectHttpRequest
          * @covers Brickoo\Library\Core\Exceptions\DependencyOverrideException
          * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverrideException
          */
-        public function testAddHttpSupportDependencException()
+        public function testSetHttpSupportDependencException()
         {
-            $this->assertSame($this->Request,$this->Request->addHttpSupport());
-
             $HttpRequest = new \Brickoo\Library\Http\Request($this->Request);
-            $this->assertSame($this->Request, $this->Request->addHttpSupport($HttpRequest));
+            $this->assertSame($this->Request,$this->Request->injectHttpRequest($HttpRequest));
+            $this->assertSame($this->Request, $this->Request->injectHttpRequest($HttpRequest));
         }
 
         /**
          * Test if the Cli Request object is returned.
          * @covers Brickoo\Library\Core\Request::Cli
-         * @covers Brickoo\Library\Cli\Interfaces\CliRequestInterface
+         * @covers Brickoo\Library\Cli\Interfaces\RequestInterface
          */
         public function testGetCliObject()
         {
             $this->assertInstanceOf
             (
-                '\Brickoo\Library\Cli\Interfaces\CliRequestInterface',
+                '\Brickoo\Library\Cli\Interfaces\RequestInterface',
                 $this->Request->Cli()
             );
         }
 
         /**
-         * Test if the Cli support is availabe.
-         * @covers Brickoo\Library\Core\Request::addCliSupport
-         * @covers Brickoo\Library\Cli\Interfaces\CliRequestInterface
+         * Test if the Cli support can be set.
+         * @covers Brickoo\Library\Core\Request::injectCliRequest
          */
-        public function testAddCliSupport()
-        {
-            $this->assertSame($this->Request, $this->Request->addCliSupport());
-        }
-
-        /**
-         * Test if the Cli support is availabe through passed reference.
-         * @covers Brickoo\Library\Core\Request::addCliSupport
-         */
-        public function testAddCliSupportPassed()
+        public function testSetCliSupport()
         {
             $Cli = new \Brickoo\Library\Cli\Request($this->Request);
-            $this->assertSame($this->Request, $this->Request->addCliSupport($Cli));
+            $this->Request->injectCliRequest($Cli);
+            $this->assertSame($Cli, $this->Request->Cli());
         }
 
         /**
-         * Test if the reassigning an Cli instance throws an exception.
-         * @covers Brickoo\Library\Core\Request::addCliSupport
+         * Test if overriding an Cli instance throws an exception.
+         * @covers Brickoo\Library\Core\Request::injectCliRequest
          * @covers Brickoo\Library\Core\Exceptions\DependencyOverrideException
          * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverrideException
          */
-        public function testAddCliSupportDependencyException()
+        public function testSetCliSupportDependencyOverrideException()
         {
-            $this->assertSame($this->Request, $this->Request->addCliSupport());
-
             $Cli = new \Brickoo\Library\Cli\Request($this->Request);
-            $this->assertSame($this->Request, $this->Request->addCliSupport($Cli));
+            $this->Request->injectCliRequest($Cli);
+            $this->assertSame($this->Request, $this->Request->injectCliRequest($Cli));
         }
 
     }

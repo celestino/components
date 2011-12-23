@@ -101,6 +101,7 @@
         /**
          * Test if the default severity can be overriden.
          * @covers Brickoo\Library\Log\Logger::setDefaultSeverity
+         * @covers Brickoo\Library\Log\Logger::getDefaultSeverity
          */
         public function testSetDefaultSeverity()
         {
@@ -120,13 +121,13 @@
 
         /**
          * Test if the LogHandler can be added and retrieved.
-         * @covers Brickoo\Library\Log\Logger::addLogHandler
+         * @covers Brickoo\Library\Log\Logger::injectLogHandler
          * @covers Brickoo\Library\Log\Logger::getLogHandler
          */
         public function testLogHandlerRoutines()
         {
             $LogHandler = $this->getLogHandlerStub();
-            $this->assertSame($this->Logger, $this->Logger->addLogHandler($LogHandler));
+            $this->assertSame($this->Logger, $this->Logger->injectLogHandler($LogHandler));
             $this->assertSame($LogHandler, $this->Logger->getLogHandler());
         }
 
@@ -142,14 +143,14 @@
 
         /**
         * Test if assigning an LogHandler twice throws an exception.
-        * @covers Brickoo\Library\Log\Logger::addLogHandler
+        * @covers Brickoo\Library\Log\Logger::injectLogHandler
         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverrideException
         */
         public function testSetLogHandlerDependecyOverrideException()
         {
             $LogHandler = $this->getLogHandlerStub();
-            $this->Logger->addLogHandler($LogHandler);
-            $this->Logger->addLogHandler($LogHandler);
+            $this->Logger->injectLogHandler($LogHandler);
+            $this->Logger->injectLogHandler($LogHandler);
         }
 
         /**
@@ -160,11 +161,10 @@
         {
             $LogHandler = $this->getLogHandlerStub();
             $LogHandler->expects($this->once())
-                       ->method('log')
-                       ->will($this->returnValue('OK'));
+                       ->method('log');
 
-            $this->assertSame($this->Logger, $this->Logger->addLogHandler($LogHandler));
-            $this->assertEquals('OK', $this->Logger->log('message'));
+            $this->Logger->injectLogHandler($LogHandler);
+            $this->assertSame($this->Logger, $this->Logger->log('message'));
         }
 
         /**
@@ -175,11 +175,10 @@
         {
             $LogHandler = $this->getLogHandlerStub();
             $LogHandler->expects($this->once())
-                       ->method('log')
-                       ->will($this->returnValue('OK'));
+                       ->method('log');
 
-            $this->assertSame($this->Logger, $this->Logger->addLogHandler($LogHandler));
-            $this->assertEquals('OK', $this->Logger->log(array('message1', 'message2'), LOG_ERR));
+            $this->Logger->injectLogHandler($LogHandler);
+            $this->assertSame($this->Logger, $this->Logger->log(array('message1', 'message2'), LOG_ERR));
         }
 
         /**

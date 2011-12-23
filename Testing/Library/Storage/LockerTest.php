@@ -77,7 +77,7 @@
         }
 
         /**
-         * Test if the identifier can be locked.
+         * Test if an identifier or more at once can be locked.
          * @covers Brickoo\Library\Storage\Locker::lock
          * @covers Brickoo\Library\Storage\Locker::cleanToLockIdentifiers
          */
@@ -109,7 +109,7 @@
         }
 
         /**
-         * Test if the identifier can be unlocked.
+         * Test if an identifier or more at once can be unlocked.
          * @covers Brickoo\Library\Storage\Locker::unlock
          * @covers Brickoo\Library\Storage\Locker::cleanToUnlockIdentifiers
          */
@@ -154,6 +154,14 @@
         {
             $this->LockerFixture->lock('name');
             $this->assertTrue($this->LockerFixture->isLocked('name'));
+        }
+
+        /**
+         * Test if an not locked identifier fails.
+         * @covers Brickoo\Library\Storage\Locker::isLocked
+         */
+        public function testIsLockedFails()
+        {
             $this->assertFalse($this->LockerFixture->isLocked('notLocked'));
         }
 
@@ -168,7 +176,7 @@
         }
 
         /**
-         * Test for the magic count method.
+         * Test for the magic count method implemented by the \Countable interface.
          * @covers Brickoo\Library\Storage\Locker::count
          */
         public function testCount()
@@ -180,7 +188,7 @@
         }
 
         /**
-         * Test for the backup count method.
+         * Test if the amount of locked identifiers is returned.
          * @covers Brickoo\Library\Storage\Locker::getAmountOfLockedIdentifiers
          */
         public function testGetAmountOfLockedIdentifiers()
@@ -195,6 +203,7 @@
 
     /**
      * Fixture class for the abstract Locker class.
+     * Returns always true for the identifier check.
      */
     class LockerFixture extends Locker
     {

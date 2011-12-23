@@ -32,18 +32,15 @@
 
     namespace Brickoo\Library\Cli\Interfaces;
 
-    use Brickoo\Library\Core\Interfaces\RequestInterface;
-
     /**
-     * CliRequestInterface
+     * RequestInterface
      *
      * Describes the methods implemented by this interface.
-     * @see Brickoo\Library\Cli\Request;
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      * @version $Id$
      */
 
-    Interface CliRequestInterface
+    Interface RequestInterface
     {
 
         /**
@@ -86,10 +83,10 @@
          /**
          * Class constructor.
          * Initializes the class properties.
-         * @param object Request object implementing the RequestInterface
+         * @param object Request implementing the RequestInterface
          * @return void
          */
-        public function __construct(RequestInterface $Request);
+        public function __construct(\Brickoo\Library\Core\Interfaces\RequestInterface $Request);
 
         /**
          * Clears the cli object properties.

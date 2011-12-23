@@ -70,14 +70,12 @@
          * Test if the class can be created.
          * @covers Brickoo\Library\Cli\Request::__construct
          * @covers Brickoo\Library\Cli\Request::clear
-         * @covers Brickoo\Library\Cli\Interfaces\CliRequestInterface
-         * @covers Brickoo\Library\Core\Interfaces\RequestInterface
          */
         public function testCliConstructor()
         {
             $this->assertInstanceOf
             (
-                '\Brickoo\Library\Cli\Request',
+                '\Brickoo\Library\Cli\Interfaces\RequestInterface',
                 $this->Cli
             );
         }

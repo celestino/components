@@ -32,7 +32,8 @@
 
     namespace Brickoo\Library\Core;
 
-    use Brickoo\Library\Storage\Registry;
+    use Brickoo\Library\Storage;
+    use Brickoo\Library\Core\Exceptions;
 
     /**
      * Brickoo framework main class.
@@ -48,19 +49,19 @@
 
         /**
          * Holds an object of the Registry.
-         * @var \Brickoo\Library\Storage\Registry object
+         * @var Brickoo\Library\Storage\Interfaces\RegistryInterface object
          */
         protected static $Registry;
 
         /**
          * Returns the holded Registry object.
-         * @return \Brickoo\Library\Storage\Registry object
+         * @return Brickoo\Library\Storage\Interfaces\RegistryInterface object reference
          */
         public function getRegistry()
         {
             if (self::$Registry === null)
             {
-                $this->setRegistry();
+                $this->setRegistry(new Storage\Registry());
             }
 
             return self::$Registry;
@@ -68,31 +69,20 @@
 
         /**
          * Sets the Registry object to use for storing values.
-         * @param \Brickoo\Library\Storage\Registry $Registry
-         * @return object Registry reference
+         * @param Brickoo\Library\Storage\Interfaces\RegistryInterface $Registry
+         * @throws DependencyOverrideException if trying to override dependency
+         * @return object reference
          */
-        public function setRegistry(Registry $Registry = null)
+        public function setRegistry(\Brickoo\Library\Storage\Interfaces\RegistryInterface $Registry = null)
         {
             if (self::$Registry !== null)
             {
-                throw new \LogicException('Registry instance already assigned.', E_ERROR);
+                throw new Exceptions\DependencyOverrideException('RegistryInterface');
             }
 
-            if
-            (
-               ($Registry !== null)
-               &&
-               (self::$Registry === null)
-            )
-            {
-               self::$Registry = $Registry;
-            }
-            else
-            {
-               self::$Registry = new Registry();
-            }
+            self::$Registry = new Storage\Registry();
 
-            return self::$Registry;
+            return $this;
         }
 
     }

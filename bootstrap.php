@@ -41,15 +41,6 @@
      * @version $Id: $
      */
 
-    // set error reporting to strict (optional)
-    error_reporting ( E_ALL | E_STRICT );
-
-    // enable displaying runtime errors while development(optional)
-    ini_set ('display_errors', 1);
-
-    // set default timezone for Date functions (optional)
-    date_default_timezone_set ('UTC');
-
     // define the Brickoo Framework root directory
     if (! defined ('BRICKOO_DIR'))
     {

@@ -75,7 +75,7 @@
          * @throws Core\Exceptions\DependencyOverrideException if trying to override the log handler
          * @return object reference
          */
-        public function addLogHandler(Interfaces\LogHandlerInterface $LogHandler)
+        public function injectLogHandler(\Brickoo\Library\Log\Interfaces\LogHandlerInterface $LogHandler)
         {
             if ($this->LogHandler instanceof Interfaces\LogHandlerInterface)
             {
@@ -142,7 +142,7 @@
         /**
          * Sends the log messages using log handler assigned.
          * @param array|string $messages the messages to send
-         * @return boolean success
+         * @return void
          */
         public function log($messages, $severity = null)
         {
@@ -160,9 +160,9 @@
                 $messages = array($messages);
             }
 
-            $LogHandler = $this->getLogHandler();
+            $this->getLogHandler()->log($messages, $severity);
 
-            return $LogHandler->log($messages, $severity);
+            return $this;
         }
 
     }

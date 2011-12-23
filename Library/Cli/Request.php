@@ -32,8 +32,8 @@
 
     namespace Brickoo\Library\Cli;
 
-    use Brickoo\Library\Core\Interfaces\RequestInterface;
-    use Brickoo\Library\Cli\Interfaces\CliRequestInterface;
+    use Brickoo\Library\Core;
+    use Brickoo\Library\Cli\Interfaces;
     use Brickoo\Library\Validator\TypeValidator;
 
     /**
@@ -44,7 +44,7 @@
      * @version $Id$
      */
 
-    class Request implements CliRequestInterface
+    class Request implements Interfaces\RequestInterface
     {
 
         /**
@@ -170,10 +170,10 @@
         /**
          * Class constructor.
          * Initializes the class properties.
-         * @param object Request object implementing the RequestInterface
+         * @param object Request implementing the RequestInterface
          * @return void
          */
-        public function __construct(RequestInterface $Request)
+        public function __construct(\Brickoo\Library\Core\Interfaces\RequestInterface $Request)
         {
             $this->Request = $Request;
             $this->clear();

@@ -32,14 +32,10 @@
 
     namespace Brickoo\Library\Core\Interfaces;
 
-    use Brickoo\Library\Http\Interfaces\HttpRequestInterface;
-    use Brickoo\Library\Cli\Interfaces\CliRequestInterface;
-
     /**
      * RequestInterface
      *
      * Describes the methods implemented by this interface.
-     * @see Brickoo\Library\Http\Request;
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      * @version $Id$
      */
@@ -50,30 +46,31 @@
         /**
          * Returns the Cli Request object.
          * If the object does not exist, it wll be created.
-         * @return object Cli implementing the CliRequestInterface
+         * @return object Cli implementing the RequestInterface
          */
         public function Cli();
 
         /**
          * Lazy initialization of the Cli Request instance.
-         * @see Bricko\Library\Cli\Interfaces\CliRequestInterface
+         * @param Cli\Interfaces\RequestInterface $Cli the Cli object implementing the RequestInterface
          * @return object reference
          */
-        public function addCliSupport(CliRequestInterface $Cli = null);
+        public function injectCliRequest(\Brickoo\Library\Cli\Interfaces\RequestInterface $Cli);
 
         /**
          * Returns the Http Request object.
          * If the object does not exist, it wll be created.
-         * @return object Cli implementing the CliRequestInterface
+         * @return object Cli implementing the RequestInterface
          */
         public function Http();
 
         /**
          * Lazy initialization of the Http Request instance.
-         * @see Bricko\Library\HTTP\Interfaces\HttpRequestInterface
+         * @param Http\Interfaces\RequestInterface $Http the Http object implementing the RequestInterface
+         * @throws DependencyOverrideException if trying to override the dependency
          * @return object reference
          */
-        public function addHttpSupport(HttpRequestInterface $Http = null);
+        public function injectHttpRequest(\Brickoo\Library\Http\Interfaces\RequestInterface $Http);
 
         /**
          * Returns the server variable value of the passed key.

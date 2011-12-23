@@ -36,7 +36,6 @@
      * UrlInterface
      *
      * Describes the methods implemented by this interface.
-     * @see Brickoo\Library\Http\Url;
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      * @version $Id$
      */

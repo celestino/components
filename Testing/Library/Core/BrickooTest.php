@@ -68,11 +68,7 @@
         {
             $this->Brickoo->reset();
 
-            $this->assertInstanceOf
-            (
-                '\Brickoo\Library\Storage\Registry',
-                $this->Brickoo->setRegistry()
-            );
+            $this->assertSame($this->Brickoo, $this->Brickoo->setRegistry());
         }
 
         /**
@@ -84,15 +80,15 @@
             $this->Brickoo->reset();
 
             $RegistryMock = $this->getMock('Brickoo\Library\Storage\Registry');
-            $this->assertSame($RegistryMock, $this->Brickoo->setRegistry($RegistryMock));
+            $this->assertSame($this->Brickoo, $this->Brickoo->setRegistry($RegistryMock));
         }
 
         /**
          * Test if the reassigment of an Registry throws an exception.
          * @covers Brickoo\Library\Core\Brickoo::setRegistry
-         * @expectedException LogicException
+         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverrideException
          */
-        public function testSetRegistryLogicException()
+        public function testSetRegistryDependencyException()
         {
             $this->Brickoo->reset();
 
@@ -120,7 +116,7 @@
     }
 
     /**
-     * Class need to reset the static Registry assigned.
+     * Fixture needed to reset the static Registry assigned.
      */
     class BrickooFixture extends Brickoo
     {

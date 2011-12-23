@@ -56,7 +56,7 @@
         {
             $LogHandlerStub = $this->getMock
             (
-                'Brickoo\Library\Log\Interfaces\LoggerInterface',
+                'Brickoo\Library\Log\Logger',
                 array('log', 'getDefaultSeverity', 'setDefaultSeverity')
             );
 
@@ -87,10 +87,9 @@
         {
             $ExceptionHandlerStub = $this->getMock('Brickoo\Library\Error\ExceptionHandler', array('unregister'));
             $ExceptionHandlerStub->expects($this->once())
-                             ->method('unregister')
-                             ->will($this->returnSelf());
-            $this->assertSame($ExceptionHandlerStub, $ExceptionHandlerStub->register());
-            $this->assertTrue($ExceptionHandlerStub->isRegistered());
+                                 ->method('unregister')
+                                 ->will($this->returnSelf());
+            $ExceptionHandlerStub->register();
             $this->assertSame($ExceptionHandlerStub, $ExceptionHandlerStub->clear());
         }
 
@@ -106,19 +105,6 @@
                 '\Brickoo\Library\Error\ExceptionHandler',
                 $this->ExceptionHandler
             );
-        }
-
-        /**
-         * Test if the error handler can be registered and unregistered.
-         * @covers Brickoo\Library\Error\ExceptionHandler::isRegistered
-         */
-        public function testIsRegistered()
-        {
-            $this->assertFalse($this->ExceptionHandler->isRegistered());
-            $this->assertSame($this->ExceptionHandler, $this->ExceptionHandler->register());
-            $this->assertTrue($this->ExceptionHandler->isRegistered());
-            $this->assertSame($this->ExceptionHandler, $this->ExceptionHandler->unregister());
-            $this->assertFalse($this->ExceptionHandler->isRegistered());
         }
 
         /**
@@ -140,7 +126,7 @@
          */
         public function testRegisterDuplicateRegistrationException()
         {
-            $this->assertSame($this->ExceptionHandler, $this->ExceptionHandler->register());
+            $this->ExceptionHandler->register();
             $this->ExceptionHandler->register();
         }
 
@@ -156,6 +142,19 @@
         }
 
         /**
+         * Test if the error handler can be registered and unregistered.
+         * @covers Brickoo\Library\Error\ExceptionHandler::isRegistered
+         */
+        public function testIsRegistered()
+        {
+            $this->assertFalse($this->ExceptionHandler->isRegistered());
+            $this->ExceptionHandler->register();
+            $this->assertTrue($this->ExceptionHandler->isRegistered());
+            $this->ExceptionHandler->unregister();
+            $this->assertFalse($this->ExceptionHandler->isRegistered());
+        }
+
+        /**
          * Test if the log handler can be checked of availability.
          * @covers Brickoo\Library\Error\ExceptionHandler::hasLogger
          */
@@ -164,7 +163,7 @@
             $LogHandlerStub = $this->getLoggerStub();
 
             $this->assertFalse($this->ExceptionHandler->hasLogger());
-            $this->assertSame($this->ExceptionHandler, $this->ExceptionHandler->addLogger($LogHandlerStub));
+            $this->ExceptionHandler->addLogger($LogHandlerStub);
             $this->assertTrue($this->ExceptionHandler->hasLogger());
         }
 
@@ -187,7 +186,7 @@
         public function testAddLogHandlerDependencyException()
         {
             $LogHandlerStub = $this->getLoggerStub();
-            $this->assertSame($this->ExceptionHandler, $this->ExceptionHandler->addLogger($LogHandlerStub));
+            $this->ExceptionHandler->addLogger($LogHandlerStub);
             $this->ExceptionHandler->addLogger($LogHandlerStub);
         }
 
@@ -198,7 +197,7 @@
         public function testRemoveLogHandler()
         {
             $LogHandlerStub = $this->getLoggerStub();
-            $this->assertSame($this->ExceptionHandler, $this->ExceptionHandler->addLogger($LogHandlerStub));
+            $this->ExceptionHandler->addLogger($LogHandlerStub);
             $this->assertSame($this->ExceptionHandler, $this->ExceptionHandler->removeLogger());
         }
 
@@ -234,10 +233,10 @@
                            ->method('log')
                            ->will($this->returnArgument(0));
 
-            $this->assertSame($this->ExceptionHandler, $this->ExceptionHandler->addLogger($LogHandlerStub));
+            $this->ExceptionHandler->addLogger($LogHandlerStub);
             $this->assertEquals
             (
-                '[777]: message throwed in ' . __FILE__ . ' on line 241',
+                '[777]: message throwed in ' . __FILE__ . ' on line 240',
                 $this->ExceptionHandler->handleException(new Exception('message', 777))
             );
         }
@@ -246,13 +245,20 @@
          * Test if the exception message is displayed.
          * @covers Brickoo\Library\Error\ExceptionHandler::handleException
          * @covers Brickoo\Library\Error\ExceptionHandler::getExceptionMessage
-         * @covers Brickoo\Library\Error\Exceptions\OutputException
-         * @expectedException Brickoo\Library\Error\Exceptions\OutputException
+         * @expectedException Brickoo\Library\Error\Exceptions\ErrorHandlerException
+         * @expectedExceptionMessage some exception message
          */
-        public function testDisplayHandleException()
+        public function testDisplayException()
         {
-            $this->ExceptionHandler->displayExceptions = true;
-            $this->assertNull($this->ExceptionHandler->handleException(new Exception('message', 777)));
+            $this->ExceptionHandler->register()
+                                   ->displayExceptions = true;
+            $this->assertNull
+            (
+                $this->ExceptionHandler->handleException
+                (
+                    new Brickoo\Library\Error\Exceptions\ErrorHandlerException('some exception message')
+                )
+            );
         }
 
     }

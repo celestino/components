@@ -77,19 +77,20 @@
         }
 
         /**
-         * Test if the identifier is in the registrations container.
+         * Test if the identifier can be registered.
          * @covers Brickoo\Library\Storage\Registry::getRegistrations
          */
         public function testGetRegistrations()
         {
             $this->assertInternalType('array', $this->Registry->getRegistrations());
-            $this->assertSame($this->Registry, $this->Registry->register('name', 'john'));
+            $this->Registry->register('name', 'john');
             $this->assertArrayHasKey('name', $this->Registry->getRegistrations());
         }
 
          /**
          * Test if the registrations can be added as an array.
          * @covers Brickoo\Library\Storage\Registry::addRegistrations
+         * @covers Brickoo\Library\Storage\Registry::count
          */
         public function testAddRegistrations()
         {
@@ -98,6 +99,7 @@
                 $this->Registry,
                 $this->Registry->addRegistrations(array('name' => 'brickoo', 'town' => 'bonn'))
             );
+            $this->assertEquals(2, count($this->Registry));
         }
 
         /**
@@ -118,7 +120,7 @@
         public function testIsIdentifierAvailable()
         {
             $this->assertFalse($this->Registry->isIdentifierAvailable('name'));
-            $this->assertSame($this->Registry, $this->Registry->register('name', 'john'));
+            $this->Registry->register('name', 'john');
             $this->assertTrue($this->Registry->isIdentifierAvailable('name'));
         }
 
@@ -144,6 +146,7 @@
         /**
          * Test if using the read only the registration throws an exception.
          * @covers Brickoo\Library\Storage\Registry::register
+         * @covers Brickoo\Library\Storage\Registry::setReadOnly
          * @covers Brickoo\Library\Storage\Exceptions\ReadonlyModeException
          * @expectedException Brickoo\Library\Storage\Exceptions\ReadonlyModeException
          */
@@ -171,7 +174,7 @@
          */
         public function testGetRegistered()
         {
-            $this->assertSame($this->Registry, $this->Registry->register('name' ,'john'));
+            $this->Registry->register('name' ,'john');
             $this->assertEquals('john', $this->Registry->getRegistered('name'));
         }
 
@@ -232,12 +235,12 @@
         }
 
         /**
-         * Test if a key can be unregistered/removed.
+         * Test if a key can be unregistered.
          * @covers Brickoo\Library\Storage\Registry::unregister
          */
         public function testUnregister()
         {
-            $this->assertSame($this->Registry, $this->Registry->register('name', 'john'));
+            $this->Registry->register('name', 'john');
             $this->assertSame($this->Registry, $this->Registry->unregister('name'));
         }
 
@@ -284,7 +287,7 @@
          */
         public function testCount()
         {
-            $this->assertSame($this->Registry, $this->Registry->register('name', 'john'));
+            $this->Registry->register('name', 'john');
             $this->assertEquals(1, count($this->Registry));
         }
 
@@ -294,7 +297,7 @@
          */
         public function testCountLocked()
         {
-            $this->assertSame($this->Registry, $this->Registry->register('name', 'john'));
+            $this->Registry->register('name', 'john');
             $this->Registry->lock('name');
             $this->assertEquals(1, $this->Registry->countLocked());
         }
@@ -305,7 +308,7 @@
          */
         public function testMagicFunctionGet()
         {
-            $this->assertSame($this->Registry, $this->Registry->register('name', 'brickoo'));
+            $this->Registry->register('name', 'brickoo');
             $this->assertEquals('brickoo', $this->Registry->name);
         }
 
@@ -344,12 +347,11 @@
         /**
          * Test if read only mode disallows write and allows read permisions.
          * @covers Brickoo\Library\Storage\Registry::isReadOnly
-         * @covers Brickoo\Library\Storage\Registry::setReadOnly
          */
         public function testReadonlyMode()
         {
             $this->assertFalse($this->Registry->isReadOnly());
-            $this->assertSame($this->Registry, $this->Registry->setReadOnly(true));
+            $this->Registry->setReadOnly(true);
             $this->assertTrue($this->Registry->isReadOnly());
         }
 

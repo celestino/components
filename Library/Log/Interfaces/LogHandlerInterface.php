@@ -35,7 +35,7 @@
     /**
      * LogHandlerInterface
      *
-     * The LogHandlerInterface for implementing an adapter to storage of messages to a location.
+     * The LogHandlerInterface for implementing an handler to storage of messages to a location.
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      * @version $Id$
      */
@@ -44,10 +44,10 @@
     {
 
         /**
-         * Logs the passed message to the location.
+         * Logs the passed messages to the location.
          * @param array $messages the messages to log
          * @param integer $severity the severity level to add
-         * @return boolean success
+         * @return object reference
          */
         public function log(array $messages, $severity);
 

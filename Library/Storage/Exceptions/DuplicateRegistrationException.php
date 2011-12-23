@@ -36,7 +36,6 @@
      * DuplicateRegistrationException
      *
      * Exception throwed by the Registry class if trying to register an registered identifier.
-     * @see Brickoo\Library\Storage\Registry:register
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      * @version $Id$
      */

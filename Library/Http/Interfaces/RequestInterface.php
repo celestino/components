@@ -33,15 +33,14 @@
     namespace Brickoo\Library\Http\Interfaces;
 
     /**
-     * HttpRequestInterface
+     * RequestInterface
      *
      * Describes the methods implemented by this interface.
-     * @see Brickoo\Library\Http\Request;
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      * @version $Id$
      */
 
-    Interface HttpRequestInterface
+    Interface RequestInterface
     {
 
         /**
@@ -53,9 +52,10 @@
 
         /**
          * Lazy initialization of the Url instance.
+         * @param UrlInterface $Url the Url objetc implementing the UrlInterface
          * @return object reference
          */
-        public function addUrlSupport(UrlInterface $Url = null);
+        public function setUrlSupport(\Brickoo\Library\Http\Interfaces\UrlInterface $Url);
 
         /**
          * Returns the current request variables order.
@@ -193,6 +193,14 @@
          * @return boolean check result
          */
         public function isSecureConnection();
+
+        /**
+        * Class constructor.
+        * Initializes the class properties.
+        * @param object implementing the Brickoo\Library\Core\Interfaces\RequestInterface
+        * @return void
+        */
+        public function __construct(\Brickoo\Library\Core\Interfaces\RequestInterface $Request);
 
         /**
          * Clears the Request object properties.

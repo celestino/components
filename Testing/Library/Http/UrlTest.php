@@ -31,10 +31,6 @@
      */
 
     use Brickoo\Library\Http\Url;
-    use Brickoo\Library\Core\Request;
-    use Brickoo\Library\Core\Interfaces\RequestInterface;
-    use Brickoo\Library\Http\Request as HttpRequest;
-    use Brickoo\Library\Http\Interfaces\HttpRequestInterface;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -83,7 +79,7 @@
                 }
             }
 
-            $RequestStub->addHttpSupport($HttpRequestStub);
+            $RequestStub->injectHttpRequest($HttpRequestStub);
 
             return $RequestStub;
         }

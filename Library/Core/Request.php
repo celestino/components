@@ -32,12 +32,10 @@
 
     namespace Brickoo\Library\Core;
 
+    use Brickoo\Library\Http;
+    use Brickoo\Library\Cli;
     use Brickoo\Library\Core\Exceptions;
-    use Brickoo\Library\Core\Interfaces\RequestInterface;
-    use Brickoo\Library\Http\Request as HttpRequest;
-    use Brickoo\Library\Cli\Request as CliRequest;
-    use Brickoo\Library\Http\Interfaces\HttpRequestInterface;
-    use Brickoo\Library\Cli\Interfaces\CliRequestInterface;
+    use Brickoo\Library\Core\Interfaces;
     use Brickoo\Library\Validator\TypeValidator;
 
     /**
@@ -48,12 +46,12 @@
      * @version $Id$
      */
 
-    class Request implements RequestInterface
+    class Request implements Interfaces\RequestInterface
     {
 
         /**
-         * Holds an instance of the Cli Request class.
-         * @see Bricko\Library\Cli\Request
+         * Holds an object implementing the RequestInterface.
+         * @see Bricko\Library\Cli\Interfaces\CliRequestInterface
          * @var object
          */
         protected $_Cli;
@@ -61,13 +59,13 @@
         /**
          * Returns the Cli Request object.
          * If the object does not exist, it wll be created.
-         * @return object Cli implementing the CliRequestInterface
+         * @return object Cli implementing the Cli\Interfaces\RequestInterface
          */
         public function Cli()
         {
-            if (! $this->_Cli instanceof CliRequestInterface)
+            if (! $this->_Cli instanceof Cli\Interfaces\RequestInterface)
             {
-                $this->addCliSupport();
+                $this->injectCliRequest(new Cli\Request($this));
             }
 
             return $this->_Cli;
@@ -75,32 +73,25 @@
 
         /**
          * Lazy initialization of the Cli Request instance.
-         * @see Bricko\Library\Cli\Interfaces\CliRequestInterface
+         * @param Cli\Interfaces\RequestInterface $Cli the Cli object implementing the RequestInterface
          * @throws DependencyOverrideException if trying to override the dependency
          * @return object reference
          */
-        public function addCliSupport(CliRequestInterface $Cli = null)
+        public function injectCliRequest(\Brickoo\Library\Cli\Interfaces\RequestInterface $Cli)
         {
             if ($this->_Cli !== null)
             {
-                throw new Exceptions\DependencyOverrideException('CliRequestInterface');
+                throw new Exceptions\DependencyOverrideException('Cli\Interfaces\RequestInterface');
             }
 
-            if ($Cli instanceof CliRequestInterface)
-            {
-                $this->_Cli = $Cli;
-            }
-            else
-            {
-                $this->_Cli = new CliRequest($this);
-            }
+            $this->_Cli = $Cli;
 
             return $this;
         }
 
         /**
          * Holds an instance of the Http Request class.
-         * @see Bricko\Library\HTTP\Request
+         * @see Bricko\Library\HTTP\Interfaces\RequestInterface
          * @var object
          */
         protected $_Http;
@@ -108,13 +99,13 @@
         /**
          * Returns the Http Request object.
          * If the object does not exist, it wll be created.
-         * @return object Cli implementing the CliRequestInterface
+         * @return object Http implementing the Http\Interfaces\RequestInterface
          */
         public function Http()
         {
-            if (! $this->_Http instanceof HttpRequestInterface)
+            if (! $this->_Http instanceof Http\Interfaces\RequestInterface)
             {
-                $this->addHttpSupport();
+                $this->injectHttpRequest(new Http\Request($this));
             }
 
             return $this->_Http;
@@ -122,25 +113,18 @@
 
         /**
          * Lazy initialization of the Http Request instance.
-         * @see Bricko\Library\HTTP\Interfaces\HttpRequestInterface
+         * @param Http\Interfaces\RequestInterface $Http the Http object implementing the RequestInterface
          * @throws DependencyOverrideException if trying to override the dependency
          * @return object reference
          */
-        public function addHttpSupport(HttpRequestInterface $Http = null)
+        public function injectHttpRequest(\Brickoo\Library\Http\Interfaces\RequestInterface $Http)
         {
             if ($this->_Http !== null)
             {
-                throw new Exceptions\DependencyOverrideException('HttpRequestInterface');
+                throw new Exceptions\DependencyOverrideException('Http\Interfaces\RequestInterface');
             }
 
-            if ($Http instanceof HttpRequestInterface)
-            {
-                $this->_Http = $Http;
-            }
-            else
-            {
-                $this->_Http = new HttpRequest($this);
-            }
+            $this->_Http = $Http;
 
             return $this;
         }

@@ -172,8 +172,9 @@
 
             if ($this->displayExceptions !== false)
             {
-                $this->clear();
-                throw new Exceptions\OutputException($message);
+                $this->unregister();
+
+                throw $Exception;
             }
         }
 
