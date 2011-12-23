@@ -55,7 +55,7 @@
          * @param UrlInterface $Url the Url objetc implementing the UrlInterface
          * @return object reference
          */
-        public function setUrlSupport(\Brickoo\Library\Http\Interfaces\UrlInterface $Url);
+        public function injectUrl(\Brickoo\Library\Http\Interfaces\UrlInterface $Url);
 
         /**
          * Returns the current request variables order.

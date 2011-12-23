@@ -35,8 +35,8 @@
     use Brickoo\Library\Error\Exceptions\ErrorHandlerException;
 
     use Brickoo\Library\Core;
+    use Brickoo\Library\Log;
     use Brickoo\Library\Error\Exceptions;
-    use Brickoo\Library\Log\Interfaces\LoggerInterface;
     use Brickoo\Library\Validator\TypeValidator;
 
     /**
@@ -167,7 +167,7 @@
 
             if ($this->hasLogger())
             {
-                return $this->Logger->log($message, LOG_ERR);
+                return $this->Logger->log($message, Log\Logger::SEVERITY_ERROR);
             }
 
             if ($this->displayExceptions !== false)

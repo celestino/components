@@ -95,7 +95,7 @@
          */
         public function testGetDefaultSeverity()
         {
-            $this->assertEquals(LOG_INFO, $this->Logger->getDefaultSeverity());
+            $this->assertEquals(Logger::SEVERITY_INFO, $this->Logger->getDefaultSeverity());
         }
 
         /**
@@ -105,8 +105,8 @@
          */
         public function testSetDefaultSeverity()
         {
-            $this->assertSame($this->Logger, $this->Logger->setDefaultSeverity(LOG_ERR));
-            $this->assertEquals(LOG_ERR, $this->Logger->getDefaultSeverity());
+            $this->assertSame($this->Logger, $this->Logger->setDefaultSeverity(Logger::SEVERITY_ERROR));
+            $this->assertEquals(Logger::SEVERITY_ERROR, $this->Logger->getDefaultSeverity());
         }
 
         /**
@@ -178,7 +178,7 @@
                        ->method('log');
 
             $this->Logger->injectLogHandler($LogHandler);
-            $this->assertSame($this->Logger, $this->Logger->log(array('message1', 'message2'), LOG_ERR));
+            $this->assertSame($this->Logger, $this->Logger->log(array('message1', 'message2'), Logger::SEVERITY_ERROR));
         }
 
         /**

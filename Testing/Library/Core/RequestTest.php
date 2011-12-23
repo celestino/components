@@ -46,7 +46,7 @@
     {
 
         /**
-         * Holds an instance of the Requestobject.
+         * Holds an instance of the Request object.
          * @var object
          */
         protected $Request;

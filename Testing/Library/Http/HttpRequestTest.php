@@ -67,13 +67,11 @@
          */
         protected function getRequestStub(array $requestMethods = null)
         {
-            $RequestStub = $this->getMock
+            return $this->getMock
             (
                 'Brickoo\Library\Core\Request',
                 ($requestMethods === null ? null : array_values($requestMethods))
             );
-
-            return $RequestStub;
         }
 
         /**
@@ -108,7 +106,7 @@
         /**
          * Test if the Url support can be retrieved.
          * @covers Brickoo\Library\Http\Request::Url
-         * @covers Brickoo\Library\Http\Request::setUrlSupport
+         * @covers Brickoo\Library\Http\Request::injectUrl
          */
         public function testGetUrlObject()
         {
@@ -118,19 +116,19 @@
 
         /**
          * Test if the Url passed support can be assigned
-         * @covers Brickoo\Library\Http\Request::setUrlSupport
+         * @covers Brickoo\Library\Http\Request::injectUrl
          */
         public function testSetUrlPassedSupport()
         {
             $UrlMock = $this->getMock('\Brickoo\Library\Http\Interfaces\UrlInterface');
             $HttpRequest = new Request($this->getRequestStub());
-            $HttpRequest->setUrlSupport($UrlMock);
+            $HttpRequest->injectUrl($UrlMock);
             $this->assertSame($UrlMock, $HttpRequest->Url());
         }
 
         /**
          * Test if trying to override the Url object throws an exception.
-         * @covers Brickoo\Library\Http\Request::setUrlSupport
+         * @covers Brickoo\Library\Http\Request::injectUrl
          * @covers Brickoo\Library\Core\Exceptions\DependencyOverrideException
          * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverrideException
          */
@@ -139,7 +137,7 @@
             $HttpRequest = new Request($this->getRequestStub());
             $Url = $HttpRequest->Url();
             $UrlMock = $this->getMock('\Brickoo\Library\Http\Interfaces\UrlInterface');
-            $HttpRequest->setUrlSupport($UrlMock);
+            $HttpRequest->injectUrl($UrlMock);
         }
 
         /**

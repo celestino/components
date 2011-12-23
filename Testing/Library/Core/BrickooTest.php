@@ -62,30 +62,30 @@
 
         /**
          * Test if setting the Registry returns the created Registry object.
-         * @covers Brickoo\Library\Core\Brickoo::setRegistry
+         * @covers Brickoo\Library\Core\Brickoo::injectRegistry
          */
         public function testSetRegistry()
         {
             $this->Brickoo->reset();
 
-            $this->assertSame($this->Brickoo, $this->Brickoo->setRegistry());
+            $this->assertSame($this->Brickoo, $this->Brickoo->injectRegistry());
         }
 
         /**
          * Test if initializing Brickoo returns the passed Registry object.
-         * @covers Brickoo\Library\Core\Brickoo::setRegistry
+         * @covers Brickoo\Library\Core\Brickoo::injectRegistry
          */
         public function testSetPassedRegistry()
         {
             $this->Brickoo->reset();
 
             $RegistryMock = $this->getMock('Brickoo\Library\Storage\Registry');
-            $this->assertSame($this->Brickoo, $this->Brickoo->setRegistry($RegistryMock));
+            $this->assertSame($this->Brickoo, $this->Brickoo->injectRegistry($RegistryMock));
         }
 
         /**
          * Test if the reassigment of an Registry throws an exception.
-         * @covers Brickoo\Library\Core\Brickoo::setRegistry
+         * @covers Brickoo\Library\Core\Brickoo::injectRegistry
          * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverrideException
          */
         public function testSetRegistryDependencyException()
@@ -94,8 +94,8 @@
 
             $RegistryMock = $this->getMock('Brickoo\Library\Storage\Registry');
 
-            $this->Brickoo->setRegistry();
-            $this->Brickoo->setRegistry($RegistryMock);
+            $this->Brickoo->injectRegistry();
+            $this->Brickoo->injectRegistry($RegistryMock);
         }
 
         /**

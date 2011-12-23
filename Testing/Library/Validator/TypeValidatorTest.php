@@ -186,12 +186,10 @@
         /**
          * Test if validation of the isArray method works without flags and different arguments.
          * @covers Brickoo\Library\Validator\TypeValidator::isArray
-         * @expectedException InvalidArgumentException
          */
         public function testIsArray()
         {
-            $this->assertTrue(TypeValidator::Validate('isArray', array(1234)));
-            $this->assertTrue(TypeValidator::Validate('isArray', array(1, 2, 3)));
+            $this->assertTrue(TypeValidator::Validate('isArray', array(array('ok'))));
         }
 
         /**
@@ -229,6 +227,44 @@
                     TypeValidator::FLAG_ARRAY_CAN_BE_EMPTY
                  )
            );
+        }
+
+        /**
+         * Test if validation of the arrayContainsString method works.
+         * @covers Brickoo\Library\Validator\TypeValidator::arrayContainsStrings
+         */
+        public function testArrayContainsStrings()
+        {
+            $this->assertTrue(TypeValidator::Validate('arrayContainsStrings', array(array('ok', 'ok'))));
+        }
+
+        /**
+         * Test if validation of the arrayContainsString method throws an exception.
+         * @covers Brickoo\Library\Validator\TypeValidator::arrayContainsStrings
+         * @expectedException InvalidArgumentException
+         */
+        public function testArrayContainsStringsArgumentException()
+        {
+            TypeValidator::Validate('arrayContainsStrings', array(array('fail', 1, 2, 3)));
+        }
+
+        /**
+         * Test if validation of the arrayContainsString method works.
+         * @covers Brickoo\Library\Validator\TypeValidator::arrayContainsIntegers
+         */
+        public function testArrayContainsIntegers()
+        {
+            $this->assertTrue(TypeValidator::Validate('arrayContainsIntegers', array(array(1, 2, 3))));
+        }
+
+        /**
+         * Test if validation of the arrayContainsString method throws an exception.
+         * @covers Brickoo\Library\Validator\TypeValidator::arrayContainsIntegers
+         * @expectedException InvalidArgumentException
+         */
+        public function testArrayContainsIntegersArgumentException()
+        {
+            TypeValidator::Validate('arrayContainsIntegers', array(array(1, 'throws', 'exception')));
         }
 
         /**

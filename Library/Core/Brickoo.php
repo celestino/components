@@ -54,26 +54,27 @@
         protected static $Registry;
 
         /**
-         * Returns the holded Registry object.
+         * Lazy initialization of the Registry object.
+         * Returns the holded Registry instance.
          * @return Brickoo\Library\Storage\Interfaces\RegistryInterface object reference
          */
         public function getRegistry()
         {
             if (self::$Registry === null)
             {
-                $this->setRegistry(new Storage\Registry());
+                $this->injectRegistry(new Storage\Registry());
             }
 
             return self::$Registry;
         }
 
         /**
-         * Sets the Registry object to use for storing values.
+         * Injects the Registry object to use for storing entries.
          * @param Brickoo\Library\Storage\Interfaces\RegistryInterface $Registry
          * @throws DependencyOverrideException if trying to override dependency
          * @return object reference
          */
-        public function setRegistry(\Brickoo\Library\Storage\Interfaces\RegistryInterface $Registry = null)
+        public function injectRegistry(\Brickoo\Library\Storage\Interfaces\RegistryInterface $Registry = null)
         {
             if (self::$Registry !== null)
             {

@@ -63,6 +63,7 @@
 
         /**
          * Returns the Url object.
+         * Lazy initialization of the Url instance.
          * If the object does not exist, it wll be created.
          * @return object Url implementing the UrlInterface
          */
@@ -70,7 +71,7 @@
         {
             if (! $this->_Url instanceof Interfaces\UrlInterface)
             {
-                $this->setUrlSupport(new Url($this->Request));
+                $this->injectUrl(new Url($this->Request));
             }
 
             return $this->_Url;
@@ -78,10 +79,10 @@
 
         /**
          * Lazy initialization of the Url instance.
-         * @param UrlInterface $Url the Url objetc implementing the UrlInterface
+         * @param UrlInterface $Url the Url object implementing the UrlInterface
          * @return object reference
          */
-        public function setUrlSupport(\Brickoo\Library\Http\Interfaces\UrlInterface $Url)
+        public function injectUrl(\Brickoo\Library\Http\Interfaces\UrlInterface $Url)
         {
             if ($this->_Url !== null)
             {

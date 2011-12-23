@@ -164,7 +164,11 @@
 
             if (! self::$Validator->isMethodAvailable($method))
             {
-                throw new \BadMethodCallException('Method does not exists in the TypeValidator.', E_ERROR);
+                throw new \BadMethodCallException
+                (
+                    sprintf('Method ´%s´ does not exists in the TypeValidator.', $method),
+                    E_ERROR
+                );
             }
 
             if (! self::$Validator->isFlagSupported($flag))
@@ -266,6 +270,40 @@
                     &&
                     is_array($argument)
                 )
+            );
+        }
+
+        /**
+         * Check if the array contains only string values.
+         * @param array $argument the argument to validate
+         * @param integer $flag does not affect
+         * @return boolean check result
+         */
+        public function arrayContainsStrings($argument, $flag = null)
+        {
+            return (
+                is_array($argument)
+                &&
+                ($filtered = array_filter($argument, 'is_string'))
+                &&
+                (count($argument) == count($filtered))
+            );
+        }
+
+        /**
+         * Check if the array contains only integer  values.
+         * @param array $argument the argument to validate
+         * @param integer $flag does not affect
+         * @return boolean check result
+         */
+        public function arrayContainsIntegers($argument, $flag = null)
+        {
+            return (
+                is_array($argument)
+                &&
+                ($filtered = array_filter($argument, 'is_int'))
+                &&
+                (count($argument) == count($filtered))
             );
         }
 

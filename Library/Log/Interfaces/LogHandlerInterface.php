@@ -45,11 +45,11 @@
 
         /**
          * Logs the passed messages to the location.
-         * @param array $messages the messages to log
+         * @param array|string $messages the messages to log
          * @param integer $severity the severity level to add
          * @return object reference
          */
-        public function log(array $messages, $severity);
+        public function log($messages, $severity);
 
     }
 

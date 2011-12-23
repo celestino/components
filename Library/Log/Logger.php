@@ -48,6 +48,19 @@
     {
 
         /**
+        * Holds the severity levels since Windows does have issues.
+        * @var integer
+        */
+        const SEVERITY_EMERGENCY    = 0;
+        const SEVERITY_ALERT        = 1;
+        const SEVERITY_CRITICAL     = 2;
+        const SEVERITY_ERROR        = 3;
+        const SEVERITY_WARNING      = 4;
+        const SEVERITY_NOTICE       = 5;
+        const SEVERITY_INFO         = 6;
+        const SEVERITY_DEBUG        = 7;
+
+        /**
          * Holds the log handler which implements
          * the LogHandlerInterface used for logging.
          * @var Brickoo\Library\Log\Interfaces\LogHandlerInterface
@@ -134,7 +147,7 @@
         public function clear()
         {
             $this->LogHandler         = null;
-            $this->defaultSeverity    = LOG_INFO;
+            $this->defaultSeverity    = self::SEVERITY_INFO;
 
             return $this;
         }
