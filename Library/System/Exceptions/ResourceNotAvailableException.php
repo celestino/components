@@ -30,31 +30,29 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Core\Autoloader;
+    namespace Brickoo\Library\System\Exceptions;
 
     /**
-     * Bootstrap for the Brickoo Framework.
-     * Defines framework constants and initializes the required autoloader.
+     * ResourceNotAvailableException
+     *
+     * Exception throwed if trying to access the resource not available.
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
 
-    // define the Brickoo Framework root directory
-    if (! defined ('BRICKOO_DIR'))
+    class ResourceNotAvailableException extends \Exception
     {
-        define ('BRICKOO_DIR',  realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR);
+
+        /**
+         * Class constructor.
+         * Calls the parent Exception constructor.
+         * @return void
+         */
+        public function __construct()
+        {
+            parent::__construct('The resource is not available.');
+        }
+
     }
-
-    // require the default autoloader must implement the AutoloaderInterface
-    require_once ('Library'. DIRECTORY_SEPARATOR .'Core'. DIRECTORY_SEPARATOR .'Autoloader.php');
-
-    // create the class autoloader instance
-    $Autoloader = new Autoloader();
-
-    // register the brickoo path as new namespace to the autoloader
-    $Autoloader->registerNamespace('Brickoo', BRICKOO_DIR);
-
-    // register the autoloader instance to php
-    $Autoloader->register();
 
 ?>

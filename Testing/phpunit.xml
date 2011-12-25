@@ -3,13 +3,17 @@
     stopOnError="true"
     stopOnFailure="true"
     strict="true"
-    bootstrap="../bootstrap.php">
+    colors="false"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    bootstrap="bootstrap.php">
     <filter>
         <whitelist>
             <!-- path to the brickoo library -->
             <directory suffix=".php">../Library</directory>
             <exclude>
-                <!-- exclude interfaces from the code coverage -->
+                <!-- exclude interfaces from code coverage -->
                 <directory>../Library/*/Interfaces</directory>
             </exclude>
         </whitelist>
