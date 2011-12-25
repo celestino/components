@@ -54,7 +54,7 @@
      * Test case for the Http Request class.
      * @see Brickoo\Library\Http\Request
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id$
+     * @version $Id: HttpRequestTest.php 16 2011-12-23 22:39:50Z celestino $
      */
 
     class HttpRequestTest extends PHPUnit_Framework_TestCase

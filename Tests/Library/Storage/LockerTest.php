@@ -41,7 +41,7 @@
      * Test case for the Locker class.
      * @see Brickoo\Library\Storage\Locker
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id$
+     * @version $Id: LockerTest.php 15 2011-12-23 02:05:32Z celestino $
      */
 
     class LockerTest extends PHPUnit_Framework_TestCase

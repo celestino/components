@@ -41,7 +41,7 @@
      * Test case for the Http Url class.
      * @see Brickoo\Library\Http\Url
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id$
+     * @version $Id: UrlTest.php 15 2011-12-23 02:05:32Z celestino $
      */
 
     class UrlTest extends PHPUnit_Framework_TestCase

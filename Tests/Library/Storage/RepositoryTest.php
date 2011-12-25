@@ -41,7 +41,7 @@
      * Test case for the Repository class.
      * @see Brickoo\Library\Storage\Repository
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id$
+     * @version $Id: RepositoryTest.php 15 2011-12-23 02:05:32Z celestino $
      */
 
      class RepositoryTest extends PHPUnit_Framework_TestCase

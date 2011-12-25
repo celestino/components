@@ -42,7 +42,7 @@
      * Test case for the Logger class.
      * @see Brickoo\Library\Log\Logger
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id$
+     * @version $Id: LoggerTest.php 16 2011-12-23 22:39:50Z celestino $
      */
 
     class LoggerTest extends PHPUnit_Framework_TestCase

@@ -42,7 +42,7 @@
      * Test case for the ExceptionHandler class.
      * @see Brickoo\Library\Error\ExceptionHandler
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id$
+     * @version $Id: ExceptionHandlerTest.php 15 2011-12-23 02:05:32Z celestino $
      */
 
     class ExceptionHandlerTest extends PHPUnit_Framework_TestCase

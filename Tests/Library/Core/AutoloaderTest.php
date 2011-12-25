@@ -34,7 +34,7 @@
      * Test case for the Autoloader class.
      * @see Brickoo\Library\Core\Autoloader
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id$
+     * @version $Id: AutoloaderTest.php 15 2011-12-23 02:05:32Z celestino $
      */
 
     use Brickoo\Library\Core\Autoloader;
@@ -46,7 +46,7 @@
      * Test case for the Repository class.
      * @see Brickoo\Library\Storage\Repository
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id$
+     * @version $Id: AutoloaderTest.php 15 2011-12-23 02:05:32Z celestino $
      */
 
     class AutoloaderTest extends PHPUnit_Framework_TestCase
