@@ -37,123 +37,199 @@
     use Brickoo\Library\Validator\TypeValidator;
 
     /**
-     * FileObject
+     * SocketObject
      *
-     * Implements an OOP wrapper for handling file operations.
-     * The SplFileObject has not an implementation for changing or just close
-     * and open the location anytime, that´s the reason why i did created this version.
-     * The resource handle is created and closed by the FileObject,
-     * that´s the reason why fopen() and fclose() are not supported as magic method.
-     * The managing of the resource makes it possible to configure the FileObject at any time
-     * and the resource handle will be just created if file accessing is realy done later on.
-     * This class does not implement all functions available for file handling,
-     * BUT(!) you can use any file function which expects the resource handle as first argument.
-     * Examples:
+     * Implements an OOP wrapper for handling socket operations.
+     * The resource handle is created and closed by the SocketObject,
+     * that´s the reason why fsockopen() and fclose() are not supported as magic method.
+     * The managing of the resource makes it possible to configure the SocketObject at any time
+     * and the resource handle will be just created if socket accessing is realy done later on.
+     * This class does not implement all functions available for socket handling,
+     * BUT(!) you can use any socket function which expects the resource handle as first argument.
+     * Example:
      * <code>
-     *     // Not implemented fseek() and fread() but supported, notify the resource handle is not passed !
-     *     $FileObject =  new Brickoo\Library\System\FileObject();
-     *     $FileObject->setLocation('/path/to/file.txt')->setMode('r');
-     *     $FileObject->fseek(100);
-     *     $content  = $FileObject->read(1024); // implemented with mode check
-     *     $content .= $FileObject->fread(1024); // default php function
-     *     $FileObject->close();
-     *     var_dump($content);
+     *     // Not implemented fwrite(), feof() and fread() but supported, notify the resource handle is not passed !
+     *     $SocketObject =  new Brickoo\Library\System\SocketObject();
+     *     $SocketObject->setServerAdress('sourceforge.net')
+     *                  ->setServerPort(80)
+     *                  ->setTimeout(10);
+     *     $SocketObject->fwrite("GET /projects/brickoo/ HTTP/1.1\r\n"); // default php function
+     *     $SocketObject->fwrite("Host: " . $SocketObject->getServerAdress() . "\r\n");
+     *     $SocketObject->fwrite("\r\n\r\n");
      *
-     *     // Not implemented feof() but supported, reading a file until end of file
-     *     $content = ''
-     *     $FileObject =  new Brickoo\Library\System\FileObject();
-     *     $FileObject->setLocation('/path/to/file.txt')->setMode('r');
-     *     while(! $FileObject->feof())
+     *     $HTML = '';
+     *     while(! $SocketObject->feof()) //default php function
      *     {
-     *         $content .= $FileObject->read(1024);
+     *         $HTML .= $SocketObject->fread(1024); // default php function
      *     }
-     *     $FileObject->close();
-     *     var_dump($content);
+     *     $SocketObject->close();
+     *     echo($HTML);
      * </code>
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      * @version $Id$
      */
 
-    class FileObject implements Interfaces\FileObjectInterface
+    class SocketObject implements Interfaces\SocketObjectInterface
     {
 
         /**
-         * Holds the location to open.
+         * Holds the protocol using.
          * @var string
          */
-        protected $location;
+        protected $protocol;
 
         /**
-         * Returns the current location used.
-         * @throws \UnexpectedValueException if no location has been assigned
-         * @return string the current location
+         * Returns the current protocol used.
+         * @return string the current protocol or empty string
          */
-        public function getLocation()
+        public function getProtocol()
         {
-            if ($this->location === null)
+            if ($this->protocol === null)
             {
-                throw new \UnexpectedValueException('The location is ´null´.');
+                return '';
             }
 
-            return $this->location;
+            return $this->protocol;
         }
 
         /**
-         * Sets the location to use for file operations.
-         * @param string $location the location to use
+         * Sets the protocol to use with the adress.
+         * @param string $protocol the protocol to use
          * @throws Exceptions\ResourceAlreadyExistsException if the resource already exists
          * @return object reference
          */
-        public function setLocation($location)
+        public function setProtocol($protocol)
         {
-            TypeValidator::Validate('isString', array($location));
+            TypeValidator::Validate('isString', array($protocol));
 
             if ($this->hasResource())
             {
                 throw new Exceptions\ResourceAlreadyExistsException();
             }
 
-            $this->location = $location;
+            $this->protocol = $protocol. '://';
 
             return $this;
         }
 
         /**
-         * Holds the mode to use.
+         * Holds the server adress to connect to.
          * @var string
          */
-        protected $mode;
+        protected $serverAdress;
 
         /**
-         * Returns the current mode used.
-         * @throws \UnexpectedValueException if no mode has been assigned
-         * @return string the current mode
+         * Returns the current server adress used.
+         * @throws \UnexpectedValueException if server adress is not set
+         * @return string the server adress
          */
-        public function getMode()
+        public function getServerAdress()
         {
-            if ($this->mode === null)
+            if ($this->serverAdress === null)
             {
-                throw new \UnexpectedValueException('The mode is ´null´.');
+                throw new \UnexpectedValueException('The server adress is ´null´.');
             }
-            return $this->mode;
+            return $this->serverAdress;
         }
 
         /**
-         * Sets the mode for the file operation.
-         * @param string $mode the mode to use
+         * Sets the severAdress to connect to.
+         * @param string $severAdress the serverAdress to use
          * @throws Exceptions\ResourceAlreadyExistsException if the resource already exists
          * @return object reference
          */
-        public function setMode($mode)
+        public function setServerAdress($serverAdress)
         {
-            TypeValidator::Validate('useRegex', array(array('~^[acwrx]([\+])?$~', $mode)));
+            TypeValidator::Validate('isString', array($serverAdress));
 
             if ($this->hasResource())
             {
                 throw new Exceptions\ResourceAlreadyExistsException();
             }
 
-            $this->mode = $mode;
+            $this->serverAdress = $serverAdress;
+
+            return $this;
+        }
+
+        /**
+         * Holds the server port number to connect to.
+         * @var integer
+         */
+        protected $serverPort;
+
+        /**
+         * Returns the server port assigned.
+         * @throws \UnexpectedValueException if the server port is not set
+         * @return integer the server port number
+         */
+        public function getServerPort()
+        {
+            if ($this->serverPort === null)
+            {
+                throw new \UnexpectedValueException('The server port is ´null´.');
+            }
+
+            return $this->serverPort;
+        }
+
+        /**
+         * Sets the server port to connect to.
+         * @param integer $serverPort the server port to use
+         * @throws Exceptions\ResourceAlreadyExistsException if the resource already exists
+         * @return object reference
+         */
+        public function setServerPort($serverPort)
+        {
+            TypeValidator::Validate('isInteger', array($serverPort));
+
+            if ($this->hasResource())
+            {
+                throw new Exceptions\ResourceAlreadyExistsException();
+            }
+
+            $this->serverPort = $serverPort;
+
+            return $this;
+        }
+
+        /**
+         * Holds the connection timeout in seconds.
+         * @var integer
+         */
+        protected $timeout;
+
+        /**
+         * Returns the connection timeout in seconds.
+         * @throws \UnexpectedValueException if the timeout is not set
+         * @return integer the connection timeout in seconds
+         */
+        public function getTimeout()
+        {
+            if ($this->timeout === null)
+            {
+                throw new \UnexpectedValueException('The timeout is ´null´.');
+            }
+
+            return $this->timeout;
+        }
+
+        /**
+         * Sets the connection timeout in seconds.
+         * @param integer $timeout the connection timeout to use
+         * @throws Exceptions\ResourceAlreadyExistsException if the resource already exists
+         * @return object reference
+         */
+        public function setTimeout($timeout)
+        {
+            TypeValidator::Validate('isInteger', array($timeout));
+
+            if ($this->hasResource())
+            {
+                throw new Exceptions\ResourceAlreadyExistsException();
+            }
+
+            $this->timeout = $timeout;
 
             return $this;
         }
@@ -177,9 +253,19 @@
                 throw new Exceptions\ResourceAlreadyExistsException();
             }
 
-            if (! $this->resource = @fopen($this->getLocation(), $this->getMode()))
+            if
+            (
+                ! $this->resource = @fsockopen
+                (
+                    $this->getProtocol() . $this->getServerAdress(),
+                    $this->getServerPort(),
+                    $errorNumber,
+                    $errorMessage,
+                    $this->getTimeout()
+                )
+            )
             {
-                throw new Exceptions\UnableToCreateResourceException($this->getLocation());
+                throw new Exceptions\UnableToCreateResourceException($this->getProtocol() . $this->getServerAdress());
             }
 
             return $this->resource;
@@ -188,13 +274,13 @@
         /**
          * Lazy resource handle creation.
          * Returns the current used resource.
-         * @return resource the resoruce handle
+         * @return resource the resource handle
          */
         public function getResource()
         {
             if (! $this->hasResource())
             {
-                $this->open($this->getLocation(), $this->getMode());
+                $this->open();
             }
 
             return $this->resource;
@@ -242,12 +328,11 @@
         */
         public function clear()
         {
-            $this->removeResource();
-
-            $this->location    = null;
-            $this->filename    = null;
-            $this->mode        = null;
-            $this->resource    = null;
+            $this->protocol        = null;
+            $this->serverAdress    = null;
+            $this->serverPort      = null;
+            $this->timeout         = null;
+            $this->resource        = null;
 
             return $this;
         }
@@ -259,44 +344,6 @@
         public function __destruct()
         {
             $this->removeResource();
-        }
-
-        /**
-         * Writes the data into the file location.
-         * Makes sure the mode supports write operations.
-         * @param integer|string $data the data to write
-         * @return object reference;
-         */
-        public function write($data)
-        {
-            TypeValidator::Validate('isStringOrInteger', array($data));
-
-            if (($mode = $this->getMode()) == 'r')
-            {
-                throw new Exceptions\InvalidModeOperationException($mode);
-            }
-
-            fwrite($this->getResource(), $data);
-
-            return $this;
-        }
-
-        /**
-         * Reads the passed bytes of data from the file location.
-         * Makes sure the mode supports read operations.
-         * @param integer the amount of bytes to read from
-         * @return string the readed content bytes
-         */
-        public function read($bytes)
-        {
-            TypeValidator::Validate('isInteger', array($bytes), TypeValidator::FLAG_INTEGER_CAN_NOT_BE_ZERO);
-
-            if (preg_match('~^[waxc]$~', ($mode = $this->getMode())))
-            {
-                throw new Exceptions\InvalidModeOperationException($mode);
-            }
-
-            return fread($this->getResource(), $bytes);
         }
 
         /**
@@ -329,7 +376,7 @@
         {
             if
             (
-                ($function == 'fopen') ||
+                ($function == 'fsockopen') ||
                 ($function == 'fclose')
             )
             {
@@ -343,6 +390,7 @@
 
             return call_user_func_array($function, $arguments);
         }
+
     }
 
 ?>

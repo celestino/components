@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2008-2011, Celestino Diaz Teran <celestino@users.sourceforge.net>.
+     * Copyright (c) 2011-2012, Celestino Diaz Teran <celestino@users.sourceforge.net>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,7 @@
      * Test case for the FileObject class.
      * @see Brickoo\Library\System\FileObject
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
-     * @version $Id: $
+     * @version $Id$
      */
     class FileObjectTest extends PHPUnit_Framework_TestCase
     {
@@ -99,7 +99,9 @@
          */
         public function testSetLocationResourceException()
         {
-            $this->FileObject->open('php://memory', 'r');
+            $this->FileObject->setLocation('php://memory')
+                             ->setMode('r')
+                             ->open();
             $this->FileObject->setLocation('/other/place/test.txt');
         }
 
@@ -170,7 +172,9 @@
          */
         public function testSetModeResourceException()
         {
-            $this->FileObject->open('php://memory', 'r');
+            $this->FileObject->setLocation('php://memory')
+                             ->setMode('r')
+                             ->open();
             $this->FileObject->setMode('w');
         }
 
@@ -180,7 +184,9 @@
          */
         public function testOpen()
         {
-            $this->assertInternalType('resource', $this->FileObject->open('php://memory', 'r'));
+            $this->FileObject->setLocation('php://memory')
+                             ->setMode('r');
+            $this->assertInternalType('resource', $this->FileObject->open());
         }
 
         /**
@@ -191,19 +197,23 @@
          */
         public function testOpenDuplicateResourceException()
         {
-            $this->FileObject->open('php://memory', 'r');
-            $this->FileObject->open('php://memory', 'w');
+            $this->FileObject->setLocation('php://memory')
+                             ->setMode('r');
+            $this->FileObject->open();
+            $this->FileObject->open();
         }
 
         /**
          * Trying to create a new resource while one exists throws an exception.
          * @covers Brickoo\Library\System\FileObject::open
-         * @covers Brickoo\Library\System\Exceptions\UnableToOpenResourceException
-         * @expectedException Brickoo\Library\System\Exceptions\UnableToOpenResourceException
+         * @covers Brickoo\Library\System\Exceptions\UnableToCreateResourceException
+         * @expectedException Brickoo\Library\System\Exceptions\UnableToCreateResourceException
          */
         public function testOpenCreateResourceException()
         {
-            $this->FileObject->open('php://path/does/not/exist', 'r');
+            $this->FileObject->setLocation('php://path/does/not/exist')
+                             ->setMode('r');
+            $this->FileObject->open();
         }
 
         /**
@@ -212,8 +222,8 @@
          */
         public function testGetResource()
         {
-            $this->FileObject->setLocation('php://memory');
-            $this->FileObject->setMode('r');
+            $this->FileObject->setLocation('php://memory')
+                             ->setMode('r');
             $this->assertInternalType('resource' , $this->FileObject->getResource());
         }
 
@@ -224,7 +234,9 @@
         public function testHasResource()
         {
             $this->assertFalse($this->FileObject->hasResource());
-            $this->FileObject->open('php://memory', 'r');
+            $this->FileObject->setLocation('php://memory')
+                             ->setMode('r')
+                             ->open();
             $this->assertTrue($this->FileObject->hasResource());
         }
 
@@ -234,7 +246,9 @@
          */
         public function testRemoveResource()
         {
-             $this->FileObject->open('php://memory', 'r');
+            $this->FileObject->setLocation('php://memory')
+                             ->setMode('r')
+                             ->open();
             $this->assertSame($this->FileObject, $this->FileObject->removeResource());
         }
 
@@ -268,8 +282,8 @@
         public function testWrite()
         {
             $data = 'some data save to file';
-            $this->FileObject->setLocation('php://memory');
-            $this->FileObject->setMode('w+');
+            $this->FileObject->setLocation('php://memory')
+                             ->setMode('w+');
             $this->assertSame($this->FileObject, $this->FileObject->write($data));
         }
 
@@ -291,8 +305,8 @@
          */
         public function testWriteInvalidModeOperationException()
         {
-            $this->FileObject->setMode('r');
-            $this->FileObject->write('fails');
+            $this->FileObject->setMode('r')
+                             ->write('fails');
         }
 
         /**
@@ -302,11 +316,10 @@
         public function testRead()
         {
             $data = 'some data save to file';
-            $this->FileObject->setLocation('php://memory');
-            $this->FileObject->setMode('w+');
-            $this->FileObject->write($data);
-
-            $this->FileObject->fseek(0);
+            $this->FileObject->setLocation('php://memory')
+                             ->setMode('w+')
+                             ->write($data)
+                             ->fseek(0);
             $this->assertEquals($data, $this->FileObject->read(strlen($data)));
         }
 
@@ -338,8 +351,8 @@
          */
         public function testClose()
         {
-            $this->FileObject->setLocation('php://memory');
-            $this->FileObject->setMode('r');
+            $this->FileObject->setLocation('php://memory')
+                             ->setMode('r');
             $this->assertInternalType('resource', $this->FileObject->getResource());
             $this->assertSame($this->FileObject, $this->FileObject->close());
         }
@@ -362,8 +375,8 @@
         public function test__call()
         {
             $originalData = 'some data to test with magic functions';
-            $this->FileObject->setLocation('php://memory');
-            $this->FileObject->setMode('w+');
+            $this->FileObject->setLocation('php://memory')
+                             ->setMode('w+');
             $this->assertEquals(strlen($originalData), $this->FileObject->fwrite($originalData)); // magic
 
             $this->assertEquals(0, $this->FileObject->fseek(0)); // magic

@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2008-2011, Celestino Diaz Teran <celestino@users.sourceforge.net>.
+     * Copyright (c) 2011-2012, Celestino Diaz Teran <celestino@users.sourceforge.net>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -73,13 +73,11 @@
 
         /**
         * Opens the file to store the resource handle.
-        * @param string $location the location of the file to open
-        * @param string $mode the mode to use
         * @throws Exceptions\ResourceAlreadyExistsException if the resource already exists
         * @throws Exceptions\UnableToCreateResource if the resource can not be created
         * @return reource the file handle resource
         */
-        public function open($location, $mode);
+        public function open();
 
         /**
          * Returns the current used resource or creates one if none is used.
