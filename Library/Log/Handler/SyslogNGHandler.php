@@ -363,7 +363,7 @@
             TypeValidator::Validate('isInteger', array($severity));
 
             $SocketObject = $this->getSocketObject();
-            $SocketObject->setProtocol('upd')
+            $SocketObject->setProtocol('udp')
                          ->setServerAdress($this->getServerAdress())
                          ->setServerPort($this->getServerPort())
                          ->setTimeout($this->getTimeout());
