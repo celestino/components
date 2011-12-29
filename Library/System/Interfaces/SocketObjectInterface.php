@@ -52,7 +52,7 @@
         /**
          * Sets the protocol to use with the adress.
          * @param string $protocol the protocol to use
-         * @throws Exceptions\ResourceAlreadyExistsException if the resource already exists
+         * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
          * @return object reference
          */
         public function setProtocol($protocol);
@@ -67,7 +67,7 @@
         /**
          * Sets the severAdress to connect to.
          * @param string $severAdress the serverAdress to use
-         * @throws Exceptions\ResourceAlreadyExistsException if the resource already exists
+         * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
          * @return object reference
          */
         public function setServerAdress($serverAdress);
@@ -82,7 +82,7 @@
         /**
          * Sets the server port to connect to.
          * @param integer $serverPort the server port to use
-         * @throws Exceptions\ResourceAlreadyExistsException if the resource already exists
+         * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
          * @return object reference
          */
         public function setServerPort($serverPort);
@@ -97,38 +97,38 @@
         /**
          * Sets the connection timeout in seconds.
          * @param integer $timeout the connection timeout to use
-         * @throws Exceptions\ResourceAlreadyExistsException if the resource already exists
+         * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
          * @return object reference
          */
         public function setTimeout($timeout);
 
         /**
-         * Opens the file to store the resource handle.
-         * @throws Exceptions\ResourceAlreadyExistsException if the resource already exists
-         * @throws Exceptions\UnableToCreateResourceException if the resource can not be opened
-         * @return reource the file handle resource
+         * Opens the file to store the handle handle.
+         * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
+         * @throws Exceptions\UnableToCreateHandleException if the handle can not be opened
+         * @return reource the file handle handle
          */
         public function open();
 
         /**
-         * Lazy resource handle creation.
-         * Returns the current used resource.
-         * @return resource the resource handle
+         * Lazy handle handle creation.
+         * Returns the current used handle.
+         * @return handle the handle handle
          */
-        public function getResource();
+        public function getHandle();
 
         /**
-         * Checks if a resource has been created.
+         * Checks if a handle has been created.
          * @return boolean check result
          */
-        public function hasResource();
+        public function hasHandle();
 
         /**
-         * Removes the holded resource by closing the data handle.
+         * Removes the holded handle by closing the data handle.
          * This method does not throw an exception like the explicit FileObject::close does.
          * @return object reference
          */
-        public function removeResource();
+        public function removeHandle();
 
         /**
          * Class constructor.
@@ -144,14 +144,14 @@
         public function clear();
 
         /**
-         * Removes the resource handle if available.
+         * Removes the handle handle if available.
          * @return void
          */
         public function __destruct();
 
         /**
          * Closes the data handle and frees the holded ressource.
-         * @throws Exceptions\ResourceNotAvailableException if the resource is not initialized
+         * @throws Exceptions\HandleNotAvailableException if the handle is not initialized
          * @return object reference
          */
         public function close();

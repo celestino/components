@@ -115,12 +115,12 @@
         }
 
         /**
-         * Test if a resource is available trying to change the protocol throws an exception.
+         * Test if a handle is available trying to change the protocol throws an exception.
          * @covers Brickoo\Library\System\SocketObject::setProtocol
-         * @covers Brickoo\Library\System\Exceptions\ResourceAlreadyExistsException
-         * @expectedException Brickoo\Library\System\Exceptions\ResourceAlreadyExistsException
+         * @covers Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
+         * @expectedException Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
          */
-        public function testSetProtocolResourceException()
+        public function testSetProtocolHandleException()
         {
             $this->SocketObjectFixture->setProtocol('udp');
         }
@@ -166,12 +166,12 @@
         }
 
         /**
-         * Test if a resource is available trying to change the server adress throws an exception.
+         * Test if a handle is available trying to change the server adress throws an exception.
          * @covers Brickoo\Library\System\SocketObject::setServerAdress
-         * @covers Brickoo\Library\System\Exceptions\ResourceAlreadyExistsException
-         * @expectedException Brickoo\Library\System\Exceptions\ResourceAlreadyExistsException
+         * @covers Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
+         * @expectedException Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
          */
-        public function testSetServerAdressResourceException()
+        public function testSetServerAdressHandleException()
         {
             $this->SocketObjectFixture->setServerAdress('someadress.com');
         }
@@ -217,12 +217,12 @@
         }
 
         /**
-         * Test if a resource is available trying to change the server port throws an exception.
+         * Test if a handle is available trying to change the server port throws an exception.
          * @covers Brickoo\Library\System\SocketObject::setServerPort
-         * @covers Brickoo\Library\System\Exceptions\ResourceAlreadyExistsException
-         * @expectedException Brickoo\Library\System\Exceptions\ResourceAlreadyExistsException
+         * @covers Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
+         * @expectedException Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
          */
-        public function testSetServerPortResourceException()
+        public function testSetServerPortHandleException()
         {
             $this->SocketObjectFixture->setServerPort(1024);
         }
@@ -268,12 +268,12 @@
         }
 
         /**
-         * Test if a resource is available trying to change the timeout throws an exception.
+         * Test if a handle is available trying to change the timeout throws an exception.
          * @covers Brickoo\Library\System\SocketObject::setTimeout
-         * @covers Brickoo\Library\System\Exceptions\ResourceAlreadyExistsException
-         * @expectedException Brickoo\Library\System\Exceptions\ResourceAlreadyExistsException
+         * @covers Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
+         * @expectedException Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
          */
-        public function testSetTimeoutResourceException()
+        public function testSetTimeoutHandleException()
         {
             $this->SocketObjectFixture->setTimeout(1024);
         }
@@ -295,10 +295,10 @@
         /**
          * Test if trying to reopen a socket connection throws an exception.
          * @covers Brickoo\Library\System\SocketObject::open
-         * @covers Brickoo\Library\System\Exceptions\ResourceAlreadyExistsException
-         * @expectedException Brickoo\Library\System\Exceptions\ResourceAlreadyExistsException
+         * @covers Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
+         * @expectedException Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
          */
-        public function testOpenResourceExistsException()
+        public function testOpenHandleExistsException()
         {
             $this->SocketObject->setProtocol('tcp')
                                ->setServerAdress('sourceforge.com')
@@ -310,12 +310,12 @@
         }
 
         /**
-         * Test if a failure of creating the resource throws an exception.
+         * Test if a failure of creating the handle throws an exception.
          * @covers Brickoo\Library\System\SocketObject::open
-         * @covers Brickoo\Library\System\Exceptions\UnableToCreateResourceException
-         * @expectedException Brickoo\Library\System\Exceptions\UnableToCreateResourceException
+         * @covers Brickoo\Library\System\Exceptions\UnableToCreateHandleException
+         * @expectedException Brickoo\Library\System\Exceptions\UnableToCreateHandleException
          */
-        public function testOpenResourceException()
+        public function testOpenHandleException()
         {
             $this->SocketObject->setProtocol('whatever')
                                ->setServerAdress('sourceforge.com')
@@ -326,46 +326,46 @@
         }
 
         /**
-         * Test if the resource can be retrived.
-         * @covers Brickoo\Library\System\SocketObject::getResource
+         * Test if the handle can be retrived.
+         * @covers Brickoo\Library\System\SocketObject::getHandle
          */
-        public function testGetResource()
+        public function testGetHandle()
         {
-            $this->assertInternalType('resource', $this->SocketObjectFixture->getResource());
+            $this->assertInternalType('resource', $this->SocketObjectFixture->getHandle());
         }
 
         /**
-         * Test if the resource opened can be retrived.
-         * @covers Brickoo\Library\System\SocketObject::getResource
+         * Test if the handle opened can be retrived.
+         * @covers Brickoo\Library\System\SocketObject::getHandle
          */
-        public function testGetResourceWithOpen()
+        public function testGetHandleWithOpen()
         {
             $this->SocketObject->setProtocol('tcp')
                                ->setServerAdress('sourceforge.com')
                                ->setServerPort(80)
                                ->setTimeout(10);
-            $this->assertInternalType('resource', $this->SocketObject->getResource());
+            $this->assertInternalType('resource', $this->SocketObject->getHandle());
         }
 
         /**
-         * Test if the resource is recognized.
-         * @covers Brickoo\Library\System\SocketObject::hasResource
+         * Test if the handle is recognized.
+         * @covers Brickoo\Library\System\SocketObject::hasHandle
          */
-        public function testHasResource()
+        public function testHasHandle()
         {
-            $this->assertFalse($this->SocketObject->hasResource());
-            $this->assertTrue($this->SocketObjectFixture->hasResource());
+            $this->assertFalse($this->SocketObject->hasHandle());
+            $this->assertTrue($this->SocketObjectFixture->hasHandle());
         }
 
         /**
-         * Test if the resource can be removed.
-         * @covers Brickoo\Library\System\SocketObject::removeResource
+         * Test if the handle can be removed.
+         * @covers Brickoo\Library\System\SocketObject::removeHandle
          */
-        public function testRemoveResource()
+        public function testRemoveHandle()
         {
-            $this->assertTrue($this->SocketObjectFixture->hasResource());
-            $this->assertSame($this->SocketObjectFixture, $this->SocketObjectFixture->removeResource());
-            $this->assertFalse($this->SocketObjectFixture->hasResource());
+            $this->assertTrue($this->SocketObjectFixture->hasHandle());
+            $this->assertSame($this->SocketObjectFixture, $this->SocketObjectFixture->removeHandle());
+            $this->assertFalse($this->SocketObjectFixture->hasHandle());
         }
 
         /**
@@ -378,21 +378,21 @@
         }
 
         /**
-         * Test if the resource is removed if the object is destroyed.
+         * Test if the handle is removed if the object is destroyed.
          * @covers Brickoo\Library\System\SocketObject::__destruct
          */
         public function test__destruct()
         {
-            $SocketObjectStub = $this->getMock('Brickoo\Library\System\SocketObject', array('removeResource'));
+            $SocketObjectStub = $this->getMock('Brickoo\Library\System\SocketObject', array('removeHandle'));
             $SocketObjectStub->expects($this->once())
-                            ->method('removeResource')
+                            ->method('removeHandle')
                             ->will($this->returnSelf());
 
             $this->assertNull($SocketObjectStub->__destruct());
         }
 
         /**
-         * Test if the resource can be close ant he object reference is returned.
+         * Test if the handle can be close ant he object reference is returned.
          * @covers Brickoo\Library\System\SocketObject::close
          */
         public function testClose()
@@ -401,12 +401,12 @@
         }
 
         /**
-         * Test if trying to close an resource not available throws an exception.
+         * Test if trying to close an handle not available throws an exception.
          * @covers Brickoo\Library\System\SocketObject::close
-         * @covers Brickoo\Library\System\Exceptions\ResourceNotAvailableException
-         * @expectedException Brickoo\Library\System\Exceptions\ResourceNotAvailableException
+         * @covers Brickoo\Library\System\Exceptions\HandleNotAvailableException
+         * @expectedException Brickoo\Library\System\Exceptions\HandleNotAvailableException
          */
-        public function testCloseResourceException()
+        public function testCloseHandleException()
         {
             $this->SocketObject->close();
         }
@@ -444,13 +444,13 @@
     }
 
     /**
-     * SocketObjectFixture with the resource assigned.
+     * SocketObjectFixture with the handle assigned.
      */
     class SocketObjectFixture extends SocketObject
     {
         public function __construct()
         {
-            $this->resource = fopen('php://memory', 'w+');
+            $this->handle = fopen('php://memory', 'w+');
         }
     }
 

@@ -39,7 +39,7 @@
     /**
      * Url
      *
-     * Url class for Uniform Resource Locator specified tasks.
+     * Url class for Uniform Handle Locator specified tasks.
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      * @version $Id$
      */

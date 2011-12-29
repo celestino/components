@@ -33,14 +33,14 @@
     namespace Brickoo\Library\System\Exceptions;
 
     /**
-     * ResourceNotAvailableException
+     * HandleAlreadyExistsException
      *
-     * Exception throwed if trying to access the resource not available.
+     * Exception throwed if trying to create a handle handle which already exists.
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      * @version $Id$
      */
 
-    class ResourceNotAvailableException extends \Exception
+    class HandleAlreadyExistsException extends \Exception
     {
 
         /**
@@ -50,7 +50,7 @@
          */
         public function __construct()
         {
-            parent::__construct('The resource is not available.');
+            parent::__construct('The handle handle already exists. Unable to change property.');
         }
 
     }

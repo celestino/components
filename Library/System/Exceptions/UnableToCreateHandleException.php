@@ -33,25 +33,25 @@
     namespace Brickoo\Library\System\Exceptions;
 
     /**
-     * UnableToCreateResourceException
+     * UnableToCreateHandleException
      *
-     * Exception throwed if a resource could not be opened.
+     * Exception throwed if a handle could not be opened.
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      * @version $Id$
      */
 
-    class UnableToCreateResourceException extends \Exception
+    class UnableToCreateHandleException extends \Exception
     {
 
         /**
          * Class constructor.
          * Calls the parent Exception constructor.
-         * @param string $location the location from which the resource could not be opened.
+         * @param string $location the location from which the handle could not be opened.
          * @return void
          */
         public function __construct($location)
         {
-            parent::__construct(sprintf('The resource for the location ´%s´ could not be opened.', $location));
+            parent::__construct(sprintf('The handle for the location ´%s´ could not be opened.', $location));
         }
 
     }

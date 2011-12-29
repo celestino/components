@@ -92,12 +92,12 @@
         }
 
         /**
-         * Trying to set a new location while resource exists throws an exception.
+         * Trying to set a new location while handle exists throws an exception.
          * @covers Brickoo\Library\System\FileObject::setLocation
-         * @covers Brickoo\Library\System\Exceptions\ResourceAlreadyExistsException
-         * @expectedException Brickoo\Library\System\Exceptions\ResourceAlreadyExistsException
+         * @covers Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
+         * @expectedException Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
          */
-        public function testSetLocationResourceException()
+        public function testSetLocationHandleException()
         {
             $this->FileObject->setLocation('php://memory')
                              ->setMode('r')
@@ -165,12 +165,12 @@
         }
 
         /**
-         * Trying to set a new mode while resource exists throws an exception.
+         * Trying to set a new mode while handle exists throws an exception.
          * @covers Brickoo\Library\System\FileObject::setMode
-         * @covers Brickoo\Library\System\Exceptions\ResourceAlreadyExistsException
-         * @expectedException Brickoo\Library\System\Exceptions\ResourceAlreadyExistsException
+         * @covers Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
+         * @expectedException Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
          */
-        public function testSetModeResourceException()
+        public function testSetModeHandleException()
         {
             $this->FileObject->setLocation('php://memory')
                              ->setMode('r')
@@ -179,7 +179,7 @@
         }
 
         /**
-         * Test if a resource can be created.
+         * Test if a handle can be created.
          * @covers Brickoo\Library\System\FileObject::open
          */
         public function testOpen()
@@ -190,12 +190,12 @@
         }
 
         /**
-         * Trying to create a new resource while one exists throws an exception.
+         * Trying to create a new handle while one exists throws an exception.
          * @covers Brickoo\Library\System\FileObject::open
-         * @covers Brickoo\Library\System\Exceptions\ResourceAlreadyExistsException
-         * @expectedException Brickoo\Library\System\Exceptions\ResourceAlreadyExistsException
+         * @covers Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
+         * @expectedException Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
          */
-        public function testOpenDuplicateResourceException()
+        public function testOpenDuplicateHandleException()
         {
             $this->FileObject->setLocation('php://memory')
                              ->setMode('r');
@@ -204,12 +204,12 @@
         }
 
         /**
-         * Trying to create a new resource while one exists throws an exception.
+         * Trying to create a new handle while one exists throws an exception.
          * @covers Brickoo\Library\System\FileObject::open
-         * @covers Brickoo\Library\System\Exceptions\UnableToCreateResourceException
-         * @expectedException Brickoo\Library\System\Exceptions\UnableToCreateResourceException
+         * @covers Brickoo\Library\System\Exceptions\UnableToCreateHandleException
+         * @expectedException Brickoo\Library\System\Exceptions\UnableToCreateHandleException
          */
-        public function testOpenCreateResourceException()
+        public function testOpenCreateHandleException()
         {
             $this->FileObject->setLocation('php://path/does/not/exist')
                              ->setMode('r');
@@ -217,39 +217,39 @@
         }
 
         /**
-         * Test if a resource can be returned.
-         * @covers Brickoo\Library\System\FileObject::getResource
+         * Test if a handle can be returned.
+         * @covers Brickoo\Library\System\FileObject::getHandle
          */
-        public function testGetResource()
+        public function testGetHandle()
         {
             $this->FileObject->setLocation('php://memory')
                              ->setMode('r');
-            $this->assertInternalType('resource' , $this->FileObject->getResource());
+            $this->assertInternalType('resource' , $this->FileObject->getHandle());
         }
 
         /**
-         * Test is the resource can be checked as available.
-         * @covers Brickoo\Library\System\FileObject::hasResource
+         * Test is the handle can be checked as available.
+         * @covers Brickoo\Library\System\FileObject::hasHandle
          */
-        public function testHasResource()
+        public function testHasHandle()
         {
-            $this->assertFalse($this->FileObject->hasResource());
+            $this->assertFalse($this->FileObject->hasHandle());
             $this->FileObject->setLocation('php://memory')
                              ->setMode('r')
                              ->open();
-            $this->assertTrue($this->FileObject->hasResource());
+            $this->assertTrue($this->FileObject->hasHandle());
         }
 
         /**
-         * Test is the resource can removed.
-         * @covers Brickoo\Library\System\FileObject::removeResource
+         * Test is the handle can removed.
+         * @covers Brickoo\Library\System\FileObject::removeHandle
          */
-        public function testRemoveResource()
+        public function testRemoveHandle()
         {
             $this->FileObject->setLocation('php://memory')
                              ->setMode('r')
                              ->open();
-            $this->assertSame($this->FileObject, $this->FileObject->removeResource());
+            $this->assertSame($this->FileObject, $this->FileObject->removeHandle());
         }
 
         /**
@@ -262,21 +262,21 @@
         }
 
         /**
-         * Test if the instance removes the resource when the destructor is called.
+         * Test if the instance removes the handle when the destructor is called.
          * @covers Brickoo\Library\System\FileObject::__destruct
          */
         public function test__destruct()
         {
-            $FileObjectStub = $this->getMock('Brickoo\Library\System\FileObject', array('removeResource'));
+            $FileObjectStub = $this->getMock('Brickoo\Library\System\FileObject', array('removeHandle'));
             $FileObjectStub->expects($this->once())
-                           ->method('removeResource')
+                           ->method('removeHandle')
                            ->will($this->returnSelf());
 
             $FileObjectStub->__destruct();
         }
 
         /**
-         * Test if the write method can write to the resource location.
+         * Test if the write method can write to the handle location.
          * @covers Brickoo\Library\System\FileObject::write
          */
         public function testWrite()
@@ -310,7 +310,7 @@
         }
 
         /**
-         * Test if the read method can read from the resource location.
+         * Test if the read method can read from the handle location.
          * @covers Brickoo\Library\System\FileObject::read
          */
         public function testRead()
@@ -346,24 +346,24 @@
         }
 
         /**
-         * Test if the close method remove the resource handle.
+         * Test if the close method remove the handle handle.
          * @covers Brickoo\Library\System\FileObject::close
          */
         public function testClose()
         {
             $this->FileObject->setLocation('php://memory')
                              ->setMode('r');
-            $this->assertInternalType('resource', $this->FileObject->getResource());
+            $this->assertInternalType('resource', $this->FileObject->getHandle());
             $this->assertSame($this->FileObject, $this->FileObject->close());
         }
 
         /**
-         * Test if the trying to close the resource without being opened throws an exception.
+         * Test if the trying to close the handle without being opened throws an exception.
          * @covers Brickoo\Library\System\FileObject::close
-         * @covers Brickoo\Library\System\Exceptions\ResourceNotAvailableException
-         * @expectedException Brickoo\Library\System\Exceptions\ResourceNotAvailableException
+         * @covers Brickoo\Library\System\Exceptions\HandleNotAvailableException
+         * @expectedException Brickoo\Library\System\Exceptions\HandleNotAvailableException
          */
-        public function testCloseResourceException()
+        public function testCloseHandleException()
         {
             $this->FileObject->close();
         }

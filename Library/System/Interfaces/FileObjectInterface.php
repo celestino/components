@@ -72,32 +72,32 @@
         public function setMode($mode);
 
         /**
-        * Opens the file to store the resource handle.
-        * @throws Exceptions\ResourceAlreadyExistsException if the resource already exists
-        * @throws Exceptions\UnableToCreateResource if the resource can not be created
-        * @return reource the file handle resource
+        * Opens the file to store the handle handle.
+        * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
+        * @throws Exceptions\UnableToCreateHandle if the handle can not be created
+        * @return reource the file handle handle
         */
         public function open();
 
         /**
-         * Returns the current used resource or creates one if none is used.
-         * @throws Exceptions\UnableToCreateResource if the resource cant be created
-         * @return resource
+         * Returns the current used handle or creates one if none is used.
+         * @throws Exceptions\UnableToCreateHandle if the handle cant be created
+         * @return handle
          */
-        public function getResource();
+        public function getHandle();
 
         /**
-         * Checks if a resource has been created.
+         * Checks if a handle has been created.
          * @return boolean check result
          */
-        public function hasResource();
+        public function hasHandle();
 
         /**
-         * Removes the holded resource by closing the data pointer.
+         * Removes the holded handle by closing the data pointer.
          * This method does not throw an exception like the explicit FileoBject::close does.
          * @return object reference
          */
-        public function removeResource();
+        public function removeHandle();
 
         /**
          * Writes the data into the file location.
@@ -115,7 +115,7 @@
 
         /**
          * Closes the the data handler and frees the ressource.
-         * @throws Exceptions\ResourceNotAvailableException if the resource is not initialized
+         * @throws Exceptions\HandleNotAvailableException if the handle is not initialized
          * @return object reference
          */
         public function close();

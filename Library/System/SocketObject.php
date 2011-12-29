@@ -40,15 +40,15 @@
      * SocketObject
      *
      * Implements an OOP wrapper for handling socket operations.
-     * The resource handle is created and closed by the SocketObject,
+     * The handle handle is created and closed by the SocketObject,
      * that´s the reason why fsockopen() and fclose() are not supported as magic method.
-     * The managing of the resource makes it possible to configure the SocketObject at any time
-     * and the resource handle will be just created if socket accessing is realy done later on.
+     * The managing of the handle makes it possible to configure the SocketObject at any time
+     * and the handle handle will be just created if socket accessing is realy done later on.
      * This class does not implement all functions available for socket handling,
-     * BUT(!) you can use any socket function which expects the resource handle as first argument.
+     * BUT(!) you can use any socket function which expects the handle handle as first argument.
      * Example:
      * <code>
-     *     // Not implemented fwrite(), feof() and fread() but supported, notify the resource handle is not passed !
+     *     // Not implemented fwrite(), feof() and fread() but supported, notify the handle handle is not passed !
      *     $SocketObject =  new Brickoo\Library\System\SocketObject();
      *     $SocketObject->setServerAdress('sourceforge.net')
      *                  ->setServerPort(80)
@@ -95,16 +95,16 @@
         /**
          * Sets the protocol to use with the adress.
          * @param string $protocol the protocol to use
-         * @throws Exceptions\ResourceAlreadyExistsException if the resource already exists
+         * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
          * @return object reference
          */
         public function setProtocol($protocol)
         {
             TypeValidator::Validate('isString', array($protocol));
 
-            if ($this->hasResource())
+            if ($this->hasHandle())
             {
-                throw new Exceptions\ResourceAlreadyExistsException();
+                throw new Exceptions\HandleAlreadyExistsException();
             }
 
             $this->protocol = $protocol. '://';
@@ -135,16 +135,16 @@
         /**
          * Sets the severAdress to connect to.
          * @param string $severAdress the serverAdress to use
-         * @throws Exceptions\ResourceAlreadyExistsException if the resource already exists
+         * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
          * @return object reference
          */
         public function setServerAdress($serverAdress)
         {
             TypeValidator::Validate('isString', array($serverAdress));
 
-            if ($this->hasResource())
+            if ($this->hasHandle())
             {
-                throw new Exceptions\ResourceAlreadyExistsException();
+                throw new Exceptions\HandleAlreadyExistsException();
             }
 
             $this->serverAdress = $serverAdress;
@@ -176,16 +176,16 @@
         /**
          * Sets the server port to connect to.
          * @param integer $serverPort the server port to use
-         * @throws Exceptions\ResourceAlreadyExistsException if the resource already exists
+         * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
          * @return object reference
          */
         public function setServerPort($serverPort)
         {
             TypeValidator::Validate('isInteger', array($serverPort));
 
-            if ($this->hasResource())
+            if ($this->hasHandle())
             {
-                throw new Exceptions\ResourceAlreadyExistsException();
+                throw new Exceptions\HandleAlreadyExistsException();
             }
 
             $this->serverPort = $serverPort;
@@ -217,16 +217,16 @@
         /**
          * Sets the connection timeout in seconds.
          * @param integer $timeout the connection timeout to use
-         * @throws Exceptions\ResourceAlreadyExistsException if the resource already exists
+         * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
          * @return object reference
          */
         public function setTimeout($timeout)
         {
             TypeValidator::Validate('isInteger', array($timeout));
 
-            if ($this->hasResource())
+            if ($this->hasHandle())
             {
-                throw new Exceptions\ResourceAlreadyExistsException();
+                throw new Exceptions\HandleAlreadyExistsException();
             }
 
             $this->timeout = $timeout;
@@ -235,27 +235,27 @@
         }
 
         /**
-         * Holds the opened resource handler.
-         * @var resource
+         * Holds the opened handle handler.
+         * @var handle
          */
-        protected $resource;
+        protected $handle;
 
         /**
-         * Opens the file to store the resource handle.
-         * @throws Exceptions\ResourceAlreadyExistsException if the resource already exists
-         * @throws Exceptions\UnableToCreateResourceException if the resource can not be opened
-         * @return reource the file handle resource
+         * Opens the file to store the handle handle.
+         * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
+         * @throws Exceptions\UnableToCreateHandleException if the handle can not be opened
+         * @return reource the file handle handle
          */
         public function open()
         {
-            if ($this->hasResource())
+            if ($this->hasHandle())
             {
-                throw new Exceptions\ResourceAlreadyExistsException();
+                throw new Exceptions\HandleAlreadyExistsException();
             }
 
             if
             (
-                ! $this->resource = @fsockopen
+                ! $this->handle = @fsockopen
                 (
                     $this->getProtocol() . $this->getServerAdress(),
                     $this->getServerPort(),
@@ -265,49 +265,49 @@
                 )
             )
             {
-                throw new Exceptions\UnableToCreateResourceException($this->getProtocol() . $this->getServerAdress());
+                throw new Exceptions\UnableToCreateHandleException($this->getProtocol() . $this->getServerAdress());
             }
 
-            return $this->resource;
+            return $this->handle;
         }
 
         /**
-         * Lazy resource handle creation.
-         * Returns the current used resource.
-         * @return resource the resource handle
+         * Lazy handle handle creation.
+         * Returns the current used handle.
+         * @return handle the handle handle
          */
-        public function getResource()
+        public function getHandle()
         {
-            if (! $this->hasResource())
+            if (! $this->hasHandle())
             {
                 $this->open();
             }
 
-            return $this->resource;
+            return $this->handle;
         }
 
         /**
-         * Checks if a resource has been created.
+         * Checks if a handle has been created.
          * @return boolean check result
          */
-        public function hasResource()
+        public function hasHandle()
         {
-            return is_resource($this->resource);
+            return is_resource($this->handle);
         }
 
         /**
-         * Removes the holded resource by closing the data handle.
+         * Removes the holded handle by closing the data handle.
          * This method does not throw an exception like the explicit FileObject::close does.
          * @return object reference
          */
-        public function removeResource()
+        public function removeHandle()
         {
-            if ($this->hasResource())
+            if ($this->hasHandle())
             {
                 $this->close();
             }
 
-            $this->resource = null;
+            $this->handle = null;
 
             return $this;
         }
@@ -332,35 +332,35 @@
             $this->serverAdress    = null;
             $this->serverPort      = null;
             $this->timeout         = null;
-            $this->resource        = null;
+            $this->handle        = null;
 
             return $this;
         }
 
         /**
-         * Removes the resource handle if available.
+         * Removes the handle handle if available.
          * @return void
          */
         public function __destruct()
         {
-            $this->removeResource();
+            $this->removeHandle();
         }
 
         /**
          * Closes the data handle and frees the holded ressource.
-         * @throws Exceptions\ResourceNotAvailableException if the resource is not initialized
+         * @throws Exceptions\HandleNotAvailableException if the handle is not initialized
          * @return object reference
          */
         public function close()
         {
-            if (! $this->hasResource())
+            if (! $this->hasHandle())
             {
-                throw new Exceptions\ResourceNotAvailableException();
+                throw new Exceptions\HandleNotAvailableException();
             }
 
-            fclose($this->getResource());
+            fclose($this->getHandle());
 
-            $this->resource = null;
+            $this->handle = null;
 
             return $this;
         }
@@ -386,7 +386,7 @@
                 );
             }
 
-            $arguments = array_merge(array($this->getResource()), $arguments);
+            $arguments = array_merge(array($this->getHandle()), $arguments);
 
             return call_user_func_array($function, $arguments);
         }

@@ -42,15 +42,15 @@
      * Implements an OOP wrapper for handling file operations.
      * The SplFileObject has not an implementation for changing or just close
      * and open the location anytime, that´s the reason why i did created this version.
-     * The resource handle is created and closed by the FileObject,
+     * The handle handle is created and closed by the FileObject,
      * that´s the reason why fopen() and fclose() are not supported as magic method.
-     * The managing of the resource makes it possible to configure the FileObject at any time
-     * and the resource handle will be just created if file accessing is realy done later on.
+     * The managing of the handle makes it possible to configure the FileObject at any time
+     * and the handle handle will be just created if file accessing is realy done later on.
      * This class does not implement all functions available for file handling,
-     * BUT(!) you can use any file function which expects the resource handle as first argument.
+     * BUT(!) you can use any file function which expects the handle handle as first argument.
      * Examples:
      * <code>
-     *     // Not implemented fseek() and fread() but supported, notify the resource handle is not passed !
+     *     // Not implemented fseek() and fread() but supported, notify the handle handle is not passed !
      *     $FileObject =  new Brickoo\Library\System\FileObject();
      *     $FileObject->setLocation('/path/to/file.txt')->setMode('r');
      *     $FileObject->fseek(100);
@@ -101,16 +101,16 @@
         /**
          * Sets the location to use for file operations.
          * @param string $location the location to use
-         * @throws Exceptions\ResourceAlreadyExistsException if the resource already exists
+         * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
          * @return object reference
          */
         public function setLocation($location)
         {
             TypeValidator::Validate('isString', array($location));
 
-            if ($this->hasResource())
+            if ($this->hasHandle())
             {
-                throw new Exceptions\ResourceAlreadyExistsException();
+                throw new Exceptions\HandleAlreadyExistsException();
             }
 
             $this->location = $location;
@@ -141,16 +141,16 @@
         /**
          * Sets the mode for the file operation.
          * @param string $mode the mode to use
-         * @throws Exceptions\ResourceAlreadyExistsException if the resource already exists
+         * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
          * @return object reference
          */
         public function setMode($mode)
         {
             TypeValidator::Validate('useRegex', array(array('~^[acwrx]([\+])?$~', $mode)));
 
-            if ($this->hasResource())
+            if ($this->hasHandle())
             {
-                throw new Exceptions\ResourceAlreadyExistsException();
+                throw new Exceptions\HandleAlreadyExistsException();
             }
 
             $this->mode = $mode;
@@ -159,69 +159,69 @@
         }
 
         /**
-         * Holds the opened resource handler.
-         * @var resource
+         * Holds the opened handle handler.
+         * @var handle
          */
-        protected $resource;
+        protected $handle;
 
         /**
-         * Opens the file to store the resource handle.
-         * @throws Exceptions\ResourceAlreadyExistsException if the resource already exists
-         * @throws Exceptions\UnableToCreateResourceException if the resource can not be opened
-         * @return reource the file handle resource
+         * Opens the file to store the handle handle.
+         * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
+         * @throws Exceptions\UnableToCreateHandleException if the handle can not be opened
+         * @return reource the file handle handle
          */
         public function open()
         {
-            if ($this->hasResource())
+            if ($this->hasHandle())
             {
-                throw new Exceptions\ResourceAlreadyExistsException();
+                throw new Exceptions\HandleAlreadyExistsException();
             }
 
-            if (! $this->resource = @fopen($this->getLocation(), $this->getMode()))
+            if (! $this->handle = @fopen($this->getLocation(), $this->getMode()))
             {
-                throw new Exceptions\UnableToCreateResourceException($this->getLocation());
+                throw new Exceptions\UnableToCreateHandleException($this->getLocation());
             }
 
-            return $this->resource;
+            return $this->handle;
         }
 
         /**
-         * Lazy resource handle creation.
-         * Returns the current used resource.
-         * @return resource the resoruce handle
+         * Lazy handle handle creation.
+         * Returns the current used handle.
+         * @return handle the resoruce handle
          */
-        public function getResource()
+        public function getHandle()
         {
-            if (! $this->hasResource())
+            if (! $this->hasHandle())
             {
                 $this->open($this->getLocation(), $this->getMode());
             }
 
-            return $this->resource;
+            return $this->handle;
         }
 
         /**
-         * Checks if a resource has been created.
+         * Checks if a handle has been created.
          * @return boolean check result
          */
-        public function hasResource()
+        public function hasHandle()
         {
-            return is_resource($this->resource);
+            return is_resource($this->handle);
         }
 
         /**
-         * Removes the holded resource by closing the data handle.
+         * Removes the holded handle by closing the data handle.
          * This method does not throw an exception like the explicit FileObject::close does.
          * @return object reference
          */
-        public function removeResource()
+        public function removeHandle()
         {
-            if ($this->hasResource())
+            if ($this->hasHandle())
             {
                 $this->close();
             }
 
-            $this->resource = null;
+            $this->handle = null;
 
             return $this;
         }
@@ -242,23 +242,23 @@
         */
         public function clear()
         {
-            $this->removeResource();
+            $this->removeHandle();
 
             $this->location    = null;
             $this->filename    = null;
             $this->mode        = null;
-            $this->resource    = null;
+            $this->handle    = null;
 
             return $this;
         }
 
         /**
-         * Removes the resource handle if available.
+         * Removes the handle handle if available.
          * @return void
          */
         public function __destruct()
         {
-            $this->removeResource();
+            $this->removeHandle();
         }
 
         /**
@@ -276,7 +276,7 @@
                 throw new Exceptions\InvalidModeOperationException($mode);
             }
 
-            fwrite($this->getResource(), $data);
+            fwrite($this->getHandle(), $data);
 
             return $this;
         }
@@ -296,24 +296,24 @@
                 throw new Exceptions\InvalidModeOperationException($mode);
             }
 
-            return fread($this->getResource(), $bytes);
+            return fread($this->getHandle(), $bytes);
         }
 
         /**
          * Closes the data handle and frees the holded ressource.
-         * @throws Exceptions\ResourceNotAvailableException if the resource is not initialized
+         * @throws Exceptions\HandleNotAvailableException if the handle is not initialized
          * @return object reference
          */
         public function close()
         {
-            if (! $this->hasResource())
+            if (! $this->hasHandle())
             {
-                throw new Exceptions\ResourceNotAvailableException();
+                throw new Exceptions\HandleNotAvailableException();
             }
 
-            fclose($this->getResource());
+            fclose($this->getHandle());
 
-            $this->resource = null;
+            $this->handle = null;
 
             return $this;
         }
@@ -339,7 +339,7 @@
                 );
             }
 
-            $arguments = array_merge(array($this->getResource()), $arguments);
+            $arguments = array_merge(array($this->getHandle()), $arguments);
 
             return call_user_func_array($function, $arguments);
         }
