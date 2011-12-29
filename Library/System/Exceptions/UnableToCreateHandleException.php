@@ -51,7 +51,7 @@
          */
         public function __construct($location)
         {
-            parent::__construct(sprintf('The handle for the location ´%s´ could not be opened.', $location));
+            parent::__construct(sprintf('The resource handle for the location ´%s´ could not be opened.', $location));
         }
 
     }

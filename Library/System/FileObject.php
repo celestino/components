@@ -42,7 +42,7 @@
      * Implements an OOP wrapper for handling file operations.
      * The SplFileObject has not an implementation for changing or just close
      * and open the location anytime, that´s the reason why i did created this version.
-     * The handle handle is created and closed by the FileObject,
+     * The resource handle is created and closed by the FileObject,
      * that´s the reason why fopen() and fclose() are not supported as magic method.
      * The managing of the handle makes it possible to configure the FileObject at any time
      * and the handle handle will be just created if file accessing is realy done later on.

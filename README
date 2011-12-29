@@ -9,22 +9,24 @@
 
 Welcome to BrickOO
 ------------------
-Thank you for giving BrickOO a try !
+BrickOO is a PHP framework which focus on module based applications.
 Since BrickOO is using the BSD license, we hope that BrickOO gives
 you the freedom to build and use your application the way you like.
 The freedom of this software does not include an copyleft which forces you to make
 changes public, but we would like to hear about your requirements and modifications
 to keep the quality of BrickOO as good as we can, please contact us.
-BrickOO has been developed in strict mode an with focus on coming PHP requirements.
+BrickOO has been developed in strict mode and with focus on coming PHP requirements.
 
 
 Requirements
 ------------
-* PHP 5.3 or any later version required.
-* Maybe some framework libraries require PHP libraries not installed on your machine
-  or PHP configuration need to be done to enable the full functionality.
-  Whatever, BrickOO has been created to run with the default PHP configuration.
-* Using BrickOO for web applications, rewrite rules are required.
+PHP 5.3 or any later version required.
+
+Maybe some framework libraries require PHP libraries not installed on your machine
+or PHP configuration need to be done to enable the full functionality.
+Whatever, BrickOO has been created to run with the default PHP configuration.
+
+Using BrickOO for web applications, rewrite rules are required.
   Apache: http://httpd.apache.org/docs/2.2/mod/mod_rewrite.html
   Nginx: http://wiki.nginx.org/NginxHttpRewriteModule
   Lighttpd: http://redmine.lighttpd.net/projects/lighttpd/wiki/Docs:ModRewrite
@@ -32,17 +34,18 @@ Requirements
 
 Configuration
 -------------
-* No configuration has to be done to BrickOO itself, see requirements.
+No configuration has to be done to BrickOO itself, see requirements.
 
 
 Installation
 ------------
-* Just copy the brickoo folder to a location you have access to.
+Just copy the library folder to a location you have access to.
 
 
 License
 -------
-* The files in this archive are released under the BSD license, see LICENSE file included.
+The files in this archive are released under the BSD license.
+You can find a copy of this license in the LICENSE file included.
 
 
 Have fun !

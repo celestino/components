@@ -50,7 +50,7 @@
          */
         public function __construct()
         {
-            parent::__construct('The handle is not available.');
+            parent::__construct('The resource handle is not available.');
         }
 
     }
