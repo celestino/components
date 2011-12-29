@@ -40,7 +40,7 @@
      * SocketObject
      *
      * Implements an OOP wrapper for handling socket operations.
-     * The handle handle is created and closed by the SocketObject,
+     * The resource handle is created and closed by the SocketObject,
      * that´s the reason why fsockopen() and fclose() are not supported as magic method.
      * The managing of the handle makes it possible to configure the SocketObject at any time
      * and the handle handle will be just created if socket accessing is realy done later on.

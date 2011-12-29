@@ -50,7 +50,7 @@
          */
         public function __construct()
         {
-            parent::__construct('The handle handle already exists. Unable to change property.');
+            parent::__construct('The resource handle already exists. Unable to change property.');
         }
 
     }
