@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz Teran <celestino@users.sourceforge.net>.
+     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,7 @@
      * Provides getter and setter for accessing the registrations.
      * Provides lock functionality for each identifer and an read only mode for all identifiers.
      * This class can be used for example as an class properties container.
-     * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
+     * @author Celestino Diaz <celestino.diaz@gmx.de>
      * @version $Id$
      */
 

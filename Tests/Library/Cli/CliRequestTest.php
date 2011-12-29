@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz Teran <celestino@users.sourceforge.net>.
+     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,7 @@
      *
      * Test case for the Cli Request class.
      * @see Brickoo\Library\Cli\Request
-     * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
+     * @author Celestino Diaz <celestino.diaz@gmx.de>
      * @version $Id: CliRequestTest.php 15 2011-12-23 02:05:32Z celestino $
      */
 

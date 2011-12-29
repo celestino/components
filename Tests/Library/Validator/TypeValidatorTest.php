@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz Teran <celestino@users.sourceforge.net>.
+     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,7 @@
      *
      * Test case for the TypeValidator class.
      * @see Brickoo\Library\Storage\Locker
-     * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
+     * @author Celestino Diaz <celestino.diaz@gmx.de>
      * @version $Id: TypeValidatorTest.php 16 2011-12-23 22:39:50Z celestino $
      */
 

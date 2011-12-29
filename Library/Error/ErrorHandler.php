@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz Teran <celestino@users.sourceforge.net>.
+     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,7 @@
      * Handles user defined and system errors.
      * Errors can be logged using an instance implementing the LogHandlerInterface.
      * Otherwise throws an exception if the error level is expected.
-     * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
+     * @author Celestino Diaz <celestino.diaz@gmx.de>
      * @version $Id$
      */
 

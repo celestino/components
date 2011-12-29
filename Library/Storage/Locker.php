@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz Teran <celestino@users.sourceforge.net>.
+     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,7 @@
      * This class can be used to have keep an lock status on specific identifiers.
      * Contains one abstract method (public boolean Locker::isIdentifierAvailable($identifier)).
      * This abstract method is to allow only identifiers which are available on the main class.
-     * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
+     * @author Celestino Diaz <celestino.diaz@gmx.de>
      * @version $Id$
      */
 

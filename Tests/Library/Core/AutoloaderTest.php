@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz Teran <celestino@users.sourceforge.net>.
+     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,7 @@
     /**
      * Test case for the Autoloader class.
      * @see Brickoo\Library\Core\Autoloader
-     * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
+     * @author Celestino Diaz <celestino.diaz@gmx.de>
      * @version $Id: AutoloaderTest.php 15 2011-12-23 02:05:32Z celestino $
      */
 
@@ -45,7 +45,7 @@
     /**
      * Test case for the Repository class.
      * @see Brickoo\Library\Storage\Repository
-     * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
+     * @author Celestino Diaz <celestino.diaz@gmx.de>
      * @version $Id: AutoloaderTest.php 15 2011-12-23 02:05:32Z celestino $
      */
 
