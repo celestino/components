@@ -92,7 +92,7 @@
         {
             if ($this->location === null)
             {
-                throw new \UnexpectedValueException('The location is ´null´.');
+                throw new \UnexpectedValueException('The file location is ´null´.');
             }
 
             return $this->location;
@@ -133,7 +133,7 @@
         {
             if ($this->mode === null)
             {
-                throw new \UnexpectedValueException('The mode is ´null´.');
+                throw new \UnexpectedValueException('The file mode is ´null´.');
             }
             return $this->mode;
         }
