@@ -129,8 +129,8 @@
         /**
          * Test if trying to override the Url object throws an exception.
          * @covers Brickoo\Library\Http\Request::injectUrl
-         * @covers Brickoo\Library\Core\Exceptions\DependencyOverrideException
-         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverrideException
+         * @covers Brickoo\Library\Core\Exceptions\DependencyOverwriteException
+         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
          */
         public function testAddUrlDependencyException()
         {

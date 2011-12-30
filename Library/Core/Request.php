@@ -74,14 +74,14 @@
         /**
          * Lazy initialization of the Cli Request instance.
          * @param Cli\Interfaces\RequestInterface $Cli the Cli object implementing the RequestInterface
-         * @throws DependencyOverrideException if trying to override the dependency
+         * @throws DependencyOverwriteException if trying to override the dependency
          * @return object reference
          */
         public function injectCliRequest(\Brickoo\Library\Cli\Interfaces\RequestInterface $Cli)
         {
             if ($this->_Cli !== null)
             {
-                throw new Exceptions\DependencyOverrideException('Cli\Interfaces\RequestInterface');
+                throw new Exceptions\DependencyOverwriteException('Cli\Interfaces\RequestInterface');
             }
 
             $this->_Cli = $Cli;
@@ -114,14 +114,14 @@
         /**
          * Lazy initialization of the Http Request instance.
          * @param Http\Interfaces\RequestInterface $Http the Http object implementing the RequestInterface
-         * @throws DependencyOverrideException if trying to override the dependency
+         * @throws DependencyOverwriteException if trying to override the dependency
          * @return object reference
          */
         public function injectHttpRequest(\Brickoo\Library\Http\Interfaces\RequestInterface $Http)
         {
             if ($this->_Http !== null)
             {
-                throw new Exceptions\DependencyOverrideException('Http\Interfaces\RequestInterface');
+                throw new Exceptions\DependencyOverwriteException('Http\Interfaces\RequestInterface');
             }
 
             $this->_Http = $Http;

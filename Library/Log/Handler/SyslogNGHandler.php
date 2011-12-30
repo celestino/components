@@ -115,14 +115,14 @@
         /**
          * Injects the SocketObject dependency.
          * @param Brickoo\Library\System\Interfaces\SocketObjectInterface $SocketObject
-         * @throws Core\Exceptions\DependencyOverrideException if trying to override the current instance
+         * @throws Core\Exceptions\DependencyOverwriteException if trying to override the current instance
          * @return object refence
          */
         public function injectSocketObject(\Brickoo\Library\System\Interfaces\SocketObjectInterface $SocketObject)
         {
             if ($this->SocketObject !== null)
             {
-                throw new Core\Exceptions\DependencyOverrideException('SocketObjectInterface');
+                throw new Core\Exceptions\DependencyOverwriteException('SocketObjectInterface');
             }
 
             $this->SocketObject = $SocketObject;

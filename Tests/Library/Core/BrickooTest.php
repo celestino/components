@@ -86,7 +86,7 @@
         /**
          * Test if the reassigment of an Registry throws an exception.
          * @covers Brickoo\Library\Core\Brickoo::injectRegistry
-         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverrideException
+         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
          */
         public function testSetRegistryDependencyException()
         {

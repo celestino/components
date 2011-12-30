@@ -112,7 +112,7 @@
         /**
          * Test if trying to override dependency throws an exception.
          * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::injectSocketObject
-         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverrideException
+         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
          */
         public function testInjectSocketObjectOverrideException()
         {

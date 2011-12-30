@@ -86,7 +86,7 @@
         {
             if ($this->_Url !== null)
             {
-                throw new Core\Exceptions\DependencyOverrideException('Http\Interfaces\UrlInterface');
+                throw new Core\Exceptions\DependencyOverwriteException('Http\Interfaces\UrlInterface');
             }
 
             $this->_Url = $Url;

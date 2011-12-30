@@ -67,7 +67,7 @@
         /**
          * Lazy initialization of the Http Request instance.
          * @param Http\Interfaces\RequestInterface $Http the Http object implementing the RequestInterface
-         * @throws DependencyOverrideException if trying to override the dependency
+         * @throws DependencyOverwriteException if trying to override the dependency
          * @return object reference
          */
         public function injectHttpRequest(\Brickoo\Library\Http\Interfaces\RequestInterface $Http);

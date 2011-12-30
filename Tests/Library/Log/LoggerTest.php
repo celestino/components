@@ -144,7 +144,7 @@
         /**
         * Test if assigning an LogHandler twice throws an exception.
         * @covers Brickoo\Library\Log\Logger::injectLogHandler
-        * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverrideException
+        * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
         */
         public function testSetLogHandlerDependecyOverrideException()
         {

@@ -78,14 +78,14 @@
         /**
          * Injects an instance implementing the FileObjectInterface as dependency.
          * @param Filesystem\Interfaces\FileObjectInterface $FileObject the instance to add
-         * @throws Core\Exceptions\DependencyOverrideException if trying to override the current instance
+         * @throws Core\Exceptions\DependencyOverwriteException if trying to override the current instance
          * @return object reference
          */
         public function injectFileObject(\Brickoo\Library\System\Interfaces\FileObjectInterface $FileObject)
         {
             if ($this->FileObject instanceof System\Interfaces\FileObjectInterface)
             {
-                throw new Core\Exceptions\DependencyOverrideException('FileObjectInterface');
+                throw new Core\Exceptions\DependencyOverwriteException('FileObjectInterface');
             }
 
             $this->FileObject = $FileObject;

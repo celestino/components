@@ -142,8 +142,8 @@
         /**
          * Test if the reassigning an Http instance throws an exception.
          * @covers Brickoo\Library\Core\Request::injectHttpRequest
-         * @covers Brickoo\Library\Core\Exceptions\DependencyOverrideException
-         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverrideException
+         * @covers Brickoo\Library\Core\Exceptions\DependencyOverwriteException
+         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
          */
         public function testSetHttpSupportDependencException()
         {
@@ -180,10 +180,10 @@
         /**
          * Test if overriding an Cli instance throws an exception.
          * @covers Brickoo\Library\Core\Request::injectCliRequest
-         * @covers Brickoo\Library\Core\Exceptions\DependencyOverrideException
-         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverrideException
+         * @covers Brickoo\Library\Core\Exceptions\DependencyOverwriteException
+         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
          */
-        public function testSetCliSupportDependencyOverrideException()
+        public function testSetCliSupportDependencyOverwriteException()
         {
             $Cli = new \Brickoo\Library\Cli\Request($this->Request);
             $this->Request->injectCliRequest($Cli);

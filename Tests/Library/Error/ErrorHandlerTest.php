@@ -209,8 +209,8 @@
         /**
          * Test if the trying to override the LogHandler dependecy throws an exception.
          * @covers Brickoo\Library\Error\ErrorHandler::addLogger
-         * @covers Brickoo\Library\Core\Exceptions\DependencyOverrideException
-         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverrideException
+         * @covers Brickoo\Library\Core\Exceptions\DependencyOverwriteException
+         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
          */
         public function testAddLogHandlerDependencyException()
         {

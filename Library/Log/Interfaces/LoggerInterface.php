@@ -53,7 +53,7 @@
         /**
          * Sets the log handler instance to use for logging.
          * @param LogHandlerInterface $LogHandler the log handler instance
-         * @throws Core\Exceptions\DependencyOverrideException if trying to override the log handler
+         * @throws Core\Exceptions\DependencyOverwriteException if trying to override the log handler
          * @return object reference
          */
         public function injectLogHandler(\Brickoo\Library\Log\Interfaces\LogHandlerInterface $LogHandler);

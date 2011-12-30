@@ -107,9 +107,9 @@
         /**
          * Test if trying to override the FileObject dependency throws an exception.
          * @covers Brickoo\Library\Log\Handler\FileHandler::injectFileObject
-         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverrideException
+         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
          */
-        public function testInjectFileObjectDependencyOverrideException()
+        public function testInjectFileObjectDependencyOverwriteException()
         {
             $FileObject = $this->getFileobjectStub();
             $this->FileHandler->injectFileObject($FileObject);

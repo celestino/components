@@ -30,79 +30,38 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Routing;
-
-    use Brickoo\Library\Routing\Interfaces;
-    use Brickoo\Library\Routing\Exceptions;
-    use Brickoo\Library\Validator\TypeValidator;
+    namespace Brickoo\Library\Routing\Interfaces;
 
     /**
-     * Route
+     * RouteInterface
      *
-     * Implents a Route which can be configured to handle requests
-     * which execute the assigned controller and action.<ss
+     * Interface for implementing the Route.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id $
      */
 
-    class Route implements Interfaces\RouteInterface
+    interface RouteInterface
     {
 
         /**
-         * Holds the route path to listen to.
-         * @var string
-         */
-        protected $path;
-
-        /**
-         * Returns the route path listening.
-         * @throws UnexpectedValueException if the path is null
-         * @return string the route path listening
-         */
-        public function getPath()
-        {
-            if ($this->path === null)
-            {
-                throw new UnexpectedValueException('The route path is ´null´.');
-            }
-
-            return $this->path;
-        }
+        * Returns the route path listening.
+        * @throws UnexpectedValueException if the path is null
+        * @return string the route path listening
+        */
+        public function getPath();
 
         /**
          * Sets the route path to listen to.
          * @param string $path the path to liste to
          * @return object reference
          */
-        public function setPath($path)
-        {
-            TypeValidator::Validate('isString', array($path));
-
-            $this->path = $path;
-
-            return $this;
-        }
-
-        /**
-         * Holds the controller:method which should be executed.
-         * @var string
-         */
-        protected $controller;
+        public function setPath($path);
 
         /**
          * Returns the controller:method to execute.
          * @throws UnexpectedValueException if the controller is null
          * @return string the controller and method to execute
          */
-        public function getController()
-        {
-            if ($this->controller === null)
-            {
-                throw new UnexpectedValueException('The route controller is ´null´.');
-            }
-
-            return $this->controller;
-        }
+        public function getController();
 
         /**
          * Sets the controller:method to execute.
@@ -110,64 +69,27 @@
          * @param string $controller the controller and method to execute
          * @return object reference
          */
-        public function setController($controller)
-        {
-            TypeValidator::Validate('useRegex', array(array('~^[a-z_]+\:[a-z_]+$~i' => $controller)));
-
-            $this->controller = $controller;
-
-            return $this;
-        }
-
-        /**
-         * Holds the request method to listen to.
-         * @var string
-         */
-        protected $method;
+        public function setController($controller);
 
         /**
          * Returns the listening request method.
          * @throws UnexpectedValueException if the method is null
          * @return string the request method listening
          */
-        public function getMethod()
-        {
-            if ($this->method === null)
-            {
-                throw new UnexpectedValueException('The route method is ´nul´.');
-            }
-
-            return $this->method;
-        }
+        public function getMethod();
 
         /**
          * Sets the request method to listen to.
          * @param string $method the request method to listen
          * @return object reference
          */
-        public function setMethod($method)
-        {
-            TypeValidator::Validate('isString', array($method));
-
-            $this->method = $method;
-
-            return $this;
-        }
-
-        /**
-         * Holds the default key-values for the method parameters.
-         * @var array
-         */
-        protected $defaultValues;
+        public function setMethod($method);
 
         /**
          * Returns all the default values available.
          * @return array the default key-values
          */
-        public function getDefaultValues()
-        {
-            return $this->defaultValues;
-        }
+        public function getDefaultValues();
 
         /**
          * Returns the default value of the passed parameter name.
@@ -175,32 +97,14 @@
          * @throws UnexpectedValueException if the parameter has not an default value
          * @return mixed the default value for the passed parameter name
          */
-        public function getDefaultValue($parameterName)
-        {
-            TypeValidator::Validate('isString', array($parameterName));
-
-            if (! $this->hasDefaultValue($parameterName))
-            {
-                throw new UnexpectedValueException
-                (
-                    sprintf('The default value for ´%s´does not exist.', $parameterName)
-                );
-            }
-
-            return $this->defaultValues[$parameterName];
-        }
+        public function getDefaultValue($parameterName);
 
         /**
          * Checks if the parameter has an default value.
          * @param string $parameterName the parameter to check
          * @return boolean check result
          */
-        public function hasDefaultValue($parameterName)
-        {
-            TypeValidator::Validate('isString', array($parameterName));
-
-            return array_key_exists($parameterName, $this->defaultValues);
-        }
+        public function hasDefaultValue($parameterName);
 
         /**
          * Adds an parameter and his default value.
@@ -209,29 +113,13 @@
          * @param mixed $defaultValue the default value to add
          * @return object reference
          */
-        public function addDefaultValue($parameterName, $defaultValue)
-        {
-            TypeValidator::Validate('isString', array($parameterName));
-
-            $this->defaultValues[$parameterName] = $defaultValue;
-
-            return $this;
-        }
-
-        /**
-         * Holds the rules for the path parameters.
-         * @var array
-         */
-        protected $rules;
+        public function addDefaultValue($parameterName, $defaultValue);
 
         /**
          * Returns all the rules available.
          * @return array the rules
          */
-        public function getRules()
-        {
-            return $this->rules;
-        }
+        public function getRules();
 
         /**
          * Returns the rule for the passed parameter name.
@@ -239,32 +127,14 @@
          * @throws UnexpectedValueException if the parameter name has not an defualt value
          * @return string the rule assigned to the parameter name
          */
-        public function getRule($parameterName)
-        {
-            TypeValidator::Validate('isString', array($parameterName));
-
-            if (! $this->hasRule($parameterName))
-            {
-                throw new UnexpectedValueException
-                (
-                    sprintf('The rule for ´%s´ does not exits.', $parameterName)
-                );
-            }
-
-            return $this->rules[$parameterName];
-        }
+        public function getRule($parameterName);
 
         /**
          * Checks if the parameter has an rule to match.
          * @param string $parameterName the parameter name to check
          * @return boolean check result
          */
-        public function hasRule($parameterName)
-        {
-            TypeValidator::Validate('isString', array($parameterName));
-
-            return array_key_exists($parameterName, $this->rules);
-        }
+        public function hasRule($parameterName);
 
     }
 

@@ -75,14 +75,14 @@
         /**
          * Adds an instance implementing the LoggerInterface for custom error logging.
          * @param LoggerInterface $Logger the log handler to add
-         * @throws DependencyOverrideException if trying to override the current dependency
+         * @throws DependencyOverwriteException if trying to override the current dependency
          * @return object reference
          */
         public function addLogger(LoggerInterface $Logger)
         {
             if ($this->Logger instanceof LoggerInterface)
             {
-                throw new Core\Exceptions\DependencyOverrideException('LoggerInterface');
+                throw new Core\Exceptions\DependencyOverwriteException('LoggerInterface');
             }
 
             $this->Logger = $Logger;

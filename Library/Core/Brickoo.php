@@ -71,14 +71,14 @@
         /**
          * Injects the Registry object to use for storing entries.
          * @param Brickoo\Library\Storage\Interfaces\RegistryInterface $Registry
-         * @throws DependencyOverrideException if trying to override dependency
+         * @throws DependencyOverwriteException if trying to override dependency
          * @return object reference
          */
         public function injectRegistry(\Brickoo\Library\Storage\Interfaces\RegistryInterface $Registry = null)
         {
             if (self::$Registry !== null)
             {
-                throw new Exceptions\DependencyOverrideException('RegistryInterface');
+                throw new Exceptions\DependencyOverwriteException('RegistryInterface');
             }
 
             self::$Registry = new Storage\Registry();
