@@ -41,7 +41,6 @@
      *
      * Holds an object of the \Brickoo\Library\Storage\Registry.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class Brickoo
