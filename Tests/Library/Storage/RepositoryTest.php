@@ -38,7 +38,7 @@
     /**
      * RepositorTest
      *
-     * Test case for the Repository class.
+     * Test suite for the Repository class.
      * @see Brickoo\Library\Storage\Repository
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      * @version $Id: RepositoryTest.php 15 2011-12-23 02:05:32Z celestino $

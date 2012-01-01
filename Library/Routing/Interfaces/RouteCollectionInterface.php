@@ -30,26 +30,42 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Log\Interfaces;
+    namespace Brickoo\Library\Routing\Interfaces;
 
     /**
-     * LogHandlerInterface
+     * RouteCollectionInterface
      *
      * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
-    interface LogHandlerInterface
+    interface RouteCollectionInterface
     {
 
         /**
-         * Logs the passed messages to the location.
-         * @param array|string $messages the messages to log
-         * @param integer $severity the severity level to add
+        * Returns the collected routes.
+        * @return array the collected routes
+        */
+        public function getRoutes();
+
+        /**
+         * Adds a Route implementing the RouteInterface to the collection.
+         * @param Brickoo\Library\Routing\Interfaces\RouteInterface $Route the Route to add
          * @return object reference
          */
-        public function log($messages, $severity);
+        public function addRoute(\Brickoo\Library\Routing\Interfaces\RouteInterface $Route);
+
+        /**
+         * Checks if the collection contains routes.
+         * @return boolean check result
+         */
+        public function hasRoutes();
+
+        /**
+         * Clears the class properties.
+         * @return object reference
+         */
+        public function clear();
 
     }
 

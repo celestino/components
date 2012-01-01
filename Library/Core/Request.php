@@ -208,8 +208,6 @@
          */
         public function clear()
         {
-            $this->_Http         = null;
-            $this->_Cli          = null;
             $this->serverVars    = array();
 
             return $this;

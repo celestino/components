@@ -33,7 +33,6 @@
     namespace Brickoo\Library\Routing;
 
     use Brickoo\Library\Routing\Interfaces;
-    use Brickoo\Library\Routing\Exceptions;
     use Brickoo\Library\Validator\TypeValidator;
 
     /**
@@ -45,25 +44,25 @@
      * @version $Id $
      */
 
-    class Route implements Interfaces\RouteInterface
+    class Route implements Interfaces\RouteInterface, \Countable
     {
 
         /**
-         * Holds the route path to listen to.
+         * Holds the route path listening to.
          * @var string
          */
         protected $path;
 
         /**
-         * Returns the route path listening.
+         * Returns the route path listening to.
          * @throws UnexpectedValueException if the path is null
-         * @return string the route path listening
+         * @return string the route path listening to
          */
         public function getPath()
         {
             if ($this->path === null)
             {
-                throw new UnexpectedValueException('The route path is ´null´.');
+                throw new \UnexpectedValueException('The route path is `null`.');
             }
 
             return $this->path;
@@ -98,7 +97,7 @@
         {
             if ($this->controller === null)
             {
-                throw new UnexpectedValueException('The route controller is ´null´.');
+                throw new \UnexpectedValueException('The route controller is `null`.');
             }
 
             return $this->controller;
@@ -112,7 +111,7 @@
          */
         public function setController($controller)
         {
-            TypeValidator::Validate('useRegex', array(array('~^[a-z_]+\:[a-z_]+$~i' => $controller)));
+            TypeValidator::Validate('useRegex', array(array('~^[\w]+\:[\w]+$~', $controller)));
 
             $this->controller = $controller;
 
@@ -134,7 +133,7 @@
         {
             if ($this->method === null)
             {
-                throw new UnexpectedValueException('The route method is ´nul´.');
+                throw new \UnexpectedValueException('The route method is `nul`.');
             }
 
             return $this->method;
@@ -181,9 +180,9 @@
 
             if (! $this->hasDefaultValue($parameterName))
             {
-                throw new UnexpectedValueException
+                throw new \UnexpectedValueException
                 (
-                    sprintf('The default value for ´%s´does not exist.', $parameterName)
+                    sprintf('The default value for `%s`does not exist.', $parameterName)
                 );
             }
 
@@ -245,13 +244,28 @@
 
             if (! $this->hasRule($parameterName))
             {
-                throw new UnexpectedValueException
+                throw new \UnexpectedValueException
                 (
-                    sprintf('The rule for ´%s´ does not exits.', $parameterName)
+                    sprintf('The rule for `%s` does not exits.', $parameterName)
                 );
             }
 
             return $this->rules[$parameterName];
+        }
+
+        /**
+         * Adds a rule to a parameter name.
+         * @param string $parameterName the parameter name to add the rule to
+         * @param string $rule the rule to add
+         * @return object reference
+         */
+        public function addRule($parameterName, $rule)
+        {
+            TypeValidator::Validate('isString', array($parameterName, $rule));
+
+            $this->rules[$parameterName] = $rule;
+
+            return $this;
         }
 
         /**
@@ -264,6 +278,41 @@
             TypeValidator::Validate('isString', array($parameterName));
 
             return array_key_exists($parameterName, $this->rules);
+        }
+
+        /**
+        * Class constructor.
+        * Initializes the class properties.
+        * @return void
+        */
+        public function __construct()
+        {
+            $this->clear();
+        }
+
+        /**
+        * Clears the class properties.
+        * @return object reference
+        */
+        public function clear()
+        {
+            $this->controller        = null;
+            $this->path              = null;
+            $this->method            = null;
+            $this->defaultValues     = array();
+            $this->rules             = array();
+
+            return $this;
+        }
+
+        /**
+         * Returns the number of segments the path contains.
+         * @see Countable::count()
+         * @return integer number of segments
+         */
+        public function count()
+        {
+            return substr_count($this->getPath(), '/');
         }
 
     }

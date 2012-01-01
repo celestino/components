@@ -35,7 +35,7 @@
     /**
      * RouteInterface
      *
-     * Interface for implementing the Route.
+     * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -135,6 +135,12 @@
          * @return boolean check result
          */
         public function hasRule($parameterName);
+
+        /**
+        * Clears the class properties.
+        * @return object reference
+        */
+        public function clear();
 
     }
 

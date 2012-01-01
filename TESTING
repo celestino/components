@@ -6,7 +6,7 @@ About
 * The test suites assure the functionality of the framework.
 * All test suites must pass and should not contain any skipped test cases.
 * The test suites must cover all classes provided by BrickOO.
-* The test suites can be found in the Tests folder, which rely on the same structure as the framework.
+* The test suites can be found in the Tests folder, which relies on the same structure as the framework.
 
 
 Requirements

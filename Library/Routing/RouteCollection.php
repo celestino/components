@@ -30,67 +30,86 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Log\Interfaces;
+    namespace Brickoo\Library\Routing;
+
+    use Brickoo\Library\Routing\Interfaces;
 
     /**
-     * LoggerInterface
+     * RouteCollection
      *
-     * Describes the methods implemented by this interface.
+     * Implements an RouteCollection to iterate through the routes.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
-    interface LoggerInterface
+    class RouteCollection implements Interfaces\RouteCollectionInterface, \IteratorAggregate
     {
 
         /**
-         * Retrieve the log handler assigned.
-         * @throws Core\Exceptions\DependencyNotAvailableException if no log handler instance is assigned
-         * @return object log handler implementing the LogHandlerInterface
+         * Holds the routes collected.
+         * @var array
          */
-        public function getLogHandler();
+        protected $routes;
 
         /**
-         * Sets the log handler instance to use for logging.
-         * @param LogHandlerInterface $LogHandler the log handler instance
-         * @throws Core\Exceptions\DependencyOverwriteException if trying to override the log handler
+         * Returns the collected routes.
+         * @return array the collected routes
+         */
+        public function getRoutes()
+        {
+            return $this->routes;
+        }
+
+        /**
+         * Adds a Route implementing the RouteInterface to the collection.
+         * @param Brickoo\Library\Routing\Interfaces\RouteInterface $Route the Route to add
          * @return object reference
          */
-        public function injectLogHandler(\Brickoo\Library\Log\Interfaces\LogHandlerInterface $LogHandler);
+        public function addRoute(\Brickoo\Library\Routing\Interfaces\RouteInterface $Route)
+        {
+            $this->routes[] = $Route;
+
+            return $this;
+        }
 
         /**
-         * Returns the current default log severity.
-         * @return integer the default log severity
+         * Checks if the collection contains routes.
+         * @return boolean check result
          */
-        public function getDefaultSeverity();
-
-        /**
-         * Sets the default log severity to use.
-         * @link http://www.php.net/manual/en/network.constants.php
-         * @param integer $logSeverity the default log severity to set
-         * @return object reference
-         */
-        public function setDefaultSeverity($severity);
+        public function hasRoutes()
+        {
+            return (! empty($this->routes));
+        }
 
         /**
         * Class constructor.
         * Initializes the class properties.
         * @return void
         */
-        public function __construct();
+        public function __construct()
+        {
+            $this->clear();
+        }
 
         /**
         * Clears the class properties.
         * @return object reference
         */
-        public function clear();
+        public function clear()
+        {
+            $this->routes = array();
+
+            return $this;
+        }
 
         /**
-         * Sends the log messages using log handler assigned.
-         * @param array|string $messages the messages to send
-         * @return void
+         * Returns the ArrayIterator with the collected routes.
+         * @see IteratorAggregate::getIterator()
+         * @return ArrayIterator containing the collected routes
          */
-        public function log($messages, $severity = null);
+        public function getIterator()
+        {
+            return new \ArrayIterator($this->routes);
+        }
 
     }
 

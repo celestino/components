@@ -38,7 +38,7 @@
     /**
      * RouteTest
      *
-     * Test case for the Route class.
+     * Test suite for the Route class.
      * @see Brickoo\Library\Routing\Route
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
@@ -47,181 +47,316 @@
     {
 
         /**
+         * Holds an instance of the Route class.
          * @var Route
          */
-        protected $object;
+        protected $Route;
 
         /**
-         * Sets up the fixture, for example, opens a network connection.
-         * This method is called before a test is executed.
+         * Sets the Route instance used.
+         * @return void
          */
         protected function setUp()
         {
-            $this->object = new Route;
+            $this->Route = new Route();
         }
 
         /**
-         * Tears down the fixture, for example, closes a network connection.
-         * This method is called after a test is executed.
-         */
-        protected function tearDown()
-        {
-        }
-
-        /**
-         * @covers {className}::{origMethodName}
-         * @todo Implement testGetPath().
-         */
-        public function testGetPath()
-        {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
-        }
-
-        /**
-         * @covers {className}::{origMethodName}
-         * @todo Implement testSetPath().
-         */
+        * Test if the path can be set and the Route reference is returned.
+        * @covers Brickoo\Library\Routing\Route::setPath
+        */
         public function testSetPath()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
+            $this->assertSame($this->Route, $this->Route->setPath('/path/to/resource'));
+            $this->assertAttributeEquals('/path/to/resource', 'path', $this->Route);
+
+            return $this->Route;
         }
 
         /**
-         * @covers {className}::{origMethodName}
-         * @todo Implement testGetController().
+         * Test if trying to set a wrong argument type throws an exception.
+         * @covers Brickoo\Library\Routing\Route::setPath
+         * @expectedException InvalidArgumentException
          */
-        public function testGetController()
+        public function testSetPathArgumentException()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
+            $this->Route->setPath(array('wrongType'));
         }
 
         /**
-         * @covers {className}::{origMethodName}
-         * @todo Implement testSetController().
+         * Test if the path property can be retrieved.
+         * @covers Brickoo\Library\Routing\Route::getPath
+         * @depends testSetPath
+         */
+        public function testGetPath($Route)
+        {
+            $this->assertEquals('/path/to/resource', $Route->getPath());
+        }
+
+        /**
+         * Test if trying to retrieve the empty path property throws an exception.
+         * @covers Brickoo\Library\Routing\Route::getPath
+         * @expectedException UnexpectedValueException
+         */
+        public function testGetPathValueException()
+        {
+            $this->Route->getPath();
+        }
+
+        /**
+         * Test if the controller can be set and the Route reference is returned.
+         * @covers Brickoo\Library\Routing\Route::setController
          */
         public function testSetController()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
+            $this->assertSame($this->Route, $this->Route->setController('controller:method'));
+            $this->assertAttributeEquals('controller:method', 'controller', $this->Route);
+
+            return $this->Route;
         }
 
         /**
-         * @covers {className}::{origMethodName}
-         * @todo Implement testGetMethod().
+         * Test if trying to set a wrong argument type throws an exception.
+         * @covers Brickoo\Library\Routing\Route::setController
+         * @expectedException InvalidArgumentException
          */
-        public function testGetMethod()
+        public function testSetControllerArgumentException()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
+            $this->Route->setController('controller::::method');
         }
 
         /**
-         * @covers {className}::{origMethodName}
-         * @todo Implement testSetMethod().
+         * Test if the controller property can be retrieved.
+         * @covers Brickoo\Library\Routing\Route::getController
+         * @depends testSetController
+         */
+        public function testGetController($Route)
+        {
+            $this->assertEquals('controller:method', $Route->getController());
+        }
+
+        /**
+         * Test if trying to retrieve the empty controller property throws an exception.
+         * @covers Brickoo\Library\Routing\Route::getController
+         * @expectedException UnexpectedValueException
+         */
+        public function testGetControllerValueException()
+        {
+            $this->Route->getController();
+        }
+
+        /**
+         * Test if the method can be set and the Route reference is returned.
+         * @covers Brickoo\Library\Routing\Route::setMethod
          */
         public function testSetMethod()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
+            $this->assertSame($this->Route, $this->Route->setMethod('POST'));
+            $this->assertAttributeEquals('POST', 'method', $this->Route);
+
+            return $this->Route;
         }
 
         /**
-         * @covers {className}::{origMethodName}
-         * @todo Implement testGetDefaultValues().
+         * Test if trying to set a wrong argument type throws an exception.
+         * @covers Brickoo\Library\Routing\Route::setMethod
+         * @expectedException InvalidArgumentException
          */
-        public function testGetDefaultValues()
+        public function testSetMethodArgumentException()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
+            $this->Route->setMethod(array('wrongType'));
         }
 
         /**
-         * @covers {className}::{origMethodName}
-         * @todo Implement testGetDefaultValue().
+         * Test if the method property can be retrieved.
+         * @covers Brickoo\Library\Routing\Route::getMethod
+         * @depends testSetMethod
          */
-        public function testGetDefaultValue()
+        public function testGetMethod($Route)
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
+            $this->assertEquals('POST', $Route->getMethod());
         }
 
         /**
-         * @covers {className}::{origMethodName}
-         * @todo Implement testHasDefaultValue().
+         * Test if trying to retrieve the empty method property throws an exception.
+         * @covers Brickoo\Library\Routing\Route::getMethod
+         * @expectedException UnexpectedValueException
          */
-        public function testHasDefaultValue()
+        public function testGetMethodValueException()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
+            $this->Route->getMethod();
         }
 
         /**
-         * @covers {className}::{origMethodName}
-         * @todo Implement testAddDefaultValue().
+         * Test if a default value can be added and the  Route reference ist returned.
+         * @covers Brickoo\Library\Routing\Route::addDefaultValue
          */
         public function testAddDefaultValue()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
+            $this->assertSame($this->Route, $this->Route->addDefaultValue('some', 'value'));
+            $this->assertAttributeEquals(array('some' => 'value'), 'defaultValues', $this->Route);
+
+            return $this->Route;
         }
 
         /**
-         * @covers {className}::{origMethodName}
-         * @todo Implement testGetRules().
+         * Test if passign an wrong arguemtn type throws an exception.
+         * @covers Brickoo\Library\Routing\Route::addDefaultValue
+         * @expectedException InvalidArgumentException
          */
-        public function testGetRules()
+        public function testAddDefaultValueArgumentException()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
+            $this->Route->addDefaultValue(array('wrongType'), 'someValue');
         }
 
         /**
-         * @covers {className}::{origMethodName}
-         * @todo Implement testGetRule().
+         * Test if all default values can be retrieved.
+         * @covers Brickoo\Library\Routing\Route::getDefaultValues
+         * @depends testAddDefaultValue
          */
-        public function testGetRule()
+        public function testGetDefaultValues($Route)
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
+            $this->assertEquals(array('some' => 'value'), $Route->getDefaultValues());
         }
 
         /**
-         * @covers {className}::{origMethodName}
-         * @todo Implement testHasRule().
+         * Test if a default value can be retrieved.
+         * @covers Brickoo\Library\Routing\Route::getDefaultValue
+         * @depends testAddDefaultValue
          */
-        public function testHasRule()
+        public function testGetDefaultValue($Route)
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
+            $this->assertEquals('value', $Route->getDefaultValue('some'));
+        }
+
+        /**
+         * Test if trying passing a wrong arguemnt type throws an exception.
+         * @covers Brickoo\Library\Routing\Route::getDefaultValue
+         * @expectedException InvalidArgumentException
+         */
+        public function testGetDefaultValueArgumentException()
+        {
+            $this->Route->getDefaultValue(array('wrongType'));
+        }
+
+        /**
+         * Test if trying to retrieve a not existing default valeu throws an exception.
+         * @covers Brickoo\Library\Routing\Route::getDefaultValue
+         * @expectedException UnexpectedValueException
+         */
+        public function testGetDefaultValueException()
+        {
+            $this->Route->getDefaultValue('someParameter');
+        }
+
+        /**
+         * Test if a defaultvalue can be located and the check result si returned.
+         * @covers Brickoo\Library\Routing\Route::hasDefaultValue
+         * @depends testAddDefaultValue
+         */
+        public function testHasDefaultValue($Route)
+        {
+            $this->assertTrue($Route->hasDefaultValue('some'));
+        }
+
+        /**
+         * Test if a  rule can be added and the Route reference is returned.
+         * @covers Brickoo\Library\Routing\Route::addRule
+         */
+        public function testAddRule()
+        {
+            $this->assertSame($this->Route, $this->Route->addRule('name', '[a-z]+'));
+            $this->assertAttributeEquals(array('name' => '[a-z]+'), 'rules', $this->Route);
+
+            return $this->Route;
+        }
+
+        /**
+         * Test if trying to add a wrong argument type as parameter throws an exception.
+         * @covers Brickoo\Library\Routing\Route::addRule
+         * @expectedException InvalidArgumentException
+         */
+        public function testAddRuleArgumentException()
+        {
+            $this->Route->addRule(array('wrongType'), 'regex');
+        }
+
+        /**
+         * Test if all ruels can be retrieved.
+         * @covers Brickoo\Library\Routing\Route::getRules
+         * @depends testAddRule
+         */
+        public function testGetRules($Route)
+        {
+            $this->assertEquals(array('name' => '[a-z]+'), $Route->getRules());
+        }
+
+        /**
+         * Test f a rule can be retrieved by its parameter.
+         * @covers Brickoo\Library\Routing\Route::getRule
+         * @depends testAddRule
+         */
+        public function testGetRule($Route)
+        {
+            $this->assertEquals('[a-z]+', $Route->getRule('name'));
+        }
+
+        /**
+         * Test if a wrong argument type trwos an exception.
+         * @covers Brickoo\Library\Routing\Route::getRule
+         * @expectedException InvalidArgumentException
+         */
+        public function testGetRuleArgumentException()
+        {
+            $this->Route->getRule(array('wrongType'));
+        }
+
+        /**
+         * Test if trying to retrieve a not available rule thrwos an exception.
+         * @covers Brickoo\Library\Routing\Route::getRule
+         * @expectedException UnexpectedValueException
+         */
+        public function testGetRuleValueException()
+        {
+            $this->Route->getRule('fail');
+        }
+
+        /**
+         * Test if an assigned rule is recognized by its parameter.
+         * @covers Brickoo\Library\Routing\Route::hasRule
+         * @depends testAddRule
+         */
+        public function testHasRule($Route)
+        {
+            $this->assertTrue($Route->hasRule('name'));
+        }
+
+        /**
+         * Test if the Route instance is implemnting the ROuteInterface.
+         * @covers Brickoo\Library\ROuting\Route::__construct
+         */
+        public function testConstruct()
+        {
+            $this->assertInstanceof('Brickoo\Library\Routing\Interfaces\RouteInterface', $this->Route);
+        }
+
+        /**
+         * Test if the object clear method return the Route reference.
+         * @covers Brickoo\Library\Routing\Route::clear
+         */
+        public function testClear()
+        {
+            $this->assertSame($this->Route, $this->Route->clear());
+        }
+
+        /**
+         * Test if the amount of segments is counted implenting the Countable interface.
+         * @covers Brickoo\Library\Routing\Route::count
+         * @depends testSetPath
+         */
+        public function testCount($Route)
+        {
+            $this->assertEquals(3, count($Route));
         }
 
     }

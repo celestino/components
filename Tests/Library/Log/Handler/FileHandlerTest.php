@@ -39,7 +39,7 @@
     /**
      * FileHandlerTest
      *
-     * Test case for the FileHandler class.
+     * Test suite for the FileHandler class.
      * @see Brickoo\Library\Log\Handler\FileHandler
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      * @version $Id: FileHandlerTest.php 16 2011-12-23 22:39:50Z celestino $
@@ -214,7 +214,7 @@
 
         /**
          * Test if the messages array can be converted to a single message.
-         * Test if the default severiy ´Debug`is used if the severity is unknowed.
+         * Test if the default severiy `Debug`is used if the severity is unknowed.
          * @covers \Brickoo\Library\Log\Handler\FileHandler::convertToLogMessage
          */
         public function testConvertToLogMessage()

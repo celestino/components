@@ -35,7 +35,7 @@
     /**
      * FileObjectInterface
      *
-     * Interface for implementing the FileObject.
+     * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      * @version $Id$
      */

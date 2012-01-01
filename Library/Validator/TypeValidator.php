@@ -49,7 +49,7 @@
          * Exception message with placeholders.
          * @var string
          */
-        const ExceptionMessage = 'Validation with argument at index `%d` and flag `%s` on method `%s` failed.';
+        const ExceptionMessage = 'Validation with argument `%s` and flag `%s` on method `%s` failed.';
 
         /**
          * Flag definitions for validation cases.
@@ -78,19 +78,34 @@
         /**
          * Throws an InvalidArgumentException.
          * @param string $method the method called for validation
-         * @param integer $index the index of the paramters which throws the exception
+         * @param integer $parameter the paramter which throws the exception
          * @param integer $flag optional flag used
          * @throws InvalidArgumentException
          * @return void
          */
-        protected function throwInvalidException($method, $index, $flag = null)
+        protected function throwInvalidException($method, $parameter, $flag = null)
         {
+            if (is_array($parameter))
+            {
+                $parameter = implode(',', $parameter);
+            }
+
+            if (is_object($parameter))
+            {
+                $parameter = get_class($parameter);
+            }
+
+            if (is_null($parameter))
+            {
+                $parameter = 'null';
+            }
+
             throw new \InvalidArgumentException
             (
                 sprintf
                 (
                     self::ExceptionMessage,
-                    $index,
+                    $parameter,
                     ($flag === null ? 'null' : $flag),
                     $method
                 ),
@@ -166,7 +181,7 @@
             {
                 throw new \BadMethodCallException
                 (
-                    sprintf('Method ´%s´ does not exists in the TypeValidator.', $method),
+                    sprintf('Method `%s` does not exists in the TypeValidator.', $method),
                     E_ERROR
                 );
             }
@@ -178,7 +193,7 @@
 
             if (($valid = self::$Validator->checkValidation($method, $arguments, $flag)) !== true)
             {
-                return self::$Validator->throwInvalidException($method, $valid, $flag);
+                return self::$Validator->throwInvalidException($method, $arguments[$valid], $flag);
             }
 
             return true;

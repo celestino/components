@@ -51,7 +51,7 @@
          */
         public function __construct($mode)
         {
-            parent::__construct(sprintf('The resource handle does not allow mode ´%s´ operations.', $mode));
+            parent::__construct(sprintf('The resource handle does not allow mode `%s` operations.', $mode));
         }
 
     }

@@ -41,7 +41,7 @@
      *
      * Implements an OOP wrapper for handling socket operations.
      * The resource handle is created and closed by the SocketObject,
-     * that´s the reason why fsockopen() and fclose() are not supported as magic method.
+     * that`s the reason why fsockopen() and fclose() are not supported as magic method.
      * The managing of the handle makes it possible to configure the SocketObject at any time
      * and the handle handle will be just created if socket accessing is realy done later on.
      * This class does not implement all functions available for socket handling,
@@ -127,7 +127,7 @@
         {
             if ($this->serverAdress === null)
             {
-                throw new \UnexpectedValueException('The server adress is ´null´.');
+                throw new \UnexpectedValueException('The server adress is `null`.');
             }
             return $this->serverAdress;
         }
@@ -167,7 +167,7 @@
         {
             if ($this->serverPort === null)
             {
-                throw new \UnexpectedValueException('The server port is ´null´.');
+                throw new \UnexpectedValueException('The server port is `null`.');
             }
 
             return $this->serverPort;
@@ -208,7 +208,7 @@
         {
             if ($this->timeout === null)
             {
-                throw new \UnexpectedValueException('The timeout is ´null´.');
+                throw new \UnexpectedValueException('The timeout is `null`.');
             }
 
             return $this->timeout;
@@ -382,7 +382,7 @@
             {
                 throw new \BadMethodCallException
                 (
-                    sprintf('The method ´%s`is not allowed to be called.', $function)
+                    sprintf('The method `%s`is not allowed to be called.', $function)
                 );
             }
 

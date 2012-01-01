@@ -38,7 +38,7 @@
     /**
      * TypeValidatorTest
      *
-     * Test case for the TypeValidator class.
+     * Test suite for the TypeValidator class.
      * @see Brickoo\Library\Storage\Locker
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      * @version $Id: TypeValidatorTest.php 16 2011-12-23 22:39:50Z celestino $
@@ -395,6 +395,50 @@
         public function testUseRegexException()
         {
             TypeValidator::Validate('useRegex', array('wrongType'));
+        }
+
+        /**
+         * Test validation of argument type string throws an exception.
+         * @covers Brickoo\Library\Validator\TypeValidator::Validate
+         * @covers Brickoo\Library\Validator\TypeValidator::throwInvalidException
+         * @expectedException InvalidArgumentException
+         */
+        public function testThrowInvalidExceptionWithString()
+        {
+            TypeValidator::Validate('isInteger', array('string'));
+        }
+
+        /**
+         * Test validation of argument type array throws an exception.
+         * @covers Brickoo\Library\Validator\TypeValidator::Validate
+         * @covers Brickoo\Library\Validator\TypeValidator::throwInvalidException
+         * @expectedException InvalidArgumentException
+         */
+        public function testThrowInvalidExceptionWithArray()
+        {
+            TypeValidator::Validate('isInteger', array(array('string')));
+        }
+
+        /**
+         * Test validation of argument type object throws an exception.
+         * @covers Brickoo\Library\Validator\TypeValidator::Validate
+         * @covers Brickoo\Library\Validator\TypeValidator::throwInvalidException
+         * @expectedException InvalidArgumentException
+         */
+        public function testThrowInvalidExceptionWithObject()
+        {
+            TypeValidator::Validate('isInteger', array(new stdClass()));
+        }
+
+        /**
+         * Test validation of argument type null throws an exception.
+         * @covers Brickoo\Library\Validator\TypeValidator::Validate
+         * @covers Brickoo\Library\Validator\TypeValidator::throwInvalidException
+         * @expectedException InvalidArgumentException
+         */
+        public function testThrowInvalidExceptionWithNull()
+        {
+            TypeValidator::Validate('isInteger', array(null));
         }
 
     }

@@ -41,9 +41,9 @@
      *
      * Implements an OOP wrapper for handling file operations.
      * The SplFileObject has not an implementation for changing or just close
-     * and open the location anytime, that´s the reason why i did created this version.
+     * and open the location anytime, that`s the reason why i did created this version.
      * The resource handle is created and closed by the FileObject,
-     * that´s the reason why fopen() and fclose() are not supported as magic method.
+     * that`s the reason why fopen() and fclose() are not supported as magic method.
      * The managing of the handle makes it possible to configure the FileObject at any time
      * and the handle handle will be just created if file accessing is realy done later on.
      * This class does not implement all functions available for file handling,
@@ -92,7 +92,7 @@
         {
             if ($this->location === null)
             {
-                throw new \UnexpectedValueException('The file location is ´null´.');
+                throw new \UnexpectedValueException('The file location is `null`.');
             }
 
             return $this->location;
@@ -133,7 +133,7 @@
         {
             if ($this->mode === null)
             {
-                throw new \UnexpectedValueException('The file mode is ´null´.');
+                throw new \UnexpectedValueException('The file mode is `null`.');
             }
             return $this->mode;
         }
@@ -163,27 +163,6 @@
          * @var handle
          */
         protected $handle;
-
-        /**
-         * Opens the file to store the handle handle.
-         * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
-         * @throws Exceptions\UnableToCreateHandleException if the handle can not be opened
-         * @return reource the file handle handle
-         */
-        public function open()
-        {
-            if ($this->hasHandle())
-            {
-                throw new Exceptions\HandleAlreadyExistsException();
-            }
-
-            if (! $this->handle = @fopen($this->getLocation(), $this->getMode()))
-            {
-                throw new Exceptions\UnableToCreateHandleException($this->getLocation());
-            }
-
-            return $this->handle;
-        }
 
         /**
          * Lazy handle handle creation.
@@ -262,6 +241,27 @@
         }
 
         /**
+         * Opens the file to store the handle handle.
+         * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
+         * @throws Exceptions\UnableToCreateHandleException if the handle can not be opened
+         * @return reource the file handle handle
+         */
+        public function open()
+        {
+            if ($this->hasHandle())
+            {
+                throw new Exceptions\HandleAlreadyExistsException();
+            }
+
+            if (! $this->handle = @fopen($this->getLocation(), $this->getMode()))
+            {
+                throw new Exceptions\UnableToCreateHandleException($this->getLocation());
+            }
+
+            return $this->handle;
+        }
+
+        /**
          * Writes the data into the file location.
          * Makes sure the mode supports write operations.
          * @param integer|string $data the data to write
@@ -335,7 +335,7 @@
             {
                 throw new \BadMethodCallException
                 (
-                    sprintf('The method ´%s`is not allowed to be called.', $function)
+                    sprintf('The method `%s` is not allowed to be called.', $function)
                 );
             }
 

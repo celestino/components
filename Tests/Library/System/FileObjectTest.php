@@ -39,7 +39,7 @@
     /**
      * FileObjectTest
      *
-     * Test case for the FileObject class.
+     * Test suite for the FileObject class.
      * @see Brickoo\Library\System\FileObject
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      * @version $Id$

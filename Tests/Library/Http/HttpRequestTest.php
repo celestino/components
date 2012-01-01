@@ -51,7 +51,7 @@
     /**
      * HttpRequestTest
      *
-     * Test case for the Http Request class.
+     * Test suite for the Http Request class.
      * @see Brickoo\Library\Http\Request
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      * @version $Id: HttpRequestTest.php 16 2011-12-23 22:39:50Z celestino $
@@ -115,10 +115,10 @@
         }
 
         /**
-         * Test if the Url passed support can be assigned
+         * Test if the Url can be injected.
          * @covers Brickoo\Library\Http\Request::injectUrl
          */
-        public function testSetUrlPassedSupport()
+        public function testInjectUrl()
         {
             $UrlMock = $this->getMock('\Brickoo\Library\Http\Interfaces\UrlInterface');
             $HttpRequest = new Request($this->getRequestStub());
@@ -132,7 +132,7 @@
          * @covers Brickoo\Library\Core\Exceptions\DependencyOverwriteException
          * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
          */
-        public function testAddUrlDependencyException()
+        public function testInjectUrlDependencyException()
         {
             $HttpRequest = new Request($this->getRequestStub());
             $Url = $HttpRequest->Url();

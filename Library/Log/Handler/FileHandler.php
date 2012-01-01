@@ -108,7 +108,7 @@
         {
             if ($this->directory == null)
             {
-                throw new \UnexpectedValueException('The directory is ´null´.');
+                throw new \UnexpectedValueException('The directory is `null`.');
             }
 
             return $this->directory;

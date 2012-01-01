@@ -38,7 +38,7 @@
     /**
      * RegistryTest
      *
-     * Test case for the Registry class.
+     * Test suite for the Registry class.
      * @see Brickoo\Library\Storage\Registry
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      * @version $Id: RegistryTest.php 15 2011-12-23 02:05:32Z celestino $
@@ -324,7 +324,7 @@
         }
 
         /**
-         * Test if a unregisterd key can be stored by magic __set().
+         * Test if a unregistered key can be stored by magic __set().
          * @covers Brickoo\Library\Storage\Registry::__set
          */
         public function testMagicFunctionSet()
@@ -333,7 +333,7 @@
         }
 
         /**
-         * Test if registered key assigned by magic __set() throws an exception.
+         * Test if a registered key assigned by magic __set() throws an exception.
          * @covers Brickoo\Library\Storage\Registry::__set
          * @covers Brickoo\Library\Storage\Exceptions\DuplicateRegistrationException
          * @expectedException Brickoo\Library\Storage\Exceptions\DuplicateRegistrationException

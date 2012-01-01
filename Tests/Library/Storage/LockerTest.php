@@ -38,7 +38,7 @@
     /**
      * LockerTest
      *
-     * Test case for the Locker class.
+     * Test suite for the Locker class.
      * @see Brickoo\Library\Storage\Locker
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      * @version $Id: LockerTest.php 15 2011-12-23 02:05:32Z celestino $

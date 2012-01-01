@@ -35,7 +35,7 @@
     /**
      * SocketObjectInterface
      *
-     * Interface for implementing the SocketObject.
+     * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      * @version $Id: FileObjectInterface.php 17 2011-12-25 02:06:06Z celestino $
      */

@@ -39,7 +39,7 @@
     /**
      * ErrorHandlerTest
      *
-     * Test case for the ErrorHandler class.
+     * Test suite for the ErrorHandler class.
      * @see Brickoo\Library\Error\ErrorHandler
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      * @version $Id: ErrorHandlerTest.php 15 2011-12-23 02:05:32Z celestino $

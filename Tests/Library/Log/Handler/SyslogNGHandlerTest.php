@@ -39,7 +39,7 @@
     /**
      * SyslogNGHandlerTest
      *
-     * Test case for the SyslogNGHandler class.
+     * Test suite for the SyslogNGHandler class.
      * @see Brickoo\Library\Log\Handler\SyslogNGHandler
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      * @version $Id$

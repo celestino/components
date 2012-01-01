@@ -36,7 +36,7 @@
     require_once ('PHPUnit/Autoload.php');
 
     /**
-     * Test case for the Core Request class.
+     * Test suite for the Core Request class.
      * @see Brickoo\Library\Core\Request
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      * @version $Id: RequestTest.php 16 2011-12-23 22:39:50Z celestino $

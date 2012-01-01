@@ -39,7 +39,7 @@
     /**
      * LoggerTest
      *
-     * Test case for the Logger class.
+     * Test suite for the Logger class.
      * @see Brickoo\Library\Log\Logger
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      * @version $Id: LoggerTest.php 16 2011-12-23 22:39:50Z celestino $
@@ -64,7 +64,7 @@
         }
 
         /**
-         * Holds the LOgger instance for the tests.
+         * Holds an instance of the Logger class.
          * @var Brickoo\Library\Log\Logger
          */
         protected $Logger;

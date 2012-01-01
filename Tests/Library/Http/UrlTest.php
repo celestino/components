@@ -38,7 +38,7 @@
     /**
      * UrlTest
      *
-     * Test case for the Http Url class.
+     * Test suite for the Http Url class.
      * @see Brickoo\Library\Http\Url
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      * @version $Id: UrlTest.php 15 2011-12-23 02:05:32Z celestino $
@@ -109,7 +109,7 @@
         }
 
         /**
-         * Test if the scheme can be recogi´nized as http.
+         * Test if the scheme can be recogi`nized as http.
          * @covers Brickoo\Library\Http\Url::getScheme
          */
         public function testGetScheme()

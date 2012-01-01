@@ -39,7 +39,7 @@
     /**
      * SocketObjectTest
      *
-     * Test case for the SocketObject class.
+     * Test suite for the SocketObject class.
      * @see Brickoo\Library\System\SocketObject
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      * @version $Id$

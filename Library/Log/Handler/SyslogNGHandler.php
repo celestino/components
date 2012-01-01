@@ -145,7 +145,7 @@
         {
             if ($this->hostname === null)
             {
-                throw new \UnexpectedValueException('The hostname is ´null´.');
+                throw new \UnexpectedValueException('The hostname is `null`.');
             }
 
             return $this->hostname;
@@ -180,7 +180,7 @@
         {
             if ($this->serverAdress === null)
             {
-                throw new \UnexpectedValueException('The server adress is ´null´.');
+                throw new \UnexpectedValueException('The server adress is `null`.');
             }
             return $this->serverAdress;
         }
@@ -215,7 +215,7 @@
         {
             if ($this->serverPort === null)
             {
-                throw new \UnexpectedValueException('The server port is ´null´.');
+                throw new \UnexpectedValueException('The server port is `null`.');
             }
 
             return $this->serverPort;
@@ -250,7 +250,7 @@
         {
             if ($this->timeout === null)
             {
-                throw new \UnexpectedValueException('The timeout is ´null´.');
+                throw new \UnexpectedValueException('The timeout is `null`.');
             }
 
             return $this->timeout;
@@ -285,7 +285,7 @@
         {
             if ($this->facility === null)
             {
-                throw new \UnexpectedValueException('The facility is ´null´.');
+                throw new \UnexpectedValueException('The facility is `null`.');
             }
 
             return $this->facility;

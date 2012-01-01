@@ -155,7 +155,7 @@
         /**
          * Sends the log messages using log handler assigned.
          * @param array|string $messages the messages to send
-         * @return void
+         * @return object reference
          */
         public function log($messages, $severity = null)
         {
