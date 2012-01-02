@@ -39,13 +39,52 @@
     /**
      * Request
      *
-     * Request class for accessing cli arguments.
+     * Request class for accessing cli arguments and request content.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
-    class Request implements Interfaces\RequestInterface
+    class Request implements Interfaces\RequestInterface, Core\Interfaces\DynamicRequestInterface
     {
+
+        /**
+         * Holds an instance of the Core Request class.
+         * @see Brickoo\Library\Core\Request
+         * @var object
+         */
+        protected $CoreRequest;
+
+        /**
+         * Lazy initialization of the Core\Request instance.
+         * Returns the Core\Request instance.
+         * @return object Core\Request implementing the Core\Interfaces\RequestInterface
+         */
+        public function getCoreRequest()
+        {
+            if (! $this->CoreRequest instanceof Core\Interfaces\RequestInterface)
+            {
+                $this->injectCoreRequest(new Core\Request());
+            }
+
+            return $this->CoreRequest;
+        }
+
+        /**
+         * Injects the Core\Request dependency.
+         * @param \Brickoo\Library\Core\Interfaces\RequestInterface $CoreRequest the Core\Request instance
+         * @throws Core\Exceptions\DependencyOverwriteException if trying to overwrite the dependecy
+         * @return object reference
+         */
+        public function injectCoreRequest(\Brickoo\Library\Core\Interfaces\RequestInterface $CoreRequest)
+        {
+            if ($this->CoreRequest !== null)
+            {
+                throw new Core\Exceptions\DependencyOverwriteException('Core\Interfaces\RequestInterface');
+            }
+
+            $this->CoreRequest = $CoreRequest;
+
+            return $this;
+        }
 
         /**
          * Holds the passed cli arguments.
@@ -138,7 +177,7 @@
         {
             if
             (
-                ($arguments = $this->Request->getServerVar('argv'))
+                ($arguments = $this->getCoreRequest()->getServerVar('argv'))
                 &&
                 is_array($arguments)
             )
@@ -168,14 +207,58 @@
         }
 
         /**
+         * Holds the request path assigned.
+         * @var string
+         */
+        protected $requestPath;
+
+        /**
+         * Returns the request path used.
+         * @throws UnexpectedValueException if the request path is not set
+         * @return string the request path
+         */
+        public function getRequestPath()
+        {
+            if ($this->requestPath === null)
+            {
+                throw new \UnexpectedValueException('The request path is `null`.');
+            }
+
+            return $this->requestPath;
+        }
+
+        /**
+         * Sets the request path to use.
+         * @param string $requestPath the request path to use
+         * @return object reference
+         */
+        public function setRequestPath($requestPath)
+        {
+            TypeValidator::Validate('isString', array($requestPath));
+
+            $this->requestPath = $requestPath;
+
+            return $this;
+        }
+
+        /**
+         * Returns always LOCAL as return method.
+         * This is fix because cli modules should be never accessed
+         * directly over the the web with GET methods.
+         * @return string LOCAL as request method
+         */
+        public function getRequestMethod()
+        {
+            return 'LOCAL';
+        }
+
+        /**
          * Class constructor.
          * Initializes the class properties.
-         * @param object Request implementing the RequestInterface
          * @return void
          */
-        public function __construct(\Brickoo\Library\Core\Interfaces\RequestInterface $Request)
+        public function __construct()
         {
-            $this->Request = $Request;
             $this->clear();
         }
 

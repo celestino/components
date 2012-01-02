@@ -33,36 +33,26 @@
     namespace Brickoo\Library\Core\Interfaces;
 
     /**
-     * RequestInterface
+     * DynamicRequestInterface
      *
-     * Describes the methods implemented by this interface.
+     * This interface is for the dynamic type hinting of the Http and Cli Requests.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    Interface RequestInterface
+    Interface DynamicRequestInterface
     {
 
         /**
-         * Returns the server variable value of the passed key.
-         * @param string $keyName the key name to return the value from
-         * @param mixed $defaultValue the default value to return if unset
-         * @throws InvalidArgumentException if the key or apache flag is not valid
-         * @return string/mixed the header or default value
-         */
-        public function getServerVar($keyName, $defaultValue = null);
+        * Returns the request path used.
+        * @return string the request path
+        */
+        public function getRequestPath();
 
         /**
-         * Checks if the passed interface is used.
-         * @param string $interface the interface to check
-         * @return boolean check result
+         * Returns the request method used.
+         * @return string the request method
          */
-        public function isPHPInterface($interface);
-
-        /**
-         * Clears the request object properties.
-         * @return object reference
-         */
-        public function clear();
+        public function getRequestMethod();
 
     }
 

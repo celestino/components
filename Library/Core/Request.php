@@ -32,8 +32,6 @@
 
     namespace Brickoo\Library\Core;
 
-    use Brickoo\Library\Http;
-    use Brickoo\Library\Cli;
     use Brickoo\Library\Core\Exceptions;
     use Brickoo\Library\Core\Interfaces;
     use Brickoo\Library\Validator\TypeValidator;
@@ -48,86 +46,6 @@
 
     class Request implements Interfaces\RequestInterface
     {
-
-        /**
-         * Holds an object implementing the RequestInterface.
-         * @see Bricko\Library\Cli\Interfaces\CliRequestInterface
-         * @var object
-         */
-        protected $_Cli;
-
-        /**
-         * Returns the Cli Request object.
-         * If the object does not exist, it wll be created.
-         * @return object Cli implementing the Cli\Interfaces\RequestInterface
-         */
-        public function Cli()
-        {
-            if (! $this->_Cli instanceof Cli\Interfaces\RequestInterface)
-            {
-                $this->injectCliRequest(new Cli\Request($this));
-            }
-
-            return $this->_Cli;
-        }
-
-        /**
-         * Lazy initialization of the Cli Request instance.
-         * @param Cli\Interfaces\RequestInterface $Cli the Cli object implementing the RequestInterface
-         * @throws DependencyOverwriteException if trying to override the dependency
-         * @return object reference
-         */
-        public function injectCliRequest(\Brickoo\Library\Cli\Interfaces\RequestInterface $Cli)
-        {
-            if ($this->_Cli !== null)
-            {
-                throw new Exceptions\DependencyOverwriteException('Cli\Interfaces\RequestInterface');
-            }
-
-            $this->_Cli = $Cli;
-
-            return $this;
-        }
-
-        /**
-         * Holds an instance of the Http Request class.
-         * @see Bricko\Library\HTTP\Interfaces\RequestInterface
-         * @var object
-         */
-        protected $_Http;
-
-        /**
-         * Returns the Http Request object.
-         * If the object does not exist, it wll be created.
-         * @return object Http implementing the Http\Interfaces\RequestInterface
-         */
-        public function Http()
-        {
-            if (! $this->_Http instanceof Http\Interfaces\RequestInterface)
-            {
-                $this->injectHttpRequest(new Http\Request($this));
-            }
-
-            return $this->_Http;
-        }
-
-        /**
-         * Lazy initialization of the Http Request instance.
-         * @param Http\Interfaces\RequestInterface $Http the Http object implementing the RequestInterface
-         * @throws DependencyOverwriteException if trying to override the dependency
-         * @return object reference
-         */
-        public function injectHttpRequest(\Brickoo\Library\Http\Interfaces\RequestInterface $Http)
-        {
-            if ($this->_Http !== null)
-            {
-                throw new Exceptions\DependencyOverwriteException('Http\Interfaces\RequestInterface');
-            }
-
-            $this->_Http = $Http;
-
-            return $this;
-        }
 
         /**
          * Holds the transformed server variables.

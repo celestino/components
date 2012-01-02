@@ -32,8 +32,8 @@
 
     namespace Brickoo\Library\Http;
 
-    use Brickoo\Library\Core\Interfaces\RequestInterface;
-    use Brickoo\Library\Http\Interfaces\UrlInterface;
+    use Brickoo\Library\Core;
+    use Brickoo\Library\Http\Interfaces;
     use Brickoo\Library\Validator\TypeValidator;
 
     /**
@@ -41,18 +41,50 @@
      *
      * Url class for Uniform Handle Locator specified tasks.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
-    class Url implements UrlInterface, \Countable
+    class Url implements Interfaces\UrlInterface, \Countable
     {
 
         /**
-         * Holds an instance of the Core Request class.
-         * @see Brickoo\Library\Core\Request
+         * Holds an instance of the Http Request class.
+         * @see Brickoo\Library\Http\Request
          * @var object
          */
         protected $Request;
+
+        /**
+         * Lazy initialization of the Http\Request instance.
+         * Returns the Http\Request instance.
+         * @return object Http\Request implementing the Http\Interfaces\RequestInterface
+         */
+        public function getRequest()
+        {
+            if (! $this->Request instanceof Interfaces\RequestInterface)
+            {
+                $this->injectRequest(new Request());
+            }
+
+            return $this->Request;
+        }
+
+        /**
+         * Injects the Http\Request dependency.
+         * @param \Brickoo\Library\Http\Interfaces\RequestInterface $Request the Http\Request instance
+         * @throws Core\Exceptions\DependencyOverwriteException if trying to overwrite the dependecy
+         * @return object reference
+         */
+        public function injectRequest(\Brickoo\Library\Http\Interfaces\RequestInterface $Request)
+        {
+            if ($this->Request !== null)
+            {
+                throw new Core\Exceptions\DependencyOverwriteException('Http\Interfaces\RequestInterface');
+            }
+
+            $this->Request = $Request;
+
+            return $this;
+        }
 
         /**
          * Holds the request scheme (e.g. http/https);
@@ -68,7 +100,7 @@
         {
             if ($this->scheme === null)
             {
-                $this->scheme = 'http' . ($this->Request->Http()->isSecureConnection() ? 's' : '');
+                $this->scheme = 'http' . ($this->getRequest()->isSecureConnection() ? 's' : '');
             }
 
             return $this->scheme;
@@ -86,13 +118,15 @@
          */
         public function getHost()
         {
+            $HttpRequest = $this->getRequest();
+
             if ($this->hostname === null)
             {
-                if (! $hostname =  $this->Request->Http()->getHTTPHeader('Host', false))
+                if (! $hostname =  $HttpRequest->getHTTPHeader('Host', false))
                 {
-                    if (! $hostname = $this->Request->getServerVar('Server.Name'))
+                    if (! $hostname = $HttpRequest->getCoreRequest()->getServerVar('Server.Name'))
                     {
-                        $hostname = $this->Request->getServerVar('Server.Addr');
+                        $hostname = $HttpRequest->getCoreRequest()->getServerVar('Server.Addr');
                     }
                 }
                 $this->hostname = (string)$hostname;
@@ -113,11 +147,13 @@
          */
         public function getPort()
         {
+            $CoreRequest = $this->getRequest()->getCoreRequest();
+
             if ($this->port === null)
             {
-                if (! $port = $this->Request->getServerVar('X.Forwarded.Port'))
+                if (! $port = $CoreRequest->getServerVar('X.Forwarded.Port'))
                 {
-                    $port = $this->Request->getServerVar('Server.Port');
+                    $port = $CoreRequest->getServerVar('Server.Port');
                 }
                 $this->port = (string)$port;
             }
@@ -170,7 +206,7 @@
                 return rawurldecode($segments[$position]);
             }
 
-            throw new \OutOfRangeException('Segment on position `'. $position .'` is not available.', E_WARNING);
+            throw new \OutOfRangeException('Segment on position `'. $position .'` is not available.');
         }
 
         /**
@@ -185,9 +221,11 @@
          */
         public function getRequestQuery()
         {
+            $CoreRequest = $this->getRequest()->getCoreRequest();
+
             if ($this->requestQuery === null)
             {
-                if (! $queryString = $this->Request->getServerVar('Query.String'))
+                if (! $queryString = $CoreRequest->getServerVar('Query.String'))
                 {
                     if (! empty($_GET))
                     {
@@ -222,12 +260,14 @@
          */
         protected function getIISRequestPath()
         {
-            if ($requestPath = $this->Request->getServerVar('X.Original.Url'))
+            $CoreRequest = $this->getRequest()->getCoreRequest();
+
+            if ($requestPath = $CoreRequest->getServerVar('X.Original.Url'))
             {
                 return $requestPath;
             }
 
-            if ($requestPath = $this->Request->getServerVar('X.Rewrite.Url'))
+            if ($requestPath = $CoreRequest->getServerVar('X.Rewrite.Url'))
             {
                 return $requestPath;
             }
@@ -241,6 +281,8 @@
          */
         public function getRequestPath()
         {
+            $CoreRequest = $this->getRequest()->getCoreRequest();
+
             if (! empty($this->requestPath))
             {
                 return $this->requestPath;
@@ -248,7 +290,7 @@
 
             if (! $requestPath = $this->getIISRequestPath())
             {
-                $requestPath = $this->Request->getServerVar('Request.Uri');
+                $requestPath = $CoreRequest->getServerVar('Request.Uri');
             }
 
             if (! empty($requestPath))
@@ -258,7 +300,7 @@
                     $requestPath = substr($requestPath, 0, $position);
                 }
 
-                $this->requestPath = trim($requestPath, '/');
+                $this->requestPath = rtrim($requestPath, '/');
             }
 
             return $this->requestPath;
@@ -285,12 +327,10 @@
         /**
          * Class constructor.
          * Initializes the class properties.
-         * @param object Request object implementing the RequestInterface
          * @return void
          */
-        public function __construct(RequestInterface $Request)
+        public function __construct()
         {
-            $this->Request = $Request;
             $this->clear();
         }
 

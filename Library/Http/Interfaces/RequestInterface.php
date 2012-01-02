@@ -44,15 +44,31 @@
     {
 
         /**
-         * Returns the Url object.
-         * If the object does not exist, it wll be created.
+         * Lazy initialization of the Core\Request instance.
+         * Returns the Core\Request instance.
+         * @return object Core\Request implementing the Core\Interfaces\RequestInterface
+         */
+        public function getCoreRequest();
+
+        /**
+         * Injects the Core\Request dependency.
+         * @param \Brickoo\Library\Core\Interfaces\RequestInterface $CoreRequest the Core\Request instance
+         * @throws Core\Exceptions\DependencyOverwriteException if trying to overwrite the dependecy
+         * @return object reference
+         */
+        public function injectCoreRequest(\Brickoo\Library\Core\Interfaces\RequestInterface $CoreRequest);
+
+        /**
+         * Lazy initialization of the Url instance.
+         * Returns the Url object implementing the UrlInterface.
          * @return object Url implementing the UrlInterface
          */
         public function Url();
 
         /**
-         * Lazy initialization of the Url instance.
-         * @param UrlInterface $Url the Url objetc implementing the UrlInterface
+         * Injects the Url dependency used for Url specific tasks.
+         * @param UrlInterface $Url the Url object implementing the UrlInterface
+         * @throws Core\Exceptions\DependencyOverwriteException if trying to overwrite the dependecy
          * @return object reference
          */
         public function injectUrl(\Brickoo\Library\Http\Interfaces\UrlInterface $Url);
@@ -183,30 +199,29 @@
         public function getAcceptHeaderByRegex($regex, $keyName, $acceptHeader);
 
         /**
-         * Returns the request method.
-         * @return strinng the request value or null if not given.
-         */
-        public function getRequestMethod();
-
-        /**
-         * Checks if the connection is based on https.
-         * @return boolean check result
-         */
-        public function isSecureConnection();
-
-        /**
-        * Class constructor.
-        * Initializes the class properties.
-        * @param object implementing the Brickoo\Library\Core\Interfaces\RequestInterface
-        * @return void
-        */
-        public function __construct(\Brickoo\Library\Core\Interfaces\RequestInterface $Request);
-
-        /**
          * Clears the Request object properties.
          * @return object reference
          */
         public function clear();
+
+        /**
+        * Returns the raw body of the request.
+         * @return string
+        */
+        public function getRawBody();
+
+        /**
+        * Checks if the connection is based on https.
+        * @return boolean check result
+        */
+        public function isSecureConnection();
+
+        /**
+        * Check if the Ajax framework has sent an identifier.
+        * This is not standard and is currently just supported by few javascript frameworks.
+        * @return boolean check result
+             */
+        public function isAjaxRequest();
 
     }
 

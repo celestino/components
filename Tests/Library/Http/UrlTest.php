@@ -41,48 +41,56 @@
      * Test suite for the Http Url class.
      * @see Brickoo\Library\Http\Url
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id: UrlTest.php 15 2011-12-23 02:05:32Z celestino $
      */
 
     class UrlTest extends PHPUnit_Framework_TestCase
     {
 
         /**
-         * Returns an Core Request Stub for the Url to look up for server variables or http calls.
-         * To the request Stub you can add also the Http configuration of methods and values to return.
+         * Returns an Core Request Stub.
          * @param array $requestMethods the request methods to attach
-         * @param array $httpMethods the http request methods to attach and its return values
-         * @return object implementing the Brickoo\Library\Core\Interfaces\Request
+         * @return object implementing the Brickoo\Library\Core\Interfaces\RequestInterface
          */
-        protected function getRequestStub(array $requestMethods = null, array $httpMethods = null)
+        protected function getCoreRequestStub(array $requestMethods = null)
         {
-            $RequestStub = $this->getMock
+            return $this->getMock
             (
                 'Brickoo\Library\Core\Request',
                 ($requestMethods === null ? null : array_values($requestMethods))
             );
+        }
 
+        /**
+        * Returns an Http Request Stub.
+        * @param array $requestMethods the request methods to attach
+        * @return object implementing the Brickoo\Library\Http\Interfaces\RequestInterface
+        */
+        protected function getHttpRequestStub(array $requestMethods = null)
+        {
             $HttpRequestStub = $this->getMock
             (
                 'Brickoo\Library\Http\Request',
-                ($httpMethods === null ? null : array_keys($httpMethods)),
-                array($RequestStub)
+                ($requestMethods === null ? null : array_keys($requestMethods))
             );
 
-            if ($httpMethods !== null)
+            if ($requestMethods !== null)
             {
-                foreach($httpMethods as $method => $returnValue)
+                foreach($requestMethods as $method => $returnValue)
                 {
                     $HttpRequestStub->expects($this->any())
-                                    ->method($method)
-                                    ->will($this->returnValue($returnValue));
+                    ->method($method)
+                    ->will($this->returnValue($returnValue));
                 }
             }
 
-            $RequestStub->injectHttpRequest($HttpRequestStub);
-
-            return $RequestStub;
+            return $HttpRequestStub;
         }
+
+        /**
+         * Holds an instance of the Url class.
+         * @var Brickoo\Library\Http\Url
+         */
+        protected $Url;
 
         /**
          * Set up the environment variables used.
@@ -91,6 +99,8 @@
         public function setUp()
         {
             $_GET['some'] = 'value';
+
+            $this->Url = new Url();
         }
 
         /**
@@ -104,8 +114,45 @@
             $this->assertInstanceOf
             (
                 '\Brickoo\Library\Http\Interfaces\UrlInterface',
-                new Url($this->getRequestStub())
+                $this->Url
             );
+        }
+
+        /**
+         * Test if the Http\Request dependency can be retrieved.
+         * @covers Brickoo\Library\Http\Url::getRequest
+         * @covers Brickoo\Library\Http\Url::injectRequest
+         */
+        public function testGetRequest()
+        {
+            $this->assertInstanceOf
+            (
+                '\Brickoo\Library\Http\Interfaces\RequestInterface',
+                $this->Url->getRequest()
+            );
+        }
+
+        /**
+         * Test if the Http\Request can be injected.
+         * @covers Brickoo\Library\Http\Url::injectRequest
+         */
+        public function testInjectRequest()
+        {
+            $HttpRequestStub = $this->getHttpRequestStub();
+            $this->Url->injectRequest($HttpRequestStub);
+            $this->assertSame($HttpRequestStub, $this->Url->getRequest());
+        }
+
+        /**
+         * Test if trying to overwrite the Http\Request dependecy throws an exception.
+         * @covers Brickoo\Library\Http\Url::injectRequest
+         * @covers Brickoo\Library\Core\Exceptions\DependencyOverwriteException
+         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
+         */
+        public function testInjectRequestDependencyException()
+        {
+            $HttpRequest = $this->Url->getRequest();
+            $this->Url->injectRequest($this->getHttpRequestStub());
         }
 
         /**
@@ -114,14 +161,10 @@
          */
         public function testGetScheme()
         {
-            $RequestStub = $this->getRequestStub
-            (
-                null,
-                array('isSecureConnection' => false)
-            );
-            $Url = new Url($RequestStub);
+            $HttpRequestStub = $this->getHttpRequestStub(array('isSecureConnection' => false));
+            $this->Url->injectRequest($HttpRequestStub);
 
-            $this->assertEquals('http', $Url->getScheme());
+            $this->assertEquals('http', $this->Url->getScheme());
         }
 
         /**
@@ -130,14 +173,10 @@
          */
         public function testGetSecureScheme()
         {
-            $RequestStub = $this->getRequestStub
-            (
-                null,
-                array('isSecureConnection' => true)
-            );
-            $Url = new Url($RequestStub);
+            $HttpRequestStub = $this->getHttpRequestStub(array('isSecureConnection' => true));
+            $this->Url->injectRequest($HttpRequestStub);
 
-            $this->assertEquals('https', $Url->getScheme());
+            $this->assertEquals('https', $this->Url->getScheme());
         }
 
         /**
@@ -146,14 +185,10 @@
          */
         public function testGetHost()
         {
-            $RequestStub = $this->getRequestStub
-            (
-                null,
-                array('getHTTPHeader' => 'testdomain.net')
-            );
-            $Url = new Url($RequestStub);
+            $HttpRequestStub = $this->getHttpRequestStub(array('getHTTPHeader' => 'testdomain.net'));
+            $this->Url->injectRequest($HttpRequestStub);
 
-            $this->assertEquals('testdomain.net', $Url->getHost());
+            $this->assertEquals('testdomain.net', $this->Url->getHost());
         }
 
         /**
@@ -162,19 +197,16 @@
          */
         public function testGetHostByServerName()
         {
-            $RequestStub = $this->getRequestStub
-            (
-                array('getServerVar'),
-                array('getHTTPHeader' => false)
-            );
-
+            $RequestStub = $this->getCoreRequestStub(array('getServerVar'));
             $RequestStub->expects($this->once())
                         ->method('getServerVar')
                         ->will($this->returnValue('myServerName'));
+            $HttpRequestStub = $this->getHttpRequestStub(array('getHTTPHeader' => false));
+            $HttpRequestStub->injectCoreRequest($RequestStub);
 
-            $Url = new Url($RequestStub);
+            $this->Url->injectRequest($HttpRequestStub);
 
-            $this->assertEquals('myServerName', $Url->getHost());
+            $this->assertEquals('myServerName', $this->Url->getHost());
         }
 
         /**
@@ -183,32 +215,34 @@
          */
         public function testGetHostByServerAdress()
         {
-            $RequestStub = $this->getRequestStub
-            (
-                array('getServerVar'),
-                array('getHTTPHeader' => false)
-            );
+            $RequestStub = $this->getCoreRequestStub(array('getServerVar'));
             $RequestStub->expects($this->exactly(2))
                         ->method('getServerVar')
                         ->will($this->onConsecutiveCalls(null, '123.456.789.000'));
-            $Url = new Url($RequestStub);
+            $HttpRequestStub = $this->getHttpRequestStub(array('getHTTPHeader' => false));
+            $HttpRequestStub->injectCoreRequest($RequestStub);
 
-            $this->assertEquals('123.456.789.000', $Url->getHost());
+            $this->Url->injectRequest($HttpRequestStub);
+
+            $this->assertEquals('123.456.789.000', $this->Url->getHost());
         }
 
         /**
-         * Test if the port can be recognied.
+         * Test if the port is recognized and can be retrieved.
          * @covers Brickoo\Library\Http\Url::getPort
          */
         public function testGetPort()
         {
-            $RequestStub = $this->getRequestStub(array('getServerVar'));
+            $RequestStub = $this->getCoreRequestStub(array('getServerVar'));
             $RequestStub->expects($this->exactly(2))
                         ->method('getServerVar')
                         ->will($this->onConsecutiveCalls(null, '8080'));
-            $Url = new Url($RequestStub);
+            $HttpRequestStub = $this->getHttpRequestStub();
+            $HttpRequestStub->injectCoreRequest($RequestStub);
 
-            $this->assertEquals('8080', $Url->getPort());
+            $this->Url->injectRequest($HttpRequestStub);
+
+            $this->assertEquals('8080', $this->Url->getPort());
         }
 
         /**
@@ -217,13 +251,16 @@
          */
         public function testGetRequestQuery()
         {
-            $RequestStub = $this->getRequestStub(array('getServerVar'));
+            $RequestStub = $this->getCoreRequestStub(array('getServerVar'));
             $RequestStub->expects($this->once())
                         ->method('getServerVar')
                         ->will($this->returnValue('some=value'));
-            $Url = new Url($RequestStub);
+            $HttpRequestStub = $this->getHttpRequestStub();
+            $HttpRequestStub->injectCoreRequest($RequestStub);
 
-            $this->assertEquals('some=value', $Url->getRequestQuery());
+            $this->Url->injectRequest($HttpRequestStub);
+
+            $this->assertEquals('some=value', $this->Url->getRequestQuery());
         }
 
         /**
@@ -232,13 +269,16 @@
          */
         public function testGetRequestQueryFromGet()
         {
-            $RequestStub = $this->getRequestStub(array('getServerVar'));
+            $RequestStub = $this->getCoreRequestStub(array('getServerVar'));
             $RequestStub->expects($this->once())
                         ->method('getServerVar')
                         ->will($this->returnValue(null));
-            $Url = new Url($RequestStub);
+            $HttpRequestStub = $this->getHttpRequestStub();
+            $HttpRequestStub->injectCoreRequest($RequestStub);
 
-            $this->assertEquals('some=value', $Url->getRequestQuery());
+            $this->Url->injectRequest($HttpRequestStub);
+
+            $this->assertEquals('some=value', $this->Url->getRequestQuery());
         }
 
         /**
@@ -248,14 +288,17 @@
         public function testGetRequestQueryEmpty()
         {
             $_GET = array();
-            $RequestStub = $this->getRequestStub(array('getServerVar'));
+            $RequestStub = $this->getCoreRequestStub(array('getServerVar'));
             $RequestStub->expects($this->once())
                         ->method('getServerVar')
                         ->will($this->returnValue(null));
-            $Url = new Url($RequestStub);
+            $HttpRequestStub = $this->getHttpRequestStub();
+            $HttpRequestStub->injectCoreRequest($RequestStub);
 
-            $this->assertInternalType('string', $Url->getRequestQuery());
-            $this->assertEquals('', $Url->getRequestQuery());
+            $this->Url->injectRequest($HttpRequestStub);
+
+            $this->assertInternalType('string', $this->Url->getRequestQuery());
+            $this->assertEquals('', $this->Url->getRequestQuery());
         }
 
         /**
@@ -265,14 +308,17 @@
          */
         public function testGetRequestPath()
         {
-            $RequestStub = $this->getRequestStub(array('getServerVar'));
+            $RequestStub = $this->getCoreRequestStub(array('getServerVar'));
             $RequestStub->expects($this->exactly(3))
                         ->method('getServerVar')
                         ->will($this->onConsecutiveCalls(null, null, 'path/to/location.html?some=value'));
-            $Url = new Url($RequestStub);
+            $HttpRequestStub = $this->getHttpRequestStub();
+            $HttpRequestStub->injectCoreRequest($RequestStub);
 
-            $this->assertEquals('path/to/location.html', $Url->getRequestPath());
-            $this->assertEquals('path/to/location.html', $Url->getRequestPath());
+            $this->Url->injectRequest($HttpRequestStub);
+
+            $this->assertEquals('path/to/location.html', $this->Url->getRequestPath());
+            $this->assertEquals('path/to/location.html', $this->Url->getRequestPath());
         }
 
         /**
@@ -282,13 +328,16 @@
          */
         public function testGetIISRequestPathByOriginalUrl()
         {
-            $RequestStub = $this->getRequestStub(array('getServerVar'));
+            $RequestStub = $this->getCoreRequestStub(array('getServerVar'));
             $RequestStub->expects($this->once())
                         ->method('getServerVar')
                         ->will($this->returnValue('path/to/location.html'));
-            $Url = new Url($RequestStub);
+            $HttpRequestStub = $this->getHttpRequestStub();
+            $HttpRequestStub->injectCoreRequest($RequestStub);
 
-            $this->assertEquals('path/to/location.html', $Url->getRequestPath());
+            $this->Url->injectRequest($HttpRequestStub);
+
+            $this->assertEquals('path/to/location.html', $this->Url->getRequestPath());
         }
 
         /**
@@ -298,13 +347,16 @@
          */
         public function testGetIISRequestPathByRewriteUrl()
         {
-            $RequestStub = $this->getRequestStub(array('getServerVar'));
+            $RequestStub = $this->getCoreRequestStub(array('getServerVar'));
             $RequestStub->expects($this->exactly(2))
                         ->method('getServerVar')
                         ->will($this->onConsecutiveCalls(null, 'path/to/location.html'));
-            $Url = new Url($RequestStub);
+            $HttpRequestStub = $this->getHttpRequestStub();
+            $HttpRequestStub->injectCoreRequest($RequestStub);
 
-            $this->assertEquals('path/to/location.html', $Url->getRequestPath());
+            $this->Url->injectRequest($HttpRequestStub);
+
+            $this->assertEquals('path/to/location.html', $this->Url->getRequestPath());
         }
 
         /**
@@ -313,17 +365,19 @@
          */
         public function testGetSegments()
         {
-            $RequestStub = $this->getRequestStub(array('getServerVar'));
+            $RequestStub = $this->getCoreRequestStub(array('getServerVar'));
             $RequestStub->expects($this->once())
                         ->method('getServerVar')
                         ->with('X.Original.Url')
                         ->will($this->returnValue('path/to/location.html'));
-            $Url = new Url($RequestStub);
+            $HttpRequestStub = $this->getHttpRequestStub();
+            $HttpRequestStub->injectCoreRequest($RequestStub);
 
-            $this->assertInternalType('array', ($segments = $Url->getSegments()));
-            $this->assertContains('path', $segments);
-            $this->assertContains('to', $segments);
-            $this->assertContains('location.html', $segments);
+            $this->Url->injectRequest($HttpRequestStub);
+
+            $segments = $this->Url->getSegments();
+            $this->assertInternalType('array', $segments);
+            $this->assertEquals(array('path', 'to', 'location.html'), $segments);
         }
 
         /**
@@ -332,14 +386,17 @@
          */
         public function testGetSegment()
         {
-            $RequestStub = $this->getRequestStub(array('getServerVar'));
+            $RequestStub = $this->getCoreRequestStub(array('getServerVar'));
             $RequestStub->expects($this->once())
                         ->method('getServerVar')
                         ->with('X.Original.Url')
                         ->will($this->returnValue('path/to/location.html'));
-            $Url = new Url($RequestStub);
+            $HttpRequestStub = $this->getHttpRequestStub();
+            $HttpRequestStub->injectCoreRequest($RequestStub);
 
-            $this->assertContains('path', $Url->getSegment(0));
+            $this->Url->injectRequest($HttpRequestStub);
+
+            $this->assertContains('path', $this->Url->getSegment(0));
         }
 
         /**
@@ -349,14 +406,17 @@
          */
         public function testGetSegmentException()
         {
-            $RequestStub = $this->getRequestStub(array('getServerVar'));
+            $RequestStub = $this->getCoreRequestStub(array('getServerVar'));
             $RequestStub->expects($this->once())
                         ->method('getServerVar')
                         ->with('X.Original.Url')
                         ->will($this->returnValue('path/to/location.html'));
-            $Url = new Url($RequestStub);
+            $HttpRequestStub = $this->getHttpRequestStub();
+            $HttpRequestStub->injectCoreRequest($RequestStub);
 
-            $Url->getSegment(9);
+            $this->Url->injectRequest($HttpRequestStub);
+
+            $this->Url->getSegment(9);
         }
 
         /**
@@ -366,10 +426,7 @@
          */
         public function testGetSegmentArgumentException()
         {
-            $RequestStub = $this->getRequestStub();
-            $Url = new Url($RequestStub);
-
-            $Url->getSegment('0');
+            $this->Url->getSegment('0');
         }
 
         /**
@@ -378,14 +435,17 @@
          */
         public function testCount()
         {
-            $RequestStub = $this->getRequestStub(array('getServerVar'));
+            $RequestStub = $this->getCoreRequestStub(array('getServerVar'));
             $RequestStub->expects($this->once())
                         ->method('getServerVar')
                         ->with('X.Original.Url')
                         ->will($this->returnValue('path/to/location.html'));
-            $Url = new Url($RequestStub);
+            $HttpRequestStub = $this->getHttpRequestStub();
+            $HttpRequestStub->injectCoreRequest($RequestStub);
 
-            $this->assertEquals(3, count($Url));
+            $this->Url->injectRequest($HttpRequestStub);
+
+            $this->assertEquals(3, count($this->Url));
         }
 
         /**
@@ -394,20 +454,19 @@
          */
         public function testGetRequestUrl()
         {
-            $RequestStub = $this->getRequestStub
-            (
-                array('getServerVar'),
-                array('getHTTPHeader' => 'testdomain.net', 'isSecureConnection' => true)
-            );
+            $RequestStub = $this->getCoreRequestStub(array('getServerVar'));
             $RequestStub->expects($this->exactly(3))
                         ->method('getServerVar')
                         ->will($this->onConsecutiveCalls('80', 'some=value', 'path/to/location.html'));
-            $Url = new Url($RequestStub);
+            $HttpRequestStub = $this->getHttpRequestStub(array('getHTTPHeader' => 'testdomain.net', 'isSecureConnection' => true));
+            $HttpRequestStub->injectCoreRequest($RequestStub);
+
+            $this->Url->injectRequest($HttpRequestStub);
 
             $this->assertEquals
             (
                 'https://testdomain.net:80/path/to/location.html?some=value',
-                $Url->getRequestUrl(true)
+                $this->Url->getRequestUrl(true)
             );
         }
 

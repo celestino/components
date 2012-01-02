@@ -40,11 +40,11 @@
      * Request
      *
      * Request class for accessing Http request content.
+     * Exntends the Core\Request which implements the default request interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
-    class Request implements Interfaces\RequestInterface
+    class Request implements Interfaces\RequestInterface, Core\Interfaces\DynamicRequestInterface
     {
 
         /**
@@ -52,7 +52,40 @@
          * @see Brickoo\Library\Core\Request
          * @var object
          */
-        protected $Request;
+        protected $CoreRequest;
+
+        /**
+         * Lazy initialization of the Core\Request instance.
+         * Returns the Core\Request instance.
+         * @return object Core\Request implementing the Core\Interfaces\RequestInterface
+         */
+        public function getCoreRequest()
+        {
+            if (! $this->CoreRequest instanceof Core\Interfaces\RequestInterface)
+            {
+                $this->injectCoreRequest(new Core\Request());
+            }
+
+            return $this->CoreRequest;
+        }
+
+        /**
+         * Injects the Core\Request dependency.
+         * @param \Brickoo\Library\Core\Interfaces\RequestInterface $CoreRequest the Core\Request instance
+         * @throws Core\Exceptions\DependencyOverwriteException if trying to overwrite the dependecy
+         * @return object reference
+         */
+        public function injectCoreRequest(\Brickoo\Library\Core\Interfaces\RequestInterface $CoreRequest)
+        {
+            if ($this->CoreRequest !== null)
+            {
+                throw new Core\Exceptions\DependencyOverwriteException('Core\Interfaces\RequestInterface');
+            }
+
+            $this->CoreRequest = $CoreRequest;
+
+            return $this;
+        }
 
         /**
          * Holds an instance of the Url class.
@@ -62,24 +95,27 @@
         protected $_Url;
 
         /**
-         * Returns the Url object.
          * Lazy initialization of the Url instance.
-         * If the object does not exist, it wll be created.
+         * Returns the Url object implementing the UrlInterface.
          * @return object Url implementing the UrlInterface
          */
         public function Url()
         {
             if (! $this->_Url instanceof Interfaces\UrlInterface)
             {
-                $this->injectUrl(new Url($this->Request));
+                $Url = new Url();
+                $Url->injectRequest($this);
+
+                $this->injectUrl($Url);
             }
 
             return $this->_Url;
         }
 
         /**
-         * Lazy initialization of the Url instance.
+         * Injects the Url dependency used for Url specific tasks.
          * @param UrlInterface $Url the Url object implementing the UrlInterface
+         * @throws Core\Exceptions\DependencyOverwriteException if trying to overwrite the dependecy
          * @return object reference
          */
         public function injectUrl(\Brickoo\Library\Http\Interfaces\UrlInterface $Url)
@@ -607,12 +643,40 @@
         }
 
         /**
+         * Class constructor.
+         * Initializes the class properties.
+         * @return void
+         */
+        public function __construct()
+        {
+            $this->clear();
+        }
+
+        /**
+         * Clears the object properties.
+         * @return object reference
+         */
+        public function clear()
+        {
+            $this->serverVars         = array();
+            $this->variablesOrder     = array('G', 'P', 'C', 'F');
+            $this->HTTPheaders        = array();
+            $this->params             = array();
+            $this->acceptTypes        = array();
+            $this->acceptLanguages    = array();
+            $this->acceptEncodings    = array();
+            $this->acceptCharsets     = array();
+
+            return $this;
+        }
+
+        /**
          * Returns the request method.
          * @return strinng the request value or null if not given.
          */
         public function getRequestMethod()
         {
-            return $this->Request->getServerVar('request.method');
+            return $this->getCoreRequest()->getServerVar('request.method');
         }
 
         /**
@@ -630,12 +694,14 @@
          */
         public function isSecureConnection()
         {
-            if ($httpsForwarded = $this->Request->getServerVar('X.Forwarded.Proto'))
+            $CoreRequest = $this->getCoreRequest();
+
+            if ($httpsForwarded = $CoreRequest->getServerVar('X.Forwarded.Proto'))
             {
                 return (strtolower($httpsForwarded) == 'https');
             }
 
-            $secureMode = $this->Request->getServerVar('https', $this->Request->getServerVar('ssl.https'));
+            $secureMode = $CoreRequest->getServerVar('https', $CoreRequest->getServerVar('ssl.https'));
 
             return (
                 strtolower($secureMode) == 'on' ||
@@ -654,38 +720,16 @@
          */
         public function isAjaxRequest()
         {
-            return ($this->Request->getServerVar('X.Requested.With') == 'XMLHttpRequest');
+            return ($this->getCoreRequest()->getServerVar('X.Requested.With') == 'XMLHttpRequest');
         }
 
         /**
-         * Class constructor.
-         * Initializes the class properties.
-         * @param object implementing the Brickoo\Library\Core\Interfaces\RequestInterface
-         * @return void
+         * Returns the request path.
+         * @return string the request path
          */
-        public function __construct(\Brickoo\Library\Core\Interfaces\RequestInterface $Request)
+        public function getRequestPath()
         {
-            $this->Request = $Request;
-            $this->clear();
-        }
-
-        /**
-         * Clears the object properties.
-         * @return object reference
-         */
-        public function clear()
-        {
-            $this->_Url               = null;
-            $this->serverVars         = array();
-            $this->variablesOrder     = array('G', 'P', 'C', 'F');
-            $this->HTTPheaders        = array();
-            $this->params             = array();
-            $this->acceptTypes        = array();
-            $this->acceptLanguages    = array();
-            $this->acceptEncodings    = array();
-            $this->acceptCharsets     = array();
-
-            return $this;
+            return $this->Url()->getRequestPath();
         }
 
      }

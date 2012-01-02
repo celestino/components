@@ -42,6 +42,22 @@
 
     Interface UrlInterface
     {
+
+        /**
+         * Lazy initialization of the Http\Request instance.
+         * Returns the Http\Request instance.
+         * @return object Http\Request implementing the Http\Interfaces\RequestInterface
+         */
+        public function getRequest();
+
+        /**
+         * Injects the Http\Request dependency.
+         * @param \Brickoo\Library\Http\Interfaces\RequestInterface $Request the Http\Request instance
+         * @throws Core\Exceptions\DependencyOverwriteException if trying to overwrite the dependecy
+         * @return object reference
+         */
+        public function injectRequest(\Brickoo\Library\Http\Interfaces\RequestInterface $Request);
+
         /**
         * Returns the request scheme.
         * @return string

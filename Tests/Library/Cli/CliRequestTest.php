@@ -49,6 +49,20 @@
     {
 
         /**
+         * Returns an Core Request Stub for the Http Request to look up for server variables.
+         * @param array $requestMethods the request methods
+         * @return object implementing the Brickoo\Library\Core\Interfaces\Request
+         */
+        protected function getRequestStub(array $requestMethods = null)
+        {
+            return $this->getMock
+            (
+                'Brickoo\Library\Core\Request',
+                ($requestMethods === null ? null : array_values($requestMethods))
+            );
+        }
+
+        /**
          * Holds an instance of the Cli class.
          * @var object
          */
@@ -78,6 +92,43 @@
                 '\Brickoo\Library\Cli\Interfaces\RequestInterface',
                 $this->Cli
             );
+        }
+
+        /**
+         * Test if the Core\Request dependency can be retrieved.
+         * @covers Brickoo\Library\Cli\Request::getCoreRequest
+         * @covers Brickoo\Library\Cli\Request::injectCoreRequest
+         */
+        public function testGetCoreRequest()
+        {
+            $this->assertInstanceOf
+            (
+                '\Brickoo\Library\Core\Interfaces\RequestInterface',
+                $this->Cli->getCoreRequest()
+            );
+        }
+
+        /**
+         * Test if the Core\Request can be injected.
+         * @covers Brickoo\Library\Cli\Request::injectCoreRequest
+         */
+        public function testInjectCoreRequest()
+        {
+            $CoreRequestStub = $this->getRequestStub();
+            $this->Cli->injectCoreRequest($CoreRequestStub);
+            $this->assertSame($CoreRequestStub, $this->Cli->getCoreRequest());
+        }
+
+        /**
+         * Test if trying to overwrite the CoreRequest dependecy throws an exception.
+         * @covers Brickoo\Library\Cli\Request::injectCoreRequest
+         * @covers Brickoo\Library\Core\Exceptions\DependencyOverwriteException
+         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
+         */
+        public function testInjectCoreRequestDependencyException()
+        {
+            $CoreRequest = $this->Cli->getCoreRequest();
+            $this->Cli->injectCoreRequest($this->getRequestStub());
         }
 
         /**
@@ -144,6 +195,59 @@
         public function testHasArguments()
         {
             $this->assertTrue($this->Cli->hasArguments());
+        }
+
+        /**
+         * Test if the request path can be set and the Cli reference is returned.
+         * @covers Brickoo\Library\Cli\Request::setRequestPath
+         * @return object the used Cli instance
+         */
+        public function testSetRequestPath()
+        {
+            $this->assertSame($this->Cli, $this->Cli->setRequestPath('/path/used'));
+            $this->assertAttributeEquals('/path/used', 'requestPath', $this->Cli);
+
+            return $this->Cli;
+        }
+
+        /**
+         * Test if trying to use a wrong argument type throws an exception.
+         * @covers Brickoo\Library\Cli\Request::setRequestPath
+         * @expectedException InvalidArgumentException
+         */
+        public function testSetRequestPathArgumentException()
+        {
+            $this->Cli->setRequestPath(array('wrongType'));
+        }
+
+        /**
+         * Test if the request path can be retrieved.
+         * @param Brickoo\Library\Cli\Request $Cli the Cli instance
+         * @covers Brickoo\Library\Cli\Request::getRequestPath
+         * @depends testSetRequestPath
+         */
+        public function testGetRequestPath($Cli)
+        {
+            $this->assertEquals('/path/used', $Cli->getRequestPath());
+        }
+
+        /**
+         * Test if trying to retrieve the not set request path throws an exception.
+         * @covers Brickoo\Library\Cli\Request::getRequestPath
+         * @expectedException UnexpectedValueException
+         */
+        public function testGetRequestPathValueException()
+        {
+            $this->Cli->getRequestPath();
+        }
+
+        /**
+         * Test if the request method can be retrieved.
+         * @covers Brickoo\Library\Cli\Request::getRequestMethod
+         */
+        public function testGetRequestMethod()
+        {
+            $this->assertEquals('LOCAL', $this->Cli->getRequestMethod());
         }
 
     }

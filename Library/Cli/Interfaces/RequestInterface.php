@@ -37,11 +37,25 @@
      *
      * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     Interface RequestInterface
     {
+
+        /**
+        * Lazy initialization of the Core\Request instance.
+        * Returns the Core\Request instance.
+        * @return object Core\Request implementing the Core\Interfaces\RequestInterface
+        */
+        public function getCoreRequest();
+
+        /**
+         * Injects the Core\Request dependency.
+         * @param \Brickoo\Library\Core\Interfaces\RequestInterface $CoreRequest the Core\Request instance
+         * @throws Core\Exceptions\DependencyOverwriteException if trying to overwrite the dependecy
+         * @return object reference
+         */
+        public function injectCoreRequest(\Brickoo\Library\Core\Interfaces\RequestInterface $CoreRequest);
 
         /**
          * Returns the available cli arguments.
@@ -79,14 +93,6 @@
          * @return integer the number of arguments passed
          */
         public function countArguments();
-
-         /**
-         * Class constructor.
-         * Initializes the class properties.
-         * @param object Request implementing the RequestInterface
-         * @return void
-         */
-        public function __construct(\Brickoo\Library\Core\Interfaces\RequestInterface $Request);
 
         /**
          * Clears the cli object properties.
