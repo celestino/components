@@ -33,31 +33,24 @@
     namespace Brickoo\Library\Core\Exceptions;
 
     /**
-     * DependencyOverwriteException
+     * ValueOverwriteException
      *
-     * Exception throwed by a class which is trying to override an dependency.
+     * Exception throwed by a class which is trying to override a value which can be only assigned once.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
-    class DependencyOverwriteException extends \Exception
+    class ValueOverwriteException extends \Exception
     {
 
         /**
          * Class constructor.
          * Calls the parent Exception constructor.
+         * @param string $valueName the name of the value which has been tried to overwrite
          * @return void
          */
-        public function __construct($instanceInterfaceName)
+        public function __construct($valueName)
         {
-            parent::__construct
-            (
-                sprintf
-                (
-                    'The dependency implementing the `%s` can not be overwritten.',
-                    $instanceInterfaceName
-                )
-            );
+            parent::__construct(sprintf('The value `%s` can not be overwritten twice.', $valueName));
         }
 
     }

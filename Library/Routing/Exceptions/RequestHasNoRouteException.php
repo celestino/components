@@ -30,34 +30,27 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Core\Exceptions;
+    namespace Brickoo\Library\Routing\Exceptions;
 
     /**
-     * DependencyOverwriteException
+     * RequestHasNoRouteException
      *
-     * Exception throwed by a class which is trying to override an dependency.
+     * Exception throwed if the request does not have a matching Route.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
-    class DependencyOverwriteException extends \Exception
+    class RequestHasNoRouteException extends \Exception
     {
 
         /**
          * Class constructor.
          * Calls the parent Exception constructor.
+         * @param string $requestPath the request path which does not have a route
          * @return void
          */
-        public function __construct($instanceInterfaceName)
+        public function __construct($requestPath)
         {
-            parent::__construct
-            (
-                sprintf
-                (
-                    'The dependency implementing the `%s` can not be overwritten.',
-                    $instanceInterfaceName
-                )
-            );
+            parent::__construct(sprintf('The request path `%s` does not have a matching route.', $requestPath));
         }
 
     }

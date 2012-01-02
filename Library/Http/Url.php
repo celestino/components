@@ -168,7 +168,7 @@
         protected $segments;
 
         /**
-         * Returns the available segments.
+         * Returns the available segments containing values.
          * @return array the request URL segments
          */
         public function getSegments()
@@ -180,7 +180,7 @@
                 ($requestPath = $this->getRequestPath())
             )
             {
-                $this->segments = explode('/', $requestPath);
+                $this->segments = explode('/', trim($requestPath, '/'));
             }
 
             return $this->segments;
@@ -300,7 +300,7 @@
                     $requestPath = substr($requestPath, 0, $position);
                 }
 
-                $this->requestPath = rtrim($requestPath, '/');
+                $this->requestPath = '/' . trim($requestPath, '/');
             }
 
             return $this->requestPath;
@@ -320,7 +320,7 @@
             $requestQuery = $this->getRequestQuery();
 
             return $this->getScheme() . '://' . $this->getHost() . $port .
-                   '/' . $this->getRequestPath() .
+                   $this->getRequestPath() .
                    (empty($requestQuery) ? '' : '?' . $requestQuery);
         }
 
@@ -340,8 +340,7 @@
          */
         public function count()
         {
-            $segments = $this->getSegments();
-            return count($segments);
+            return substr_count($this->getRequestPath(), '/');
         }
 
         /**

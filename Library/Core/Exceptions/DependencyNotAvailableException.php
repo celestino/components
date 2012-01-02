@@ -54,7 +54,7 @@
             (
             sprintf
             (
-                'This dependency implementing the `%s` is not available.',
+                'The dependency implementing the `%s` is not available.',
                 $instanceInterfaceName
             )
             );

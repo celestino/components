@@ -311,14 +311,14 @@
             $RequestStub = $this->getCoreRequestStub(array('getServerVar'));
             $RequestStub->expects($this->exactly(3))
                         ->method('getServerVar')
-                        ->will($this->onConsecutiveCalls(null, null, 'path/to/location.html?some=value'));
+                        ->will($this->onConsecutiveCalls(null, null, '/path/to/location.html?some=value'));
             $HttpRequestStub = $this->getHttpRequestStub();
             $HttpRequestStub->injectCoreRequest($RequestStub);
 
             $this->Url->injectRequest($HttpRequestStub);
 
-            $this->assertEquals('path/to/location.html', $this->Url->getRequestPath());
-            $this->assertEquals('path/to/location.html', $this->Url->getRequestPath());
+            $this->assertEquals('/path/to/location.html', $this->Url->getRequestPath());
+            $this->assertEquals('/path/to/location.html', $this->Url->getRequestPath());
         }
 
         /**
@@ -331,13 +331,13 @@
             $RequestStub = $this->getCoreRequestStub(array('getServerVar'));
             $RequestStub->expects($this->once())
                         ->method('getServerVar')
-                        ->will($this->returnValue('path/to/location.html'));
+                        ->will($this->returnValue('/path/to/location.html'));
             $HttpRequestStub = $this->getHttpRequestStub();
             $HttpRequestStub->injectCoreRequest($RequestStub);
 
             $this->Url->injectRequest($HttpRequestStub);
 
-            $this->assertEquals('path/to/location.html', $this->Url->getRequestPath());
+            $this->assertEquals('/path/to/location.html', $this->Url->getRequestPath());
         }
 
         /**
@@ -350,13 +350,13 @@
             $RequestStub = $this->getCoreRequestStub(array('getServerVar'));
             $RequestStub->expects($this->exactly(2))
                         ->method('getServerVar')
-                        ->will($this->onConsecutiveCalls(null, 'path/to/location.html'));
+                        ->will($this->onConsecutiveCalls(null, '/path/to/location.html'));
             $HttpRequestStub = $this->getHttpRequestStub();
             $HttpRequestStub->injectCoreRequest($RequestStub);
 
             $this->Url->injectRequest($HttpRequestStub);
 
-            $this->assertEquals('path/to/location.html', $this->Url->getRequestPath());
+            $this->assertEquals('/path/to/location.html', $this->Url->getRequestPath());
         }
 
         /**

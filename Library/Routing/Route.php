@@ -111,7 +111,7 @@
          */
         public function setController($controller)
         {
-            TypeValidator::Validate('useRegex', array(array('~^[\w]+\:[\w]+$~', $controller)));
+            TypeValidator::Validate('useRegex', array(array('~^[\w]+\:\:[\w]+$~', $controller)));
 
             $this->controller = $controller;
 
@@ -133,7 +133,7 @@
         {
             if ($this->method === null)
             {
-                throw new \UnexpectedValueException('The route method is `nul`.');
+                throw new \UnexpectedValueException('The route method is `null`.');
             }
 
             return $this->method;

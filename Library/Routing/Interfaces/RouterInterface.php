@@ -30,35 +30,20 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Core\Exceptions;
+    namespace Brickoo\Library\Routing\Interfaces;
 
     /**
-     * DependencyOverwriteException
+     * RouterInterface
      *
-     * Exception throwed by a class which is trying to override an dependency.
+     * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      * @version $Id$
      */
 
-    class DependencyOverwriteException extends \Exception
+    Interface RouterInterface
     {
 
-        /**
-         * Class constructor.
-         * Calls the parent Exception constructor.
-         * @return void
-         */
-        public function __construct($instanceInterfaceName)
-        {
-            parent::__construct
-            (
-                sprintf
-                (
-                    'The dependency implementing the `%s` can not be overwritten.',
-                    $instanceInterfaceName
-                )
-            );
-        }
+        //
 
     }
 

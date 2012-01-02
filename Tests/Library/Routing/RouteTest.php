@@ -109,8 +109,8 @@
          */
         public function testSetController()
         {
-            $this->assertSame($this->Route, $this->Route->setController('controller:method'));
-            $this->assertAttributeEquals('controller:method', 'controller', $this->Route);
+            $this->assertSame($this->Route, $this->Route->setController('controller::method'));
+            $this->assertAttributeEquals('controller::method', 'controller', $this->Route);
 
             return $this->Route;
         }
@@ -122,7 +122,7 @@
          */
         public function testSetControllerArgumentException()
         {
-            $this->Route->setController('controller::::method');
+            $this->Route->setController('controller:method');
         }
 
         /**
@@ -132,7 +132,7 @@
          */
         public function testGetController($Route)
         {
-            $this->assertEquals('controller:method', $Route->getController());
+            $this->assertEquals('controller::method', $Route->getController());
         }
 
         /**
