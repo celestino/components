@@ -151,12 +151,7 @@
 
             foreach($keys as $index => $value)
             {
-                if
-                (
-                    is_array($this->arguments)
-                    &&
-                    array_key_exists($index, $this->arguments)
-                )
+                if(array_key_exists($index, $this->arguments))
                 {
                     $this->arguments[$value] = $this->arguments[$index];
                 }
@@ -170,7 +165,7 @@
         }
 
         /**
-         * collect the available arguments passed.
+         * Collects the available request arguments.
          * @return void
          */
         protected function collectArguments()
