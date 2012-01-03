@@ -93,14 +93,15 @@
         public function get($identifier);
 
         /**
-         * Adds a content to be cached under the given identifier.
+         * Sets the content holded by the given identifier.
+         * If the identifer already exists the content will be replaced.
          * Stores the content into the local cache.
          * @param string $identifier the identifier which holds the content
          * @param mixed $content the content to cache
          * @param integer $lifetime the lifetime of the cached content
          * @return object reference
          */
-        public function add($identifier, $content, $lifetime);
+        public function set($identifier, $content, $lifetime);
 
         /**
          * Deletes the cached content which is holded by the identifier.

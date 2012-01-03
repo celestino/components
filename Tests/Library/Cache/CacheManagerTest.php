@@ -69,7 +69,7 @@
             return $this->getMock
             (
                 'Brickoo\Library\Cache\Interfaces\CacheHandlerInterface',
-                array('get', 'add', 'delete', 'flush')
+                array('get', 'set', 'delete', 'flush')
             );
         }
 
@@ -246,18 +246,18 @@
         /**
          * Test if adding a content to cache the LocalCache and CacheHandler are called and the
          * CacheManager refrence is returned.
-         * @covers Brickoo\Library\Cache\CacheManager::add
+         * @covers Brickoo\Library\Cache\CacheManager::set
          */
-        public function testAdd()
+        public function testSet()
         {
-            $LocalCacheStub = $this->getLocalCacheStub(array('add'));
+            $LocalCacheStub = $this->getLocalCacheStub(array('set'));
             $LocalCacheStub->expects($this->once())
-                           ->method('add')
+                           ->method('set')
                            ->will($this->returnSelf());
 
             $CacheHandlerStub = $this->getCacheHandlerStub();
             $CacheHandlerStub->expects($this->once())
-                             ->method('add')
+                             ->method('set')
                              ->will($this->returnSelf());
 
             $this->CacheManager->injectLocalCache($LocalCacheStub);
@@ -266,28 +266,28 @@
             $this->assertSame
             (
                 $this->CacheManager,
-                $this->CacheManager->add('some_identifier', array('content'), 60)
+                $this->CacheManager->set('some_identifier', array('content'), 60)
             );
         }
 
         /**
          * Test is trying to use a wrong identifier type throws an exception.
-         * @covers Brickoo\Library\Cache\CacheManager::add
+         * @covers Brickoo\Library\Cache\CacheManager::set
          * @expectedException InvalidArgumentException
          */
-        public function testAddIdentifierArgumentException()
+        public function testSetIdentifierArgumentException()
         {
-            $this->CacheManager->add(array('wrongType'), '', 60);
+            $this->CacheManager->set(array('wrongType'), '', 60);
         }
 
         /**
          * Test is trying to use a wrong lifetime type throws an exception.
-         * @covers Brickoo\Library\Cache\CacheManager::add
+         * @covers Brickoo\Library\Cache\CacheManager::set
          * @expectedException InvalidArgumentException
          */
-        public function testAddLifetimeArgumentException()
+        public function testSetLifetimeArgumentException()
         {
-            $this->CacheManager->add('some_identifier', '', 'wrongType');
+            $this->CacheManager->set('some_identifier', '', 'wrongType');
         }
 
         /**
@@ -355,12 +355,12 @@
          */
         public function testGetCacheCallback()
         {
-            $LocalCacheStub = $this->getLocalCacheStub(array('has', 'add'));
+            $LocalCacheStub = $this->getLocalCacheStub(array('has', 'set'));
             $LocalCacheStub->expects($this->once())
                            ->method('has')
                            ->will($this->returnValue(false));
             $LocalCacheStub->expects($this->once())
-                           ->method('add')
+                           ->method('set')
                            ->will($this->returnSelf());
 
             $CacheHandlerStub = $this->getCacheHandlerStub();
@@ -368,7 +368,7 @@
                              ->method('get')
                              ->will($this->returnValue(false));
             $CacheHandlerStub->expects($this->once())
-                             ->method('add')
+                             ->method('set')
                              ->will($this->returnSelf());
 
             $this->CacheManager->injectCacheHandler($CacheHandlerStub);
@@ -388,7 +388,7 @@
          */
         public function testGetCacheCallbackIdentifierArgumentException()
         {
-            $this->CacheManager->add(array('wrongType'), 'someFunction', array(), 60);
+            $this->CacheManager->getCacheCallback(array('wrongType'), 'someFunction', array(), 60);
         }
 
         /**
@@ -398,7 +398,7 @@
          */
         public function testGetCacheCallbackLifetimeArgumentException()
         {
-            $this->CacheManager->add('some_identifier', 'someFunction', array(), 'wrongType');
+            $this->CacheManager->getCacheCallback('some_identifier', 'someFunction', array(), 'wrongType');
         }
 
         /**

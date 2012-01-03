@@ -137,13 +137,13 @@
         public function getCacheCallback($identifier, $callback, array $arguments, $lifetime)
         {
             TypeValidator::Validate('isString', array($identifier));
-            TypeValidator::Validate('isInteger', array($lifetime), TypeValidator::FLAG_INTEGER_CAN_NOT_BE_ZERO);
+            TypeValidator::Validate('isInteger', array($lifetime));
 
             if (! $cacheContent = $this->get($identifier))
             {
                 $cacheContent = call_user_func_array($callback, $arguments);
 
-                $this->add($identifier, $cacheContent, $lifetime);
+                $this->set($identifier, $cacheContent, $lifetime);
             }
 
             return $cacheContent;
@@ -168,28 +168,29 @@
 
            if ($cachedContent = $this->getCacheHandler()->get($identifier))
            {
-               $LocalCache->add($identifier, $cachedContent);
+               $LocalCache->set($identifier, $cachedContent);
            }
 
             return $cachedContent;
         }
 
         /**
-         * Adds a content to be cached under the given identifier.
+         * Sets a content to be cached under the given identifier.
+         * If the identifier already exists, the content will be replaced.
          * Stores the content into the local cache.
          * @param string $identifier the identifier which holds the content
          * @param mixed $content the content to cache
          * @param integer $lifetime the lifetime in seconds of the cached content
          * @return object reference
          */
-        public function add($identifier, $content, $lifetime)
+        public function set($identifier, $content, $lifetime)
         {
             TypeValidator::Validate('isString', array($identifier));
             TypeValidator::Validate('isInteger', array($lifetime));
 
-            $this->getLocalCache()->add($identifier, $content);
+            $this->getLocalCache()->set($identifier, $content);
 
-            $this->getCacheHandler()->add($identifier, $content, $lifetime);
+            $this->getCacheHandler()->set($identifier, $content, $lifetime);
 
             return $this;
         }

@@ -50,12 +50,13 @@
         public function get($identifier);
 
         /**
-         * Adds or overwrites the content holded by the given identifier.
+         * Sets the content holded by the given identifier.
+         * If the identifer already exists the content will be replaced.
          * @param string $identifier the identifier which should hold the content
          * @param mixed $content the content which should be cached
          * @return object reference
          */
-        public function add($identifier, $content);
+        public function set($identifier, $content);
 
         /**
          * Deletes the identifier and cached content.
