@@ -33,13 +33,13 @@
     namespace Brickoo\Library\Cache\Interfaces;
 
     /**
-     * CacheHandlerInterface
+     * CacheProviderInterface
      *
      * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    Interface CacheHandlerInterface
+    Interface CacheProviderInterface
     {
 
         /**

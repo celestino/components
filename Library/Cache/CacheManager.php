@@ -39,7 +39,7 @@
     /**
      * CacheManager
      *
-     * Implements the caching with an added CacheHandler.
+     * Implements the caching with an added CacheProvider.
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      */
 
@@ -47,40 +47,40 @@
     {
 
         /**
-         * Holds the cache handler implementing the Cache\Interfaces\CacheHandlerInterface.
-         * @var Brickoo\Library\Cache\Interfaces\CacheHandlerInterface
+         * Holds the cache provider implementing the Cache\Interfaces\CacheProviderInterface.
+         * @var Brickoo\Library\Cache\Interfaces\CacheProviderInterface
          */
-        protected $CacheHandler;
+        protected $CacheProvider;
 
         /**
-         * Returns the CacheHandler dependency.
+         * Returns the CacheProvider dependency.
          * @throws Core\Exceptions\DependencyNotAvailableException if the dependency is not available
-         * @return object the CacheHandler implementing the Cache\Interfaces\CacheHandlerInterface
+         * @return object the CacheProvider implementing the Cache\Interfaces\CacheProviderInterface
          */
-        public function getCacheHandler()
+        public function getCacheProvider()
         {
-            if (! $this->CacheHandler instanceof Interfaces\CacheHandlerInterface)
+            if (! $this->CacheProvider instanceof Interfaces\CacheProviderInterface)
             {
-                throw new Core\Exceptions\DependencyNotAvailableException('Cache\Interfaces\CacheHandlerInterface');
+                throw new Core\Exceptions\DependencyNotAvailableException('Cache\Interfaces\CacheProviderInterface');
             }
 
-            return $this->CacheHandler;
+            return $this->CacheProvider;
         }
 
         /**
-         * Injects the CacheHandler dependency to use.
-         * @param \Brickoo\Library\Cache\Interfaces\CacheHandlerInterface $CacheHandler the Cachehandler dependecy
+         * Injects the CacheProvider dependency to use.
+         * @param \Brickoo\Library\Cache\Interfaces\CacheProviderInterface $CacheProvider the Cachehandler dependecy
          * @throws Core\Exceptions\DependencyOverwriteException if trying to overwrite the dependency
          * @return object reference
          */
-        public function injectCacheHandler(\Brickoo\Library\Cache\Interfaces\CacheHandlerInterface $CacheHandler)
+        public function injectCacheProvider(\Brickoo\Library\Cache\Interfaces\CacheProviderInterface $CacheProvider)
         {
-            if ($this->CacheHandler !== null)
+            if ($this->CacheProvider !== null)
             {
-                throw new Core\Exceptions\DependencyOverwriteException('Cache\Interfaces\CacheHandlerInterface');
+                throw new Core\Exceptions\DependencyOverwriteException('Cache\Interfaces\CacheProviderInterface');
             }
 
-            $this->CacheHandler = $CacheHandler;
+            $this->CacheProvider = $CacheProvider;
 
             return $this;
         }
@@ -166,7 +166,7 @@
                 return $LocalCache->get($identifier);
             }
 
-           if ($cachedContent = $this->getCacheHandler()->get($identifier))
+           if ($cachedContent = $this->getCacheProvider()->get($identifier))
            {
                $LocalCache->set($identifier, $cachedContent);
            }
@@ -190,7 +190,7 @@
 
             $this->getLocalCache()->set($identifier, $content);
 
-            $this->getCacheHandler()->set($identifier, $content, $lifetime);
+            $this->getCacheProvider()->set($identifier, $content, $lifetime);
 
             return $this;
         }
@@ -212,7 +212,7 @@
                 $LocalCache->remove($identifier);
             }
 
-            $this->getCacheHandler()->delete($identifier);
+            $this->getCacheProvider()->delete($identifier);
 
             return $this;
         }
@@ -225,7 +225,7 @@
         public function flush()
         {
             $this->getLocalCache()->flush();
-            $this->getCacheHandler()->flush();
+            $this->getCacheProvider()->flush();
 
             return $this;
         }

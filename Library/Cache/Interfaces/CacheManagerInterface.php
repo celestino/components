@@ -43,19 +43,19 @@
     {
 
         /**
-        * Returns the CacheHandler dependency.
+        * Returns the CacheProvider dependency.
         * @throws Core\Exceptions\DependencyNotAvailableException if the dependency is not available
-        * @return object the CacheHandler implementing the Cache\Interfaces\CacheHandlerInterface
+        * @return object the CacheProvider implementing the Cache\Interfaces\CacheProviderInterface
         */
-        public function getCacheHandler();
+        public function getCacheProvider();
 
         /**
-         * Injects the CacheHandler dependency to use.
-         * @param \Brickoo\Library\Cache\Interfaces\CacheHandlerInterface $CacheHandler the Cachehandler dependecy
+         * Injects the CacheProvider dependency to use.
+         * @param \Brickoo\Library\Cache\Interfaces\CacheProviderInterface $CacheProvider the Cachehandler dependecy
          * @throws Core\Exceptions\DependencyOverwriteException if trying to overwrite the dependency
          * @return object reference
          */
-        public function injectCacheHandler(\Brickoo\Library\Cache\Interfaces\CacheHandlerInterface $CacheHandler);
+        public function injectCacheProvider(\Brickoo\Library\Cache\Interfaces\CacheProviderInterface $CacheProvider);
 
         /**
          * Lazy initialization of the LocalCache.
