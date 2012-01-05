@@ -200,14 +200,14 @@
          */
         public function __construct()
         {
-            $this->clearRepository();
+            $this->resetRepository();
         }
 
         /**
          * Clears the class properties.
          * @return object reference
          */
-        public function clearRepository()
+        public function resetRepository()
         {
             $this->locked            = false;
             $this->repository        = array(0 => 'initialized');
@@ -435,7 +435,7 @@
                 throw new Exceptions\InvalidRepositoryStructureException();
             }
 
-            $this->clearRepository()->setRepository($repository)->useLastVersion();
+            $this->resetRepository()->setRepository($repository)->useLastVersion();
 
             return $this;
         }

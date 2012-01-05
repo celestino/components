@@ -80,8 +80,8 @@
         }
 
         /**
-         * Test if the clearing the instance unregisters the error handler.
-         * @covers Brickoo\Library\Error\ErrorHandler::clear
+         * Test if the reseting the instance unregisters the error handler.
+         * @covers Brickoo\Library\Error\ErrorHandler::reset
          */
         public function testClear()
         {
@@ -90,13 +90,13 @@
                              ->method('unregister')
                              ->will($this->returnSelf());
             $ErrorHandlerStub->register();
-            $this->assertSame($ErrorHandlerStub, $ErrorHandlerStub->clear());
+            $this->assertSame($ErrorHandlerStub, $ErrorHandlerStub->reset());
         }
 
         /**
          * Test if the class can be created.
          * @covers Brickoo\Library\Error\ErrorHandler::__construct
-         * @covers Brickoo\Library\Error\ErrorHandler::clear
+         * @covers Brickoo\Library\Error\ErrorHandler::reset
          */
         public function testErrorHandlerConstructor()
         {

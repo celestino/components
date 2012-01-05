@@ -69,7 +69,7 @@
         /**
          * Test if the class can be created.
          * @covers Brickoo\Library\Core\Autoloader::__construct
-         * @covers Brickoo\Library\Core\Autoloader::clearNamespaces
+         * @covers Brickoo\Library\Core\Autoloader::resetNamespaces
          */
         public function testAutoloaderConstructor()
         {

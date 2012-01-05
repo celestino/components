@@ -276,16 +276,16 @@
          */
         public function __construct()
         {
-            $this->clearRegistry();
+            $this->resetRegistry();
         }
 
         /**
          * Clears the class propeties.
          * @return object reference
          */
-        public function clearRegistry()
+        public function resetRegistry()
         {
-            $this->clearLocker();
+            $this->resetLocker();
             $this->registrations    = array();
             $this->readOnly         = false;
 

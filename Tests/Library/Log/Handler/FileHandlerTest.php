@@ -86,12 +86,12 @@
         }
 
         /**
-         * Test if the clear method returns the object reference back.
-         * @covers Brickoo\Library\Log\Handler\FileHandler::clear
+         * Test if the reset method returns the object reference back.
+         * @covers Brickoo\Library\Log\Handler\FileHandler::reset
          */
         public function testClear()
         {
-            $this->assertSame($this->FileHandler, $this->FileHandler->clear());
+            $this->assertSame($this->FileHandler, $this->FileHandler->reset());
         }
 
         /**

@@ -117,14 +117,14 @@
          */
         public function __construct()
         {
-            $this->clear();
+            $this->reset();
         }
 
         /**
          * Clears the object properties.
          * @return object reference
          */
-        public function clear()
+        public function reset()
         {
             $this->serverVars    = array();
 

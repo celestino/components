@@ -141,7 +141,7 @@
          * Clears the class properties.
          * @return object reference
          */
-        public function clear();
+        public function reset();
 
         /**
          * Removes the handle handle if available.

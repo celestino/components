@@ -423,12 +423,12 @@
         }
 
         /**
-         * Test if the class properties are cleared and the Route refernce is returned.
-         * @covers Brickoo\Library\Routing\Router::clear
+         * Test if the class properties are reseted and the Route refernce is returned.
+         * @covers Brickoo\Library\Routing\Router::reset
          */
         public function testClear()
         {
-            $this->assertSame($this->Router, $this->Router->clear());
+            $this->assertSame($this->Router, $this->Router->reset());
         }
 
         /**

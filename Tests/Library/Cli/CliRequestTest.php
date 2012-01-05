@@ -83,7 +83,7 @@
         /**
          * Test if the class can be created.
          * @covers Brickoo\Library\Cli\Request::__construct
-         * @covers Brickoo\Library\Cli\Request::clear
+         * @covers Brickoo\Library\Cli\Request::reset
          */
         public function testCliConstructor()
         {

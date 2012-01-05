@@ -75,12 +75,12 @@
         }
 
         /**
-         * Test if the clear method returns the object reference.
-         * @covers Brickoo\Library\Core\Request::clear
+         * Test if the reset method returns the object reference.
+         * @covers Brickoo\Library\Core\Request::reset
          */
         public function testClear()
         {
-            $this->assertSame($this->Request, $this->Request->clear());
+            $this->assertSame($this->Request, $this->Request->reset());
         }
 
         /**

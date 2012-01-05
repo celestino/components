@@ -189,14 +189,14 @@
          */
         public function __construct()
         {
-            $this->clearLocker();
+            $this->resetLocker();
         }
 
         /**
          * Clears the class properties.
          * @return object reference
          */
-        public function clearLocker()
+        public function resetLocker()
         {
             $this->locked = array();
 

@@ -107,11 +107,11 @@
 
         /**
          * Test if the properties can be reset and the RouteCollection reference is returned.
-         * @covers Brickoo\Library\Routing\RouteCollection::clear
+         * @covers Brickoo\Library\Routing\RouteCollection::reset
          */
         public function testClear()
         {
-            $this->assertSame($this->RouteCollection, $this->RouteCollection->clear());
+            $this->assertSame($this->RouteCollection, $this->RouteCollection->reset());
         }
 
         /**

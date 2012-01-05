@@ -83,7 +83,7 @@
         * Clears the class properties.
         * @return object reference
         */
-        public function clear();
+        public function reset();
 
         /**
          * Sends the log messages using log handler assigned.

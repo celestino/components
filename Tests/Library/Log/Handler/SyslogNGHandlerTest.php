@@ -332,12 +332,12 @@
         }
 
         /**
-         * Test if clearing the object properties returns the object referece.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::clear
+         * Test if reseting the object properties returns the object referece.
+         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::reset
          */
         public function testClear()
         {
-            $this->assertSame($this->SyslogNGHandler, $this->SyslogNGHandler->clear());
+            $this->assertSame($this->SyslogNGHandler, $this->SyslogNGHandler->reset());
         }
 
         /**

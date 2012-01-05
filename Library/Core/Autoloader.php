@@ -170,14 +170,14 @@
         public function __construct()
         {
             $this->isRegistered = false;
-            $this->clearNamespaces();
+            $this->resetNamespaces();
         }
 
         /**
          * Clears the current assigned namespaces.
          * @return object reference
          */
-        public function clearNamespaces()
+        public function resetNamespaces()
         {
             $this->namespaces = array();
 

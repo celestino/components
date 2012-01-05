@@ -341,12 +341,12 @@
         }
 
         /**
-         * Test if the object clear method return the Route reference.
-         * @covers Brickoo\Library\Routing\Route::clear
+         * Test if the object reset method return the Route reference.
+         * @covers Brickoo\Library\Routing\Route::reset
          */
         public function testClear()
         {
-            $this->assertSame($this->Route, $this->Route->clear());
+            $this->assertSame($this->Route, $this->Route->reset());
         }
 
         /**

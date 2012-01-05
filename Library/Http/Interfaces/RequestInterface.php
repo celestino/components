@@ -202,7 +202,7 @@
          * Clears the Request object properties.
          * @return object reference
          */
-        public function clear();
+        public function reset();
 
         /**
         * Returns the raw body of the request.

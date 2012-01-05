@@ -98,7 +98,7 @@
          * Clears the cli object properties.
          * @return object reference
          */
-        public function clear();
+        public function reset();
 
     }
 

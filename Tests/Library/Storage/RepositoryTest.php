@@ -65,7 +65,7 @@
         /**
          * Test if the class can be created.
          * @covers Brickoo\Library\Storage\Repository::__construct
-         * @covers Brickoo\Library\Storage\Repository::clearRepository
+         * @covers Brickoo\Library\Storage\Repository::resetRepository
          */
         public function testRepositoryConstructor()
         {

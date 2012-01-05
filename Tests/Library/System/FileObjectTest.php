@@ -254,11 +254,11 @@
 
         /**
          * Test if the instance properties as restored and the object reference ist returned.
-         * @covers Brickoo\Library\System\FileObject::clear
+         * @covers Brickoo\Library\System\FileObject::reset
          */
         public function testClear()
         {
-            $this->assertSame($this->FileObject, $this->FileObject->clear());
+            $this->assertSame($this->FileObject, $this->FileObject->reset());
         }
 
         /**

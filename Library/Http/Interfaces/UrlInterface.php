@@ -113,7 +113,7 @@
          * Clears the object properties.
          * @return object reference
          */
-        public function clear();
+        public function reset();
 
     }
 
