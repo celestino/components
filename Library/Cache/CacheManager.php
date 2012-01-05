@@ -61,7 +61,7 @@
         {
             if (! $this->CacheProvider instanceof Interfaces\CacheProviderInterface)
             {
-                throw new Core\Exceptions\DependencyNotAvailableException('Cache\Interfaces\CacheProviderInterface');
+                throw new Core\Exceptions\DependencyNotAvailableException('CacheProviderInterface');
             }
 
             return $this->CacheProvider;
@@ -77,7 +77,7 @@
         {
             if ($this->CacheProvider !== null)
             {
-                throw new Core\Exceptions\DependencyOverwriteException('Cache\Interfaces\CacheProviderInterface');
+                throw new Core\Exceptions\DependencyOverwriteException('CacheProviderInterface');
             }
 
             $this->CacheProvider = $CacheProvider;
@@ -116,7 +116,7 @@
         {
             if ($this->LocalCache !== null)
             {
-                throw new Core\Exceptions\DependencyOverwriteException('Cache\Interfaces\LocalCacheInterface');
+                throw new Core\Exceptions\DependencyOverwriteException('LocalCacheInterface');
             }
 
             $this->LocalCache = $LocalCache;

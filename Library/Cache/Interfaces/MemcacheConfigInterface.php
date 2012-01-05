@@ -33,44 +33,34 @@
     namespace Brickoo\Library\Cache\Interfaces;
 
     /**
-     * CacheProviderInterface
+     * MemcacheConfigInterface
      *
      * Describes the methods implemented by this interface.
-     * @author Celestino Diaz <celestino.diaz@gmx.de>
+     * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      */
 
-    Interface CacheProviderInterface
+    interface MemcacheConfigInterface
     {
 
         /**
-        * Returns the cached content from the matching dentifier.
-        * @param string $identifier the identifier to retrieve the content from
-        * @return mixed the cached content
+        * Returns the available server list.
+        * @return array the avialable server list
         */
-        public function get($identifier);
+        public function getServers();
 
         /**
-         * Sets the content holded by the given identifier.
-         * If the identifer already exists the content will be replaced.
-         * @param string $identifier the identifier which should hold the content
-         * @param mixed $content the content which should be cached
-         * @param integer $lifetime the lifetime in seconds of the cached content
+         * Adds a server configuration to the server list.
+         * @param array $serverConfig the server configuration to add
+         * @throws \UnexpectedValueException if a configuration key is missed
          * @return object reference
          */
-        public function set($identifier, $content, $lifetime);
+        public function addServer(array $serverConfig);
 
         /**
-         * Deletes the identifier and cached content.
-         * @param string $identifier the identifer to remove
-         * @retrun object reference
-         */
-        public function delete($identifier);
-
-        /**
-         * Flushes the cached values by removing (or flag as removed) any content holded.
+         * Resets the class properties.
          * @return object reference
          */
-        public function flush();
+        public function reset();
 
     }
 

@@ -119,10 +119,10 @@
         }
 
         /**
-        * Class constructor.
-        * Initializes the class properties.
-        * @return void
-        */
+         * Class constructor.
+         * Initializes the class properties.
+         * @return void
+         */
         public function __construct()
         {
             $this->flush();

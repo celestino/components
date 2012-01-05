@@ -30,47 +30,27 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Cache\Interfaces;
+    namespace Brickoo\Library\Cache\Exceptions;
 
     /**
-     * CacheProviderInterface
+     * MemcacheNotConfiguredException
      *
-     * Describes the methods implemented by this interface.
+     * Exception throwed if trying to use a Memcache object which is not configured.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    Interface CacheProviderInterface
+    class MemcacheNotConfiguredException extends \Exception
     {
 
         /**
-        * Returns the cached content from the matching dentifier.
-        * @param string $identifier the identifier to retrieve the content from
-        * @return mixed the cached content
-        */
-        public function get($identifier);
-
-        /**
-         * Sets the content holded by the given identifier.
-         * If the identifer already exists the content will be replaced.
-         * @param string $identifier the identifier which should hold the content
-         * @param mixed $content the content which should be cached
-         * @param integer $lifetime the lifetime in seconds of the cached content
-         * @return object reference
+         * Class constructor.
+         * Calls the parent Exception constructor.
+         * @return void
          */
-        public function set($identifier, $content, $lifetime);
-
-        /**
-         * Deletes the identifier and cached content.
-         * @param string $identifier the identifer to remove
-         * @retrun object reference
-         */
-        public function delete($identifier);
-
-        /**
-         * Flushes the cached values by removing (or flag as removed) any content holded.
-         * @return object reference
-         */
-        public function flush();
+        public function __construct()
+        {
+            parent::__construct('The Memcache object is not configured.');
+        }
 
     }
 
