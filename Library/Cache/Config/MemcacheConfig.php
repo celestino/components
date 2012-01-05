@@ -30,57 +30,77 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Cache\Interfaces;
+    namespace Brickoo\Library\Cache\Config;
+
+    use Brickoo\Library\Cache\Interfaces;
 
     /**
-     * LocalCacheInterface
+     * MemcacheConfig
      *
-     * Describes the methods implemented by this interface.
-     * @author Celestino Diaz <celestino.diaz@gmx.de>
+     * Implements the configuration for a Memcache dependecy.
+     * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      */
 
-    Interface LocalCacheInterface
+    class MemcacheConfig implements Interfaces\MemcacheConfigInterface
     {
 
         /**
-         * Returns the cached content from the matching dentifier.
-         * Before using this method is should be checked with has() if the
-         * identifier is available since this method would throw an exception.
-         * @param string $identifier the identifier to retrieve the content from
-         * @throws IdentifierNotAvailableException if the identifier is not available
-         * @return mixed the cached content
+         * Holds the servers list with configurations.
+         * @var array
          */
-        public function get($identifier);
+        protected $servers;
 
         /**
-         * Sets the content holded by the given identifier.
-         * @param string $identifier the identifier which should hold the content
-         * @param mixed $content the content which should be cached
+         * Returns the available servers list.
+         * @return array the avialable servers list
+         */
+        public function getServers()
+        {
+            return $this->servers;
+        }
+
+        /**
+         * Adds a server configuration to the server list.
+         * @param array $serverConfig the server configuration to add
+         * @throws \UnexpectedValueException if a configuration key is missed
          * @return object reference
          */
-        public function set($identifier, $content);
+        public function addServer(array $serverConfig)
+        {
+            if
+            (
+                (! isset($serverConfig['host'])) ||
+                (! isset($serverConfig['port']))
+            )
+            {
+                throw new \UnexpectedValueException('The `host` or `port` configuration are not set.');
+            }
+
+            $this->servers[] = $serverConfig;
+
+            return $this;
+        }
 
         /**
-         * Removes the identifier and cached content.
-         * Before using this method is should be checked with has() if the
-         * identifier is available since this method would throw an exception.
-         * @param string $identifier the identifer to remove
-         * @retrun object reference
+         * Class constructor.
+         * Initializes the class properties.
+         * @return void
          */
-        public function remove($identifier);
+        public function __construct()
+        {
+            $this->reset();
+        }
 
         /**
-         * Checks if the identifier is available.
-         * @param string $identifier the identifier to check for availability
-         * @return boolean check result
-         */
-        public function has($identifier);
-
-        /**
-         * Flushes the cached values by removing any content holded.
+         * Resets the class properties.
          * @return object reference
          */
-        public function flush();
+        public function reset()
+        {
+            $this->servers = array();
+
+            return $this;
+        }
 
     }
 

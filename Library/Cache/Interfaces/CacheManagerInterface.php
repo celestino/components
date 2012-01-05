@@ -43,19 +43,19 @@
     {
 
         /**
-        * Returns the CacheHandler dependency.
+        * Returns the CacheProvider dependency.
         * @throws Core\Exceptions\DependencyNotAvailableException if the dependency is not available
-        * @return object the CacheHandler implementing the Cache\Interfaces\CacheHandlerInterface
+        * @return object the CacheProvider implementing the Cache\Interfaces\CacheProviderInterface
         */
-        public function getCacheHandler();
+        public function getCacheProvider();
 
         /**
-         * Injects the CacheHandler dependency to use.
-         * @param \Brickoo\Library\Cache\Interfaces\CacheHandlerInterface $CacheHandler the Cachehandler dependecy
+         * Injects the CacheProvider dependency to use.
+         * @param \Brickoo\Library\Cache\Interfaces\CacheProviderInterface $CacheProvider the Cachehandler dependecy
          * @throws Core\Exceptions\DependencyOverwriteException if trying to overwrite the dependency
          * @return object reference
          */
-        public function injectCacheHandler(\Brickoo\Library\Cache\Interfaces\CacheHandlerInterface $CacheHandler);
+        public function injectCacheProvider(\Brickoo\Library\Cache\Interfaces\CacheProviderInterface $CacheProvider);
 
         /**
          * Lazy initialization of the LocalCache.
@@ -93,14 +93,15 @@
         public function get($identifier);
 
         /**
-         * Adds a content to be cached under the given identifier.
+         * Sets the content holded by the given identifier.
+         * If the identifer already exists the content will be replaced.
          * Stores the content into the local cache.
          * @param string $identifier the identifier which holds the content
          * @param mixed $content the content to cache
          * @param integer $lifetime the lifetime of the cached content
          * @return object reference
          */
-        public function add($identifier, $content, $lifetime);
+        public function set($identifier, $content, $lifetime);
 
         /**
          * Deletes the cached content which is holded by the identifier.

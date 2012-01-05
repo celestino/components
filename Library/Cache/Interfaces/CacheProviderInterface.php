@@ -33,51 +33,41 @@
     namespace Brickoo\Library\Cache\Interfaces;
 
     /**
-     * LocalCacheInterface
+     * CacheProviderInterface
      *
      * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    Interface LocalCacheInterface
+    Interface CacheProviderInterface
     {
 
         /**
-         * Returns the cached content from the matching dentifier.
-         * Before using this method is should be checked with has() if the
-         * identifier is available since this method would throw an exception.
-         * @param string $identifier the identifier to retrieve the content from
-         * @throws IdentifierNotAvailableException if the identifier is not available
-         * @return mixed the cached content
-         */
+        * Returns the cached content from the matching dentifier.
+        * @param string $identifier the identifier to retrieve the content from
+        * @return mixed the cached content
+        */
         public function get($identifier);
 
         /**
          * Sets the content holded by the given identifier.
+         * If the identifer already exists the content will be replaced.
          * @param string $identifier the identifier which should hold the content
          * @param mixed $content the content which should be cached
+         * @param integer $lifetime the lifetime in seconds of the cached content
          * @return object reference
          */
-        public function set($identifier, $content);
+        public function set($identifier, $content, $lifetime);
 
         /**
-         * Removes the identifier and cached content.
-         * Before using this method is should be checked with has() if the
-         * identifier is available since this method would throw an exception.
+         * Deletes the identifier and cached content.
          * @param string $identifier the identifer to remove
          * @retrun object reference
          */
-        public function remove($identifier);
+        public function delete($identifier);
 
         /**
-         * Checks if the identifier is available.
-         * @param string $identifier the identifier to check for availability
-         * @return boolean check result
-         */
-        public function has($identifier);
-
-        /**
-         * Flushes the cached values by removing any content holded.
+         * Flushes the cached values by removing (or flag as removed) any content holded.
          * @return object reference
          */
         public function flush();

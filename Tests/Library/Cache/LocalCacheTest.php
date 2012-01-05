@@ -72,12 +72,12 @@
         }
 
         /**
-         * Test if the content can be cache under the identifier and the LocalCache reference is returned.
-         * @covers Brickoo\Library\Cache\LocalCache::add
+         * Test if the content can be cached under the identifier and the LocalCache reference is returned.
+         * @covers Brickoo\Library\Cache\LocalCache::set
          */
-        public function testAdd()
+        public function testSet()
         {
-            $this->assertSame($this->LocalCache, $this->LocalCache->add('unique_identifier', 'some content'));
+            $this->assertSame($this->LocalCache, $this->LocalCache->set('unique_identifier', 'some content'));
             $this->assertAttributeEquals
             (
                 array('unique_identifier' => 'some content'),
@@ -87,19 +87,19 @@
         }
 
         /**
-         * Test if trying to add an identifier with a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Cache\LocalCache::add
+         * Test if trying to set an identifier with a wrong argument type throws an exception.
+         * @covers Brickoo\Library\Cache\LocalCache::set
          * @expectedException InvalidArgumentException
          */
-        public function testAddArgumentException()
+        public function testSetArgumentException()
         {
-            $this->LocalCache->add(array('wrongTpe'), 'some content');
+            $this->LocalCache->set(array('wrongTpe'), 'some content');
         }
 
         /**
          * Test if a cached content can be retrieved by its identifier.
          * @covers Brickoo\Library\Cache\LocalCache::get
-         * @depends testAdd
+         * @depends testSet
          */
         public function testGet()
         {
@@ -130,7 +130,7 @@
         /**
          * Test if an identifier can be removed from the cached values and the LocalCache reference is returned.
          * @covers Brickoo\Library\Cache\LocalCache::remove
-         * @depends testAdd
+         * @depends testSet
          */
         public function testRemove()
         {
@@ -162,7 +162,7 @@
         /**
          * Test if the identifier is (not) recognized.
          * @covers Brickoo\Library\Cache\LocalCache::has
-         * @depends testAdd
+         * @depends testSet
          */
         public function testHas()
         {
@@ -173,7 +173,7 @@
         /**
          * Test if the cached values are flushed and the LocalCache reference is returned.
          * @covers Brickoo\Library\Cache\LocalCache::flush
-         * @depends testAdd
+         * @depends testSet
          */
         public function testFlush()
         {

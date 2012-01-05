@@ -39,7 +39,7 @@
     /**
      * CacheManager
      *
-     * Implements the caching with an added CacheHandler.
+     * Implements the caching with an added CacheProvider.
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      */
 
@@ -47,40 +47,40 @@
     {
 
         /**
-         * Holds the cache handler implementing the Cache\Interfaces\CacheHandlerInterface.
-         * @var Brickoo\Library\Cache\Interfaces\CacheHandlerInterface
+         * Holds the cache provider implementing the Cache\Interfaces\CacheProviderInterface.
+         * @var Brickoo\Library\Cache\Interfaces\CacheProviderInterface
          */
-        protected $CacheHandler;
+        protected $CacheProvider;
 
         /**
-         * Returns the CacheHandler dependency.
+         * Returns the CacheProvider dependency.
          * @throws Core\Exceptions\DependencyNotAvailableException if the dependency is not available
-         * @return object the CacheHandler implementing the Cache\Interfaces\CacheHandlerInterface
+         * @return object the CacheProvider implementing the Cache\Interfaces\CacheProviderInterface
          */
-        public function getCacheHandler()
+        public function getCacheProvider()
         {
-            if (! $this->CacheHandler instanceof Interfaces\CacheHandlerInterface)
+            if (! $this->CacheProvider instanceof Interfaces\CacheProviderInterface)
             {
-                throw new Core\Exceptions\DependencyNotAvailableException('Cache\Interfaces\CacheHandlerInterface');
+                throw new Core\Exceptions\DependencyNotAvailableException('CacheProviderInterface');
             }
 
-            return $this->CacheHandler;
+            return $this->CacheProvider;
         }
 
         /**
-         * Injects the CacheHandler dependency to use.
-         * @param \Brickoo\Library\Cache\Interfaces\CacheHandlerInterface $CacheHandler the Cachehandler dependecy
+         * Injects the CacheProvider dependency to use.
+         * @param \Brickoo\Library\Cache\Interfaces\CacheProviderInterface $CacheProvider the Cachehandler dependecy
          * @throws Core\Exceptions\DependencyOverwriteException if trying to overwrite the dependency
          * @return object reference
          */
-        public function injectCacheHandler(\Brickoo\Library\Cache\Interfaces\CacheHandlerInterface $CacheHandler)
+        public function injectCacheProvider(\Brickoo\Library\Cache\Interfaces\CacheProviderInterface $CacheProvider)
         {
-            if ($this->CacheHandler !== null)
+            if ($this->CacheProvider !== null)
             {
-                throw new Core\Exceptions\DependencyOverwriteException('Cache\Interfaces\CacheHandlerInterface');
+                throw new Core\Exceptions\DependencyOverwriteException('CacheProviderInterface');
             }
 
-            $this->CacheHandler = $CacheHandler;
+            $this->CacheProvider = $CacheProvider;
 
             return $this;
         }
@@ -116,7 +116,7 @@
         {
             if ($this->LocalCache !== null)
             {
-                throw new Core\Exceptions\DependencyOverwriteException('Cache\Interfaces\LocalCacheInterface');
+                throw new Core\Exceptions\DependencyOverwriteException('LocalCacheInterface');
             }
 
             $this->LocalCache = $LocalCache;
@@ -137,13 +137,13 @@
         public function getCacheCallback($identifier, $callback, array $arguments, $lifetime)
         {
             TypeValidator::Validate('isString', array($identifier));
-            TypeValidator::Validate('isInteger', array($lifetime), TypeValidator::FLAG_INTEGER_CAN_NOT_BE_ZERO);
+            TypeValidator::Validate('isInteger', array($lifetime));
 
             if (! $cacheContent = $this->get($identifier))
             {
                 $cacheContent = call_user_func_array($callback, $arguments);
 
-                $this->add($identifier, $cacheContent, $lifetime);
+                $this->set($identifier, $cacheContent, $lifetime);
             }
 
             return $cacheContent;
@@ -166,30 +166,31 @@
                 return $LocalCache->get($identifier);
             }
 
-           if ($cachedContent = $this->getCacheHandler()->get($identifier))
+           if ($cachedContent = $this->getCacheProvider()->get($identifier))
            {
-               $LocalCache->add($identifier, $cachedContent);
+               $LocalCache->set($identifier, $cachedContent);
            }
 
             return $cachedContent;
         }
 
         /**
-         * Adds a content to be cached under the given identifier.
+         * Sets a content to be cached under the given identifier.
+         * If the identifier already exists, the content will be replaced.
          * Stores the content into the local cache.
          * @param string $identifier the identifier which holds the content
          * @param mixed $content the content to cache
          * @param integer $lifetime the lifetime in seconds of the cached content
          * @return object reference
          */
-        public function add($identifier, $content, $lifetime)
+        public function set($identifier, $content, $lifetime)
         {
             TypeValidator::Validate('isString', array($identifier));
             TypeValidator::Validate('isInteger', array($lifetime));
 
-            $this->getLocalCache()->add($identifier, $content);
+            $this->getLocalCache()->set($identifier, $content);
 
-            $this->getCacheHandler()->add($identifier, $content, $lifetime);
+            $this->getCacheProvider()->set($identifier, $content, $lifetime);
 
             return $this;
         }
@@ -211,7 +212,7 @@
                 $LocalCache->remove($identifier);
             }
 
-            $this->getCacheHandler()->delete($identifier);
+            $this->getCacheProvider()->delete($identifier);
 
             return $this;
         }
@@ -224,7 +225,7 @@
         public function flush()
         {
             $this->getLocalCache()->flush();
-            $this->getCacheHandler()->flush();
+            $this->getCacheProvider()->flush();
 
             return $this;
         }

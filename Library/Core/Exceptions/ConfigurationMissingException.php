@@ -30,57 +30,28 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Cache\Interfaces;
+    namespace Brickoo\Library\Core\Exceptions;
 
     /**
-     * LocalCacheInterface
+     * ConfigurationMissingException
      *
-     * Describes the methods implemented by this interface.
+     * Exception throwed if some configuration value is missing.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    Interface LocalCacheInterface
+    class ConfigurationMissingException extends \Exception
     {
 
         /**
-         * Returns the cached content from the matching dentifier.
-         * Before using this method is should be checked with has() if the
-         * identifier is available since this method would throw an exception.
-         * @param string $identifier the identifier to retrieve the content from
-         * @throws IdentifierNotAvailableException if the identifier is not available
-         * @return mixed the cached content
+         * Class constructor.
+         * Calls the parent Exception constructor.
+         * @param string $configName the configuration object name
+         * @return void
          */
-        public function get($identifier);
-
-        /**
-         * Sets the content holded by the given identifier.
-         * @param string $identifier the identifier which should hold the content
-         * @param mixed $content the content which should be cached
-         * @return object reference
-         */
-        public function set($identifier, $content);
-
-        /**
-         * Removes the identifier and cached content.
-         * Before using this method is should be checked with has() if the
-         * identifier is available since this method would throw an exception.
-         * @param string $identifier the identifer to remove
-         * @retrun object reference
-         */
-        public function remove($identifier);
-
-        /**
-         * Checks if the identifier is available.
-         * @param string $identifier the identifier to check for availability
-         * @return boolean check result
-         */
-        public function has($identifier);
-
-        /**
-         * Flushes the cached values by removing any content holded.
-         * @return object reference
-         */
-        public function flush();
+        public function __construct($configName)
+        {
+            parent::__construct(sprintf('The configuration object `%s` is missing some value(s).', $configName));
+        }
 
     }
 
