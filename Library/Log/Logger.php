@@ -123,7 +123,7 @@
          */
         public function setDefaultSeverity($severity)
         {
-            TypeValidator::Validate('isInteger', array($severity));
+            TypeValidator::IsInteger($severity);
 
             $this->defaultSeverity = $severity;
 
@@ -161,7 +161,7 @@
         {
             if ($severity !== null)
             {
-                TypeValidator::Validate('isInteger', array($severity));
+                TypeValidator::IsInteger($severity);
             }
             else
             {

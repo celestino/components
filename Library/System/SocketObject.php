@@ -100,7 +100,7 @@
          */
         public function setProtocol($protocol)
         {
-            TypeValidator::Validate('isString', array($protocol));
+            TypeValidator::IsString($protocol);
 
             if ($this->hasHandle())
             {
@@ -140,7 +140,7 @@
          */
         public function setServerAdress($serverAdress)
         {
-            TypeValidator::Validate('isString', array($serverAdress));
+            TypeValidator::IsString($serverAdress);
 
             if ($this->hasHandle())
             {
@@ -181,7 +181,7 @@
          */
         public function setServerPort($serverPort)
         {
-            TypeValidator::Validate('isInteger', array($serverPort));
+            TypeValidator::IsInteger($serverPort);
 
             if ($this->hasHandle())
             {
@@ -222,7 +222,7 @@
          */
         public function setTimeout($timeout)
         {
-            TypeValidator::Validate('isInteger', array($timeout));
+            TypeValidator::IsInteger($timeout);
 
             if ($this->hasHandle())
             {

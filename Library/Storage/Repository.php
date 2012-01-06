@@ -64,7 +64,7 @@
          */
         protected function setRepository(array $repository)
         {
-            TypeValidator::Validate('isArray', array($repository));
+            TypeValidator::IsArray($repository);
 
             $this->repository = $repository;
 
@@ -97,7 +97,7 @@
          */
         public function isVersionAvailable($version)
         {
-            TypeValidator::Validate('isInteger', array($version));
+            TypeValidator::IsInteger($version);
 
             return array_key_exists($version, $this->repository);
         }
@@ -118,7 +118,7 @@
          */
         protected function setCurrentVersion($version)
         {
-            TypeValidator::Validate('isInteger', array($version));
+            TypeValidator::IsInteger($version);
 
             $this->currentVersion = $version;
 
@@ -236,7 +236,7 @@
         {
             if($version !== null)
             {
-                TypeValidator::Validate('isInteger', array($version));
+                TypeValidator::IsInteger($version);
             }
 
             if
@@ -331,7 +331,7 @@
          */
         public function restore($version)
         {
-            TypeValidator::Validate('isInteger', array($version));
+            TypeValidator::IsInteger($version);
 
             if ($this->isLocked())
             {
@@ -358,7 +358,7 @@
          */
         public function remove($version)
         {
-            TypeValidator::Validate('isInteger', array($version));
+            TypeValidator::IsInteger($version);
 
             if ($this->isLocked())
             {
@@ -423,7 +423,7 @@
          */
         public function import(array $repository)
         {
-            TypeValidator::Validate('isArray', array($repository));
+            TypeValidator::IsArray($repository);
 
             if ($this->isLocked())
             {
@@ -450,7 +450,7 @@
         {
             if ($version !== null)
             {
-                TypeValidator::Validate('isInteger', array($version));
+                TypeValidator::IsInteger($version);
             }
 
             if

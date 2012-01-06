@@ -194,7 +194,7 @@
          */
         public function getSegment($position)
         {
-            TypeValidator::Validate('isInteger', array($position));
+            TypeValidator::IsInteger($position);
 
             if
             (
@@ -313,7 +313,7 @@
          */
         public function getRequestUrl($withPort = false)
         {
-            TypeValidator::Validate('isBoolean', array($withPort));
+            TypeValidator::IsBoolean($withPort);
 
             $port = ($withPort ? ':'. $this->getPort() : '');
 

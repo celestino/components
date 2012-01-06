@@ -81,7 +81,7 @@
                 (! is_dir($namespacePath))
             )
             {
-                throw new \InvalidArgumentException('Invalid arguments used.', E_ERROR);
+                throw new \InvalidArgumentException('Invalid arguments used.');
             }
 
             if ($this->isNamespaceRegistered($namespace))
@@ -126,7 +126,7 @@
                 (! $namespace = trim($namespace))
             )
             {
-                throw new \InvalidArgumentException('Invalid arguments used.', E_ERROR);
+                throw new \InvalidArgumentException('Invalid arguments used.');
             }
 
             return in_array(strtoupper($namespace), $this->getAvailableNamespaces());
@@ -151,7 +151,7 @@
         {
             if (! is_string($namespace))
             {
-                throw new \InvalidArgumentException('Invalid arguments used', E_ERROR);
+                throw new \InvalidArgumentException('Invalid arguments used');
             }
 
             if (! $this->isNamespaceRegistered($namespace))
@@ -199,7 +199,7 @@
                 (! $className = trim($className))
             )
             {
-                throw new \InvalidArgumentException('Invalid arguments used', E_ERROR);
+                throw new \InvalidArgumentException('Invalid arguments used');
             }
 
             if

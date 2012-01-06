@@ -75,7 +75,7 @@
          */
         public function setPath($path)
         {
-            TypeValidator::Validate('isString', array($path));
+            TypeValidator::IsString($path);
 
             $this->path = $path;
 
@@ -111,7 +111,7 @@
          */
         public function setController($controller)
         {
-            TypeValidator::Validate('useRegex', array(array('~^[\w]+\:\:[\w]+$~', $controller)));
+            TypeValidator::MatchesRegex('~^[\w]+\:\:[\w]+$~', $controller);
 
             $this->controller = $controller;
 
@@ -146,7 +146,7 @@
          */
         public function setMethod($method)
         {
-            TypeValidator::Validate('isString', array($method));
+            TypeValidator::IsString($method);
 
             $this->method = $method;
 
@@ -176,7 +176,7 @@
          */
         public function getDefaultValue($parameterName)
         {
-            TypeValidator::Validate('isString', array($parameterName));
+            TypeValidator::IsString($parameterName);
 
             if (! $this->hasDefaultValue($parameterName))
             {
@@ -196,7 +196,7 @@
          */
         public function hasDefaultValue($parameterName)
         {
-            TypeValidator::Validate('isString', array($parameterName));
+            TypeValidator::IsString($parameterName);
 
             return array_key_exists($parameterName, $this->defaultValues);
         }
@@ -210,7 +210,7 @@
          */
         public function addDefaultValue($parameterName, $defaultValue)
         {
-            TypeValidator::Validate('isString', array($parameterName));
+            TypeValidator::IsString($parameterName);
 
             $this->defaultValues[$parameterName] = $defaultValue;
 
@@ -240,7 +240,7 @@
          */
         public function getRule($parameterName)
         {
-            TypeValidator::Validate('isString', array($parameterName));
+            TypeValidator::IsString($parameterName);
 
             if (! $this->hasRule($parameterName))
             {
@@ -261,7 +261,8 @@
          */
         public function addRule($parameterName, $rule)
         {
-            TypeValidator::Validate('isString', array($parameterName, $rule));
+            TypeValidator::IsString($parameterName);
+            TypeValidator::isString($rule);
 
             $this->rules[$parameterName] = $rule;
 
@@ -275,7 +276,7 @@
          */
         public function hasRule($parameterName)
         {
-            TypeValidator::Validate('isString', array($parameterName));
+            TypeValidator::IsString($parameterName);
 
             return array_key_exists($parameterName, $this->rules);
         }

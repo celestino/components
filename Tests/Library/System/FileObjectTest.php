@@ -288,16 +288,6 @@
         }
 
         /**
-         * Test if the write method with wrong argument throws an exception..
-         * @covers Brickoo\Library\System\FileObject::write
-         * @expectedException InvalidArgumentException
-         */
-        public function testWriteArgumentException()
-        {
-            $this->FileObject->write(array('wrongType'));
-        }
-
-        /**
          * Test if the write method with wrong mode used throws an exception.
          * @covers Brickoo\Library\System\FileObject::write
          * @covers Brickoo\Library\System\Exceptions\InvalidModeOperationException

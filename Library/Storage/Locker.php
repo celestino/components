@@ -60,6 +60,8 @@
         {
             foreach($identifiers as $index => $singleIdentifier)
             {
+                TypeValidator::IsStringOrInteger($singleIdentifier);
+
                 if
                 (
                     (! $this->isIdentifierAvailable($singleIdentifier)) ||
@@ -94,8 +96,6 @@
                 $identifiers = array($identifiers);
             }
 
-            TypeValidator::Validate('isStringOrInteger', $identifiers);
-
             $identifiers = $this->cleanToLockIdentifiers($identifiers);
 
             if (empty($identifiers))
@@ -118,6 +118,8 @@
         {
             foreach($identifiers as $index => $singleIdentifier)
             {
+                TypeValidator::IsStringOrInteger($singleIdentifier);
+
                 if(! $this->isLocked($singleIdentifier))
                 {
                     unset ($identifiers[$index]);
@@ -146,8 +148,6 @@
                 $identifiers = array($identifiers);
             }
 
-            TypeValidator::Validate('isStringOrInteger', $identifiers);
-
             $identifiers = $this->cleanToUnlockIdentifiers($identifiers);
 
             if (empty($identifiers))
@@ -167,7 +167,7 @@
          */
         public function isLocked($identifier)
         {
-            TypeValidator::Validate('isStringOrInteger', array($identifier));
+            TypeValidator::IsStringOrInteger($identifier);
 
             return in_array($identifier, $this->locked);
         }

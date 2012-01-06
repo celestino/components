@@ -68,13 +68,10 @@
         /**
          * Adds the list of registrations to the registry.
          * @param array $registrations the registrations to add
-         * @throws InvalidArgumentException if passed registrations is empty
          * @return object reference
          */
         public function addRegistrations(array $registrations)
         {
-            TypeValidator::Validate('isArray', array($registrations));
-
             foreach($registrations as $identifier => $value)
             {
                 $this->register($identifier, $value);
@@ -92,7 +89,7 @@
          */
         public function getRegistered($identifier)
         {
-            TypeValidator::Validate('isStringOrInteger', array($identifier));
+            TypeValidator::IsStringOrInteger($identifier);
 
             if (! $this->isRegistered($identifier))
             {
@@ -114,7 +111,7 @@
          */
         public function register($identifier, $value)
         {
-            TypeValidator::Validate('isStringOrInteger', array($identifier));
+            TypeValidator::IsStringOrInteger($identifier);
 
             if ($this->isReadOnly())
             {
@@ -142,7 +139,7 @@
          */
         public function override($identifier, $value)
         {
-            TypeValidator::Validate('isStringOrInteger', array($identifier));
+            TypeValidator::IsStringOrInteger($identifier);
 
             if ($this->isReadOnly())
             {
@@ -169,7 +166,7 @@
          */
         public function unregister($identifier)
         {
-            TypeValidator::Validate('isStringOrInteger', array($identifier));
+            TypeValidator::IsStringOrInteger($identifier);
 
             if ($this->isReadOnly())
             {
@@ -210,7 +207,7 @@
          */
         public function isRegistered($identifier)
         {
-            TypeValidator::Validate('isStringOrInteger', array($identifier));
+            TypeValidator::IsStringOrInteger($identifier);
 
             return array_key_exists($identifier, $this->registrations);
         }
@@ -231,7 +228,7 @@
          */
         public function setReadOnly($mode = true)
         {
-            TypeValidator::Validate('isBoolean', array($mode));
+            TypeValidator::IsBoolean($mode);
 
             $this->readOnly = $mode;
 

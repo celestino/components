@@ -121,7 +121,7 @@
          */
         public function setDirectory($directory)
         {
-            TypeValidator::Validate('isString', array($directory));
+            TypeValidator::IsString($directory);
 
             $this->directory = rtrim($directory, '\/');
 
@@ -150,7 +150,7 @@
          */
         public function setFilePrefix($filePrefix)
         {
-            TypeValidator::Validate('isString', array($filePrefix), TypeValidator::FLAG_STRING_CAN_BE_EMPTY);
+            TypeValidator::IsString($filePrefix, TypeValidator::FLAG_STRING_CAN_BE_EMPTY);
 
             $this->filePrefix = $filePrefix;
 
@@ -198,8 +198,8 @@
          */
         public function convertToLogMessage(array $messages, $severity)
         {
-            TypeValidator::Validate('arrayContainsStrings', array($messages));
-            TypeValidator::Validate('isInteger', array($severity));
+            TypeValidator::ArrayContainsStrings($messages);
+            TypeValidator::IsInteger($severity);
 
             if (! array_key_exists($severity, $this->severityDescription))
             {
@@ -219,7 +219,7 @@
         */
         public function log($messages, $severity)
         {
-            TypeValidator::Validate('isInteger', array($severity));
+            TypeValidator::IsInteger($severity);
 
             if (! is_array($messages))
             {

@@ -285,7 +285,7 @@
         public function testOpen()
         {
             $this->SocketObject->setProtocol('tcp')
-                               ->setServerAdress('sourceforge.com')
+                               ->setServerAdress('google.com')
                                ->setServerPort(80)
                                ->setTimeout(10);
 
@@ -301,7 +301,7 @@
         public function testOpenHandleExistsException()
         {
             $this->SocketObject->setProtocol('tcp')
-                               ->setServerAdress('sourceforge.com')
+                               ->setServerAdress('google.com')
                                ->setServerPort(80)
                                ->setTimeout(10);
 
@@ -318,7 +318,7 @@
         public function testOpenHandleException()
         {
             $this->SocketObject->setProtocol('whatever')
-                               ->setServerAdress('sourceforge.com')
+                               ->setServerAdress('otherplace')
                                ->setServerPort(80)
                                ->setTimeout(1);
 
@@ -341,7 +341,7 @@
         public function testGetHandleWithOpen()
         {
             $this->SocketObject->setProtocol('tcp')
-                               ->setServerAdress('sourceforge.com')
+                               ->setServerAdress('google.com')
                                ->setServerPort(80)
                                ->setTimeout(10);
             $this->assertInternalType('resource', $this->SocketObject->getHandle());

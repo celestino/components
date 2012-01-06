@@ -61,276 +61,250 @@
         const FLAG_REGEX_NEGATIVE_CHECK       = 8;
 
         /**
-         * Holds an instance of the ArgumentValidator.
-         * @var object
-         */
-        protected static $Validator;
-
-        /**
-        * Resets the static Validator instance.
-        * @return void
-        */
-        public static function Reset()
-        {
-            static::$Validator = null;
-        }
-
-        /**
-         * Throws an InvalidArgumentException.
-         * @param string $method the method called for validation
-         * @param integer $parameter the paramter which throws the exception
-         * @param integer $flag optional flag used
-         * @throws InvalidArgumentException
-         * @return void
-         */
-        protected function throwInvalidException($method, $parameter, $flag = null)
-        {
-            if (is_array($parameter))
-            {
-                $parameter = implode(',', $parameter);
-            }
-
-            if (is_object($parameter))
-            {
-                $parameter = get_class($parameter);
-            }
-
-            if (is_null($parameter))
-            {
-                $parameter = 'null';
-            }
-
-            throw new \InvalidArgumentException
-            (
-                sprintf
-                (
-                    self::ExceptionMessage,
-                    $parameter,
-                    ($flag === null ? 'null' : $flag),
-                    $method
-                ),
-                E_ERROR
-            );
-        }
-
-        /**
-         * Iterate through the arguments and call the passed method with each argument.
-         * @param string $method the method called for validation
-         * @param array $arguments the argument failed
-         * @param integer $flag optional flag used
-         * @return boolean true if the validation success otherwise the failed argument index
-         */
-        protected function checkValidation($method, array $arguments, $flag = null)
-        {
-            $valid = true;
-
-            foreach($arguments as $index => $argument)
-            {
-                if(! call_user_func_array(array($this, $method), array($argument, $flag)))
-                {
-                    $valid = $index;
-                    break;
-                }
-            }
-
-            return $valid;
-        }
-
-        /**
-         * Checks if the method is available.
-         * @param string $method the method to check
-         * @return boolean check result
-         */
-        protected function isMethodAvailable($method)
-        {
-            return (
-                is_string($method)
-                &&
-                method_exists(self::$Validator, $method)
-            );
-        }
-
-        /**
-         * Checks if the flag is supported.
-         * @param integer|null $flag the flag to check
-         * @return boolean check result
-         */
-        protected function isFlagSupported($flag)
-        {
-            return (
-                ($flag === null) ||
-                is_int($flag)
-            );
-        }
-
-        /**
-         * Validates the passed arguments with the desired method and flags.
-         * @param string $method the method to call for validation
+         * Checks if the argument is a string.
          * @param array $arguments the arguments to validate
-         * @param integer $flag optional flag for the validation method
-         * @return boolean success
+         * @param integer $flag the flag to allow empty strings
+         * @return boolean check result
          */
-        public static function Validate($method, array $arguments, $flag = null)
+        public static function IsString($argument, $flag = null)
         {
-            if (self::$Validator === null)
+           if
+           (!
+               (
+                    (
+                        (
+                            ($flag === null) ||
+                            ($flag & self::FLAG_STRING_CAN_BE_EMPTY) === 0
+                        )
+                        &&
+                        is_string($argument)
+                        &&
+                        ($argument = trim($argument))
+                    ) ||
+                    (
+                        ($flag & self::FLAG_STRING_CAN_BE_EMPTY) !== 0
+                        &&
+                        is_string($argument)
+                    )
+                )
+            )
             {
-                self::$Validator = new TypeValidator();
-            }
-
-            if (! self::$Validator->isMethodAvailable($method))
-            {
-                throw new \BadMethodCallException
+                throw new \InvalidArgumentException
                 (
-                    sprintf('Method `%s` does not exists in the TypeValidator.', $method),
-                    E_ERROR
+                    sprintf
+                    (
+                        self::ExceptionMessage,
+                        serialize($argument),
+                        ($flag === null ? 'null' : (int)$flag),
+                        __METHOD__
+                    )
                 );
-            }
-
-            if (! self::$Validator->isFlagSupported($flag))
-            {
-               throw new \InvalidArgumentException('Validator flag is not supported.', E_ERROR);
-            }
-
-            if (($valid = self::$Validator->checkValidation($method, $arguments, $flag)) !== true)
-            {
-                return self::$Validator->throwInvalidException($method, $arguments[$valid], $flag);
             }
 
             return true;
         }
 
         /**
-         * Check if the argument is a string.
-         * @param string $argument the argument to validate
-         * @param integer $flag the flag to allow empty strings
-         * @return boolean check result
-         */
-        public function isString($argument, $flag = null)
-        {
-            return (
-                (
-                    (
-                        ($flag === null) ||
-                        ($flag & self::FLAG_STRING_CAN_BE_EMPTY) === 0
-                     )
-                    &&
-                    is_string($argument)
-                    &&
-                    ($argument = trim($argument))
-                ) ||
-                (
-                    ($flag & self::FLAG_STRING_CAN_BE_EMPTY) !== 0
-                    &&
-                    is_string($argument)
-                )
-            );
-        }
-
-        /**
-         * Check if the argument is a integer.
-         * @param string $argument the argument to validate
+         * Checks if the argument is a integer.
+         * @param integer $argument the argument to validate
          * @param integer $flag the flag to allow zero values
          * @return boolean check result
          */
-        public function isInteger($argument, $flag = null)
+        public static function IsInteger($argument, $flag = null)
         {
-            return (
+            if
+            (!
                 (
                     (
-                        ($flag === null) ||
-                        ($flag & self::FLAG_INTEGER_CAN_NOT_BE_ZERO) === 0
+                        (
+                            ($flag === null) ||
+                            ($flag & self::FLAG_INTEGER_CAN_NOT_BE_ZERO) === 0
+                        )
+                        &&
+                        is_int($argument)
+                    ) ||
+                    (
+                        ($flag & self::FLAG_INTEGER_CAN_NOT_BE_ZERO) !== 0
+                        &&
+                        is_int($argument)
+                        &&
+                        ($argument !== 0)
                     )
-                    &&
-                    is_int($argument)
-                ) ||
-                (
-                    ($flag & self::FLAG_INTEGER_CAN_NOT_BE_ZERO) !== 0
-                    &&
-                    is_int($argument)
-                    &&
-                    ($argument !== 0)
                 )
-            );
+            )
+            {
+                throw new \InvalidArgumentException
+                (
+                    sprintf
+                    (
+                        self::ExceptionMessage,
+                        serialize($argument),
+                        ($flag === null ? 'null' : (int)$flag),
+                        __METHOD__
+                    )
+                );
+            }
+
+            return true;
         }
 
         /**
-         * Checks if the arguments is a float.
+         * Checkss if the arguments is a float.
          * @param float $argument the argument to check
          * @param integer $flag currently not supported
          * @return boolean check result
          */
-        public function isFloat($argument, $flag = null)
+        public static function IsFloat($argument, $flag = null)
         {
-            return is_float($argument);
+            if (! is_float($argument))
+            {
+                throw new \InvalidArgumentException
+                (
+                    sprintf
+                    (
+                        self::ExceptionMessage,
+                        serialize($argument),
+                        ($flag === null ? 'null' : (int)$flag),
+                        __METHOD__
+                    )
+                );
+            }
+
+            return true;
         }
 
         /**
-         * Check if the argument is an array.
+         * Checks if the argument is an array.
          * @param string $argument the argument to validate
          * @param integer $flag the flag to allow empty arrays
          * @return boolean check result
          */
-        public function isArray($argument, $flag = null)
+        public static function IsArray($argument, $flag = null)
         {
-            return (
+            if
+            (!
                 (
-                    ($flag === null)
-                    &&
-                    is_array($argument)
-                    &&
-                    (! empty($argument))
-                ) ||
-                (
-                    ($flag === self::FLAG_ARRAY_CAN_BE_EMPTY)
-                    &&
-                    is_array($argument)
+                    (
+                        ($flag === null)
+                        &&
+                        is_array($argument)
+                        &&
+                        (! empty($argument))
+                    ) ||
+                    (
+                        ($flag === self::FLAG_ARRAY_CAN_BE_EMPTY)
+                        &&
+                        is_array($argument)
+                    )
                 )
-            );
+            )
+            {
+                throw new \InvalidArgumentException
+                (
+                    sprintf
+                    (
+                        self::ExceptionMessage,
+                        serialize($argument),
+                        ($flag === null ? 'null' : (int)$flag),
+                        __METHOD__
+                    )
+                );
+            }
+
+            return true;
         }
 
         /**
-         * Check if the array contains only string values.
+         * Checks if the array contains only string values.
          * @param array $argument the argument to validate
          * @param integer $flag does not affect
          * @return boolean check result
          */
-        public function arrayContainsStrings($argument, $flag = null)
+        public static function ArrayContainsStrings($argument, $flag = null)
         {
-            return (
-                is_array($argument)
-                &&
-                ($filtered = array_filter($argument, 'is_string'))
-                &&
-                (count($argument) == count($filtered))
-            );
+            if
+            (!
+                (
+                    is_array($argument)
+                    &&
+                    ($filtered = array_filter($argument, 'is_string'))
+                    &&
+                    (count($argument) == count($filtered))
+                )
+            )
+            {
+                throw new \InvalidArgumentException
+                (
+                    sprintf
+                    (
+                        self::ExceptionMessage,
+                        serialize($argument),
+                        ($flag === null ? 'null' : (int)$flag),
+                        __METHOD__
+                    )
+                );
+            }
+
+            return true;
         }
 
         /**
-         * Check if the array contains only integer  values.
+         * Checks if the array contains only integer  values.
          * @param array $argument the argument to validate
          * @param integer $flag does not affect
          * @return boolean check result
          */
-        public function arrayContainsIntegers($argument, $flag = null)
+        public static function ArrayContainsIntegers($argument, $flag = null)
         {
-            return (
-                is_array($argument)
-                &&
-                ($filtered = array_filter($argument, 'is_int'))
-                &&
-                (count($argument) == count($filtered))
-            );
+            if
+            (!
+                (
+                    is_array($argument)
+                    &&
+                    ($filtered = array_filter($argument, 'is_int'))
+                    &&
+                    (count($argument) == count($filtered))
+                )
+            )
+            {
+                throw new \InvalidArgumentException
+                (
+                    sprintf
+                    (
+                        self::ExceptionMessage,
+                        serialize($argument),
+                        ($flag === null ? 'null' : (int)$flag),
+                        __METHOD__
+                    )
+                );
+            }
+
+            return true;
         }
 
         /**
-         * Check if the argument is a boolean.
+         * Checks if the argument is a boolean.
          * @param string $argument the argument to validate
          * @param integer $flag does not affect
          * @return boolean check result
          */
-        public function isBoolean($argument, $flag = null)
+        public static function IsBoolean($argument, $flag = null)
         {
-            return is_bool($argument);
+            if (! is_bool($argument))
+            {
+                throw new \InvalidArgumentException
+                (
+                    sprintf
+                    (
+                        self::ExceptionMessage,
+                        serialize($argument),
+                        ($flag === null ? 'null' : (int)$flag),
+                        __METHOD__
+                    )
+                );
+            }
+
+            return true;
         }
 
         /**
@@ -339,56 +313,128 @@
          * @param integer $flag does not affect
          * @return boolean check result
          */
-        public function isNotEmpty($argument, $flag = null)
+        public static function IsNotEmpty($argument, $flag = null)
         {
-            return (! empty($argument));
+            if (empty($argument))
+            {
+                throw new \InvalidArgumentException
+                (
+                    sprintf
+                    (
+                        self::ExceptionMessage,
+                        serialize($argument),
+                        ($flag === null ? 'null' : (int)$flag),
+                        __METHOD__
+                    )
+                );
+            }
+
+            return true;
         }
 
         /**
-         * Check if the argument is a string or a integer.
+         * Checks if the argument is a string or a integer.
          * @param string $argument the argument to validate
          * @param integer $flag the flag to allow empty() values
          * @return boolean check result
          */
-        public function isStringOrInteger($argument, $flag  = null)
+        public static function IsStringOrInteger($argument, $flag  = null)
         {
-            return (
-                       $this->isString($argument, $flag) ||
-                       $this->isInteger($argument, $flag)
-            );
+            if
+            (!
+                (
+                    (
+                        (
+                            (
+                                ($flag === null) ||
+                                ($flag & self::FLAG_STRING_CAN_BE_EMPTY) === 0
+                            )
+                            &&
+                            is_string($argument)
+                            &&
+                            ($argument = trim($argument))
+                        ) ||
+                        (
+                            ($flag & self::FLAG_STRING_CAN_BE_EMPTY) !== 0
+                            &&
+                            is_string($argument)
+                        )
+                    ) ||
+                    (
+                        (
+                            (
+                                ($flag === null) ||
+                                ($flag & self::FLAG_INTEGER_CAN_NOT_BE_ZERO) === 0
+                            )
+                            &&
+                            is_int($argument)
+                        ) ||
+                        (
+                            ($flag & self::FLAG_INTEGER_CAN_NOT_BE_ZERO) !== 0
+                            &&
+                            is_int($argument)
+                            &&
+                            ($argument !== 0)
+                        )
+                    )
+                )
+            )
+            {
+                throw new \InvalidArgumentException
+                (
+                    sprintf
+                    (
+                        self::ExceptionMessage,
+                        serialize($argument),
+                        ($flag === null ? 'null' : (int)$flag),
+                        __METHOD__
+                    )
+                );
+            }
+
+            return true;
         }
 
         /**
-         * Check if the argument is a string matching a regex.
+         * Checks if the argument is a string matching a regex.
          * @param array ($regex, $argument) the regex and argument to validate
          * @param integer $flag does not affect
          * @return boolean check result
          */
-        public function useRegex($argument, $flag = null)
+        public static function MatchesRegex($regex, $argument, $flag = null)
         {
+            self::IsString($regex);
+            self::IsString($argument);
+
             if
-            (
-                (! is_array($argument)) ||
-                (count($argument) < 2)
+            (!
+                (
+                    (
+                        ($flag === null)
+                        &&
+                        preg_match($regex, $argument)
+                    ) ||
+                    (
+                        ($flag === self::FLAG_REGEX_NEGATIVE_CHECK)
+                        &&
+                        (! preg_match($regex, $argument))
+                    )
+                )
             )
             {
-                return false;
+                throw new \InvalidArgumentException
+                (
+                    sprintf
+                    (
+                        self::ExceptionMessage,
+                        serialize(array($regex, $argument)),
+                        ($flag === null ? 'null' : (int)$flag),
+                        __METHOD__
+                    )
+                );
             }
 
-            self::Validate('isString', array($argument[0], $argument[1]));
-
-            return (
-                (
-                    ($flag === null)
-                    &&
-                    preg_match($argument[0], $argument[1])
-                ) ||
-                (
-                    ($flag === self::FLAG_REGEX_NEGATIVE_CHECK)
-                    &&
-                    (! preg_match($argument[0], $argument[1]))
-                )
-            );
+            return true;
         }
 
     }

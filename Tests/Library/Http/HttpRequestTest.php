@@ -324,16 +324,6 @@
         }
 
         /**
-         * Test is a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Http\Request::addHttpHeaders
-         * @expectedException InvalidArgumentException
-         */
-        public function testAddHttpHeadersArgumentException()
-        {
-            $this->HttpRequest->addHttpHeaders(array());
-        }
-
-        /**
          * Test if the accept types can be retrieved.
          * @covers Brickoo\Library\Http\Request::getAcceptTypes
          * @covers Brickoo\Library\Http\Request::getAcceptHeaderByRegex

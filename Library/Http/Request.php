@@ -152,8 +152,8 @@
          */
         public function setVariablesOrder($order)
         {
-            TypeValidator::Validate('isString', array($order));
-            TypeValidator::Validate('useRegex', array(array('~^[GPCF]{1,3}$~i', $order)));
+            TypeValidator::IsString($order);
+            TypeValidator::MatchesRegex('~^[GPCF]{1,3}$~i', $order);
 
             $this->variablesOrder = $this->filterOrderChars($order);
             $this->params = null;
@@ -168,7 +168,7 @@
          */
         protected function filterOrderChars($order)
         {
-            TypeValidator::Validate('isString', array($order));
+            TypeValidator::IsString($order);
 
             $filterChars = array();
             $orderLength = strlen($order);
@@ -216,7 +216,7 @@
          */
         public function getParam($paramName, $defaultValue = null)
         {
-            TypeValidator::Validate('isString', array($paramName));
+            TypeValidator::IsString($paramName);
 
             if (empty($this->params))
             {
@@ -274,8 +274,7 @@
          */
         protected function filterHeaders(array $headers, $override = false)
         {
-            TypeValidator::Validate('isArray', array($headers));
-            TypeValidator::Validate('isBoolean', array($override));
+            TypeValidator::IsBoolean($override);
 
             $headersModified = array();
 
@@ -312,8 +311,7 @@
          */
         public function addHTTPHeaders(array $headers, $override = false)
         {
-            TypeValidator::Validate('isArray', array($headers));
-            TypeValidator::Validate('isBoolean', array($override));
+            TypeValidator::IsBoolean($override);
 
             $headers = $this->filterHeaders($headers, $override);
 
@@ -347,7 +345,7 @@
          */
         public function getHTTPHeader($headerName, $defaultValue = null)
         {
-            TypeValidator::Validate('isString', array($headerName));
+            TypeValidator::IsString($headerName);
 
             $headerName = strtoupper(str_replace(array('-', ' ', '.'), '_', $headerName));
 
@@ -371,7 +369,7 @@
          */
         public function isHTTPHeaderAvailable($headerName)
         {
-            TypeValidator::Validate('isString', array($headerName));
+            TypeValidator::IsString($headerName);
 
             $headerName = strtoupper(str_replace(array('-', ' ', '.'), '_', $headerName));
 
@@ -478,7 +476,7 @@
          */
         public function isTypeSupported($acceptType)
         {
-            TypeValidator::Validate('isString', array($acceptType));
+            TypeValidator::IsString($acceptType);
 
             return array_key_exists(strtolower($acceptType), $this->getAcceptTypes());
         }
@@ -521,7 +519,7 @@
          */
         public function isLanguageSupported($acceptLanguage)
         {
-            TypeValidator::Validate('isString', array($acceptLanguage));
+            TypeValidator::IsString($acceptLanguage);
 
             return array_key_exists($acceptLanguage, $this->getAcceptLanguages());
         }
@@ -564,7 +562,7 @@
          */
         public function isEncodingSupported($acceptEncoding)
         {
-            TypeValidator::Validate('isString', array($acceptEncoding));
+            TypeValidator::IsString($acceptEncoding);
 
             return array_key_exists($acceptEncoding, $this->getAcceptEncodings());
         }
@@ -607,7 +605,7 @@
          */
         public function isCharsetSupported($acceptCharset)
         {
-            TypeValidator::Validate('isString', array($acceptCharset));
+            TypeValidator::IsString($acceptCharset);
 
             return array_key_exists($acceptCharset, $this->getAcceptCharsets());
         }
@@ -621,7 +619,9 @@
          */
         public function getAcceptHeaderByRegex($regex, $keyName, $acceptHeader)
         {
-            TypeValidator::Validate('isString', array($regex, $keyName, $acceptHeader));
+            TypeValidator::isString($regex);
+            TypeValidator::isString($keyName);
+            TypeValidator::isString($acceptHeader);
 
             $results = array();
             $fields = explode(',', $acceptHeader);

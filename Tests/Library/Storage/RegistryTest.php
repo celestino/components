@@ -103,16 +103,6 @@
         }
 
         /**
-         * Test if the unvalid identifier throws an exception.
-         * @covers Brickoo\Library\Storage\Registry::addRegistrations
-         * @expectedException InvalidArgumentException
-         */
-        public function testAddRegistrationsException()
-        {
-            $this->Registry->addRegistrations(array());
-        }
-
-        /**
          * Test if the registrations can be added as an array.
          * @covers Brickoo\Library\Storage\Registry::isIdentifierAvailable
          * @covers Brickoo\Library\Storage\Registry::isRegistered

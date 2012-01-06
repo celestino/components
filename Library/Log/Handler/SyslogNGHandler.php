@@ -158,7 +158,7 @@
          */
         public function setHostname($hostname)
         {
-            TypeValidator::Validate('isString', array($hostname));
+            TypeValidator::IsString($hostname);
 
             $this->hostname = str_replace(' ', '_', $hostname);
 
@@ -192,7 +192,7 @@
          */
         public function setServerAdress($serverAdress)
         {
-            TypeValidator::Validate('isString', array($serverAdress));
+            TypeValidator::IsString($serverAdress);
 
             $this->serverAdress = $serverAdress;
 
@@ -228,7 +228,7 @@
          */
         public function setServerPort($port)
         {
-            TypeValidator::Validate('isInteger', array($port));
+            TypeValidator::IsInteger($port);
 
             $this->serverPort = $port;
 
@@ -263,7 +263,7 @@
          */
         public function SetTimeout($timeout)
         {
-            TypeValidator::Validate('isInteger', array($timeout));
+            TypeValidator::IsInteger($timeout);
 
             $this->timeout = $timeout;
 
@@ -299,7 +299,7 @@
          */
         public function setFacility($facility)
         {
-            TypeValidator::Validate('isInteger', array($facility));
+            TypeValidator::IsInteger($facility);
 
             if
             (
@@ -346,7 +346,7 @@
          */
         public function getMessageHeader($severity)
         {
-            TypeValidator::Validate('isInteger', array($severity));
+            TypeValidator::IsInteger($severity);
 
             return '<' . (($this->getFacility() * 8) + $severity) . '>' . date('c') . ' ' . $this->getHostname();
         }
@@ -357,10 +357,9 @@
          * @throws Core\Exceptions\UnableToConnectException if the connection can not be created
          * @return object reference
          */
-        protected function sendMessages($messages, $severity)
+        protected function sendMessages(array $messages, $severity)
         {
-            TypeValidator::Validate('isArray', array($messages));
-            TypeValidator::Validate('isInteger', array($severity));
+            TypeValidator::IsInteger($severity);
 
             $SocketObject = $this->getSocketObject();
             $SocketObject->setProtocol('udp')
@@ -388,7 +387,7 @@
          */
         public function log($messages, $severity)
         {
-            TypeValidator::Validate('isInteger', array($severity));
+            TypeValidator::IsInteger($severity);
 
             if (! is_array($messages))
             {

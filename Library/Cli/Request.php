@@ -115,7 +115,7 @@
          */
         public function getArgument($index, $defaultValue = null)
         {
-            TypeValidator::Validate('isStringOrInteger', array($index));
+            TypeValidator::IsStringOrInteger($index);
 
             if (empty($this->arguments))
             {
@@ -140,8 +140,6 @@
          */
         public function setArgumentsKeys(array $keys)
         {
-            TypeValidator::Validate('isArray', array($keys));
-
             $keys = array_values($keys);
 
             if (empty($this->arguments))
@@ -229,7 +227,7 @@
          */
         public function setRequestPath($requestPath)
         {
-            TypeValidator::Validate('isString', array($requestPath));
+            TypeValidator::IsString($requestPath);
 
             $this->requestPath = $requestPath;
 

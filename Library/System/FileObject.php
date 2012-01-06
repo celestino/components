@@ -106,7 +106,7 @@
          */
         public function setLocation($location)
         {
-            TypeValidator::Validate('isString', array($location));
+            TypeValidator::IsString($location);
 
             if ($this->hasHandle())
             {
@@ -146,7 +146,7 @@
          */
         public function setMode($mode)
         {
-            TypeValidator::Validate('useRegex', array(array('~^[acwrx]([\+])?$~', $mode)));
+            TypeValidator::MatchesRegex('~^[acwrx]([\+])?$~', $mode);
 
             if ($this->hasHandle())
             {
@@ -269,8 +269,6 @@
          */
         public function write($data)
         {
-            TypeValidator::Validate('isStringOrInteger', array($data));
-
             if (($mode = $this->getMode()) == 'r')
             {
                 throw new Exceptions\InvalidModeOperationException($mode);
@@ -289,7 +287,7 @@
          */
         public function read($bytes)
         {
-            TypeValidator::Validate('isInteger', array($bytes), TypeValidator::FLAG_INTEGER_CAN_NOT_BE_ZERO);
+            TypeValidator::IsInteger($bytes, TypeValidator::FLAG_INTEGER_CAN_NOT_BE_ZERO);
 
             if (preg_match('~^[waxc]$~', ($mode = $this->getMode())))
             {

@@ -182,7 +182,7 @@
         */
         public function get($identifier)
         {
-            TypeValidator::Validate('isString', array($identifier));
+            TypeValidator::IsString($identifier);
 
             $this->checkIsConfigured();
 
@@ -201,8 +201,8 @@
          */
         public function set($identifier, $content, $lifetime = 60)
         {
-            TypeValidator::Validate('isString', array($identifier));
-            TypeValidator::Validate('isInteger', array($lifetime));
+            TypeValidator::IsString($identifier);
+            TypeValidator::IsInteger($lifetime);
 
             $this->checkIsConfigured();
 
@@ -216,7 +216,7 @@
          */
         public function delete($identifier)
         {
-            TypeValidator::Validate('isString', array($identifier));
+            TypeValidator::IsString($identifier);
 
             $this->checkIsConfigured();
 

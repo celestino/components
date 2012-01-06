@@ -73,7 +73,7 @@
          */
         public function setErrorLevel($errorLevel)
         {
-            TypeValidator::Validate('isInteger', array($errorLevel));
+            TypeValidator::IsInteger($errorLevel);
 
             $this->errorLevel = $errorLevel;
 

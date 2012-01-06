@@ -81,7 +81,7 @@
          */
         public function getServerVar($keyName, $defaultValue = null)
         {
-            TypeValidator::Validate('isString', array($keyName));
+            TypeValidator::IsString($keyName);
 
             if (empty($this->serverVars))
             {
@@ -105,7 +105,7 @@
          */
         public function isPHPInterface($interface)
         {
-            TypeValidator::Validate('useRegex', array(array('~[a-z\-23]+~i', $interface)));
+            TypeValidator::MatchesRegex('~[a-z\-23]+~i', $interface);
 
             return (strpos(PHP_SAPI, $interface) !== false);
         }

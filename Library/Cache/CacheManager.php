@@ -136,8 +136,8 @@
          */
         public function getCacheCallback($identifier, $callback, array $arguments, $lifetime)
         {
-            TypeValidator::Validate('isString', array($identifier));
-            TypeValidator::Validate('isInteger', array($lifetime));
+            TypeValidator::IsString($identifier);
+            TypeValidator::IsInteger($lifetime);
 
             if (! $cacheContent = $this->get($identifier))
             {
@@ -157,7 +157,7 @@
          */
         public function get($identifier)
         {
-            TypeValidator::Validate('isString', array($identifier));
+            TypeValidator::IsString($identifier);
 
             $LocalCache = $this->getLocalCache();
 
@@ -185,8 +185,8 @@
          */
         public function set($identifier, $content, $lifetime)
         {
-            TypeValidator::Validate('isString', array($identifier));
-            TypeValidator::Validate('isInteger', array($lifetime));
+            TypeValidator::IsString($identifier);
+            TypeValidator::IsInteger($lifetime);
 
             $this->getLocalCache()->set($identifier, $content);
 
@@ -203,7 +203,7 @@
          */
         public function delete($identifier)
         {
-            TypeValidator::Validate('isString', array($identifier));
+            TypeValidator::IsString($identifier);
 
             $LocalCache = $this->getLocalCache();
 

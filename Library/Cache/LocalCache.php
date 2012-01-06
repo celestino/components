@@ -62,7 +62,7 @@
          */
         public function get($identifier)
         {
-            TypeValidator::Validate('isString', array($identifier));
+            TypeValidator::IsString($identifier);
 
             if (! array_key_exists($identifier, $this->cacheValues))
             {
@@ -80,7 +80,7 @@
          */
         public function set($identifier, $content)
         {
-            TypeValidator::Validate('isString', array($identifier));
+            TypeValidator::IsString($identifier);
 
             $this->cacheValues[$identifier] = $content;
 
@@ -96,7 +96,7 @@
          */
         public function remove($identifier)
         {
-            TypeValidator::Validate('isString', array($identifier));
+            TypeValidator::IsString($identifier);
 
             if (! array_key_exists($identifier, $this->cacheValues))
             {
