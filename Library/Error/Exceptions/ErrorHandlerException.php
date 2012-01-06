@@ -38,7 +38,6 @@
      * Expected Exception throwed by the ErrorHandler class if the error level is expected.
      * @see Brickoo\Library\Error\ErrorHandler::handleError
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class ErrorHandlerException extends \Exception

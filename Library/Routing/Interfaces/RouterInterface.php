@@ -37,13 +37,90 @@
      *
      * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     Interface RouterInterface
     {
 
-        //
+        /**
+         * Returns the Request instance implementing the Core\Interfaces\DynamicRequestInterface
+         * @throws DependencyNotAvailableException if the dependecy is not available
+         * @return object Request instance implementing the Core\Interfaces\DynamicRequestInterface
+         */
+        public function getRequest();
+
+        /**
+         * Injects the Request dependency instance.
+         * @param \Brickoo\Library\Core\Interfaces\DynamicRequestInterface $Request the Request dependency
+         * @throws Core\Exceptions\DependencyOverwriteException if trying to overwrite the dependency
+         * @return object reference
+         */
+        public function injectRequest(\Brickoo\Library\Core\Interfaces\DynamicRequestInterface $Request);
+
+        /**
+         * Lazy initialization of the RouteCollection dependecy.
+         * Returns the injected RouteCollection dependecy.
+         * @return object RouteCollection implementing the RouteCollectionIterface
+         */
+        public function getRouteCollection();
+
+        /**
+         * Injects the ROuteCollection dependency containign the assigned routes.
+         * @param \Brickoo\Library\Routing\Interfaces\RouteCollectionInterface $RouteCollection the colection of routes
+         * @throws Exceptions\DependencyOverwriteException if the dependency is trying to overwrite
+         * @return object reference
+         */
+        public function injectRouteCollection(\Brickoo\Library\Routing\Interfaces\RouteCollectionInterface $RouteCollection);
+
+        /**
+         * Sets the requested Route for further routing.
+         * @param \Brickoo\Library\Routing\Interfaces\RouteInterface $Route the route matched the request
+         * @throws Exceptions\DependencyOverwriteException if trying to overwrite the requested route
+         * @return object reference
+         */
+        public function setRequestRoute(\Brickoo\Library\Routing\Interfaces\RouteInterface $Route);
+
+        /**
+         * Checks if the requested Route has been found and is set.
+         * @return boolean check result
+         */
+        public function hasRequestRoute();
+
+
+        /**
+         * Checks if the Route matches the request path and method.
+         * @param \Brickoo\Library\Routing\Interfaces\RouteInterface $Route the Route to check
+         * @return boolean check result
+         */
+        public function isRequestRoute(\Brickoo\Library\Routing\Interfaces\RouteInterface $Route);
+
+        /**
+         * Returns the request matching route.
+         * @throws \UnexpectedValueException if the RouteCollections does not implement the ArrayIterator interface
+         * @throws Routing\Exceptions\RequestedHasNoRouteException if the request has not a matching Route
+         * @return object the request responsible Route implementing the RouteInterface
+         */
+        public function getRequestRoute();
+
+        /**
+        * Clears the object properties.
+        * @return object reference
+        */
+        public function reset();
+
+        /**
+         * Returns a regular expression from the route method.
+         * @param \Brickoo\Library\Routing\Interfaces\RouteInterface $Route the route to use
+         * @return string the regular expression for the request method
+         */
+        public function getRegexFromMethod(\Brickoo\Library\Routing\Interfaces\RouteInterface $Route);
+
+        /**
+         * Returns a regular expression from the route path and rules or default values available.
+         * @param \Brickoo\Library\Routing\Interfaces\RouteInterface $Route the route to use
+         * @return string the regular expresion for the request path
+         */
+        public function getRegexFromPath(\Brickoo\Library\Routing\Interfaces\RouteInterface $Route);
 
     }
 

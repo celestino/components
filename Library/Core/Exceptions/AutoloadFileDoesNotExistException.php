@@ -38,7 +38,6 @@
      * Exception throwed by the Autoloader class if trying to load a file which does not exist.
      * @see Brickoo\Library\Core\Autoloader::load
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class AutoloadFileDoesNotExistException extends \Exception

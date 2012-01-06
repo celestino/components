@@ -42,7 +42,6 @@
      * Test suite for the FileObject class.
      * @see Brickoo\Library\System\FileObject
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
     class FileObjectTest extends PHPUnit_Framework_TestCase
     {

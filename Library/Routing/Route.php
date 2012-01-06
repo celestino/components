@@ -41,7 +41,6 @@
      * Implents a Route which can be configured to handle requests
      * which execute the assigned controller and action.<ss
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id $
      */
 
     class Route implements Interfaces\RouteInterface, \Countable

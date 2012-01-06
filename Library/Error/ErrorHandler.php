@@ -44,7 +44,6 @@
      * Errors can be logged using an instance implementing the LogHandlerInterface.
      * Otherwise throws an exception if the error level is expected.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class ErrorHandler extends AbstractHandler

@@ -37,7 +37,6 @@
      *
      * Exception throwed by a class which is trying to override an dependency.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class DependencyOverwriteException extends \Exception

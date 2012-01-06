@@ -37,7 +37,6 @@
      *
      * Exception throwed if a handle could not be opened.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class UnableToCreateHandleException extends \Exception

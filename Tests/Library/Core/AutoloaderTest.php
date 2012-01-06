@@ -30,23 +30,15 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    /**
-     * Test suite for the Autoloader class.
-     * @see Brickoo\Library\Core\Autoloader
-     * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id: AutoloaderTest.php 15 2011-12-23 02:05:32Z celestino $
-     */
-
     use Brickoo\Library\Core\Autoloader;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
-     * Test suite for the Repository class.
-     * @see Brickoo\Library\Storage\Repository
+     * Test suite for the Autoloader class.
+     * @see Brickoo\Library\Core\Autoloader
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id: AutoloaderTest.php 15 2011-12-23 02:05:32Z celestino $
      */
 
     class AutoloaderTest extends PHPUnit_Framework_TestCase

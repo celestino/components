@@ -39,7 +39,7 @@
     /**
      * Request
      *
-     * Request class for accessing cli arguments and request content.
+     * Request class for handling a cli request.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

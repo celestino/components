@@ -38,7 +38,6 @@
      * Exception throwed by an Error Handler class if trying to unregister
      * an unregistered error handler instance.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class HandlerNotRegisteredException extends \Exception

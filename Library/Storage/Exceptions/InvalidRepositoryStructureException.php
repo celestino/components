@@ -38,7 +38,6 @@
      * Exception throwed by the Repository class if the Repository structure is not valid.
      * @see Brickoo\Library\Storage\Repository
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class InvalidRepositoryStructureException extends \Exception

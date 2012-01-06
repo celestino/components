@@ -42,7 +42,6 @@
      * Test suite for the ExceptionHandler class.
      * @see Brickoo\Library\Error\ExceptionHandler
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id: ExceptionHandlerTest.php 15 2011-12-23 02:05:32Z celestino $
      */
 
     class ExceptionHandlerTest extends PHPUnit_Framework_TestCase
@@ -184,7 +183,7 @@
             $this->ExceptionHandler->injectLogger($LoggerStub);
             $this->assertEquals
             (
-                '[777]: message throwed in ' . __FILE__ . ' on line 188',
+                '[777]: message throwed in ' . __FILE__ . ' on line 187',
                 $this->ExceptionHandler->handleException(new Exception('message', 777))
             );
         }

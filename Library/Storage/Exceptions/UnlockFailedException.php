@@ -39,7 +39,6 @@
      * and any could not be unlocked.
      * @see Brickoo\Library\Storage\Locker::unlock
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class UnlockFailedException extends \Exception

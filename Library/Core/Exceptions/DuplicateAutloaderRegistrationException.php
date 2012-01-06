@@ -38,7 +38,6 @@
      * Exception throwed by the Autoloader class if trying to register the same Autoloader.
      * @see Brickoo\Library\Core\Autoloader::register
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class DuplicateAutoloaderRegistrationException extends \Exception

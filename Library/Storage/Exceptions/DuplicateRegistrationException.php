@@ -37,7 +37,6 @@
      *
      * Exception throwed by the Registry class if trying to register an registered identifier.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class DuplicateRegistrationException extends \Exception

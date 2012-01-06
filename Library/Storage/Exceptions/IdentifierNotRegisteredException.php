@@ -38,7 +38,6 @@
      * Exception throwed by the Registry class if trying to retrieve an not registered identifier.
      * @see Brickoo\Library\Storage\Registry:getRegistred
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class IdentifierNotRegisteredException extends \Exception

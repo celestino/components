@@ -38,7 +38,6 @@
      * Exception throwed by the Repository class if trying to modified the Repository while is locked.
      * @see Brickoo\Library\Storage\Repository
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class RepositoryLockedException extends \Exception

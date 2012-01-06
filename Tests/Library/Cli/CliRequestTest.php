@@ -42,7 +42,6 @@
      * Test suite for the Cli Request class.
      * @see Brickoo\Library\Cli\Request
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id: CliRequestTest.php 15 2011-12-23 02:05:32Z celestino $
      */
 
     class CliRequestTest extends PHPUnit_Framework_TestCase

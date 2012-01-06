@@ -42,7 +42,6 @@
      * Test suite for the SyslogNGHandler class.
      * @see Brickoo\Library\Log\Handler\SyslogNGHandler
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class SyslogNGHandlerTest extends PHPUnit_Framework_TestCase

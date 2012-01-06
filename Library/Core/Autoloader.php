@@ -45,7 +45,6 @@
      *
      * Autoloader with registration for different namespaces.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class Autoloader

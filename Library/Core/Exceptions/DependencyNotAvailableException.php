@@ -37,7 +37,6 @@
      *
      * Exception throwed by a calss which is trying to remove an not available dependency.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class DependencyNotAvailableException extends \Exception

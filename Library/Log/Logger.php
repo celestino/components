@@ -41,7 +41,6 @@
      *
      * The LogManager is used to store logs to a specific location.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class Logger implements Interfaces\LoggerInterface

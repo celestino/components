@@ -39,7 +39,6 @@
      * the Registry is in read only mode.
      * @see Brickoo\Library\Storage\Registry
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class ReadonlyModeException extends \Exception

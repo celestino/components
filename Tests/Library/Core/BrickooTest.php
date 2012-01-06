@@ -40,7 +40,6 @@
      * Test suite for the Brickoo class.
      * @see Brickoo\Library\Core\BrickooObject
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id: BrickooTest.php 16 2011-12-23 22:39:50Z celestino $
      */
 
     class BrickooTest extends PHPUnit_Framework_TestCase

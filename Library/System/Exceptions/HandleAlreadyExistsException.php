@@ -37,7 +37,6 @@
      *
      * Exception throwed if trying to create a handle handle which already exists.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class HandleAlreadyExistsException extends \Exception

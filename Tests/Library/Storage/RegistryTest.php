@@ -41,7 +41,6 @@
      * Test suite for the Registry class.
      * @see Brickoo\Library\Storage\Registry
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id: RegistryTest.php 15 2011-12-23 02:05:32Z celestino $
      */
 
     class RegistryTest extends PHPUnit_Framework_TestCase

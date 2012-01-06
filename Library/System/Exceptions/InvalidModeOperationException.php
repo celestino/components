@@ -37,7 +37,6 @@
      *
      * Exception throwed if trying to read or write with a mode that does not support the operation.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class InvalidModeOperationException extends \Exception

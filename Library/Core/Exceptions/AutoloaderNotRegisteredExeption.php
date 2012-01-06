@@ -39,7 +39,6 @@
      * without beeing registered before.
      * @see Brickoo\Library\Core\Autoloader::unregister
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class AutoloaderNotRegisteredExeption extends \Exception

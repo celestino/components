@@ -66,7 +66,6 @@
      *     echo($HTML);
      * </code>
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class SocketObject implements Interfaces\SocketObjectInterface

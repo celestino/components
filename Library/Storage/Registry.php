@@ -44,7 +44,6 @@
      * Provides lock functionality for each identifer and an read only mode for all identifiers.
      * This class can be used for example as an class properties container.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class Registry extends Locker implements Interfaces\RegistryInterface, \Countable

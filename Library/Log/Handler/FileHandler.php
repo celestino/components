@@ -42,7 +42,6 @@
      *
      * Handles the file operations for logging into the filesystem.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class FileHandler implements Log\Interfaces\LogHandlerInterface

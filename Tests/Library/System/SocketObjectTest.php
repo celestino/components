@@ -42,7 +42,6 @@
      * Test suite for the SocketObject class.
      * @see Brickoo\Library\System\SocketObject
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class SocketObjectTest extends PHPUnit_Framework_TestCase

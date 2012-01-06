@@ -36,7 +36,6 @@
      * Bootstrap for the Brickoo Framework.
      * Defines framework constants and initializes the required autoloader.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id: $
      */
 
     // define the Brickoo Framework root directory

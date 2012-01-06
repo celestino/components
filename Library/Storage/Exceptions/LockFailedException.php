@@ -39,7 +39,6 @@
      * and none could be locked.
      * @see Brickoo\Library\Storage\Locker::lock
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class LockFailedException extends \Exception

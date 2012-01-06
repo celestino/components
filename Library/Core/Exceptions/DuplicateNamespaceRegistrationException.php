@@ -39,7 +39,6 @@
      * which has been already registered.
      * @see Brickoo\Library\Core\Autoloader::registerNamespace
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class DuplicateNamespaceRegistrationException extends \Exception

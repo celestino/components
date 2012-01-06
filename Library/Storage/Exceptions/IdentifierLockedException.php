@@ -37,7 +37,6 @@
      *
      * Exception throwed by the Registry class if trying to change an locked identifier.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class IdentifierLockedException extends \Exception

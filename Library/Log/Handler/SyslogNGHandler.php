@@ -43,7 +43,6 @@
      * This class implements the syslog-ng log interface.
      * @link http://tools.ietf.org/html/rfc3164
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class SyslogNGHandler implements Log\Interfaces\LogHandlerInterface

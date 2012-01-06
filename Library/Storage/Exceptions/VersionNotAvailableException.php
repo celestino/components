@@ -38,7 +38,6 @@
      * Exception throwed by the Repository class if trying to use an not available version number.
      * @see Brickoo\Library\Storage\Repository
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class VersionNotAvailableException extends \Exception

@@ -45,7 +45,6 @@
      * Handles user defined or system exception.
      * Exceptions can be logged using an instance implementing the LogHandlerInterface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class ExceptionHandler extends AbstractHandler

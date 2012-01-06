@@ -39,7 +39,6 @@
      * which has not been registered before.
      * @see Brickoo\Library\Core\Autoloader::unregisterNamespace
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class NamespaceNotRegisteredException extends \Exception

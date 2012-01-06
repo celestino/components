@@ -37,7 +37,6 @@
      * Sets the default timezone for Date functions.
      * Defines framework constants and initializes the required autoloader.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id: $
      */
 
     // set the default timezone

@@ -41,7 +41,6 @@
      *
      * Holds the request arguments and provides utility methods.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class Request implements Interfaces\RequestInterface

@@ -37,7 +37,6 @@
      *
      * Exception throwed if trying to access the handle not available.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class HandleNotAvailableException extends \Exception

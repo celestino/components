@@ -37,7 +37,6 @@
      *
      * Exception throwed by an Error Handler class if trying to register the instance twice.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class DuplicateHandlerRegistrationException extends \Exception

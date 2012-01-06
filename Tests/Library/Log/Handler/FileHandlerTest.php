@@ -42,7 +42,6 @@
      * Test suite for the FileHandler class.
      * @see Brickoo\Library\Log\Handler\FileHandler
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id: FileHandlerTest.php 16 2011-12-23 22:39:50Z celestino $
      */
 
     class FileHandlerTest extends PHPUnit_Framework_TestCase

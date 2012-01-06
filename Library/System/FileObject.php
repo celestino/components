@@ -71,7 +71,6 @@
      *     var_dump($content);
      * </code>
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
     class FileObject implements Interfaces\FileObjectInterface
