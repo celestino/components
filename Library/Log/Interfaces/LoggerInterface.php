@@ -73,13 +73,6 @@
         public function setDefaultSeverity($severity);
 
         /**
-        * Class constructor.
-        * Initializes the class properties.
-        * @return void
-        */
-        public function __construct();
-
-        /**
         * Clears the class properties.
         * @return object reference
         */

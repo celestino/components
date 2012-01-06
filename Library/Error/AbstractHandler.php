@@ -32,18 +32,18 @@
 
     namespace Brickoo\Library\Error;
 
-    use Brickoo\Library\Log\Interfaces\LoggerInterface;
+    use Brickoo\Library\Log;
     use Brickoo\Library\Core;
 
     /**
-     * AbstractErrorHandler
+     * AbstractHandler
      *
-     * AbstractErrorHandler including the common used log handler implementation.
+     * AbstractHandler includes the Logger dependecy injection.
+     * Declares methods needed to be implemented.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
-     * @version $Id$
      */
 
-    abstract class AbstractErrorHandler
+    abstract class AbstractHandler
     {
 
         /**
@@ -73,14 +73,29 @@
         protected $Logger;
 
         /**
-         * Adds an instance implementing the LoggerInterface for custom error logging.
-         * @param LoggerInterface $Logger the log handler to add
+         * Returns the Logger dependency injected
+         * @throws Core\Exceptions\DependencyNotAvailableException if the dependency is not available
+         * @return object Logger implementing the Log\Interfaces\LoggerInterface
+         */
+        public function getLogger()
+        {
+            if (! $this->hasLogger())
+            {
+                throw new Core\Exceptions\DependencyNotAvailableException('LoggerInterface');
+            }
+
+            return $this->Logger;
+        }
+
+        /**
+         * Injects an Logger instance implementing the LoggerInterface.
+         * @param LoggerInterface $Logger the Logger dependency
          * @throws DependencyOverwriteException if trying to override the current dependency
          * @return object reference
          */
-        public function addLogger(LoggerInterface $Logger)
+        public function injectLogger(\Brickoo\Library\Log\Interfaces\LoggerInterface $Logger)
         {
-            if ($this->Logger instanceof LoggerInterface)
+            if ($this->hasLogger())
             {
                 throw new Core\Exceptions\DependencyOverwriteException('LoggerInterface');
             }
@@ -97,7 +112,7 @@
          */
         public function removeLogger()
         {
-            if (! $this->Logger instanceof LoggerInterface)
+            if (! $this->hasLogger())
             {
                 throw new Core\Exceptions\DependencyNotAvailableException('LoggerInterface');
             }
@@ -113,7 +128,7 @@
          */
         public function hasLogger()
         {
-            return ($this->Logger instanceof LoggerInterface);
+            return ($this->Logger instanceof Log\Interfaces\LoggerInterface);
         }
 
     }

@@ -48,7 +48,7 @@
      * @version $Id$
      */
 
-    class ExceptionHandler extends AbstractErrorHandler
+    class ExceptionHandler extends AbstractHandler
     {
 
         /**
@@ -131,7 +131,6 @@
 
             $this->displayExceptions    = false;
             $this->isRegistered         = false;
-            $this->Logger               = null;
 
             return $this;
         }
@@ -167,7 +166,7 @@
 
             if ($this->hasLogger())
             {
-                return $this->Logger->log($message, Log\Logger::SEVERITY_ERROR);
+                return $this->getLogger()->log($message, Log\Logger::SEVERITY_ERROR);
             }
 
             if ($this->displayExceptions !== false)

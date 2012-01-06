@@ -47,7 +47,7 @@
      * @version $Id$
      */
 
-    class ErrorHandler extends AbstractErrorHandler
+    class ErrorHandler extends AbstractHandler
     {
 
         /**
@@ -154,7 +154,6 @@
 
             $this->isRegistered    = false;
             $this->errorLevel      = 0;
-            $this->Logger          = null;
 
             return $this;
         }
@@ -178,7 +177,7 @@
 
                 if ($this->hasLogger())
                 {
-                    return $this->Logger->log('[' . $errorCode . ']: ' . $message, Log\Logger::SEVERITY_ERROR);
+                    return $this->getLogger()->log('[' . $errorCode . ']: ' . $message, Log\Logger::SEVERITY_ERROR);
                 }
                 else
                 {

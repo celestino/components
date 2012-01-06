@@ -234,7 +234,7 @@
                 throw new Exceptions\AutoloadFileDoesNotExistException($absolutePath);
             }
 
-            require_once ($absolutePath);
+            require ($absolutePath);
 
             return true;
         }

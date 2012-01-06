@@ -49,18 +49,24 @@
     {
 
         /**
-         * Returns an LogHandler Stub for testing the logging of messages.
-         * @return object implementing the Brickoo\Library\Log\Interfaces\LoggerInterface
+         * Returns an Logger Stub for testing the logging of messages.
+         * @return object Logger implementing the Brickoo\Library\Log\Interfaces\LoggerInterface
          */
         protected function getLoggerStub()
         {
-            $LogHandlerStub = $this->getMock
+            return $this->getMock
             (
-                'Brickoo\Library\Log\Logger',
-                array('log', 'getDefaultSeverity', 'setDefaultSeverity')
+                'Brickoo\Library\Log\Interfaces\LoggerInterface',
+                array
+                (
+                    'getLogHandler',
+                    'injectLogHandler',
+                    'getDefaultSeverity',
+                    'setDefaultSeverity',
+                    'reset',
+                    'log'
+                )
             );
-
-            return $LogHandlerStub;
         }
 
         /**
@@ -155,64 +161,6 @@
         }
 
         /**
-         * Test if the log handler can be checked of availability.
-         * @covers Brickoo\Library\Error\ExceptionHandler::hasLogger
-         */
-        public function testHasLogHandler()
-        {
-            $LogHandlerStub = $this->getLoggerStub();
-
-            $this->assertFalse($this->ExceptionHandler->hasLogger());
-            $this->ExceptionHandler->addLogger($LogHandlerStub);
-            $this->assertTrue($this->ExceptionHandler->hasLogger());
-        }
-
-        /**
-         * Test if the log handler can be assigned as dependency.
-         * @covers Brickoo\Library\Error\ExceptionHandler::addLogger
-         */
-        public function testAddLogHandler()
-        {
-            $LogHandlerStub = $this->getLoggerStub();
-            $this->assertSame($this->ExceptionHandler, $this->ExceptionHandler->addLogger($LogHandlerStub));
-        }
-
-        /**
-         * Test if the trying to override the LogHandler dependecy throws an exception.
-         * @covers Brickoo\Library\Error\ExceptionHandler::addLogger
-         * @covers Brickoo\Library\Core\Exceptions\DependencyOverwriteException
-         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
-         */
-        public function testAddLogHandlerDependencyException()
-        {
-            $LogHandlerStub = $this->getLoggerStub();
-            $this->ExceptionHandler->addLogger($LogHandlerStub);
-            $this->ExceptionHandler->addLogger($LogHandlerStub);
-        }
-
-        /**
-         * Test if the log handler can be removed.
-         * @covers Brickoo\Library\Error\ExceptionHandler::removeLogger
-         */
-        public function testRemoveLogHandler()
-        {
-            $LogHandlerStub = $this->getLoggerStub();
-            $this->ExceptionHandler->addLogger($LogHandlerStub);
-            $this->assertSame($this->ExceptionHandler, $this->ExceptionHandler->removeLogger());
-        }
-
-        /**
-         * Test if the trying to remove an not assigend LogHandler dependecy throws an exception.
-         * @covers Brickoo\Library\Error\ExceptionHandler::removeLogger
-         * @covers Brickoo\Library\Core\Exceptions\DependencyNotAvailableException
-         * @expectedException Brickoo\Library\Core\Exceptions\DependencyNotAvailableException
-         */
-        public function testRemoveLogHandlerDependencyException()
-        {
-            $this->ExceptionHandler->removeLogger();
-        }
-
-        /**
          * Test if the exception returns nothing further.
          * @covers Brickoo\Library\Error\ExceptionHandler::handleException
          */
@@ -222,21 +170,21 @@
         }
 
         /**
-         * Test if the exception message is passed to the LogHandler.
+         * Test if the exception message is passed to the Logger.
          * @covers Brickoo\Library\Error\ExceptionHandler::getExceptionMessage
          * @covers Brickoo\Library\Error\ExceptionHandler::handleException
          */
-        public function testHandleExceptionWithLogHandler()
+        public function testHandleExceptionWithLogger()
         {
-            $LogHandlerStub = $this->getLoggerStub();
-            $LogHandlerStub->expects($this->any())
+            $LoggerStub = $this->getLoggerStub();
+            $LoggerStub->expects($this->any())
                            ->method('log')
                            ->will($this->returnArgument(0));
 
-            $this->ExceptionHandler->addLogger($LogHandlerStub);
+            $this->ExceptionHandler->injectLogger($LoggerStub);
             $this->assertEquals
             (
-                '[777]: message throwed in ' . __FILE__ . ' on line 240',
+                '[777]: message throwed in ' . __FILE__ . ' on line 188',
                 $this->ExceptionHandler->handleException(new Exception('message', 777))
             );
         }

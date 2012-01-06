@@ -50,17 +50,23 @@
 
         /**
          * Returns an Logger Stub for testing the logging of messages.
-         * @return object implementing the Brickoo\Library\Log\Interfaces\LoggerInterface
+         * @return object Logger implementing the Brickoo\Library\Log\Interfaces\LoggerInterface
          */
         protected function getLoggerStub()
         {
-            $LoggerStub = $this->getMock
+            return $this->getMock
             (
-                'Brickoo\Library\Log\Logger',
-                array('log', 'getDefaultSeverity', 'setDefaultSeverity')
+                'Brickoo\Library\Log\Interfaces\LoggerInterface',
+                array
+                (
+                    'getLogHandler',
+                    'injectLogHandler',
+                    'getDefaultSeverity',
+                    'setDefaultSeverity',
+                    'reset',
+                    'log'
+                )
             );
-
-            return $LoggerStub;
         }
 
         /**
@@ -185,63 +191,6 @@
         }
 
         /**
-         * Test if the log handler can be checked of availability.
-         * @covers Brickoo\Library\Error\ErrorHandler::hasLogger
-         */
-        public function testHasLogHandler()
-        {
-            $LoggerStub = $this->getLoggerStub();
-            $this->assertFalse($this->ErrorHandler->hasLogger());
-            $this->ErrorHandler->addLogger($LoggerStub);
-            $this->assertTrue($this->ErrorHandler->hasLogger());
-        }
-
-        /**
-         * Test if the log handler can be assigned as dependency.
-         * @covers Brickoo\Library\Error\ErrorHandler::addLogger
-         */
-        public function testAddLogHandler()
-        {
-            $LoggerStub = $this->getLoggerStub();
-            $this->assertSame($this->ErrorHandler, $this->ErrorHandler->addLogger($LoggerStub));
-        }
-
-        /**
-         * Test if the trying to override the LogHandler dependecy throws an exception.
-         * @covers Brickoo\Library\Error\ErrorHandler::addLogger
-         * @covers Brickoo\Library\Core\Exceptions\DependencyOverwriteException
-         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
-         */
-        public function testAddLogHandlerDependencyException()
-        {
-            $LoggerStub = $this->getLoggerStub();
-            $this->ErrorHandler->addLogger($LoggerStub);
-            $this->ErrorHandler->addLogger($LoggerStub);
-        }
-
-        /**
-         * Test if the log handler can be removed.
-         * @covers Brickoo\Library\Error\ErrorHandler::removeLogger
-         */
-        public function testRemoveLogHandler()
-        {
-            $LoggerStub = $this->getLoggerStub();
-            $this->ErrorHandler->addLogger($LoggerStub);
-            $this->assertSame($this->ErrorHandler, $this->ErrorHandler->removeLogger());
-        }
-
-        /**
-         * Test if the trying to remove an not assigend LogHandler dependecy throws an exception.
-         * @covers Brickoo\Library\Error\ErrorHandler::removeLogger
-         * @covers Brickoo\Library\Core\Exceptions\DependencyNotAvailableException
-         * @expectedException Brickoo\Library\Core\Exceptions\DependencyNotAvailableException
-         */
-        public function testRemoveLogHandlerDependencyException()
-        {
-            $this->ErrorHandler->removeLogger();
-        }
-
-        /**
          * Test if the sending an not catched error level message does nothing.
          * @covers Brickoo\Library\Error\ErrorHandler::handleError
          */
@@ -263,10 +212,10 @@
         }
 
         /**
-         * Test if the sending an message with matched error level is passed to the LogHandler.
+         * Test if the sending an message with matched error level is passed to the Logger.
          * @covers Brickoo\Library\Error\ErrorHandler::handleError
          */
-        public function testHandleErrorWithLogHandler()
+        public function testHandleErrorWithLogger()
         {
             $LoggerStub = $this->getLoggerStub();
             $LoggerStub->expects($this->any())
@@ -274,7 +223,7 @@
                        ->will($this->returnArgument(0));
 
             $this->ErrorHandler->setErrorLevel(777)
-                               ->addLogger($LoggerStub);
+                               ->injectLogger($LoggerStub);
             $this->assertEquals
             (
                 '[777]: message throwed in myFile.php on line 123',
