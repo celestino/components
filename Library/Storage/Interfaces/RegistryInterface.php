@@ -145,7 +145,7 @@
         public function __construct();
 
         /**
-         * Clears the class propeties.
+         * Resets the class propeties.
          * @return object reference
          */
         public function resetRegistry();

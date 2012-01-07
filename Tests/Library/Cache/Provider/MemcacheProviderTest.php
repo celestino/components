@@ -52,28 +52,7 @@
          */
         public function getMemcacheStub()
         {
-            return $this->getMock('Memcache', array('get', 'set', 'delete', 'flush', 'addServer', 'add'));
-        }
-
-        /**
-         * Creates an returns a configured MemcacheConfig stub.
-         * @return object MemcacheConfig stub
-         */
-        public function getMemcacheConfigStub()
-        {
-            $memcacheServer = array('host' => 'unix:://some/socket', 'port' => 0);
-
-            $MemcacheConfigStub = $this->getMock
-            (
-                'Brickoo\Library\Cache\Interfaces\MemcacheConfigInterface',
-                array('getServers', 'addServer', 'reset')
-            );
-
-            $MemcacheConfigStub->expects($this->once())
-                               ->method('getServers')
-                               ->will($this->returnValue(array($memcacheServer)));
-
-            return $MemcacheConfigStub;
+            return $this->getMock('Memcache', array('get', 'set', 'delete', 'flush', 'add'));
         }
 
         /**
@@ -93,54 +72,27 @@
                 define('MEMCACHE_COMPRESSED', 2);
             }
 
-            $this->MemcacheProvider = new MemcacheProvider();
+            $this->MemcacheProvider = new MemcacheProvider($this->getMemcacheStub());
         }
 
         /**
-         * Test if the Memcache dependency can be injected.
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::injectMemcache
+         * Test if the Memcache dependency has been be injected.
+         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::__construct
          */
-        public function testInjectMemcache()
+        public function testConstruct()
         {
             $MemcacheStub = $this->getMemcacheStub();
-            $this->assertSame($this->MemcacheProvider, $this->MemcacheProvider->injectMemcache($MemcacheStub));
-            $this->assertAttributeSame($MemcacheStub, 'Memcache', $this->MemcacheProvider);
-
-            return $this->MemcacheProvider;
-        }
-
-        /**
-         * Test if trying to overwrite the Memcache dependency throws an expcetion.
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::injectMemcache
-         * @covers Brickoo\Library\Core\Exceptions\DependencyOverwriteException::__construct
-         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
-         */
-        public function testInjectMemcacheOverwriteException()
-        {
-            $MemcacheStub = $this->getMemcacheStub();
-            $this->MemcacheProvider->injectMemcache($MemcacheStub);
-            $this->MemcacheProvider->injectMemcache($MemcacheStub);
+            $MemcacheProvider = new MemcacheProvider($MemcacheStub);
+            $this->assertAttributeSame($MemcacheStub, 'Memcache', $MemcacheProvider);
         }
 
         /**
          * Test if the Memcache dependency can be retrieved.
          * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::getMemcache
-         * @depends testInjectMemcache
          */
-        public function testGetMemcache($MemcacheProvider)
+        public function testGetMemcache()
         {
-            $this->assertInstanceOf('Memcache', $MemcacheProvider->getMemcache());
-        }
-
-        /**
-         * Test if trying to retrieve the not available Memcache dependency throws an exception.
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::getMemcache
-         * @covers Brickoo\Library\Core\Exceptions\DependencyNotAvailableException::__construct
-         * @expectedException Brickoo\Library\Core\Exceptions\DependencyNotAvailableException
-         */
-        public function testGetMemcacheDependencyExcepetion()
-        {
-            $this->MemcacheProvider->getMemcache();
+            $this->assertInstanceOf('Memcache', $this->MemcacheProvider->getMemcache());
         }
 
         /**
@@ -169,101 +121,15 @@
         }
 
         /**
-         * Test if the MemcacheConfig dependency can be injectd and the MemcacheProvider reference is returned.
-         * Test if the configuration is recognized as configured.
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::injectMemcacheConfig
-         */
-        public function testInjectMemcacheConfig()
-        {
-            $MemcacheStub = $this->getMemcacheStub();
-            $MemcacheStub->expects($this->once())
-                         ->method('addServer')
-                         ->will($this->returnSelf());
-
-            $MemcacheConfigStub = $this->getMemcacheConfigStub();
-
-            $this->MemcacheProvider->injectMemcache($MemcacheStub);
-            $this->assertSame($this->MemcacheProvider, $this->MemcacheProvider->injectMemcacheConfig($MemcacheConfigStub));
-            $this->assertAttributeEquals(true, 'configured', $this->MemcacheProvider);
-
-            return $this->MemcacheProvider;
-        }
-
-        /**
-         * Test if trying to overwrite the MemcacheConfig dependency throws an exception.
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::injectMemcacheConfig
-         * @covers Brickoo\Library\Core\Exceptions\DependencyOverwriteException::__construct
-         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
-         * @depends testInjectMemcacheConfig
-         */
-        public function testInjectMemcacheConfigOverwriteException($MemcacheProvider)
-        {
-            $MemcacheConfigStub = $this->getMock
-            (
-                'Brickoo\Library\Cache\Interfaces\MemcacheConfigInterface',
-                array('getServers', 'addServer', 'reset')
-            );
-            $MemcacheProvider->injectMemcacheConfig($MemcacheConfigStub);
-        }
-
-        /**
-         * Test if trying to use a MemcacheConfig dependency without servers throws an exception.
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::injectMemcacheConfig
-         * @covers Brickoo\Library\Core\Exceptions\ConfigurationMissingException::__construct
-         * @expectedException Brickoo\Library\Core\Exceptions\ConfigurationMissingException
-         */
-        public function testInjectMemcacheConfigConfigurationException()
-        {
-            $MemcacheConfigStub = $this->getMock
-            (
-                'Brickoo\Library\Cache\Interfaces\MemcacheConfigInterface',
-                array('getServers', 'addServer', 'reset')
-            );
-
-            $this->MemcacheProvider->injectMemcacheConfig($MemcacheConfigStub);
-        }
-
-        /**
-         * Test if the Memcache is regognized as configured.
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::isConfigured
-         * @depends testInjectMemcacheConfig
-         */
-        public function testIsConfigured($MemcacheProvider)
-        {
-            $this->assertTrue($MemcacheProvider->isConfigured());
-        }
-
-        /**
-         * Test if trying to call a Memcache method without be configured throws an exception
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::get
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::checkIsConfigured
-         * @covers Brickoo\Library\Cache\Exceptions\MemcacheNotConfiguredException::__construct
-         * @expectedException Brickoo\Library\Cache\Exceptions\MemcacheNotConfiguredException
-         */
-        public function testNotConfiguredException()
-        {
-            $this->MemcacheProvider->get('some_identifier');
-        }
-
-        /**
          * Test if a content can be retrieved from the Memcache.
          * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::get
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::checkIsConfigured
          */
         public function testGet()
         {
-            $MemcacheStub = $this->getMemcacheStub();
-            $MemcacheStub->expects($this->once())
-                         ->method('addServer')
-                         ->will($this->returnSelf());
+            $MemcacheStub = $this->MemcacheProvider->getMemcache();
             $MemcacheStub->expects($this->once())
                          ->method('get')
                          ->will($this->returnValue('some cached content'));
-
-            $MemcacheConfigStub = $this->getMemcacheConfigStub();
-
-            $this->MemcacheProvider->injectMemcache($MemcacheStub);
-            $this->MemcacheProvider->injectMemcacheConfig($MemcacheConfigStub);
 
             $this->assertSame('some cached content', $this->MemcacheProvider->get('some_identifier'));
         }
@@ -281,22 +147,13 @@
         /**
          * Test if a content can be set to the Memcache and the result is returned.
          * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::set
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::checkIsConfigured
          */
         public function testSet()
         {
-            $MemcacheStub = $this->getMemcacheStub();
-            $MemcacheStub->expects($this->once())
-                         ->method('addServer')
-                         ->will($this->returnSelf());
+            $MemcacheStub = $this->MemcacheProvider->getMemcache();
             $MemcacheStub->expects($this->once())
                          ->method('set')
                          ->will($this->returnValue(true));
-
-            $MemcacheConfigStub = $this->getMemcacheConfigStub();
-
-            $this->MemcacheProvider->injectMemcache($MemcacheStub);
-            $this->MemcacheProvider->injectMemcacheConfig($MemcacheConfigStub);
 
             $this->assertSame(true, $this->MemcacheProvider->set('some_identifier', 'content'));
         }
@@ -314,22 +171,13 @@
         /**
          * Test if a cached content can be delete by its identifier and the result is returned.
          * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::delete
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::checkIsConfigured
          */
         public function testDelete()
         {
-            $MemcacheStub= $this->getMemcacheStub();
-            $MemcacheStub->expects($this->once())
-                         ->method('addServer')
-                         ->will($this->returnSelf());
+            $MemcacheStub= $this->MemcacheProvider->getMemcache();
             $MemcacheStub->expects($this->once())
                          ->method('delete')
                          ->will($this->returnValue(true));
-
-            $MemcacheConfigStub = $this->getMemcacheConfigStub();
-
-            $this->MemcacheProvider->injectMemcache($MemcacheStub);
-            $this->MemcacheProvider->injectMemcacheConfig($MemcacheConfigStub);
 
             $this->assertSame(true, $this->MemcacheProvider->delete('some_identifier'));
         }
@@ -347,22 +195,13 @@
         /**
          * Test if a cached content can be flushed and the result is returned.
          * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::flush
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::checkIsConfigured
          */
         public function testFlush()
         {
-            $MemcacheStub= $this->getMemcacheStub();
-            $MemcacheStub->expects($this->once())
-                         ->method('addServer')
-                         ->will($this->returnSelf());
+            $MemcacheStub= $this->MemcacheProvider->getMemcache();
             $MemcacheStub->expects($this->once())
                          ->method('flush')
                          ->will($this->returnValue(true));
-
-            $MemcacheConfigStub = $this->getMemcacheConfigStub();
-
-            $this->MemcacheProvider->injectMemcache($MemcacheStub);
-            $this->MemcacheProvider->injectMemcacheConfig($MemcacheConfigStub);
 
             $this->assertSame(true, $this->MemcacheProvider->flush('some_identifier'));
         }
@@ -370,22 +209,13 @@
         /**
          * Test if a Memcache method not implemented can be called and the result is returned.
          * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::__call
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::checkIsConfigured
          */
         public function test__call()
         {
-            $MemcacheStub= $this->getMemcacheStub();
-            $MemcacheStub->expects($this->once())
-                         ->method('addServer')
-                         ->will($this->returnSelf());
+            $MemcacheStub= $this->MemcacheProvider->getMemcache();
             $MemcacheStub->expects($this->once())
                          ->method('add')
                          ->will($this->returnValue(true));
-
-            $MemcacheConfigStub = $this->getMemcacheConfigStub();
-
-            $this->MemcacheProvider->injectMemcache($MemcacheStub);
-            $this->MemcacheProvider->injectMemcacheConfig($MemcacheConfigStub);
 
             $this->assertSame(true, $this->MemcacheProvider->add('some_identifier', 'some_content'));
         }
@@ -397,17 +227,20 @@
          */
         public function test__callBadMethodCallException()
         {
-            $MemcacheStub= $this->getMemcacheStub();
-            $MemcacheStub->expects($this->once())
-                         ->method('addServer')
-                         ->will($this->returnSelf());
-
-            $MemcacheConfigStub = $this->getMemcacheConfigStub();
-
-            $this->MemcacheProvider->injectMemcache($MemcacheStub);
-            $this->MemcacheProvider->injectMemcacheConfig($MemcacheConfigStub);
-
             $this->MemcacheProvider->whatever();
+        }
+
+        /**
+         * Test if the MemcacheProvider properties can be reset and the MemcacheProvider reference is returned.
+         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::reset
+         */
+        public function testReset()
+        {
+            $this->assertSame($this->MemcacheProvider, $this->MemcacheProvider->enableCompression());
+            $this->assertAttributeEquals(MEMCACHE_COMPRESSED, 'compression', $this->MemcacheProvider);
+
+            $this->assertSame($this->MemcacheProvider, $this->MemcacheProvider->reset());
+            $this->assertAttributeEquals(0, 'compression', $this->MemcacheProvider);
         }
 
     }

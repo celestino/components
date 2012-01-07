@@ -128,7 +128,7 @@
                 throw new \InvalidArgumentException('Invalid arguments used.');
             }
 
-            return in_array(strtoupper($namespace), $this->getAvailableNamespaces());
+            return array_key_exists(strtoupper($namespace), $this->namespaces);
         }
 
         /**
@@ -173,7 +173,7 @@
         }
 
         /**
-         * Clears the current assigned namespaces.
+         * Resets the current assigned namespaces.
          * @return object reference
          */
         public function resetNamespaces()

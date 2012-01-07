@@ -85,58 +85,35 @@
          */
         protected function setUp()
         {
-            $this->CacheManager = new CacheManager();
+            $this->CacheManager = new CacheManager($this->getCacheProviderStub());
         }
 
         /**
-         * Test if the CacheHander can be injected as dependency and the CacheManager reference is returned.
-         * @covers Brickoo\Library\Cache\CacheManager::injectCacheProvider
+         * Test if the CacheHander can be injected as dependency.
+         * @covers Brickoo\Library\Cache\CacheManager::__construct
          */
-        public function testInjectCacheProvider()
+        public function testConstruct()
         {
             $CacheProviderStub = $this->getCacheProviderStub();
-            $this->assertSame($this->CacheManager, $this->CacheManager->injectCacheProvider($CacheProviderStub));
-            $this->assertAttributeSame($CacheProviderStub, 'CacheProvider', $this->CacheManager);
-
-            return $this->CacheManager;
-        }
-
-        /**
-         * Test if trying to overwrite the CacheHander dependecy throws an exception.
-         * @covers Brickoo\Library\Cache\CacheManager::injectCacheProvider
-         * @covers Brickoo\Library\Core\Exceptions\DependencyOverwriteException::__construct
-         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
-         */
-        public function testInjectCacheProviderOverwriteException()
-        {
-            $CacheProviderStub = $this->getCacheProviderStub();
-            $this->CacheManager->injectCacheProvider($CacheProviderStub);
-            $this->CacheManager->injectCacheProvider($CacheProviderStub);
+            $this->assertInstanceOf
+            (
+                'Brickoo\Library\Cache\Interfaces\CacheManagerInterface',
+                ($CacheManager = new CacheManager($CacheProviderStub))
+            );
+            $this->assertAttributeSame($CacheProviderStub, 'CacheProvider', $CacheManager);
         }
 
         /**
          * Test if the CacheHander dependency can be retrieved.
          * @covers Brickoo\Library\Cache\CacheManager::getCacheProvider
-         * @depends testInjectCacheProvider
          */
-        public function testGetCacheProvider($CacheManager)
+        public function testGetCacheProvider()
         {
             $this->assertInstanceOf
             (
                 'Brickoo\Library\Cache\Interfaces\CacheProviderInterface',
-                $CacheManager->getCacheProvider()
+                $this->CacheManager->getCacheProvider()
             );
-        }
-
-        /**
-         * Test if trying to retrieve the not available CacheProvider dependency throws an exception.
-         * @covers Brickoo\Library\Cache\CacheManager::getCacheProvider
-         * @covers Brickoo\Library\Core\Exceptions\DependencyNotAvailableException::__construct
-         * @expectedException Brickoo\Library\Core\Exceptions\DependencyNotAvailableException
-         */
-        public function testGetCacheProviderMissingDependencyException()
-        {
-            $this->CacheManager->getCacheProvider();
         }
 
         /**
@@ -222,13 +199,12 @@
                            ->method('has')
                            ->will($this->returnValue(false));
 
-            $CacheProviderStub = $this->getCacheProviderStub();
+            $CacheProviderStub = $this->CacheManager->getCacheProvider();
             $CacheProviderStub->expects($this->once())
-                             ->method('get')
-                             ->will($this->returnValue('cache provider content'));
+                              ->method('get')
+                              ->will($this->returnValue('cache provider content'));
 
-            $this->CacheManager->injectLocalCache($LocalCacheStub);
-            $this->CacheManager->injectCacheProvider($CacheProviderStub);
+            $this->CacheManager->injectLocalCache($LocalCacheStub);;
 
             $this->assertEquals('cache provider content', $this->CacheManager->get('some_identifier'));
         }
@@ -255,13 +231,12 @@
                            ->method('set')
                            ->will($this->returnSelf());
 
-            $CacheProviderStub = $this->getCacheProviderStub();
+            $CacheProviderStub = $this->CacheManager->getCacheProvider();
             $CacheProviderStub->expects($this->once())
-                             ->method('set')
-                             ->will($this->returnSelf());
+                              ->method('set')
+                              ->will($this->returnSelf());
 
             $this->CacheManager->injectLocalCache($LocalCacheStub);
-            $this->CacheManager->injectCacheProvider($CacheProviderStub);
 
             $this->assertSame
             (
@@ -305,13 +280,12 @@
                            ->method('remove')
                            ->will($this->returnSelf());
 
-            $CacheProviderStub = $this->getCacheProviderStub();
+            $CacheProviderStub = $this->CacheManager->getCacheProvider();
             $CacheProviderStub->expects($this->once())
                              ->method('delete')
                              ->will($this->returnSelf());
 
             $this->CacheManager->injectLocalCache($LocalCacheStub);
-            $this->CacheManager->injectCacheProvider($CacheProviderStub);
 
             $this->assertSame($this->CacheManager, $this->CacheManager->delete('some_identifier'));
         }
@@ -338,13 +312,12 @@
                            ->method('flush')
                            ->will($this->returnSelf());
 
-            $CacheProviderStub = $this->getCacheProviderStub();
+            $CacheProviderStub = $this->CacheManager->getCacheProvider();
             $CacheProviderStub->expects($this->once())
                              ->method('flush')
                              ->will($this->returnSelf());
 
             $this->CacheManager->injectLocalCache($LocalCacheStub);
-            $this->CacheManager->injectCacheProvider($CacheProviderStub);
 
             $this->assertSame($this->CacheManager, $this->CacheManager->flush());
         }
@@ -363,15 +336,14 @@
                            ->method('set')
                            ->will($this->returnSelf());
 
-            $CacheProviderStub = $this->getCacheProviderStub();
+            $CacheProviderStub = $this->CacheManager->getCacheProvider();
             $CacheProviderStub->expects($this->once())
-                             ->method('get')
-                             ->will($this->returnValue(false));
+                              ->method('get')
+                              ->will($this->returnValue(false));
             $CacheProviderStub->expects($this->once())
                              ->method('set')
                              ->will($this->returnSelf());
 
-            $this->CacheManager->injectCacheProvider($CacheProviderStub);
             $this->CacheManager->injectLocalCache($LocalCacheStub);
 
             $this->assertEquals

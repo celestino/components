@@ -88,7 +88,7 @@
          * Test if the reset method returns the object reference back.
          * @covers Brickoo\Library\Log\Handler\FileHandler::reset
          */
-        public function testClear()
+        public function testReset()
         {
             $this->assertSame($this->FileHandler, $this->FileHandler->reset());
         }

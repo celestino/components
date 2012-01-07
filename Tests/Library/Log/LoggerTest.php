@@ -53,13 +53,11 @@
          */
         protected function getLogHandlerStub()
         {
-            $LogHandlerStub = $this->getMock
+            return $this->getMock
             (
                 'Brickoo\Library\Log\Interfaces\LogHandlerInterface',
                 array('log')
             );
-
-            return $LogHandlerStub;
         }
 
         /**
@@ -75,7 +73,7 @@
          */
         public function setUp()
         {
-            $this->Logger = new Logger();
+            $this->Logger = new Logger($this->getLogHandlerStub());
         }
 
         /**
@@ -119,37 +117,16 @@
         }
 
         /**
-         * Test if the LogHandler can be added and retrieved.
-         * @covers Brickoo\Library\Log\Logger::injectLogHandler
+         * Test if the LogHandler dependency can be retrieved.
          * @covers Brickoo\Library\Log\Logger::getLogHandler
          */
-        public function testLogHandlerRoutines()
+        public function testGetLogHandler()
         {
             $LogHandler = $this->getLogHandlerStub();
-            $this->assertSame($this->Logger, $this->Logger->injectLogHandler($LogHandler));
-            $this->assertSame($LogHandler, $this->Logger->getLogHandler());
-        }
+            $Logger = new Logger($LogHandler);
 
-        /**
-         * Test if retrieving the not assigned LogHandler throws an exception.
-         * @covers Brickoo\Library\Log\Logger::getLogHandler
-         * @expectedException Brickoo\Library\Core\Exceptions\DependencyNotAvailableException
-         */
-        public function testGetLogHandlerDependencyException()
-        {
-            $this->Logger->getLogHandler();
-        }
-
-        /**
-        * Test if assigning an LogHandler twice throws an exception.
-        * @covers Brickoo\Library\Log\Logger::injectLogHandler
-        * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
-        */
-        public function testSetLogHandlerDependecyOverrideException()
-        {
-            $LogHandler = $this->getLogHandlerStub();
-            $this->Logger->injectLogHandler($LogHandler);
-            $this->Logger->injectLogHandler($LogHandler);
+            $this->assertSame($LogHandler, $Logger->getLogHandler());
+            $this->assertAttributeSame($LogHandler, 'LogHandler', $Logger);
         }
 
         /**
@@ -158,11 +135,10 @@
         */
         public function testLogOfString()
         {
-            $LogHandler = $this->getLogHandlerStub();
+            $LogHandler = $this->Logger->getLogHandler();
             $LogHandler->expects($this->once())
                        ->method('log');
 
-            $this->Logger->injectLogHandler($LogHandler);
             $this->assertSame($this->Logger, $this->Logger->log('message'));
         }
 
@@ -172,11 +148,10 @@
         */
         public function testLogOfArrayWithSeverity()
         {
-            $LogHandler = $this->getLogHandlerStub();
+            $LogHandler = $this->Logger->getLogHandler();
             $LogHandler->expects($this->once())
                        ->method('log');
 
-            $this->Logger->injectLogHandler($LogHandler);
             $this->assertSame($this->Logger, $this->Logger->log(array('message1', 'message2'), Logger::SEVERITY_ERROR));
         }
 

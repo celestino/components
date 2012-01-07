@@ -111,7 +111,7 @@
         }
 
         /**
-         * Test if the Core\Request dependency can be retrieved.
+         * Test if the Core\Request dependency with lazy initialization can be retrieved.
          * @covers Brickoo\Library\Http\Request::getCoreRequest
          * @covers Brickoo\Library\Http\Request::injectCoreRequest
          */
@@ -125,7 +125,7 @@
         }
 
         /**
-         * Test if the Core\Request can be injected.
+         * Test if the Core\Request can be injected and the HttpRequest reference is returned.
          * @covers Brickoo\Library\Http\Request::injectCoreRequest
          */
         public function testInjectCoreRequest()
@@ -133,6 +133,9 @@
             $CoreRequestStub = $this->getRequestStub();
             $this->HttpRequest->injectCoreRequest($CoreRequestStub);
             $this->assertSame($CoreRequestStub, $this->HttpRequest->getCoreRequest());
+            $this->assertAttributeSame($CoreRequestStub, 'CoreRequest', $this->HttpRequest);
+
+            return $this->HttpRequest;
         }
 
         /**
@@ -140,15 +143,15 @@
          * @covers Brickoo\Library\Http\Request::injectCoreRequest
          * @covers Brickoo\Library\Core\Exceptions\DependencyOverwriteException
          * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
+         * @depends testInjectCoreRequest
          */
-        public function testInjectCoreRequestDependencyException()
+        public function testInjectCoreRequestDependencyException($HttpRequest)
         {
-            $CoreRequest = $this->HttpRequest->getCoreRequest();
-            $this->HttpRequest->injectCoreRequest($this->getRequestStub());
+            $HttpRequest->injectCoreRequest($this->getRequestStub());
         }
 
         /**
-         * Test if the Url dependecy can be retrieved.
+         * Test if the Url dependecy can be retrieved with lazy initialization.
          * @covers Brickoo\Library\Http\Request::Url
          * @covers Brickoo\Library\Http\Request::injectUrl
          */
@@ -158,7 +161,7 @@
         }
 
         /**
-         * Test if the Url can be injected.
+         * Test if the Url can be injected and the HttpRequest reference is returned.
          * @covers Brickoo\Library\Http\Request::injectUrl
          */
         public function testInjectUrl()
@@ -166,6 +169,9 @@
             $UrlMock = $this->getMock('\Brickoo\Library\Http\Interfaces\UrlInterface');
             $this->HttpRequest->injectUrl($UrlMock);
             $this->assertSame($UrlMock, $this->HttpRequest->Url());
+            $this->assertAttributeSame($UrlMock, '_Url', $this->HttpRequest);
+
+            return $this->HttpRequest;
         }
 
         /**
@@ -173,12 +179,11 @@
          * @covers Brickoo\Library\Http\Request::injectUrl
          * @covers Brickoo\Library\Core\Exceptions\DependencyOverwriteException
          * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
+         * @depends testInjectUrl
          */
-        public function testInjectUrlDependencyException()
+        public function testInjectUrlDependencyException($HttpRequest)
         {
-            $Url = $this->HttpRequest->Url();
-            $UrlMock = $this->getMock('\Brickoo\Library\Http\Interfaces\UrlInterface');
-            $this->HttpRequest->injectUrl($UrlMock);
+            $HttpRequest->injectUrl($this->HttpRequest->Url());
         }
 
         /**
@@ -187,8 +192,9 @@
          */
         public function testGetVariablesOrder()
         {
-            $this->assertContainsOnly('string', $this->HttpRequest->getVariablesOrder());
-            $this->assertEquals(array('G', 'P', 'C', 'F'), $this->HttpRequest->getVariablesOrder());
+            $order = array('G', 'P', 'C', 'F');
+            $this->assertEquals($order, $this->HttpRequest->getVariablesOrder());
+            $this->assertAttributeEquals($order, 'variablesOrder', $this->HttpRequest);
         }
 
         /**
@@ -530,7 +536,7 @@
                 array('X.Forwarded.Proto', null, 'https')
             );
             $RequestStub = $this->getRequestStub(array('getServerVar'));
-            $RequestStub->expects($this->exactly(1))
+            $RequestStub->expects($this->once())
                         ->method('getServerVar')
                         ->will($this->returnValueMap($map));
 
@@ -549,7 +555,7 @@
                 array('X.Requested.With', null, 'XMLHttpRequest')
             );
             $RequestStub = $this->getRequestStub(array('getServerVar'));
-            $RequestStub->expects($this->exactly(1))
+            $RequestStub->expects($this->once())
                         ->method('getServerVar')
                         ->will($this->returnValueMap($map));
 

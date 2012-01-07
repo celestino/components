@@ -109,7 +109,7 @@
         public function getRequestUrl($withPort = false);
 
         /**
-         * Clears the object properties.
+         * Resets the object properties.
          * @return object reference
          */
         public function reset();

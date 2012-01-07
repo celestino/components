@@ -137,7 +137,7 @@
         public function hasRule($parameterName);
 
         /**
-        * Clears the class properties.
+        * Resets the class properties.
         * @return object reference
         */
         public function reset();

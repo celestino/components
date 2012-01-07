@@ -47,44 +47,42 @@
     {
 
         /**
-         * Returns a Request stub with the methods passed.
-         * @param array $methods the methods to mock
-         * @return Brickoo\Library\Http\Request
+         * Returns a Request stub .
+         * @return objetc Request stub implementing the Brickoo\Library\Core\Interfaces\DynamicInterface
          */
-        public function getRequestStub(array $methods = null)
+        public function getRequestStub()
         {
             return $this->getMock
             (
-                'Brickoo\Library\Http\Request',
-                (is_null($methods) ? null : array_values($methods))
+                'Brickoo\Library\Core\Interfaces\DynamicRequestInterface',
+                array('getRequestPath', 'getRequestMethod')
             );
         }
 
         /**
-        * Returns a RouteCollection stub with the methods passed.
-        * @param array $methods the methods to mock
-        * @return Brickoo\Library\Routing\RouteCollection
+        * Returns a RouteCollection stub.
+        * @return object RouteCollection stub
         */
-        public function getRouteCollectionStub(array $methods = null)
+        public function getRouteCollectionStub()
         {
             return $this->getMock
             (
                 'Brickoo\Library\Routing\RouteCollection',
-                (is_null($methods) ? null : array_values($methods))
+                 array('getIterator')
             );
         }
 
         /**
         * Returns a Route stub with the methods passed.
         * @param array $methods the methods to mock
-        * @return Brickoo\Library\Routing\Route
+        * @return object Route stub
         */
-        public function getRouteStub(array $methods = null)
+        public function getRouteStub()
         {
             return $this->getMock
             (
                 'Brickoo\Library\Routing\Route',
-                (is_null($methods) ? null : array_values($methods))
+                array('getPath', 'getMethod', 'hasRule','hasDefaultValue', 'getRule', 'getDefaultValue')
             );
         }
 
@@ -100,7 +98,7 @@
          */
         protected function setUp()
         {
-            $this->Router = new Router;
+            $this->Router = new Router($this->getRequestStub());
         }
 
         /**
@@ -113,50 +111,15 @@
         }
 
         /**
-         * Test if the request instance can be injected and the Router reference is returned.
-         * @covers Brickoo\Library\Routing\Router::injectRequest
-         */
-        public function testInjectRequest()
-        {
-            $Request = $this->getRequestStub();
-            $this->assertSame($this->Router, $this->Router->injectRequest($Request));
-            $this->assertAttributeSame($Request, 'Request', $this->Router);
-
-            return $this->Router;
-        }
-
-        /**
-         * Test if trying to overwrite the dependecy throws an exception.
-         * @covers Brickoo\Library\Routing\Router::injectRequest
-         * @covers Brickoo\Library\Core\Exceptions\DependencyOverwriteException::__construct
-         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
-         */
-        public function testInjectRequestOverwriteException()
-        {
-            $Request = $this->getRequestStub();
-            $this->Router->injectRequest($Request);
-            $this->Router->injectRequest($Request);
-        }
-
-        /**
          * Test if the Request instance can be retrieved.
          * @covers Brickoo\Library\Routing\Router::getRequest
-         * @depends testInjectRequest
          */
-        public function testGetRequest($Router)
+        public function testGetRequest()
         {
-            $this->assertInstanceOf('Brickoo\Library\Http\Request', $Router->getRequest());
-        }
-
-        /**
-         * Test if trying to retrieve a not set Request throws an exception.
-         * @covers Brickoo\Library\Routing\Router::getRequest
-         * @covers Brickoo\Library\Core\Exceptions\DependencyNotAvailableException::__construct
-         * @expectedException Brickoo\Library\Core\Exceptions\DependencyNotAvailableException
-         */
-        public function testInjectRequestValueException()
-        {
-            $this->Router->getRequest();
+            $RequestStub = $this->getRequestStub();
+            $Router = new Router($RequestStub);
+            $this->assertSame($RequestStub, $Router->getRequest());
+            $this->assertAttributeSame($RequestStub, 'Request', $Router);
         }
 
         /**
@@ -254,10 +217,7 @@
                 array('otherplace', false)
             );
 
-            $RouteStub = $this->getRouteStub
-            (
-                array('getPath', 'getMethod', 'hasRule','hasDefaultValue', 'getRule', 'getDefaultValue')
-            );
+            $RouteStub = $this->getRouteStub();
             $RouteStub->expects($this->exactly(2))
                       ->method('getPath')
                       ->will($this->returnValue('/path/{name}/to/{otherplace}'));
@@ -274,15 +234,13 @@
                       ->method('getRule')
                       ->will($this->returnValue('[a-z]+'));
 
-            $RequestStub = $this->getRequestStub(array('getRequestPath', 'getRequestMethod'));
+            $RequestStub = $this->Router->getRequest();
             $RequestStub->expects($this->once())
                         ->method('getRequestPath')
                         ->will($this->returnValue('/path/goes/to/home'));
             $RequestStub->expects($this->once())
                         ->method('getRequestMethod')
                         ->will($this->returnValue('POST'));
-
-            $this->Router->injectRequest($RequestStub);
 
             $this->assertTrue($this->Router->isRequestRoute($RouteStub));
         }
@@ -295,10 +253,7 @@
          */
         public function testIsRequestRouteFailure()
         {
-            $RouteStub = $this->getRouteStub
-            (
-                array('getPath', 'hasRule', 'hasDefaultValue')
-            );
+            $RouteStub = $this->getRouteStub();
             $RouteStub->expects($this->exactly(2))
                       ->method('getPath')
                       ->will($this->returnValue('/path/to/some/place/{notExpected}'));
@@ -309,12 +264,10 @@
                       ->method('hasDefaultValue')
                      ->will($this->returnValue(false));
 
-            $RequestStub = $this->getRequestStub(array('getRequestPath'));
+            $RequestStub = $this->Router->getRequest();
             $RequestStub->expects($this->once())
                         ->method('getRequestPath')
                         ->will($this->returnValue('/path/to/some/place'));
-
-            $this->Router->injectRequest($RequestStub);
 
             $this->assertFalse($this->Router->isRequestRoute($RouteStub));
         }
@@ -336,7 +289,7 @@
          */
         public function testGetRequestRouteValueException()
         {
-            $RouteCollectionStub = $this->getRouteCollectionStub(array('getIterator'));
+            $RouteCollectionStub = $this->getRouteCollectionStub();
             $RouteCollectionStub->expects($this->once())
                                 ->method('getIterator')
                                 ->will($this->returnValue(new stdClass()));
@@ -358,10 +311,7 @@
                 array('otherplace', false)
             );
 
-            $RouteStub = $this->getRouteStub
-            (
-                array('getPath', 'getMethod', 'hasRule','hasDefaultValue', 'getRule', 'getDefaultValue')
-            );
+            $RouteStub = $this->getRouteStub();
             $RouteStub->expects($this->exactly(2))
                       ->method('getPath')
                       ->will($this->returnValue('/path/{name}/to/{otherplace}'));
@@ -378,12 +328,12 @@
                       ->method('getRule')
                       ->will($this->returnValue('[a-z]+'));
 
-            $RouteCollectionStub = $this->getRouteCollectionStub(array('getIterator'));
+            $RouteCollectionStub = $this->getRouteCollectionStub();
             $RouteCollectionStub->expects($this->once())
                                 ->method('getIterator')
                                 ->will($this->returnValue(new ArrayIterator(array($RouteStub))));
 
-            $RequestStub = $this->getRequestStub(array('getRequestPath', 'getRequestMethod'));
+            $RequestStub = $this->Router->getRequest();
             $RequestStub->expects($this->once())
                         ->method('getRequestPath')
                         ->will($this->returnValue('/path/goes/to/home'));
@@ -391,7 +341,6 @@
                         ->method('getRequestMethod')
                         ->will($this->returnValue('POST'));
 
-            $this->Router->injectRequest($RequestStub);
             $this->Router->injectRouteCollection($RouteCollectionStub);
 
             $this->assertSame($RouteStub, $this->Router->getRequestRoute());
@@ -406,17 +355,16 @@
          */
         public function testGetRequestRouteNoRouteException()
         {
-            $RouteCollectionStub = $this->getRouteCollectionStub(array('getIterator'));
+            $RouteCollectionStub = $this->getRouteCollectionStub();
             $RouteCollectionStub->expects($this->once())
                                 ->method('getIterator')
                                 ->will($this->returnValue(new ArrayIterator(array())));
 
-            $RequestStub = $this->getRequestStub(array('getRequestPath', 'getRequestMethod'));
+            $RequestStub = $this->Router->getRequest();
             $RequestStub->expects($this->once())
                         ->method('getRequestPath')
                         ->will($this->returnValue('/path/goes/to/home'));
 
-            $this->Router->injectRequest($RequestStub);
             $this->Router->injectRouteCollection($RouteCollectionStub);
 
             $this->Router->getRequestRoute();
@@ -426,7 +374,7 @@
          * Test if the class properties are reseted and the Route refernce is returned.
          * @covers Brickoo\Library\Routing\Router::reset
          */
-        public function testClear()
+        public function testReset()
         {
             $this->assertSame($this->Router, $this->Router->reset());
         }
@@ -437,7 +385,7 @@
          */
         public function testGetRegexFromMethod()
         {
-            $RouteStub = $this->getRouteStub(array('getMethod'));
+            $RouteStub = $this->getRouteStub();
             $RouteStub->expects($this->once())
                       ->method('getMethod')
                       ->will($this->returnValue('GET|POST'));
@@ -461,10 +409,7 @@
                 array('otherplace', false)
             );
 
-            $RouteStub = $this->getRouteStub
-            (
-                array('getPath', 'hasRule','hasDefaultValue', 'getRule', 'getDefaultValue')
-            );
+            $RouteStub = $this->getRouteStub();
             $RouteStub->expects($this->exactly(2))
                       ->method('getPath')
                       ->will($this->returnValue('/path/{name}/to/{otherplace}'));

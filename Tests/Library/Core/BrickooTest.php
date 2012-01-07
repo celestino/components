@@ -46,6 +46,15 @@
     {
 
         /**
+         * Creates and returns a stub of the Core\Registry.
+         * @return object Registry stub
+         */
+        public function getRegistryStub()
+        {
+            return $this->getMock('Brickoo\Library\Storage\Registry');
+        }
+
+        /**
          * Holds an instance of the Brickoo object.
          * @var object
          */
@@ -60,26 +69,17 @@
         }
 
         /**
-         * Test if setting the Registry returns the created Registry object.
+         * Test if injecting the Registry dependency returns the Brickoo object reference.
          * @covers Brickoo\Library\Core\Brickoo::injectRegistry
          */
-        public function testSetRegistry()
+        public function testInjectRegistry()
         {
-            $this->Brickoo->reset();
+            $BrickooFixture  = new BrickooFixture();
+            $BrickooFixture->reset();
 
-            $this->assertSame($this->Brickoo, $this->Brickoo->injectRegistry());
-        }
+            $RegistryStub = $this->getRegistryStub();
 
-        /**
-         * Test if initializing Brickoo returns the passed Registry object.
-         * @covers Brickoo\Library\Core\Brickoo::injectRegistry
-         */
-        public function testSetPassedRegistry()
-        {
-            $this->Brickoo->reset();
-
-            $RegistryMock = $this->getMock('Brickoo\Library\Storage\Registry');
-            $this->assertSame($this->Brickoo, $this->Brickoo->injectRegistry($RegistryMock));
+            $this->assertSame($BrickooFixture, $BrickooFixture->injectRegistry($RegistryStub));
         }
 
         /**
@@ -87,29 +87,42 @@
          * @covers Brickoo\Library\Core\Brickoo::injectRegistry
          * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
          */
-        public function testSetRegistryDependencyException()
+        public function testInjectRegistryDependencyException()
         {
-            $this->Brickoo->reset();
+            $BrickooFixture  = new BrickooFixture();
+            $BrickooFixture->reset();
 
-            $RegistryMock = $this->getMock('Brickoo\Library\Storage\Registry');
+            $RegistryStub = $this->getRegistryStub();
 
-            $this->Brickoo->injectRegistry();
-            $this->Brickoo->injectRegistry($RegistryMock);
+            $BrickooFixture->injectRegistry($RegistryStub);
+            $BrickooFixture->injectRegistry($RegistryStub);
         }
 
         /**
-         * Test if the Registry reference is returned.
+         * Test if the Registry dependency can be returned.
          * @covers Brickoo\Library\Core\Brickoo::getRegistry
          */
         public function testGetRegistry()
         {
-            $this->Brickoo->reset();
+            $BrickooFixture  = new BrickooFixture();
+            $BrickooFixture->reset();
 
-            $this->assertInstanceOf
-            (
-                '\Brickoo\Library\Storage\Registry',
-                $this->Brickoo->getRegistry()
-            );
+            $RegistryStub = $this->getRegistryStub();
+            $BrickooFixture->injectRegistry($RegistryStub);
+
+            $this->assertSame($RegistryStub, $BrickooFixture->getRegistry());
+        }
+
+        /**
+         * Test if the Registry is not avilable it will be lazy created.
+         * @covers Brickoo\Library\Core\Brickoo::getRegistry
+         */
+        public function testGetRegistryLazy()
+        {
+            $BrickooFixture  = new BrickooFixture();
+            $BrickooFixture->reset();
+
+            $this->assertInstanceOf('Brickoo\Library\Storage\Interfaces\RegistryInterface', $BrickooFixture->getRegistry());
         }
 
     }

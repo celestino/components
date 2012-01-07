@@ -78,8 +78,8 @@
                 foreach($requestMethods as $method => $returnValue)
                 {
                     $HttpRequestStub->expects($this->any())
-                    ->method($method)
-                    ->will($this->returnValue($returnValue));
+                                    ->method($method)
+                                    ->will($this->returnValue($returnValue));
                 }
             }
 
@@ -141,6 +141,9 @@
             $HttpRequestStub = $this->getHttpRequestStub();
             $this->Url->injectRequest($HttpRequestStub);
             $this->assertSame($HttpRequestStub, $this->Url->getRequest());
+            $this->assertAttributeSame($HttpRequestStub, 'Request', $this->Url);
+
+            return $this->Url;
         }
 
         /**
@@ -148,11 +151,11 @@
          * @covers Brickoo\Library\Http\Url::injectRequest
          * @covers Brickoo\Library\Core\Exceptions\DependencyOverwriteException
          * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
+         * @depends testInjectRequest
          */
-        public function testInjectRequestDependencyException()
+        public function testInjectRequestDependencyException($Url)
         {
-            $HttpRequest = $this->Url->getRequest();
-            $this->Url->injectRequest($this->getHttpRequestStub());
+            $Url->injectRequest($this->getHttpRequestStub());
         }
 
         /**

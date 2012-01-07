@@ -81,7 +81,7 @@
         {
             $serverConfig = array('host' => 'unix://some/socket', 'port' => 0);
 
-            $this->assertSame($this->MemcacheConfig, $this->MemcacheConfig->addServer($serverConfig));
+            $this->assertSame($this->MemcacheConfig, $this->MemcacheConfig->addServer($serverConfig['host'], $serverConfig['port']));
             $this->assertAttributeEquals(array($serverConfig), 'servers', $this->MemcacheConfig);
 
             return $this->MemcacheConfig;
@@ -90,11 +90,11 @@
         /**
          * Test if missing some array keys of the configuration throws an exception.
          * @covers Brickoo\Library\Cache\Config\MemcacheConfig::addServer
-         * @expectedException UnexpectedValueException
+         * @expectedException InvalidArgumentException
          */
         public function testAddServerValueException()
         {
-            $this->MemcacheConfig->addServer(array());
+            $this->MemcacheConfig->addServer(array(), 'wrongType');
         }
 
         /**
@@ -107,6 +107,33 @@
             $serverConfig = array('host' => 'unix://some/socket', 'port' => 0);
 
             $this->assertEquals(array($serverConfig), $MemcacheConfig->getServers());
+        }
+
+        /**
+        * Test if the Memcache instacne can be configured.
+        * @covers Brickoo\Library\Cache\Config\MemcacheConfig::configure
+        * @depends testAddServer
+        */
+        public function testConfigure($MemcacheConfig)
+        {
+            $MemcacheStub = $this->getMock('Memcache', array('addServer'));
+            $MemcacheStub->expects($this->once())
+                         ->method('addServer')
+                         ->will($this->returnValue(true));
+
+            $this->assertSame($MemcacheConfig, $MemcacheConfig->configure($MemcacheStub));
+        }
+
+        /**
+         * Test if trying to configure the Memcache with an empty config throws an exception.
+         * @covers Brickoo\Library\Cache\Config\MemcacheConfig::configure
+         * @covers Brickoo\Library\Config\Exceptions\ConfigurationMissingException
+         * @expectedException Brickoo\Library\Config\Exceptions\ConfigurationMissingException
+         */
+        public function testConfigureMissingConfigurationException()
+        {
+            $MemcacheStub = $this->getMock('Memcache');
+            $this->MemcacheConfig->configure($MemcacheStub);
         }
 
         /**

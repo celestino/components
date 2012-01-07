@@ -88,7 +88,7 @@
          * Test if the reseting the instance unregisters the error handler.
          * @covers Brickoo\Library\Error\ExceptionHandler::reset
          */
-        public function testClear()
+        public function testReset()
         {
             $ExceptionHandlerStub = $this->getMock('Brickoo\Library\Error\ExceptionHandler', array('unregister'));
             $ExceptionHandlerStub->expects($this->once())

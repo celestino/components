@@ -30,27 +30,27 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Core\Exceptions;
+    namespace Brickoo\Library\Config\Exceptions;
 
     /**
-     * ExtensionNotAvailableException
+     * ConfigurationMissingException
      *
-     * Exception throwed if an required extension is not loaded.
+     * Exception throwed if some configuration value is missing.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ExtensionNotAvailableException extends \Exception
+    class ConfigurationMissingException extends \Exception
     {
 
         /**
          * Class constructor.
          * Calls the parent Exception constructor.
-         * @param string $extensionName the extension name which is not loaded
+         * @param string $configName the configuration object name
          * @return void
          */
-        public function __construct($extensionName)
+        public function __construct($configName)
         {
-            parent::__construct(sprintf('The extension `%s` is not loaded.', $extensionName));
+            parent::__construct(sprintf('The configuration object `%s` is missing some value(s).', $configName));
         }
 
     }

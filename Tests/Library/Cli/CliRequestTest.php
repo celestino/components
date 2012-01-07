@@ -49,16 +49,11 @@
 
         /**
          * Returns an Core Request Stub for the Http Request to look up for server variables.
-         * @param array $requestMethods the request methods
-         * @return object implementing the Brickoo\Library\Core\Interfaces\Request
+         * @return object Request stub
          */
-        protected function getRequestStub(array $requestMethods = null)
+        protected function getRequestStub()
         {
-            return $this->getMock
-            (
-                'Brickoo\Library\Core\Request',
-                ($requestMethods === null ? null : array_values($requestMethods))
-            );
+            return $this->getMock('Brickoo\Library\Core\Request', array('getServerVar'));
         }
 
         /**
@@ -73,45 +68,51 @@
          */
         public function setUp()
         {
-            $_SERVER['argc'] = 3;
-            $_SERVER['argv'] = array('test.php', 'ARG1', 'ARG2', 'ARG3');
-
-            $this->Cli = new Request(new Core\Request());
+            $this->Cli = new Request();
         }
 
         /**
-         * Test if the class can be created.
+         * Test if the Core\request can be injected.
          * @covers Brickoo\Library\Cli\Request::__construct
          * @covers Brickoo\Library\Cli\Request::reset
          */
         public function testCliConstructor()
         {
-            $this->assertInstanceOf
-            (
-                '\Brickoo\Library\Cli\Interfaces\RequestInterface',
-                $this->Cli
-            );
+            $CoreRequestStub = $this->getRequestStub();
+            $this->Cli->injectCoreRequest($CoreRequestStub);
+            $this->assertAttributeSame($CoreRequestStub, 'CoreRequest', $this->Cli);
+        }
+
+        /**
+         * Test if the Core\Request dependency can be injectd.
+         * @covers Brickoo\Library\Cli\Request::injectCoreRequest
+         */
+        public function testInjectCoreRequest()
+        {
+            $CoreRequestStub = $this->getRequestStub();
+            $this->assertSame($this->Cli, $this->Cli->injectCoreRequest($CoreRequestStub));
+            $this->assertAttributeSame($CoreRequestStub, 'CoreRequest', $this->Cli);
+
+            return $this->Cli;
+        }
+
+        /**
+         * Test if trying to overwrite the Core\Request dependency throws an expcetion.
+         * @covers Brickoo\Library\Cli\Request::injectCoreRequest
+         * @covers Brickoo\Library\Core\Exceptions\DependencyOverwriteException
+         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
+         * @depends testInjectCoreRequest
+         */
+        public function testInjectCoreRequestOverwriteException($Cli)
+        {
+            $Cli->injectCoreRequest($this->getRequestStub());
         }
 
         /**
          * Test if the Core\Request dependency can be retrieved.
          * @covers Brickoo\Library\Cli\Request::getCoreRequest
-         * @covers Brickoo\Library\Cli\Request::injectCoreRequest
          */
         public function testGetCoreRequest()
-        {
-            $this->assertInstanceOf
-            (
-                '\Brickoo\Library\Core\Interfaces\RequestInterface',
-                $this->Cli->getCoreRequest()
-            );
-        }
-
-        /**
-         * Test if the Core\Request can be injected.
-         * @covers Brickoo\Library\Cli\Request::injectCoreRequest
-         */
-        public function testInjectCoreRequest()
         {
             $CoreRequestStub = $this->getRequestStub();
             $this->Cli->injectCoreRequest($CoreRequestStub);
@@ -119,15 +120,31 @@
         }
 
         /**
-         * Test if trying to overwrite the CoreRequest dependecy throws an exception.
-         * @covers Brickoo\Library\Cli\Request::injectCoreRequest
-         * @covers Brickoo\Library\Core\Exceptions\DependencyOverwriteException
-         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
+         * Test if the Core\Request can be lazy initializated.
+         * @covers Brickoo\Library\Cli\Request::getCoreRequest
          */
-        public function testInjectCoreRequestDependencyException()
+        public function testGetRequestLazy()
         {
-            $CoreRequest = $this->Cli->getCoreRequest();
-            $this->Cli->injectCoreRequest($this->getRequestStub());
+            $this->Cli = new Request();
+            $this->assertInstanceOf('Brickoo\Library\Core\Interfaces\RequestInterface', $this->Cli->getCoreRequest());
+        }
+
+        /**
+         * Test if keys can be binded to the arguments and returns the object reference.
+         * @covers Brickoo\Library\Cli\Request::setArgumentsKeys
+         */
+        public function testSetArgumentsKeys()
+        {
+            $valueMap = array(array('argv', null, array('test.php', 'ARG1', 'ARG2', 'ARG3')));
+
+            $CoreRequestStub = $this->getRequestStub();
+            $CoreRequestStub->expects($this->once())
+                        ->method('getServerVar')
+                        ->will($this->returnValueMap($valueMap));
+
+            $this->Cli->injectCoreRequest($CoreRequestStub);
+
+            $this->assertSame($this->Cli, $this->Cli->setArgumentsKeys(array('file', 'v1', 'v2', 'v3', 'default')));
         }
 
         /**
@@ -137,8 +154,16 @@
          */
          public function testGetArguments()
         {
-            $this->assertInternalType('array', $this->Cli->getArguments());
-            $this->assertContainsOnly('string', $this->Cli->getArguments());
+            $valueMap = array(array('argv', null, array('test.php', 'ARG1', 'ARG2', 'ARG3')));
+
+            $CoreRequestStub = $this->getRequestStub();
+            $CoreRequestStub->expects($this->once())
+                        ->method('getServerVar')
+                        ->will($this->returnValueMap($valueMap));
+
+            $this->Cli->injectCoreRequest($CoreRequestStub);
+
+           $this->assertEquals(array('test.php', 'ARG1', 'ARG2', 'ARG3'), $this->Cli->getArguments());
         }
 
         /**
@@ -147,10 +172,16 @@
          */
         public function testGetArgument()
         {
+            $valueMap = array(array('argv', null, array('test.php')));
+
+            $CoreRequestStub = $this->getRequestStub();
+            $CoreRequestStub->expects($this->once())
+                        ->method('getServerVar')
+                        ->will($this->returnValueMap($valueMap));
+
+            $this->Cli->injectCoreRequest($CoreRequestStub);
+
             $this->assertEquals('test.php', $this->Cli->getArgument(0));
-            $this->assertEquals('ARG1', $this->Cli->getArgument(1));
-            $this->assertEquals('ARG2', $this->Cli->getArgument(2));
-            $this->assertEquals('ARG3', $this->Cli->getArgument(3));
             $this->assertEquals('DEFAULT', $this->Cli->getArgument(4, 'DEFAULT'));
         }
 
@@ -165,26 +196,21 @@
         }
 
         /**
-         * Test if keys can be binded to the arguments and return the object reference.
-         * @covers Brickoo\Library\Cli\Request::setArgumentsKeys
-         */
-        public function testSetArgumentsKeys()
-        {
-            $this->assertSame($this->Cli, $this->Cli->setArgumentsKeys(array('file', 'v1', 'v2', 'v3', 'x')));
-            $this->assertEquals('test.php', $this->Cli->getArgument('file'));
-            $this->assertEquals('ARG1', $this->Cli->getArgument('v1'));
-            $this->assertEquals('ARG2', $this->Cli->getArgument('v2'));
-            $this->assertEquals('ARG3', $this->Cli->getArgument('v3'));
-            $this->assertNull($this->Cli->getArgument('v4'));
-        }
-
-        /**
          * Test if it returns the number of arguments passed.
          * @covers Brickoo\Library\Cli\Request::countArguments
          */
         public function testCountArguments()
         {
-            $this->assertEquals(4, $this->Cli->countArguments());
+            $valueMap = array(array('argv', null, array('test.php', 'ARG1', 'ARG2')));
+
+            $CoreRequestStub = $this->getRequestStub();
+            $CoreRequestStub->expects($this->once())
+                        ->method('getServerVar')
+                        ->will($this->returnValueMap($valueMap));
+
+            $this->Cli->injectCoreRequest($CoreRequestStub);
+
+            $this->assertEquals(3, $this->Cli->countArguments());
         }
 
         /**
@@ -193,6 +219,15 @@
          */
         public function testHasArguments()
         {
+            $valueMap = array(array('argv', null, array('test.php', 'ARG1', 'ARG2')));
+
+            $CoreRequestStub = $this->getRequestStub();
+            $CoreRequestStub->expects($this->once())
+                        ->method('getServerVar')
+                        ->will($this->returnValueMap($valueMap));
+
+            $this->Cli->injectCoreRequest($CoreRequestStub);
+
             $this->assertTrue($this->Cli->hasArguments());
         }
 
@@ -221,7 +256,7 @@
 
         /**
          * Test if the request path can be retrieved.
-         * @param Brickoo\Library\Cli\Request $Cli the Cli instance
+         * @param Brickoo\Library\Cli\Request $this->Cli the Cli instance
          * @covers Brickoo\Library\Cli\Request::getRequestPath
          * @depends testSetRequestPath
          */

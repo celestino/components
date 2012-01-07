@@ -44,18 +44,9 @@
 
         /**
          * Returns the Request instance implementing the Core\Interfaces\DynamicRequestInterface
-         * @throws DependencyNotAvailableException if the dependecy is not available
          * @return object Request instance implementing the Core\Interfaces\DynamicRequestInterface
          */
         public function getRequest();
-
-        /**
-         * Injects the Request dependency instance.
-         * @param \Brickoo\Library\Core\Interfaces\DynamicRequestInterface $Request the Request dependency
-         * @throws Core\Exceptions\DependencyOverwriteException if trying to overwrite the dependency
-         * @return object reference
-         */
-        public function injectRequest(\Brickoo\Library\Core\Interfaces\DynamicRequestInterface $Request);
 
         /**
          * Lazy initialization of the RouteCollection dependecy.
@@ -103,7 +94,7 @@
         public function getRequestRoute();
 
         /**
-        * Clears the object properties.
+        * Resets the object properties.
         * @return object reference
         */
         public function reset();

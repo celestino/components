@@ -54,35 +54,11 @@
 
         /**
          * Returns the CacheProvider dependency.
-         * @throws Core\Exceptions\DependencyNotAvailableException if the dependency is not available
          * @return object the CacheProvider implementing the Cache\Interfaces\CacheProviderInterface
          */
         public function getCacheProvider()
         {
-            if (! $this->CacheProvider instanceof Interfaces\CacheProviderInterface)
-            {
-                throw new Core\Exceptions\DependencyNotAvailableException('CacheProviderInterface');
-            }
-
             return $this->CacheProvider;
-        }
-
-        /**
-         * Injects the CacheProvider dependency to use.
-         * @param \Brickoo\Library\Cache\Interfaces\CacheProviderInterface $CacheProvider the Cachehandler dependecy
-         * @throws Core\Exceptions\DependencyOverwriteException if trying to overwrite the dependency
-         * @return object reference
-         */
-        public function injectCacheProvider(\Brickoo\Library\Cache\Interfaces\CacheProviderInterface $CacheProvider)
-        {
-            if ($this->CacheProvider !== null)
-            {
-                throw new Core\Exceptions\DependencyOverwriteException('CacheProviderInterface');
-            }
-
-            $this->CacheProvider = $CacheProvider;
-
-            return $this;
         }
 
         /**
@@ -122,6 +98,16 @@
             $this->LocalCache = $LocalCache;
 
             return $this;
+        }
+
+        /**
+         * Injects the CacheProvide dependency.
+         * @param \Brickoo\Library\Cache\Interfaces\CacheProviderInterface $CacheProvider the CacheProvider dependency
+         * @return void
+         */
+        public function __construct(\Brickoo\Library\Cache\Interfaces\CacheProviderInterface $CacheProvider)
+        {
+            $this->CacheProvider = $CacheProvider;
         }
 
         /**

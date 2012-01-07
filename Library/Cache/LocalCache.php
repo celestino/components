@@ -39,7 +39,7 @@
     /**
      * LocalCache
      *
-     * Implements a local cache for handling cache operations.
+     * Implements a local cache for handling local cache operations.
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      */
 

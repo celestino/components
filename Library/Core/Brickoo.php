@@ -73,14 +73,14 @@
          * @throws DependencyOverwriteException if trying to override dependency
          * @return object reference
          */
-        public function injectRegistry(\Brickoo\Library\Storage\Interfaces\RegistryInterface $Registry = null)
+        public function injectRegistry(\Brickoo\Library\Storage\Interfaces\RegistryInterface $Registry)
         {
             if (self::$Registry !== null)
             {
                 throw new Exceptions\DependencyOverwriteException('RegistryInterface');
             }
 
-            self::$Registry = new Storage\Registry();
+            self::$Registry = $Registry;
 
             return $this;
         }

@@ -371,7 +371,7 @@
          * Test if the object properties can be reseted and the object reference is returned.
          * @covers Brickoo\Library\System\SocketObject::reset
          */
-        public function testClear()
+        public function testReset()
         {
             $this->assertSame($this->SocketObject, $this->SocketObject->reset());
         }

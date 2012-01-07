@@ -61,7 +61,7 @@
         }
 
         /**
-         * Test if the class can be created.
+         * Test if the class implements the Core\Interfaces\RequestInterface.
          * @covers Brickoo\Library\Core\Request::__construct
          */
         public function testRequestConstructor()
@@ -77,7 +77,7 @@
          * Test if the reset method returns the object reference.
          * @covers Brickoo\Library\Core\Request::reset
          */
-        public function testClear()
+        public function testReset()
         {
             $this->assertSame($this->Request, $this->Request->reset());
         }

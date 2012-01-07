@@ -54,7 +54,14 @@
          * @throws \UnexpectedValueException if a configuration key is missed
          * @return object reference
          */
-        public function addServer(array $serverConfig);
+        public function addServer($host, $port);
+
+        /**
+         * Configures the Memcache instance.
+         * @param \Memcache $Mecache the Memcache instance to configure
+         * @return object reference
+         */
+        public function configure(\Memcache $Memcache);
 
         /**
          * Resets the class properties.

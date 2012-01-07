@@ -40,7 +40,7 @@
     /**
      * MemcacheProvider
      *
-     * Implements a memcache provider which provides caching operations.
+     * Provides caching operations based on Memcache.
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      */
 
@@ -55,40 +55,16 @@
 
         /**
          * Returns the Memcache dependecy.
-         * @throws Core\Exceptions\DependencyNotAvailableException if the Memcache dependency is not available
          * @return object Memcache dependency
          */
         public function getMemcache()
         {
-            if (! $this->Memcache instanceof \Memcache)
-            {
-                throw new Core\Exceptions\DependencyNotAvailableException('Memcache');
-            }
-
             return $this->Memcache;
         }
 
         /**
-         * Injects the pre-configured Memcache instance dependency.
-         * @param \Memcache $Memcache the configured Memcache instance
-         * @throws Core\Exceptions\DependencyOverwriteException if trying to overwrite the dependency
-         * @return object reference
-         */
-        public function injectMemcache(\Memcache $Memcache)
-        {
-            if ($this->Memcache !== null)
-            {
-                throw new Core\Exceptions\DependencyOverwriteException('Memcache');
-            }
-
-            $this->Memcache = $Memcache;
-
-            return $this;
-        }
-
-        /**
          * Holds the flag for using cache compression.
-         * @var boolean
+         * @var integer
          */
         protected $compression;
 
@@ -117,62 +93,27 @@
         }
 
         /**
-         * Holds the falg configuration status.
-         * @var boolean
-         */
-        protected $configured;
-
-        /**
-         * Checks if the Memcache isntance is configured.
-         * @return boolean check result
-         */
-        public function isConfigured()
-        {
-            return ($this->configured === true);
-        }
-
-        /**
-         * Injects the Memcache configuration dependency.
-         * The Memcache has to be injected before, since this method use the Memcache dependecy.
-         * @param \Brickoo\Library\Cache\Interfaces\MemcacheConfigInterface $MemcacheConfig the MemcacheConfig dependency
-         * @throws Core\Exceptions\ConfigurationOverwriteException if trying to overwrite the configuration
-         * @throws Core\Exceptions\ConfigurationEmptyException if the configuration does not contain any values
-         * @return object reference
-         */
-        public function injectMemcacheConfig(\Brickoo\Library\Cache\Interfaces\MemcacheConfigInterface $MemcacheConfig)
-        {
-            if ($this->isConfigured() !== false)
-            {
-                throw new Core\Exceptions\DependencyOverwriteException('MemcacheConfigInterface');
-            }
-
-            if (! $servers = $MemcacheConfig->getServers())
-            {
-                throw new Core\Exceptions\ConfigurationMissingException('MemcacheConfig');
-            }
-
-            foreach($servers as $serverConfig)
-            {
-                $this->getMemcache()->addServer($serverConfig['host'], $serverConfig['port']);
-            }
-
-            $this->configured = true;
-
-            return $this;
-        }
-
-        /**
-         * Checks if the Memcache dependec is configured.
-         * This is a helper method which has to be called before any Memcache operation.
-         * @throws Exceptions\MemcacheNotConfiguredException if the Memcache dependency is not configured
+         * Injects the Memcache dependency.
+         * Initializes the class properties.
+         * @param \Memcache $Memcache the Memcache dependency
          * @return void
          */
-        protected function checkIsConfigured()
+        public function __construct(\Memcache $Memcache)
         {
-            if (! $this->isConfigured())
-            {
-                throw new Exceptions\MemcacheNotConfiguredException();
-            }
+            $this->Memcache = $Memcache;
+
+            $this->reset();
+        }
+
+        /**
+         * Resets the class properties.
+         * @reutrn object reference
+         */
+        public function reset()
+        {
+            $this->compression = 0;
+
+            return $this;
         }
 
         /**
@@ -183,8 +124,6 @@
         public function get($identifier)
         {
             TypeValidator::IsString($identifier);
-
-            $this->checkIsConfigured();
 
             return $this->getMemcache()->get($identifier);
         }
@@ -204,8 +143,6 @@
             TypeValidator::IsString($identifier);
             TypeValidator::IsInteger($lifetime);
 
-            $this->checkIsConfigured();
-
             return $this->getMemcache()->set($identifier, substr($content, 0, 1024), $this->compression, $lifetime);
         }
 
@@ -218,8 +155,6 @@
         {
             TypeValidator::IsString($identifier);
 
-            $this->checkIsConfigured();
-
             return $this->getMemcache()->delete($identifier);
         }
 
@@ -229,8 +164,6 @@
          */
         public function flush()
         {
-            $this->checkIsConfigured();
-
             return $this->getMemcache()->flush();
         }
 
@@ -247,8 +180,6 @@
             {
                 throw new \BadMethodCallException(sprintf('The Memcache method `%s` is not defined.', $method));
             }
-
-            $this->checkIsConfigured();
 
             return call_user_func_array(array($this->getMemcache(), $method), $arguments);
         }

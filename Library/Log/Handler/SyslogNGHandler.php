@@ -324,7 +324,7 @@
         }
 
         /**
-        * Clears the class properties.
+        * Resets the class properties.
         * @return object reference
         */
         public function reset()

@@ -44,18 +44,9 @@
 
         /**
         * Returns the CacheProvider dependency.
-        * @throws Core\Exceptions\DependencyNotAvailableException if the dependency is not available
         * @return object the CacheProvider implementing the Cache\Interfaces\CacheProviderInterface
         */
         public function getCacheProvider();
-
-        /**
-         * Injects the CacheProvider dependency to use.
-         * @param \Brickoo\Library\Cache\Interfaces\CacheProviderInterface $CacheProvider the Cachehandler dependecy
-         * @throws Core\Exceptions\DependencyOverwriteException if trying to overwrite the dependency
-         * @return object reference
-         */
-        public function injectCacheProvider(\Brickoo\Library\Cache\Interfaces\CacheProviderInterface $CacheProvider);
 
         /**
          * Lazy initialization of the LocalCache.

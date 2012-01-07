@@ -43,19 +43,10 @@
     {
 
         /**
-         * Retrieve the log handler assigned.
-         * @throws Core\Exceptions\DependencyNotAvailableException if no log handler instance is assigned
+         * Retrieve the log handler dependency.
          * @return object log handler implementing the LogHandlerInterface
          */
         public function getLogHandler();
-
-        /**
-         * Sets the log handler instance to use for logging.
-         * @param LogHandlerInterface $LogHandler the log handler instance
-         * @throws Core\Exceptions\DependencyOverwriteException if trying to override the log handler
-         * @return object reference
-         */
-        public function injectLogHandler(\Brickoo\Library\Log\Interfaces\LogHandlerInterface $LogHandler);
 
         /**
          * Returns the current default log severity.
@@ -72,7 +63,7 @@
         public function setDefaultSeverity($severity);
 
         /**
-        * Clears the class properties.
+        * Resets the class properties.
         * @return object reference
         */
         public function reset();

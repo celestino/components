@@ -62,7 +62,10 @@
         {
             if (! $this->Request instanceof Interfaces\RequestInterface)
             {
-                $this->injectRequest(new Request());
+                $Request = new Request();
+                $Request->injectUrl($this);
+
+                $this->injectRequest($Request);
             }
 
             return $this->Request;
@@ -344,7 +347,7 @@
         }
 
         /**
-         * Clears the object properties.
+         * Resets the object properties.
          * @return object reference
          */
         public function reset()

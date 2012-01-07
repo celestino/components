@@ -53,36 +53,12 @@
         protected $Request;
 
         /**
-         * Returns the Request instance implementing the Core\Interfaces\DynamicRequestInterface
-         * @throws DependencyNotAvailableException if the dependecy is not available
+         * Returns the Request instance implementing the Core\Interfaces\DynamicRequestInterface.
          * @return object Request instance implementing the Core\Interfaces\DynamicRequestInterface
          */
         public function getRequest()
         {
-            if (! $this->Request instanceof Core\Interfaces\DynamicRequestInterface)
-            {
-                throw new Core\Exceptions\DependencyNotAvailableException('Core\Interfaces\DynamicRequestInterface');
-            }
-
             return $this->Request;
-        }
-
-        /**
-         * Injects the Request dependency instance.
-         * @param \Brickoo\Library\Core\Interfaces\DynamicRequestInterface $Request the Request dependency
-         * @throws Core\Exceptions\DependencyOverwriteException if trying to overwrite the dependency
-         * @return object reference
-         */
-        public function injectRequest(\Brickoo\Library\Core\Interfaces\DynamicRequestInterface $Request)
-        {
-            if ($this->Request !== null)
-            {
-                throw new Core\Exceptions\DependencyOverwriteException('Core\Interfaces\dynamicrequestInterface');
-            }
-
-            $this->Request = $Request;
-
-            return $this;
         }
 
         /**
@@ -214,16 +190,18 @@
 
         /**
         * Class constructor.
+        * Injects a Request dependency implementing the Core}Interfaces\DynamicRequestInterface
         * Initializes the class properties.
         * @return void
         */
-        public function __construct()
+        public function __construct(\Brickoo\Library\Core\Interfaces\DynamicRequestInterface $Request)
         {
+            $this->Request = $Request;
             $this->reset();
         }
 
         /**
-        * Clears the object properties.
+        * Resets the object properties.
         * @return object reference
         */
         public function reset()

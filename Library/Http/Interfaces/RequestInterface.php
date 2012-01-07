@@ -198,7 +198,7 @@
         public function getAcceptHeaderByRegex($regex, $keyName, $acceptHeader);
 
         /**
-         * Clears the Request object properties.
+         * Resets the Request object properties.
          * @return object reference
          */
         public function reset();

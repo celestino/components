@@ -79,7 +79,7 @@
         {
             if ($this->CoreRequest !== null)
             {
-                throw new Core\Exceptions\DependencyOverwriteException('Core\Interfaces\RequestInterface');
+                throw new Core\Exceptions\DependencyOverwriteException('RequestInterface');
             }
 
             $this->CoreRequest = $CoreRequest;
@@ -122,7 +122,7 @@
         {
             if ($this->_Url !== null)
             {
-                throw new Core\Exceptions\DependencyOverwriteException('Http\Interfaces\UrlInterface');
+                throw new Core\Exceptions\DependencyOverwriteException('UrlInterface');
             }
 
             $this->_Url = $Url;
@@ -653,7 +653,7 @@
         }
 
         /**
-         * Clears the object properties.
+         * Resets the object properties.
          * @return object reference
          */
         public function reset()

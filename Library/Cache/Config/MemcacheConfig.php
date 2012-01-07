@@ -32,12 +32,14 @@
 
     namespace Brickoo\Library\Cache\Config;
 
+    use Brickoo\Library\Config\Exceptions;
     use Brickoo\Library\Cache\Interfaces;
+    use Brickoo\Library\Validator\TypeValidator;
 
     /**
      * MemcacheConfig
      *
-     * Implements the configuration for a Memcache dependecy.
+     * Implements the configuration for a Memcache instance.
      * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
      */
 
@@ -61,22 +63,16 @@
 
         /**
          * Adds a server configuration to the server list.
-         * @param array $serverConfig the server configuration to add
-         * @throws \UnexpectedValueException if a configuration key is missed
+         * @param string $host the host to connect to
+         * @param integer $port the port to connect to
          * @return object reference
          */
-        public function addServer(array $serverConfig)
+        public function addServer($host, $port = 0)
         {
-            if
-            (
-                (! isset($serverConfig['host'])) ||
-                (! isset($serverConfig['port']))
-            )
-            {
-                throw new \UnexpectedValueException('The `host` or `port` configuration are not set.');
-            }
+            TypeValidator::IsString($host);
+            TypeValidator::IsInteger($port);
 
-            $this->servers[] = $serverConfig;
+            $this->servers[] = array('host' => $host, 'port' => $port);
 
             return $this;
         }
@@ -98,6 +94,26 @@
         public function reset()
         {
             $this->servers = array();
+
+            return $this;
+        }
+
+        /**
+         * Configures the Memcache instance.
+         * @param \Memcache $Mecache the Memcache instance to configure
+         * @return object reference
+         */
+        public function configure(\Memcache $Memcache)
+        {
+            if (! $servers = $this->getServers())
+            {
+                throw new Exceptions\ConfigurationMissingException('MemcacheConfig');
+            }
+
+            foreach($servers as $serverConfig)
+            {
+                $Memcache->addServer($serverConfig['host'], $serverConfig['port']);
+            }
 
             return $this;
         }
