@@ -64,7 +64,7 @@
          * @param string $identifier the identifier which should hold the content
          * @param mixed $content the content which should be cached
          * @param integer $lifetime the lifetime in seconds of the cached content
-         * @return object reference
+         * @return mixed the cache provider result
          */
         public function set($identifier, $content, $lifetime = 60)
         {
@@ -88,7 +88,7 @@
 
         /**
          * Flushes the cached values by removing (or flag as removed) any content holded.
-         * @return object reference
+         * @return mixed the cache provider result
          */
         public function flush()
         {
@@ -100,7 +100,7 @@
          * @param string $method the method called
          * @param array $arguments the arguments passed
          * @throws BadMethodCallException if the method is not defined
-         * @return mixed Memcache method result
+         * @return mixed APC method result
          */
         public function __call($method, array $arguments)
         {
