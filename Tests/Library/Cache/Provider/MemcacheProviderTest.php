@@ -131,7 +131,7 @@
                          ->method('get')
                          ->will($this->returnValue('some cached content'));
 
-            $this->assertSame('some cached content', $this->MemcacheProvider->get('some_identifier'));
+            $this->assertEquals('some cached content', $this->MemcacheProvider->get('some_identifier'));
         }
 
         /**
@@ -155,7 +155,7 @@
                          ->method('set')
                          ->will($this->returnValue(true));
 
-            $this->assertSame(true, $this->MemcacheProvider->set('some_identifier', 'content'));
+            $this->assertTrue($this->MemcacheProvider->set('some_identifier', 'content'));
         }
 
         /**
@@ -179,7 +179,7 @@
                          ->method('delete')
                          ->will($this->returnValue(true));
 
-            $this->assertSame(true, $this->MemcacheProvider->delete('some_identifier'));
+            $this->assertTrue($this->MemcacheProvider->delete('some_identifier'));
         }
 
         /**
@@ -203,7 +203,7 @@
                          ->method('flush')
                          ->will($this->returnValue(true));
 
-            $this->assertSame(true, $this->MemcacheProvider->flush('some_identifier'));
+            $this->assertTrue($this->MemcacheProvider->flush());
         }
 
         /**
@@ -217,7 +217,7 @@
                          ->method('add')
                          ->will($this->returnValue(true));
 
-            $this->assertSame(true, $this->MemcacheProvider->add('some_identifier', 'some_content'));
+            $this->assertTrue($this->MemcacheProvider->add('some_identifier', 'some_content'));
         }
 
         /**

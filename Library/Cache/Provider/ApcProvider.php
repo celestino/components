@@ -32,9 +32,7 @@
 
     namespace Brickoo\Library\Cache\Provider;
 
-    use Brickoo\Library\Core;
     use Brickoo\Library\Cache\Interfaces;
-    use Brickoo\Library\Cache\Exceptions;
     use Brickoo\Library\Validator\TypeValidator;
 
     /**
@@ -54,20 +52,26 @@
          */
         public function get($identifier)
         {
-            //
+            TypeValidator::IsString($identifier);
+
+            return apc_fetch($identifier);
         }
 
         /**
          * Sets the content holded by the given identifier.
          * If the identifer already exists the content will be replaced.
+         * The default lifetime of the cached content is 60 seconds.
          * @param string $identifier the identifier which should hold the content
          * @param mixed $content the content which should be cached
          * @param integer $lifetime the lifetime in seconds of the cached content
          * @return object reference
          */
-        public function set($identifier, $content, $lifetime)
+        public function set($identifier, $content, $lifetime = 60)
         {
-            //
+            TypeValidator::IsString($identifier);
+            TypeValidator::IsInteger($lifetime);
+
+            return apc_store($identifier, $content, $lifetime);
         }
 
         /**
@@ -77,7 +81,9 @@
          */
         public function delete($identifier)
         {
-            //
+            TypeValidator::IsString($identifier);
+
+            return apc_delete($identifier);
         }
 
         /**
@@ -86,7 +92,28 @@
          */
         public function flush()
         {
-            //
+            return apc_clear_cache('user');
+        }
+
+        /**
+         * Magic function to call other APC functions not implemented.
+         * @param string $method the method called
+         * @param array $arguments the arguments passed
+         * @throws BadMethodCallException if the method is not defined
+         * @return mixed Memcache method result
+         */
+        public function __call($method, array $arguments)
+        {
+            if
+            (
+                (substr($method, 0, 4) != 'apc_') ||
+                (! function_exists($method))
+            )
+            {
+                throw new \BadMethodCallException(sprintf('The APC method `%s` is not defined.', $method));
+            }
+
+            return call_user_func_array($method, $arguments);
         }
 
     }

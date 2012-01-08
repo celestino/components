@@ -32,9 +32,7 @@
 
     namespace Brickoo\Library\Cache\Provider;
 
-    use Brickoo\Library\Core;
     use Brickoo\Library\Cache\Interfaces;
-    use Brickoo\Library\Cache\Exceptions;
     use Brickoo\Library\Validator\TypeValidator;
 
     /**

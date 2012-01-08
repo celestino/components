@@ -55,20 +55,20 @@
          * @param string $identifier the identifier which should hold the content
          * @param mixed $content the content which should be cached
          * @param integer $lifetime the lifetime in seconds of the cached content
-         * @return object reference
+         * @return mixed the cache provider result
          */
         public function set($identifier, $content, $lifetime);
 
         /**
          * Deletes the identifier and cached content.
          * @param string $identifier the identifer to remove
-         * @retrun object reference
+         * @retrun mixed the cache provider result
          */
         public function delete($identifier);
 
         /**
          * Flushes the cached values by removing (or flag as removed) any content holded.
-         * @return object reference
+         * @return mixed the cache provider result
          */
         public function flush();
 
