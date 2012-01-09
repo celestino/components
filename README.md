@@ -20,9 +20,9 @@ Whatever, BrickOO has been developed to work with the default PHP configuration.
 
 Using BrickOO for web applications, rewrite rules are required.
 
-    [Apache mod_rewrite](http://httpd.apache.org/docs/2.2/mod/mod_rewrite.html)
-    [Nginx NginxHttpRewriteModule](http://wiki.nginx.org/NginxHttpRewriteModule)
-    [Lighttpd ModRewrite](http://redmine.lighttpd.net/projects/lighttpd/wiki/Docs:ModRewrite)
+* [Apache mod_rewrite](http://httpd.apache.org/docs/2.2/mod/mod_rewrite.html)
+* [Nginx NginxHttpRewriteModule](http://wiki.nginx.org/NginxHttpRewriteModule)
+* [Lighttpd ModRewrite](http://redmine.lighttpd.net/projects/lighttpd/wiki/Docs:ModRewrite)
 
 
 Configuration
