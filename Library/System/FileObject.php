@@ -54,7 +54,7 @@
      *     $FileObject =  new Brickoo\Library\System\FileObject();
      *     $FileObject->setLocation('/path/to/file.txt')->setMode('r');
      *     $FileObject->fseek(100);
-     *     $content  = $FileObject->read(1024); // implemented with mode check
+     *     $content  = $FileObject->read(); // implemented with mode check
      *     $content .= $FileObject->fread(1024); // default php function
      *     $FileObject->close();
      *     var_dump($content);
@@ -65,7 +65,7 @@
      *     $FileObject->setLocation('/path/to/file.txt')->setMode('r');
      *     while(! $FileObject->feof())
      *     {
-     *         $content .= $FileObject->read(1024);
+     *         $content .= $FileObject->read();
      *     }
      *     $FileObject->close();
      *     var_dump($content);
@@ -225,7 +225,7 @@
             $this->location    = null;
             $this->filename    = null;
             $this->mode        = null;
-            $this->handle    = null;
+            $this->handle      = null;
 
             return $this;
         }
@@ -243,7 +243,7 @@
          * Opens the file to store the handle handle.
          * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
          * @throws Exceptions\UnableToCreateHandleException if the handle can not be opened
-         * @return reource the file handle handle
+         * @return reource the resource handle
          */
         public function open()
         {
@@ -281,10 +281,11 @@
         /**
          * Reads the passed bytes of data from the file location.
          * Makes sure the mode supports read operations.
+         * The default the chuck size is 1024 bytes.
          * @param integer the amount of bytes to read from
          * @return string the readed content bytes
          */
-        public function read($bytes)
+        public function read($bytes = 1024)
         {
             TypeValidator::IsInteger($bytes, TypeValidator::FLAG_INTEGER_CAN_NOT_BE_ZERO);
 
@@ -320,7 +321,7 @@
          * @param string $function the function name to call
          * @param array $arguments the arguments to pass
          * @throws BadMethodCallException if the trying to call fopen() or fclose()
-         * @return mixed the calles function return value
+         * @return mixed the called function return value
          */
         public function __call($function, array $arguments)
         {

@@ -165,7 +165,11 @@
          */
         public function testHandleException()
         {
-            $this->assertNull($this->ExceptionHandler->handleException(new Exception()));
+            $this->assertEquals
+            (
+                '[123]: message throwed in ' . __FILE__ . ' on line 171',
+                $this->ExceptionHandler->handleException(new Exception('message', 123))
+            );
         }
 
         /**
@@ -183,7 +187,7 @@
             $this->ExceptionHandler->injectLogger($LoggerStub);
             $this->assertEquals
             (
-                '[777]: message throwed in ' . __FILE__ . ' on line 187',
+                '[777]: message throwed in ' . __FILE__ . ' on line 191',
                 $this->ExceptionHandler->handleException(new Exception('message', 777))
             );
         }

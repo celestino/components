@@ -157,7 +157,7 @@
          * Handles the exception throwed by the user or system.
          * Uses the LogHandler if assigned or displays the exception message.
          * @param integer $errorCode the error code number
-         * @return boolean if an LogHandler is used otherwise void
+         * @return string the exception message
          */
         public function handleException(\Exception $Exception)
         {
@@ -165,7 +165,7 @@
 
             if ($this->hasLogger())
             {
-                return $this->getLogger()->log($message, Log\Logger::SEVERITY_ERROR);
+                $this->getLogger()->log($message, Log\Logger::SEVERITY_ERROR);
             }
 
             if ($this->displayExceptions !== false)
@@ -174,6 +174,8 @@
 
                 throw $Exception;
             }
+
+            return $message;
         }
 
     }

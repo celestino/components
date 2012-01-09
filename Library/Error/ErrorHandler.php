@@ -166,7 +166,7 @@
          * @param string $errorFile the error file name
          * @param integer $errorLine the error line number
          * @throws ErrorHandlerException if the error level matches
-         * @return instance of Logger if used otherwise void
+         * @return string the error message
          */
         public function handleError($errorCode, $errorMessage, $errorFile, $errorLine)
         {
@@ -176,12 +176,14 @@
 
                 if ($this->hasLogger())
                 {
-                    return $this->getLogger()->log('[' . $errorCode . ']: ' . $message, Log\Logger::SEVERITY_ERROR);
+                    $this->getLogger()->log('[' . $errorCode . ']: ' . $message, Log\Logger::SEVERITY_ERROR);
                 }
                 else
                 {
                     throw new Exceptions\ErrorHandlerException($message);
                 }
+
+                return '[' . $errorCode . ']: ' . $message;
             }
         }
 

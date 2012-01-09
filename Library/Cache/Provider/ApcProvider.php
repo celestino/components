@@ -77,7 +77,7 @@
         /**
          * Deletes the identifier and cached content.
          * @param string $identifier the identifer to remove
-         * @retrun object reference
+         * @return mixed the cache provider result
          */
         public function delete($identifier)
         {
