@@ -238,7 +238,7 @@
          * @param integer $lifetime the lifetime in seconds of the cached content
          * @return boolean true if the content could be saved
          */
-        public function set($identifier, $content, $lifetime)
+        public function set($identifier, $content, $lifetime = 60)
         {
             TypeValidator::IsString($identifier);
             TypeValidator::IsInteger($lifetime);

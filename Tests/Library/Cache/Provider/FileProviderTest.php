@@ -62,8 +62,8 @@
         }
 
         /**
-         * Holds an instance of the ApcProvider class.
-         * @var ApcProvider
+         * Holds an instance of the FileProvider class.
+         * @var FileProvider
          */
         protected $FileProvider;
 
@@ -311,11 +311,7 @@
         {
             for ($i = 0; $i < 2; $i++)
             {
-                file_put_contents
-                (
-                    $this->FileProvider->getFilename('identifier_' .$i),
-                    date(FileProvider::LIFETIME_FORMAT, (time() - 10)) . serialize('some cached content')
-                );
+                file_put_contents($this->FileProvider->getFilename('identifier_' .$i), '');
             }
 
             $this->assertEquals(2, $this->FileProvider->flush());
