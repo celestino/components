@@ -79,6 +79,12 @@
         public function disableLocalCache();
 
         /**
+         * Checks if the local cache is enabled.
+         * @return boolean check result
+         */
+        public function isLocalCacheEnabled();
+
+        /**
          * Return a cached content assigned to the identifier.
          * If the cached content is not available, it will be retrieved
          * with the given callback and cached again with the lifetime expiration.

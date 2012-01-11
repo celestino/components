@@ -132,13 +132,24 @@
         }
 
         /**
+         * Checks if the local cache is enabled.
+         * @return boolean check result
+         */
+        public function isLocalCacheEnabled()
+        {
+            return $this->enableLocalCache;
+        }
+
+        /**
          * Injects the CacheProvide dependency.
+         * Enables the local cache for duplicate get calls to the same identifier.
          * @param \Brickoo\Library\Cache\Interfaces\CacheProviderInterface $CacheProvider the CacheProvider dependency
          * @return void
          */
         public function __construct(\Brickoo\Library\Cache\Interfaces\CacheProviderInterface $CacheProvider)
         {
-            $this->CacheProvider = $CacheProvider;
+            $this->CacheProvider       = $CacheProvider;
+            $this->enableLocalCache    = true;
         }
 
         /**
@@ -176,11 +187,14 @@
         {
             TypeValidator::IsString($identifier);
 
-            $LocalCache = $this->getLocalCache();
-
-            if ($LocalCache->has($identifier))
+            if ($this->isLocalCacheEnabled())
             {
-                return $LocalCache->get($identifier);
+                $LocalCache = $this->getLocalCache();
+
+                if ($LocalCache->has($identifier))
+                {
+                    return $LocalCache->get($identifier);
+                }
             }
 
            if ($cachedContent = $this->getCacheProvider()->get($identifier))
@@ -205,7 +219,10 @@
             TypeValidator::IsString($identifier);
             TypeValidator::IsInteger($lifetime);
 
-            $this->getLocalCache()->set($identifier, $content);
+            if ($this->isLocalCacheEnabled())
+            {
+                $this->getLocalCache()->set($identifier, $content);
+            }
 
             $this->getCacheProvider()->set($identifier, $content, $lifetime);
 
@@ -222,11 +239,14 @@
         {
             TypeValidator::IsString($identifier);
 
-            $LocalCache = $this->getLocalCache();
-
-            if ($LocalCache->has($identifier))
+            if ($this->isLocalCacheEnabled())
             {
-                $LocalCache->remove($identifier);
+                $LocalCache = $this->getLocalCache();
+
+                if ($LocalCache->has($identifier))
+                {
+                    $LocalCache->remove($identifier);
+                }
             }
 
             $this->getCacheProvider()->delete($identifier);
@@ -241,7 +261,11 @@
          */
         public function flush()
         {
-            $this->getLocalCache()->flush();
+            if ($this->isLocalCacheEnabled())
+            {
+                $this->getLocalCache()->flush();
+            }
+
             $this->getCacheProvider()->flush();
 
             return $this;

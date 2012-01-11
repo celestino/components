@@ -200,13 +200,22 @@
 
 
         /**
-        * Test if the local cahe can be disabled and the CacheManager reference is returned.
+         * Test if the local cahe can be disabled and the CacheManager reference is returned.
          * @covers Brickoo\Library\Cache\CacheManager::disableLocalCache
-        */
+         */
         public function testDisableLocalCache()
         {
             $this->assertSame($this->CacheManager, $this->CacheManager->disableLocalCache());
             $this->assertAttributeEquals(false, 'enableLocalCache', $this->CacheManager);
+        }
+
+        /**
+         * Test if the local cache is enabled by default.
+         * @covers Brickoo\Library\Cache\CacheManager::isLocalCacheEnabled
+         */
+        public function testIsLocalCacheEnabled()
+        {
+            $this->assertTrue($this->CacheManager->isLocalCacheEnabled());
         }
 
         /**
