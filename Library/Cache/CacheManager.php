@@ -101,6 +101,37 @@
         }
 
         /**
+         * Holds the flag to enable the local cache.
+         * @var boolean
+         */
+        protected $enableLocalCache;
+
+        /**
+         * Enables the use of the local cache.
+         * This provides less call to the cache provider for indentifiers already loaded.
+         * @return object reference
+         */
+        public function enableLocalCache()
+        {
+            $this->enableLocalCache = true;
+
+            return $this;
+        }
+
+        /**
+         * Disables the use of the local cache.
+         * If the local cache is disabled, all call to the same indentifier will be loaded
+         * through the cache provider. This could be a performance decreasement.
+         * @return object reference
+         */
+        public function disableLocalCache()
+        {
+            $this->enableLocalCache = false;
+
+            return $this;
+        }
+
+        /**
          * Injects the CacheProvide dependency.
          * @param \Brickoo\Library\Cache\Interfaces\CacheProviderInterface $CacheProvider the CacheProvider dependency
          * @return void

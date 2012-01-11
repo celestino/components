@@ -189,7 +189,7 @@
 
         /**
          * Abstract method used by Locker class.
-         * Alias for the check if an identifier is registered
+         * Alias for for isRegistered to check if an identifier is registered
          * @param string|integer $identifier the identifier to check
          * @return boolean check result
          * @see Brickoo\Library\Storage\Locker::isIdentifierAvailable()

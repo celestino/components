@@ -44,14 +44,14 @@
 
         /**
         * Returns the CacheProvider dependency.
-        * @return object the CacheProvider implementing the Cache\Interfaces\CacheProviderInterface
+        * @return \Brickoo\Library\Cache\Interfaces\CacheProviderInterface
         */
         public function getCacheProvider();
 
         /**
          * Lazy initialization of the LocalCache.
          * Returns the LocalCache dependency.
-         * @return object the LocalCache implementing the Cache\Interfaces\LocalCacheInterface
+         * @return \Brickoo\Library\Cache\Interfaces\LocalCacheInterface
          */
         public function getLocalCache();
 
@@ -59,9 +59,24 @@
         * Injects the LocalCache dependency to use.
         * @param \Brickoo\Library\Cache\Interfaces\LocalCacheInterface $LocalCache the LocalCache dependecy
         * @throws Core\Exceptions\DependencyOverwriteException if trying to overwrite the dependency
-        * @return object reference
+        * @return \Brickoo\Library\Cache\Interfaces\CacheProviderInterface
         */
         public function injectLocalCache(\Brickoo\Library\Cache\Interfaces\LocalCacheInterface $LocalCache);
+
+        /**
+         * Enables the use of the local cache.
+         * This provides less call to the cache provider for indentifiers already loaded.
+         * @return \Brickoo\Library\Cache\Interfaces\CacheProviderInterface
+         */
+        public function enableLocalCache();
+
+        /**
+         * Disables the use of the local cache.
+         * If the local cache is disabled, all call to the same indentifier will be loaded
+         * through the cache provider. This could be a performance decreasement.
+         * @return \Brickoo\Library\Cache\Interfaces\CacheProviderInterface
+         */
+        public function disableLocalCache();
 
         /**
          * Return a cached content assigned to the identifier.
@@ -90,7 +105,7 @@
          * @param string $identifier the identifier which holds the content
          * @param mixed $content the content to cache
          * @param integer $lifetime the lifetime of the cached content
-         * @return object reference
+         * @return \Brickoo\Library\Cache\Interfaces\CacheProviderInterface
          */
         public function set($identifier, $content, $lifetime);
 
@@ -98,14 +113,14 @@
          * Deletes the cached content which is holded by the identifier.
          * Removes the local cached content.
          * @param string $identifier the identifier which holds the content
-         * @return object reference
+         * @return \Brickoo\Library\Cache\Interfaces\CacheProviderInterface
          */
         public function delete($identifier);
 
         /**
          * Flushes the cache which (flag as removed) removes the cached content.
          * Flushes the local cache.
-         * @return object reference
+         * @return \Brickoo\Library\Cache\Interfaces\CacheProviderInterface
          */
         public function flush();
 

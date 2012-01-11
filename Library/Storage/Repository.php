@@ -108,6 +108,15 @@
         protected $currentVersion;
 
         /**
+         * Returns the current used version.
+         * @return integer the current used version
+         */
+        public function getCurrentVersion()
+        {
+            return $this->currentVersion;
+        }
+
+        /**
          * Sets the current version to use.
          * If the version is available the content will be restored
          * and the version is set as current used version.
@@ -145,15 +154,6 @@
             }
 
             return $this;
-        }
-
-        /**
-         * Returns the current used version.
-         * @return integer the current used version
-         */
-        public function getCurrentVersion()
-        {
-            return $this->currentVersion;
         }
 
         /**

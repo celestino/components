@@ -233,6 +233,7 @@
         /**
          * Sets the content holded by the given identifier.
          * If the identifer already exists the content will be replaced.
+         * If the lifetime is zero the content will be cached for one year.
          * @param string $identifier the identifier which should hold the content
          * @param mixed $content the content which should be cached
          * @param integer $lifetime the lifetime in seconds of the cached content
@@ -242,6 +243,11 @@
         {
             TypeValidator::IsString($identifier);
             TypeValidator::IsInteger($lifetime);
+
+            if ($lifetime == 0)
+            {
+                $lifetime = (365 * 24 * 60 * 60);
+            }
 
             $this->getFileObject()->setLocation($this->getFileName($identifier))
                                   ->setMode('w')
@@ -254,13 +260,18 @@
         /**
          * Deletes the identifier and cached content.
          * @param string $identifier the identifer to remove
-         * @return boolean true if the file did be deleted
+         * @return boolean true if the file did be deleted otherwise false
          */
         public function delete($identifier)
         {
             TypeValidator::IsString($identifier);
 
-            return unlink($this->getFileName($identifier));
+            if (file_exists(($fileName = $this->getFileName($identifier))))
+            {
+                return unlink($fileName);
+            }
+
+            return false;
         }
 
         /**

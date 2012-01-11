@@ -255,7 +255,7 @@
 
             $this->FileProvider->injectFileObject($FileObjectStub);
 
-            $this->assertTrue($this->FileProvider->set('some identifier', 'content', 60));
+            $this->assertTrue($this->FileProvider->set('some identifier', 'content', 0));
         }
 
         /**
@@ -303,18 +303,29 @@
         }
 
         /**
+         * Test if trying to delete a not available cahe file it will return boolean false.
+         * This test case uses the PHP temporary directory for the cache files.
+         * @covers Brickoo\Library\Cache\Provider\FileProvider::delete
+         */
+        public function testDeleteFileNotExists()
+        {
+            $this->assertFalse($this->FileProvider->delete('not_avaialble_identifier'));
+        }
+
+        /**
          * Test if the cache files can be unlinked from the cache directory.
          * This test case uses the PHP temporary directory for the cache files.
          * @covers Brickoo\Library\Cache\Provider\FileProvider::flush
          */
         public function testFlush()
         {
-            for ($i = 0; $i < 2; $i++)
-            {
-                file_put_contents($this->FileProvider->getFilename('identifier_' .$i), '');
-            }
+            file_put_contents
+            (
+                $this->FileProvider->getFilename('identifier'),
+                date(FileProvider::LIFETIME_FORMAT, (time() - 10)) . serialize('some cached content')
+            );
 
-            $this->assertEquals(2, $this->FileProvider->flush());
+            $this->assertInternalType('integer', $this->FileProvider->flush());
         }
 
     }
