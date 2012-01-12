@@ -240,6 +240,22 @@
         }
 
         /**
+         * Test if the CacheProvider is used to return the cached content with the LocalCache disabled.
+         * @covers Brickoo\Library\Cache\CacheManager::get
+         */
+        public function testGetWithCacheProviderWithoutLocalCache()
+        {
+            $CacheProviderStub = $this->CacheManager->getCacheProvider();
+            $CacheProviderStub->expects($this->once())
+                              ->method('get')
+                              ->will($this->returnValue('cache provider content'));
+
+            $this->CacheManager->disableLocalCache();
+
+            $this->assertEquals('cache provider content', $this->CacheManager->get('some_identifier'));
+        }
+
+        /**
          * Test is trying to retrieve a cached value with a wrong identifier type throws an exception.
          * @covers Brickoo\Library\Cache\CacheManager::get
          * @expectedException InvalidArgumentException

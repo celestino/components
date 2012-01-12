@@ -199,7 +199,10 @@
 
            if ($cachedContent = $this->getCacheProvider()->get($identifier))
            {
-               $LocalCache->set($identifier, $cachedContent);
+               if ($this->isLocalCacheEnabled())
+               {
+                   $LocalCache->set($identifier, $cachedContent);
+               }
            }
 
             return $cachedContent;
