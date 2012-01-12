@@ -252,18 +252,7 @@
          */
         public function __construct()
         {
-            $this->reset();
-        }
-
-        /**
-         * Clears the object properties.
-         * @return object reference
-         */
-        public function reset()
-        {
             $this->arguments = array();
-
-            return $this;
         }
 
     }

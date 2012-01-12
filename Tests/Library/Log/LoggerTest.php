@@ -79,7 +79,6 @@
         /**
          * Test the constructor of the Logger class.
          * @covers Brickoo\Library\Log\Logger::__construct
-         * @covers Brickoo\Library\Log\Logger::reset
          */
         public function testLoggerConstructor()
         {

@@ -74,7 +74,6 @@
         /**
          * Test if the Core\request can be injected.
          * @covers Brickoo\Library\Cli\Request::__construct
-         * @covers Brickoo\Library\Cli\Request::reset
          */
         public function testCliConstructor()
         {

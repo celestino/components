@@ -74,8 +74,8 @@
 
         /**
          * Sets the array values as cli arguments keys.
-         * The order ist assigned as the passed array is given.
-         * If the arguments is not set, null will be assigned
+         * The order is assigned as the passed array values are given.
+         * If the argument is not available, null will be assigned
          * @param array $keys the keys to assign arguments to by order
          * @throws InvalidArgumentException if the index is not valid
          * @return object reference
@@ -93,12 +93,6 @@
          * @return integer the number of arguments passed
          */
         public function countArguments();
-
-        /**
-         * Clears the cli object properties.
-         * @return object reference
-         */
-        public function reset();
 
     }
 

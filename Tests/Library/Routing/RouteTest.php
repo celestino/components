@@ -341,15 +341,6 @@
         }
 
         /**
-         * Test if the object reset method return the Route reference.
-         * @covers Brickoo\Library\Routing\Route::reset
-         */
-        public function testReset()
-        {
-            $this->assertSame($this->Route, $this->Route->reset());
-        }
-
-        /**
          * Test if the amount of segments is counted implenting the Countable interface.
          * @covers Brickoo\Library\Routing\Route::count
          * @depends testSetPath

@@ -98,20 +98,8 @@
          */
         public function __construct(\Memcache $Memcache)
         {
-            $this->Memcache = $Memcache;
-
-            $this->reset();
-        }
-
-        /**
-         * Resets the class properties.
-         * @reutrn object reference
-         */
-        public function reset()
-        {
-            $this->compression = 0;
-
-            return $this;
+            $this->Memcache        = $Memcache;
+            $this->compression     = 0;
         }
 
         /**

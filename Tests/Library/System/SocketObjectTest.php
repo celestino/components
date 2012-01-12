@@ -368,15 +368,6 @@
         }
 
         /**
-         * Test if the object properties can be reseted and the object reference is returned.
-         * @covers Brickoo\Library\System\SocketObject::reset
-         */
-        public function testReset()
-        {
-            $this->assertSame($this->SocketObject, $this->SocketObject->reset());
-        }
-
-        /**
          * Test if the handle is removed if the object is destroyed.
          * @covers Brickoo\Library\System\SocketObject::__destruct
          */

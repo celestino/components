@@ -62,7 +62,6 @@
                     'injectLogHandler',
                     'getDefaultSeverity',
                     'setDefaultSeverity',
-                    'reset',
                     'log'
                 )
             );
@@ -85,23 +84,8 @@
         }
 
         /**
-         * Test if the reseting the instance unregisters the error handler.
-         * @covers Brickoo\Library\Error\ExceptionHandler::reset
-         */
-        public function testReset()
-        {
-            $ExceptionHandlerStub = $this->getMock('Brickoo\Library\Error\ExceptionHandler', array('unregister'));
-            $ExceptionHandlerStub->expects($this->once())
-                                 ->method('unregister')
-                                 ->will($this->returnSelf());
-            $ExceptionHandlerStub->register();
-            $this->assertSame($ExceptionHandlerStub, $ExceptionHandlerStub->reset());
-        }
-
-        /**
          * Test if the class can be created.
          * @covers Brickoo\Library\Error\ExceptionHandler::__construct
-         * @covers Brickoo\Library\Error\ExceptionHandler::reset
          */
         public function testExceptionHandlerConstructor()
         {
@@ -167,7 +151,7 @@
         {
             $this->assertEquals
             (
-                '[123]: message throwed in ' . __FILE__ . ' on line 171',
+                '[123]: message throwed in ' . __FILE__ . ' on line 155',
                 $this->ExceptionHandler->handleException(new Exception('message', 123))
             );
         }
@@ -187,7 +171,7 @@
             $this->ExceptionHandler->injectLogger($LoggerStub);
             $this->assertEquals
             (
-                '[777]: message throwed in ' . __FILE__ . ' on line 191',
+                '[777]: message throwed in ' . __FILE__ . ' on line 175',
                 $this->ExceptionHandler->handleException(new Exception('message', 777))
             );
         }

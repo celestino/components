@@ -320,22 +320,11 @@
          */
         public function __construct()
         {
-            $this->reset();
-        }
-
-        /**
-        * Resets the class properties.
-        * @return object reference
-        */
-        public function reset()
-        {
             $this->hostname        = null;
             $this->serverAdress    = null;
             $this->serverPort      = null;
             $this->timeout         = null;
             $this->facility        = null;
-
-            return $this;
         }
 
         /**

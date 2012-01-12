@@ -64,7 +64,6 @@
         /**
          * Test if the class can be created.
          * @covers Brickoo\Library\Storage\Locker::__construct
-         * @covers Brickoo\Library\Storage\Locker::resetLocker
          */
         public function testLockerConstructor()
         {

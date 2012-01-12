@@ -106,7 +106,6 @@
         /**
          * Test if the class can be created.
          * @covers Brickoo\Library\Http\Url::__construct
-         * @covers Brickoo\Library\Http\Url::reset
          * @covers Brickoo\Library\Http\Interfaces\UrlInterface
          */
         public function testUrlConstructor()

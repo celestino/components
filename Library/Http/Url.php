@@ -334,7 +334,11 @@
          */
         public function __construct()
         {
-            $this->reset();
+            $this->scheme        = null;
+            $this->hostname      = null;
+            $this->requestPath   = null;
+            $this->requestQuery  = null;
+            $this->segments      = array();
         }
 
         /**
@@ -344,21 +348,6 @@
         public function count()
         {
             return substr_count($this->getRequestPath(), '/');
-        }
-
-        /**
-         * Resets the object properties.
-         * @return object reference
-         */
-        public function reset()
-        {
-            $this->scheme        = null;
-            $this->hostname      = null;
-            $this->requestPath   = null;
-            $this->requestQuery  = null;
-            $this->segments      = array();
-
-            return $this;
         }
 
      }

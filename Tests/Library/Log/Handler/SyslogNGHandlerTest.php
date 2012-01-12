@@ -331,15 +331,6 @@
         }
 
         /**
-         * Test if reseting the object properties returns the object referece.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::reset
-         */
-        public function testReset()
-        {
-            $this->assertSame($this->SyslogNGHandler, $this->SyslogNGHandler->reset());
-        }
-
-        /**
          * Test if the message header returns the expected value format.
          * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::getMessageHeader
          */

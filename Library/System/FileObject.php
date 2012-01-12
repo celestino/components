@@ -211,23 +211,10 @@
         */
         public function __construct()
         {
-            $this->reset();
-        }
-
-        /**
-        * Resets the class properties.
-        * @return object reference
-        */
-        public function reset()
-        {
-            $this->removeHandle();
-
             $this->location    = null;
             $this->filename    = null;
             $this->mode        = null;
             $this->handle      = null;
-
-            return $this;
         }
 
         /**

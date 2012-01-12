@@ -58,12 +58,6 @@
          */
         public function isPHPInterface($interface);
 
-        /**
-         * Resets the request object properties.
-         * @return object reference
-         */
-        public function reset();
-
     }
 
 ?>

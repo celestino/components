@@ -75,7 +75,6 @@
         public function testInjectRegistry()
         {
             $BrickooFixture  = new BrickooFixture();
-            $BrickooFixture->reset();
 
             $RegistryStub = $this->getRegistryStub();
 
@@ -90,7 +89,6 @@
         public function testInjectRegistryDependencyException()
         {
             $BrickooFixture  = new BrickooFixture();
-            $BrickooFixture->reset();
 
             $RegistryStub = $this->getRegistryStub();
 
@@ -105,7 +103,6 @@
         public function testGetRegistry()
         {
             $BrickooFixture  = new BrickooFixture();
-            $BrickooFixture->reset();
 
             $RegistryStub = $this->getRegistryStub();
             $BrickooFixture->injectRegistry($RegistryStub);
@@ -120,7 +117,6 @@
         public function testGetRegistryLazy()
         {
             $BrickooFixture  = new BrickooFixture();
-            $BrickooFixture->reset();
 
             $this->assertInstanceOf('Brickoo\Library\Storage\Interfaces\RegistryInterface', $BrickooFixture->getRegistry());
         }
@@ -132,11 +128,7 @@
      */
     class BrickooFixture extends Brickoo
     {
-        /**
-         * Resets the static Registry assigned.
-         * @return void
-         */
-        public function reset()
+        public function __construct()
         {
             static::$Registry = null;
         }

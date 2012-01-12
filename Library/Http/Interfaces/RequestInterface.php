@@ -198,12 +198,6 @@
         public function getAcceptHeaderByRegex($regex, $keyName, $acceptHeader);
 
         /**
-         * Resets the Request object properties.
-         * @return object reference
-         */
-        public function reset();
-
-        /**
         * Returns the raw body of the request.
          * @return string
         */

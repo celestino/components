@@ -84,18 +84,7 @@
          */
         public function __construct()
         {
-            $this->reset();
-        }
-
-        /**
-         * Resets the class properties.
-         * @return object reference
-         */
-        public function reset()
-        {
             $this->servers = array();
-
-            return $this;
         }
 
         /**

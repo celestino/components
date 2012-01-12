@@ -168,19 +168,8 @@
          */
         public function __construct()
         {
-            $this->isRegistered = false;
-            $this->resetNamespaces();
-        }
-
-        /**
-         * Resets the current assigned namespaces.
-         * @return object reference
-         */
-        public function resetNamespaces()
-        {
-            $this->namespaces = array();
-
-            return $this;
+            $this->isRegistered    = false;
+            $this->namespaces      = array();
         }
 
         /**

@@ -196,19 +196,9 @@
         */
         public function __construct(\Brickoo\Library\Core\Interfaces\DynamicRequestInterface $Request)
         {
-            $this->Request = $Request;
-            $this->reset();
-        }
-
-        /**
-        * Resets the object properties.
-        * @return object reference
-        */
-        public function reset()
-        {
-            $this->RequestRoute = null;
-
-            return $this;
+            $this->Request            = $Request;
+            $this->RequestRoute       = null;
+            $this->RouteCollection    = null;
         }
 
         /**

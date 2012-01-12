@@ -230,19 +230,6 @@
             $this->MemcacheProvider->whatever();
         }
 
-        /**
-         * Test if the MemcacheProvider properties can be reset and the MemcacheProvider reference is returned.
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::reset
-         */
-        public function testReset()
-        {
-            $this->assertSame($this->MemcacheProvider, $this->MemcacheProvider->enableCompression());
-            $this->assertAttributeEquals(MEMCACHE_COMPRESSED, 'compression', $this->MemcacheProvider);
-
-            $this->assertSame($this->MemcacheProvider, $this->MemcacheProvider->reset());
-            $this->assertAttributeEquals(0, 'compression', $this->MemcacheProvider);
-        }
-
     }
 
 ?>

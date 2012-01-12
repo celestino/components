@@ -649,15 +649,6 @@
          */
         public function __construct()
         {
-            $this->reset();
-        }
-
-        /**
-         * Resets the object properties.
-         * @return object reference
-         */
-        public function reset()
-        {
             $this->serverVars         = array();
             $this->variablesOrder     = array('G', 'P', 'C', 'F');
             $this->HTTPheaders        = array();
@@ -666,8 +657,6 @@
             $this->acceptLanguages    = array();
             $this->acceptEncodings    = array();
             $this->acceptCharsets     = array();
-
-            return $this;
         }
 
         /**

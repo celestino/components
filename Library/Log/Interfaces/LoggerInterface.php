@@ -63,12 +63,6 @@
         public function setDefaultSeverity($severity);
 
         /**
-        * Resets the class properties.
-        * @return object reference
-        */
-        public function reset();
-
-        /**
          * Sends the log messages using log handler assigned.
          * @param array|string $messages the messages to send
          * @return void

@@ -64,7 +64,6 @@
         /**
          * Test if the class can be created.
          * @covers Brickoo\Library\Storage\Registry::__construct
-         * @covers Brickoo\Library\Storage\Registry::resetRegistry
          */
         public function testRegistryConstructor()
         {

@@ -287,22 +287,11 @@
         */
         public function __construct()
         {
-            $this->reset();
-        }
-
-        /**
-        * Resets the class properties.
-        * @return object reference
-        */
-        public function reset()
-        {
             $this->controller        = null;
             $this->path              = null;
             $this->method            = null;
             $this->defaultValues     = array();
             $this->rules             = array();
-
-            return $this;
         }
 
         /**

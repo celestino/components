@@ -136,12 +136,6 @@
          */
         public function hasRule($parameterName);
 
-        /**
-        * Resets the class properties.
-        * @return object reference
-        */
-        public function reset();
-
     }
 
 ?>

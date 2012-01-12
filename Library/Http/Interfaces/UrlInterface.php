@@ -108,12 +108,6 @@
          */
         public function getRequestUrl($withPort = false);
 
-        /**
-         * Resets the object properties.
-         * @return object reference
-         */
-        public function reset();
-
     }
 
 ?>

@@ -163,17 +163,9 @@
         */
         public function __construct()
         {
-            $this->reset();
-        }
-
-        /**
-        * Resets the class properties.
-        * @return object reference
-        */
-        public function reset()
-        {
             $this->FileObject    = null;
             $this->filePrefix    = 'log_';
+
             $this->severityDescription = array
             (
                 Log\Logger::SEVERITY_EMERGENCY    =>'Emergency',
@@ -185,8 +177,6 @@
                 Log\Logger::SEVERITY_INFO         => 'Info',
                 Log\Logger::SEVERITY_DEBUG        => 'Debug'
             );
-
-            return $this;
         }
 
         /**

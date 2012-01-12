@@ -199,17 +199,6 @@
         }
 
         /**
-         * Tets if the object properties can be reset and the FileProvider reference is returned.
-         * @covers Brickoo\Library\Cache\Provider\FileProvider::reset
-         * @depends testSetDirectory
-         */
-        public function testReset($FileProvider)
-        {
-            $this->assertSame($FileProvider, $FileProvider->reset());
-            $this->assertAttributeEmpty('directory', $FileProvider);
-        }
-
-        /**
          * Test if the full file path and name can be retrieved.
          * The white spaces should be converted to underscores.
          * @covers Brickoo\Library\Cache\Provider\FileProvider::getFileName

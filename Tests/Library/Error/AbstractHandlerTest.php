@@ -62,7 +62,6 @@
                     'injectLogHandler',
                     'getDefaultSeverity',
                     'setDefaultSeverity',
-                    'reset',
                     'log'
                 )
             );

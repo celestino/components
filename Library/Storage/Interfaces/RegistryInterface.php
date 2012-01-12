@@ -145,12 +145,6 @@
         public function __construct();
 
         /**
-         * Resets the class propeties.
-         * @return object reference
-         */
-        public function resetRegistry();
-
-        /**
          * Countable interface function.
          * Returns the number of registrations.
          * @see Countable::count()

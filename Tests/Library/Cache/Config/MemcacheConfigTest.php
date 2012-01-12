@@ -136,17 +136,6 @@
             $this->MemcacheConfig->configure($MemcacheStub);
         }
 
-        /**
-         * Test if the MemcacheCOnfig properties can be reset and the MemcacheCOnfig reference is returned.
-         * @covers Brickoo\Library\Cache\Config\MemcacheConfig::reset
-         * @depends testAddServer
-         */
-        public function testReset($MemcacheConfig)
-        {
-            $this->assertSame($MemcacheConfig, $MemcacheConfig->reset());
-            $this->assertAttributeEquals(array(), 'servers', $MemcacheConfig);
-        }
-
     }
 
 ?>

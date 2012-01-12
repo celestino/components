@@ -85,15 +85,6 @@
         }
 
         /**
-         * Test if the reset method returns the object reference back.
-         * @covers Brickoo\Library\Log\Handler\FileHandler::reset
-         */
-        public function testReset()
-        {
-            $this->assertSame($this->FileHandler, $this->FileHandler->reset());
-        }
-
-        /**
          * Test if the FileObject can be injected and the FileHandler reference is returned.
          * @covers Brickoo\Library\Log\Handler\FileHandler::injectFileObject
          */

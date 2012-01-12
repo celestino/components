@@ -113,19 +113,8 @@
         */
         public function __construct(\Brickoo\Library\Log\Interfaces\LogHandlerInterface $LogHandler)
         {
-            $this->LogHandler = $LogHandler;
-            $this->reset();
-        }
-
-        /**
-        * Resets the class properties.
-        * @return object reference
-        */
-        public function reset()
-        {
-            $this->defaultSeverity    = self::SEVERITY_INFO;
-
-            return $this;
+            $this->LogHandler            = $LogHandler;
+            $this->defaultSeverity       = self::SEVERITY_INFO;
         }
 
         /**

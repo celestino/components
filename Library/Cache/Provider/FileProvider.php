@@ -176,21 +176,15 @@
          */
         public function __construct()
         {
-            $this->reset();
+            $this->directory     = null;
+            $this->filePrefix    = 'cache_';
         }
 
         /**
-         * Resets the class properties.
-         * @return object reference
+         * Returns the full file path of the file.
+         * @param string $identifier the identifier used
+         * @return string the pull file path
          */
-        public function reset()
-        {
-            $this->directory     = null;
-            $this->filePrefix    = 'cache_';
-
-            return $this;
-        }
-
         public function getFileName($identifier)
         {
             TypeValidator::IsString($identifier);

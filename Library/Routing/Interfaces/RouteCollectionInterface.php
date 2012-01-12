@@ -61,12 +61,6 @@
          */
         public function hasRoutes();
 
-        /**
-         * Resets the class properties.
-         * @return object reference
-         */
-        public function reset();
-
     }
 
 ?>

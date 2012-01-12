@@ -272,20 +272,10 @@
          */
         public function __construct()
         {
-            $this->resetRegistry();
-        }
-
-        /**
-         * Resets the class propeties.
-         * @return object reference
-         */
-        public function resetRegistry()
-        {
-            $this->resetLocker();
             $this->registrations    = array();
             $this->readOnly         = false;
 
-            return $this;
+            parent::__construct();
         }
 
         /**

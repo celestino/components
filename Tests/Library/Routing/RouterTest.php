@@ -371,15 +371,6 @@
         }
 
         /**
-         * Test if the class properties are reseted and the Route refernce is returned.
-         * @covers Brickoo\Library\Routing\Router::reset
-         */
-        public function testReset()
-        {
-            $this->assertSame($this->Router, $this->Router->reset());
-        }
-
-        /**
          * Test if the regular expression is returned as expected.
          * @covers Brickoo\Library\Routing\Router::getRegexFromMethod
          */

@@ -188,18 +188,7 @@
          */
         public function __construct()
         {
-            $this->resetLocker();
-        }
-
-        /**
-         * Resets the class properties.
-         * @return object reference
-         */
-        public function resetLocker()
-        {
             $this->locked = array();
-
-            return $this;
         }
 
         /**

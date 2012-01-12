@@ -114,24 +114,8 @@
          */
         public function __construct()
         {
-            $this->reset();
-        }
-
-        /**
-         * Resets the object properties.
-         * @return object reference
-         */
-        public function reset()
-        {
-            if ($this->isRegistered())
-            {
-                $this->unregister();
-            }
-
             $this->displayExceptions    = false;
             $this->isRegistered         = false;
-
-            return $this;
         }
 
         /**

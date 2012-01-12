@@ -137,12 +137,6 @@
         public function __construct();
 
         /**
-         * Resets the class properties.
-         * @return object reference
-         */
-        public function reset();
-
-        /**
          * Removes the handle handle if available.
          * @return void
          */

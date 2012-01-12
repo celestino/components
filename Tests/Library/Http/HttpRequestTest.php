@@ -99,7 +99,6 @@
         /**
          * Test if the class can be created.
          * @covers Brickoo\Library\Http\Request::__construct
-         * @covers Brickoo\Library\Http\Request::reset
          */
         public function testHttpConstructor()
         {

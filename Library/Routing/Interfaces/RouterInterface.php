@@ -94,12 +94,6 @@
         public function getRequestRoute();
 
         /**
-        * Resets the object properties.
-        * @return object reference
-        */
-        public function reset();
-
-        /**
          * Returns a regular expression from the route method.
          * @param \Brickoo\Library\Routing\Interfaces\RouteInterface $Route the route to use
          * @return string the regular expression for the request method

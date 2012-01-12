@@ -252,15 +252,6 @@
         }
 
         /**
-         * Test if the instance properties as restored and the object reference ist returned.
-         * @covers Brickoo\Library\System\FileObject::reset
-         */
-        public function testReset()
-        {
-            $this->assertSame($this->FileObject, $this->FileObject->reset());
-        }
-
-        /**
          * Test if the instance removes the handle when the destructor is called.
          * @covers Brickoo\Library\System\FileObject::__destruct
          */

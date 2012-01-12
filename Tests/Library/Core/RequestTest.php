@@ -74,15 +74,6 @@
         }
 
         /**
-         * Test if the reset method returns the object reference.
-         * @covers Brickoo\Library\Core\Request::reset
-         */
-        public function testReset()
-        {
-            $this->assertSame($this->Request, $this->Request->reset());
-        }
-
-        /**
          * Test if a server value can be retrieved and the default value is returned.
          * @covers Brickoo\Library\Core\Request::getServerVar
          * @covers Brickoo\Library\Core\Request::collectServerVars

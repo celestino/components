@@ -116,18 +116,7 @@
          */
         public function __construct()
         {
-            $this->reset();
-        }
-
-        /**
-         * Resets the object properties.
-         * @return object reference
-         */
-        public function reset()
-        {
-            $this->serverVars    = array();
-
-            return $this;
+             $this->serverVars = array();
         }
 
     }

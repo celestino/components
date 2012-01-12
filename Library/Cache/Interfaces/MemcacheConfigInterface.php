@@ -63,12 +63,6 @@
          */
         public function configure(\Memcache $Memcache);
 
-        /**
-         * Resets the class properties.
-         * @return object reference
-         */
-        public function reset();
-
     }
 
 ?>
