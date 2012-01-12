@@ -48,14 +48,14 @@
 
         /**
          * Returns a Request stub .
-         * @return objetc Request stub implementing the Brickoo\Library\Core\Interfaces\DynamicInterface
+         * @return object Request stub implementing the Brickoo\Library\Core\Interfaces\DynamicInterface
          */
         public function getRequestStub()
         {
             return $this->getMock
             (
                 'Brickoo\Library\Core\Interfaces\DynamicRequestInterface',
-                array('getRequestPath', 'getRequestMethod')
+                array('getRequestPath', 'getRequestMethod', 'getHostname')
             );
         }
 
@@ -82,7 +82,7 @@
             return $this->getMock
             (
                 'Brickoo\Library\Routing\Route',
-                array('getPath', 'getMethod', 'hasRule','hasDefaultValue', 'getRule', 'getDefaultValue')
+                array('getPath', 'getMethod', 'hasRule','hasDefaultValue', 'getRule', 'getDefaultValue', 'getHostname')
             );
         }
 
@@ -207,7 +207,6 @@
          * Test if the Route is recognized as responsible request route.
          * @covers Brickoo\Library\Routing\Router::isRequestRoute
          * @covers Brickoo\Library\Routing\Router::getRegexFromPath
-         * @covers Brickoo\Library\Routing\Router::getRegexFromMethod
          */
         public function testIsRequestRoute()
         {
@@ -233,6 +232,9 @@
             $RouteStub->expects($this->once())
                       ->method('getRule')
                       ->will($this->returnValue('[a-z]+'));
+            $RouteStub->expects($this->once())
+                      ->method('getHostname')
+                      ->will($this->returnValue('([a-z]+\.)?localhost\.com'));
 
             $RequestStub = $this->Router->getRequest();
             $RequestStub->expects($this->once())
@@ -241,6 +243,9 @@
             $RequestStub->expects($this->once())
                         ->method('getRequestMethod')
                         ->will($this->returnValue('POST'));
+            $RequestStub->expects($this->once())
+                        ->method('getHostname')
+                        ->will($this->returnValue('home.localhost.com'));
 
             $this->assertTrue($this->Router->isRequestRoute($RouteStub));
         }
@@ -249,7 +254,6 @@
          * Test if the Route is not the responsible request route because of the wrong path.
          * @covers Brickoo\Library\Routing\Router::isRequestRoute
          * @covers Brickoo\Library\Routing\Router::getRegexFromPath
-         * @covers Brickoo\Library\Routing\Router::getRegexFromMethod
          */
         public function testIsRequestRouteFailure()
         {
@@ -368,24 +372,6 @@
             $this->Router->injectRouteCollection($RouteCollectionStub);
 
             $this->Router->getRequestRoute();
-        }
-
-        /**
-         * Test if the regular expression is returned as expected.
-         * @covers Brickoo\Library\Routing\Router::getRegexFromMethod
-         */
-        public function testGetRegexFromMethod()
-        {
-            $RouteStub = $this->getRouteStub();
-            $RouteStub->expects($this->once())
-                      ->method('getMethod')
-                      ->will($this->returnValue('GET|POST'));
-
-            $this->assertEquals
-            (
-                '~^(GET|POST)$~i',
-                $this->Router->getRegexFromMethod($RouteStub)
-            );
         }
 
         /**

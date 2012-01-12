@@ -54,6 +54,12 @@
          */
         public function getRequestMethod();
 
+        /**
+         * Returns the server hostname.
+         * @return the server hostname
+         */
+        public function getHostname();
+
     }
 
 ?>

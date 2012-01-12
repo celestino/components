@@ -94,13 +94,6 @@
         public function getRequestRoute();
 
         /**
-         * Returns a regular expression from the route method.
-         * @param \Brickoo\Library\Routing\Interfaces\RouteInterface $Route the route to use
-         * @return string the regular expression for the request method
-         */
-        public function getRegexFromMethod(\Brickoo\Library\Routing\Interfaces\RouteInterface $Route);
-
-        /**
          * Returns a regular expression from the route path and rules or default values available.
          * @param \Brickoo\Library\Routing\Interfaces\RouteInterface $Route the route to use
          * @return string the regular expresion for the request path

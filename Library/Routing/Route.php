@@ -39,7 +39,10 @@
      * Route
      *
      * Implents a Route which can be configured to handle requests
-     * which execute the assigned controller and action.<ss
+     * which execute the assigned controller and action.
+     * The regular espressions properties should not contain the delimiters or
+     * the `^` on the beginning nor the `$` at the end of the expression.
+     * The delimter used later for the regular expressions is `~`.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -104,7 +107,7 @@
 
         /**
          * Sets the controller:method to execute.
-         * The controller and method has to be seperated by ':'.
+         * The controller and method has to be seperated by '::'.
          * @param string $controller the controller and method to execute
          * @return object reference
          */
@@ -125,6 +128,7 @@
 
         /**
          * Returns the listening request method.
+         * If the route is only available for cli requests is must be set to LOCAL.
          * @throws UnexpectedValueException if the method is null
          * @return string the request method listening
          */
@@ -140,6 +144,7 @@
 
         /**
          * Sets the request method to listen to.
+         * The method could be a regular expression like GET|POST.
          * @param string $method the request method to listen
          * @return object reference
          */
@@ -153,6 +158,68 @@
         }
 
         /**
+         * Holds the hostname to listen to.
+         * to allow domains and subdomains.
+         * @var string
+         */
+        protected $hostname;
+
+        /**
+         * Returns the hostname listening to.
+         * @return string if the hostname is set otherwise null
+         */
+        public function getHostname()
+        {
+            return $this->hostname;
+        }
+
+        /**
+         * Sets the request method to listen to.
+         * The hostname could be a regular expression like ([a-z]+\.)?domain\.com
+         * @param string $method the request method to listen
+         * @return object reference
+         */
+        public function setHostname($hostname)
+        {
+            TypeValidator::IsString($hostname);
+
+            $this->hostname = $hostname;
+
+            return $this;
+        }
+
+        /**
+         * Holds the session configuration to set.
+         * @var array
+         */
+        protected $sessionConfiguration;
+
+        /**
+         * Returns the session configuration to use.
+         * @return array the session configuration to use
+         */
+        public function getSessionConfiguration()
+        {
+            return $this->sessionConfiguration;
+        }
+
+        /**
+         * Sets the session configuration to use.
+         * The array keys which have effect are:
+         * - id for session_id()
+         * - name  for session_name()
+         * - limiter for session_set_limiter()
+         * @param array $configuration the session configuration
+         * @return \Brickoo\Library\Routing\Route
+         */
+        public function setSessionConfiguration(array $configuration)
+        {
+            $this->sessionConfiguration = $configuration;
+
+            return $this;
+        }
+
+        /**
          * Holds the default key-values for the method parameters.
          * @var array
          */
@@ -160,7 +227,7 @@
 
         /**
          * Returns all the default values available.
-         * @return array the default key-values
+         * @return array the default key-values if any
          */
         public function getDefaultValues()
         {
@@ -223,8 +290,8 @@
         protected $rules;
 
         /**
-         * Returns all the rules available.
-         * @return array the rules
+         * Returns all the regular expression rules available.
+         * @return array the regular expression rules if any
          */
         public function getRules()
         {
@@ -232,7 +299,7 @@
         }
 
         /**
-         * Returns the rule for the passed parameter name.
+         * Returns the regular expression rule for the passed parameter name.
          * @param string $parameterName the parameter name to retrieve the rule for
          * @throws UnexpectedValueException if the parameter name has not an defualt value
          * @return string the rule assigned to the parameter name
@@ -253,7 +320,7 @@
         }
 
         /**
-         * Adds a rule to a parameter name.
+         * Adds a regular expression rule to a parameter name.
          * @param string $parameterName the parameter name to add the rule to
          * @param string $rule the rule to add
          * @return object reference
@@ -287,11 +354,13 @@
         */
         public function __construct()
         {
-            $this->controller        = null;
-            $this->path              = null;
-            $this->method            = null;
-            $this->defaultValues     = array();
-            $this->rules             = array();
+            $this->controller              = null;
+            $this->path                    = null;
+            $this->method                  = null;
+            $this->hostname                = null;
+            $this->sessionConfiguration    = array();
+            $this->defaultValues           = array();
+            $this->rules                   = array();
         }
 
         /**

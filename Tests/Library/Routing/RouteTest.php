@@ -178,6 +178,61 @@
         }
 
         /**
+         * Test if the hostname can be set and the Route reference is returned.
+         * @covers Brickoo\Library\Routing\Route::setHostname
+         */
+        public function testSetHostname()
+        {
+            $this->assertSame($this->Route, $this->Route->setHostname('domain.com'));
+            $this->assertAttributeEquals('domain.com', 'hostname', $this->Route);
+
+            return $this->Route;
+        }
+
+        /**
+         * Test if trying to set a wrong argument type throws an exception.
+         * @covers Brickoo\Library\Routing\Route::setHostname
+         * @expectedException InvalidArgumentException
+         */
+        public function testSetHostnameArgumentException()
+        {
+            $this->Route->setHostname(array('wrongType'));
+        }
+
+        /**
+         * Test if the hostname property can be retrieved.
+         * @covers Brickoo\Library\Routing\Route::getHostname
+         * @depends testSetHostname
+         */
+        public function testGetHostname($Route)
+        {
+            $this->assertEquals('domain.com', $Route->getHostname());
+        }
+
+        /**
+         * Test if the session configuration can be set and the Route reference is returned.
+         * @covers Brickoo\Library\Routing\Route::setSessionConfiguration
+         */
+        public function testSetSessionConfiguration()
+        {
+            $config = array('name' =>  'sessionX');
+            $this->assertSame($this->Route, $this->Route->setSessionConfiguration($config));
+            $this->assertAttributeEquals($config, 'sessionConfiguration', $this->Route);
+
+            return $this->Route;
+        }
+
+        /**
+         * Test if the sessionConfiguration property can be retrieved.
+         * @covers Brickoo\Library\Routing\Route::getSessionConfiguration
+         * @depends testSetSessionConfiguration
+         */
+        public function testGetSessionConfiguration($Route)
+        {
+            $this->assertEquals(array('name' => 'sessionX'), $Route->getSessionConfiguration());
+        }
+
+        /**
          * Test if trying to retrieve the empty method property throws an exception.
          * @covers Brickoo\Library\Routing\Route::getMethod
          * @expectedException UnexpectedValueException

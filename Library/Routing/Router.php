@@ -33,6 +33,7 @@
     namespace Brickoo\Library\Routing;
 
     use Brickoo\Library\Core;
+    use Brickoo\Library\Http;
     use Brickoo\Library\Routing\Interfaces;
     use Brickoo\Library\Routing\Exceptions;
 
@@ -141,15 +142,21 @@
          */
         public function isRequestRoute(\Brickoo\Library\Routing\Interfaces\RouteInterface $Route)
         {
+            $Request = $this->getRequest();
+
             return
             (
+                preg_match('~^(' . $Route->getMethod() . ')$~i', $Request->getRequestMethod())
+                &&
+                (
+                    (($hostname = $Route->getHostname()) === null) ||
+                    preg_match('~^(' . $hostname . ')$~i', $Request->getHostname())
+                )
+                &&
                 ($pathRegex = $this->getRegexFromPath($Route))
                 &&
-                preg_match($pathRegex, $this->getRequest()->getRequestPath())
-                &&
-                ($methodRegex = $this->getRegexFromMethod($Route))
-                &&
-                preg_match($methodRegex, $this->getRequest()->getRequestMethod())
+                preg_match($pathRegex, $Request->getRequestPath())
+
             );
         }
 
@@ -199,16 +206,6 @@
             $this->Request            = $Request;
             $this->RequestRoute       = null;
             $this->RouteCollection    = null;
-        }
-
-        /**
-         * Returns a regular expression from the route method.
-         * @param \Brickoo\Library\Routing\Interfaces\RouteInterface $Route the route to use
-         * @return string the regular expression for the request method
-         */
-        public function getRegexFromMethod(\Brickoo\Library\Routing\Interfaces\RouteInterface $Route)
-        {
-            return '~^(' . $Route->getMethod() . ')$~i';
         }
 
         /**

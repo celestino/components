@@ -486,11 +486,12 @@
         }
 
         /**
-         * Test if the request method is returned.
+         * Test if the request method is returned, trying to cover the modified hacked header.
          * @covers Brickoo\Library\Http\Request::getRequestMethod
          */
         public function testGetHttpMethod()
         {
+            $_SERVER['REQUEST_METHOD'] = 'LOCAL';
             $this->assertEquals('GET', $this->HttpRequest->getRequestMethod());
         }
 
@@ -576,6 +577,21 @@
             $this->HttpRequest->injectUrl($UrlStub);
 
             $this->assertEquals('/path/used', $this->HttpRequest->getRequestPath());
+        }
+
+        /**
+         * Test if the hostname can be retrieved.
+         * @covers Brickoo\Library\Http\Request::getHostname
+         */
+        public function testGetHostname()
+        {
+            $UrlStub = $this->getMock('\Brickoo\Library\Http\Url', array('getHost'));
+            $UrlStub->expects($this->once())
+                    ->method('getHost')
+                    ->will($this->returnValue('localhost'));
+            $this->HttpRequest->injectUrl($UrlStub);
+
+            $this->assertEquals('localhost', $this->HttpRequest->getHostname());
         }
 
     }

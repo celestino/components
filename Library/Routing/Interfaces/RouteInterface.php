@@ -83,7 +83,36 @@
          * @param string $method the request method to listen
          * @return object reference
          */
-        public function setMethod($method);
+        public function setMethod($method);/**
+         * Returns the hostname listening to.
+         * @return string if the hostname is set otherwise null
+         */
+        public function getHostname();
+
+        /**
+         * Sets the request method to listen to.
+         * The hostname could be a regular expression like ([a-z]+\.)?domain.com
+         * @param string $method the request method to listen
+         * @return object reference
+         */
+        public function setHostname($hostname);
+
+        /**
+         * Returns the session configuration to use.
+         * @return array the session configuration to use
+         */
+        public function getSessionConfiguration();
+
+        /**
+         * Sets the session configuration to use.
+         * The array keys which have effect are:
+         * - id for session_id()
+         * - name  for session_name()
+         * - limiter for session_set_limiter()
+         * @param array $configuration the session configuration
+         * @return \Brickoo\Library\Routing\Route
+         */
+        public function setSessionConfiguration(array $configuration);
 
         /**
          * Returns all the default values available.

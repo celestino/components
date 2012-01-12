@@ -665,7 +665,21 @@
          */
         public function getRequestMethod()
         {
-            return $this->getCoreRequest()->getServerVar('request.method');
+            if ($method = $this->getCoreRequest()->getServerVar('request.method'))
+            {
+                $method = (trim(strtoupper($method)) != 'LOCAL' ? $method : 'GET');
+            }
+
+            return $method;
+        }
+
+        /**
+         * Returns the server hostname.
+         * @return the server hostname
+         */
+        public function getHostname()
+        {
+            return $this->Url()->getHost();
         }
 
         /**

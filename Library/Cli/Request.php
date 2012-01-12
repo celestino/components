@@ -246,6 +246,15 @@
         }
 
         /**
+        * Returns the server hostname.
+         * @return the server hostname
+        */
+        public function getHostname()
+        {
+            return $this->getCoreRequest()->getServerVar('Server.Name');
+        }
+
+        /**
          * Class constructor.
          * Initializes the class properties.
          * @return void

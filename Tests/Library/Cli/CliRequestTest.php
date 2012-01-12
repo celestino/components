@@ -283,6 +283,16 @@
             $this->assertEquals('LOCAL', $this->Cli->getRequestMethod());
         }
 
+        /**
+         * Test if the hostname can be retrieved.
+         * @covers Brickoo\Library\Cli\Request::getHostname
+         */
+        public function testGetHostname()
+        {
+            $_SERVER['SERVER_NAME'] = 'localhost';
+            $this->assertEquals('localhost', $this->Cli->getHostname());
+        }
+
     }
 
 ?>
