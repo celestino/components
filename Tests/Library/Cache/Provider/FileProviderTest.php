@@ -172,7 +172,7 @@
          */
         public function testGetDirectory()
         {
-            $this->assertEquals(realpath(sys_get_temp_dir()) . DIRECTORY_SEPARATOR, $this->FileProvider->getDirectory());
+            $this->assertEquals(sys_get_temp_dir() . DIRECTORY_SEPARATOR, $this->FileProvider->getDirectory());
         }
 
         /**
@@ -183,7 +183,7 @@
         public function testSetDirectory()
         {
             $this->assertSame($this->FileProvider, $this->FileProvider->setDirectory(sys_get_temp_dir()));
-            $this->assertAttributeEquals(realpath(sys_get_temp_dir()) . DIRECTORY_SEPARATOR, 'directory', $this->FileProvider);
+            $this->assertAttributeEquals(sys_get_temp_dir() . DIRECTORY_SEPARATOR, 'directory', $this->FileProvider);
 
             return $this->FileProvider;
         }
@@ -207,7 +207,7 @@
         {
             $this->assertEquals
             (
-                realpath(sys_get_temp_dir()) . DIRECTORY_SEPARATOR . 'cache_some_cache_identifier',
+                sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'cache_some_cache_identifier',
                 $this->FileProvider->getFileName('some cache identifier')
             );
         }
