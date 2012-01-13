@@ -50,7 +50,7 @@
          */
         public function __construct($valueName)
         {
-            parent::__construct(sprintf('The value `%s` can not be overwritten twice.', $valueName));
+            parent::__construct(sprintf('The value `%s` can not be overwritten.', $valueName));
         }
 
     }

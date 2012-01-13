@@ -117,7 +117,7 @@
         {
             if ($this->RequestRoute !== null)
             {
-                throw new Core\Exceptions\ValueOverwriteException('RequestRoute');
+                throw new Core\Exceptions\ValueOverwriteException('Router::RequestRoute');
             }
 
             $this->RequestRoute = $Route;
