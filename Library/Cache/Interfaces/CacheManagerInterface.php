@@ -64,6 +64,14 @@
         public function injectLocalCache(\Brickoo\Library\Cache\Interfaces\LocalCacheInterface $LocalCache);
 
         /**
+        * Flushes the LocalCache cached content.
+         * This method can be called with the local cache disabled
+        * to make sure the local cache can be cleaned up after disabling it.
+        * @return void
+        */
+        public function flushLocalCache();
+
+        /**
          * Enables the use of the local cache.
          * This provides less call to the cache provider for indentifiers already loaded.
          * @return \Brickoo\Library\Cache\Interfaces\CacheProviderInterface
