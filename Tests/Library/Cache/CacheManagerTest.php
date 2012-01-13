@@ -189,7 +189,23 @@
         }
 
         /**
-         * Test if the local cahe can be enabled and the CacheManager reference is returned.
+         * Test if the local cache be called to flush the cache.
+         * @covers Brickoo\Library\Cache\CacheManager::flushLocalCache
+         */
+        public function testFlushLocalCache()
+        {
+            $LocalCacheStub = $this->getLocalCacheStub(array('flush'));
+            $LocalCacheStub->expects($this->once())
+                           ->method('flush')
+                           ->will($this->returnSelf());
+
+            $this->CacheManager->injectLocalCache($LocalCacheStub);
+
+            $this->assertNull($this->CacheManager->flushLocalCache());
+        }
+
+        /**
+         * Test if the local cache can be enabled and the CacheManager reference is returned.
          * @covers Brickoo\Library\Cache\CacheManager::enableLocalCache
          */
         public function testEnableLocalCache()
@@ -200,7 +216,7 @@
 
 
         /**
-         * Test if the local cahe can be disabled and the CacheManager reference is returned.
+         * Test if the local cache can be disabled and the CacheManager reference is returned.
          * @covers Brickoo\Library\Cache\CacheManager::disableLocalCache
          */
         public function testDisableLocalCache()

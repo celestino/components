@@ -101,6 +101,17 @@
         }
 
         /**
+         * Flushes the LocalCache cached content.
+         * This method can be called with the local cache disabled
+         * to make sure the local cache can be cleaned up after disabling it.
+         * @return void
+         */
+        public function flushLocalCache()
+        {
+            $this->getLocalCache()->flush();
+        }
+
+        /**
          * Holds the flag to enable the local cache.
          * @var boolean
          */
