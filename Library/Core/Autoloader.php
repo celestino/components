@@ -34,14 +34,16 @@
 
     use Brickoo\Library\Core\Exceptions;
 
+    require_once 'Interfaces\AutoloaderInterface.php';
+
     /**
      * Autoloader
      *
-     * Autoloader with registration for different namespaces.
+     * Autoloader to register different namespaces which need autoloading.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Autoloader
+    class Autoloader implements Interfaces\AutoloaderInterface
     {
 
         /**
