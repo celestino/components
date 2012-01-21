@@ -179,7 +179,7 @@
          */
         public function testHandleError()
         {
-            $this->assertNull($this->ErrorHandler->handleError(777, 'does nothing', 'noFileNeeded', 0));
+            $this->assertTrue($this->ErrorHandler->handleError(777, 'does nothing', 'noFileNeeded', 0));
         }
 
         /**
@@ -203,15 +203,10 @@
             $LoggerStub = $this->getLoggerStub();
             $LoggerStub->expects($this->any())
                        ->method('log')
-                       ->will($this->returnArgument(0));
+                       ->will($this->returnSelf());
 
-            $this->ErrorHandler->setErrorLevel(777)
-                               ->injectLogger($LoggerStub);
-            $this->assertEquals
-            (
-                '[777]: message throwed in myFile.php on line 123',
-                $this->ErrorHandler->handleError(777, 'message', 'myFile.php', 123)
-            );
+            $this->ErrorHandler->injectLogger($LoggerStub);
+            $this->assertTrue($this->ErrorHandler->handleError(777, 'message', 'myFile.php', 123));
         }
 
     }

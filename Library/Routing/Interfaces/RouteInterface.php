@@ -42,17 +42,17 @@
     interface RouteInterface
     {
 
-        /**
-        * Returns the route path listening.
-        * @throws UnexpectedValueException if the path is null
-        * @return string the route path listening
-        */
+       /**
+         * Returns the route path listening to.
+         * @throws UnexpectedValueException if the path is null
+         * @return string the route path listening to
+         */
         public function getPath();
 
         /**
          * Sets the route path to listen to.
          * @param string $path the path to liste to
-         * @return object reference
+         * @return \Brickoo\Library\Routing\Route
          */
         public function setPath($path);
 
@@ -65,14 +65,15 @@
 
         /**
          * Sets the controller:method to execute.
-         * The controller and method has to be seperated by ':'.
+         * The controller and method has to be seperated by '::'.
          * @param string $controller the controller and method to execute
-         * @return object reference
+         * @return \Brickoo\Library\Routing\Route
          */
         public function setController($controller);
 
         /**
          * Returns the listening request method.
+         * If the route is only available for cli requests is must be set to LOCAL.
          * @throws UnexpectedValueException if the method is null
          * @return string the request method listening
          */
@@ -80,10 +81,13 @@
 
         /**
          * Sets the request method to listen to.
+         * The method could be a regular expression like GET|POST.
          * @param string $method the request method to listen
-         * @return object reference
+         * @return \Brickoo\Library\Routing\Route
          */
-        public function setMethod($method);/**
+        public function setMethod($method);
+
+        /**
          * Returns the hostname listening to.
          * @return string if the hostname is set otherwise null
          */
@@ -91,11 +95,23 @@
 
         /**
          * Sets the request method to listen to.
-         * The hostname could be a regular expression like ([a-z]+\.)?domain.com
+         * The hostname could be a regular expression like ([a-z]+\.)?domain\.com
          * @param string $method the request method to listen
-         * @return object reference
+         * @return \Brickoo\Library\Routing\Route
          */
         public function setHostname($hostname);
+
+        /**
+         * Checks if the session should be available.
+         * @return boolean check result
+         */
+        public function isSessionEnabled();
+
+        /**
+         * Enables the session usage.
+         * @return \Brickoo\Library\Routing\Route
+         */
+        public function enableSession();
 
         /**
          * Returns the session configuration to use.
@@ -115,8 +131,33 @@
         public function setSessionConfiguration(array $configuration);
 
         /**
+         * Checks if the response is cacheable.
+         * @return boolean check result
+         */
+        public function isCacheable();
+
+        /**
+         * Enables or disables the response cache.
+         * @return \Brickoo\Library\Routing\Route
+         */
+        public function enableCache();
+
+        /**
+         * Returns the response cache lifetime.
+         * @return the response cache lifetime in seconds
+         */
+        public function getCacheLifetime();
+
+        /**
+         * Sets the response cache lifetime in seconds
+         * @param integer $lifetime the response cache lifetime
+         * @return \Brickoo\Library\Routing\Route
+         */
+        public function setCacheLifetime($lifetime);
+
+        /**
          * Returns all the default values available.
-         * @return array the default key-values
+         * @return array the default key-values if any
          */
         public function getDefaultValues();
 
@@ -127,7 +168,6 @@
          * @return mixed the default value for the passed parameter name
          */
         public function getDefaultValue($parameterName);
-
         /**
          * Checks if the parameter has an default value.
          * @param string $parameterName the parameter to check
@@ -140,23 +180,31 @@
          * If the parameter name does exists it will be overwritten !
          * @param string $parameterName the parameter name to add the value to
          * @param mixed $defaultValue the default value to add
-         * @return object reference
+         * @return \Brickoo\Library\Routing\Route
          */
         public function addDefaultValue($parameterName, $defaultValue);
 
         /**
-         * Returns all the rules available.
-         * @return array the rules
+         * Returns all the regular expression rules available.
+         * @return array the regular expression rules if any
          */
         public function getRules();
 
         /**
-         * Returns the rule for the passed parameter name.
+         * Returns the regular expression rule for the passed parameter name.
          * @param string $parameterName the parameter name to retrieve the rule for
          * @throws UnexpectedValueException if the parameter name has not an defualt value
          * @return string the rule assigned to the parameter name
          */
         public function getRule($parameterName);
+
+        /**
+         * Adds a regular expression rule to a parameter name.
+         * @param string $parameterName the parameter name to add the rule to
+         * @param string $rule the rule to add
+         * @return \Brickoo\Library\Routing\Route
+         */
+        public function addRule($parameterName, $rule);
 
         /**
          * Checks if the parameter has an rule to match.

@@ -244,28 +244,6 @@
         }
 
         /**
-         * Returns the value of the identifier from the registrations container.
-         * @param string|integer $identifier the identifer to retrieve the value from
-         * @return mixed the corresponding identifer value
-         */
-        public function __get($identifier)
-        {
-            return $this->getRegistered($identifier);
-        }
-
-        /**
-         * Adds the identifer and his value to the registrations container.
-         * @param string|integer $identifier the identifier to register
-         * @param mixed $value the value of the identifier
-         * @return object reference
-         */
-        public function __set($identifier, $value)
-        {
-            $this->register($identifier, $value);
-            return $this;
-        }
-
-        /**
          * Registry constructor.
          * Initializes the class properties.
          * @return void
@@ -296,6 +274,47 @@
         public function countLocked()
         {
             return count($this->locked);
+        }
+
+        /**
+         * Returns the value of the identifier from the registrations container.
+         * @param string|integer $identifier the identifer to retrieve the value from
+         * @return mixed the corresponding identifer value
+         */
+        public function __get($identifier)
+        {
+            return $this->getRegistered($identifier);
+        }
+
+        /**
+         * Adds the identifer and his value to the registrations container.
+         * @param string|integer $identifier the identifier to register
+         * @param mixed $value the value of the identifier
+         * @return void
+         */
+        public function __set($identifier, $value)
+        {
+            $this->register($identifier, $value);
+        }
+
+        /**
+         * Checks if the identifier is registered.
+         * @param string|integer $identifier the indentifier to check
+         * @return boolean check result
+         */
+        public function __isset($identifier)
+        {
+            return $this->isRegistered($identifier);
+        }
+
+        /**
+         * Unsets the identifier from the registrations.
+         * @param string|integer $identifier the identifier to unregister
+         * @return void
+         */
+        public function __unset($identifier)
+        {
+            $this->unregister($identifier);
         }
 
     }

@@ -40,7 +40,7 @@
      * LocalCache
      *
      * Implements a local cache for handling local cache operations.
-     * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
+     * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
     class LocalCache implements Interfaces\LocalCacheInterface

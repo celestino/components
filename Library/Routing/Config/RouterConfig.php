@@ -30,80 +30,67 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Cache\Config;
+    namespace Brickoo\Library\Routing\Config;
 
     use Brickoo\Library\Config;
-    use Brickoo\Library\Cache\Interfaces;
+    use Brickoo\Library\Routing\Interfaces;
     use Brickoo\Library\Validator\TypeValidator;
 
     /**
-     * MemcacheConfig
+     * RouterConfig
      *
-     * Implements the configuration for a MemcacheProvider class.
+     * Implements the configuration for a Router class.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class MemcacheConfig implements Interfaces\MemcacheConfigInterface
+    class RouterConfig implements Interfaces\RouterConfigInterface
     {
 
         /**
-         * Holds the servers list with configurations for the MemcacheProvider class.
+         * Holds the configuration for a Router class.
          * @var array
          */
-        protected $servers;
+        protected $configuration;
 
         /**
-         * Returns the available servers list.
-         * @return array the avialable servers list
+         * Returns the configuration.
+         * @return array the configuration
          */
-        public function getServers()
+        public function getConfiguration()
         {
-            return $this->servers;
+            return $this->configuration;
         }
 
         /**
-         * Adds a server configuration to the server list.
-         * @param string $host the host to connect to
-         * @param integer $port the port to connect to
-         * @return object reference
+         * Sets the configuration to use.
+         * @param array $configuration the configuration to use
+         * @return \Brickoo\Library\Routing\Config\RouterConfig
          */
-        public function addServer($host, $port = 0)
+        public function setConfiguration(array $configuration)
         {
-            TypeValidator::IsString($host);
-            TypeValidator::IsInteger($port);
+            TypeValidator::ArrayContainsKeys(array('cacheDirectory', 'modules'), $configuration);
+            TypeValidator::IsArray($configuration['modules']);
 
-            $this->servers[] = array('host' => $host, 'port' => $port);
+            $this->configuration = $configuration;
 
             return $this;
         }
 
         /**
-         * Class constructor.
-         * Initializes the class properties.
-         * @return void
+         * Configures the Router instance using the available configuration.
+         * @param \Brickoo\Library\Routing\Interfaces\RouterInterface $Routerthe Router to configure
+         * @throws Config\Exceptions\ConfigurationMissingException if the configuration is missing
+         * @return \Brickoo\Library\Routing\Config\RouterConfig
          */
-        public function __construct()
+        public function configure(\Brickoo\Library\Routing\Interfaces\RouterInterface $Router)
         {
-            $this->servers = array();
-        }
-
-        /**
-         * Configures the Memcache instance using the available servers list.
-         * @param \Memcache $Memcache the Memcache instance to configure
-         * @throws Config\Exceptions\ConfigurationMissingException if the server list is missing
-         * @return object reference
-         */
-        public function configure(\Memcache $Memcache)
-        {
-            if (! $servers = $this->getServers())
+            if (empty($this->configuration))
             {
-                throw new Config\Exceptions\ConfigurationMissingException('MemcacheConfig');
+                throw new Config\Exceptions\ConfigurationMissingException('RouterConfig');
             }
 
-            foreach($servers as $serverConfig)
-            {
-                $Memcache->addServer($serverConfig['host'], $serverConfig['port']);
-            }
+            $Router->setCacheDirectory($this->configuration['cacheDirectory']);
+            $Router->setModules($this->configuration['modules']);
 
             return $this;
         }

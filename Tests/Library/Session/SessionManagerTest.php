@@ -123,7 +123,6 @@
         {
             $configuration = array
             (
-                'id'          => 'somenewsessionidgenerated',
                 'name'        => 'session_name',
                 'limiter'     => 'private',
             );
@@ -131,7 +130,6 @@
             $SessionManager = new SessionManager($this->getSessionHandlerStub());
 
             $this->assertSame($SessionManager, $SessionManager->setSessionConfiguration($configuration));
-            $this->assertEquals(session_id(), $configuration['id']);
             $this->assertEquals(session_name(), $configuration['name']);
             $this->assertEquals(session_cache_limiter(), $configuration['limiter']);
         }

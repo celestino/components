@@ -32,8 +32,6 @@
 
     namespace Brickoo\Library\Routing;
 
-    use Brickoo\Library\Routing\Interfaces;
-
     /**
      * RouteCollection
      *
@@ -41,7 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class RouteCollection implements Interfaces\RouteCollectionInterface, \IteratorAggregate
+    class RouteCollection implements Interfaces\RouteCollectionInterface
     {
 
         /**
@@ -60,15 +58,26 @@
         }
 
         /**
-         * Adds a Route implementing the RouteInterface to the collection.
-         * @param Brickoo\Library\Routing\Interfaces\RouteInterface $Route the Route to add
-         * @return object reference
+         * Adds a collection of routes.
+         * @param array $routes the routes to add
+         * @return Brickoo\Library\Routing\Interfaces\RouteCollectionInterface
          */
-        public function addRoute(\Brickoo\Library\Routing\Interfaces\RouteInterface $Route)
+        public function addRoutes(array $routes)
         {
-            $this->routes[] = $Route;
+            $this->routes = array_merge($this->routes, $routes);
 
             return $this;
+        }
+
+        /**
+         * Lazy Route initialization which is returned for configuration.
+         * @return Brickoo\Library\Routing\Interfaces\RouteInterface
+         */
+        public function getRoute()
+        {
+            $this->routes[] = ($Route = new Route());
+
+            return $Route;
         }
 
         /**
@@ -88,16 +97,6 @@
         public function __construct()
         {
             $this->routes = array();
-        }
-
-        /**
-         * Returns the ArrayIterator with the collected routes.
-         * @see IteratorAggregate::getIterator()
-         * @return ArrayIterator containing the collected routes
-         */
-        public function getIterator()
-        {
-            return new \ArrayIterator($this->routes);
         }
 
     }

@@ -39,7 +39,7 @@
      * MemcacheProvider
      *
      * Provides caching operations based on Memcache.
-     * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
+     * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
     class MemcacheProvider implements Interfaces\CacheProviderInterface
@@ -118,7 +118,6 @@
          * Sets the content holded by the given identifier.
          * If the identifer already exists the content will be replaced.
          * The default lifetime of the cached content is 60 seconds.
-         * The maximun content length can be 1024 bytes, be sure the content does not reach the size.
          * @param string $identifier the identifier which should hold the content
          * @param mixed $content the content which should be cached
          * @param integer $lifetime the lifetime in seconds of the cached content
@@ -129,7 +128,7 @@
             TypeValidator::IsString($identifier);
             TypeValidator::IsInteger($lifetime);
 
-            return $this->getMemcache()->set($identifier, substr($content, 0, 1024), $this->compression, $lifetime);
+            return $this->getMemcache()->set($identifier, $content, $this->compression, $lifetime);
         }
 
         /**

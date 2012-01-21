@@ -30,38 +30,28 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Cache\Interfaces;
+    namespace Brickoo\Library\System\Exceptions;
 
     /**
-     * MemcacheConfigInterface
+     * DirectoryIsNotWriteableException
      *
-     * Describes the methods implemented by this interface.
+     * This exceptions if throwed if the directory does not have write permissions.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface MemcacheConfigInterface
+    class DirectoryIsNotWriteableException extends \Exception
     {
 
         /**
-        * Returns the available server list.
-        * @return array the avialable server list
-        */
-        public function getServers();
-
-        /**
-         * Adds a server configuration to the server list.
-         * @param array $serverConfig the server configuration to add
-         * @throws \UnexpectedValueException if a configuration key is missed
-         * @return object reference
+         * Class constructor.
+         * Calls the parent Exception constructor.
+         * @param string $directory the directory which does not have write permissions
+         * @return void
          */
-        public function addServer($host, $port);
-
-        /**
-         * Configures the Memcache instance.
-         * @param \Memcache $Mecache the Memcache instance to configure
-         * @return object reference
-         */
-        public function configure(\Memcache $Memcache);
+        public function __construct($directory)
+        {
+            parent::__construct(sprintf('The directory `%s` has not write permissions.', $directory));
+        }
 
     }
 

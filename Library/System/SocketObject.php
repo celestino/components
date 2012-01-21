@@ -50,7 +50,7 @@
      * <code>
      *     // Not implemented fwrite(), feof() and fread() but supported, notify the handle handle is not passed !
      *     $SocketObject =  new Brickoo\Library\System\SocketObject();
-     *     $SocketObject->setServerAdress('sourceforge.net')
+     *     $SocketObject->setServerAdress('yourdomain.com')
      *                  ->setServerPort(80)
      *                  ->setTimeout(10);
      *     $SocketObject->fwrite("GET /projects/brickoo/ HTTP/1.1\r\n"); // default php function

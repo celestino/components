@@ -39,7 +39,7 @@
      * SessionNamespace
      *
      * Provides a session object based on namespaces which should prevent conflicts.
-     * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
+     * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
     class SessionNamespace implements Interfaces\SessionNamespaceInterface

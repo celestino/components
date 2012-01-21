@@ -30,38 +30,62 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Cache\Interfaces;
+    namespace Brickoo\Library\Core\Interfaces;
 
     /**
-     * MemcacheConfigInterface
+     * AutoloaderInterface
      *
      * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface MemcacheConfigInterface
+    Interface BrickooInterface
     {
 
         /**
-        * Returns the available server list.
-        * @return array the avialable server list
-        */
-        public function getServers();
+         * Lazy initialization of the Registry dependency.
+         * Returns the holded Registry instance.
+         * @return \Brickoo\Library\Storage\Interfaces\RegistryInterface
+         */
+        public function getRegistry();
 
         /**
-         * Adds a server configuration to the server list.
-         * @param array $serverConfig the server configuration to add
-         * @throws \UnexpectedValueException if a configuration key is missed
-         * @return object reference
+         * Injects the Registry dependency to use.
+         * @param Brickoo\Library\Storage\Interfaces\RegistryInterface $Registry the Registry dependency
+         * @throws DependencyOverwriteException if trying to override dependency
+         * @return Brickoo\Library\Core\Brickoo
          */
-        public function addServer($host, $port);
+        public function injectRegistry(\Brickoo\Library\Storage\Interfaces\RegistryInterface $Registry);
 
         /**
-         * Configures the Memcache instance.
-         * @param \Memcache $Mecache the Memcache instance to configure
-         * @return object reference
+         * This is an alias for the Brickoo::getRegistry method.
+         * @return \Brickoo\Library\Storage\Interfaces\RegistryInterface
          */
-        public function configure(\Memcache $Memcache);
+        public function Reg();
+
+        /**
+         * Shortcut to retrieve a value from the Registry.
+         * @param string|integer $identifier the identifier to retrieve the value from
+         * @return mixed the value holded by the identifier
+         */
+        public function get($identifier);
+
+        /**
+         * Shortcut to register a new identifier and add the value to it.
+         * This mehtod also locks(!) the identifier, since the registry should
+         * not allow to overwrite an registered system wide identifier.
+         * @param string|integer $identifier the identifier to register
+         * @param string $value the valuue to be holded
+         * @return \Brickoo\Library\Core\Brickoo
+         */
+        public  function register($identifier, $value);
+
+        /**
+         * Shorcut to check if an identifier is registered.
+         * @param string|integer $identifier the identifier to check its availability
+         * @return boolean check result
+         */
+        public function isRegistered($identifier);
 
     }
 

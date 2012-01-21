@@ -34,7 +34,6 @@
 
     use Brickoo\Library\Core;
     use Brickoo\Library\Log;
-    use Brickoo\Library\Error\Exceptions;
     use Brickoo\Library\Validator\TypeValidator;
 
     /**
@@ -106,7 +105,7 @@
                 throw new Exceptions\DuplicateHandlerRegistrationException('ErrorHandler');
             }
 
-            set_error_handler(array($this, 'handleError'));
+            set_error_handler(array($this, 'handleError'), (E_ALL | E_STRICT));
             $this->isRegistered = true;
 
             return $this;
@@ -143,32 +142,29 @@
 
         /**
          * Handles the error reported by the user or system.
-         * Uses the LogHandler if assigned or
-         * throws an exception if the error level matches the error message level.
+         * Uses the LogHandler if the dependency is available.
          * @param integer $errorCode the error code number
          * @param string $errorMessage the error message
          * @param string $errorFile the error file name
          * @param integer $errorLine the error line number
          * @throws ErrorHandlerException if the error level matches
-         * @return string the error message
+         * @return boolean true to block php error message forwarding
          */
         public function handleError($errorCode, $errorMessage, $errorFile, $errorLine)
         {
+            $message = $errorMessage . ' throwed in ' . $errorFile . ' on line ' . $errorLine;
+
+            if ($this->hasLogger())
+            {
+                $this->getLogger()->log('[' . $errorCode . ']: ' . $message, Log\Logger::SEVERITY_ERROR);
+            }
+
             if (($errorCode & $this->errorLevel) !== 0)
             {
-                $message = $errorMessage . ' throwed in ' . $errorFile . ' on line ' . $errorLine;
-
-                if ($this->hasLogger())
-                {
-                    $this->getLogger()->log('[' . $errorCode . ']: ' . $message, Log\Logger::SEVERITY_ERROR);
-                }
-                else
-                {
-                    throw new Exceptions\ErrorHandlerException($message);
-                }
-
-                return '[' . $errorCode . ']: ' . $message;
+                throw new Exceptions\ErrorHandlerException($message);
             }
+
+            return true;
         }
 
     }

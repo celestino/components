@@ -124,7 +124,7 @@
 
         /**
          * Test if validation of the arrayContainsString method works.
-         * @covers Brickoo\Library\Validator\TypeValidator::arrayContainsStrings
+         * @covers Brickoo\Library\Validator\TypeValidator::ArrayContainsStrings
          */
         public function testArrayContainsStrings()
         {
@@ -133,7 +133,7 @@
 
         /**
          * Test if validation of the arrayContainsString method throws an exception.
-         * @covers Brickoo\Library\Validator\TypeValidator::arrayContainsStrings
+         * @covers Brickoo\Library\Validator\TypeValidator::ArrayContainsStrings
          * @expectedException InvalidArgumentException
          */
         public function testArrayContainsStringsArgumentException()
@@ -143,7 +143,7 @@
 
         /**
          * Test if validation of the arrayContainsString method works.
-         * @covers Brickoo\Library\Validator\TypeValidator::arrayContainsIntegers
+         * @covers Brickoo\Library\Validator\TypeValidator::ArrayContainsIntegers
          */
         public function testArrayContainsIntegers()
         {
@@ -152,12 +152,38 @@
 
         /**
          * Test if validation of the arrayContainsString method throws an exception.
-         * @covers Brickoo\Library\Validator\TypeValidator::arrayContainsIntegers
+         * @covers Brickoo\Library\Validator\TypeValidator::ArrayContainsIntegers
          * @expectedException InvalidArgumentException
          */
         public function testArrayContainsIntegersArgumentException()
         {
             TypeValidator::ArrayContainsIntegers(array(1, 'throws', 'exception'));
+        }
+
+        /**
+         * Test if validation of the ArrayContainsKeys method works.
+         * @covers Brickoo\Library\Validator\TypeValidator::ArrayContainsKeys
+         */
+        public function testArrayContainsKeys()
+        {
+            $this->assertTrue
+            (
+                TypeValidator::ArrayContainsKeys
+                (
+                    array('name', 'country'),
+                    array('name' => 'some name', 'country' => 'some contry')
+                )
+            );
+        }
+
+        /**
+         * Test if validation of ArrayContainsKeys throws an exception.
+         * @covers Brickoo\Library\Validator\TypeValidator::ArrayContainsKeys
+         * @expectedException InvalidArgumentException
+         */
+        public function testArrayContainsKeysArgumentException()
+        {
+            TypeValidator::ArrayContainsKeys(array('name'), array('counter' => 0));
         }
 
         /**

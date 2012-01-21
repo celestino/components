@@ -195,7 +195,7 @@
                 $severity = Log\Logger::SEVERITY_DEBUG;
             }
 
-            $messagePrefix = '[' . $this->severityDescription[$severity] . '] ';
+            $messagePrefix = '[' . date('Y-m-d H:i:s') .'][' . $this->severityDescription[$severity] . '] ';
 
             return $messagePrefix . implode(PHP_EOL . $messagePrefix, $messages) . PHP_EOL;
         }

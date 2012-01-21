@@ -46,7 +46,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Route implements Interfaces\RouteInterface, \Countable
+    class Route implements Interfaces\RouteInterface
     {
 
         /**
@@ -73,7 +73,7 @@
         /**
          * Sets the route path to listen to.
          * @param string $path the path to liste to
-         * @return object reference
+         * @return \Brickoo\Library\Routing\Route
          */
         public function setPath($path)
         {
@@ -109,11 +109,11 @@
          * Sets the controller:method to execute.
          * The controller and method has to be seperated by '::'.
          * @param string $controller the controller and method to execute
-         * @return object reference
+         * @return \Brickoo\Library\Routing\Route
          */
         public function setController($controller)
         {
-            TypeValidator::MatchesRegex('~^[\w]+\:\:[\w]+$~', $controller);
+            TypeValidator::MatchesRegex('~^\\\\[\w\\\\]+\:\:[\w]+$~', $controller);
 
             $this->controller = $controller;
 
@@ -146,7 +146,7 @@
          * Sets the request method to listen to.
          * The method could be a regular expression like GET|POST.
          * @param string $method the request method to listen
-         * @return object reference
+         * @return \Brickoo\Library\Routing\Route
          */
         public function setMethod($method)
         {
@@ -177,13 +177,39 @@
          * Sets the request method to listen to.
          * The hostname could be a regular expression like ([a-z]+\.)?domain\.com
          * @param string $method the request method to listen
-         * @return object reference
+         * @return \Brickoo\Library\Routing\Route
          */
         public function setHostname($hostname)
         {
             TypeValidator::IsString($hostname);
 
             $this->hostname = $hostname;
+
+            return $this;
+        }
+
+        /**
+         * Holds the flag to enable session usage.
+         * @var boolean
+         */
+        protected $sessionEnabled;
+
+        /**
+         * Checks if the session should be available.
+         * @return boolean check result
+         */
+        public function isSessionEnabled()
+        {
+            return $this->sessionEnabled;
+        }
+
+        /**
+         * Enables or the session usage.
+         * @return \Brickoo\Library\Routing\Route
+         */
+        public function enableSession()
+        {
+            $this->sessionEnabled = true;
 
             return $this;
         }
@@ -215,6 +241,61 @@
         public function setSessionConfiguration(array $configuration)
         {
             $this->sessionConfiguration = $configuration;
+
+            return $this;
+        }
+
+        /**
+         * Holds the flag to cache the reponse.
+         * @var boolean
+         */
+        protected $cacheable;
+
+        /**
+         * Checks if the response is cacheable.
+         * @return boolean check result
+         */
+        public function isCacheable()
+        {
+            return $this->cacheable;
+        }
+
+        /**
+         * Enables or disables the response cache.
+         * @return \Brickoo\Library\Routing\Route
+         */
+        public function enableCache()
+        {
+            $this->cacheable = true;
+
+            return $this;
+        }
+
+        /**
+         * Holds the response cache lifetime in seconds.
+         * @var integer
+         */
+        protected $cacheLifetime;
+
+        /**
+         * Returns the response cache lifetime.
+         * @return the response cache lifetime in seconds
+         */
+        public function getCacheLifetime()
+        {
+            return $this->cacheLifetime;
+        }
+
+        /**
+         * Sets the response cache lifetime in seconds
+         * @param integer $lifetime the response cache lifetime
+         * @return \Brickoo\Library\Routing\Route
+         */
+        public function setCacheLifetime($lifetime)
+        {
+            TypeValidator::IsInteger($lifetime);
+
+            $this->cacheLifetime = $lifetime;
 
             return $this;
         }
@@ -272,7 +353,7 @@
          * If the parameter name does exists it will be overwritten !
          * @param string $parameterName the parameter name to add the value to
          * @param mixed $defaultValue the default value to add
-         * @return object reference
+         * @return \Brickoo\Library\Routing\Route
          */
         public function addDefaultValue($parameterName, $defaultValue)
         {
@@ -323,7 +404,7 @@
          * Adds a regular expression rule to a parameter name.
          * @param string $parameterName the parameter name to add the rule to
          * @param string $rule the rule to add
-         * @return object reference
+         * @return \Brickoo\Library\Routing\Route
          */
         public function addRule($parameterName, $rule)
         {
@@ -336,7 +417,7 @@
         }
 
         /**
-         * Checks if the parameter has an rule to match.
+         * Checks if the parameter has a rule to match.
          * @param string $parameterName the parameter name to check
          * @return boolean check result
          */
@@ -358,19 +439,12 @@
             $this->path                    = null;
             $this->method                  = null;
             $this->hostname                = null;
+            $this->sessionEnabled          = false;
             $this->sessionConfiguration    = array();
             $this->defaultValues           = array();
             $this->rules                   = array();
-        }
-
-        /**
-         * Returns the number of segments the path contains.
-         * @see Countable::count()
-         * @return integer number of segments
-         */
-        public function count()
-        {
-            return substr_count($this->getPath(), '/');
+            $this->cacheable               = false;
+            $this->cacheLifetime           = 60;
         }
 
     }

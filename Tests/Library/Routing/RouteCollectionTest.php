@@ -72,51 +72,51 @@
         }
 
         /**
-         * Test if a ROute object can be added and the ROuteCOllection reference is returned.
-         * @covers Brickoo\Library\Routing\RouteCollection::addRoute
+         * Test if a Route instance can be lazy created and the Route reference is returned.
+         * @covers Brickoo\Library\Routing\RouteCollection::getRoute
          */
-        public function testAddRoute()
+        public function testGetRoute()
         {
-            $Route = $this->getMock('Brickoo\Library\Routing\Interfaces\RouteInterface');
-            $this->assertSame($this->RouteCollection, $this->RouteCollection->addRoute($Route));
+            $this->assertInstanceOf
+            (
+                'Brickoo\Library\Routing\Interfaces\RouteInterface',
+                ($Route = $this->RouteCollection->getRoute())
+            );
             $this->assertAttributeEquals(array($Route), 'routes', $this->RouteCollection);
 
             return $this->RouteCollection;
         }
 
         /**
-         * Test if the routes can be retrieved from the collection.
+         * Test if the routes can be retrieved from the collection as an array.
          * @covers Brickoo\Library\Routing\RouteCollection::getRoutes
-         * @depends testAddRoute
          */
-        public function testGetRoutes($RouteCollection)
+        public function testGetRoutes()
         {
-            $this->assertInternalType('array', $RouteCollection->getRoutes());
+            $this->assertInternalType('array', $this->RouteCollection->getRoutes());
+        }
+
+        public function testAddRoutes()
+        {
+            $routes = array
+            (
+                $this->getMock('Brickoo\Library\Routing\Interfaces\RouteInterface'),
+                $this->getMock('Brickoo\Library\Routing\Interfaces\RouteInterface'),
+                $this->getMock('Brickoo\Library\Routing\Interfaces\RouteInterface')
+            );
+            $this->assertSame($this->RouteCollection, $this->RouteCollection->addRoutes($routes));
+            $this->assertAttributeEquals($routes, 'routes', $this->RouteCollection);
         }
 
         /**
          * Test if the availability of routes can be recognized.
          * @covers Brickoo\Library\Routing\RouteCollection::hasRoutes
-         * @depends testAddRoute
+         * @depends testGetRoute
          */
         public function testHasRoutes($RouteCollection)
         {
             $this->assertFalse($this->RouteCollection->hasRoutes());
             $this->assertTrue($RouteCollection->hasRoutes());
-        }
-
-        /**
-         * Test if the ArrayIterator is returned with the collected routes.
-         * @covers Brickoo\Library\Routing\RouteCollection::getIterator
-         * @depends testAddRoute
-         */
-        public function testGetIterator($RouteCollection)
-        {
-            $this->assertInstanceof('ArrayIterator', ($Iterator = $RouteCollection->getIterator()));
-            foreach($Iterator as $Route)
-            {
-                $this->assertInstanceOf('Brickoo\Library\Routing\Interfaces\RouteInterface', $Route);
-            }
         }
 
     }

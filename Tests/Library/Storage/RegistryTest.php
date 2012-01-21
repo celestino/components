@@ -312,7 +312,7 @@
         }
 
         /**
-         * Test if a unregistered key can be stored by magic __set().
+         * Test if an unregistered key can be stored by magic __set().
          * @covers Brickoo\Library\Storage\Registry::__set
          */
         public function testMagicFunctionSet()
@@ -330,6 +330,27 @@
         {
             $this->assertEquals('john', $this->Registry->name = 'john');
             $this->Registry->name = 'wayne';
+        }
+
+        /**
+         * Test if a registerd key can be recognized by magic __isset().
+         * @covers Brickoo\Library\Storage\Registry::__isset
+         */
+        public function testMagicFunctionIsset()
+        {
+            $this->assertEquals('brickoo', $this->Registry->name = 'brickoo');
+            $this->assertEquals(true, isset($this->Registry->name));
+        }
+
+        /**
+         * Test if a registered key can be unset by magic __unset().
+         * @covers Brickoo\Library\Storage\Registry::__unset
+         */
+        public function testMagicFunctionUnset()
+        {
+            $this->assertEquals('brickoo', $this->Registry->name = 'brickoo');
+            unset($this->Registry->name);
+            $this->assertEquals(false, isset($this->Registry->name));
         }
 
         /**

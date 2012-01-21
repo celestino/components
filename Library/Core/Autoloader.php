@@ -34,12 +34,6 @@
 
     use Brickoo\Library\Core\Exceptions;
 
-    require_once ('Exceptions/AutoloaderNotRegisteredExeption.php');
-    require_once ('Exceptions/AutoloadFileDoesNotExistException.php');
-    require_once ('Exceptions/DuplicateAutloaderRegistrationException.php');
-    require_once ('Exceptions/DuplicateNamespaceRegistrationException.php');
-    require_once ('Exceptions/NamespaceNotRegisteredException.php');
-
     /**
      * Autoloader
      *
@@ -85,6 +79,7 @@
 
             if ($this->isNamespaceRegistered($namespace))
             {
+                require_once 'Exceptions/DuplicateNamespaceRegistrationException.php';
                 throw new Exceptions\DuplicateNamespaceRegistrationException($namespace);
             }
 
@@ -103,6 +98,7 @@
         {
             if (! $this->isNamespaceRegistered($namespace))
             {
+                require_once 'Exceptions/NamespaceNotRegisteredException.php';
                 throw new Exceptions\NamespaceNotRegisteredException($namespace);
             }
 
@@ -219,6 +215,7 @@
 
             if (! file_exists($absolutePath))
             {
+                require_once 'Exceptions/AutoloadFileDoesNotExistException.php';
                 throw new Exceptions\AutoloadFileDoesNotExistException($absolutePath);
             }
 
@@ -236,6 +233,7 @@
         {
             if ($this->isRegistered)
             {
+                require_once 'Exceptions/DuplicateAutoloaderRegistrationException.php';
                 throw new Exceptions\DuplicateAutoloaderRegistrationException();
             }
 
@@ -254,6 +252,7 @@
         {
             if (! $this->isRegistered)
             {
+                require_once 'Exceptions/AutoloaderNotRegisteredExeption.php';
                 throw new Exceptions\AutoloaderNotRegisteredExeption();
             }
 

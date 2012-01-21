@@ -30,38 +30,38 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Cache\Interfaces;
+    namespace Brickoo\Library\Routing\Interfaces;
 
     /**
-     * MemcacheConfigInterface
+     * RouterConfigInterface
      *
      * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface MemcacheConfigInterface
+    Interface RouterConfigInterface
     {
 
         /**
-        * Returns the available server list.
-        * @return array the avialable server list
+        * Returns the configuration.
+        * @return array the configuration
         */
-        public function getServers();
+        public function getConfiguration();
 
         /**
-         * Adds a server configuration to the server list.
-         * @param array $serverConfig the server configuration to add
-         * @throws \UnexpectedValueException if a configuration key is missed
-         * @return object reference
+         * Sets the configuration to use.
+         * @param array $configuration the configuration to use
+         * @return \Brickoo\Library\Routing\Config\RouterConfig
          */
-        public function addServer($host, $port);
+        public function setConfiguration(array $configuration);
 
         /**
-         * Configures the Memcache instance.
-         * @param \Memcache $Mecache the Memcache instance to configure
-         * @return object reference
+         * Configures the Router instance using the available configuration.
+         * @param \Brickoo\Library\Routing\Interfaces\RouterInterface $Routerthe Router to configure
+         * @throws Config\Exceptions\ConfigurationMissingException if the configuration is missing
+         * @return \Brickoo\Library\Routing\Config\RouterConfig
          */
-        public function configure(\Memcache $Memcache);
+        public function configure(\Brickoo\Library\Routing\Interfaces\RouterInterface $Router);
 
     }
 

@@ -212,10 +212,12 @@
             $messages = array('message 1', 'message 2');
             $severity = 6;
 
-            $expected = '[Info] message 1' . PHP_EOL . '[Info] message 2' . PHP_EOL;
+            $expected = '['. date("Y-m-d H:i:s") . '][Info] message 1' . PHP_EOL .
+                        '['. date("Y-m-d H:i:s") . '][Info] message 2' . PHP_EOL;
             $this->assertEquals($expected, $this->FileHandler->convertToLogMessage($messages, $severity));
 
-            $expected = '[Debug] message 1' . PHP_EOL . '[Debug] message 2' . PHP_EOL;
+            $expected = '['. date("Y-m-d H:i:s") . '][Debug] message 1' . PHP_EOL .
+                        '['. date("Y-m-d H:i:s") . '][Debug] message 2' . PHP_EOL;
             $this->assertEquals($expected, $this->FileHandler->convertToLogMessage($messages, 123));
         }
 

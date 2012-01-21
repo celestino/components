@@ -32,7 +32,6 @@
 
     namespace Brickoo\Library\Session;
 
-    use Brickoo\Library\Session\Interfaces;
     use Brickoo\Library\Validator\TypeValidator;
 
     /**
@@ -40,10 +39,10 @@
      *
      * Manages session operations with a session handler dependency
      * implementing the Session\Interfaces\SessionHandlerInterface.
-     * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
+     * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class SessionManager
+    class SessionManager implements Interfaces\SessionManagerInterface
     {
 
         /**
@@ -76,7 +75,7 @@
         {
             $this->SessionHandler = $SessionHandler;
 
-            return  session_set_save_handler
+            return session_set_save_handler
             (
                 array($SessionHandler, 'open'),
                 array($SessionHandler, 'close'),
@@ -94,7 +93,7 @@
          */
         public function setCookieParameters(array $cookieParameters)
         {
-            $cookieParameters  = array_merge(session_get_cookie_params(), $cookieParameters);
+            $cookieParameters = array_merge(session_get_cookie_params(), $cookieParameters);
 
             session_set_cookie_params
             (
@@ -122,12 +121,6 @@
             {
                 foreach($configuration as $option => $value)
                 {
-                    if ($option == 'id')
-                    {
-                        session_id($value);
-                        continue;
-                    }
-
                     if ($option == 'name')
                     {
                         session_name($value);
@@ -162,15 +155,7 @@
 
                 $this->SessionHandler->setLifetime($cookieParameters['lifetime']);
 
-                $this->setSessionConfiguration
-                (
-                    array
-                    (
-                        'id'        => md5(uniqid(rand())),
-                        'name'      => 'BOO',
-                        'limiter'   => false
-                    )
-                );
+                $this->setSessionConfiguration(array('name' => 'BOO', 'limiter' => false));
             }
         }
 

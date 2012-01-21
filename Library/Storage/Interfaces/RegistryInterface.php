@@ -123,21 +123,6 @@
         public function isReadOnly();
 
         /**
-         * Returns the value of the identifier from the registrations container.
-         * @param string|integer $identifier the identifer to retrieve the value from
-         * @return mixed the corresponding identifer value
-         */
-        public function __get($identifier);
-
-        /**
-         * Adds the identifer and his value to the registrations container.
-         * @param string|integer $identifier the identifier to register
-         * @param mixed $value the value of the identifier
-         * @return object reference
-         */
-        public function __set($identifier, $value);
-
-        /**
          * Registry constructor.
          * Initializes the class properties.
          * @return void
@@ -157,6 +142,35 @@
          * @return integer the number of locked identifiers
          */
         public function countLocked();
+
+        /**
+         * Returns the value of the identifier from the registrations container.
+         * @param string|integer $identifier the identifer to retrieve the value from
+         * @return mixed the corresponding identifer value
+         */
+        public function __get($identifier);
+
+        /**
+         * Adds the identifer and his value to the registrations container.
+         * @param string|integer $identifier the identifier to register
+         * @param mixed $value the value of the identifier
+         * @return object reference
+         */
+        public function __set($identifier, $value);
+
+        /**
+         * Checks if the identifier is registered.
+         * @param string|integer $identifier the indentifier to check
+         * @return boolean check result
+         */
+        public function __isset($identifier);
+
+        /**
+         * Unsets the identifier from the registrations.
+         * @param string|integer $identifier the identifier to unregister
+         * @return void
+         */
+        public function __unset($identifier);
 
     }
 

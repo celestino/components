@@ -49,11 +49,17 @@
         public function getRoutes();
 
         /**
-         * Adds a Route implementing the RouteInterface to the collection.
-         * @param Brickoo\Library\Routing\Interfaces\RouteInterface $Route the Route to add
-         * @return object reference
+         * Adds a collection of routes.
+         * @param array $routes the routes to add
+         * @return Brickoo\Library\Routing\Interfaces\RouteCollectionInterface
          */
-        public function addRoute(\Brickoo\Library\Routing\Interfaces\RouteInterface $Route);
+        public function addRoutes(array $routes);
+
+        /**
+         * Lazy Route initialization which is returned for configuration.
+         * @return Brickoo\Library\Routing\Interfaces\RouteInterface
+         */
+        public function getRoute();
 
         /**
          * Checks if the collection contains routes.

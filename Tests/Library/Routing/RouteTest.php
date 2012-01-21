@@ -109,8 +109,8 @@
          */
         public function testSetController()
         {
-            $this->assertSame($this->Route, $this->Route->setController('controller::method'));
-            $this->assertAttributeEquals('controller::method', 'controller', $this->Route);
+            $this->assertSame($this->Route, $this->Route->setController('\namespace\controller::method'));
+            $this->assertAttributeEquals('\namespace\controller::method', 'controller', $this->Route);
 
             return $this->Route;
         }
@@ -132,7 +132,7 @@
          */
         public function testGetController($Route)
         {
-            $this->assertEquals('controller::method', $Route->getController());
+            $this->assertEquals('\namespace\controller::method', $Route->getController());
         }
 
         /**
@@ -210,6 +210,27 @@
         }
 
         /**
+         * Test if the session can be enabled and the Route referende is returned.
+         * @covers Brickoo\Library\Routing\Route::enableSession
+         */
+        public function testEnableSession()
+        {
+            $this->assertSame($this->Route, $this->Route->enableSession());
+            $this->assertAttributeEquals(true, 'sessionEnabled', $this->Route);
+        }
+
+        /**
+         * Test if the status of the session can be retrieved.
+         * @covers Brickoo\Library\Routing\Route::isSessionEnabled
+         */
+        public function testIsSessionEnabled()
+        {
+            $this->assertFalse($this->Route->isSessionEnabled());
+            $this->Route->enableSession();
+            $this->assertTrue($this->Route->isSessionEnabled());
+        }
+
+        /**
          * Test if the session configuration can be set and the Route reference is returned.
          * @covers Brickoo\Library\Routing\Route::setSessionConfiguration
          */
@@ -230,6 +251,59 @@
         public function testGetSessionConfiguration($Route)
         {
             $this->assertEquals(array('name' => 'sessionX'), $Route->getSessionConfiguration());
+        }
+
+        /**
+         * Test if the cache can be enabled and the Route reference is returned.
+         * @covers Brickoo\Library\Routing\Route::enableCache
+         */
+        public function testEnableCache()
+        {
+            $this->assertSame($this->Route, $this->Route->enableCache());
+            $this->assertAttributeEquals(true, 'cacheable', $this->Route);
+        }
+
+        /**
+         * Test if the status of the cache can be retrieved.
+         * @covers Brickoo\Library\Routing\Route::isCacheable
+         */
+        public function testIsCacheable()
+        {
+            $this->assertFalse($this->Route->isCacheable());
+            $this->Route->enableCache();
+            $this->assertTrue($this->Route->isCacheable());
+        }
+
+        /**
+         * Test if the cache lifetime can be set and the Rotue refernce is returned.
+         * @covers Brickoo\Library\Routing\Route::setCacheLifetime
+         */
+        public function testSetCacheLifetime()
+        {
+            $this->assertSame($this->Route, $this->Route->setCacheLifetime(120));
+            $this->assertAttributeEquals(120, 'cacheLifetime', $this->Route);
+
+            return $this->Route;
+        }
+
+        /**
+         * Test if trying to set a wrong argument type throws an exception.
+         * @covers Brickoo\Library\Routing\Route::setCacheLifetime
+         * @expectedException InvalidArgumentException
+         */
+        public function testSetCacheLifetimeArgumentException()
+        {
+            $this->Route->setCacheLifetime('wrongType');
+        }
+
+        /**
+         * Test if the cache lifetime can be retrieved.
+         * @covers Brickoo\Library\Routing\Route::getCacheLifetime
+         * @depends testSetCacheLifetime
+         */
+        public function testGetCacheLifetime($Route)
+        {
+            $this->assertEquals(120, $Route->getCacheLifetime());
         }
 
         /**
@@ -393,16 +467,6 @@
         public function testConstruct()
         {
             $this->assertInstanceof('Brickoo\Library\Routing\Interfaces\RouteInterface', $this->Route);
-        }
-
-        /**
-         * Test if the amount of segments is counted implenting the Countable interface.
-         * @covers Brickoo\Library\Routing\Route::count
-         * @depends testSetPath
-         */
-        public function testCount($Route)
-        {
-            $this->assertEquals(3, count($Route));
         }
 
     }

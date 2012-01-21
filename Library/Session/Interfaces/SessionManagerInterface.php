@@ -30,38 +30,50 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Cache\Interfaces;
+    namespace Brickoo\Library\Session\Interfaces;
 
     /**
-     * MemcacheConfigInterface
+     * SessionManagerInterface
      *
      * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface MemcacheConfigInterface
+    interface SessionManagerInterface
     {
 
         /**
-        * Returns the available server list.
-        * @return array the avialable server list
+        * Checks if the session has been started.
+        * @return boolean check result
         */
-        public function getServers();
+        public function hasSessionStarted();
 
         /**
-         * Adds a server configuration to the server list.
-         * @param array $serverConfig the server configuration to add
-         * @throws \UnexpectedValueException if a configuration key is missed
-         * @return object reference
+         * Overwrites the session cookie parameters.
+         * @param array $cookieParameters the cookie parameters to overwrite
+         * @return array the cookie parameters set
          */
-        public function addServer($host, $port);
+        public function setCookieParameters(array $cookieParameters);
 
         /**
-         * Configures the Memcache instance.
-         * @param \Memcache $Mecache the Memcache instance to configure
-         * @return object reference
+         * Sets the session configuration.
+         * Available configuration keys are [id, name, limiter].
+         * @param array $configuration the configuration to replace
+         * @return \Brickoo\Library\Session\SessionManager
          */
-        public function configure(\Memcache $Memcache);
+        public function setSessionConfiguration(array $configuration);
+
+        /**
+         * Starts the Session.
+         * @return \Brickoo\Library\Session\SessionManager
+         */
+        public function start();
+
+        /**
+         * Stops the session and calls for writing and close.
+         * @return \Brickoo\Library\Session\SessionManager
+         */
+        public function stop();
 
     }
 

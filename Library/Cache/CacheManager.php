@@ -40,7 +40,7 @@
      * CacheManager
      *
      * Implements the caching with an added CacheProvider.
-     * @author Celestino Diaz Teran <celestino@users.sourceforge.net>
+     * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
     class CacheManager implements Interfaces\CacheManagerInterface
