@@ -49,23 +49,27 @@
          * Creates and returns a stub of the Core\Registry.
          * @return object Registry stub
          */
-        public function getRegistryStub()
+        public function getRegistryMock(array $methods = null)
         {
-            return $this->getMock('Brickoo\Library\Storage\Registry');
+            return $this->getMock
+            (
+                'Brickoo\Library\Storage\Registry',
+                ($methods === null ? null : array_values($methods))
+            );
         }
 
         /**
          * Holds an instance of the Brickoo object.
-         * @var object
+         * @var Brickoo\Library\Core\Brickoo
          */
-        protected $Brickoo;
+        protected $BrickooFixture;
 
         /**
          * Set up the Brickoo object used.
          */
         public function setUp()
         {
-            $this->Brickoo = new BrickooFixture();
+            $this->BrickooFixture = new BrickooFixture();
         }
 
         /**
@@ -74,11 +78,8 @@
          */
         public function testInjectRegistry()
         {
-            $BrickooFixture  = new BrickooFixture();
-
-            $RegistryStub = $this->getRegistryStub();
-
-            $this->assertSame($BrickooFixture, $BrickooFixture->injectRegistry($RegistryStub));
+            $RegistryStub = $this->getRegistryMock();
+            $this->assertSame($this->BrickooFixture, $this->BrickooFixture->injectRegistry($RegistryStub));
         }
 
         /**
@@ -88,12 +89,9 @@
          */
         public function testInjectRegistryDependencyException()
         {
-            $BrickooFixture  = new BrickooFixture();
-
-            $RegistryStub = $this->getRegistryStub();
-
-            $BrickooFixture->injectRegistry($RegistryStub);
-            $BrickooFixture->injectRegistry($RegistryStub);
+            $RegistryStub = $this->getRegistryMock();
+            $this->BrickooFixture->injectRegistry($RegistryStub);
+            $this->BrickooFixture->injectRegistry($RegistryStub);
         }
 
         /**
@@ -102,12 +100,10 @@
          */
         public function testGetRegistry()
         {
-            $BrickooFixture  = new BrickooFixture();
+            $RegistryStub = $this->getRegistryMock();
+            $this->BrickooFixture->injectRegistry($RegistryStub);
 
-            $RegistryStub = $this->getRegistryStub();
-            $BrickooFixture->injectRegistry($RegistryStub);
-
-            $this->assertSame($RegistryStub, $BrickooFixture->getRegistry());
+            $this->assertSame($RegistryStub, $this->BrickooFixture->getRegistry());
         }
 
         /**
@@ -116,10 +112,434 @@
          */
         public function testGetRegistryLazy()
         {
-            $BrickooFixture  = new BrickooFixture();
-
-            $this->assertInstanceOf('Brickoo\Library\Storage\Interfaces\RegistryInterface', $BrickooFixture->getRegistry());
+            $this->assertInstanceOf
+            (
+                'Brickoo\Library\Storage\Interfaces\RegistryInterface',
+                $this->BrickooFixture->getRegistry()
+            );
         }
+
+        /**
+         * Test if a regitry identfier and its value can be registered, recognized and retrieved.
+         * @covers Brickoo\Library\Core\Brickoo::register
+         * @covers Brickoo\Library\Core\Brickoo::isRegistered
+         * @covers Brickoo\Library\Core\Brickoo::get
+         */
+        public function testRegistrationRoutine()
+        {
+            $RegistryStub = $this->getRegistryMock(array('register', 'lock', 'isRegistered', 'getRegistered'));
+            $RegistryStub->expects($this->once())
+                         ->method('register')
+                         ->will($this->returnValue(true));
+            $RegistryStub->expects($this->once())
+                         ->method('lock')
+                         ->will($this->returnValue(true));
+            $RegistryStub->expects($this->once())
+                         ->method('isRegistered')
+                         ->will($this->returnValue(true));
+            $RegistryStub->expects($this->once())
+                         ->method('getRegistered')
+                         ->will($this->returnValue('the registered value'));
+            $this->BrickooFixture->injectRegistry($RegistryStub);
+
+            $this->assertEquals($this->BrickooFixture, $this->BrickooFixture->register('id', 'some value'));
+            $this->assertTrue($this->BrickooFixture->isRegistered('id'));
+            $this->assertEquals('the registered value', $this->BrickooFixture->get('id'));
+        }
+
+        /**
+         * Test if the Autoloader can be registered.
+         * @covers Brickoo\Library\Core\Brickoo::registerAutoloader
+         */
+        public function testRegisterAutoloader()
+        {
+            $RegistryStub = $this->getRegistryMock(array('register', 'lock', 'isRegistered', 'getRegistered'));
+            $RegistryStub->expects($this->once())
+                         ->method('register')
+                         ->will($this->returnValue(true));
+            $RegistryStub->expects($this->once())
+                         ->method('lock')
+                         ->will($this->returnValue(true));
+            $this->BrickooFixture->injectRegistry($RegistryStub);
+
+            $AutoloaderStub = $this->getMock('Brickoo\Library\Core\Interfaces\AutoloaderInterface');
+            $this->assertSame($this->BrickooFixture, $this->BrickooFixture->registerAutoloader($AutoloaderStub));
+        }
+
+        /**
+         * Test if the modules can be registered, recognized and retrieved.
+         * @covers Brickoo\Library\Core\Brickoo::registerModules
+         * @covers Brickoo\Library\Core\Brickoo::getModules
+         * @covers Brickoo\Library\Core\Brickoo::isModuleAvailable
+         * @covers Brickoo\Library\Core\Brickoo::getModulePath
+         */
+        public function testModulesRoutine()
+        {
+            $AutoloaderStub = $this->getMock('Brickoo\Library\Core\Autoloader', array('registerNamespace'));
+            $AutoloaderStub->expects($this->once())
+                           ->method('registerNamespace')
+                           ->will($this->returnValue(true));
+
+            $modules = array('module' => '/module/path');
+
+            $valueMap = array
+            (
+                array(Brickoo::AUTOLOADER, $AutoloaderStub),
+                array(Brickoo::MODULES, $modules)
+            );
+
+            $RegistryStub = $this->getRegistryMock(array('register', 'lock', 'isRegistered', 'getRegistered'));
+            $RegistryStub->expects($this->once())
+                         ->method('register')
+                         ->will($this->returnValue(true));
+            $RegistryStub->expects($this->once())
+                         ->method('lock')
+                         ->will($this->returnValue(true));
+            $RegistryStub->expects($this->any())
+                         ->method('isRegistered')
+                         ->will($this->returnValue(true));
+            $RegistryStub->expects($this->any())
+                         ->method('getRegistered')
+                         ->will($this->returnValueMap($valueMap));
+            $this->BrickooFixture->injectRegistry($RegistryStub);
+
+
+            $this->assertSame($this->BrickooFixture, $this->BrickooFixture->registerModules($modules));
+            $this->assertEquals($modules, $this->BrickooFixture->getModules());
+            $this->assertTrue($this->BrickooFixture->isModuleAvailable('module'));
+            $this->assertEquals('/module/path', $this->BrickooFixture->getModulePath('module'));
+        }
+
+        /**
+         * Test if the availability of a module can be cheked.
+         * @covers Brickoo\Library\Core\Brickoo::isModuleAvailable
+         */
+        public function testModuleIsNotAvailable()
+        {
+            $this->assertFalse($this->BrickooFixture->isModuleAvailable('notAvailable'));
+        }
+
+        /**
+         * Test if trying to retrive a module which does not exist throws an exception.
+         * @covers Brickoo\Library\Core\Brickoo::getModulePath
+         * @covers Brickoo\Library\Core\Exceptions\ModuleNotAvailableException::__construct
+         * @expectedException Brickoo\Library\Core\Exceptions\ModuleNotAvailableException
+         */
+        public function testGetModulePathException()
+        {
+            $this->BrickooFixture->getModulePath('notAvailable');
+        }
+
+        /**
+         * Test if the environment can be registered and recognized.
+         * @covers Brickoo\Library\Core\Brickoo::registerEnvironment
+         * @covers Brickoo\Library\Core\Brickoo::isEnvironment
+         */
+        public function testEnvironmentRoutine()
+        {
+            $RegistryStub = $this->getRegistryMock(array('register', 'lock', 'getRegistered'));
+            $RegistryStub->expects($this->once())
+                         ->method('register')
+                         ->will($this->returnValue(true));
+            $RegistryStub->expects($this->once())
+                         ->method('lock')
+                         ->will($this->returnValue(true));
+            $RegistryStub->expects($this->exactly(2))
+                         ->method('getRegistered')
+                         ->will($this->returnValue(Brickoo::ENVIRONMENT_DEVELOPMENT));
+            $this->BrickooFixture->injectRegistry($RegistryStub);
+
+            $this->assertSame($this->BrickooFixture, $this->BrickooFixture->registerEnvironment(Brickoo::ENVIRONMENT_DEVELOPMENT));
+            $this->assertTrue($this->BrickooFixture->isEnvironment(Brickoo::ENVIRONMENT_DEVELOPMENT));
+            $this->assertFalse($this->BrickooFixture->isEnvironment(Brickoo::ENVIRONMENT_PRODUCTION));
+        }
+
+        /**
+         * Test if trying to use a wrong argument type throws an exception.
+         * @covers Brickoo\Library\Core\Brickoo::registerEnvironment
+         * @expectedException InvalidArgumentException
+         */
+        public function testRegisterEnvironmentArgumentException()
+        {
+            $this->BrickooFixture->registerEnvironment('wrongType');
+        }
+
+        /**
+         * Test if trying to use a wrong argument type throws an exception.
+         * @covers Brickoo\Library\Core\Brickoo::isEnvironment
+         * @expectedException InvalidArgumentException
+         */
+        public function testIsEnvironmentArgumentException()
+        {
+            $this->BrickooFixture->isEnvironment('wrongType');
+        }
+
+        /**
+         * Test if the cache directory can be registered and retrieved.
+         * @covers Brickoo\Library\Core\Brickoo::registerCacheDirectory
+         * @covers Brickoo\Library\Core\Brickoo::getCacheDirectory
+         */
+        public function testCacheDirectoryRoutine()
+        {
+            $RegistryStub = $this->getRegistryMock(array('register', 'lock', 'getRegistered'));
+            $RegistryStub->expects($this->once())
+                         ->method('register')
+                         ->will($this->returnValue(true));
+            $RegistryStub->expects($this->once())
+                         ->method('lock')
+                         ->will($this->returnValue(true));
+            $RegistryStub->expects($this->once())
+                         ->method('getRegistered')
+                         ->will($this->returnValue('/path/to/cache/directory'));
+            $this->BrickooFixture->injectRegistry($RegistryStub);
+
+            $this->assertSame($this->BrickooFixture, $this->BrickooFixture->registerCacheDirectory('/path/to/cache/directory'));
+            $this->assertEquals('/path/to/cache/directory', $this->BrickooFixture->getCacheDirectory());
+        }
+
+        /**
+         * Test if trying to use a wrong argument type throws an exception.
+         * @covers Brickoo\Library\Core\Brickoo::registerCacheDirectory
+         * @expectedException InvalidArgumentException
+         */
+        public function testRegisterCacheDirectoryArgumentException()
+        {
+            $this->BrickooFixture->registerCacheDirectory(array('wrongType'));
+        }
+
+        /**
+         * Test if the log directory can be registered and retrieved.
+         * @covers Brickoo\Library\Core\Brickoo::registerLogDirectory
+         * @covers Brickoo\Library\Core\Brickoo::getLogDirectory
+         */
+        public function testLogDirectoryRoutine()
+        {
+            $RegistryStub = $this->getRegistryMock(array('register', 'lock', 'getRegistered'));
+            $RegistryStub->expects($this->once())
+                         ->method('register')
+                         ->will($this->returnValue(true));
+            $RegistryStub->expects($this->once())
+                         ->method('lock')
+                         ->will($this->returnValue(true));
+            $RegistryStub->expects($this->once())
+                         ->method('getRegistered')
+                         ->will($this->returnValue('/path/to/cache/directory'));
+            $this->BrickooFixture->injectRegistry($RegistryStub);
+
+            $this->assertSame($this->BrickooFixture, $this->BrickooFixture->registerLogDirectory('/path/to/cache/directory'));
+            $this->assertEquals('/path/to/cache/directory', $this->BrickooFixture->getLogDirectory());
+        }
+
+        /**
+         * Test if trying to use a wrong argument type throws an exception.
+         * @covers Brickoo\Library\Core\Brickoo::registerLogDirectory
+         * @expectedException InvalidArgumentException
+         */
+        public function testRegisterLogDirectoryArgumentException()
+        {
+            $this->BrickooFixture->registerLogDirectory(array('wrongType'));
+        }
+
+        /**
+        * Test if the FrontController can be registered and the Brickoo reference is returned.
+        * @covers Brickoo\Library\Core\Brickoo::registerFrontController
+        */
+        public function testRegisterFrontController()
+        {
+            $RegistryStub = $this->getRegistryMock(array('register', 'lock', 'getRegistered'));
+            $RegistryStub->expects($this->once())
+                         ->method('register')
+                         ->will($this->returnValue(true));
+            $RegistryStub->expects($this->once())
+                         ->method('lock')
+                         ->will($this->returnValue(true));
+            $this->BrickooFixture->injectRegistry($RegistryStub);
+
+            $Mock = $this->getMock('Brickoo\Library\Core\Interfaces\FrontControllerInterface');
+            $this->assertSame($this->BrickooFixture, $this->BrickooFixture->registerFrontController($Mock));
+        }
+
+        /**
+        * Test if the Router can be registered and the Brickoo reference is returned.
+        * @covers Brickoo\Library\Core\Brickoo::registerRouter
+        */
+        public function testRegisterRouter()
+        {
+            $RegistryStub = $this->getRegistryMock(array('register', 'lock', 'getRegistered'));
+            $RegistryStub->expects($this->once())
+                         ->method('register')
+                         ->will($this->returnValue(true));
+            $RegistryStub->expects($this->once())
+                         ->method('lock')
+                         ->will($this->returnValue(true));
+            $this->BrickooFixture->injectRegistry($RegistryStub);
+
+            $Mock = $this->getMock('Brickoo\Library\Routing\Interfaces\RouterInterface');
+            $this->assertSame($this->BrickooFixture, $this->BrickooFixture->registerRouter($Mock));
+        }
+
+        /**
+        * Test if the Logger can be registered and the Brickoo reference is returned.
+        * @covers Brickoo\Library\Core\Brickoo::registerLogger
+        */
+        public function testRegisterLogger()
+        {
+            $RegistryStub = $this->getRegistryMock(array('register', 'lock', 'getRegistered'));
+            $RegistryStub->expects($this->once())
+                         ->method('register')
+                         ->will($this->returnValue(true));
+            $RegistryStub->expects($this->once())
+                         ->method('lock')
+                         ->will($this->returnValue(true));
+            $this->BrickooFixture->injectRegistry($RegistryStub);
+
+            $Mock = $this->getMock('Brickoo\Library\Log\Interfaces\LoggerInterface');
+            $this->assertSame($this->BrickooFixture, $this->BrickooFixture->registerLogger($Mock));
+        }
+
+        /**
+        * Test if the CacheManager can be registered and the Brickoo reference is returned.
+        * @covers Brickoo\Library\Core\Brickoo::registerCacheManager
+        */
+        public function testRegisterCacheManager()
+        {
+            $RegistryStub = $this->getRegistryMock(array('register', 'lock', 'getRegistered'));
+            $RegistryStub->expects($this->once())
+                         ->method('register')
+                         ->will($this->returnValue(true));
+            $RegistryStub->expects($this->once())
+                         ->method('lock')
+                         ->will($this->returnValue(true));
+            $this->BrickooFixture->injectRegistry($RegistryStub);
+
+            $Mock = $this->getMock('Brickoo\Library\Cache\Interfaces\CacheManagerInterface');
+            $this->assertSame($this->BrickooFixture, $this->BrickooFixture->registerCacheManager($Mock));
+        }
+
+        /**
+        * Test if the ErrorHandler can be registered and the Brickoo reference is returned.
+        * @covers Brickoo\Library\Core\Brickoo::registerErrorHandler
+        */
+        public function testRegisterErrorHandler()
+        {
+            $RegistryStub = $this->getRegistryMock(array('register', 'lock', 'getRegistered'));
+            $RegistryStub->expects($this->once())
+                         ->method('register')
+                         ->will($this->returnValue(true));
+            $RegistryStub->expects($this->once())
+                         ->method('lock')
+                         ->will($this->returnValue(true));
+            $this->BrickooFixture->injectRegistry($RegistryStub);
+
+            $Mock = $this->getMock('Brickoo\Library\Error\AbstractHandler');
+            $this->assertSame($this->BrickooFixture, $this->BrickooFixture->registerErrorHandler($Mock));
+        }
+
+        /**
+        * Test if the ExceptionHandler can be registered and the Brickoo reference is returned.
+        * @covers Brickoo\Library\Core\Brickoo::registerExceptionHandler
+        */
+        public function testRegisterExceptionHandler()
+        {
+            $RegistryStub = $this->getRegistryMock(array('register', 'lock', 'getRegistered'));
+            $RegistryStub->expects($this->once())
+                         ->method('register')
+                         ->will($this->returnValue(true));
+            $RegistryStub->expects($this->once())
+                         ->method('lock')
+                         ->will($this->returnValue(true));
+            $this->BrickooFixture->injectRegistry($RegistryStub);
+
+            $Mock = $this->getMock('Brickoo\Library\Error\AbstractHandler');
+            $this->assertSame($this->BrickooFixture, $this->BrickooFixture->registerExceptionHandler($Mock));
+        }
+
+        /**
+        * Test if the Request can be registered and the Brickoo reference is returned.
+        * @covers Brickoo\Library\Core\Brickoo::registerRequest
+        */
+        public function testRegisterRequest()
+        {
+            $RegistryStub = $this->getRegistryMock(array('register', 'lock', 'getRegistered'));
+            $RegistryStub->expects($this->once())
+                         ->method('register')
+                         ->will($this->returnValue(true));
+            $RegistryStub->expects($this->once())
+                         ->method('lock')
+                         ->will($this->returnValue(true));
+            $this->BrickooFixture->injectRegistry($RegistryStub);
+
+            $Mock = $this->getMock('Brickoo\Library\Core\Interfaces\DynamicRequestInterface');
+            $this->assertSame($this->BrickooFixture, $this->BrickooFixture->registerRequest($Mock));
+        }
+
+        /**
+        * Test if the SessionManager can be registered and the Brickoo reference is returned.
+        * @covers Brickoo\Library\Core\Brickoo::registerSessionManager
+        */
+        public function testRegisterSessionManager()
+        {
+            $RegistryStub = $this->getRegistryMock(array('register', 'lock', 'getRegistered'));
+            $RegistryStub->expects($this->once())
+                         ->method('register')
+                         ->will($this->returnValue(true));
+            $RegistryStub->expects($this->once())
+                         ->method('lock')
+                         ->will($this->returnValue(true));
+            $this->BrickooFixture->injectRegistry($RegistryStub);
+
+            $Mock = $this->getMock('Brickoo\Library\Session\Interfaces\SessionManagerInterface');
+            $this->assertSame($this->BrickooFixture, $this->BrickooFixture->registerSessionManager($Mock));
+        }
+
+        /**
+         * Test if a the value of a registered identifier can be retrieved.
+         * @covers Brickoo\Library\Core\Brickoo::__get
+         */
+        public function testMagicGet()
+        {
+            $RegistryStub = $this->getRegistryMock(array('register', 'lock', 'getRegistered'));
+            $RegistryStub->expects($this->once())
+                         ->method('getRegistered')
+                         ->will($this->returnValue('some value'));
+            $this->BrickooFixture->injectRegistry($RegistryStub);
+
+            $this->assertEquals('some value', $this->BrickooFixture->id);
+        }
+
+        /**
+         * Test if the identifier and its value can be registered.
+         * @covers Brickoo\Library\Core\Brickoo::__set
+         */
+        public function testMagicSet()
+        {
+            $RegistryStub = $this->getRegistryMock(array('register', 'lock'));
+            $RegistryStub->expects($this->once())
+                         ->method('register')
+                         ->will($this->returnValue(true));
+            $RegistryStub->expects($this->once())
+                         ->method('lock')
+                         ->will($this->returnValue(true));
+            $this->BrickooFixture->injectRegistry($RegistryStub);
+
+            $this->assertEquals('some value', ($this->BrickooFixture->id = 'some value'));
+        }
+
+        /**
+         * Test if a egistered identifier can be recognized
+         * @covers Brickoo\Library\Core\Brickoo::__isset
+         */
+        public function testMagicIsset()
+        {
+            $RegistryStub = $this->getRegistryMock(array('isRegistered'));
+            $RegistryStub->expects($this->once())
+                         ->method('isRegistered')
+                         ->will($this->returnValue(true));
+            $this->BrickooFixture->injectRegistry($RegistryStub);
+
+            $this->assertTrue(isset($this->BrickooFixture->id));
+        }
+
 
     }
 

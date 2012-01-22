@@ -33,12 +33,14 @@
     namespace Brickoo\Library\Core;
 
     use Brickoo\Library\Storage;
+    use Brickoo\Library\Validator\TypeValidator;
 
     /**
      * Brickoo framework main class.
-     * Used to have an global Registry which is part managed by the framework.     *
+     * Used to have an global Registry which is part managed by the framework.
      * Holds an object of the \Brickoo\Library\Storage\Registry.
      * Defines the Registry identifers reserved.
+     * Contains methods to make registration or checks easier.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -62,7 +64,7 @@
          * Defines the Registry reserved indetifiers.
          * @var string
          */
-        const DIRECTORY_LOGS        = 'brickoo.directory.logs';
+        const DIRECTORY_LOG         = 'brickoo.directory.logs';
         const DIRECTORY_CACHE       = 'bricko.directory.cache';
         const MODULES               = 'brickoo.modules';
         const ENVIRONMENT           = 'brickoo.environment';
@@ -74,6 +76,7 @@
         const CACHE_MANAGER         = 'brickoo.cache.manager';
         const ROUTER                = 'brickoo.router';
         const FRONT_CONTROLLER      = 'brickoo.front.controller';
+        const SESSION_MANAGER       = 'brickoo.session.manager';
 
         /**
          * Holds an instance of the Registry class.
@@ -151,6 +154,49 @@
         }
 
         /**
+         * Registers the Autoloader to the Registry.
+         * @param \Brickoo\Library\Core\Interfaces\AutoloaderInterface $Autoloader the Autoloader to register
+         * @return \Brickoo\Library\Core\Brickoo
+         */
+        public function registerAutoloader(\Brickoo\Library\Core\Interfaces\AutoloaderInterface $Autoloader)
+        {
+            $this->register(self::AUTOLOADER, $Autoloader);
+
+            return $this;
+        }
+
+        /**
+         * Registers the available modules to the Registry.
+         * @param array $modules the available modules to register
+         * @return \Brickoo\Library\Core\Brickoo
+         */
+        public function registerModules(array $modules)
+        {
+            TypeValidator::IsArray($modules);
+
+            $Autoloader = $this->get(self::AUTOLOADER);
+
+            foreach($modules as $moduleName => $modulePath)
+            {
+                $Autoloader->registerNamespace($moduleName, $modulePath);
+                $modules[$moduleName] = rtrim($modulePath, '/\\') . DIRECTORY_SEPARATOR;
+            }
+
+            $this->register(self::MODULES, $modules);
+
+            return $this;
+        }
+
+        /**
+         * Returns the available modules.
+         * @return array the available modules
+         */
+        public function getModules()
+        {
+            return $this->get(self::MODULES);
+        }
+
+        /**
          * Checks if a module has been registered and should be available.
          * @param unknown_type $moduleName the module name to check
          * @return boolean check result
@@ -186,6 +232,174 @@
         }
 
         /**
+         * Registers the current environment to the Registry.
+         * @param integer $environment the environment currently used
+         * @return \Brickoo\Library\Core\Brickoo
+         */
+        public function registerEnvironment($environment)
+        {
+            TypeValidator::IsInteger($environment);
+
+            $this->register(self::ENVIRONMENT, $environment);
+
+            return $this;
+        }
+
+        /**
+         * Checks if the environment is currently used.
+         * @param integer $environment the environment to check
+         * @return boolean check result
+         */
+        public function isEnvironment($environment)
+        {
+            TypeValidator::IsInteger($environment);
+
+            return (boolean)($environment & $this->get(self::ENVIRONMENT));
+        }
+
+        /**
+         * Registers the cache directory to the Registry.
+         * @param string $cacheDirectory the cache directory to register
+         * @return \Brickoo\Library\Core\Brickoo
+         */
+        public function registerCacheDirectory($cacheDirectory)
+        {
+            TypeValidator::IsString($cacheDirectory);
+
+            $this->register(self::DIRECTORY_CACHE, rtrim($cacheDirectory, '/\\') . DIRECTORY_SEPARATOR);
+
+            return $this;
+        }
+
+        /**
+         * Returns the path to the cache directory.
+         * @return string the path to the cache directory
+         */
+        public function getCacheDirectory()
+        {
+            return $this->get(self::DIRECTORY_CACHE);
+        }
+
+        /**
+         * Registers the log directory to the Registry.
+         * @param string $logDirectory the log directory to register
+         * @return \Brickoo\Library\Core\Brickoo
+         */
+        public function registerLogDirectory($logDirectory)
+        {
+            TypeValidator::IsString($logDirectory);
+
+            $this->register(self::DIRECTORY_LOG, rtrim($logDirectory, '/\\') . DIRECTORY_SEPARATOR);
+
+            return $this;
+        }
+
+        /**
+         * Returns the path to the log directory.
+         * @return the path to the log directory.
+         */
+        public function getLogDirectory()
+        {
+            return $this->get(self::DIRECTORY_LOG);
+        }
+
+        /**
+         * Registers the FrontController to the Registry.
+         * @param \Brickoo\Library\Core\Interfaces\FrontControllerInterface $FrontController the FrontController to register
+         * @return \Brickoo\Library\Core\Brickoo
+         */
+        public function registerFrontController(\Brickoo\Library\Core\Interfaces\FrontControllerInterface $FrontController)
+        {
+            $this->register(self::FRONT_CONTROLLER, $FrontController);
+
+            return $this;
+        }
+
+        /**
+         * Registers the Router to the Registry.
+         * @param \Brickoo\Library\Routing\Interfaces\RouterInterface $Router the Router to register
+         * @return \Brickoo\Library\Core\Brickoo
+         */
+        public function registerRouter(\Brickoo\Library\Routing\Interfaces\RouterInterface $Router)
+        {
+            $this->register(self::ROUTER, $Router);
+
+            return $this;
+        }
+
+        /**
+         * Registers the SessionManager to the Registry.
+         * @param \Brickoo\Library\Session\Interfaces\SessionManagerInterface $SessionManager the SessionManager to register
+         * @return \Brickoo\Library\Core\Brickoo
+         */
+        public function registerSessionManager(\Brickoo\Library\Session\Interfaces\SessionManagerInterface $SessionManager)
+        {
+            $this->register(self::SESSION_MANAGER, $SessionManager);
+
+            return $this;
+        }
+
+        /**
+         * Registers the current Request to the Registry.
+         * @param \Brickoo\Library\Core\Interfaces\DynamicRequestInterface $Request the Request tor egister
+         * @return \Brickoo\Library\Core\Brickoo
+         */
+        public function registerRequest(\Brickoo\Library\Core\Interfaces\DynamicRequestInterface $Request)
+        {
+            $this->register(self::REQUEST, $Request);
+
+            return $this;
+        }
+
+        /**
+         * Registers the Logger to the Registry.
+         * @param \Brickoo\Library\Log\Interfaces\LoggerInterface $Logger the Logger to register
+         * @return \Brickoo\Library\Core\Brickoo
+         */
+        public function registerLogger(\Brickoo\Library\Log\Interfaces\LoggerInterface $Logger)
+        {
+            $this->register(self::LOGGER, $Logger);
+
+            return $this;
+        }
+
+        /**
+         * Registers the default CacheManager to the Registry.
+         * @param \Brickoo\Library\Cache\Interfaces\CacheManagerInterface $CacheManager the CacheManager to register
+         * @return \Brickoo\Library\Core\Brickoo
+         */
+        public function registerCacheManager(\Brickoo\Library\Cache\Interfaces\CacheManagerInterface $CacheManager)
+        {
+            $this->register(self::CACHE_MANAGER, $CacheManager);
+
+            return $this;
+        }
+
+        /**
+         * Registers the ErrorHandler to the Registry.
+         * @param \Brickoo\Library\Error\AbstractHandler $ErrorHandler the ErrorHandler to register
+         * @return \Brickoo\Library\Core\Brickoo
+         */
+        public function registerErrorHandler(\Brickoo\Library\Error\AbstractHandler $ErrorHandler)
+        {
+            $this->register(self::ERROR_HANDLER, $ErrorHandler);
+
+            return $this;
+        }
+
+        /**
+         * Registers the ExceptionHandler to the Registry.
+         * @param \Brickoo\Library\Error\AbstractHandler $ExceptionHandler the ExceptionHandler to register
+         * @return \Brickoo\Library\Core\Brickoo
+         */
+        public function registerExceptionHandler(\Brickoo\Library\Error\AbstractHandler $ExceptionHandler)
+        {
+            $this->register(self::EXCEPTION_HANDLER, $ExceptionHandler);
+
+            return $this;
+        }
+
+        /**
          * Retrieves a value from the Registry.
          * @param string|integer $identifier the identifier to retrieve the value from
          * @return mixed the value holded by the identifier
@@ -203,7 +417,17 @@
          */
         public function __set($identifier, $value)
         {
-            return $this->register($identifier, $value);
+            $this->register($identifier, $value);
+        }
+
+        /**
+         * Checks if the identifier is registered.
+         * @param string|integer $identifier the identifier to check
+         * @return boolean check result
+         */
+        public function __isset($identifier)
+        {
+            return isset($this->getRegistry()->$identifier);
         }
 
     }
