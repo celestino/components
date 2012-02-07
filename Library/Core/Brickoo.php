@@ -321,27 +321,6 @@
         }
 
         /**
-         * Returns the registered FrontController instance.
-         * @return Brickoo\Library\Http\Interfaces\FrontControllerInterface
-         */
-        public function getFrontController()
-        {
-            return $this->get(self::FRONT_CONTROLLER);
-        }
-
-        /**
-         * Registers the FrontController to the Registry.
-         * @param \Brickoo\Library\Http\Interfaces\FrontControllerInterface $FrontController the FrontController to register
-         * @return \Brickoo\Library\Core\Brickoo
-         */
-        public function registerFrontController(\Brickoo\Library\Http\Interfaces\FrontControllerInterface $FrontController)
-        {
-            $this->register(self::FRONT_CONTROLLER, $FrontController);
-
-            return $this;
-        }
-
-        /**
          * Returns the registered CacheManager instance.
          * @return \Brickoo\Library\Memory\Interfaces\CacheManagerInterface
          */

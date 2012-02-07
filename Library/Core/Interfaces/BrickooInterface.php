@@ -169,13 +169,6 @@
         public function getLogDirectory();
 
         /**
-         * Registers the FrontController to the Registry.
-         * @param \Brickoo\Library\Http\Interfaces\FrontControllerInterface $FrontController the FrontController to register
-         * @return \Brickoo\Library\Core\Brickoo
-         */
-        public function registerFrontController(\Brickoo\Library\Http\Interfaces\FrontControllerInterface $FrontController);
-
-        /**
          * Registers the default CacheManager to the Registry.
          * @param \Brickoo\Library\Cache\Interfaces\CacheManagerInterface $CacheManager the CacheManager to register
          * @return \Brickoo\Library\Core\Brickoo

@@ -366,32 +366,6 @@
         }
 
         /**
-        * Test if the FrontController can be registered and the Brickoo reference is returned.
-        * Test if the FrontController instanec can be retrieved again.
-        * @covers Brickoo\Library\Core\Brickoo::registerFrontController
-        * @covers Brickoo\Library\Core\Brickoo::getFrontController
-        */
-        public function testRegisterFrontController()
-        {
-            $Mock = $this->getMock('Brickoo\Library\Http\Interfaces\FrontControllerInterface');
-
-            $RegistryStub = $this->getRegistryMock(array('register', 'lock', 'getRegistered'));
-            $RegistryStub->expects($this->once())
-                         ->method('register')
-                         ->will($this->returnSelf());
-            $RegistryStub->expects($this->once())
-                         ->method('lock')
-                         ->will($this->returnValue(true));
-            $RegistryStub->expects($this->once())
-                         ->method('getRegistered')
-                         ->will($this->returnValue($Mock));
-            $this->BrickooFixture->injectRegistry($RegistryStub);
-
-            $this->assertSame($this->BrickooFixture, $this->BrickooFixture->registerFrontController($Mock));
-            $this->assertSame($Mock, $this->BrickooFixture->getFrontController());
-        }
-
-        /**
         * Test if the CacheManager can be registered and the Brickoo reference is returned.
         * Test if the CacheManager instance can be retrieved again.
         * @covers Brickoo\Library\Core\Brickoo::registerCacheManager
