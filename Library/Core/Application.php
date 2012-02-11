@@ -36,7 +36,7 @@
     use Brickoo\Library\Validator\TypeValidator;
 
     /**
-     * Brickoo framework main class.
+     * Application framework main class.
      * Used to have an global Registry which is part managed by the framework.
      * Holds an object of the \Brickoo\Library\Memory\Registry.
      * Defines the Registry identifers reserved.
@@ -44,7 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Brickoo implements Interfaces\BrickooInterface
+    class Application implements Interfaces\ApplicationInterface
     {
 
         /**

@@ -39,4 +39,43 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface ContainerInterface extends \ArrayAccess, \Iterator, \Countable {}
+    interface ContainerInterface extends \ArrayAccess, \Iterator, \Countable
+    {
+
+        /**
+        * Returns the value of the given offset.
+        * @param string|integer $offset the offset to retrieve the value from
+        * @param mixed $defaultValue the default value if the offset does not exist
+        * @return mixed the offset contained value or the default value passed
+        */
+        public function get($offset, $defaultValue = null);
+
+        /**
+         * Adds an offset-value pair to the array object.
+         * @param string|imteger $offset the offset to add
+         * @param mixed $value the value of the offset
+         * @return \Brickoo\Library\Memory\Container
+         */
+        public function add($offset, $value);
+
+        /**
+         * Checks if the element is available.
+         * @param string|integer $offset the element to check
+         * @return boolean check result
+         */
+        public function has($offset);
+
+        /**
+         * Merges the passed contianer with the currently holded.
+         * @param array $container the container to merge
+         * @return \Brickoo\Library\Memory\Container
+         */
+        public function merge(array $container);
+
+        /**
+         * Checks if any value are assigned.
+         * @return boolean check result
+         */
+        public function isEmpty();
+
+    }

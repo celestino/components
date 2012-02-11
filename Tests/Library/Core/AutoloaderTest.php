@@ -234,7 +234,7 @@
         public function testLoadClass()
         {
             $this->Autoloader->registerNamespace('Brickoo', BRICKOO_DIR);
-            $this->assertTrue($this->Autoloader->loadClass('Brickoo\Library\Memory\Registry'));
+            $this->assertTrue($this->Autoloader->loadClass('Brickoo\Library\Memory\Container'));
         }
 
         /**

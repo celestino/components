@@ -33,13 +33,13 @@
     namespace Brickoo\Library\Core\Interfaces;
 
     /**
-     * AutoloaderInterface
+     * ApplicationInterface
      *
      * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    Interface BrickooInterface
+    Interface ApplicationInterface
     {
 
         /**

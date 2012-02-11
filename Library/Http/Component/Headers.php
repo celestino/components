@@ -239,6 +239,7 @@
         public function importFromGlobals()
         {
             $this->merge($this->getRequestHeaders());
+            $this->normalizeHeaders();
 
             return $this;
         }
@@ -255,10 +256,7 @@
 
             foreach ($_SERVER as $key => $value) {
                 if (substr($key, 0, 5) == 'HTTP_') {
-                    $key = str_replace(' ', '-', ucwords(
-                        strtolower(str_replace(array('_', '-'), ' ', substr($key, 5)))
-                    ));
-                    $headers[$key] = $value;
+                    $headers[substr($key, 5)] = $value;
                 }
             }
 
@@ -298,6 +296,27 @@
             }
 
             $this->merge($importedHeader);
+            $this->normalizeHeaders();
+
+            return $this;
+        }
+
+        /**
+         * Normalizes the headers keys.
+         * @return \Brickoo\Library\Http\Component\Headers
+         */
+        public function normalizeHeaders()
+        {
+            $normalizedHeaders = array();
+
+            foreach ($this->container as $headerName => $headerValue) {
+                $headerName = str_replace(' ', '-', ucwords(
+                strtolower(str_replace(array('_', '-'), ' ', $headerName))
+                ));
+                $normalizedHeaders[$headerName] = $headerValue;
+            }
+
+            $this->container = $normalizedHeaders;
 
             return $this;
         }
@@ -310,9 +329,14 @@
         {
             $headers = '';
 
+            $this->normalizeHeaders();
+
             foreach ($this->container as $headerName => $headerValue) {
                 $headerValues = (is_array($headerValue) ? $headerValue : array($headerValue));
                 foreach ($headerValues as $value) {
+                    $headerName = str_replace(' ', '-', ucwords(
+                        strtolower(str_replace(array('_', '-'), ' ', $headerName))
+                    ));
                     $headers .= sprintf("%s: %s\r\n", $headerName, $value);
                 }
             }

@@ -32,8 +32,6 @@
 
     namespace Brickoo\Library\Memory;
 
-    use Brickoo\Library\Memory\Interfaces;
-    use Brickoo\Library\Memory\Exceptions;
     use Brickoo\Library\Validator\TypeValidator;
 
     /**

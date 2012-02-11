@@ -30,56 +30,19 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Http\Response;
+    namespace Brickoo\Library\Http\Template;
 
     use Brickoo\Library\Validator\TypeValidator;
 
     /**
-     * PhpResponse
+     * PhpTemplate
      *
-     * Implements a PHP template response which makes use of PHP based templates.
+     * Implements a PHP based template to generate the response content.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class PhpResponse implements Interfaces\ResponseInterface
+    class PhpTemplate implements Interfaces\TemplateInterface
     {
-
-        /**
-         * Holds the ResponseHeaders dependency:
-         * @var Bricko\Library\Http\Interfaces\ResponseHeadersInterface
-         */
-        protected $ResponseHeaders;
-
-        /**
-         * Lazy initialization of the ResponseHeaders dependency.
-         * Returns the ResponseHeaders dependency.
-         * @return \Bricko\Library\Http\Interfaces\ResponseHeadersInterface
-         */
-        public function getResponseHeaders()
-        {
-            if (! $this->ResponseHeaders instanceof Interfaces\ResponseHeadersInterface) {
-                $this->injectResponseHeaders(new ResponseHeaders());
-            }
-
-            return $this->ResponseHeaders;
-        }
-
-        /**
-         * Injects the ResponseHeaders dependency.
-         * @param \Brickoo\Library\Http\Interfaces\ResponseHeadersInterface $ResponseHeaders the ResponseHeaders dependency
-         * @throws Core\Exceptions\DependencyOverwriteException if trying to overwrite the dependency
-         * @return \Brickoo\Library\Http\Response\PhpResponse
-         */
-        public function injectResponseHeaders(\Brickoo\Library\Http\Interfaces\ResponseHeadersInterface $ResponseHeaders)
-        {
-            if ($this->ResponseHeaders !== null) {
-                throw new Core\Exceptions\DependencyOverwriteException('ResponseHeadersInterface');
-            }
-
-            $this->ResponseHeaders = $ResponseHeaders;
-
-            return $this;
-        }
 
         /**
          * Holds the full path of the used template file.
@@ -230,8 +193,9 @@
         /**
          * Magic function to set a template variable.
          * If the variable exists the value will be overwritten.
-         * @param string $variable the variable to set
+         * @param string $variable the variable to use in the template
          * @param mixed $value the value of the variable
+         * @return void
          */
         public function __set($variable, $value)
         {

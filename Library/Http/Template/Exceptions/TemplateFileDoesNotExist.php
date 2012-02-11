@@ -30,39 +30,27 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Http\Response\Interfaces;
+    namespace Brickoo\Library\Http\Template\Exceptions;
 
     /**
-     * ResponseInterface
+     * TemplateFileDoesNotExist
      *
-     * Describes the methods implemented by this interface.
+     * Exception throwed by a Response which requires a template file.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface ResponseInterface
+    class TemplateFileDoesNotExist extends \Exception
     {
 
         /**
-         * Lazy initialization of the ResponseHeaders dependency.
-         * Returns the ResponseHeaders dependency.
-         * @return \Bricko\Library\Http\Interfaces\ResponseHeadersInterface
+         * Class constructor.
+         * Calls the parent Exception constructor.
+         * @param string $templateFilename the template file name which does not exist
+         * @return void
          */
-        public function getResponseHeaders();
-
-        /**
-         * Injects the ResponseHeaders dependency.
-         * @param \Brickoo\Library\Http\Interfaces\ResponseHeadersInterface $ResponseHeaders the ResponseHeaders dependency
-         * @throws Core\Exceptions\DependencyOverwriteException if trying to overwrite the dependency
-         * @return \Brickoo\Library\Http\Response\PhpResponse
-         */
-        public function injectResponseHeaders(\Brickoo\Library\Http\Interfaces\ResponseHeadersInterface $ResponseHeaders);
-
-        /**
-         * Renders the template with the assigned variables.
-         * @see Brickoo\Library\Http\Interfaces.ResponseInterface::render()
-         * @throws \UnexpectedValueException if the template file is not set
-         * @return string the rendered content
-         */
-        public function render();
+        public function __construct($templateFilename)
+        {
+            parent::__construct(sprintf('The template file `%s` does not exist.', $templateFilename));
+        }
 
     }

@@ -30,39 +30,26 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Http\Component\Interfaces;
-
-    use Brickoo\Library\Memory;
+    namespace Brickoo\Library\Http\Exceptions;
 
     /**
-     * QueryInterface
+     * ResponseTemplateNotAvailableException
      *
-     * Describes the methods implemented by this interface.
+     * Exception throwed if the response template dependency is not available.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface QueryInterface extends Memory\Interfaces\ContainerInterface
+    class ResponseTemplateNotAvailableException extends \Exception
     {
 
         /**
-        * Importst the request query parameter.
-        * @return \Brickoo\Library\Http\Component\Interfaces\QueryInterface
-        */
-        public function importFromGlobals();
-
-        /**
-         * Imports the query parameters from query string.
-         * @param string $query the query string to import from
-         * @return \Brickoo\Library\Http\Component\Interfaces\QueryInterface
+         * Class constructor.
+         * Calls the parent Exception constructor.
+         * @return void
          */
-        public function importFromString($query);
-
-        /**
-         * Converts the query parameters to a request query string.
-         * The values are encoded as of the RFC 1738.
-         * @link http://www.faqs.org/rfcs/rfc1738.html
-         * @return string the query string
-         */
-        public function toString();
+        public function __construct()
+        {
+            parent::__construct('The response Template dependency is not available.');
+        }
 
     }

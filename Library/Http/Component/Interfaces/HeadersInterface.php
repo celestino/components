@@ -32,6 +32,8 @@
 
     namespace Brickoo\Library\Http\Component\Interfaces;
 
+    use Brickoo\Library\Memory;
+
     /**
      * HeadersInterface
      *
@@ -39,7 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface HeadersInterface
+    interface HeadersInterface extends Memory\Interfaces\ContainerInterface
     {
 
         /**

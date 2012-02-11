@@ -265,6 +265,7 @@
         /**
          * Test if the server request headers can be imported.
          * @covers Brickoo\Library\Http\Component\Headers::importFromGlobals
+         * @covers Brickoo\Library\Http\Component\Headers::normalizeHeaders
          */
         public function testImportFromGlobals()
         {
@@ -288,7 +289,7 @@
         {
             $expectedHeaders = array
             (
-                'Unittest'        => 'yes',
+                'UNITTEST'        => 'yes',
                 'Apache-Header'   => 'APACHE'
             );
             $_SERVER['HTTP_UNITTEST'] = 'yes';
@@ -299,6 +300,7 @@
         /**
          * Test if the request headers can be imported from string.
          * @covers Brickoo\Library\Http\Component\Headers::importFromString
+         * @covers Brickoo\Library\Http\Component\Headers::normalizeHeaders
          */
         public function testImportFromString()
         {
@@ -326,6 +328,7 @@
          * Test if the headers can be converterd to string.
          * @covers Brickoo\Library\Http\Component\Headers::toString
          * @covers Brickoo\Library\Http\Component\Headers::__toString
+         * @covers Brickoo\Library\Http\Component\Headers::normalizeHeaders
          */
         public function testToString()
         {

@@ -30,27 +30,27 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Http\Response\Exceptions;
+    namespace Brickoo\Library\Http\Exceptions;
 
     /**
-     * TemplateFileDoesNotExist
+     * StatusCodeUnknownException
      *
-     * Exception throwed by a Response which requires a template file.
+     * Exception throwed if the response status code is unknowed.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class TemplateFileDoesNotExist extends \Exception
+    class StatusCodeUnknownException extends \Exception
     {
 
         /**
          * Class constructor.
          * Calls the parent Exception constructor.
-         * @param string $templateFilename the template file name which does not exist
+         * @param string $statusCode the unknowed status code
          * @return void
          */
-        public function __construct($templateFilename)
+        public function __construct($statusCode)
         {
-            parent::__construct(sprintf('The template file `%s` does not exist.', $templateFilename));
+            parent::__construct(sprintf('The response status code `%s` is unknowed.', $statusCode));
         }
 
     }

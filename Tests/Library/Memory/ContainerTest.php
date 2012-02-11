@@ -144,6 +144,17 @@
         }
 
         /**
+         * Test if an element is recognized as available.
+         * @covers Brickoo\Library\Memory\Container::has
+         */
+        public function testHas()
+        {
+            $this->Container['unit'] = 'test';
+            $this->assertTrue($this->Container->has('unit'));
+            $this->assertFalse($this->Container->has('undefinied'));
+        }
+
+        /**
          * Test if the container elements can be merged with a passed array.
          * @covers Brickoo\Library\Memory\Container::merge
          */
