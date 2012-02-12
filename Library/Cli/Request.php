@@ -259,6 +259,37 @@
         }
 
         /**
+         * Holds the request format.
+         * @var string
+         */
+        protected $format;
+
+        /**
+         * Returns the request format.
+         * Needs to be implemented by the DynamicRequestInterface.
+         * @return string the request format or null if not set
+         */
+        public function getFormat()
+        {
+            return $this->format;
+        }
+
+        /**
+         * Sets the request format.
+         * Needs to be implemented by the DynamicRequestInterface.
+         * @param string $format the request format
+         * @return \Brickoo\Library\Http\Request
+         */
+        public function setFormat($format)
+        {
+            TypeValidator::IsString($format);
+
+            $this->format = $format;
+
+            return $this;
+        }
+
+        /**
          * Class constructor.
          * Initializes the class properties.
          * @return void

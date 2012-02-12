@@ -324,13 +324,43 @@
         }
 
         /**
-         * Test if trying to use a wrong argumenttype throws an exception.
+         * Test if trying to use a wrong argument type throws an exception.
          * @covers Brickoo\Library\Http\Request::setPath
          * @expectedException InvalidArgumentException
          */
         public function testSetPathArgumentException()
         {
             $this->Request->setPath(array('wrongType'));
+        }
+
+        /**
+         * Test the getter and setter of the format.
+         * @covers Brickoo\Library\Http\Request::setFormat
+         * @covers Brickoo\Library\Http\Request::getFormat
+         */
+        public function testGetSetFormat()
+        {
+            $Url = $this->getMock('Brickoo\Library\Http\Component\Url', array('setFormat', 'getFormat'));
+            $Url->expects($this->once())
+                ->method('setFormat')
+                ->with('xml');
+            $Url->expects($this->once())
+                ->method('getFormat')
+                ->will($this->returnValue('xml'));
+
+            $this->Request->Url($Url);
+            $this->assertSame($this->Request, $this->Request->setFormat('xml'));
+            $this->assertEquals('xml', $this->Request->getFormat());
+        }
+
+        /**
+         * Test if trying to use a wrong argument type throws an exception.
+         * @covers Brickoo\Library\Http\Request::setFormat
+         * @expectedException InvalidArgumentException
+         */
+        public function testSetFormatArgumentException()
+        {
+            $this->Request->setFormat(array('wrongType'));
         }
 
         /**

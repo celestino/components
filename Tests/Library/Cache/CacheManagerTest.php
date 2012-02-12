@@ -152,9 +152,11 @@
             $LocalCacheStub = $this->getLocalCacheStub(array('has', 'get'));
             $LocalCacheStub->expects($this->once())
                            ->method('has')
+                           ->with('some_identifier')
                            ->will($this->returnValue(true));
             $LocalCacheStub->expects($this->once())
                            ->method('get')
+                           ->with('some_identifier')
                            ->will($this->returnValue('local cache content'));
 
             $this->CacheManager->LocalCache($LocalCacheStub);

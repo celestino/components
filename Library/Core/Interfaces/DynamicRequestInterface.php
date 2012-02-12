@@ -44,7 +44,6 @@
 
         /**
         * Returns the request protocol.
-        * Lazy value set if the protocol is not set.
         * @return string the request protocol
         */
         public function getProtocol();
@@ -66,5 +65,11 @@
          * @return string the request path
          */
         public function getPath();
+
+        /**
+         * Returns the request format.
+         * @return string the request format
+         */
+        public function getFormat();
 
     }

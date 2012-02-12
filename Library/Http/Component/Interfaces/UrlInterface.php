@@ -76,6 +76,12 @@
         public function getPath();
 
         /**
+         * Returns the request format.
+         * @return string the request format or null if not set
+         */
+        public function getFormat();
+
+        /**
          * Imports the url parts from string.
          * @param string $url the url to import from
          * @return \Brickoo\Library\Http\Component\Url

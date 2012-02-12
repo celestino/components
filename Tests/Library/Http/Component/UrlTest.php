@@ -229,6 +229,29 @@
         }
 
         /**
+         * Test getter and setter for the format.
+         * @covers Brickoo\Library\Http\Component\Url::setFormat
+         * @covers Brickoo\Library\Http\Component\Url::getFormat
+         */
+        public function testGetSetFormat()
+        {
+            $this->assertNull($this->Url->getFormat());
+            $this->assertSame($this->Url, $this->Url->setFormat('json'));
+            $this->assertAttributeEquals('json', 'format', $this->Url);
+            $this->assertEquals('json', $this->Url->getFormat());
+        }
+
+        /**
+         * Test if trying to use a wrong argument type throws an exception.
+         * @covers Brickoo\Library\Http\Component\Url::setFormat
+         * @expectedException InvalidArgumentException
+         */
+        public function testSetFormatArgumentException()
+        {
+            $this->Url->setFormat(array('wrongType'));
+        }
+
+        /**
          * Test if an url can be imported from string.
          * @covers Brickoo\Library\Http\Component\Url::importFromString
          */
@@ -274,7 +297,7 @@
             $host    = 'localhost';
             $port    = 8080;
             $query   = 'test=value';
-            $path    = '/path/to/somewhere';
+            $path    = '/path/to/somewhere/index.xml';
 
             $Url->expects($this->once())->method('getRequestHost')->will($this->returnValue($host));
             $Url->expects($this->once())->method('getRequestPort')->will($this->returnValue($port));
@@ -283,10 +306,11 @@
 
             $this->assertEquals($Url, $Url->Request($Request)->importFromGlobals());
             $this->assertAttributeEquals('https', 'scheme', $Url);
-            $this->assertAttributeEquals($host, 'host', $Url);
-            $this->assertAttributeEquals($port, 'port', $Url);
-            $this->assertAttributeEquals($query, 'query', $Url);
-            $this->assertAttributeEquals($path, 'path', $Url);
+            $this->assertAttributeEquals('localhost', 'host', $Url);
+            $this->assertAttributeEquals(8080, 'port', $Url);
+            $this->assertAttributeEquals('test=value', 'query', $Url);
+            $this->assertAttributeEquals('/path/to/somewhere/index.xml', 'path', $Url);
+            $this->assertAttributeEquals('xml', 'format', $Url);
         }
 
         /**
@@ -464,6 +488,16 @@
                     ->will($this->returnValue('/path/to/somewhere?test=value'));
 
             $this->assertEquals('/path/to/somewhere', $this->Url->Request($Request)->getRequestPath());
+        }
+
+        /**
+         * Test if the request format can be retrieved from the server path.
+         * @covers Brickoo\Library\Http\Component\Url::getRequestFormat
+         */
+        public function testGetRequestFormat()
+        {
+            $this->Url->setPath('/some/path/to/index.json');
+            $this->assertEquals('json', $this->Url->getRequestFormat());
         }
 
         /**

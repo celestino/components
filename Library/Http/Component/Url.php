@@ -248,6 +248,35 @@
         }
 
         /**
+         * Holds the url format.
+         * @var string
+         */
+        protected $format;
+
+        /**
+         * Returns the url format.
+         * @return string the request format or null if not set
+         */
+        public function getFormat()
+        {
+            return $this->format;
+        }
+
+        /**
+         * Sets the url format.
+         * @param string $format the request format
+         * @return \Brickoo\Library\Http\Component\Url
+         */
+        public function setFormat($format)
+        {
+            TypeValidator::IsString($format);
+
+            $this->format = $format;
+
+            return $this;
+        }
+
+        /**
          * Imports the url parts from string.
          * @param string $url the url to import from
          * @return \Brickoo\Library\Http\Component\Url
@@ -267,14 +296,15 @@
                     '(?:(?<user>[^:]+):(?<pass>[^@]+)@)?'.
                     '(?<setHost>[^/?:#]*))(:(?<setPort>\d+)'.
                 ')?'.
-                '(?<setPath>[^?#]*)'.
+                '(?<setPath>[^\.?#]*)?'.
+                '(\.(?<setFormat>[^?#]*))?'.
                 '(\?(?<setQuery>[^#]*))?'.
                 '(#(?<fragment>.*))?~u',
                 $url,
                 $urlParts
             );
 
-            foreach(array('setScheme', 'setHost', 'setPort', 'setPath', 'setQuery') as $key) {
+            foreach(array('setScheme', 'setHost', 'setPort', 'setPath', 'setFormat', 'setQuery') as $key) {
                 if (! empty($urlParts[$key])) {
                     $this->$key($urlParts[$key]);
                 }
@@ -294,6 +324,7 @@
             $this->port        = $this->getRequestPort();
             $this->query       = $this->getRequestQuery();
             $this->path        = $this->getRequestPath();
+            $this->format      = $this->getRequestFormat();
 
             return $this;
         }
@@ -342,7 +373,7 @@
         }
 
         /**
-         * Returns the request request path.
+         * Returns the request path.
          * @return string the request request path
          */
         public function getRequestPath()
@@ -356,6 +387,21 @@
             }
 
             return '/' . trim($requestPath, '/');
+        }
+
+        /**
+         * Returns the request format.
+         * @return string the request format
+         */
+        public function getRequestFormat()
+        {
+            $requestFormat = '';
+
+            if (($path = $this->getPath()) && ($position = strpos($path, '.'))) {
+                $requestFormat = substr($path, $position + 1);
+            }
+
+            return $requestFormat;
         }
 
         /**
