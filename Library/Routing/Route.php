@@ -186,6 +186,36 @@
         }
 
         /**
+         * Holds the format accepted.
+         * @var string
+         */
+        protected $format;
+
+        /**
+         * Returns the accepted request formats.
+         * @return string the accepted format or null if accepting all
+         */
+        public function getFormat()
+        {
+            return $this->format;
+        }
+
+        /**
+         * Sets the request accepted formats.
+         * @param string $format the format as regular expression like json|xml
+         * @return \Brickoo\Library\Routing\Route
+         */
+        public function setFormat($format)
+        {
+            TypeValidator::IsString($format);
+
+            $this->format = $format;
+
+            return $this;
+        }
+
+
+        /**
          * Holds the flag to enable session usage.
          * @var boolean
          */

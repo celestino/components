@@ -57,6 +57,19 @@
         public function setPath($path);
 
         /**
+         * Returns the accepted request formats.
+         * @return string the accepted format or null if accepting all
+         */
+        public function getFormat();
+
+        /**
+         * Sets the request accepted formats.
+         * @param string $format the format as regular expression like json|xml
+         * @return \Brickoo\Library\Routing\Route
+         */
+        public function setFormat($format);
+
+        /**
          * Returns the controller:method to execute.
          * @throws UnexpectedValueException if the controller is null
          * @return string the controller and method to execute

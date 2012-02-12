@@ -210,6 +210,18 @@
         }
 
         /**
+         * Test if the format can be set and retrieved.
+         * @covers Brickoo\Library\Routing\Route::getFormat
+         * @covers Brickoo\Library\Routing\Route::setFormat
+         */
+        public function testGetSetFormat()
+        {
+            $this->assertSame($this->Route, $this->Route->setFormat('json|xml'));
+            $this->assertAttributeEquals('json|xml', 'format', $this->Route);
+            $this->assertEquals('json|xml', $this->Route->getFormat());
+        }
+
+        /**
          * Test if the session can be enabled and the Route referende is returned.
          * @covers Brickoo\Library\Routing\Route::enableSession
          */

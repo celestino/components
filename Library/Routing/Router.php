@@ -464,6 +464,12 @@
         public function getRegexFromRoutePath(\Brickoo\Library\Routing\Interfaces\RouteInterface $Route)
         {
             if (preg_match_all('~(\{(?<parameters>[\w]+)\})~', ($regex = $Route->getPath()), $matches)) {
+                if ($formatPosition = strpos($regex, '.')) {
+                    if (($formatRegex = $Route->getFormat()) === null) {
+                        $formatRegex = '.*';
+                    }
+                    $regex = substr($regex, 0, $formatPosition) . '\.(' . $formatRegex . ')';
+                }
                 foreach ($matches['parameters'] as $parameterName) {
                     if ($Route->hasRule($parameterName)) {
                         $regex = str_replace(

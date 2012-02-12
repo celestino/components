@@ -56,7 +56,7 @@
             return $this->getMock
             (
                 'Brickoo\Library\Core\Interfaces\DynamicRequestInterface',
-                array('getPath', 'getMethod', 'getHost', 'getProtocol')
+                array('getPath', 'getMethod', 'getHost', 'getProtocol', 'getFormat')
             );
         }
 
@@ -655,7 +655,7 @@
             $RouteStub = $this->getRouteStub();
             $RouteStub->expects($this->once())
                       ->method('getPath')
-                      ->will($this->returnValue('/path/{name}/to/{otherplace}'));
+                      ->will($this->returnValue('/path/{name}/to/{otherplace}/index.json'));
             $RouteStub->expects($this->exactly(2))
                       ->method('hasRule')
                       ->will($this->returnValueMap($hasRule));
@@ -665,10 +665,13 @@
             $RouteStub->expects($this->exactly(2))
                       ->method('getRule')
                       ->will($this->returnValueMap($getRule));
+            $RouteStub->expects($this->once())
+                      ->method('getFormat')
+                      ->will($this->returnValue(null));
 
             $this->assertEquals
             (
-                '~^/path/(?<name>[a-z]+)/to/(?<otherplace>.*)$~i',
+                '~^/path/(?<name>[a-z]+)/to/(?<otherplace>.*)/index\.(.*)$~i',
                 $this->Router->getRegexFromRoutePath($RouteStub)
             );
         }
