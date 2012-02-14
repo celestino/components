@@ -55,7 +55,7 @@
         {
             return $this->getMock
             (
-                'Brickoo\Library\Core\Interfaces\DynamicRequestInterface',
+                'Brickoo\Library\Core\Interfaces\RequestInterface',
                 array('getPath', 'getMethod', 'getHost', 'getProtocol', 'getFormat')
             );
         }
@@ -464,11 +464,16 @@
          */
         public function testCollectModulesRoutes()
         {
+            $expectedController = array(
+                'controller'    => '\module\lib\Controller',
+                'method'        => 'method',
+                'static'        => true
+            );
             $this->Router->setModules(array('module', realpath(__DIR__) . '/assets/'));
             $this->Router->collectModulesRoutes();
             $this->assertNotEmpty(($routes = $this->Router->RouteCollection()->getRoutes()));
             $this->assertEquals('/', $routes[0]->getPath());
-            $this->assertEquals('\module\lib\Controller::method', $routes[0]->getController());
+            $this->assertEquals($expectedController, $routes[0]->getController());
             $this->assertEquals('GET', $routes[0]->getMethod());
         }
 
@@ -569,7 +574,7 @@
             (
                 array
                 (
-                    'path'        => '~^/path(/(?<name>([a-z]+)?))?/to(/(?<otherplace>(.*)?))?$~i',
+                    'path'        => '~^/path(/(?<name>([a-z]+)?))?/to(/(?<otherplace>(.*)?))?(\..*)?$~i',
                     'method'      => '~^(GET|HEAD)$~i',
                     'hostname'    => '~^(([a-z]+\.)?localhost\.com)$~i',
                     'class'       => serialize($Route)
@@ -655,7 +660,7 @@
             $RouteStub = $this->getRouteStub();
             $RouteStub->expects($this->once())
                       ->method('getPath')
-                      ->will($this->returnValue('/path/{name}/to/{otherplace}/index.json'));
+                      ->will($this->returnValue('/path/{name}/to/{otherplace}/index'));
             $RouteStub->expects($this->exactly(2))
                       ->method('hasRule')
                       ->will($this->returnValueMap($hasRule));
@@ -667,11 +672,11 @@
                       ->will($this->returnValueMap($getRule));
             $RouteStub->expects($this->once())
                       ->method('getFormat')
-                      ->will($this->returnValue(null));
+                      ->will($this->returnValue('json'));
 
             $this->assertEquals
             (
-                '~^/path/(?<name>[a-z]+)/to/(?<otherplace>.*)/index\.(.*)$~i',
+                '~^/path/(?<name>[a-z]+)/to/(?<otherplace>.*)/index\.(json)$~i',
                 $this->Router->getRegexFromRoutePath($RouteStub)
             );
         }

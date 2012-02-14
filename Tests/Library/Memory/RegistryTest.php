@@ -76,18 +76,18 @@
 
         /**
          * Test if the identifier can be registered.
-         * @covers Brickoo\Library\Memory\Registry::getRegistrations
+         * @covers Brickoo\Library\Memory\Registry::getAll
          */
         public function testGetRegistrations()
         {
-            $this->assertInternalType('array', $this->Registry->getRegistrations());
+            $this->assertInternalType('array', $this->Registry->getAll());
             $this->Registry->register('name', 'john');
-            $this->assertArrayHasKey('name', $this->Registry->getRegistrations());
+            $this->assertArrayHasKey('name', $this->Registry->getAll());
         }
 
          /**
          * Test if the registrations can be added as an array.
-         * @covers Brickoo\Library\Memory\Registry::addRegistrations
+         * @covers Brickoo\Library\Memory\Registry::add
          * @covers Brickoo\Library\Memory\Registry::count
          */
         public function testAddRegistrations()
@@ -95,7 +95,7 @@
             $this->assertSame
             (
                 $this->Registry,
-                $this->Registry->addRegistrations(array('name' => 'brickoo', 'town' => 'bonn'))
+                $this->Registry->add(array('name' => 'brickoo', 'town' => 'bonn'))
             );
             $this->assertEquals(2, count($this->Registry));
         }
@@ -158,33 +158,33 @@
 
         /**
          * Test if an registered key can be retrieved.
-         * @covers Brickoo\Library\Memory\Registry::getRegistered
+         * @covers Brickoo\Library\Memory\Registry::get
          */
         public function testGetRegistered()
         {
             $this->Registry->register('name' ,'john');
-            $this->assertEquals('john', $this->Registry->getRegistered('name'));
+            $this->assertEquals('john', $this->Registry->get('name'));
         }
 
         /**
          * Test if using the registration of an registered identifer throws an exception.
-         * @covers Brickoo\Library\Memory\Registry::getRegistered
+         * @covers Brickoo\Library\Memory\Registry::get
          * @expectedException InvalidArgumentException
          */
         public function testGetRegisteredArgumentException()
         {
-            $this->Registry->getRegistered(array('wrongType'));
+            $this->Registry->get(array('wrongType'));
         }
 
         /**
          * Test if retrieving an not registered identifer throws an exception.
-         * @covers Brickoo\Library\Memory\Registry::getRegistered
+         * @covers Brickoo\Library\Memory\Registry::get
          * @covers Brickoo\Library\Memory\Exceptions\IdentifierNotRegisteredException
          * @expectedException Brickoo\Library\Memory\Exceptions\IdentifierNotRegisteredException
          */
         public function testGetRegisteredException()
         {
-            $this->Registry->getRegistered('name');
+            $this->Registry->get('name');
         }
 
         /**

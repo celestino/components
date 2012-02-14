@@ -110,8 +110,8 @@
         public function hasModules();
 
         /**
-         * Returns the Request instance implementing the Core\Interfaces\DynamicRequestInterface.
-         * @return \Brickoo\Library\Core\Interfaces\DynamicRequestInterface
+         * Returns the Request instance implementing the Core\Interfaces\RequestInterface.
+         * @return \Brickoo\Library\Core\Interfaces\RequestInterface
          */
         public function getRequest();
 

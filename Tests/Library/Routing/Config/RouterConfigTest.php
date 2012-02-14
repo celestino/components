@@ -103,7 +103,7 @@
             (
                 'Brickoo\Library\Routing\Router',
                 array('setCacheDirectory', 'setModules'),
-                array($this->getMock('Brickoo\Library\Core\Interfaces\DynamicRequestInterface'))
+                array($this->getMock('Brickoo\Library\Core\Interfaces\RequestInterface'))
             );
 
             $RouterStub->expects($this->once())

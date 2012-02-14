@@ -32,6 +32,7 @@
 
     namespace Brickoo\Library\Http;
 
+    use Brickoo\Library\Core;
     use Brickoo\Library\Validator\TypeValidator;
 
     /**
@@ -41,7 +42,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Response implements Interfaces\ResponseInterface
+    class Response implements Interfaces\ResponseInterface, Core\Interfaces\ResponseInterface
     {
 
         /**
@@ -108,7 +109,7 @@
          * @param string $name the name of the dependency
          * @param string $interface the interface which has to be implemented by the dependency
          * @param callback $callback the callback to create a new dependency
-         * @param object $Dependecy the dependecy used to overwrite
+         * @param object $Dependecy the dependecy to inject
          * @return object Request if overwritten otherwise the dependency
          */
         protected function getDependency($name, $interface, $callback, $Dependecy = null)
@@ -353,6 +354,17 @@
             echo ("\r\n" . ltrim($this->getContent(), "\r\n"));
 
             return $this;
+        }
+
+        /**
+         * Class cosntructor.
+         * Initializes the class properties.
+         * @return void
+         */
+        public function __construct()
+        {
+            $this->protocol      = 'HTTP/1.1';
+            $this->statusCode    = 200;
         }
 
         /**

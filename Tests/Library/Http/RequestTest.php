@@ -62,14 +62,14 @@
         }
 
         /**
-         * Test if a Request instance can be created and implements the DynamicRequestInterface.
+         * Test if a Request instance can be created and implements the RequestInterface.
          * @covers Brickoo\Library\Http\Request::__construct
          */
         public function testConstruct()
         {
             $this->assertInstanceOf
             (
-                'Brickoo\Library\Core\Interfaces\DynamicRequestInterface',
+                'Brickoo\Library\Core\Interfaces\RequestInterface',
                 ($Request = new Request())
             );
         }

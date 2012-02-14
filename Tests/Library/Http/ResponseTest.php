@@ -61,6 +61,15 @@
         }
 
         /**
+         * Test if the Response implements the ResponseInterface.
+         * @covers Brickoo\Library\Http\Response::__construct
+         */
+        public function testConstruct()
+        {
+            $this->assertInstanceOf('Brickoo\Library\Http\Interfaces\ResponseInterface', $this->Response);
+        }
+
+        /**
          * Test the Template dependency injection and the Response reference is returned.
          * @covers Brickoo\Library\Http\Response::Template
          * @covers Brickoo\Library\Http\Response::getDependency
@@ -258,6 +267,7 @@
          */
         public function testGetStatusPhraseUnknownException()
         {
+            $this->Response->setStatusCode(900);
             $this->Response->getStatusPhrase();
         }
 

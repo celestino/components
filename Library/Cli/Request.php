@@ -43,7 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Request implements Interfaces\RequestInterface, Core\Interfaces\DynamicRequestInterface
+    class Request implements Interfaces\RequestInterface, Core\Interfaces\RequestInterface
     {
 
         /**
@@ -159,7 +159,7 @@
 
         /**
          * Returns the request path used.
-         * Needs to be implemented by the DynamicRequestInterface.
+         * Needs to be implemented by the RequestInterface.
          * @throws UnexpectedValueException if the request path is not set
          * @return string the request path
          */
@@ -174,7 +174,7 @@
 
         /**
          * Sets the request path to use.
-         * Needs to be implemented by the DynamicRequestInterface.
+         * Needs to be implemented by the RequestInterface.
          * @param string $requestPath the request path to use
          * @return \Brickoo\Library\Cli\Request
          */
@@ -196,7 +196,7 @@
         /**
          * Returns the request method.
          * This method should always return LOCAL for compatibility with other modules.
-         * Needs to be implemented by the DynamicRequestInterface.
+         * Needs to be implemented by the RequestInterface.
          * @return string the request method
          */
         public function getMethod()
@@ -210,7 +210,7 @@
 
         /**
          * Sets the request method.
-         * Needs to be implemented by the DynamicRequestInterface.
+         * Needs to be implemented by the RequestInterface.
          * @param string $method the request method to set
          * @return \Brickoo\Library\Cli\Request
          */
@@ -231,7 +231,7 @@
 
         /**
         * Returns the server hostname.
-        * Needs to be implemented by the DynamicRequestInterface.
+        * Needs to be implemented by the RequestInterface.
          * @return the server hostname
         */
         public function getHost()
@@ -245,7 +245,7 @@
 
         /**
          * Sets the host name.
-         * Needs to be implemented by the DynamicRequestInterface.
+         * Needs to be implemented by the RequestInterface.
          * @param string $host the host name to set
          * @return \Brickoo\Library\Cli\Request
          */
@@ -266,7 +266,7 @@
 
         /**
          * Returns the request format.
-         * Needs to be implemented by the DynamicRequestInterface.
+         * Needs to be implemented by the RequestInterface.
          * @return string the request format or null if not set
          */
         public function getFormat()
@@ -276,7 +276,7 @@
 
         /**
          * Sets the request format.
-         * Needs to be implemented by the DynamicRequestInterface.
+         * Needs to be implemented by the RequestInterface.
          * @param string $format the request format
          * @return \Brickoo\Library\Http\Request
          */

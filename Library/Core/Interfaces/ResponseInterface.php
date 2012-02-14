@@ -30,29 +30,28 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Memory\Exceptions;
+    namespace Brickoo\Library\Core\Interfaces;
 
     /**
-     * LockerException
+     * ResponseInterface
      *
-     * Exception throwed by the Locker class if trying to lock some identifiers
-     * and none could be locked.
-     * @see Brickoo\Library\Memory\Locker::lock
+     * This interface is for the dynamic type hinting of the Http and Cli Responses.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class LockFailedException extends \Exception
+    Interface ResponseInterface
     {
 
         /**
-         * Class constructor.
-         * Calls the parent Exception constructor.
-         * @param string $identifier the identifier which can not be locked
+         * Sends the output to the output buffer.
          * @return void
          */
-        public function __construct($identifier)
-        {
-            parent::__construct(sprintf('Unable to lock the identifier `%s`.', $identifier));
-        }
+        public function send();
+
+        /**
+         * Returns the converted response as a string.
+         * @return string the converted response
+         */
+        public function toString();
 
     }

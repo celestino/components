@@ -124,7 +124,7 @@
             $message    .= $Exception->getMessage();
 
             if (! $Exception instanceof Exceptions\ErrorHandlerException) {
-                $message    .= ' throwed in ' . $Exception->getFile();
+                $message    .= ' Throwed in ' . $Exception->getFile();
                 $message    .= ' on line ' . $Exception->getLine();
             }
 

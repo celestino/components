@@ -47,11 +47,12 @@
         /**
          * Class constructor.
          * Calls the parent Exception constructor.
+         * @parma string $identifier the identifier which are not locked
          * @return void
          */
-        public function __construct()
+        public function __construct($identifier)
         {
-            parent::__construct('Unable to unlock all identifiers.');
+            parent::__construct(sprintf('Unable to unlock `%s`, this identifier is not locked.', $identifier));
         }
 
     }

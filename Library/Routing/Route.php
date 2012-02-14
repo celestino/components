@@ -85,14 +85,14 @@
 
         /**
          * Holds the controller:method which should be executed.
-         * @var string
+         * @var array
          */
         protected $controller;
 
         /**
-         * Returns the controller:method to execute.
+         * Returns the controller configuration.
          * @throws UnexpectedValueException if the controller is null
-         * @return string the controller and method to execute
+         * @return array the controller configuration
          */
         public function getController()
         {
@@ -104,16 +104,25 @@
         }
 
         /**
-         * Sets the controller:method to execute.
-         * The controller and method has to be seperated by '::'.
-         * @param string $controller the controller and method to execute
+         * Sets the controller::method as callback to execute.
+         * The controller and method can be a string for static calls
+         * or an array for regular object initialization.
+         * @param string $controller the controller namespace path
+         * @param string $method the method name
+         * @param boolean $static flag to mark the call as static
          * @return \Brickoo\Library\Routing\Route
          */
-        public function setController($controller)
+        public function setController($controller, $method, $static = false)
         {
-            TypeValidator::MatchesRegex('~^\\\\[\w\\\\]+\:\:[\w]+$~', $controller);
+            TypeValidator::IsString($controller);
+            TypeValidator::IsString($method);
+            TypeValidator::IsBoolean($static);
 
-            $this->controller = $controller;
+            $this->controller = array(
+                'controller'    => $controller,
+                'method'        => $method,
+                'static'        => $static
+            );
 
             return $this;
         }
@@ -462,6 +471,7 @@
             $this->path                    = null;
             $this->method                  = null;
             $this->hostname                = null;
+            $this->format                  = null;
             $this->sessionEnabled          = false;
             $this->sessionConfiguration    = array();
             $this->defaultValues           = array();

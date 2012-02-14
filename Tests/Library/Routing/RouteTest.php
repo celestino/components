@@ -105,14 +105,20 @@
 
         /**
          * Test if the controller can be set and the Route reference is returned.
+         * Test if the controller can be retrieved after set.
          * @covers Brickoo\Library\Routing\Route::setController
+         * @covers Brickoo\Library\Routing\Route::getController
          */
-        public function testSetController()
+        public function testGetSetController()
         {
-            $this->assertSame($this->Route, $this->Route->setController('\namespace\controller::method'));
-            $this->assertAttributeEquals('\namespace\controller::method', 'controller', $this->Route);
-
-            return $this->Route;
+            $expectedController = array(
+                'controller'    => '\namespace\controller',
+                'method'        => 'test',
+                'static'        => true
+            );
+            $this->assertSame($this->Route, $this->Route->setController('\namespace\controller', 'test', true));
+            $this->assertAttributeEquals($expectedController, 'controller', $this->Route);
+            $this->assertEquals($expectedController, $this->Route->getController());
         }
 
         /**
@@ -122,17 +128,7 @@
          */
         public function testSetControllerArgumentException()
         {
-            $this->Route->setController('controller:method');
-        }
-
-        /**
-         * Test if the controller property can be retrieved.
-         * @covers Brickoo\Library\Routing\Route::getController
-         * @depends testSetController
-         */
-        public function testGetController($Route)
-        {
-            $this->assertEquals('\namespace\controller::method', $Route->getController());
+            $this->Route->setController(array('wrongType'), 'method');
         }
 
         /**

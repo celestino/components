@@ -57,7 +57,7 @@
          * Returns all assigned registrations.
          * @return array the assigned registrations
          */
-        public function getRegistrations()
+        public function getAll()
         {
             return $this->registrations;
         }
@@ -67,7 +67,7 @@
          * @param array $registrations the registrations to add
          * @return object reference
          */
-        public function addRegistrations(array $registrations)
+        public function add(array $registrations)
         {
             foreach($registrations as $identifier => $value) {
                 $this->register($identifier, $value);
@@ -83,7 +83,7 @@
          * @throws IdentifierNotRegisteredException if the identifier is not registered
          * @return mixed the value of the registered identifier
          */
-        public function getRegistered($identifier)
+        public function get($identifier)
         {
             TypeValidator::IsStringOrInteger($identifier);
 
@@ -96,8 +96,8 @@
 
         /**
          * Register an identifer-value pair.
-         * Take care of registering objects who are assigned somewhere else
-         * as an reference the changes applys to the registerd objects as well.
+         * Take care of registering objects which could be used somewhere else
+         * as a reference changes applys to the registered as well.
          * @param string|integer $identifier the identifier to register
          * @param mixed $value the identifier value to reguister with
          * @throws DuplicateRegistrationException the identifier is already registered
@@ -122,7 +122,7 @@
         }
 
         /**
-         * Overrides an existing identifier with given value (!).
+         * Overrides an existing identifier with the given value (!).
          * If the identifer ist not registered it will be registered.
          * @param string|integer $identifier the identifier to register
          * @param mixed $value the identifier value to register
@@ -272,7 +272,7 @@
          */
         public function __get($identifier)
         {
-            return $this->getRegistered($identifier);
+            return $this->get($identifier);
         }
 
         /**

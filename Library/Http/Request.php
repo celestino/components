@@ -43,7 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Request implements Interfaces\RequestInterface, Core\Interfaces\DynamicRequestInterface
+    class Request implements Interfaces\RequestInterface, Core\Interfaces\RequestInterface
     {
 
         /**
@@ -57,7 +57,7 @@
          * @param string $name the name of the dependency
          * @param string $interface the interface which has to be implemented by the dependency
          * @param callback $callback the callback to create a new dependency
-         * @param object $Dependecy the dependecy used to overwrite
+         * @param object $Dependecy the dependecy to inject
          * @return object Request if overwritten otherwise the dependency
          */
         protected function getDependency($name, $interface, $callback, $Dependecy = null)
@@ -224,7 +224,6 @@
 
         /**
          * Returns the request method.
-         * Needs to be implemented by the DynamicRequestInterface.
          * Fallback if the method is not supported to standard GET.
          * @return string the http request method
          */
@@ -240,7 +239,6 @@
 
         /**
          * Sets the http request method.
-         * Needs to be implemented by the DynamicRequestInterface.
          * @param string $method the http request method
          * @throws Exceptions\MethodNotSupported if the method is not supported
          * @return \Brickoo\Library\Http\Request
@@ -260,7 +258,6 @@
 
         /**
          * Returns the server hostname.
-         * Needs to be implemented by the DynamicRequestInterface.
          * @return the server hostname
          */
         public function getHost()
@@ -270,7 +267,6 @@
 
         /**
          * Sets the host name.
-         * Needs to be implemented by the DynamicRequestInterface.
          * @param string $host the host name to set
          * @return \Brickoo\Library\Http\Request
          */
@@ -284,7 +280,6 @@
 
         /**
          * Returns the request path.
-         * Needs to be implemented by the DynamicRequestInterface.
          * @return string the request path
          */
         public function getPath()
@@ -294,7 +289,6 @@
 
         /**
          * Sets the request path.
-         * Needs to be implemented by the DynamicRequestInterface.
          * @param string $path the request path to set
          * @return \Brickoo\Library\Http\Request
          */
@@ -308,7 +302,6 @@
 
         /**
          * Returns the request format.
-         * Needs to be implemented by the DynamicRequestInterface.
          * @return string the request format or null if not set
          */
         public function getFormat()
@@ -318,7 +311,6 @@
 
         /**
          * Sets the request format.
-         * Needs to be implemented by the DynamicRequestInterface.
          * @param string $format the request format
          * @return \Brickoo\Library\Http\Request
          */

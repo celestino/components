@@ -33,13 +33,13 @@
     namespace Brickoo\Library\Core\Interfaces;
 
     /**
-     * DynamicRequestInterface
+     * RequestInterface
      *
      * This interface is for the dynamic type hinting of the Http and Cli Requests.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    Interface DynamicRequestInterface
+    Interface RequestInterface
     {
 
         /**

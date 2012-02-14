@@ -150,7 +150,7 @@
         {
             $this->assertEquals
             (
-                '[123]: message throwed in ' . __FILE__ . ' on line 154',
+                '[123]: message Throwed in ' . __FILE__ . ' on line 154',
                 $this->ExceptionHandler->handleException(new Exception('message', 123))
             );
         }
@@ -170,7 +170,7 @@
             $this->ExceptionHandler->Logger($LoggerStub);
             $this->assertEquals
             (
-                '[777]: message throwed in ' . __FILE__ . ' on line 174',
+                '[777]: message Throwed in ' . __FILE__ . ' on line 174',
                 $this->ExceptionHandler->handleException(new Exception('message', 777))
             );
         }

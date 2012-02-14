@@ -30,29 +30,48 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Memory\Exceptions;
+    namespace Brickoo\Library\Core\Interfaces;
 
     /**
-     * LockerException
+     * RegistryInterface
      *
-     * Exception throwed by the Locker class if trying to lock some identifiers
-     * and none could be locked.
-     * @see Brickoo\Library\Memory\Locker::lock
+     * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class LockFailedException extends \Exception
+    Interface RegistryInterface
     {
 
         /**
-         * Class constructor.
-         * Calls the parent Exception constructor.
-         * @param string $identifier the identifier which can not be locked
-         * @return void
+         * Lazy initialization of the Registry dependency.
+         * @param \Brickoo\Library\Memory\Interfaces\RegistryInterface $Registry the Registry dependency
+         * @throws DependencyOverwriteException if trying to override the Registry dependency available
+         * @return \Brickoo\Library\Memory\Interfaces\RegistryInterface
          */
-        public function __construct($identifier)
-        {
-            parent::__construct(sprintf('Unable to lock the identifier `%s`.', $identifier));
-        }
+        public function Registry(\Brickoo\Library\Memory\Interfaces\RegistryInterface $Registry = null);
+
+        /**
+         * Shortcut to retrieve a value from the Registry.
+         * @param string|integer $identifier the identifier to retrieve the value from
+         * @return mixed the value holded by the identifier
+         */
+        public function get($identifier);
+
+        /**
+         * Shortcut to register an new identifier and add the value to it.
+         * This method also locks(!) the identifier, since the registry should
+         * not allow to overwrite a system wide available identifier.
+         * @param string|integer $identifier the identifier to register
+         * @param string $value the valuue to be holded
+         * @return \Brickoo\Library\Core\Brickoo
+         */
+        public  function register($identifier, $value);
+
+        /**
+         * Shorcut to check if an identifier is registered.
+         * @param string|integer $identifier the identifier to check its availability
+         * @return boolean check result
+         */
+        public function isRegistered($identifier);
 
     }

@@ -5,7 +5,7 @@
     $RouteCollection = new RouteCollection();
 
     $RouteCollection->getRoute()
-                    ->setController('\module\lib\Controller::method')
+                    ->setController('\module\lib\Controller', 'method', true)
                     ->setPath('/')
                     ->setMethod('GET');
 

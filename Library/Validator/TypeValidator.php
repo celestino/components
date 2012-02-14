@@ -59,6 +59,13 @@
         const FLAG_ARRAY_CAN_BE_EMPTY         = 4;
         const FLAG_REGEX_NEGATIVE_CHECK       = 8;
 
+        public static function ThrowInvalidArgumentException($argument, $flag)
+        {
+            throw new \InvalidArgumentException(
+                sprintf(self::ExceptionMessage, serialize($argument), (int)$flag, __METHOD__)
+            );
+        }
+
         /**
          * Checks if the argument is a string.
          * @param array $arguments the arguments to validate
@@ -89,16 +96,7 @@
                 )
             )
             {
-                throw new \InvalidArgumentException
-                (
-                    sprintf
-                    (
-                        self::ExceptionMessage,
-                        serialize($argument),
-                        ($flag === null ? 'null' : (int)$flag),
-                        __METHOD__
-                    )
-                );
+                return self::ThrowInvalidArgumentException($argument, $flag);
             }
 
             return true;
@@ -132,18 +130,8 @@
                         ($argument !== 0)
                     )
                 )
-            )
-            {
-                throw new \InvalidArgumentException
-                (
-                    sprintf
-                    (
-                        self::ExceptionMessage,
-                        serialize($argument),
-                        ($flag === null ? 'null' : (int)$flag),
-                        __METHOD__
-                    )
-                );
+            ) {
+                return self::ThrowInvalidArgumentException($argument, $flag);
             }
 
             return true;
@@ -158,18 +146,8 @@
          */
         public static function IsFloat($argument, $flag = null)
         {
-            if (! is_float($argument))
-            {
-                throw new \InvalidArgumentException
-                (
-                    sprintf
-                    (
-                        self::ExceptionMessage,
-                        serialize($argument),
-                        ($flag === null ? 'null' : (int)$flag),
-                        __METHOD__
-                    )
-                );
+            if (! is_float($argument)) {
+                return self::ThrowInvalidArgumentException($argument, $flag);
             }
 
             return true;
@@ -200,18 +178,8 @@
                         is_array($argument)
                     )
                 )
-            )
-            {
-                throw new \InvalidArgumentException
-                (
-                    sprintf
-                    (
-                        self::ExceptionMessage,
-                        serialize($argument),
-                        ($flag === null ? 'null' : (int)$flag),
-                        __METHOD__
-                    )
-                );
+            ) {
+                return self::ThrowInvalidArgumentException($argument, $flag);
             }
 
             return true;
@@ -235,18 +203,8 @@
                     &&
                     (count($argument) == count($filtered))
                 )
-            )
-            {
-                throw new \InvalidArgumentException
-                (
-                    sprintf
-                    (
-                        self::ExceptionMessage,
-                        serialize($argument),
-                        ($flag === null ? 'null' : (int)$flag),
-                        __METHOD__
-                    )
-                );
+            ) {
+                return self::ThrowInvalidArgumentException($argument, $flag);
             }
 
             return true;
@@ -270,18 +228,8 @@
                     &&
                     (count($argument) == count($filtered))
                 )
-            )
-            {
-                throw new \InvalidArgumentException
-                (
-                    sprintf
-                    (
-                        self::ExceptionMessage,
-                        serialize($argument),
-                        ($flag === null ? 'null' : (int)$flag),
-                        __METHOD__
-                    )
-                );
+            ) {
+                return self::ThrowInvalidArgumentException($argument, $flag);
             }
 
             return true;
@@ -306,18 +254,8 @@
                     &&
                     (! empty($result))
                 )
-            )
-            {
-                throw new \InvalidArgumentException
-                (
-                    sprintf
-                    (
-                        self::ExceptionMessage,
-                        serialize($argument),
-                        ($flag === null ? 'null' : (int)$flag),
-                        __METHOD__
-                    )
-                );
+            ) {
+                return self::ThrowInvalidArgumentException($argument, $flag);
             }
 
             return true;
@@ -332,18 +270,8 @@
          */
         public static function IsBoolean($argument, $flag = null)
         {
-            if (! is_bool($argument))
-            {
-                throw new \InvalidArgumentException
-                (
-                    sprintf
-                    (
-                        self::ExceptionMessage,
-                        serialize($argument),
-                        ($flag === null ? 'null' : (int)$flag),
-                        __METHOD__
-                    )
-                );
+            if (! is_bool($argument)) {
+                return self::ThrowInvalidArgumentException($argument, $flag);
             }
 
             return true;
@@ -358,18 +286,8 @@
          */
         public static function IsNotEmpty($argument, $flag = null)
         {
-            if (empty($argument))
-            {
-                throw new \InvalidArgumentException
-                (
-                    sprintf
-                    (
-                        self::ExceptionMessage,
-                        serialize($argument),
-                        ($flag === null ? 'null' : (int)$flag),
-                        __METHOD__
-                    )
-                );
+            if (empty($argument)) {
+                return self::ThrowInvalidArgumentException($argument, $flag);
             }
 
             return true;
@@ -422,18 +340,8 @@
                         )
                     )
                 )
-            )
-            {
-                throw new \InvalidArgumentException
-                (
-                    sprintf
-                    (
-                        self::ExceptionMessage,
-                        serialize($argument),
-                        ($flag === null ? 'null' : (int)$flag),
-                        __METHOD__
-                    )
-                );
+            ) {
+                return self::ThrowInvalidArgumentException($argument, $flag);
             }
 
             return true;
@@ -465,18 +373,8 @@
                         (! preg_match($regex, $argument))
                     )
                 )
-            )
-            {
-                throw new \InvalidArgumentException
-                (
-                    sprintf
-                    (
-                        self::ExceptionMessage,
-                        serialize(array($regex, $argument)),
-                        ($flag === null ? 'null' : (int)$flag),
-                        __METHOD__
-                    )
-                );
+            ) {
+                return self::ThrowInvalidArgumentException(array($regex, $argument), $flag);
             }
 
             return true;

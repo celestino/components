@@ -124,16 +124,4 @@
          */
         public function sendContent();
 
-        /**
-         * Sends the output to the output buffer.
-         * @return void
-         */
-        public function send();
-
-        /**
-         * Returns the converted response as a string.
-         * @return string the converted response
-         */
-        public function toString();
-
     }

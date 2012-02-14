@@ -32,117 +32,64 @@
 
     namespace Brickoo\Library\Memory;
 
-    use Brickoo\Library\Memory\Exceptions;
     use Brickoo\Library\Validator\TypeValidator;
 
     /**
      * Locker
      *
-     * Holds locked identifers.
      * This class can be used to have keep an lock status on specific identifiers.
      * Contains one abstract method (public boolean Locker::isIdentifierAvailable($identifier)).
-     * This abstract method is to allow only identifiers which are available on the main class.
+     * The abstract method is implemented to allow only identifiers which are available on the main class.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
     abstract class Locker implements \Countable
     {
 
+        /**
+         * Holds the locked identifier associated to the keys.
+         * @var array
+         */
         protected $locked;
 
         /**
-         * Clearn up the identifiers which are not available or locked.
-         * @param array $identifiers the identifiers to clean up.
-         * @return array the cleaned identifiers
-         */
-        protected function cleanToLockIdentifiers(array $identifiers)
-        {
-            foreach($identifiers as $index => $singleIdentifier) {
-                TypeValidator::IsStringOrInteger($singleIdentifier);
-
-                if ((! $this->isIdentifierAvailable($singleIdentifier)) || $this->isLocked($singleIdentifier)) {
-                    unset ($identifiers[$index]);
-                    continue;
-                }
-
-                $identifiers[$index] = $singleIdentifier;
-            }
-
-            return $identifiers;
-        }
-
-        /**
-         * Locks the identifer(s).
-         * Fails if a single identifier or all identifiers are locked.
-         * If a array is given and just a few identifiers
-         * are locked or not registered the method does not fail.
+         * Locks the identifer and returns an unlock key.
          * Extended by the Registry class, override and unregister methods of the
          * Registry class are disabled for this identifier(s)
          * @param string|integer|array $identifiers the identifiers to lock
          * @throws LockFailedException if all the identifiers can not be locked
-         * @return object reference
+         * @return string the unlock key
          */
-        public function lock($identifiers)
+        public function lock($identifier)
         {
-            if (! is_array($identifiers)) {
-                $identifiers = array($identifiers);
+            TypeValidator::IsStringOrInteger($identifier);
+
+            if ((! $this->isIdentifierAvailable($identifier)) || $this->isLocked($identifier)) {
+                throw new Exceptions\LockFailedException($identifier);
             }
 
-            $identifiers = $this->cleanToLockIdentifiers($identifiers);
+            $this->locked[$identifier] = ($unlockKey = uniqid($identifier));
 
-            if (empty($identifiers)) {
-                throw new Exceptions\LockFailedException();
-            }
-
-            $this->locked = array_merge($this->locked, $identifiers);
-
-            // TODO: Return an lock key !
-            return $this;
+            return $unlockKey;
         }
 
         /**
-         * Clearn up the identifiers which are not locked.
-         * @param array $identifiers the identifiers to clean up.
-         * @return array the cleaned identifiers
-         */
-        protected function cleanToUnlockIdentifiers(array $identifiers)
-        {
-            foreach($identifiers as $index => $singleIdentifier) {
-                TypeValidator::IsStringOrInteger($singleIdentifier);
-
-                if(! $this->isLocked($singleIdentifier)) {
-                    unset ($identifiers[$index]);
-                    continue;
-                }
-
-                $identifiers[$index] = $singleIdentifier;
-            }
-
-            return $identifiers;
-        }
-
-        /**
-         * Unlocks the currently locked identifer(s).
-         * Fails if the single identifier or all identifers of an array are not locked.
-         * If a array is given and just a few identifiers
-         * are not locked the method does not fail.
-         * @param string|integer|array $identifiers the identifier(s) which should be unlocked
+         * Unlocks the locked identifer matching the lock key.
+         * @param string|integer $identifier the identifier which should be unlocked
+         * @param string $unlockKey the key to unlock the identifier
          * @throws UnlockFailedException if all the identifiers can not be unlocked
-         * @return object reference
+         * @return \Brickoo\Library\Memory\Locker
          */
-        public function unlock($identifiers)
+        public function unlock($identifier, $unlockKey)
         {
-            if (! is_array($identifiers)) {
-                $identifiers = array($identifiers);
+            TypeValidator::IsStringOrInteger($identifier);
+            TypeValidator::IsString($unlockKey);
+
+            if(! $this->isLocked($identifier) || ($this->locked[$identifier] !== $unlockKey)) {
+                throw new Exceptions\UnlockFailedException($identifier);
             }
 
-            $identifiers = $this->cleanToUnlockIdentifiers($identifiers);
-
-            if (empty($identifiers)) {
-                throw new Exceptions\UnlockFailedException();
-            }
-
-            $this->locked = array_diff($this->locked, $identifiers);
+            unset($this->locked[$identifier]);
 
             return $this;
         }
@@ -156,17 +103,7 @@
         {
             TypeValidator::IsStringOrInteger($identifier);
 
-            return in_array($identifier, $this->locked);
-        }
-
-        /**
-         * Returns the amount of locked identifiers.
-         * This method is for the case of overriden Locker::count()
-         * @return integer the number of locked identifiers
-         */
-        public function getAmountOfLockedIdentifiers()
-        {
-            return count($this->locked);
+            return array_key_exists($identifier, $this->locked);
         }
 
         /**

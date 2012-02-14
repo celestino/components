@@ -57,7 +57,7 @@
          * @param string $name the name of the dependency
          * @param string $interface the interface which has to be implemented by the dependency
          * @param callback $callback the callback to create a new dependency
-         * @param object $Dependecy the dependecy used to overwrite
+         * @param object $Dependecy the dependecy to inject
          * @return object Request if overwritten otherwise the dependency
          */
         protected function getDependency($name, $interface, $callback, $Dependecy = null)
@@ -232,13 +232,13 @@
 
         /**
          * Holds an instance of the Request class.
-         * @var \Brickoo\Library\Core\Interfaces\DynamicRequestInterface
+         * @var \Brickoo\Library\Core\Interfaces\RequestInterface
          */
         protected $Request;
 
         /**
-         * Returns the Request instance implementing the DynamicRequestInterface.
-         * @return \Brickoo\Library\Core\Interfaces\DynamicRequestInterface
+         * Returns the Request instance implementing the RequestInterface.
+         * @return \Brickoo\Library\Core\Interfaces\RequestInterface
          */
         public function getRequest()
         {
@@ -345,18 +345,20 @@
                 throw new Exceptions\RequestHasNoRouteException($this->getRequest()->getPath());
             }
 
-            $this->saveRoutesToCache();
+            if ($this->hasCacheDirectory()) {
+                $this->saveRoutesToCache();
+            }
 
             return $this->getRequestRoute();
         }
 
         /**
         * Class constructor.
-        * Injects a Request dependency implementing the Core}Interfaces\DynamicRequestInterface
+        * Injects a Request dependency implementing the Core}Interfaces\RequestInterface
         * Initializes the class properties.
         * @return void
         */
-        public function __construct(\Brickoo\Library\Core\Interfaces\DynamicRequestInterface $Request)
+        public function __construct(\Brickoo\Library\Core\Interfaces\RequestInterface $Request)
         {
             $this->Request            = $Request;
             $this->RequestRoute       = null;
@@ -422,7 +424,9 @@
          */
         public function loadRoutesFromCache()
         {
-            if (file_exists(($filename = $this->getCacheDirectory() . $this->getCacheFilename())) &&
+            if (
+                $this->hasCacheDirectory() &&
+                file_exists(($filename = $this->getCacheDirectory() . $this->getCacheFilename())) &&
                 is_readable($filename) &&
                 is_array(($cachedRoutes = include ($filename)))
             ) {
@@ -463,13 +467,16 @@
          */
         public function getRegexFromRoutePath(\Brickoo\Library\Routing\Interfaces\RouteInterface $Route)
         {
-            if (preg_match_all('~(\{(?<parameters>[\w]+)\})~', ($regex = $Route->getPath()), $matches)) {
-                if ($formatPosition = strpos($regex, '.')) {
-                    if (($formatRegex = $Route->getFormat()) === null) {
-                        $formatRegex = '.*';
-                    }
-                    $regex = substr($regex, 0, $formatPosition) . '\.(' . $formatRegex . ')';
-                }
+            $regex = $Route->getPath();
+
+            $formatRegex = '(\..*)?';
+            if (($routeFormat = $Route->getFormat()) !== null) {
+                $formatRegex = '\.(' . $routeFormat . ')';
+            }
+
+            $regex .= $formatRegex;
+
+            if (preg_match_all('~(\{(?<parameters>[\w]+)\})~', $regex, $matches)) {
                 foreach ($matches['parameters'] as $parameterName) {
                     if ($Route->hasRule($parameterName)) {
                         $regex = str_replace(

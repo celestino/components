@@ -46,7 +46,7 @@
          * Returns all assigned registrations.
          * @return array the assigned registrations
          */
-        public function getRegistrations();
+        public function getAll();
 
         /**
          * Adds the list of registrations to the registry.
@@ -54,7 +54,7 @@
          * @throws InvalidArgumentException if passed registrations is empty
          * @return object reference
          */
-        public function addRegistrations(array $registrations);
+        public function add(array $registrations);
 
         /**
          * Returns the registered value from the given identifier.
@@ -63,7 +63,7 @@
          * @throws IdentifierNotRegisteredException if the identifier is not registered
          * @return mixed the value of the registered identifier
          */
-        public function getRegistered($identifier);
+        public function get($identifier);
 
         /**
          * Register an identifer-value pair.

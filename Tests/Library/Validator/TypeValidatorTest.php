@@ -57,6 +57,7 @@
         /**
          * Test if validation of the isString method throws an exception without flag.
          * @covers Brickoo\Library\Validator\TypeValidator::IsString
+         * @covers Brickoo\Library\Validator\TypeValidator::ThrowInvalidArgumentException
          * @expectedException InvalidArgumentException
          */
         public function testIsStringArgumentException()

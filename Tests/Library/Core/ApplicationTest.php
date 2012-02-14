@@ -44,15 +44,27 @@
     {
 
         /**
-         * Creates and returns a stub of the Core\Registry.
-         * @return object Registry stub
+         * Returns a Core\Registry stub.
+         * @return \Brickoo\Library\Core\Interfaces\RegistryInterface
          */
-        public function getRegistryMock(array $methods = null)
+        public function getRegistryStub()
+        {
+            return $this->getMock(
+                'Brickoo\Library\Core\Interfaces\RegistryInterface',
+                array('Registry', 'get', 'register', 'isRegistered')
+            );
+        }
+
+        /**
+         * Returns a Request stub .
+         * @return \Brickoo\Library\Core\Interfaces\DynamicInterface
+         */
+        public function getRequestStub()
         {
             return $this->getMock
             (
-                'Brickoo\Library\Memory\Registry',
-                ($methods === null ? null : array_values($methods))
+                'Brickoo\Library\Core\Interfaces\RequestInterface',
+                array('getPath', 'getMethod', 'getHost', 'getProtocol', 'getFormat')
             );
         }
 
@@ -60,14 +72,35 @@
          * Holds an instance of the Application object.
          * @var Brickoo\Library\Core\Application
          */
-        protected $ApplicationFixture;
+        protected $Application;
 
         /**
          * Set up the Application object used.
          */
         public function setUp()
         {
-            $this->ApplicationFixture = new ApplicationFixture();
+            $this->Application = new Application($this->getRegistryStub(), $this->getRequestStub());
+        }
+
+        /**
+         * Test if an instance of the Applciation can be created.
+         * Test if the Registry is stored and can be retrieved.
+         * Test if the Request instance is registered to the Registry.
+         * @covers Brickoo\Library\Core\Application::__construct
+         * @covers Brickoo\Library\Core\Application::getRegistry
+         */
+        public function testConstructor()
+        {
+            $Request  = $this->getRequestStub();
+            $Registry = $this->getRegistryStub();
+            $Registry->expects($this->once())
+                     ->method('register')
+                     ->with('application.request', $Request);
+
+            $Application = new Application($Registry, $Request);
+            $this->assertInstanceOf('Brickoo\Library\Core\Application', $Application);
+            $this->assertAttributeSame($Registry, 'Registry', $Application);
+            $this->assertSame($Registry, $Application->getRegistry());
         }
 
         /**
@@ -76,7 +109,7 @@
          */
         public function testGetVersion()
         {
-            $this->assertRegExp('~^([a-z]+)?\{[0-9\.]+\}(\-[\w]+)?$~i', $this->ApplicationFixture->getVersion());
+            $this->assertRegExp('~^([a-z]+)?\{[0-9\.]+\}(\-[\w]+)?$~i', $this->Application->getVersion());
         }
 
         /**
@@ -85,152 +118,36 @@
          */
         public function testGetVersionNumber()
         {
-            $this->assertRegExp('~^[0-9\.]+$~', $this->ApplicationFixture->getVersionNumber());
-        }
-
-        /**
-         * Test if injecting the Registry dependency returns the Application object reference.
-         * @covers Brickoo\Library\Core\Application::injectRegistry
-         */
-        public function testInjectRegistry()
-        {
-            $RegistryStub = $this->getRegistryMock();
-            $this->assertSame($this->ApplicationFixture, $this->ApplicationFixture->injectRegistry($RegistryStub));
-        }
-
-        /**
-         * Test if the reassigment of an Registry throws an exception.
-         * @covers Brickoo\Library\Core\Application::injectRegistry
-         * @covers Brickoo\Library\Core\Exceptions\DependencyOverwriteException
-         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
-         */
-        public function testInjectRegistryDependencyException()
-        {
-            $RegistryStub = $this->getRegistryMock();
-            $this->ApplicationFixture->injectRegistry($RegistryStub);
-            $this->ApplicationFixture->injectRegistry($RegistryStub);
-        }
-
-        /**
-         * Test if the Registry dependency can be returned.
-         * @covers Brickoo\Library\Core\Application::getRegistry
-         */
-        public function testGetRegistry()
-        {
-            $RegistryStub = $this->getRegistryMock();
-            $this->ApplicationFixture->injectRegistry($RegistryStub);
-
-            $this->assertSame($RegistryStub, $this->ApplicationFixture->getRegistry());
-        }
-
-        /**
-         * Test if the Registry is not avilable it will be lazy created.
-         * @covers Brickoo\Library\Core\Application::getRegistry
-         */
-        public function testGetRegistryLazy()
-        {
-            $this->assertInstanceOf
-            (
-                'Brickoo\Library\Memory\Interfaces\RegistryInterface',
-                $this->ApplicationFixture->getRegistry()
-            );
-        }
-
-        /**
-         * Test if a regitry identfier and its value can be registered, recognized and retrieved.
-         * @covers Brickoo\Library\Core\Application::register
-         * @covers Brickoo\Library\Core\Application::isRegistered
-         * @covers Brickoo\Library\Core\Application::get
-         */
-        public function testRegistrationRoutine()
-        {
-            $RegistryStub = $this->getRegistryMock(array('register', 'lock', 'isRegistered', 'getRegistered'));
-            $RegistryStub->expects($this->once())
-                         ->method('register')
-                         ->will($this->returnSelf());
-            $RegistryStub->expects($this->once())
-                         ->method('lock')
-                         ->will($this->returnValue(true));
-            $RegistryStub->expects($this->once())
-                         ->method('isRegistered')
-                         ->will($this->returnValue(true));
-            $RegistryStub->expects($this->once())
-                         ->method('getRegistered')
-                         ->will($this->returnValue('the registered value'));
-            $this->ApplicationFixture->injectRegistry($RegistryStub);
-
-            $this->assertEquals($this->ApplicationFixture, $this->ApplicationFixture->register('id', 'some value'));
-            $this->assertTrue($this->ApplicationFixture->isRegistered('id'));
-            $this->assertEquals('the registered value', $this->ApplicationFixture->get('id'));
-        }
-
-        /**
-         * Test if the Autoloader can be registered and retrieved from the registry.
-         * @covers Brickoo\Library\Core\Application::registerAutoloader
-         * @covers Brickoo\Library\Core\Application::getAutoloader
-         */
-        public function testRegisterAutoloader()
-        {
-            $AutoloaderStub = $this->getMock('Brickoo\Library\Core\Interfaces\AutoloaderInterface');
-
-            $RegistryStub = $this->getRegistryMock(array('register', 'lock', 'getRegistered'));
-            $RegistryStub->expects($this->once())
-                         ->method('register')
-                         ->will($this->returnSelf());
-            $RegistryStub->expects($this->once())
-                         ->method('lock')
-                         ->will($this->returnValue(true));
-            $RegistryStub->expects($this->once())
-                         ->method('getRegistered')
-                         ->will($this->returnValue($AutoloaderStub));
-            $this->ApplicationFixture->injectRegistry($RegistryStub);
-
-            $this->assertSame($this->ApplicationFixture, $this->ApplicationFixture->registerAutoloader($AutoloaderStub));
-            $this->assertSame($AutoloaderStub, $this->ApplicationFixture->getAutoloader());
+            $this->assertRegExp('~^[0-9\.]+$~', $this->Application->getVersionNumber());
         }
 
         /**
          * Test if the modules can be registered, recognized and retrieved.
          * @covers Brickoo\Library\Core\Application::registerModules
-         * @covers Brickoo\Library\Core\Application::getModules
          * @covers Brickoo\Library\Core\Application::isModuleAvailable
          * @covers Brickoo\Library\Core\Application::getModulePath
          */
         public function testModulesRoutine()
         {
-            $AutoloaderStub = $this->getMock('Brickoo\Library\Core\Autoloader', array('registerNamespace'));
-            $AutoloaderStub->expects($this->once())
-                           ->method('registerNamespace')
-                           ->will($this->returnValue(true));
+            $modules = array('module' => '/module/path' . DIRECTORY_SEPARATOR);
 
-            $modules = array('module' => '/module/path');
-
-            $valueMap = array
-            (
-                array(Application::AUTOLOADER, $AutoloaderStub),
-                array(Application::MODULES, $modules)
-            );
-
-            $RegistryStub = $this->getRegistryMock(array('register', 'lock', 'isRegistered', 'getRegistered'));
+            $RegistryStub = $this->Application->getRegistry();
             $RegistryStub->expects($this->once())
                          ->method('register')
+                         ->with('application.modules', $modules)
                          ->will($this->returnSelf());
-            $RegistryStub->expects($this->once())
-                         ->method('lock')
-                         ->will($this->returnValue(true));
             $RegistryStub->expects($this->any())
                          ->method('isRegistered')
+                         ->with('application.modules')
                          ->will($this->returnValue(true));
             $RegistryStub->expects($this->any())
-                         ->method('getRegistered')
-                         ->will($this->returnValueMap($valueMap));
-            $this->ApplicationFixture->injectRegistry($RegistryStub);
+                         ->method('get')
+                         ->with('application.modules')
+                         ->will($this->returnValue($modules));
 
-
-            $this->assertSame($this->ApplicationFixture, $this->ApplicationFixture->registerModules($modules));
-            $this->assertEquals($modules, $this->ApplicationFixture->getModules());
-            $this->assertTrue($this->ApplicationFixture->isModuleAvailable('module'));
-            $this->assertEquals('/module/path', $this->ApplicationFixture->getModulePath('module'));
+            $this->assertSame($this->Application, $this->Application->registerModules($modules));
+            $this->assertTrue($this->Application->isModuleAvailable('module'));
+            $this->assertEquals('/module/path' . DIRECTORY_SEPARATOR, $this->Application->getModulePath('module'));
         }
 
         /**
@@ -239,7 +156,7 @@
          */
         public function testModuleIsNotAvailable()
         {
-            $this->assertFalse($this->ApplicationFixture->isModuleAvailable('notAvailable'));
+            $this->assertFalse($this->Application->isModuleAvailable('notAvailable'));
         }
 
         /**
@@ -250,74 +167,24 @@
          */
         public function testGetModulePathException()
         {
-            $this->ApplicationFixture->getModulePath('notAvailable');
+            $this->Application->getModulePath('notAvailable');
         }
 
         /**
-         * Test if the environment can be registered and recognized.
-         * @covers Brickoo\Library\Core\Application::registerEnvironment
-         * @covers Brickoo\Library\Core\Application::isEnvironment
-         */
-        public function testEnvironmentRoutine()
-        {
-            $RegistryStub = $this->getRegistryMock(array('register', 'lock', 'getRegistered'));
-            $RegistryStub->expects($this->once())
-                         ->method('register')
-                         ->will($this->returnSelf());
-            $RegistryStub->expects($this->once())
-                         ->method('lock')
-                         ->will($this->returnValue(true));
-            $RegistryStub->expects($this->exactly(2))
-                         ->method('getRegistered')
-                         ->will($this->returnValue(Application::ENVIRONMENT_DEVELOPMENT));
-            $this->ApplicationFixture->injectRegistry($RegistryStub);
-
-            $this->assertSame($this->ApplicationFixture, $this->ApplicationFixture->registerEnvironment(Application::ENVIRONMENT_DEVELOPMENT));
-            $this->assertTrue($this->ApplicationFixture->isEnvironment(Application::ENVIRONMENT_DEVELOPMENT));
-            $this->assertFalse($this->ApplicationFixture->isEnvironment(Application::ENVIRONMENT_PRODUCTION));
-        }
-
-        /**
-         * Test if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Core\Application::registerEnvironment
-         * @expectedException InvalidArgumentException
-         */
-        public function testRegisterEnvironmentArgumentException()
-        {
-            $this->ApplicationFixture->registerEnvironment('wrongType');
-        }
-
-        /**
-         * Test if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Core\Application::isEnvironment
-         * @expectedException InvalidArgumentException
-         */
-        public function testIsEnvironmentArgumentException()
-        {
-            $this->ApplicationFixture->isEnvironment('wrongType');
-        }
-
-        /**
-         * Test if the cache directory can be registered and retrieved.
+         * Test if the cache directory can be registered.
          * @covers Brickoo\Library\Core\Application::registerCacheDirectory
-         * @covers Brickoo\Library\Core\Application::getCacheDirectory
          */
-        public function testCacheDirectoryRoutine()
+        public function testRegisterCacheDirectory()
         {
-            $RegistryStub = $this->getRegistryMock(array('register', 'lock', 'getRegistered'));
+            $path = '/path/to/cache/directory';
+
+            $RegistryStub = $this->Application->getRegistry();
             $RegistryStub->expects($this->once())
                          ->method('register')
+                         ->with('application.cache.directory', $path . DIRECTORY_SEPARATOR)
                          ->will($this->returnSelf());
-            $RegistryStub->expects($this->once())
-                         ->method('lock')
-                         ->will($this->returnValue(true));
-            $RegistryStub->expects($this->once())
-                         ->method('getRegistered')
-                         ->will($this->returnValue('/path/to/cache/directory'));
-            $this->ApplicationFixture->injectRegistry($RegistryStub);
 
-            $this->assertSame($this->ApplicationFixture, $this->ApplicationFixture->registerCacheDirectory('/path/to/cache/directory'));
-            $this->assertEquals('/path/to/cache/directory', $this->ApplicationFixture->getCacheDirectory());
+            $this->assertSame($this->Application, $this->Application->registerCacheDirectory($path));
         }
 
         /**
@@ -327,30 +194,24 @@
          */
         public function testRegisterCacheDirectoryArgumentException()
         {
-            $this->ApplicationFixture->registerCacheDirectory(array('wrongType'));
+            $this->Application->registerCacheDirectory(array('wrongType'));
         }
 
         /**
          * Test if the log directory can be registered and retrieved.
          * @covers Brickoo\Library\Core\Application::registerLogDirectory
-         * @covers Brickoo\Library\Core\Application::getLogDirectory
          */
-        public function testLogDirectoryRoutine()
+        public function testRegisterLogDirectoryRoutine()
         {
-            $RegistryStub = $this->getRegistryMock(array('register', 'lock', 'getRegistered'));
+            $path = '/path/to/cache/directory';
+
+            $RegistryStub = $this->Application->getRegistry();
             $RegistryStub->expects($this->once())
                          ->method('register')
+                         ->with('application.log.directory', $path . DIRECTORY_SEPARATOR)
                          ->will($this->returnSelf());
-            $RegistryStub->expects($this->once())
-                         ->method('lock')
-                         ->will($this->returnValue(true));
-            $RegistryStub->expects($this->once())
-                         ->method('getRegistered')
-                         ->will($this->returnValue('/path/to/cache/directory'));
-            $this->ApplicationFixture->injectRegistry($RegistryStub);
 
-            $this->assertSame($this->ApplicationFixture, $this->ApplicationFixture->registerLogDirectory('/path/to/cache/directory'));
-            $this->assertEquals('/path/to/cache/directory', $this->ApplicationFixture->getLogDirectory());
+            $this->assertSame($this->Application, $this->Application->registerLogDirectory('/path/to/cache/directory'));
         }
 
         /**
@@ -360,93 +221,52 @@
          */
         public function testRegisterLogDirectoryArgumentException()
         {
-            $this->ApplicationFixture->registerLogDirectory(array('wrongType'));
+            $this->Application->registerLogDirectory(array('wrongType'));
         }
 
         /**
-        * Test if the CacheManager can be registered and the Application reference is returned.
-        * Test if the CacheManager instance can be retrieved again.
-        * @covers Brickoo\Library\Core\Application::registerCacheManager
-        * @covers Brickoo\Library\Core\Application::getCacheManager
-        */
-        public function testRegisterCacheManager()
-        {
-            $Mock = $this->getMock('Brickoo\Library\Cache\Interfaces\CacheManagerInterface');
-
-            $RegistryStub = $this->getRegistryMock(array('register', 'lock', 'getRegistered'));
-            $RegistryStub->expects($this->once())
-                         ->method('register')
-                         ->will($this->returnSelf());
-            $RegistryStub->expects($this->once())
-                         ->method('lock')
-                         ->will($this->returnValue(true));
-            $RegistryStub->expects($this->once())
-                         ->method('getRegistered')
-                         ->will($this->returnValue($Mock));
-            $this->ApplicationFixture->injectRegistry($RegistryStub);
-
-            $this->assertSame($this->ApplicationFixture, $this->ApplicationFixture->registerCacheManager($Mock));
-            $this->assertSame($Mock, $this->ApplicationFixture->getCacheManager());
-        }
-
-        /**
-         * Test if a the value of a registered identifier can be retrieved.
+         * Test if the value of a registered identifier can be retrieved from the Registry.
          * @covers Brickoo\Library\Core\Application::__get
          */
         public function testMagicGet()
         {
-            $RegistryStub = $this->getRegistryMock(array('register', 'lock', 'getRegistered'));
-            $RegistryStub->expects($this->once())
-                         ->method('getRegistered')
-                         ->will($this->returnValue('some value'));
-            $this->ApplicationFixture->injectRegistry($RegistryStub);
+            $Registry = $this->Application->getRegistry();
+            $Registry->expects($this->once())
+                     ->method('isRegistered')
+                     ->with('application')
+                     ->will($this->returnValue(true));
+            $Registry->expects($this->once())
+                     ->method('get')
+                     ->with('application')
+                     ->will($this->returnValue($this->Application));
 
-            $this->assertEquals('some value', $this->ApplicationFixture->id);
+            $this->assertSame($this->Application, $this->Application->application);
+            $this->assertNull($this->Application->unregistered);
         }
 
         /**
-         * Test if the identifier and its value can be registered.
-         * @covers Brickoo\Library\Core\Application::__set
+         * Test if a value can be registered through the keyword register.
+         * @covers Brickoo\Library\Core\Application::__call
          */
-        public function testMagicSet()
+        public function testMagicCall()
         {
-            $RegistryStub = $this->getRegistryMock(array('register', 'lock'));
-            $RegistryStub->expects($this->once())
-                         ->method('register')
-                         ->will($this->returnSelf());
-            $RegistryStub->expects($this->once())
-                         ->method('lock')
-                         ->will($this->returnValue(true));
-            $this->ApplicationFixture->injectRegistry($RegistryStub);
+            $Registry = $this->Application->getRegistry();
+            $Registry->expects($this->once())
+                     ->method('register')
+                     ->with('application', $this->Application);
 
-            $this->assertEquals('some value', ($this->ApplicationFixture->id = 'some value'));
+            $this->assertSame($this->Application, $this->Application->registerApplication($this->Application));
         }
 
         /**
-         * Test if a egistered identifier can be recognized
-         * @covers Brickoo\Library\Core\Application::__isset
+         * Test if trying to call an unkowed method throws an exception.
+         * @covers Brickoo\Library\Core\Application::__call
+         * @expectedException \BadMethodCallException
          */
-        public function testMagicIsset()
+        public function testMagicCallBadMethodException()
         {
-            $RegistryStub = $this->getRegistryMock(array('isRegistered'));
-            $RegistryStub->expects($this->once())
-                         ->method('isRegistered')
-                         ->will($this->returnValue(true));
-            $this->ApplicationFixture->injectRegistry($RegistryStub);
-
-            $this->assertTrue(isset($this->ApplicationFixture->id));
+            $this->Application->methodDoesNotExist();
         }
 
 
-    }
-
-    /**
-     * Fixture needed to reset the static Registry assigned.
-     */
-    class ApplicationFixture extends Application
-    {
-        public function __construct()
-        {
-            static::$Registry = null;
-        }
     }

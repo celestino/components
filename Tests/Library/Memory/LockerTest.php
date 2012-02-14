@@ -47,18 +47,18 @@
     {
 
         /**
-         * Holds an instance of the LockerFixture class.
-         * @var object LockerFixture
+         * Holds an instance of the LockerTestable class.
+         * @var \Brickoo\Library\Memory\Locker
          */
-        public $LockerFixture;
+        public $LockerTestable;
 
         /**
-         * Set up the LockerFixture object used.
+         * Set up the LockerTestable object used.
          * @return void
          */
         public function setUp()
         {
-            $this->LockerFixture = new LockerFixture();
+            $this->LockerTestable = new LockerTestable();
         }
 
         /**
@@ -67,60 +67,56 @@
          */
         public function testLockerConstructor()
         {
-            $this->assertInstanceOf
-            (
-                '\Brickoo\Library\Memory\Locker',
-                ($Locker = new LockerFixture())
-            );
+            $this->assertInstanceOf('\Brickoo\Library\Memory\Locker', ($Locker = new LockerTestable()));
         }
 
         /**
-         * Test if an identifier or more at once can be locked.
+         * Test if an identifier can be locked and returns a unlock key.
+         * Test if the indentifier can be unlocked with the returned key.
          * @covers Brickoo\Library\Memory\Locker::lock
-         * @covers Brickoo\Library\Memory\Locker::cleanToLockIdentifiers
+         * @covers Brickoo\Library\Memory\Locker::unlock
+         * @covers Brickoo\Library\Memory\Locker::isLocked
          */
-        public function testLock()
+        public function testLockAndUnlockRoutine()
         {
-            $this->assertSame($this->LockerFixture, $this->LockerFixture->lock('name'));
-            $this->assertSame($this->LockerFixture, $this->LockerFixture->lock(array('name', 'age', 'town')));
+            $this->assertInternalType('string', ($unlockKey = $this->LockerTestable->lock('name')));
+            $this->assertTrue($this->LockerTestable->isLocked('name'));
+            $this->assertSame($this->LockerTestable, $this->LockerTestable->unlock('name', $unlockKey));
+            $this->assertFalse($this->LockerTestable->isLocked('name'));
         }
 
         /**
-         * Test if the unvalid lock identifier throws an exception.
+         * Test if trying to use a wrong argument type throws an exception.
          * @covers Brickoo\Library\Memory\Locker::lock
-         * @expectedException  InvalidArgumentException
+         * @expectedException InvalidArgumentException
          */
-        public function testLockInvalidArgumentException()
+        public function testLockArgumentException()
         {
-            $this->LockerFixture->lock(new stdClass());
+            $this->LockerTestable->lock(array('wrongType'));
         }
 
         /**
-         * Test if not passed identifiers throws an exception.
+         * Test if trying to lock a privous locked identifier throws an exception.
          * @covers Brickoo\Library\Memory\Locker::lock
-         * @covers Brickoo\Library\Memory\Exceptions\LockFailedException
+         * @covers Brickoo\Library\Memory\Exceptions\LockFailedException::__construct
          * @expectedException  Brickoo\Library\Memory\Exceptions\LockFailedException
          */
         public function testLockFailedException()
         {
-            $this->LockerFixture->lock(array());
+            $this->LockerTestable->lock('name');
+            $this->LockerTestable->lock('name');
         }
 
         /**
-         * Test if an identifier or more at once can be unlocked.
+         * Test if trying to use a wrong unlock key throws an exception.
          * @covers Brickoo\Library\Memory\Locker::unlock
-         * @covers Brickoo\Library\Memory\Locker::cleanToUnlockIdentifiers
+         * @covers Brickoo\Library\Memory\Exceptions\UnlockFailedException::__construct
+         * @expectedException Brickoo\Library\Memory\Exceptions\UnlockFailedException
          */
-        public function testUnlock()
+        public function testUnLockWrongUnlockKeyException()
         {
-            $this->LockerFixture->lock('name');
-            $this->assertSame($this->LockerFixture, $this->LockerFixture->unlock('name'));
-
-            $this->LockerFixture->lock('name');
-            $this->assertSame($this->LockerFixture, $this->LockerFixture->unlock(array('name')));
-
-            $this->LockerFixture->lock('name');
-            $this->assertSame($this->LockerFixture, $this->LockerFixture->unlock(array('name', 'identifierNotLocked')));
+            $this->LockerTestable->lock('name');
+            $this->LockerTestable->unlock('name', 'invalidKey');
         }
 
         /**
@@ -130,7 +126,7 @@
          */
         public function testUnlockInvalidArgumentException()
         {
-            $this->LockerFixture->unlock(new stdClass());
+            $this->LockerTestable->unlock(array('wrongType'), 'invalidKey');
         }
 
         /**
@@ -141,26 +137,7 @@
          */
         public function testUnlockFailedException()
         {
-            $this->LockerFixture->unlock('notLocked');
-        }
-
-        /**
-         * Test if the identifier is locked.
-         * @covers Brickoo\Library\Memory\Locker::isLocked
-         */
-        public function testIsLocked()
-        {
-            $this->LockerFixture->lock('name');
-            $this->assertTrue($this->LockerFixture->isLocked('name'));
-        }
-
-        /**
-         * Test if an not locked identifier fails.
-         * @covers Brickoo\Library\Memory\Locker::isLocked
-         */
-        public function testIsLockedFails()
-        {
-            $this->assertFalse($this->LockerFixture->isLocked('notLocked'));
+            $this->LockerTestable->unlock('notLocked', 'invalidKey');
         }
 
         /**
@@ -168,9 +145,9 @@
          * @covers Brickoo\Library\Memory\Locker::isLocked
          * @expectedException InvalidArgumentException
          */
-        public function testIsLockerArgumentException()
+        public function testIsLockedArgumentException()
         {
-            $this->LockerFixture->isLocked(array('wrongType'));
+            $this->LockerTestable->isLocked(array('wrongType'));
         }
 
         /**
@@ -179,35 +156,19 @@
          */
         public function testCount()
         {
-            $this->LockerFixture->lock('name');
-            $this->LockerFixture->lock('town');
-            $this->LockerFixture->lock('country');
-            $this->assertEquals(3, count($this->LockerFixture));
-        }
-
-        /**
-         * Test if the amount of locked identifiers is returned.
-         * @covers Brickoo\Library\Memory\Locker::getAmountOfLockedIdentifiers
-         */
-        public function testGetAmountOfLockedIdentifiers()
-        {
-            $this->LockerFixture->lock('name');
-            $this->LockerFixture->lock('town');
-            $this->LockerFixture->lock('country');
-            $this->assertEquals(3, $this->LockerFixture->getAmountOfLockedIdentifiers());
+            $this->LockerTestable->lock('name');
+            $this->LockerTestable->lock('town');
+            $this->LockerTestable->lock('country');
+            $this->assertEquals(3, count($this->LockerTestable));
         }
 
     }
 
-    /**
-     * Fixture class for the abstract Locker class.
-     * Returns always true for the identifier check.
-     */
-    class LockerFixture extends Locker
+    class LockerTestable extends Locker
     {
         /**
          * Abstract method to check if the main class has the identifier.
-         * @param string|integer $identifier the extern identifier to check
+         * @param string|integer $identifier the identifier to check
          * @see Brickoo\Library\Memory\Locker::isIdentifierAvailable()
          * @return boolean true
          */

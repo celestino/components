@@ -69,7 +69,7 @@
          * @param string $name the name of the dependency
          * @param string $interface the interface which has to be implemented by the dependency
          * @param callback $callback the callback to create a new dependency
-         * @param object $Dependecy the dependecy used to overwrite
+         * @param object $Dependecy the dependecy to inject
          * @return object FileProvider if overwritten otherwise the dependency
          */
         protected function getDependency($name, $interface, $callback, $Dependecy = null)
