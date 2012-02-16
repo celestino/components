@@ -1,8 +1,6 @@
 
 ##Welcome to BrickOO
-BrickOO is a PHP framework which focus on module based applications.
-
-BrickOO has been developed in strict mode and with focus on coming PHP requirements.
+BrickOO is a PHP framework which focus on module based applications and has been developed in strict mode and with focus on coming PHP requirements.
 
 
 ###Requirements
@@ -13,8 +11,8 @@ or PHP configuration need to be done to enable the full functionality.
 
 Using BrickOO for web applications, rewrite rules are required.
 
-See [Apache mod_rewrite](http://httpd.apache.org/docs/2.2/mod/mod_rewrite.html)
-[Nginx NginxHttpRewriteModule](http://wiki.nginx.org/NginxHttpRewriteModule)
+See [Apache mod_rewrite](http://httpd.apache.org/docs/2.2/mod/mod_rewrite.html),
+[Nginx NginxHttpRewriteModule](http://wiki.nginx.org/NginxHttpRewriteModule),
 [Lighttpd mod_rewrite](http://redmine.lighttpd.net/projects/lighttpd/wiki/Docs:ModRewrite)
 
 

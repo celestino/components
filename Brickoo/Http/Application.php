@@ -99,7 +99,7 @@
                 return $this;
             }
 
-            $ResponseCacheManager->set($this->getCacheUID(), $Response->getContent() . '<h4>CACHED</h4>', 15);
+            $ResponseCacheManager->set($this->getCacheUID(), $Response->getContent(), 15);
 
             return $this;
         }
