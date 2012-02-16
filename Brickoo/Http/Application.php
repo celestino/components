@@ -43,16 +43,31 @@
     class Application extends Core\Application
     {
 
+        /**
+         * Checks if the request is cacheable.
+         * @todo Needs to look into the request headers.
+         * @return boolean check result
+         */
         public function isCacheableRequest()
         {
             return in_array($this->Request()->getMethod(), array('GET', 'HEAD'));
         }
 
+        /**
+         * Returns the request cache unique identifier.
+         * @todo Find a way to make this more "unique"
+         * @return string the cache unique identifier
+         */
         public function getCacheUID()
         {
-            return null;
+            return md5($this->Request()->getPath()) .'.'. md5($this->Request()->Url()->toString());
         }
 
+        /**
+         * Checks if the request has a cached response.
+         * @todo Needs other cached inforamtion format to store headers as well
+         * @return boolean checks result
+         */
         public function hasCachedResponse()
         {
             if ((! $ResponseCacheManager = $this->ResponseCacheManager) ||
@@ -63,32 +78,37 @@
             }
 
             $Response = new \Brickoo\Http\Response();
-            $Response->setContent($cachedResponseParts . '</br><h1>CACHED</h1>');
+            $Response->setContent($cachedResponseParts);
             $this->registerResponse($Response);
 
             return true;
         }
 
+        /**
+         * Caches the Response if it is possible.
+         * @todo Needs to look into the Response Headers to verify caching
+         * @param \Brickoo\Http\Interfaces\ResponseInterface $Response
+         * @param \Brickoo\Routing\Interfaces\RequestRouteInterface $RequestRoute
+         */
         public function cacheResponse(
             \Brickoo\Http\Interfaces\ResponseInterface $Response,
             \Brickoo\Routing\Interfaces\RequestRouteInterface $RequestRoute
         )
         {
-            if(($this->isCacheableRequest()) || (! $ResponseCacheManager = $this->ResponseCacheManager)) {
+            if((! $this->isCacheableRequest()) || (! $ResponseCacheManager = $this->ResponseCacheManager)) {
                 return $this;
             }
 
-            $ResponseCacheManager->set('UID', $Response->getContent(), 15);
+            $ResponseCacheManager->set($this->getCacheUID(), $Response->getContent() . '<h4>CACHED</h4>', 15);
 
             return $this;
         }
 
         /**
          * Runs the application.
+         * Configures the Router.
          * Calls the Router to get the matching request Route.
-         * Executes the registerd controller configuration.
-         * Registers the Response returned by the controller.
-         * @return \Brickoo\Core\Application
+         * @return \Brickoo\Http\Application
          */
         public function run()
         {
@@ -105,7 +125,7 @@
                 $this->registerRequestRoute(($RequestRoute = $Router->getRequestRoute()));
 
                 if ((! $this->isCacheableRequest()) || (! $this->hasCachedResponse())) {
-                    $this->execute($RequestRoute);
+                    $this->execute();
                 }
             }
             catch (\Exception $Exception) {
@@ -117,9 +137,13 @@
             return $this;
         }
 
-        public function execute($RequestRoute)
+        /**
+         * Exectutes the request for a fresh response.
+         * @return \Brickoo\Http\Application
+         */
+        public function execute()
         {
-            $RouteController = $RequestRoute->getController();
+            $RouteController = $this->RequestRoute->getController();
             if (! $RouteController['static']) {
                 $RouteController['controller'] = new $RouteController['controller'];
             }
@@ -128,7 +152,7 @@
 
             if ($Response instanceof Interfaces\ResponseInterface) {
                 $this->registerResponse($Response);
-                $this->cacheResponse($Response, $RequestRoute);
+                $this->cacheResponse($Response, $this->RequestRoute);
             }
 
             return $this;

@@ -147,7 +147,7 @@
         /**
          * Registers the available modules to the Registry.
          * @param array $modules the available modules to register
-         * @return \Brickoo\Core\AbstractApplication
+         * @return \Brickoo\Core\Application
          */
         public function registerModules(array $modules)
         {
@@ -198,7 +198,7 @@
         /**
          * Registers the cache directory to the Registry.
          * @param string $cacheDirectory the cache directory to register
-         * @return \Brickoo\Core\AbstractApplication
+         * @return \Brickoo\Core\Application
          */
         public function registerCacheDirectory($cacheDirectory)
         {
@@ -215,7 +215,7 @@
         /**
          * Registers the log directory to the Registry.
          * @param string $logDirectory the log directory to register
-         * @return \Brickoo\Core\AbstractApplication
+         * @return \Brickoo\Core\Application
          */
         public function registerLogDirectory($logDirectory)
         {
@@ -252,7 +252,7 @@
          * @param string $method the method to call
          * @param array $arguments the value to register
          * @throws \BadMethodCallException if the method could not be converted
-         * @return \Brickoo\Core\AbstractApplication
+         * @return \Brickoo\Core\Application
          */
         public function __call($method, $arguments)
         {
@@ -283,7 +283,7 @@
 
         /**
          * Configures the Router cache directory and available modules.
-         * @return \Brickoo\Core\AbstractApplication
+         * @return \Brickoo\Core\Application
          */
         public function configureRouter()
         {
