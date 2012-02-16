@@ -7,10 +7,9 @@
      */
 
     use Brickoo\Library\Core\Autoloader,
-        Brickoo\Library\Core\Application,
         Brickoo\Library\Core\Registry,
+        Brickoo\Library\Http\Application,
         Brickoo\Library\Http\Request,
-        Brickoo\Library\Routing\Router,
         Brickoo\Library\Error\ErrorHandler,
         Brickoo\Library\Error\ExceptionHandler;
 

@@ -85,9 +85,9 @@
         /**
          * Test if an instance of the Applciation can be created.
          * Test if the Registry is stored and can be retrieved.
-         * Test if the Request instance is registered to the Registry.
          * @covers Brickoo\Library\Core\Application::__construct
-         * @covers Brickoo\Library\Core\Application::getRegistry
+         * @covers Brickoo\Library\Core\Application::Registry
+         * @covers Brickoo\Library\Core\Application::Request
          */
         public function testConstructor()
         {
@@ -98,8 +98,10 @@
 
             $Application = new Application($Registry, $Request);
             $this->assertInstanceOf('Brickoo\Library\Core\Application', $Application);
-            $this->assertAttributeSame($Registry, 'Registry', $Application);
-            $this->assertSame($Registry, $Application->getRegistry());
+            $this->assertAttributeSame($Registry, '_Registry', $Application);
+            $this->assertSame($Registry, $Application->Registry());
+            $this->assertAttributeSame($Request, '_Request', $Application);
+            $this->assertSame($Request, $Application->Request());
         }
 
         /**
@@ -130,7 +132,7 @@
         {
             $modules = array('module' => '/module/path' . DIRECTORY_SEPARATOR);
 
-            $RegistryStub = $this->Application->getRegistry();
+            $RegistryStub = $this->Application->Registry();
             $RegistryStub->expects($this->once())
                          ->method('register')
                          ->with('application.modules', $modules)
@@ -177,7 +179,7 @@
         {
             $path = '/path/to/cache/directory';
 
-            $RegistryStub = $this->Application->getRegistry();
+            $RegistryStub = $this->Application->Registry();
             $RegistryStub->expects($this->once())
                          ->method('register')
                          ->with('application.cache.directory', $path . DIRECTORY_SEPARATOR)
@@ -204,7 +206,7 @@
         {
             $path = '/path/to/cache/directory';
 
-            $RegistryStub = $this->Application->getRegistry();
+            $RegistryStub = $this->Application->Registry();
             $RegistryStub->expects($this->once())
                          ->method('register')
                          ->with('application.log.directory', $path . DIRECTORY_SEPARATOR)
@@ -229,7 +231,7 @@
          */
         public function testMagicGet()
         {
-            $Registry = $this->Application->getRegistry();
+            $Registry = $this->Application->Registry();
             $Registry->expects($this->once())
                      ->method('isRegistered')
                      ->with('application')
@@ -249,7 +251,7 @@
          */
         public function testMagicCall()
         {
-            $Registry = $this->Application->getRegistry();
+            $Registry = $this->Application->Registry();
             $Registry->expects($this->once())
                      ->method('register')
                      ->with('application', $this->Application);
@@ -275,7 +277,7 @@
         {
             $Router = $this->getMock('Brickoo\Library\Routing\Interfaces\RouterInterface');
 
-            $Registry = $this->Application->getRegistry();
+            $Registry = $this->Application->Registry();
             $Registry->expects($this->once())
                      ->method('isRegistered')
                      ->with('application.router')
@@ -296,7 +298,7 @@
         {
             $Request = $this->getMock('Brickoo\Library\Core\Interfaces\RequestInterface');
 
-            $Registry = $this->Application->getRegistry();
+            $Registry = $this->Application->Registry();
             $Registry->expects($this->exactly(2))
                      ->method('isRegistered')
                      ->will($this->onConsecutiveCalls(false, true));
@@ -334,7 +336,7 @@
                 array('application.modules', array('ModuleA' => '/path/to/moduleA'))
             );
 
-            $Registry = $this->Application->getRegistry();
+            $Registry = $this->Application->Registry();
             $Registry->expects($this->any())
                      ->method('isRegistered')
                      ->will($this->returnValue(true));
