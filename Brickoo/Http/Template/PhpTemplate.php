@@ -122,7 +122,7 @@
 
             TypeValidator::IsString($variable);
 
-            if (! $this->hasTemplateVars($variable)) {
+            if (! $this->hasTemplateVar($variable)) {
                 throw new \UnexpectedValueException(sprintf('The template variable `%s` does not exist.', $variable));
             }
 
@@ -135,7 +135,7 @@
          * @param string||null $variable the variable to check the avaibility
          * @return boolean check result
          */
-        public function hasTemplateVars($variable = null)
+        public function hasTemplateVar($variable = null)
         {
             if ($variable === null) {
                 return (! empty($this->templateVars));
@@ -169,7 +169,7 @@
                 throw new \UnexpectedValueException('The template file is not set.');
             }
 
-            if ($this->hasTemplateVars()) {
+            if ($this->hasTemplateVar()) {
                 $P = $this->getTemplateVar();
 
                 extract($P, EXTR_SKIP);
