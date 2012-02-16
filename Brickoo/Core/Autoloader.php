@@ -30,9 +30,9 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Core;
+    namespace Brickoo\Core;
 
-    use Brickoo\Library\Core\Exceptions;
+    use Brickoo\Core\Exceptions;
 
     require_once 'Interfaces\AutoloaderInterface.php';
 

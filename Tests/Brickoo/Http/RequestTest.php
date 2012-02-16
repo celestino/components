@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Http\Request;
+    use Brickoo\Http\Request;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -39,7 +39,7 @@
      * RequestTest
      *
      * Test suite for the Request class.
-     * @see Brickoo\Library\Http\Request
+     * @see Brickoo\Http\Request
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -48,7 +48,7 @@
 
         /**
          * Holds an instance of the Request.
-         * @var \Brickoo\Library\Http\Request
+         * @var \Brickoo\Http\Request
          */
         protected $Request;
 
@@ -63,27 +63,27 @@
 
         /**
          * Test if a Request instance can be created and implements the RequestInterface.
-         * @covers Brickoo\Library\Http\Request::__construct
+         * @covers Brickoo\Http\Request::__construct
          */
         public function testConstruct()
         {
             $this->assertInstanceOf
             (
-                'Brickoo\Library\Core\Interfaces\RequestInterface',
+                'Brickoo\Core\Interfaces\RequestInterface',
                 ($Request = new Request())
             );
         }
 
         /**
          * Test if the Url dependency can be lazy initialized and stored.
-         * @covers Brickoo\Library\Http\Request::Url
-         * @covers Brickoo\Library\Http\Request::getDependency
+         * @covers Brickoo\Http\Request::Url
+         * @covers Brickoo\Http\Request::getDependency
          */
         public function testUrlLazyInitialization()
         {
             $this->assertInstanceOf
             (
-                'Brickoo\Library\Http\Component\Interfaces\UrlInterface',
+                'Brickoo\Http\Component\Interfaces\UrlInterface',
                 $this->Request->Url()
             );
             $this->assertAttributeContains($this->Request->Url(), 'dependencies', $this->Request);
@@ -91,26 +91,26 @@
 
         /**
          * Test if the Url dependency inject is stored and the Request reference is returned.
-         * @covers Brickoo\Library\Http\Request::Url
-         * @covers Brickoo\Library\Http\Request::getDependency
+         * @covers Brickoo\Http\Request::Url
+         * @covers Brickoo\Http\Request::getDependency
          */
         public function testUrlInjection()
         {
-            $Url = $this->getMock('\Brickoo\Library\Http\Component\Interfaces\UrlInterface');
+            $Url = $this->getMock('\Brickoo\Http\Component\Interfaces\UrlInterface');
             $this->assertSame($this->Request, $this->Request->Url($Url));
             $this->assertAttributeContains($Url, 'dependencies', $this->Request);
         }
 
         /**
          * Test if the Headers dependency can be lazy initialized and stored.
-         * @covers Brickoo\Library\Http\Request::Headers
-         * @covers Brickoo\Library\Http\Request::getDependency
+         * @covers Brickoo\Http\Request::Headers
+         * @covers Brickoo\Http\Request::getDependency
          */
         public function testHeadersLazyInitialization()
         {
             $this->assertInstanceOf
             (
-                'Brickoo\Library\Http\Component\Interfaces\HeadersInterface',
+                'Brickoo\Http\Component\Interfaces\HeadersInterface',
                 $this->Request->Headers()
             );
             $this->assertAttributeContains($this->Request->Headers(), 'dependencies', $this->Request);
@@ -118,26 +118,26 @@
 
         /**
          * Test if the Headers dependency inject is stored and the Request reference is returned.
-         * @covers Brickoo\Library\Http\Request::Headers
-         * @covers Brickoo\Library\Http\Request::getDependency
+         * @covers Brickoo\Http\Request::Headers
+         * @covers Brickoo\Http\Request::getDependency
          */
         public function testHeadersInjection()
         {
-            $Headers = $this->getMock('\Brickoo\Library\Http\Component\Interfaces\HeadersInterface');
+            $Headers = $this->getMock('\Brickoo\Http\Component\Interfaces\HeadersInterface');
             $this->assertSame($this->Request, $this->Request->Headers($Headers));
             $this->assertAttributeContains($Headers, 'dependencies', $this->Request);
         }
 
         /**
          * Test if the Query dependency can be lazy initialized and stored.
-         * @covers Brickoo\Library\Http\Request::Query
-         * @covers Brickoo\Library\Http\Request::getDependency
+         * @covers Brickoo\Http\Request::Query
+         * @covers Brickoo\Http\Request::getDependency
          */
         public function testQueryLazyInitialization()
         {
             $this->assertInstanceOf
             (
-                'Brickoo\Library\Http\Component\Interfaces\QueryInterface',
+                'Brickoo\Http\Component\Interfaces\QueryInterface',
                 $this->Request->Query()
             );
             $this->assertAttributeContains($this->Request->Query(), 'dependencies', $this->Request);
@@ -145,26 +145,26 @@
 
         /**
          * Test if the Query dependency inject is stored and the Request reference is returned.
-         * @covers Brickoo\Library\Http\Request::Query
-         * @covers Brickoo\Library\Http\Request::getDependency
+         * @covers Brickoo\Http\Request::Query
+         * @covers Brickoo\Http\Request::getDependency
          */
         public function testQueryInjection()
         {
-            $Query = $this->getMock('\Brickoo\Library\Http\Component\Interfaces\QueryInterface');
+            $Query = $this->getMock('\Brickoo\Http\Component\Interfaces\QueryInterface');
             $this->assertSame($this->Request, $this->Request->Query($Query));
             $this->assertAttributeContains($Query, 'dependencies', $this->Request);
         }
 
         /**
          * Test if the Post dependency can be lazy initialized and stored.
-         * @covers Brickoo\Library\Http\Request::Post
-         * @covers Brickoo\Library\Http\Request::getDependency
+         * @covers Brickoo\Http\Request::Post
+         * @covers Brickoo\Http\Request::getDependency
          */
         public function testPostLazyInitialization()
         {
             $this->assertInstanceOf
             (
-                'Brickoo\Library\Memory\Interfaces\ContainerInterface',
+                'Brickoo\Memory\Interfaces\ContainerInterface',
                 $this->Request->Post()
             );
             $this->assertAttributeContains($this->Request->Post(), 'dependencies', $this->Request);
@@ -172,26 +172,26 @@
 
         /**
          * Test if the Post dependency inject is stored and the Request reference is returned.
-         * @covers Brickoo\Library\Http\Request::Post
-         * @covers Brickoo\Library\Http\Request::getDependency
+         * @covers Brickoo\Http\Request::Post
+         * @covers Brickoo\Http\Request::getDependency
          */
         public function testPostInjection()
         {
-            $Post = $this->getMock('\Brickoo\Library\Memory\Interfaces\ContainerInterface');
+            $Post = $this->getMock('\Brickoo\Memory\Interfaces\ContainerInterface');
             $this->assertSame($this->Request, $this->Request->Post($Post));
             $this->assertAttributeContains($Post, 'dependencies', $this->Request);
         }
 
         /**
          * Test if the Files dependency can be lazy initialized and stored.
-         * @covers Brickoo\Library\Http\Request::Files
-         * @covers Brickoo\Library\Http\Request::getDependency
+         * @covers Brickoo\Http\Request::Files
+         * @covers Brickoo\Http\Request::getDependency
          */
         public function testFilesLazyInitialization()
         {
             $this->assertInstanceOf
             (
-                'Brickoo\Library\Memory\Interfaces\ContainerInterface',
+                'Brickoo\Memory\Interfaces\ContainerInterface',
                 $this->Request->Files()
             );
             $this->assertAttributeContains($this->Request->Files(), 'dependencies', $this->Request);
@@ -199,20 +199,20 @@
 
         /**
          * Test if the Files dependency inject is stored and the Request reference is returned.
-         * @covers Brickoo\Library\Http\Request::Files
-         * @covers Brickoo\Library\Http\Request::getDependency
+         * @covers Brickoo\Http\Request::Files
+         * @covers Brickoo\Http\Request::getDependency
          */
         public function testFilesInjection()
         {
-            $Files = $this->getMock('\Brickoo\Library\Memory\Interfaces\ContainerInterface');
+            $Files = $this->getMock('\Brickoo\Memory\Interfaces\ContainerInterface');
             $this->assertSame($this->Request, $this->Request->Files($Files));
             $this->assertAttributeContains($Files, 'dependencies', $this->Request);
         }
 
         /**
          * Test if setter and getter work together like expected.
-         * @covers Brickoo\Library\Http\Request::setProtocol
-         * @covers Brickoo\Library\Http\Request::getProtocol
+         * @covers Brickoo\Http\Request::setProtocol
+         * @covers Brickoo\Http\Request::getProtocol
          */
         public function testSetGetProtocol()
         {
@@ -223,7 +223,7 @@
 
         /**
          * Test if trying to use a wrong argument throws an exception.
-         * @covers Brickoo\Library\Http\Request::setProtocol
+         * @covers Brickoo\Http\Request::setProtocol
          * @expectedException InvalidArgumentException
          */
         public function testSetProtocolInvalidArgumentException()
@@ -233,7 +233,7 @@
 
         /**
          * Test if the protocol can be retrieved from global variable.
-         * @covers Brickoo\Library\Http\Request::getProtocol
+         * @covers Brickoo\Http\Request::getProtocol
          */
         public function testGetProtocolFromGlobals()
         {
@@ -244,9 +244,9 @@
 
         /**
          * Test the supported methods routines.
-         * @covers Brickoo\Library\Http\Request::setSupportedMethods
-         * @covers Brickoo\Library\Http\Request::getSupportedMethods
-         * @covers Brickoo\Library\Http\Request::isSupportedMethod
+         * @covers Brickoo\Http\Request::setSupportedMethods
+         * @covers Brickoo\Http\Request::getSupportedMethods
+         * @covers Brickoo\Http\Request::isSupportedMethod
          */
         public function testSupportedMethods()
         {
@@ -259,8 +259,8 @@
 
         /**
          * Test the getter and setter of the method.
-         * @covers Brickoo\Library\Http\Request::setMethod
-         * @covers Brickoo\Library\Http\Request::getMethod
+         * @covers Brickoo\Http\Request::setMethod
+         * @covers Brickoo\Http\Request::getMethod
          */
         public function testGetSetMethod()
         {
@@ -271,7 +271,7 @@
 
         /**
          * Test if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Http\Request::setMethod
+         * @covers Brickoo\Http\Request::setMethod
          * @expectedException InvalidArgumentException
          */
         public function testSetMethodArgumentException()
@@ -281,9 +281,9 @@
 
         /**
          * Test if trying to set a not supported method throws an exception.
-         * @covers Brickoo\Library\Http\Request::setMethod
-         * @covers Brickoo\Library\Http\Exceptions\MethodNotSupportedException::__construct
-         * @expectedException Brickoo\Library\Http\Exceptions\MethodNotSupportedException
+         * @covers Brickoo\Http\Request::setMethod
+         * @covers Brickoo\Http\Exceptions\MethodNotSupportedException::__construct
+         * @expectedException Brickoo\Http\Exceptions\MethodNotSupportedException
          */
         public function testSetMethodSupportedMethodException()
         {
@@ -292,7 +292,7 @@
 
         /**
          * Test to if the method can be retrieved from the globals.
-         * @covers Brickoo\Library\Http\Request::getMethod
+         * @covers Brickoo\Http\Request::getMethod
          */
         public function testGetMethodFromGlobals()
         {
@@ -302,12 +302,12 @@
 
         /**
          * Test the getter and setter of the host.
-         * @covers Brickoo\Library\Http\Request::setHost
-         * @covers Brickoo\Library\Http\Request::getHost
+         * @covers Brickoo\Http\Request::setHost
+         * @covers Brickoo\Http\Request::getHost
          */
         public function testGetSetHost()
         {
-            $Url = $this->getMock('Brickoo\Library\Http\Component\Url', array('setHost', 'getHost'));
+            $Url = $this->getMock('Brickoo\Http\Component\Url', array('setHost', 'getHost'));
             $Url->expects($this->once())
                 ->method('setHost')
                 ->with('localhost');
@@ -322,7 +322,7 @@
 
         /**
          * Test if trying to use a wrong argument throws an exception.
-         * @covers Brickoo\Library\Http\Request::setHost
+         * @covers Brickoo\Http\Request::setHost
          * @expectedException InvalidArgumentException
          */
         public function testSetHostArgumentException()
@@ -332,12 +332,12 @@
 
         /**
          * Test the getter and setter of the path.
-         * @covers Brickoo\Library\Http\Request::setPath
-         * @covers Brickoo\Library\Http\Request::getPath
+         * @covers Brickoo\Http\Request::setPath
+         * @covers Brickoo\Http\Request::getPath
          */
         public function testGetSetPath()
         {
-            $Url = $this->getMock('Brickoo\Library\Http\Component\Url', array('setPath', 'getPath'));
+            $Url = $this->getMock('Brickoo\Http\Component\Url', array('setPath', 'getPath'));
             $Url->expects($this->once())
                 ->method('setPath')
                 ->with('/path/to/somewhere/');
@@ -352,7 +352,7 @@
 
         /**
          * Test if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Http\Request::setPath
+         * @covers Brickoo\Http\Request::setPath
          * @expectedException InvalidArgumentException
          */
         public function testSetPathArgumentException()
@@ -362,12 +362,12 @@
 
         /**
          * Test the getter and setter of the format.
-         * @covers Brickoo\Library\Http\Request::setFormat
-         * @covers Brickoo\Library\Http\Request::getFormat
+         * @covers Brickoo\Http\Request::setFormat
+         * @covers Brickoo\Http\Request::getFormat
          */
         public function testGetSetFormat()
         {
-            $Url = $this->getMock('Brickoo\Library\Http\Component\Url', array('setFormat', 'getFormat'));
+            $Url = $this->getMock('Brickoo\Http\Component\Url', array('setFormat', 'getFormat'));
             $Url->expects($this->once())
                 ->method('setFormat')
                 ->with('xml');
@@ -382,7 +382,7 @@
 
         /**
          * Test if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Http\Request::setFormat
+         * @covers Brickoo\Http\Request::setFormat
          * @expectedException InvalidArgumentException
          */
         public function testSetFormatArgumentException()
@@ -392,7 +392,7 @@
 
         /**
          * Test if a value fromt the global $_SERVER variables.
-         * @covers Brickoo\Library\Http\Request::getServerVar
+         * @covers Brickoo\Http\Request::getServerVar
          */
         public function testGetServerVar()
         {
@@ -403,7 +403,7 @@
 
         /**
          * Test if the raw data retruned from php://input is of type string.
-         * @covers Brickoo\Library\Http\Request::getRawBody
+         * @covers Brickoo\Http\Request::getRawBody
          */
         public function testGetRawBody()
         {
@@ -412,11 +412,11 @@
 
         /**
          * Test if the forwarded header is recognized.
-         * @covers Brickoo\Library\Http\Request::isSecureConnection
+         * @covers Brickoo\Http\Request::isSecureConnection
          */
         public function testIsSecureConnectionForwarded()
         {
-            $Headers = $this->getMock('Brickoo\Library\Http\Component\Headers');
+            $Headers = $this->getMock('Brickoo\Http\Component\Headers');
             $Headers->expects($this->once())
                     ->method('get')
                     ->with('X-Forwarded-Proto')
@@ -428,13 +428,13 @@
 
         /**
          * Test if the server https variable is recognized.
-         * @covers Brickoo\Library\Http\Request::isSecureConnection
+         * @covers Brickoo\Http\Request::isSecureConnection
          */
         public function testIsSecureConnectionHttps()
         {
             $_SERVER['HTTPS'] = 'on';
 
-            $Headers = $this->getMock('Brickoo\Library\Http\Component\Headers');
+            $Headers = $this->getMock('Brickoo\Http\Component\Headers');
             $Headers->expects($this->once())
                     ->method('get')
                     ->with('X-Forwarded-Proto')
@@ -447,13 +447,13 @@
 
         /**
          * Test if the https is not availale.
-         * @covers Brickoo\Library\Http\Request::isSecureConnection
+         * @covers Brickoo\Http\Request::isSecureConnection
          */
         public function testIsSecureConnection()
         {
             unset($_SERVER['HTTPS']);
 
-            $Headers = $this->getMock('Brickoo\Library\Http\Component\Headers');
+            $Headers = $this->getMock('Brickoo\Http\Component\Headers');
             $Headers->expects($this->once())
                     ->method('get')
                     ->with('X-Forwarded-Proto')
@@ -465,7 +465,7 @@
 
         /**
          * Test if the is availale and recognized.
-         * @covers Brickoo\Library\Http\Request::isAjaxRequest
+         * @covers Brickoo\Http\Request::isAjaxRequest
          */
         public function testisAjaxRequest()
         {
@@ -476,19 +476,19 @@
 
         /**
          * Test if the request can be returned as string.
-         * @covers Brickoo\Library\Http\Request::toString
+         * @covers Brickoo\Http\Request::toString
          */
         public function testToString()
         {
             $request = "GET /path/to/somewhere HTTP/1.1\r\n";
             $headers = "Test: some test header value\r\n";
 
-            $Headers = $this->getMock('Brickoo\Library\Http\Component\Headers',array('toString'));
+            $Headers = $this->getMock('Brickoo\Http\Component\Headers',array('toString'));
             $Headers->expects($this->once())
                     ->method('toString')
                     ->will($this->returnValue($headers));
 
-            $Url = $this->getMock('Brickoo\Library\Http\Component\Url', array('toString'));
+            $Url = $this->getMock('Brickoo\Http\Component\Url', array('toString'));
             $Url->expects($this->once())
                 ->method('toString')
                 ->with(false)
@@ -502,19 +502,19 @@
 
         /**
          * Test if the request can be returned as string by the magic function __toString.
-         * @covers Brickoo\Library\Http\Request::__toString
+         * @covers Brickoo\Http\Request::__toString
          */
         public function testMagicToString()
         {
             $request = "GET /path/to/somewhere HTTP/1.1\r\n";
             $headers = "Test: some test header value\r\n";
 
-            $Headers = $this->getMock('Brickoo\Library\Http\Component\Headers',array('toString'));
+            $Headers = $this->getMock('Brickoo\Http\Component\Headers',array('toString'));
             $Headers->expects($this->once())
                     ->method('toString')
                     ->will($this->returnValue($headers));
 
-            $Url = $this->getMock('Brickoo\Library\Http\Component\Url', array('toString'));
+            $Url = $this->getMock('Brickoo\Http\Component\Url', array('toString'));
             $Url->expects($this->once())
                 ->method('toString')
                 ->with(false)

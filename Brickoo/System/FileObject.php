@@ -30,11 +30,11 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\System;
+    namespace Brickoo\System;
 
-    use Brickoo\Library\System\Interfaces;
-    use Brickoo\Library\System\Exceptions;
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\System\Interfaces;
+    use Brickoo\System\Exceptions;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * FileObject
@@ -51,7 +51,7 @@
      * Examples:
      * <code>
      *     // Not implemented fseek() and fread() but supported, notify the handle handle is not passed !
-     *     $FileObject =  new Brickoo\Library\System\FileObject();
+     *     $FileObject =  new Brickoo\System\FileObject();
      *     $FileObject->setLocation('/path/to/file.txt')->setMode('r');
      *     $FileObject->fseek(100);
      *     $content  = $FileObject->read(); // implemented with mode check
@@ -61,7 +61,7 @@
      *
      *     // Not implemented feof() but supported, reading a file until end of file
      *     $content = ''
-     *     $FileObject =  new Brickoo\Library\System\FileObject();
+     *     $FileObject =  new Brickoo\System\FileObject();
      *     $FileObject->setLocation('/path/to/file.txt')->setMode('r');
      *     while(! $FileObject->feof())
      *     {

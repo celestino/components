@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Core\Application;
+    use Brickoo\Core\Application;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -45,32 +45,32 @@
 
         /**
          * Returns a Core\Registry stub.
-         * @return \Brickoo\Library\Core\Interfaces\RegistryInterface
+         * @return \Brickoo\Core\Interfaces\RegistryInterface
          */
         public function getRegistryStub()
         {
             return $this->getMock(
-                'Brickoo\Library\Core\Interfaces\RegistryInterface',
+                'Brickoo\Core\Interfaces\RegistryInterface',
                 array('Registry', 'get', 'register', 'isRegistered')
             );
         }
 
         /**
          * Returns a Request stub .
-         * @return \Brickoo\Library\Core\Interfaces\DynamicInterface
+         * @return \Brickoo\Core\Interfaces\DynamicInterface
          */
         public function getRequestStub()
         {
             return $this->getMock
             (
-                'Brickoo\Library\Core\Interfaces\RequestInterface',
+                'Brickoo\Core\Interfaces\RequestInterface',
                 array('getPath', 'getMethod', 'getHost', 'getProtocol', 'getFormat')
             );
         }
 
         /**
          * Holds an instance of the Application object.
-         * @var Brickoo\Library\Core\Application
+         * @var Brickoo\Core\Application
          */
         protected $Application;
 
@@ -85,9 +85,9 @@
         /**
          * Test if an instance of the Applciation can be created.
          * Test if the Registry is stored and can be retrieved.
-         * @covers Brickoo\Library\Core\Application::__construct
-         * @covers Brickoo\Library\Core\Application::Registry
-         * @covers Brickoo\Library\Core\Application::Request
+         * @covers Brickoo\Core\Application::__construct
+         * @covers Brickoo\Core\Application::Registry
+         * @covers Brickoo\Core\Application::Request
          */
         public function testConstructor()
         {
@@ -97,7 +97,7 @@
                      ->method('register');
 
             $Application = new Application($Registry, $Request);
-            $this->assertInstanceOf('Brickoo\Library\Core\Application', $Application);
+            $this->assertInstanceOf('Brickoo\Core\Application', $Application);
             $this->assertAttributeSame($Registry, '_Registry', $Application);
             $this->assertSame($Registry, $Application->Registry());
             $this->assertAttributeSame($Request, '_Request', $Application);
@@ -106,7 +106,7 @@
 
         /**
          * Test if the full Application version can be retrieved.
-         * @covers Brickoo\Library\Core\Application::getVersion
+         * @covers Brickoo\Core\Application::getVersion
          */
         public function testGetVersion()
         {
@@ -115,7 +115,7 @@
 
         /**
          * Test if the numeric Application version can be retrieved.
-         * @covers Brickoo\Library\Core\Application::getVersionNumber
+         * @covers Brickoo\Core\Application::getVersionNumber
          */
         public function testGetVersionNumber()
         {
@@ -124,9 +124,9 @@
 
         /**
          * Test if the modules can be registered, recognized and retrieved.
-         * @covers Brickoo\Library\Core\Application::registerModules
-         * @covers Brickoo\Library\Core\Application::isModuleAvailable
-         * @covers Brickoo\Library\Core\Application::getModulePath
+         * @covers Brickoo\Core\Application::registerModules
+         * @covers Brickoo\Core\Application::isModuleAvailable
+         * @covers Brickoo\Core\Application::getModulePath
          */
         public function testModulesRoutine()
         {
@@ -153,7 +153,7 @@
 
         /**
          * Test if the availability of a module can be cheked.
-         * @covers Brickoo\Library\Core\Application::isModuleAvailable
+         * @covers Brickoo\Core\Application::isModuleAvailable
          */
         public function testModuleIsNotAvailable()
         {
@@ -162,9 +162,9 @@
 
         /**
          * Test if trying to retrive a module which does not exist throws an exception.
-         * @covers Brickoo\Library\Core\Application::getModulePath
-         * @covers Brickoo\Library\Core\Exceptions\ModuleNotAvailableException::__construct
-         * @expectedException Brickoo\Library\Core\Exceptions\ModuleNotAvailableException
+         * @covers Brickoo\Core\Application::getModulePath
+         * @covers Brickoo\Core\Exceptions\ModuleNotAvailableException::__construct
+         * @expectedException Brickoo\Core\Exceptions\ModuleNotAvailableException
          */
         public function testGetModulePathException()
         {
@@ -173,7 +173,7 @@
 
         /**
          * Test if the cache directory can be registered.
-         * @covers Brickoo\Library\Core\Application::registerCacheDirectory
+         * @covers Brickoo\Core\Application::registerCacheDirectory
          */
         public function testRegisterCacheDirectory()
         {
@@ -190,7 +190,7 @@
 
         /**
          * Test if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Core\Application::registerCacheDirectory
+         * @covers Brickoo\Core\Application::registerCacheDirectory
          * @expectedException InvalidArgumentException
          */
         public function testRegisterCacheDirectoryArgumentException()
@@ -200,7 +200,7 @@
 
         /**
          * Test if the log directory can be registered and retrieved.
-         * @covers Brickoo\Library\Core\Application::registerLogDirectory
+         * @covers Brickoo\Core\Application::registerLogDirectory
          */
         public function testRegisterLogDirectoryRoutine()
         {
@@ -217,7 +217,7 @@
 
         /**
          * Test if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Core\Application::registerLogDirectory
+         * @covers Brickoo\Core\Application::registerLogDirectory
          * @expectedException InvalidArgumentException
          */
         public function testRegisterLogDirectoryArgumentException()
@@ -227,7 +227,7 @@
 
         /**
          * Test if the value of a registered identifier can be retrieved from the Registry.
-         * @covers Brickoo\Library\Core\Application::__get
+         * @covers Brickoo\Core\Application::__get
          */
         public function testMagicGet()
         {
@@ -247,7 +247,7 @@
 
         /**
          * Test if a value can be registered through the keyword register.
-         * @covers Brickoo\Library\Core\Application::__call
+         * @covers Brickoo\Core\Application::__call
          */
         public function testMagicCall()
         {
@@ -261,7 +261,7 @@
 
         /**
          * Test if trying to call an unkowed method throws an exception.
-         * @covers Brickoo\Library\Core\Application::__call
+         * @covers Brickoo\Core\Application::__call
          * @expectedException \BadMethodCallException
          */
         public function testMagicCallBadMethodException()
@@ -271,11 +271,11 @@
 
         /**
          * Test if the Router can be injected and is returned.
-         * @covers Brickoo\Library\Core\Application::getRouter
+         * @covers Brickoo\Core\Application::getRouter
          */
         public function testGetRouterInjected()
         {
-            $Router = $this->getMock('Brickoo\Library\Routing\Interfaces\RouterInterface');
+            $Router = $this->getMock('Brickoo\Routing\Interfaces\RouterInterface');
 
             $Registry = $this->Application->Registry();
             $Registry->expects($this->once())
@@ -292,11 +292,11 @@
 
         /**
          * Test if the Router can be lazy initialized and is returned.
-         * @covers Brickoo\Library\Core\Application::getRouter
+         * @covers Brickoo\Core\Application::getRouter
          */
         public function testGetRouterLazyInitialization()
         {
-            $Request = $this->getMock('Brickoo\Library\Core\Interfaces\RequestInterface');
+            $Request = $this->getMock('Brickoo\Core\Interfaces\RequestInterface');
 
             $Registry = $this->Application->Registry();
             $Registry->expects($this->exactly(2))
@@ -307,19 +307,19 @@
                      ->with('application.request')
                      ->will($this->returnValue($Request));
 
-            $this->assertInstanceOf('Brickoo\Library\Routing\Interfaces\RouterInterface', $this->Application->getRouter());
+            $this->assertInstanceOf('Brickoo\Routing\Interfaces\RouterInterface', $this->Application->getRouter());
         }
 
         /**
          * Test if the Router can be configured and the Application reference is returned.
-         * @covers Brickoo\Library\Core\Application::configureRouter
+         * @covers Brickoo\Core\Application::configureRouter
          */
         public function testConfigureRouter()
         {
             $Router = $this->getMock(
-                'Brickoo\Library\Routing\Router',
+                'Brickoo\Routing\Router',
                 array('setCacheDirectory', 'setModules'),
-                array($this->getMock('Brickoo\Library\Core\Interfaces\RequestInterface'))
+                array($this->getMock('Brickoo\Core\Interfaces\RequestInterface'))
             );
             $Router->expects($this->once())
                    ->method('setCacheDirectory')

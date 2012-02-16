@@ -30,10 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Http\Session\Handler;
+    namespace Brickoo\Http\Session\Handler;
 
-    use Brickoo\Library\Cache;
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Cache;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * CacheManagerHandler
@@ -81,14 +81,14 @@
 
         /**
          * Lazy initialization of the CacheManager dependency with the default FileProvider.
-         * @param \Brickoo\Library\Cache\Interfaces\CacheManagerInterface $CacheManager the CacheManager depedency
-         * @return \Brickoo\Library\Cache\Interfaces\CacheManagerInterface
+         * @param \Brickoo\Cache\Interfaces\CacheManagerInterface $CacheManager the CacheManager depedency
+         * @return \Brickoo\Cache\Interfaces\CacheManagerInterface
          */
-        public function CacheManager(\Brickoo\Library\Cache\Interfaces\CacheManagerInterface $CacheManager = null)
+        public function CacheManager(\Brickoo\Cache\Interfaces\CacheManagerInterface $CacheManager = null)
         {
             return $this->getDependency(
                 'CacheManager',
-                '\Brickoo\Library\Cache\Interfaces\CacheManagerInterface',
+                '\Brickoo\Cache\Interfaces\CacheManagerInterface',
                 function(){return new Cache\CacheManager(new Cache\Provider\FileProvider());},
                 $CacheManager
             );
@@ -103,7 +103,7 @@
         /**
          * Sets the session lifetime in seconds.
          * @param integer $lifetime the lifetime of the session
-         * @return \Brickoo\Library\Http\Session\Handler\CacheManagerHandler
+         * @return \Brickoo\Http\Session\Handler\CacheManagerHandler
          */
         public function setLifetime($lifetime)
         {

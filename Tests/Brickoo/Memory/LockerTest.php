@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Memory\Locker;
+    use Brickoo\Memory\Locker;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -39,7 +39,7 @@
      * LockerTest
      *
      * Test suite for the Locker class.
-     * @see Brickoo\Library\Memory\Locker
+     * @see Brickoo\Memory\Locker
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -48,7 +48,7 @@
 
         /**
          * Holds an instance of the LockerTestable class.
-         * @var \Brickoo\Library\Memory\Locker
+         * @var \Brickoo\Memory\Locker
          */
         public $LockerTestable;
 
@@ -63,19 +63,19 @@
 
         /**
          * Test if the class can be created.
-         * @covers Brickoo\Library\Memory\Locker::__construct
+         * @covers Brickoo\Memory\Locker::__construct
          */
         public function testLockerConstructor()
         {
-            $this->assertInstanceOf('\Brickoo\Library\Memory\Locker', ($Locker = new LockerTestable()));
+            $this->assertInstanceOf('\Brickoo\Memory\Locker', ($Locker = new LockerTestable()));
         }
 
         /**
          * Test if an identifier can be locked and returns a unlock key.
          * Test if the indentifier can be unlocked with the returned key.
-         * @covers Brickoo\Library\Memory\Locker::lock
-         * @covers Brickoo\Library\Memory\Locker::unlock
-         * @covers Brickoo\Library\Memory\Locker::isLocked
+         * @covers Brickoo\Memory\Locker::lock
+         * @covers Brickoo\Memory\Locker::unlock
+         * @covers Brickoo\Memory\Locker::isLocked
          */
         public function testLockAndUnlockRoutine()
         {
@@ -87,7 +87,7 @@
 
         /**
          * Test if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Memory\Locker::lock
+         * @covers Brickoo\Memory\Locker::lock
          * @expectedException InvalidArgumentException
          */
         public function testLockArgumentException()
@@ -97,9 +97,9 @@
 
         /**
          * Test if trying to lock a privous locked identifier throws an exception.
-         * @covers Brickoo\Library\Memory\Locker::lock
-         * @covers Brickoo\Library\Memory\Exceptions\LockFailedException::__construct
-         * @expectedException  Brickoo\Library\Memory\Exceptions\LockFailedException
+         * @covers Brickoo\Memory\Locker::lock
+         * @covers Brickoo\Memory\Exceptions\LockFailedException::__construct
+         * @expectedException  Brickoo\Memory\Exceptions\LockFailedException
          */
         public function testLockFailedException()
         {
@@ -109,9 +109,9 @@
 
         /**
          * Test if trying to use a wrong unlock key throws an exception.
-         * @covers Brickoo\Library\Memory\Locker::unlock
-         * @covers Brickoo\Library\Memory\Exceptions\UnlockFailedException::__construct
-         * @expectedException Brickoo\Library\Memory\Exceptions\UnlockFailedException
+         * @covers Brickoo\Memory\Locker::unlock
+         * @covers Brickoo\Memory\Exceptions\UnlockFailedException::__construct
+         * @expectedException Brickoo\Memory\Exceptions\UnlockFailedException
          */
         public function testUnLockWrongUnlockKeyException()
         {
@@ -121,7 +121,7 @@
 
         /**
          * Test if the unvalid lock identifier throws an exception.
-         * @covers Brickoo\Library\Memory\Locker::unlock
+         * @covers Brickoo\Memory\Locker::unlock
          * @expectedException  InvalidArgumentException
          */
         public function testUnlockInvalidArgumentException()
@@ -131,9 +131,9 @@
 
         /**
          * Test if not passed identifiers throws an exception.
-         * @covers Brickoo\Library\Memory\Locker::unlock
-         * @covers Brickoo\Library\Memory\Exceptions\UnlockFailedException
-         * @expectedException Brickoo\Library\Memory\Exceptions\UnlockFailedException
+         * @covers Brickoo\Memory\Locker::unlock
+         * @covers Brickoo\Memory\Exceptions\UnlockFailedException
+         * @expectedException Brickoo\Memory\Exceptions\UnlockFailedException
          */
         public function testUnlockFailedException()
         {
@@ -142,7 +142,7 @@
 
         /**
          * Test if not passed identifiers throws an exception.
-         * @covers Brickoo\Library\Memory\Locker::isLocked
+         * @covers Brickoo\Memory\Locker::isLocked
          * @expectedException InvalidArgumentException
          */
         public function testIsLockedArgumentException()
@@ -152,7 +152,7 @@
 
         /**
          * Test for the magic count method implemented by the \Countable interface.
-         * @covers Brickoo\Library\Memory\Locker::count
+         * @covers Brickoo\Memory\Locker::count
          */
         public function testCount()
         {
@@ -169,7 +169,7 @@
         /**
          * Abstract method to check if the main class has the identifier.
          * @param string|integer $identifier the identifier to check
-         * @see Brickoo\Library\Memory\Locker::isIdentifierAvailable()
+         * @see Brickoo\Memory\Locker::isIdentifierAvailable()
          * @return boolean true
          */
         public function isIdentifierAvailable($identifier)

@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\System\Exceptions;
+    namespace Brickoo\System\Exceptions;
 
     /**
      * UnableToCreateHandleException

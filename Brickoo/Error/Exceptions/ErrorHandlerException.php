@@ -30,13 +30,13 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Error\Exceptions;
+    namespace Brickoo\Error\Exceptions;
 
     /**
      * ErrorHandlerException
      *
      * Expected Exception throwed by the ErrorHandler class if the error level is expected.
-     * @see Brickoo\Library\Error\ErrorHandler::handleError
+     * @see Brickoo\Error\ErrorHandler::handleError
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

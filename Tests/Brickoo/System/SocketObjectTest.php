@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\System\SocketObject;
+    use Brickoo\System\SocketObject;
 
 
     // require PHPUnit Autoloader
@@ -40,7 +40,7 @@
      * SocketObjectTest
      *
      * Test suite for the SocketObject class.
-     * @see Brickoo\Library\System\SocketObject
+     * @see Brickoo\System\SocketObject
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -71,20 +71,20 @@
 
         /**
          * Test if the constructor implements the SocketObjectInterface.
-         * @covers Brickoo\Library\System\SocketObject::__construct
+         * @covers Brickoo\System\SocketObject::__construct
          */
         public function testConstruct()
         {
             $this->assertInstanceOf
             (
-                'Brickoo\Library\System\Interfaces\SocketObjectInterface',
+                'Brickoo\System\Interfaces\SocketObjectInterface',
                 new SocketObject()
             );
         }
 
         /**
          * Test if the protocol can be retrieved and the default value is an empty string.
-         * @covers Brickoo\Library\System\SocketObject::getProtocol
+         * @covers Brickoo\System\SocketObject::getProtocol
          */
         public function testGetProtocol()
         {
@@ -95,7 +95,7 @@
 
         /**
          * Test if the protocol can be set and the object reference is returned.
-         * @covers Brickoo\Library\System\SocketObject::setProtocol
+         * @covers Brickoo\System\SocketObject::setProtocol
          */
         public function testSetProtocol()
         {
@@ -105,7 +105,7 @@
 
         /**
          * Test is passing a wrong argument type throws an exception.
-         * @covers Brickoo\Library\System\SocketObject::setProtocol
+         * @covers Brickoo\System\SocketObject::setProtocol
          * @expectedException InvalidArgumentException
          */
         public function testSetProtocolArgumentException()
@@ -115,9 +115,9 @@
 
         /**
          * Test if a handle is available trying to change the protocol throws an exception.
-         * @covers Brickoo\Library\System\SocketObject::setProtocol
-         * @covers Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
-         * @expectedException Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
+         * @covers Brickoo\System\SocketObject::setProtocol
+         * @covers Brickoo\System\Exceptions\HandleAlreadyExistsException
+         * @expectedException Brickoo\System\Exceptions\HandleAlreadyExistsException
          */
         public function testSetProtocolHandleException()
         {
@@ -126,7 +126,7 @@
 
         /**
          * Test if the server adress can be retrieved.
-         * @covers Brickoo\Library\System\SocketObject::getServerAdress
+         * @covers Brickoo\System\SocketObject::getServerAdress
          */
         public function testGetServerAdress()
         {
@@ -136,7 +136,7 @@
 
         /**
          * Test if trying to retrive the server adress not assigned throws an exception.
-         * @covers Brickoo\Library\System\SocketObject::getServerAdress
+         * @covers Brickoo\System\SocketObject::getServerAdress
          * @expectedException UnexpectedValueException
          */
         public function testGetServerAdressValueException()
@@ -146,7 +146,7 @@
 
         /**
          * Test if the server adress can be set and the object reference is returned.
-         * @covers Brickoo\Library\System\SocketObject::setServerAdress
+         * @covers Brickoo\System\SocketObject::setServerAdress
          */
         public function testSetServerAdress()
         {
@@ -156,7 +156,7 @@
 
         /**
          * Test if trying to set an wrong argument type throws an exception.
-         * @covers Brickoo\Library\System\SocketObject::setServerAdress
+         * @covers Brickoo\System\SocketObject::setServerAdress
          * @expectedException InvalidArgumentException
          */
         public function testSetServerAdressArgumentException()
@@ -166,9 +166,9 @@
 
         /**
          * Test if a handle is available trying to change the server adress throws an exception.
-         * @covers Brickoo\Library\System\SocketObject::setServerAdress
-         * @covers Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
-         * @expectedException Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
+         * @covers Brickoo\System\SocketObject::setServerAdress
+         * @covers Brickoo\System\Exceptions\HandleAlreadyExistsException
+         * @expectedException Brickoo\System\Exceptions\HandleAlreadyExistsException
          */
         public function testSetServerAdressHandleException()
         {
@@ -177,7 +177,7 @@
 
         /**
          * Test if the server port can be retrieved.
-         * @covers Brickoo\Library\System\SocketObject::getServerPort
+         * @covers Brickoo\System\SocketObject::getServerPort
          */
         public function testGetServerPort()
         {
@@ -187,7 +187,7 @@
 
         /**
          * Test if trying to retrive the server port not assigned throws an exception.
-         * @covers Brickoo\Library\System\SocketObject::getServerPort
+         * @covers Brickoo\System\SocketObject::getServerPort
          * @expectedException UnexpectedValueException
          */
         public function testGetServerPortValueException()
@@ -197,7 +197,7 @@
 
         /**
          * Test if the server port can be set and the object reference is returned.
-         * @covers Brickoo\Library\System\SocketObject::setServerPort
+         * @covers Brickoo\System\SocketObject::setServerPort
          */
         public function testSetServerPort()
         {
@@ -207,7 +207,7 @@
 
         /**
          * Test if trying to set an wrong argument type throws an exception.
-         * @covers Brickoo\Library\System\SocketObject::setServerPort
+         * @covers Brickoo\System\SocketObject::setServerPort
          * @expectedException InvalidArgumentException
          */
         public function testSetServerPortArgumentException()
@@ -217,9 +217,9 @@
 
         /**
          * Test if a handle is available trying to change the server port throws an exception.
-         * @covers Brickoo\Library\System\SocketObject::setServerPort
-         * @covers Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
-         * @expectedException Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
+         * @covers Brickoo\System\SocketObject::setServerPort
+         * @covers Brickoo\System\Exceptions\HandleAlreadyExistsException
+         * @expectedException Brickoo\System\Exceptions\HandleAlreadyExistsException
          */
         public function testSetServerPortHandleException()
         {
@@ -228,7 +228,7 @@
 
         /**
          * Test if the timeout can be retrieved.
-         * @covers Brickoo\Library\System\SocketObject::getTimeout
+         * @covers Brickoo\System\SocketObject::getTimeout
          */
         public function testGetTimeout()
         {
@@ -238,7 +238,7 @@
 
         /**
          * Test if trying to retrive the timeout not assigned throws an exception.
-         * @covers Brickoo\Library\System\SocketObject::getTimeout
+         * @covers Brickoo\System\SocketObject::getTimeout
          * @expectedException UnexpectedValueException
          */
         public function testGetTimeoutValueException()
@@ -248,7 +248,7 @@
 
         /**
          * Test if the timeout can be set and the object reference is returned.
-         * @covers Brickoo\Library\System\SocketObject::setTimeout
+         * @covers Brickoo\System\SocketObject::setTimeout
          */
         public function testSetTimeout()
         {
@@ -258,7 +258,7 @@
 
         /**
          * Test if trying to set an wrong argument type throws an exception.
-         * @covers Brickoo\Library\System\SocketObject::setTimeout
+         * @covers Brickoo\System\SocketObject::setTimeout
          * @expectedException InvalidArgumentException
          */
         public function testSetTimeoutArgumentException()
@@ -268,9 +268,9 @@
 
         /**
          * Test if a handle is available trying to change the timeout throws an exception.
-         * @covers Brickoo\Library\System\SocketObject::setTimeout
-         * @covers Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
-         * @expectedException Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
+         * @covers Brickoo\System\SocketObject::setTimeout
+         * @covers Brickoo\System\Exceptions\HandleAlreadyExistsException
+         * @expectedException Brickoo\System\Exceptions\HandleAlreadyExistsException
          */
         public function testSetTimeoutHandleException()
         {
@@ -279,7 +279,7 @@
 
         /**
          * Test if the socket can be opened with the configuration done.
-         * @covers Brickoo\Library\System\SocketObject::open
+         * @covers Brickoo\System\SocketObject::open
          */
         public function testOpen()
         {
@@ -293,9 +293,9 @@
 
         /**
          * Test if trying to reopen a socket connection throws an exception.
-         * @covers Brickoo\Library\System\SocketObject::open
-         * @covers Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
-         * @expectedException Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
+         * @covers Brickoo\System\SocketObject::open
+         * @covers Brickoo\System\Exceptions\HandleAlreadyExistsException
+         * @expectedException Brickoo\System\Exceptions\HandleAlreadyExistsException
          */
         public function testOpenHandleExistsException()
         {
@@ -310,9 +310,9 @@
 
         /**
          * Test if a failure of creating the handle throws an exception.
-         * @covers Brickoo\Library\System\SocketObject::open
-         * @covers Brickoo\Library\System\Exceptions\UnableToCreateHandleException
-         * @expectedException Brickoo\Library\System\Exceptions\UnableToCreateHandleException
+         * @covers Brickoo\System\SocketObject::open
+         * @covers Brickoo\System\Exceptions\UnableToCreateHandleException
+         * @expectedException Brickoo\System\Exceptions\UnableToCreateHandleException
          */
         public function testOpenHandleException()
         {
@@ -326,7 +326,7 @@
 
         /**
          * Test if the handle can be retrived.
-         * @covers Brickoo\Library\System\SocketObject::getHandle
+         * @covers Brickoo\System\SocketObject::getHandle
          */
         public function testGetHandle()
         {
@@ -335,7 +335,7 @@
 
         /**
          * Test if the handle opened can be retrived.
-         * @covers Brickoo\Library\System\SocketObject::getHandle
+         * @covers Brickoo\System\SocketObject::getHandle
          */
         public function testGetHandleWithOpen()
         {
@@ -348,7 +348,7 @@
 
         /**
          * Test if the handle is recognized.
-         * @covers Brickoo\Library\System\SocketObject::hasHandle
+         * @covers Brickoo\System\SocketObject::hasHandle
          */
         public function testHasHandle()
         {
@@ -358,7 +358,7 @@
 
         /**
          * Test if the handle can be removed.
-         * @covers Brickoo\Library\System\SocketObject::removeHandle
+         * @covers Brickoo\System\SocketObject::removeHandle
          */
         public function testRemoveHandle()
         {
@@ -369,11 +369,11 @@
 
         /**
          * Test if the handle is removed if the object is destroyed.
-         * @covers Brickoo\Library\System\SocketObject::__destruct
+         * @covers Brickoo\System\SocketObject::__destruct
          */
         public function test__destruct()
         {
-            $SocketObjectStub = $this->getMock('Brickoo\Library\System\SocketObject', array('removeHandle'));
+            $SocketObjectStub = $this->getMock('Brickoo\System\SocketObject', array('removeHandle'));
             $SocketObjectStub->expects($this->once())
                             ->method('removeHandle')
                             ->will($this->returnSelf());
@@ -383,7 +383,7 @@
 
         /**
          * Test if the handle can be close ant he object reference is returned.
-         * @covers Brickoo\Library\System\SocketObject::close
+         * @covers Brickoo\System\SocketObject::close
          */
         public function testClose()
         {
@@ -392,9 +392,9 @@
 
         /**
          * Test if trying to close an handle not available throws an exception.
-         * @covers Brickoo\Library\System\SocketObject::close
-         * @covers Brickoo\Library\System\Exceptions\HandleNotAvailableException
-         * @expectedException Brickoo\Library\System\Exceptions\HandleNotAvailableException
+         * @covers Brickoo\System\SocketObject::close
+         * @covers Brickoo\System\Exceptions\HandleNotAvailableException
+         * @expectedException Brickoo\System\Exceptions\HandleNotAvailableException
          */
         public function testCloseHandleException()
         {
@@ -403,7 +403,7 @@
 
         /**
          * Test if an magic method fwrite() can be called.
-         * @covers Brickoo\Library\System\SocketObject::__call
+         * @covers Brickoo\System\SocketObject::__call
          */
         public function test__call()
         {
@@ -413,7 +413,7 @@
 
         /**
          * Test if trying calling fsockopen() throws an exception,
-         * @covers Brickoo\Library\System\SocketObject::__call
+         * @covers Brickoo\System\SocketObject::__call
          * @expectedException BadMethodCallException
          */
         public function test__callFsockopenException()
@@ -423,7 +423,7 @@
 
         /**
          * Test if trying calling fclose() throws an exception,
-         * @covers Brickoo\Library\System\SocketObject::__call
+         * @covers Brickoo\System\SocketObject::__call
          * @expectedException BadMethodCallException
          */
         public function test__callFcloseException()

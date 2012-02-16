@@ -12,13 +12,13 @@
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="false">
             <!-- path to the brickoo library -->
-            <directory suffix=".php">../Library</directory>
+            <directory suffix=".php">../Brickoo</directory>
             <exclude>
                 <!-- exclude interfaces from code coverage -->
-                <directory suffix=".php">../Library/*/Interfaces</directory>
-                <directory suffix=".php">../Library/*/*/Interfaces</directory>
-                <directory suffix=".php">../Library/*/*/*/Interfaces</directory>
-                <directory suffix=".php">../Library/*/*/*/*/Interfaces</directory>
+                <directory suffix=".php">../Brickoo/*/Interfaces</directory>
+                <directory suffix=".php">../Brickoo/*/*/Interfaces</directory>
+                <directory suffix=".php">../Brickoo/*/*/*/Interfaces</directory>
+                <directory suffix=".php">../Brickoo/*/*/*/*/Interfaces</directory>
             </exclude>
         </whitelist>
     </filter>

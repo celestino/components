@@ -30,9 +30,9 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Memory;
+    namespace Brickoo\Memory;
 
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * Container
@@ -187,7 +187,7 @@
          * Adds an offset-value pair to the array object.
          * @param string|imteger $offset the offset to add
          * @param mixed $value the value of the offset
-         * @return \Brickoo\Library\Memory\Container
+         * @return \Brickoo\Memory\Container
          */
         public function add($offset, $value)
         {
@@ -211,7 +211,7 @@
         /**
          * Merges the passed contianer with the currently holded.
          * @param array $container the container to merge
-         * @return \Brickoo\Library\Memory\Container
+         * @return \Brickoo\Memory\Container
          */
         public function merge(array $container)
         {

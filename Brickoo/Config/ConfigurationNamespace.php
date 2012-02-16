@@ -30,11 +30,11 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Config;
+    namespace Brickoo\Config;
 
-    use Brickoo\Library\Core;
-    use Brickoo\Library\Config\Interfaces;
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Core;
+    use Brickoo\Config\Interfaces;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * ConfigurationNamespace
@@ -129,7 +129,7 @@
          * @param string $identifier the identifier to attach the content to
          * @param mixed $content the content to attach to the identifier
          * @throws \Brickoo\Core\Exceptions\ValueOverwriteException if trying to overwrite an identifier
-         * @return \Brickoo\Library\Config\ConfigurationNamespace
+         * @return \Brickoo\Config\ConfigurationNamespace
          */
         public function setConfiguration($identifier, $content)
         {

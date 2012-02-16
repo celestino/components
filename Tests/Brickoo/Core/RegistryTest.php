@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Core\Registry;
+    use Brickoo\Core\Registry;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -45,52 +45,52 @@
 
         /**
          * Test if the Registry can be injected and the Core\Registry will be returned.
-         * @covers Brickoo\Library\Core\Registry::Registry
+         * @covers Brickoo\Core\Registry::Registry
          */
         public function testInjectRegistry()
         {
             $Registry = new RegistryTestable();
-            $RegistryMock = $this->getMock('Brickoo\Library\Memory\Registry');
+            $RegistryMock = $this->getMock('Brickoo\Memory\Registry');
             $this->assertSame($Registry, $Registry->Registry($RegistryMock));
             $this->assertSame($RegistryMock, $Registry->Registry());
         }
 
         /**
          * Test if the Registry can be lazy initialized.
-         * @covers Brickoo\Library\Core\Registry::Registry
+         * @covers Brickoo\Core\Registry::Registry
          */
         public function testRegistryLazyInitialization()
         {
             $Registry = new RegistryTestable();
-            $this->assertInstanceOf('Brickoo\Library\Memory\Registry', $Registry->Registry());
+            $this->assertInstanceOf('Brickoo\Memory\Registry', $Registry->Registry());
         }
 
         /**
          * Test if trying to overwrite the Registry dependency throws an exception.
-         * @covers Brickoo\Library\Core\Registry::Registry
-         * @covers Brickoo\Library\Core\Exceptions\DependencyOverwriteException::__construct
-         * @expectedException Brickoo\Library\Core\Exceptions\DependencyOverwriteException
+         * @covers Brickoo\Core\Registry::Registry
+         * @covers Brickoo\Core\Exceptions\DependencyOverwriteException::__construct
+         * @expectedException Brickoo\Core\Exceptions\DependencyOverwriteException
          */
         public function testRegistryOverwriteException()
         {
             $Registry = new RegistryTestable();
-            $RegistryMock = $this->getMock('Brickoo\Library\Memory\Registry');
+            $RegistryMock = $this->getMock('Brickoo\Memory\Registry');
             $Registry->Registry($RegistryMock);
             $Registry->Registry($RegistryMock);
         }
 
         /**
          * Test registration routines.
-         * @covers Brickoo\Library\Core\Registry::get
-         * @covers Brickoo\Library\Core\Registry::register
-         * @covers Brickoo\Library\Core\Registry::isRegistered
+         * @covers Brickoo\Core\Registry::get
+         * @covers Brickoo\Core\Registry::register
+         * @covers Brickoo\Core\Registry::isRegistered
          */
         public function testRegistrationRoutines()
         {
             $Registry = new RegistryTestable();
 
             $RegistryStub = $this->getMock(
-                'Brickoo\Library\Memory\Registry',
+                'Brickoo\Memory\Registry',
                 array('register', 'isRegistered', 'get', 'lock')
             );
             $RegistryStub->expects($this->once())

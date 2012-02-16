@@ -30,13 +30,13 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Core\Exceptions;
+    namespace Brickoo\Core\Exceptions;
 
     /**
      * AutoloadFileDoesNotExistException
      *
      * Exception throwed by the Autoloader class if trying to load a file which does not exist.
-     * @see Brickoo\Library\Core\Autoloader::load
+     * @see Brickoo\Core\Autoloader::load
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

@@ -1,6 +1,6 @@
 <?php
 
-    use Brickoo\Library\Routing\RouteCollection;
+    use Brickoo\Routing\RouteCollection;
 
     $RouteCollection = new RouteCollection();
 

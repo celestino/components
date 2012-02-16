@@ -30,10 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Http;
+    namespace Brickoo\Http;
 
-    use Brickoo\Library\Core;
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Core;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * Implements methods to handle HTTP requests.
@@ -62,7 +62,7 @@
                return false;
             }
 
-            $Response = new \Brickoo\Library\Http\Response();
+            $Response = new \Brickoo\Http\Response();
             $Response->setContent($cachedResponseParts . '</br><h1>CACHED</h1>');
             $this->registerResponse($Response);
 
@@ -70,8 +70,8 @@
         }
 
         public function cacheResponse(
-            \Brickoo\Library\Http\Interfaces\ResponseInterface $Response,
-            \Brickoo\Library\Routing\Interfaces\RequestRouteInterface $RequestRoute
+            \Brickoo\Http\Interfaces\ResponseInterface $Response,
+            \Brickoo\Routing\Interfaces\RequestRouteInterface $RequestRoute
         )
         {
             if(($this->isCacheableRequest()) || (! $ResponseCacheManager = $this->ResponseCacheManager)) {
@@ -88,7 +88,7 @@
          * Calls the Router to get the matching request Route.
          * Executes the registerd controller configuration.
          * Registers the Response returned by the controller.
-         * @return \Brickoo\Library\Core\Application
+         * @return \Brickoo\Core\Application
          */
         public function run()
         {
@@ -109,7 +109,7 @@
                 }
             }
             catch (\Exception $Exception) {
-                $Response = new \Brickoo\Library\Http\Response();
+                $Response = new \Brickoo\Http\Response();
                 $Response->setContent($Exception->getMessage());
                 $this->registerResponse($Response);
             }
@@ -136,7 +136,7 @@
 
         /**
          * Sends the Response headers and content.
-         * @return \Brickoo\Library\Core\Application
+         * @return \Brickoo\Core\Application
          */
         public function send()
         {

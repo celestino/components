@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Core\Autoloader;
+    use Brickoo\Core\Autoloader;
 
     /**
      * Bootstrap for the Brickoo Framework used for Tests.
@@ -42,14 +42,17 @@
     // set the default timezone
     date_default_timezone_set('UTC');
 
-    // define the Brickoo Framework root directory
+    // define the Brickoo Framework directory
     if (! defined ('BRICKOO_DIR'))
     {
-        define ('BRICKOO_DIR',  realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR);
+        define (
+            'BRICKOO_DIR',
+            realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Brickoo' . DIRECTORY_SEPARATOR
+        );
     }
 
     // require the default autoloader must implement the AutoloaderInterface
-    require_once (BRICKOO_DIR . 'Library'. DIRECTORY_SEPARATOR .'Core'. DIRECTORY_SEPARATOR .'Autoloader.php');
+    require_once (BRICKOO_DIR . 'Core'. DIRECTORY_SEPARATOR .'Autoloader.php');
 
     // create the class autoloader instance
     $Autoloader = new Autoloader();

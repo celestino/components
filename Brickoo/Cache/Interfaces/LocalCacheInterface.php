@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Cache\Interfaces;
+    namespace Brickoo\Cache\Interfaces;
 
     /**
      * LocalCacheInterface
@@ -56,7 +56,7 @@
          * Sets the content holded by the given identifier.
          * @param string $identifier the identifier which should hold the content
          * @param mixed $content the content which should be cached
-         * @return \Brickoo\Library\Cache\Interfaces\LocalCacheInterface
+         * @return \Brickoo\Cache\Interfaces\LocalCacheInterface
          */
         public function set($identifier, $content);
 
@@ -65,7 +65,7 @@
          * Before using this method is should be checked with has() if the
          * identifier is available since this method would throw an exception.
          * @param string $identifier the identifer to remove
-         * @retrun \Brickoo\Library\Cache\Interfaces\LocalCacheInterface
+         * @retrun \Brickoo\Cache\Interfaces\LocalCacheInterface
          */
         public function remove($identifier);
 
@@ -78,7 +78,7 @@
 
         /**
          * Flushes the cached values by removing any content holded.
-         * @return \Brickoo\Library\Cache\Interfaces\LocalCacheInterface
+         * @return \Brickoo\Cache\Interfaces\LocalCacheInterface
          */
         public function flush();
 

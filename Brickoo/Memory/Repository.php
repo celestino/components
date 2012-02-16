@@ -30,10 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Memory;
+    namespace Brickoo\Memory;
 
-    use Brickoo\Library\Memory\Exceptions;
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Memory\Exceptions;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * Repository

@@ -30,11 +30,11 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\System;
+    namespace Brickoo\System;
 
-    use Brickoo\Library\System\Interfaces;
-    use Brickoo\Library\System\Exceptions;
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\System\Interfaces;
+    use Brickoo\System\Exceptions;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * SocketObject
@@ -49,7 +49,7 @@
      * Example:
      * <code>
      *     // Not implemented fwrite(), feof() and fread() but supported, notify the handle handle is not passed !
-     *     $SocketObject =  new Brickoo\Library\System\SocketObject();
+     *     $SocketObject =  new Brickoo\System\SocketObject();
      *     $SocketObject->setServerAdress('yourdomain.com')
      *                  ->setServerPort(80)
      *                  ->setTimeout(10);

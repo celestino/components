@@ -30,10 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Http;
+    namespace Brickoo\Http;
 
-    use Brickoo\Library\Core;
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Core;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * Response
@@ -126,15 +126,15 @@
 
         /**
          * Injects a response template dependency.
-         * @param \Brickoo\Library\Http\Template\Interfaces\TemplateInterface $Template the Template to inject
+         * @param \Brickoo\Http\Template\Interfaces\TemplateInterface $Template the Template to inject
          * @throws Exceptions\ResponseTemplateNotAvailableException if trying to retrieve the not injected dependency
-         * @return \Brickoo\Library\Http\Template\Interfaces\TemplateInterface
+         * @return \Brickoo\Http\Template\Interfaces\TemplateInterface
          */
-        public function Template(\Brickoo\Library\Http\Template\Interfaces\TemplateInterface $Template = null)
+        public function Template(\Brickoo\Http\Template\Interfaces\TemplateInterface $Template = null)
         {
             return $this->getDependency(
                 'Template',
-                '\Brickoo\Library\Http\Template\Interfaces\TemplateInterface',
+                '\Brickoo\Http\Template\Interfaces\TemplateInterface',
                 function() {throw new Exceptions\ResponseTemplateNotAvailableException();},
                 $Template
             );
@@ -154,14 +154,14 @@
 
         /**
          * Lazy initialization of the Headers dependency
-         * @param \Brickoo\Library\Http\Component\Interfaces\HeadersInterface $Headers the Headers dependency to inject
-         * @return \Brickoo\Library\Http\Component\Interfaces\HeadersInterface
+         * @param \Brickoo\Http\Component\Interfaces\HeadersInterface $Headers the Headers dependency to inject
+         * @return \Brickoo\Http\Component\Interfaces\HeadersInterface
          */
-        public function Headers(\Brickoo\Library\Http\Component\Interfaces\HeadersInterface $Headers = null)
+        public function Headers(\Brickoo\Http\Component\Interfaces\HeadersInterface $Headers = null)
         {
             return $this->getDependency(
                 'Headers',
-                '\Brickoo\Library\Http\Component\Interfaces\HeadersInterface',
+                '\Brickoo\Http\Component\Interfaces\HeadersInterface',
                 function() {return new Component\Headers();},
                 $Headers
             );
@@ -182,7 +182,7 @@
         /**
          * Sends the headers to the output buffer.
          * @param callable $callback this argument should be only used for test purposes
-         * @return \Brickoo\Library\Http\Response
+         * @return \Brickoo\Http\Response
          */
         public function sendHeaders($callback = null)
         {
@@ -220,7 +220,7 @@
         /**
          * Sets the response protocol used.
          * @param string $protocol the response protocol
-         * @return \Brickoo\Library\Http\Response
+         * @return \Brickoo\Http\Response
          */
         public function setProtocol($protocol)
         {
@@ -250,7 +250,7 @@
         /**
          * Sets the status code of the response.
          * @param integer $statusCode the status code
-         * @return \Brickoo\Library\Http\Response
+         * @return \Brickoo\Http\Response
          */
         public function setStatusCode($statusCode)
         {
@@ -301,7 +301,7 @@
          * Sets or adds an status code and phrase to the knowed list.
          * @param integer $statusCode the status code to add or overwrite
          * @param string $statusPhrase the phrase to bind to the status code
-         * @return \Brickoo\Library\Http\Response
+         * @return \Brickoo\Http\Response
          */
         public function setStatusPhrase($statusCode, $statusPhrase)
         {
@@ -334,7 +334,7 @@
         /**
          * Sets the response content to sent.
          * @param string $content the response content
-         * @return \Brickoo\Library\Http\Response
+         * @return \Brickoo\Http\Response
          */
         public function setContent($content)
         {
@@ -347,7 +347,7 @@
 
         /**
          * Sends the response content to the output buffer.
-         * @return \Brickoo\Library\Http\Response
+         * @return \Brickoo\Http\Response
          */
         public function sendContent()
         {

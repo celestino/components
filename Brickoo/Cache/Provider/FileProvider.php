@@ -30,10 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-   namespace Brickoo\Library\Cache\Provider;
+   namespace Brickoo\Cache\Provider;
 
-    use Brickoo\Library\System;
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\System;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * FileProvider
@@ -87,14 +87,14 @@
 
         /**
          * Lazy initialization of the FileObject.
-         * @param \Brickoo\Library\System\Interfaces\FileObjectInterface $FileObject the FileObject to inject
-         * @return \Brickoo\Library\System\Interface\FileObjectInterface
+         * @param \Brickoo\System\Interfaces\FileObjectInterface $FileObject the FileObject to inject
+         * @return \Brickoo\System\Interface\FileObjectInterface
          */
-        public function FileObject(\Brickoo\Library\System\Interfaces\FileObjectInterface $FileObject = null)
+        public function FileObject(\Brickoo\System\Interfaces\FileObjectInterface $FileObject = null)
         {
             return $this->getDependency(
                 'FileObject',
-                '\Brickoo\Library\System\Interfaces\FileObjectInterface',
+                '\Brickoo\System\Interfaces\FileObjectInterface',
                 function(){return new System\FileObject();},
                 $FileObject
             );
@@ -119,7 +119,7 @@
          * Sets the file prefix which does match([\w]+).
          * @param string $filePrefix the file rpefix to use
          * @throws UnexpectedValueException if the file prefix does not match the regular expression
-         * @return \Brickoo\Library\Cache\Provider\FileProvider
+         * @return \Brickoo\Cache\Provider\FileProvider
          */
         public function setFilePrefix($filePrefix)
         {
@@ -157,7 +157,7 @@
         /**
          * Sets the directory to use for caching.
          * @param strig $directory the directory to use for caching
-         * @return \Brickoo\Library\Cache\Provider\FileProvider
+         * @return \Brickoo\Cache\Provider\FileProvider
          */
         public function setDirectory($directory)
         {

@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Log\Handler\Interfaces;
+    namespace Brickoo\Log\Handler\Interfaces;
 
     /**
      * LogHandlerInterface

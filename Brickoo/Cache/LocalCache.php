@@ -30,9 +30,9 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Cache;
+    namespace Brickoo\Cache;
 
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * LocalCache
@@ -73,7 +73,7 @@
          * Sets the content holded by the given identifier.
          * @param string $identifier the identifier which should hold the content
          * @param mixed $content the content which should be cached
-         * @return \Brickoo\Library\Cache\LocalCache
+         * @return \Brickoo\Cache\LocalCache
          */
         public function set($identifier, $content)
         {
@@ -89,7 +89,7 @@
          * Before using this method is should be checked with has() if the
          * identifier is available since this method would throw an exception.
          * @param string $identifier the identifer to remove
-         * @return \Brickoo\Library\Cache\LocalCache
+         * @return \Brickoo\Cache\LocalCache
          */
         public function remove($identifier)
         {
@@ -126,7 +126,7 @@
 
         /**
          * Flushes the cached values by removing any content holded.
-         * @return \Brickoo\Library\Cache\LocalCache
+         * @return \Brickoo\Cache\LocalCache
          */
         public function flush()
         {

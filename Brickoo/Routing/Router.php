@@ -30,12 +30,12 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Routing;
+    namespace Brickoo\Routing;
 
-    use Brickoo\Library\Core;
-    use Brickoo\Library\System;
-    use Brickoo\Library\Memory;
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Core;
+    use Brickoo\System;
+    use Brickoo\Memory;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * Router
@@ -75,14 +75,14 @@
 
         /**
          * Lazy initialization of the RouteCollection dependecy.
-         * @param \Brickoo\Library\Routing\Interfaces\RouteCollectionInterface $RouteCollection the collection of routes
-         * @return \Brickoo\Library\Routing\Interfaces\RouterCollectionInterface
+         * @param \Brickoo\Routing\Interfaces\RouteCollectionInterface $RouteCollection the collection of routes
+         * @return \Brickoo\Routing\Interfaces\RouterCollectionInterface
          */
-        public function RouteCollection(\Brickoo\Library\Routing\Interfaces\RouteCollectionInterface $RouteCollection = null)
+        public function RouteCollection(\Brickoo\Routing\Interfaces\RouteCollectionInterface $RouteCollection = null)
         {
             return $this->getDependency(
                 'RouteCollection',
-                '\Brickoo\Library\Routing\Interfaces\RouteCollectionInterface',
+                '\Brickoo\Routing\Interfaces\RouteCollectionInterface',
                 function(){return new RouteCollection();},
                 $RouteCollection
             );
@@ -90,14 +90,14 @@
 
         /**
          * Lazy initialization of the Aliases dependecy.
-         * @param \Brickoo\Library\Memory\Interfaces\ContainerInterface $Aliases the Container dependency
-         * @return \Brickoo\Library\Memory\Interfaces\ContainerInterface
+         * @param \Brickoo\Memory\Interfaces\ContainerInterface $Aliases the Container dependency
+         * @return \Brickoo\Memory\Interfaces\ContainerInterface
          */
-        public function Aliases(\Brickoo\Library\Memory\Interfaces\ContainerInterface $Aliases = null)
+        public function Aliases(\Brickoo\Memory\Interfaces\ContainerInterface $Aliases = null)
         {
             return $this->getDependency(
                 'Aliases',
-                '\Brickoo\Library\Memory\Interfaces\ContainerInterface',
+                '\Brickoo\Memory\Interfaces\ContainerInterface',
                 function(){return new Memory\Container();},
                 $Aliases
             );
@@ -121,7 +121,7 @@
         /**
          * Sets the cache file name.
          * @param string $cacheFilename the cache file name
-         * @return \Brickoo\Library\Routing\Router
+         * @return \Brickoo\Routing\Router
          */
         public function setCacheFilename($cacheFilename)
         {
@@ -155,7 +155,7 @@
         /**
          * Sets the cache directory to use.
          * @param string $cacheDirectory the cache directory to use
-         * @return \Brickoo\Library\Routing\Router
+         * @return \Brickoo\Routing\Router
          */
         public function setCacheDirectory($cacheDirectory)
         {
@@ -193,7 +193,7 @@
         /**
          * Sets the  routes file name searched in the modules directory.
          * @param string $routesFilename the routes file name
-         * @return \Brickoo\Library\Routing\Router
+         * @return \Brickoo\Routing\Router
          */
         public function setRoutesFilename($routesFilename)
         {
@@ -224,7 +224,7 @@
          * If the modules a set directly, the modules will not be available through the Brickoo Registry.
          * @param array $modules the modules to load the routes from
          * @throws Core\Exceptions\ValueOverwriteException if trying to overwrite the available modules
-         * @return \Brickoo\Library\Routing\Router
+         * @return \Brickoo\Routing\Router
          */
         public function setModules(array $modules)
         {
@@ -248,13 +248,13 @@
 
         /**
          * Holds an instance of the Request class.
-         * @var \Brickoo\Library\Core\Interfaces\RequestInterface
+         * @var \Brickoo\Core\Interfaces\RequestInterface
          */
         protected $Request;
 
         /**
          * Returns the Request instance implementing the RequestInterface.
-         * @return \Brickoo\Library\Core\Interfaces\RequestInterface
+         * @return \Brickoo\Core\Interfaces\RequestInterface
          */
         public function getRequest()
         {
@@ -263,17 +263,17 @@
 
         /**
          * Holds the requeste Route instance.
-         * @var Brickoo\Library\Routing\Interfaces\RequestRouteInterface
+         * @var Brickoo\Routing\Interfaces\RequestRouteInterface
          */
         protected $RequestRoute;
 
         /**
          * Sets the requested Route for further routing.
-         * @param \Brickoo\Library\Routing\Interfaces\RouteInterface $Route the route matched the request
-         * @throws \Brickoo\Library\Core\Exceptions\ValueOverwriteException if trying to overwrite the request route
-         * @return \Brickoo\Library\Routing\Router
+         * @param \Brickoo\Routing\Interfaces\RouteInterface $Route the route matched the request
+         * @throws \Brickoo\Core\Exceptions\ValueOverwriteException if trying to overwrite the request route
+         * @return \Brickoo\Routing\Router
          */
-        public function setRequestRoute(\Brickoo\Library\Routing\Interfaces\RouteInterface $Route)
+        public function setRequestRoute(\Brickoo\Routing\Interfaces\RouteInterface $Route)
         {
             if ($this->RequestRoute !== null) {
                 throw new Core\Exceptions\ValueOverwriteException('Router::RequestRoute');
@@ -297,7 +297,7 @@
          * Checks if the Route matches the request.
          * @return boolean check result
          */
-        public function isRequestRoute(\Brickoo\Library\Routing\Interfaces\RouteInterface $Route)
+        public function isRequestRoute(\Brickoo\Routing\Interfaces\RouteInterface $Route)
         {
             $Request = $this->getRequest();
 
@@ -336,7 +336,7 @@
          * Returns the request matching route.
          * If the CacheManager is available the proceded routes will be cached.
          * @throws Routing\Exceptions\RequestedHasNoRouteException if the request has not a matching Route
-         * @return \Brickoo\Library\Routing\Route
+         * @return \Brickoo\Routing\Route
          */
         public function getRequestRoute()
         {
@@ -374,7 +374,7 @@
         * Initializes the class properties.
         * @return void
         */
-        public function __construct(\Brickoo\Library\Core\Interfaces\RequestInterface $Request)
+        public function __construct(\Brickoo\Core\Interfaces\RequestInterface $Request)
         {
             $this->Request            = $Request;
             $this->RequestRoute       = null;
@@ -479,10 +479,10 @@
 
         /**
          * Returns the Route regular expression to add for matching formats.
-         * @param \Brickoo\Library\Routing\Interfaces\RouteInterface $Route the Route instance
+         * @param \Brickoo\Routing\Interfaces\RouteInterface $Route the Route instance
          * @return string the regular expression of the route format
          */
-        public function getRegexRouteFormat(\Brickoo\Library\Routing\Interfaces\RouteInterface $Route)
+        public function getRegexRouteFormat(\Brickoo\Routing\Interfaces\RouteInterface $Route)
         {
             $formatRegex = '(\..*)?';
 
@@ -519,10 +519,10 @@
 
         /**
          * Returns a regular expression from the route path and rules or default values available.
-         * @param \Brickoo\Library\Routing\Interfaces\RouteInterface $Route the route to use
+         * @param \Brickoo\Routing\Interfaces\RouteInterface $Route the route to use
          * @return string the regular expression for the request path
          */
-        public function getRegexFromRoutePath(\Brickoo\Library\Routing\Interfaces\RouteInterface $Route)
+        public function getRegexFromRoutePath(\Brickoo\Routing\Interfaces\RouteInterface $Route)
         {
             $regex  = $this->getRouteAliasesPath($Route->getPath());
             $regex .= $this->getRegexRouteFormat($Route);

@@ -30,11 +30,11 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Http\Component;
+    namespace Brickoo\Http\Component;
 
-    use Brickoo\Library\Core;
-    use Brickoo\Library\Http;
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Core;
+    use Brickoo\Http;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * Url
@@ -74,14 +74,14 @@
 
         /**
          * Lazy initialization of the Http\Request instance.
-         * @param \Brickoo\Library\Http\Interfaces\RequestInterface $Request the Http\Request instance
-         * @return \Brickoo\Library\Http\Interfaces\RequestInterface
+         * @param \Brickoo\Http\Interfaces\RequestInterface $Request the Http\Request instance
+         * @return \Brickoo\Http\Interfaces\RequestInterface
          */
-        public function Request(\Brickoo\Library\Http\Interfaces\RequestInterface $Request = null)
+        public function Request(\Brickoo\Http\Interfaces\RequestInterface $Request = null)
         {
             return $this->getDependency(
                 'Request',
-                '\Brickoo\Library\Http\Interfaces\RequestInterface',
+                '\Brickoo\Http\Interfaces\RequestInterface',
                 function(){return new Http\Request();},
                 $Request
             );
@@ -110,7 +110,7 @@
         /**
          * Sets the url scheme.
          * @param string $scheme the url scheme to set
-         * @return \Brickoo\Library\Http\Component\Url
+         * @return \Brickoo\Http\Component\Url
          */
         public function setScheme($scheme)
         {
@@ -144,7 +144,7 @@
         /**
          * Sets the host.
          * @param string $host the host to set
-         * @return \Brickoo\Library\Http\Component\Url
+         * @return \Brickoo\Http\Component\Url
          */
         public function setHost($host)
         {
@@ -173,7 +173,7 @@
         /**
          * Sets the url included port.
          * @param string|integer $port the url port
-         * @return \Brickoo\Library\Http\Component\Url
+         * @return \Brickoo\Http\Component\Url
          */
         public function setPort($port)
         {
@@ -202,7 +202,7 @@
         /**
          * Sets the url query string.
          * @param string $query the query string to set
-         * @return \Brickoo\Library\Http\Component\Url
+         * @return \Brickoo\Http\Component\Url
          */
         public function setQuery($query)
         {
@@ -236,7 +236,7 @@
         /**
          * Sets the url path.
          * @param string $path the url path to set
-         * @return \Brickoo\Library\Http\Component\Url
+         * @return \Brickoo\Http\Component\Url
          */
         public function setPath($path)
         {
@@ -265,7 +265,7 @@
         /**
          * Sets the url format.
          * @param string $format the request format
-         * @return \Brickoo\Library\Http\Component\Url
+         * @return \Brickoo\Http\Component\Url
          */
         public function setFormat($format)
         {
@@ -279,7 +279,7 @@
         /**
          * Imports the url parts from string.
          * @param string $url the url to import from
-         * @return \Brickoo\Library\Http\Component\Url
+         * @return \Brickoo\Http\Component\Url
          */
         public function importFromString($url)
         {
@@ -315,7 +315,7 @@
 
         /**
          * Imports the request configuration.
-         * @return \Brickoo\Library\Http\Component\Url
+         * @return \Brickoo\Http\Component\Url
          */
         public function importFromGlobals()
         {

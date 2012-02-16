@@ -30,9 +30,9 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Cache\Provider;
+    namespace Brickoo\Cache\Provider;
 
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * MemcacheProvider
@@ -69,7 +69,7 @@
          * Enables cache compression (not recommended).
          * Be aware activating the comression since boolean, integer and floats can not be restored.
          * Use compression only if you are storing strings .
-         * @return \Brickoo\Library\Cache\Provider\MemcacheProvider
+         * @return \Brickoo\Cache\Provider\MemcacheProvider
          */
         public function enableCompression()
         {

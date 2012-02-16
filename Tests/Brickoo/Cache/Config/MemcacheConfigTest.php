@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Cache\Config\MemcacheConfig;
+    use Brickoo\Cache\Config\MemcacheConfig;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -39,7 +39,7 @@
      * MemcacheConfig
      *
      * Test suite for the MemcacheConfig class.
-     * @see Brickoo\Library\Cache\Config\MemcacheConfig
+     * @see Brickoo\Cache\Config\MemcacheConfig
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -62,20 +62,20 @@
 
         /**
          * Test if the MemcacheConfig implements the Cache\Interface\MemcacheConfigInterface.
-         * @covers Brickoo\Library\Cache\Config\MemcacheConfig::__construct
+         * @covers Brickoo\Cache\Config\MemcacheConfig::__construct
          */
         public function testConstruct()
         {
             $this->assertInstanceOf
             (
-                'Brickoo\Library\Cache\Config\Interfaces\MemcacheConfigInterface',
+                'Brickoo\Cache\Config\Interfaces\MemcacheConfigInterface',
                 $this->MemcacheConfig
             );
         }
 
         /**
          * Test if a serevr configuration can be added and the MemcacheConfig reference is returned.
-         * @covers Brickoo\Library\Cache\Config\MemcacheConfig::addServer
+         * @covers Brickoo\Cache\Config\MemcacheConfig::addServer
          */
         public function testAddServer()
         {
@@ -89,7 +89,7 @@
 
         /**
          * Test if missing some array keys of the configuration throws an exception.
-         * @covers Brickoo\Library\Cache\Config\MemcacheConfig::addServer
+         * @covers Brickoo\Cache\Config\MemcacheConfig::addServer
          * @expectedException InvalidArgumentException
          */
         public function testAddServerValueException()
@@ -99,7 +99,7 @@
 
         /**
          * Test if the servers added can be retrieved.
-         * @covers Brickoo\Library\Cache\Config\MemcacheConfig::getServers
+         * @covers Brickoo\Cache\Config\MemcacheConfig::getServers
          * @depends testAddServer
          */
         public function testGetServers($MemcacheConfig)
@@ -111,7 +111,7 @@
 
         /**
         * Test if the Memcache instacne can be configured.
-        * @covers Brickoo\Library\Cache\Config\MemcacheConfig::configure
+        * @covers Brickoo\Cache\Config\MemcacheConfig::configure
         * @depends testAddServer
         */
         public function testConfigure($MemcacheConfig)

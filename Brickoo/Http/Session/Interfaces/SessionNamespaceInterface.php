@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Http\Session\Interfaces;
+    namespace Brickoo\Http\Session\Interfaces;
 
     /**
      * SessionNamespaceInterface
@@ -61,14 +61,14 @@
          * Sets the session property and assigns the content to it.
          * @param string $property the property to assign the content to
          * @param mixed $content the content to store
-         * @return \Brickoo\Library\Interfaces\SessionInterface
+         * @return \Brickoo\Interfaces\SessionInterface
          */
         public function set($property, $content);
 
         /**
          * Removes the session property if available.
          * @param string $property the property to remove
-         * @return \Brickoo\Library\Interfaces\SessionInterface
+         * @return \Brickoo\Interfaces\SessionInterface
          */
         public function remove($property);
 

@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Http\Component\Url;
+    use Brickoo\Http\Component\Url;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -39,7 +39,7 @@
      * UrlTest
      *
      * Test suite for the Url class.
-     * @see Brickoo\Library\Component\Url
+     * @see Brickoo\Component\Url
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -48,7 +48,7 @@
 
         /**
          * Holds an instance if the Url class.
-         * @var \Brickoo\Library\Http\Component\Url
+         * @var \Brickoo\Http\Component\Url
          */
         protected $Url;
 
@@ -63,26 +63,26 @@
 
         /**
          * Test if the Request dependency can be injected and the Url reference is returned.
-         * @covers Brickoo\Library\Http\Component\Url::Request
-         * @covers Brickoo\Library\Http\Component\Url::getDependency
+         * @covers Brickoo\Http\Component\Url::Request
+         * @covers Brickoo\Http\Component\Url::getDependency
          */
         public function testRequestInjection()
         {
-            $Request = $this->getMock('Brickoo\Library\Http\Request');
+            $Request = $this->getMock('Brickoo\Http\Request');
             $this->assertSame($this->Url, $this->Url->Request($Request));
             $this->assertAttributeContains($Request, 'dependencies', $this->Url);
         }
 
         /**
          * Test if the Request dependency can be lazy initialized.
-         * @covers Brickoo\Library\Http\Component\Url::Request
-         * @covers Brickoo\Library\Http\Component\Url::getDependency
+         * @covers Brickoo\Http\Component\Url::Request
+         * @covers Brickoo\Http\Component\Url::getDependency
          */
         public function testRequestLazyInitialization()
         {
             $this->assertInstanceOf
             (
-                'Brickoo\Library\Http\Interfaces\RequestInterface',
+                'Brickoo\Http\Interfaces\RequestInterface',
                 $this->Url->Request()
             );
             $this->assertAttributeContains($this->Url->Request(), 'dependencies', $this->Url);
@@ -90,8 +90,8 @@
 
         /**
          * Test getter and setter for the scheme.
-         * @covers Brickoo\Library\Http\Component\Url::setScheme
-         * @covers Brickoo\Library\Http\Component\Url::getScheme
+         * @covers Brickoo\Http\Component\Url::setScheme
+         * @covers Brickoo\Http\Component\Url::getScheme
          */
         public function testGetSetScheme()
         {
@@ -102,7 +102,7 @@
 
         /**
          * Test if the scheme is not set throws an exception.
-         * @covers Brickoo\Library\Http\Component\Url::getScheme
+         * @covers Brickoo\Http\Component\Url::getScheme
          * @expectedException UnexpectedValueException
          */
         public function testGetSchemeValueException()
@@ -112,7 +112,7 @@
 
         /**
          * Test if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Http\Component\Url::setHost
+         * @covers Brickoo\Http\Component\Url::setHost
          * @expectedException InvalidArgumentException
          */
         public function testSetSchemeArgumentException()
@@ -122,8 +122,8 @@
 
         /**
          * Test getter and setter for the host.
-         * @covers Brickoo\Library\Http\Component\Url::setHost
-         * @covers Brickoo\Library\Http\Component\Url::getHost
+         * @covers Brickoo\Http\Component\Url::setHost
+         * @covers Brickoo\Http\Component\Url::getHost
          */
         public function testGetSetHost()
         {
@@ -134,7 +134,7 @@
 
         /**
          * Test if the host is not set throws an exception.
-         * @covers Brickoo\Library\Http\Component\Url::getHost
+         * @covers Brickoo\Http\Component\Url::getHost
          * @expectedException UnexpectedValueException
          */
         public function testGetHostValueException()
@@ -144,7 +144,7 @@
 
         /**
          * Test if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Http\Component\Url::setHost
+         * @covers Brickoo\Http\Component\Url::setHost
          * @expectedException InvalidArgumentException
          */
         public function testSetHostArgumentException()
@@ -154,8 +154,8 @@
 
         /**
          * Test getter and setter for the port.
-         * @covers Brickoo\Library\Http\Component\Url::setPort
-         * @covers Brickoo\Library\Http\Component\Url::getPort
+         * @covers Brickoo\Http\Component\Url::setPort
+         * @covers Brickoo\Http\Component\Url::getPort
          */
         public function testGetSetPort()
         {
@@ -166,7 +166,7 @@
 
         /**
          * Test if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Http\Component\Url::setPort
+         * @covers Brickoo\Http\Component\Url::setPort
          * @expectedException InvalidArgumentException
          */
         public function testSetPortArgumentException()
@@ -176,8 +176,8 @@
 
         /**
          * Test getter and setter for the query.
-         * @covers Brickoo\Library\Http\Component\Url::setQuery
-         * @covers Brickoo\Library\Http\Component\Url::getQuery
+         * @covers Brickoo\Http\Component\Url::setQuery
+         * @covers Brickoo\Http\Component\Url::getQuery
          */
         public function testGetSetQuery()
         {
@@ -188,7 +188,7 @@
 
         /**
          * Test if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Http\Component\Url::setQuery
+         * @covers Brickoo\Http\Component\Url::setQuery
          * @expectedException InvalidArgumentException
          */
         public function testSetQueryArgumentException()
@@ -198,8 +198,8 @@
 
         /**
          * Test getter and setter for the path.
-         * @covers Brickoo\Library\Http\Component\Url::setPath
-         * @covers Brickoo\Library\Http\Component\Url::getPath
+         * @covers Brickoo\Http\Component\Url::setPath
+         * @covers Brickoo\Http\Component\Url::getPath
          */
         public function testGetSetPath()
         {
@@ -210,7 +210,7 @@
 
         /**
          * Test if the path is not set throws an exception.
-         * @covers Brickoo\Library\Http\Component\Url::getPath
+         * @covers Brickoo\Http\Component\Url::getPath
          * @expectedException UnexpectedValueException
          */
         public function testGetPathValueException()
@@ -220,7 +220,7 @@
 
         /**
          * Test if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Http\Component\Url::setPath
+         * @covers Brickoo\Http\Component\Url::setPath
          * @expectedException InvalidArgumentException
          */
         public function testSetPathArgumentException()
@@ -230,8 +230,8 @@
 
         /**
          * Test getter and setter for the format.
-         * @covers Brickoo\Library\Http\Component\Url::setFormat
-         * @covers Brickoo\Library\Http\Component\Url::getFormat
+         * @covers Brickoo\Http\Component\Url::setFormat
+         * @covers Brickoo\Http\Component\Url::getFormat
          */
         public function testGetSetFormat()
         {
@@ -243,7 +243,7 @@
 
         /**
          * Test if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Http\Component\Url::setFormat
+         * @covers Brickoo\Http\Component\Url::setFormat
          * @expectedException InvalidArgumentException
          */
         public function testSetFormatArgumentException()
@@ -253,7 +253,7 @@
 
         /**
          * Test if an url can be imported from string.
-         * @covers Brickoo\Library\Http\Component\Url::importFromString
+         * @covers Brickoo\Http\Component\Url::importFromString
          */
         public function testImportFromString()
         {
@@ -269,7 +269,7 @@
 
         /**
          * Test if an url with wrong signature throws an exception.
-         * @covers Brickoo\Library\Http\Component\Url::importFromString
+         * @covers Brickoo\Http\Component\Url::importFromString
          * @expectedException InvalidArgumentException
          */
         public function testImportFromStringArgumentException()
@@ -279,18 +279,18 @@
 
         /**
          * Test if the configuration is imported by the given methods and the Url reference is returned.
-         * @covers Brickoo\Library\Http\Component\Url::importFromGlobals
+         * @covers Brickoo\Http\Component\Url::importFromGlobals
          */
         public function testImportFromGlobals()
         {
-            $Request = $this->getMock('Brickoo\Library\Http\Request', array('isSecureConnection'));
+            $Request = $this->getMock('Brickoo\Http\Request', array('isSecureConnection'));
             $Request->expects($this->once())
                     ->method('isSecureConnection')
                     ->will($this->returnValue(true));
 
             $Url = $this->getMock
             (
-                'Brickoo\Library\Http\Component\Url',
+                'Brickoo\Http\Component\Url',
                 array('getRequestHost', 'getRequestPort', 'getRequestQuery', 'getRequestPath')
             );
 
@@ -315,7 +315,7 @@
 
         /**
          * Test if the host can be returned from the server adress.
-         * @covers Brickoo\Library\Http\Component\Url::getRequestHost
+         * @covers Brickoo\Http\Component\Url::getRequestHost
          */
         public function testGetRequestHostByServerAdress()
         {
@@ -325,13 +325,13 @@
                 array('SERVER_ADDR', null, '127.0.0.1')
             );
 
-            $Headers = $this->getMock('Brickoo\Library\http\Component\Headers', array('get'));
+            $Headers = $this->getMock('Brickoo\http\Component\Headers', array('get'));
             $Headers->expects($this->once())
                     ->method('get')
                     ->with('Host')
                     ->will($this->returnValue(null));
 
-            $Request = $this->getMock('Brickoo\Library\Http\Request', array('Headers', 'getServerVar'));
+            $Request = $this->getMock('Brickoo\Http\Request', array('Headers', 'getServerVar'));
             $Request->expects($this->once())
                     ->method('Headers')
                     ->will($this->returnValue($Headers));
@@ -344,17 +344,17 @@
 
         /**
          * Test if the host can be returned from the server name.
-         * @covers Brickoo\Library\Http\Component\Url::getRequestHost
+         * @covers Brickoo\Http\Component\Url::getRequestHost
          */
         public function testGetRequestHostByServerName()
         {
-            $Headers = $this->getMock('Brickoo\Library\http\Component\Headers', array('get'));
+            $Headers = $this->getMock('Brickoo\http\Component\Headers', array('get'));
             $Headers->expects($this->once())
                     ->method('get')
                     ->with('Host')
                     ->will($this->returnValue(null));
 
-            $Request = $this->getMock('Brickoo\Library\Http\Request', array('Headers', 'getServerVar'));
+            $Request = $this->getMock('Brickoo\Http\Request', array('Headers', 'getServerVar'));
             $Request->expects($this->once())
                     ->method('Headers')
                     ->will($this->returnValue($Headers));
@@ -367,17 +367,17 @@
 
         /**
          * Test if the host can be returned from the host header.
-         * @covers Brickoo\Library\Http\Component\Url::getRequestHost
+         * @covers Brickoo\Http\Component\Url::getRequestHost
          */
         public function testGetRequestHostByHost()
         {
-            $Headers = $this->getMock('Brickoo\Library\http\Component\Headers', array('get'));
+            $Headers = $this->getMock('Brickoo\http\Component\Headers', array('get'));
             $Headers->expects($this->once())
                     ->method('get')
                     ->with('Host')
                     ->will($this->returnValue('localhost'));
 
-            $Request = $this->getMock('Brickoo\Library\Http\Request', array('Headers'));
+            $Request = $this->getMock('Brickoo\Http\Request', array('Headers'));
             $Request->expects($this->once())
                     ->method('Headers')
                     ->will($this->returnValue($Headers));
@@ -387,17 +387,17 @@
 
         /**
          * Test of the port can be retrieved from the server port.
-         * @covers Brickoo\Library\Http\Component\Url::getRequestPort
+         * @covers Brickoo\Http\Component\Url::getRequestPort
          */
         public function testGetRequestPortByServerPort()
         {
-            $Headers = $this->getMock('Brickoo\Library\http\Component\Headers', array('get'));
+            $Headers = $this->getMock('Brickoo\http\Component\Headers', array('get'));
             $Headers->expects($this->once())
                     ->method('get')
                     ->with('X-Forwarded-Port')
                     ->will($this->returnValue(null));
 
-            $Request = $this->getMock('Brickoo\Library\Http\Request', array('Headers', 'getServerVar'));
+            $Request = $this->getMock('Brickoo\Http\Request', array('Headers', 'getServerVar'));
             $Request->expects($this->once())
                     ->method('Headers')
                     ->will($this->returnValue($Headers));
@@ -411,17 +411,17 @@
 
         /**
          * Test of the port can be retrieved from the forwarded port header.
-         * @covers Brickoo\Library\Http\Component\Url::getRequestPort
+         * @covers Brickoo\Http\Component\Url::getRequestPort
          */
         public function testGetRequestPortByForwardedPort()
         {
-            $Headers = $this->getMock('Brickoo\Library\http\Component\Headers', array('get'));
+            $Headers = $this->getMock('Brickoo\http\Component\Headers', array('get'));
             $Headers->expects($this->once())
                     ->method('get')
                     ->with('X-Forwarded-Port')
                     ->will($this->returnValue('12345'));
 
-            $Request = $this->getMock('Brickoo\Library\Http\Request', array('Headers'));
+            $Request = $this->getMock('Brickoo\Http\Request', array('Headers'));
             $Request->expects($this->once())
                     ->method('Headers')
                     ->will($this->returnValue($Headers));
@@ -431,12 +431,12 @@
 
         /**
          * Test if the request query can be retrieved from the $_GET global.
-         * @covers Brickoo\Library\Http\Component\Url::getRequestQuery
+         * @covers Brickoo\Http\Component\Url::getRequestQuery
          */
         public function testGetRequestQueryFromGlobal()
         {
             $_GET = array('test' => 'value');
-            $Request = $this->getMock('Brickoo\Library\Http\Request', array('getServerVar'));
+            $Request = $this->getMock('Brickoo\Http\Request', array('getServerVar'));
             $Request->expects($this->once())
                     ->method('getServerVar')
                     ->with('QUERY_STRING')
@@ -448,11 +448,11 @@
 
         /**
          * Test if the request query can be retrieved from the server query.
-         * @covers Brickoo\Library\Http\Component\Url::getRequestQuery
+         * @covers Brickoo\Http\Component\Url::getRequestQuery
          */
         public function testGetRequestQueryFromServerQuery()
         {
-            $Request = $this->getMock('Brickoo\Library\Http\Request', array('getServerVar'));
+            $Request = $this->getMock('Brickoo\Http\Request', array('getServerVar'));
             $Request->expects($this->once())
                     ->method('getServerVar')
                     ->with('QUERY_STRING')
@@ -463,7 +463,7 @@
 
         /**
          * Test if the request path can be retrieved from the server uri.
-         * @covers Brickoo\Library\Http\Component\Url::getRequestPath
+         * @covers Brickoo\Http\Component\Url::getRequestPath
          */
         public function testGetRequestPath()
         {
@@ -473,12 +473,12 @@
                 array('X-Rewrite-Url', null, null)
             );
 
-            $Headers = $this->getMock('Brickoo\Library\http\Component\Headers', array('get'));
+            $Headers = $this->getMock('Brickoo\http\Component\Headers', array('get'));
             $Headers->expects($this->exactly(2))
                     ->method('get')
                     ->will($this->returnValueMap($valueMap));
 
-            $Request = $this->getMock('Brickoo\Library\Http\Request', array('Headers', 'getServerVar'));
+            $Request = $this->getMock('Brickoo\Http\Request', array('Headers', 'getServerVar'));
             $Request->expects($this->exactly(2))
                     ->method('Headers')
                     ->will($this->returnValue($Headers));
@@ -492,7 +492,7 @@
 
         /**
          * Test if the request format can be retrieved from the server path.
-         * @covers Brickoo\Library\Http\Component\Url::getRequestFormat
+         * @covers Brickoo\Http\Component\Url::getRequestFormat
          */
         public function testGetRequestFormat()
         {
@@ -502,18 +502,18 @@
 
         /**
          * Test if the request path can be retrieved from the original url header.
-         * @covers Brickoo\Library\Http\Component\Url::getRequestPath
-         * @covers Brickoo\Library\Http\Component\Url::getIISRequestUrl
+         * @covers Brickoo\Http\Component\Url::getRequestPath
+         * @covers Brickoo\Http\Component\Url::getIISRequestUrl
          */
         public function testGetIISRequestPathFromOriginalUrlHeader()
         {
-            $Headers = $this->getMock('Brickoo\Library\http\Component\Headers', array('get'));
+            $Headers = $this->getMock('Brickoo\http\Component\Headers', array('get'));
             $Headers->expects($this->once())
                     ->method('get')
                     ->with('X-Original-Url')
                     ->will($this->returnValue('/path/to/somewhere?test=value'));
 
-            $Request = $this->getMock('Brickoo\Library\Http\Request', array('Headers', 'getServerVar'));
+            $Request = $this->getMock('Brickoo\Http\Request', array('Headers', 'getServerVar'));
             $Request->expects($this->once())
                     ->method('Headers')
                     ->will($this->returnValue($Headers));
@@ -523,8 +523,8 @@
 
         /**
          * Test if the request path can be retrieved from the rewrited url header.
-         * @covers Brickoo\Library\Http\Component\Url::getRequestPath
-         * @covers Brickoo\Library\Http\Component\Url::getIISRequestUrl
+         * @covers Brickoo\Http\Component\Url::getRequestPath
+         * @covers Brickoo\Http\Component\Url::getIISRequestUrl
          */
         public function testGetIISRequestPathFromRewriteUrlHeader()
         {
@@ -534,12 +534,12 @@
                 array('X-Rewrite-Url', null, '/path/to/somewhere?test=value')
             );
 
-            $Headers = $this->getMock('Brickoo\Library\http\Component\Headers', array('get'));
+            $Headers = $this->getMock('Brickoo\http\Component\Headers', array('get'));
             $Headers->expects($this->exactly(2))
                     ->method('get')
                     ->will($this->returnValueMap($valueMap));
 
-            $Request = $this->getMock('Brickoo\Library\Http\Request', array('Headers', 'getServerVar'));
+            $Request = $this->getMock('Brickoo\Http\Request', array('Headers', 'getServerVar'));
             $Request->expects($this->exactly(2))
                     ->method('Headers')
                     ->will($this->returnValue($Headers));
@@ -549,8 +549,8 @@
 
         /**
          * Test if the complete url can be retrieved as string from the properties.
-         * @covers Brickoo\Library\Http\Component\Url::toString
-         * @covers Brickoo\Library\Http\Component\Url::__toString
+         * @covers Brickoo\Http\Component\Url::toString
+         * @covers Brickoo\Http\Component\Url::__toString
          */
         public function testToString()
         {

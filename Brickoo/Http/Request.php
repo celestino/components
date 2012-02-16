@@ -30,11 +30,11 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Http;
+    namespace Brickoo\Http;
 
-    use Brickoo\Library\Core;
-    use Brickoo\Library\Memory;
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Core;
+    use Brickoo\Memory;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * Request
@@ -74,14 +74,14 @@
 
         /**
          * Lazy initialization of the Url dependency
-         * @param \Brickoo\Library\Http\Component\Interfaces\UrlInterface $Url the Url dependency to inject
-         * @return \Brickoo\Library\Http\Interfaces\UrlInterface
+         * @param \Brickoo\Http\Component\Interfaces\UrlInterface $Url the Url dependency to inject
+         * @return \Brickoo\Http\Interfaces\UrlInterface
          */
-        public function Url(\Brickoo\Library\Http\Component\Interfaces\UrlInterface $Url = null)
+        public function Url(\Brickoo\Http\Component\Interfaces\UrlInterface $Url = null)
         {
             return $this->getDependency(
                 'Url',
-                '\Brickoo\Library\Http\Component\Interfaces\UrlInterface',
+                '\Brickoo\Http\Component\Interfaces\UrlInterface',
                 function($Request) {
                     $Url = new Component\Url();
                     $Url->Request($Request);
@@ -93,14 +93,14 @@
 
         /**
          * Lazy initialization of the Headers dependency.
-         * @param \Brickoo\Library\Http\Component\Interfaces\HeadersInterface $Headers the Headers dependency to inject
-         * @return \Brickoo\Library\Http\Component\Interfaces\HeadersInterface
+         * @param \Brickoo\Http\Component\Interfaces\HeadersInterface $Headers the Headers dependency to inject
+         * @return \Brickoo\Http\Component\Interfaces\HeadersInterface
          */
-        public function Headers(\Brickoo\Library\Http\Component\Interfaces\HeadersInterface $Headers = null)
+        public function Headers(\Brickoo\Http\Component\Interfaces\HeadersInterface $Headers = null)
         {
             return $this->getDependency(
                 'Headers',
-                '\Brickoo\Library\Http\Component\Interfaces\HeadersInterface',
+                '\Brickoo\Http\Component\Interfaces\HeadersInterface',
                 function() {
                     $Headers = new Component\Headers();
                     return $Headers->importFromGlobals();
@@ -111,14 +111,14 @@
 
         /**
          * Lazy initialization of the Query dependency.
-         * @param \Brickoo\Library\Http\Component\Interfaces\QueryInterface $Query the Query dependency to inject
-         * @return \Brickoo\Library\Http\Component\Interfaces\QueryInterface
+         * @param \Brickoo\Http\Component\Interfaces\QueryInterface $Query the Query dependency to inject
+         * @return \Brickoo\Http\Component\Interfaces\QueryInterface
         */
-        public function Query(\Brickoo\Library\Http\Component\Interfaces\QueryInterface $Query = null)
+        public function Query(\Brickoo\Http\Component\Interfaces\QueryInterface $Query = null)
         {
             return $this->getDependency(
                 'Query',
-                '\Brickoo\Library\Http\Component\Interfaces\QueryInterface',
+                '\Brickoo\Http\Component\Interfaces\QueryInterface',
                 function() {
                     $Query = new Component\Query();
                     return $Query->importFromGlobals();
@@ -129,14 +129,14 @@
 
         /**
          * Lazy initialization of the Post dependency.
-         * @param \Brickoo\Library\Memory\Interfaces\ContainerInterface $Post the Post dependency to inject
-         * @return \Brickoo\Library\Memory\Interfaces\ContainerInterface
+         * @param \Brickoo\Memory\Interfaces\ContainerInterface $Post the Post dependency to inject
+         * @return \Brickoo\Memory\Interfaces\ContainerInterface
          */
-        public function Post(\Brickoo\Library\Memory\Interfaces\ContainerInterface $Post = null)
+        public function Post(\Brickoo\Memory\Interfaces\ContainerInterface $Post = null)
         {
             return $this->getDependency(
                 'Post',
-                '\Brickoo\Library\Memory\Interfaces\ContainerInterface',
+                '\Brickoo\Memory\Interfaces\ContainerInterface',
                 function(){
                     $Container = new Memory\Container();
                     $Container->merge($_POST);
@@ -148,14 +148,14 @@
 
         /**
          * Lazy initialization of the Files dependency.
-         * @param \Brickoo\Library\Memory\Interfaces\ContainerInterface $Files the Files dependency to inject
-         * @return \Brickoo\Library\Memory\Interfaces\ContainerInterface
+         * @param \Brickoo\Memory\Interfaces\ContainerInterface $Files the Files dependency to inject
+         * @return \Brickoo\Memory\Interfaces\ContainerInterface
          */
-        public function Files(\Brickoo\Library\Memory\Interfaces\ContainerInterface $Files = null)
+        public function Files(\Brickoo\Memory\Interfaces\ContainerInterface $Files = null)
         {
             return $this->getDependency(
                 'Files',
-                '\Brickoo\Library\Memory\Interfaces\ContainerInterface',
+                '\Brickoo\Memory\Interfaces\ContainerInterface',
                 function(){
                     $Container = new Memory\Container();
                     $Container->merge($_FILES);
@@ -188,7 +188,7 @@
         /**
          * Sets the request protocol used.
          * @param string $protocol the protocol to set.
-         * @return \Brickoo\Library\Http\Request
+         * @return \Brickoo\Http\Request
          */
         public function setProtocol($protocol)
         {
@@ -218,7 +218,7 @@
         /**
          * Sets the supported http methods.
          * @param array $methods the methods supported
-         * @return \Brickoo\Library\Http\Request
+         * @return \Brickoo\Http\Request
          */
         public function setSupportedMethods(array $methods)
         {
@@ -264,7 +264,7 @@
          * Sets the http request method.
          * @param string $method the http request method
          * @throws Exceptions\MethodNotSupported if the method is not supported
-         * @return \Brickoo\Library\Http\Request
+         * @return \Brickoo\Http\Request
          */
         public function setMethod($method)
         {
@@ -291,7 +291,7 @@
         /**
          * Sets the host name.
          * @param string $host the host name to set
-         * @return \Brickoo\Library\Http\Request
+         * @return \Brickoo\Http\Request
          */
         public function setHost($host)
         {
@@ -313,7 +313,7 @@
         /**
          * Sets the request path.
          * @param string $path the request path to set
-         * @return \Brickoo\Library\Http\Request
+         * @return \Brickoo\Http\Request
          */
         public function setPath($path)
         {
@@ -335,7 +335,7 @@
         /**
          * Sets the request format.
          * @param string $format the request format
-         * @return \Brickoo\Library\Http\Request
+         * @return \Brickoo\Http\Request
          */
         public function setFormat($format)
         {

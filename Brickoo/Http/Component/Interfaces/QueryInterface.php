@@ -30,9 +30,9 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Http\Component\Interfaces;
+    namespace Brickoo\Http\Component\Interfaces;
 
-    use Brickoo\Library\Memory;
+    use Brickoo\Memory;
 
     /**
      * QueryInterface
@@ -46,14 +46,14 @@
 
         /**
         * Importst the request query parameter.
-        * @return \Brickoo\Library\Http\Component\Interfaces\QueryInterface
+        * @return \Brickoo\Http\Component\Interfaces\QueryInterface
         */
         public function importFromGlobals();
 
         /**
          * Imports the query parameters from query string.
          * @param string $query the query string to import from
-         * @return \Brickoo\Library\Http\Component\Interfaces\QueryInterface
+         * @return \Brickoo\Http\Component\Interfaces\QueryInterface
          */
         public function importFromString($query);
 

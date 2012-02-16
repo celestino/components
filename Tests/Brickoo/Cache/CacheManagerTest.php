@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Cache\CacheManager;
+    use Brickoo\Cache\CacheManager;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -39,7 +39,7 @@
      * CacheManager
      *
      * Test suite for the CacheManager class.
-     * @see Brickoo\Library\Cache\CacheManager
+     * @see Brickoo\Cache\CacheManager
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -55,7 +55,7 @@
         {
             return $this->getMock
             (
-                'Brickoo\Library\Cache\LocalCache',
+                'Brickoo\Cache\LocalCache',
                 (is_null($methods) ? null : array_values($methods))
             );
         }
@@ -68,14 +68,14 @@
         {
             return $this->getMock
             (
-                'Brickoo\Library\Cache\Provider\Interfaces\CacheProviderInterface',
+                'Brickoo\Cache\Provider\Interfaces\CacheProviderInterface',
                 array('get', 'set', 'delete', 'flush')
             );
         }
 
         /**
          * Holds the CacheManager instance used.
-         * @var Brickoo\Library\Cache\CacheManager
+         * @var Brickoo\Cache\CacheManager
          */
         protected $CacheManager;
 
@@ -90,14 +90,14 @@
 
         /**
          * Test if the CacheHander can be injected as dependency.
-         * @covers Brickoo\Library\Cache\CacheManager::__construct
+         * @covers Brickoo\Cache\CacheManager::__construct
          */
         public function testConstruct()
         {
             $CacheProviderStub = $this->getCacheProviderStub();
             $this->assertInstanceOf
             (
-                'Brickoo\Library\Cache\Interfaces\CacheManagerInterface',
+                'Brickoo\Cache\Interfaces\CacheManagerInterface',
                 ($CacheManager = new CacheManager($CacheProviderStub))
             );
             $this->assertAttributeSame($CacheProviderStub, '_CacheProvider', $CacheManager);
@@ -105,21 +105,21 @@
 
         /**
          * Test if the CacheHander dependency can be retrieved.
-         * @covers Brickoo\Library\Cache\CacheManager::CacheProvider
+         * @covers Brickoo\Cache\CacheManager::CacheProvider
          */
         public function testGetCacheProvider()
         {
             $this->assertInstanceOf
             (
-                'Brickoo\Library\Cache\Provider\Interfaces\CacheProviderInterface',
+                'Brickoo\Cache\Provider\Interfaces\CacheProviderInterface',
                 $this->CacheManager->CacheProvider()
             );
         }
 
         /**
          * Test if the LocalCache can be injected as dependency and the CacheManager reference is returned.
-         * @covers Brickoo\Library\Cache\CacheManager::LocalCache
-         * @covers Brickoo\Library\Cache\CacheManager::getDependency
+         * @covers Brickoo\Cache\CacheManager::LocalCache
+         * @covers Brickoo\Cache\CacheManager::getDependency
          */
         public function testInjectLocalCache()
         {
@@ -130,14 +130,14 @@
 
         /**
          * Test if trying to retrieve the not available LocalCache it will be created.
-         * @covers Brickoo\Library\Cache\CacheManager::LocalCache
-         * @covers Brickoo\Library\Cache\CacheManager::getDependency
+         * @covers Brickoo\Cache\CacheManager::LocalCache
+         * @covers Brickoo\Cache\CacheManager::getDependency
          */
         public function testGetLocalCacheLazyInitialization()
         {
             $this->assertInstanceOf
             (
-                'Brickoo\Library\Cache\Interfaces\LocalCacheInterface',
+                'Brickoo\Cache\Interfaces\LocalCacheInterface',
                 ($LocalCache = $this->CacheManager->LocalCache())
             );
             $this->assertAttributeContains($LocalCache, 'dependencies', $this->CacheManager);
@@ -145,7 +145,7 @@
 
         /**
          * Test if the LocalCache is used to return the cached content.
-         * @covers Brickoo\Library\Cache\CacheManager::get
+         * @covers Brickoo\Cache\CacheManager::get
          */
         public function testGetWithLocalCache()
         {
@@ -166,7 +166,7 @@
 
         /**
          * Test if the local cache be called to flush the cache.
-         * @covers Brickoo\Library\Cache\CacheManager::flushLocalCache
+         * @covers Brickoo\Cache\CacheManager::flushLocalCache
          */
         public function testFlushLocalCache()
         {
@@ -182,7 +182,7 @@
 
         /**
          * Test if the local cache can be enabled and the CacheManager reference is returned.
-         * @covers Brickoo\Library\Cache\CacheManager::enableLocalCache
+         * @covers Brickoo\Cache\CacheManager::enableLocalCache
          */
         public function testEnableLocalCache()
         {
@@ -193,7 +193,7 @@
 
         /**
          * Test if the local cache can be disabled and the CacheManager reference is returned.
-         * @covers Brickoo\Library\Cache\CacheManager::disableLocalCache
+         * @covers Brickoo\Cache\CacheManager::disableLocalCache
          */
         public function testDisableLocalCache()
         {
@@ -203,7 +203,7 @@
 
         /**
          * Test if the local cache is enabled by default.
-         * @covers Brickoo\Library\Cache\CacheManager::isLocalCacheEnabled
+         * @covers Brickoo\Cache\CacheManager::isLocalCacheEnabled
          */
         public function testIsLocalCacheEnabled()
         {
@@ -212,7 +212,7 @@
 
         /**
          * Test if the CacheProvider is used to return the cached content.
-         * @covers Brickoo\Library\Cache\CacheManager::get
+         * @covers Brickoo\Cache\CacheManager::get
          */
         public function testGetWithCacheProvider()
         {
@@ -233,7 +233,7 @@
 
         /**
          * Test if the CacheProvider is used to return the cached content with the LocalCache disabled.
-         * @covers Brickoo\Library\Cache\CacheManager::get
+         * @covers Brickoo\Cache\CacheManager::get
          */
         public function testGetWithCacheProviderWithoutLocalCache()
         {
@@ -249,7 +249,7 @@
 
         /**
          * Test is trying to retrieve a cached value with a wrong identifier type throws an exception.
-         * @covers Brickoo\Library\Cache\CacheManager::get
+         * @covers Brickoo\Cache\CacheManager::get
          * @expectedException InvalidArgumentException
          */
         public function testGetArgumentException()
@@ -260,7 +260,7 @@
         /**
          * Test if adding a content to cache the LocalCache and CacheProvider are called and the
          * CacheManager refrence is returned.
-         * @covers Brickoo\Library\Cache\CacheManager::set
+         * @covers Brickoo\Cache\CacheManager::set
          */
         public function testSet()
         {
@@ -285,7 +285,7 @@
 
         /**
          * Test is trying to use a wrong identifier type throws an exception.
-         * @covers Brickoo\Library\Cache\CacheManager::set
+         * @covers Brickoo\Cache\CacheManager::set
          * @expectedException InvalidArgumentException
          */
         public function testSetIdentifierArgumentException()
@@ -295,7 +295,7 @@
 
         /**
          * Test is trying to use a wrong lifetime type throws an exception.
-         * @covers Brickoo\Library\Cache\CacheManager::set
+         * @covers Brickoo\Cache\CacheManager::set
          * @expectedException InvalidArgumentException
          */
         public function testSetLifetimeArgumentException()
@@ -306,7 +306,7 @@
         /**
          * Test if trying to delete some content the LocalCache and CacheProvider are called
          * and the CacheManager reference is returned.
-         * @covers Brickoo\Library\Cache\CacheManager::delete
+         * @covers Brickoo\Cache\CacheManager::delete
          */
         public function testDelete()
         {
@@ -330,7 +330,7 @@
 
         /**
          * Test is trying to use a wrong identifier type throws an exception.
-         * @covers Brickoo\Library\Cache\CacheManager::delete
+         * @covers Brickoo\Cache\CacheManager::delete
          * @expectedException InvalidArgumentException
          */
         public function testDeleteArgumentException()
@@ -341,7 +341,7 @@
         /**
          * Test if trying to flush the cache the LocalCache and CacheProvider are called
          * and the CacheManager reference is returned.
-         * @covers Brickoo\Library\Cache\CacheManager::flush
+         * @covers Brickoo\Cache\CacheManager::flush
          */
         public function testFlush()
         {
@@ -362,7 +362,7 @@
 
         /**
          * Test if the cache callback returns the value which is stored back to the LocalCache and CacheProvider.
-         * @covers Brickoo\Library\Cache\CacheManager::getByCallback
+         * @covers Brickoo\Cache\CacheManager::getByCallback
          */
         public function testGetCacheCallback()
         {
@@ -393,7 +393,7 @@
 
         /**
          * Test is trying to use a wrong identifier type throws an exception.
-         * @covers Brickoo\Library\Cache\CacheManager::getByCallback
+         * @covers Brickoo\Cache\CacheManager::getByCallback
          * @expectedException InvalidArgumentException
          */
         public function testGetCacheCallbackIdentifierArgumentException()
@@ -403,7 +403,7 @@
 
         /**
          * Test is trying to use a wrong lifetime type throws an exception.
-         * @covers Brickoo\Library\Cache\CacheManager::getByCallback
+         * @covers Brickoo\Cache\CacheManager::getByCallback
          * @expectedException InvalidArgumentException
          */
         public function testGetCacheCallbackLifetimeArgumentException()

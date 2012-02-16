@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Http\Template\Interfaces;
+    namespace Brickoo\Http\Template\Interfaces;
 
     /**
      * TemplateInterface
@@ -44,7 +44,7 @@
 
         /**
          * Renders the template with the assigned variables.
-         * @see Brickoo\Library\Http\Interfaces.ResponseInterface::render()
+         * @see Brickoo\Http\Interfaces.ResponseInterface::render()
          * @throws \UnexpectedValueException if the template file is not set
          * @return string the rendered content
          */

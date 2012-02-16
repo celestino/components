@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Cache\LocalCache;
+    use Brickoo\Cache\LocalCache;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -39,7 +39,7 @@
      * LocalCacheTest
      *
      * Test suite for the LocalCacheTest class.
-     * @see Brickoo\Library\Cache\LocalCacheTest
+     * @see Brickoo\Cache\LocalCacheTest
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -48,7 +48,7 @@
 
         /**
          * Holds the LocalCacheFixture instance used.
-         * @var Brickoo\Library\Cache\LocalCache
+         * @var Brickoo\Cache\LocalCache
          */
         protected $LocalCache;
 
@@ -63,17 +63,17 @@
 
         /**
          * Test if the LocaclCache does implement the Cache\Interfaces\LocalCacheInterface.
-         * @covers Brickoo\Library\Cache\LocalCache::__construct
+         * @covers Brickoo\Cache\LocalCache::__construct
          */
         public function testConstruct()
         {
             $LocalCache = new LocalCache();
-            $this->assertInstanceOf('Brickoo\Library\Cache\Interfaces\LocalCacheInterface', $LocalCache);
+            $this->assertInstanceOf('Brickoo\Cache\Interfaces\LocalCacheInterface', $LocalCache);
         }
 
         /**
          * Test if the content can be cached under the identifier and the LocalCache reference is returned.
-         * @covers Brickoo\Library\Cache\LocalCache::set
+         * @covers Brickoo\Cache\LocalCache::set
          */
         public function testSet()
         {
@@ -88,7 +88,7 @@
 
         /**
          * Test if trying to set an identifier with a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Cache\LocalCache::set
+         * @covers Brickoo\Cache\LocalCache::set
          * @expectedException InvalidArgumentException
          */
         public function testSetArgumentException()
@@ -98,7 +98,7 @@
 
         /**
          * Test if a cached content can be retrieved by its identifier.
-         * @covers Brickoo\Library\Cache\LocalCache::get
+         * @covers Brickoo\Cache\LocalCache::get
          * @depends testSet
          */
         public function testGet()
@@ -108,7 +108,7 @@
 
         /**
          * Test if trying to retrieve the cached content with a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Cache\LocalCache::get
+         * @covers Brickoo\Cache\LocalCache::get
          * @expectedException InvalidArgumentException
          */
         public function testGetArgumentException()
@@ -118,9 +118,9 @@
 
         /**
          * Test if trying to retrieve the content with a not available identifier throws an exception.
-         * @covers Brickoo\Library\Cache\LocalCache::get
-         * @covers Brickoo\Library\Cache\Exceptions\IdentifierNotAvailableException::__construct
-         * @expectedException Brickoo\Library\Cache\Exceptions\IdentifierNotAvailableException
+         * @covers Brickoo\Cache\LocalCache::get
+         * @covers Brickoo\Cache\Exceptions\IdentifierNotAvailableException::__construct
+         * @expectedException Brickoo\Cache\Exceptions\IdentifierNotAvailableException
          */
         public function testGetIdentifierException()
         {
@@ -129,7 +129,7 @@
 
         /**
          * Test if an identifier can be removed from the cached values and the LocalCache reference is returned.
-         * @covers Brickoo\Library\Cache\LocalCache::remove
+         * @covers Brickoo\Cache\LocalCache::remove
          * @depends testSet
          */
         public function testRemove()
@@ -140,7 +140,7 @@
 
         /**
          * Test if trying to remove the cached content with a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Cache\LocalCache::remove
+         * @covers Brickoo\Cache\LocalCache::remove
          * @expectedException InvalidArgumentException
          */
         public function testRemoveArgumentException()
@@ -150,9 +150,9 @@
 
         /**
          * Test if trying to remove the content with a not available identifier throws an exception.
-         * @covers Brickoo\Library\Cache\LocalCache::remove
-         * @covers Brickoo\Library\Cache\Exceptions\IdentifierNotAvailableException::__construct
-         * @expectedException Brickoo\Library\Cache\Exceptions\IdentifierNotAvailableException
+         * @covers Brickoo\Cache\LocalCache::remove
+         * @covers Brickoo\Cache\Exceptions\IdentifierNotAvailableException::__construct
+         * @expectedException Brickoo\Cache\Exceptions\IdentifierNotAvailableException
          */
         public function testRemoveIdentifierException()
         {
@@ -161,7 +161,7 @@
 
         /**
          * Test if the identifier is (not) recognized.
-         * @covers Brickoo\Library\Cache\LocalCache::has
+         * @covers Brickoo\Cache\LocalCache::has
          * @depends testSet
          */
         public function testHas()
@@ -172,7 +172,7 @@
 
         /**
          * Test if the cached values are flushed and the LocalCache reference is returned.
-         * @covers Brickoo\Library\Cache\LocalCache::flush
+         * @covers Brickoo\Cache\LocalCache::flush
          * @depends testSet
          */
         public function testFlush()

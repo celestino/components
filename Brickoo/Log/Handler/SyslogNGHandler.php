@@ -30,9 +30,9 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Log\Handler;
+    namespace Brickoo\Log\Handler;
 
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * SyslogNGHandler
@@ -89,14 +89,14 @@
 
         /**
          * Holds an instance of the SocketObject class.
-         * @var \Brickoo\Library\System\SocketObject
+         * @var \Brickoo\System\SocketObject
          */
         protected $_SocketObject;
 
         /**
          * Lazy initialization of the SocketObject.
          * Returns the SocketObject instance holded.
-         * @return \Brickoo\Library\System\SocketObject
+         * @return \Brickoo\System\SocketObject
          */
         public function SocketObject()
         {
@@ -281,10 +281,10 @@
         /**
          * Class constructor.
          * Initializes the class properties.
-         * @param Brickoo\Library\System\Interfaces\SocketObjectInterface $SocketObject
+         * @param Brickoo\System\Interfaces\SocketObjectInterface $SocketObject
          * @return void
          */
-        public function __construct(\Brickoo\Library\System\Interfaces\SocketObjectInterface $SocketObject)
+        public function __construct(\Brickoo\System\Interfaces\SocketObjectInterface $SocketObject)
         {
             $this->_SocketObject   = $SocketObject;
         }

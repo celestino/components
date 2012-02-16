@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Http\Interfaces;
+    namespace Brickoo\Http\Interfaces;
 
     /**
      * RequestInterface
@@ -44,31 +44,31 @@
 
         /**
          * Lazy initialization of the Url dependency.
-         * @param \Brickoo\Library\Http\Interfaces\UrlInterface $Url the Url odependency
-         * @return \Brickoo\Library\Http\Interfaces\UrlInterface
+         * @param \Brickoo\Http\Interfaces\UrlInterface $Url the Url odependency
+         * @return \Brickoo\Http\Interfaces\UrlInterface
          */
-        public function Url(\Brickoo\Library\Http\Component\Interfaces\UrlInterface $Url = null);
+        public function Url(\Brickoo\Http\Component\Interfaces\UrlInterface $Url = null);
 
         /**
          * Lazy initialization of the Headers dependency.
-         * @param \Brickoo\Library\Http\Component\Interfaces\HeadersInterface $Headers the Headers dependency
-         * @return \Brickoo\Library\Http\Component\Interfaces\HeadersInterface
+         * @param \Brickoo\Http\Component\Interfaces\HeadersInterface $Headers the Headers dependency
+         * @return \Brickoo\Http\Component\Interfaces\HeadersInterface
          */
-        public function Headers(\Brickoo\Library\Http\Component\Interfaces\HeadersInterface $Headers = null);
+        public function Headers(\Brickoo\Http\Component\Interfaces\HeadersInterface $Headers = null);
 
         /**
          * Lazy initialization of the Query dependency.
-         * @param \Brickoo\Library\Http\Component\Interfaces\QueryInterface $Query the Query dependency
-         * @return \Brickoo\Library\Http\Component\Interfaces\QueryInterface
+         * @param \Brickoo\Http\Component\Interfaces\QueryInterface $Query the Query dependency
+         * @return \Brickoo\Http\Component\Interfaces\QueryInterface
         */
-        public function Query(\Brickoo\Library\Http\Component\Interfaces\QueryInterface $Query = null);
+        public function Query(\Brickoo\Http\Component\Interfaces\QueryInterface $Query = null);
 
         /**
          * Lazy initialization of the Post dependency.
-         * @param \Brickoo\Library\Memory\Interfaces\ContainerInterface $Post the Post dependency
-         * @return \Brickoo\Library\Memory\Interfaces\ContainerInterface
+         * @param \Brickoo\Memory\Interfaces\ContainerInterface $Post the Post dependency
+         * @return \Brickoo\Memory\Interfaces\ContainerInterface
          */
-        public function Post(\Brickoo\Library\Memory\Interfaces\ContainerInterface $Post = null);
+        public function Post(\Brickoo\Memory\Interfaces\ContainerInterface $Post = null);
 
         /**
          * Returns the supported methods.

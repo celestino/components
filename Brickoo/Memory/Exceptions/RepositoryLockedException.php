@@ -30,13 +30,13 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Memory\Exceptions;
+    namespace Brickoo\Memory\Exceptions;
 
     /**
      * RepositoryLockedException
      *
      * Exception throwed by the Repository class if trying to modified the Repository while is locked.
-     * @see Brickoo\Library\Memory\Repository
+     * @see Brickoo\Memory\Repository
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

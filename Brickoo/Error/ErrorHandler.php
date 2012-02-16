@@ -30,11 +30,11 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Error;
+    namespace Brickoo\Error;
 
-    use Brickoo\Library\Core;
-    use Brickoo\Library\Log;
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Core;
+    use Brickoo\Log;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * ErrorHandler

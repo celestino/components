@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Routing\Interfaces;
+    namespace Brickoo\Routing\Interfaces;
 
     /**
      * RequestRouteInterface
@@ -44,9 +44,9 @@
 
         /**
         * Lazy initialization of the Container dependecy.
-        * @param \Brickoo\Library\Memory\Interfaces\ContainerInterface $Container the route parasm container
-        * @return \Brickoo\Library\Memory\Interfaces\ContainerInterface
+        * @param \Brickoo\Memory\Interfaces\ContainerInterface $Container the route parasm container
+        * @return \Brickoo\Memory\Interfaces\ContainerInterface
         */
-        public function Params(\Brickoo\Library\Memory\Interfaces\ContainerInterface $Container = null);
+        public function Params(\Brickoo\Memory\Interfaces\ContainerInterface $Container = null);
 
     }

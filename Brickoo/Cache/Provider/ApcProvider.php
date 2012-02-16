@@ -30,9 +30,9 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Cache\Provider;
+    namespace Brickoo\Cache\Provider;
 
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * APCProvider

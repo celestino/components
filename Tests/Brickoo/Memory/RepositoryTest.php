@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Memory\Repository;
+    use Brickoo\Memory\Repository;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -39,7 +39,7 @@
      * RepositorTest
      *
      * Test suite for the Repository class.
-     * @see Brickoo\Library\Memory\Repository
+     * @see Brickoo\Memory\Repository
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -63,21 +63,21 @@
 
         /**
          * Test if the class can be created.
-         * @covers Brickoo\Library\Memory\Repository::__construct
-         * @covers Brickoo\Library\Memory\Repository::resetRepository
+         * @covers Brickoo\Memory\Repository::__construct
+         * @covers Brickoo\Memory\Repository::resetRepository
          */
         public function testRepositoryConstructor()
         {
             $this->assertInstanceOf
             (
-                '\Brickoo\Library\Memory\Repository',
+                '\Brickoo\Memory\Repository',
                 ($Repository = new Repository())
             );
         }
 
         /**
          * Test if the respository is an array.
-         * @covers Brickoo\Library\Memory\Repository::getRepository
+         * @covers Brickoo\Memory\Repository::getRepository
          */
         public function testGetRepository()
         {
@@ -90,7 +90,7 @@
 
         /**
         * Test if the respository versions did be increased.
-        * @covers Brickoo\Library\Memory\Repository::getRepositoryVersions
+        * @covers Brickoo\Memory\Repository::getRepositoryVersions
         */
         public function testGetRepositoryVersions()
         {
@@ -104,7 +104,7 @@
 
         /**
          * Test if the respository version is available and knowed.
-         * @covers Brickoo\Library\Memory\Repository::isVersionAvailable
+         * @covers Brickoo\Memory\Repository::isVersionAvailable
          */
         public function testIsVersionAvailable()
         {
@@ -114,7 +114,7 @@
 
         /**
          * Test if a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Memory\Repository::isVersionAvailable
+         * @covers Brickoo\Memory\Repository::isVersionAvailable
          * @expectedException InvalidArgumentException
          */
         public function testIsVersionAvailableException()
@@ -124,9 +124,9 @@
 
         /**
          * Test if the respository can be set to the last version available.
-         * @covers Brickoo\Library\Memory\Repository::useLastVersion
-         * @covers Brickoo\Library\Memory\Repository::setCurrentVersion
-         * @covers Brickoo\Library\Memory\Repository::getCurrentVersion
+         * @covers Brickoo\Memory\Repository::useLastVersion
+         * @covers Brickoo\Memory\Repository::setCurrentVersion
+         * @covers Brickoo\Memory\Repository::getCurrentVersion
          */
         public function testUseLastVersion()
         {
@@ -142,7 +142,7 @@
 
         /**
          * Test if the current version has integer type.
-         * @covers Brickoo\Library\Memory\Repository::getCurrentVersion
+         * @covers Brickoo\Memory\Repository::getCurrentVersion
          */
         public function testGetCurrentVersion()
         {
@@ -154,9 +154,9 @@
         /**
          * Test if the repository has an locked status.
          * Test if the repository can be locked and unlocked.
-         * @covers Brickoo\Library\Memory\Repository::isLocked
-         * @covers Brickoo\Library\Memory\Repository::lock
-         * @covers Brickoo\Library\Memory\Repository::unlock
+         * @covers Brickoo\Memory\Repository::isLocked
+         * @covers Brickoo\Memory\Repository::lock
+         * @covers Brickoo\Memory\Repository::unlock
          */
         public function testIsLocked()
         {
@@ -172,7 +172,7 @@
 
         /**
          * Test the amount of versions available.
-         * @covers Brickoo\Library\Memory\Repository::count
+         * @covers Brickoo\Memory\Repository::count
          */
         public function testMagicFunctionCount()
         {
@@ -183,7 +183,7 @@
 
         /**
          * Test if the checkout has the specific format.
-         * @covers Brickoo\Library\Memory\Repository::checkout
+         * @covers Brickoo\Memory\Repository::checkout
          */
         public function testCheckout()
         {
@@ -193,7 +193,7 @@
 
         /**
          * Test if a wrong argument throws an execption.
-         * @covers Brickoo\Library\Memory\Repository::checkout
+         * @covers Brickoo\Memory\Repository::checkout
          * @expectedException InvalidArgumentException
          */
         public function testCheckoutArgumentException()
@@ -203,9 +203,9 @@
 
         /**
          * Test if a wrong argument throws an execption.
-         * @covers Brickoo\Library\Memory\Repository::checkout
-         * @covers Brickoo\Library\Memory\Exceptions\VersionNotAvailableException
-         * @expectedException Brickoo\Library\Memory\Exceptions\VersionNotAvailableException
+         * @covers Brickoo\Memory\Repository::checkout
+         * @covers Brickoo\Memory\Exceptions\VersionNotAvailableException
+         * @expectedException Brickoo\Memory\Exceptions\VersionNotAvailableException
          */
         public function testCheckoutVersionException()
         {
@@ -214,8 +214,8 @@
 
         /**
          * Test if a commit posible with different arguments.
-         * @covers Brickoo\Library\Memory\Repository::commit
-         * @covers Brickoo\Library\Memory\Repository::getRecursiveCommit
+         * @covers Brickoo\Memory\Repository::commit
+         * @covers Brickoo\Memory\Repository::getRecursiveCommit
          */
         public function testCommit()
         {
@@ -228,9 +228,9 @@
 
         /**
          * Test if while the repository is locked commit throws an execption.
-         * @covers Brickoo\Library\Memory\Repository::commit
-         * @covers Brickoo\Library\Memory\Exceptions\RepositoryLockedException
-         * @expectedException Brickoo\Library\Memory\Exceptions\RepositoryLockedException
+         * @covers Brickoo\Memory\Repository::commit
+         * @covers Brickoo\Memory\Exceptions\RepositoryLockedException
+         * @expectedException Brickoo\Memory\Exceptions\RepositoryLockedException
          */
         public function testCommitLockedException()
         {
@@ -240,7 +240,7 @@
 
         /**
          * Test the restoring of a old version back on stack.
-         * @covers Brickoo\Library\Memory\Repository::restore
+         * @covers Brickoo\Memory\Repository::restore
          */
         public function testRestore()
         {
@@ -254,7 +254,7 @@
 
         /**
          * Test if a wrong argument is passed throws an execption.
-         * @covers Brickoo\Library\Memory\Repository::restore
+         * @covers Brickoo\Memory\Repository::restore
          * @expectedException InvalidArgumentException
          */
         public function testRestoreArgumentException()
@@ -264,9 +264,9 @@
 
         /**
          * Test if while the repository is locked restore throws an execption.
-         * @covers Brickoo\Library\Memory\Repository::restore
-         * @covers Brickoo\Library\Memory\Exceptions\RepositoryLockedException
-         * @expectedException Brickoo\Library\Memory\Exceptions\RepositoryLockedException
+         * @covers Brickoo\Memory\Repository::restore
+         * @covers Brickoo\Memory\Exceptions\RepositoryLockedException
+         * @expectedException Brickoo\Memory\Exceptions\RepositoryLockedException
          */
         public function testRestoreLockedException()
         {
@@ -276,9 +276,9 @@
 
         /**
          * Test if a version is not available restore throws an execption.
-         * @covers Brickoo\Library\Memory\Repository::restore
-         * @covers Brickoo\Library\Memory\Exceptions\VersionNotAvailableException
-         * @expectedException Brickoo\Library\Memory\Exceptions\VersionNotAvailableException
+         * @covers Brickoo\Memory\Repository::restore
+         * @covers Brickoo\Memory\Exceptions\VersionNotAvailableException
+         * @expectedException Brickoo\Memory\Exceptions\VersionNotAvailableException
          */
         public function testRestoreVersionException()
         {
@@ -287,8 +287,8 @@
 
         /**
          * Test if a version can be removed from repository.
-         * @covers Brickoo\Library\Memory\Repository::remove
-         * @covers Brickoo\Library\Memory\Repository::getCurrentVersion
+         * @covers Brickoo\Memory\Repository::remove
+         * @covers Brickoo\Memory\Repository::getCurrentVersion
          */
         public function testRemove()
         {
@@ -300,7 +300,7 @@
 
         /**
          * Test if a wrong argument is passed throws an execption.
-         * @covers Brickoo\Library\Memory\Repository::remove
+         * @covers Brickoo\Memory\Repository::remove
          * @expectedException InvalidArgumentException
          */
         public function testRemoveArgumentException()
@@ -310,9 +310,9 @@
 
         /**
          * Test if while the repository is locked remove throws an execption.
-         * @covers Brickoo\Library\Memory\Repository::remove
-         * @covers Brickoo\Library\Memory\Exceptions\RepositoryLockedException
-         * @expectedException Brickoo\Library\Memory\Exceptions\RepositoryLockedException
+         * @covers Brickoo\Memory\Repository::remove
+         * @covers Brickoo\Memory\Exceptions\RepositoryLockedException
+         * @expectedException Brickoo\Memory\Exceptions\RepositoryLockedException
          */
         public function testRemoveLockedException()
         {
@@ -323,9 +323,9 @@
 
         /**
          * Test if a version is not available remove throws an execption.
-         * @covers Brickoo\Library\Memory\Repository::remove
-         * @covers Brickoo\Library\Memory\Exceptions\VersionNotAvailableException
-         * @expectedException Brickoo\Library\Memory\Exceptions\VersionNotAvailableException
+         * @covers Brickoo\Memory\Repository::remove
+         * @covers Brickoo\Memory\Exceptions\VersionNotAvailableException
+         * @expectedException Brickoo\Memory\Exceptions\VersionNotAvailableException
          */
         public function testRemoveVersionException()
         {
@@ -334,9 +334,9 @@
 
         /**
          * Test if a repository backup can be imported and the highest version is recognized.
-         * @covers Brickoo\Library\Memory\Repository::import
-         * @covers Brickoo\Library\Memory\Repository::setRepository
-         * @covers Brickoo\Library\Memory\Repository::checkImportVersions
+         * @covers Brickoo\Memory\Repository::import
+         * @covers Brickoo\Memory\Repository::setRepository
+         * @covers Brickoo\Memory\Repository::checkImportVersions
          */
         public function testImport()
         {
@@ -348,7 +348,7 @@
 
         /**
          * Test if a empty array as argument is passed throws an execption.
-         * @covers Brickoo\Library\Memory\Repository::import
+         * @covers Brickoo\Memory\Repository::import
          * @expectedException InvalidArgumentException
          */
         public function testImportArgumentException()
@@ -358,9 +358,9 @@
 
         /**
          * Test if while the repository is locked import throws an execption.
-         * @covers Brickoo\Library\Memory\Repository::import
-         * @covers Brickoo\Library\Memory\Exceptions\RepositoryLockedException
-         * @expectedException Brickoo\Library\Memory\Exceptions\RepositoryLockedException
+         * @covers Brickoo\Memory\Repository::import
+         * @covers Brickoo\Memory\Exceptions\RepositoryLockedException
+         * @expectedException Brickoo\Memory\Exceptions\RepositoryLockedException
          */
         public function testImportLockedException()
         {
@@ -372,10 +372,10 @@
 
         /**
          * Test if a wrong order keys import throws an execption.
-         * @covers Brickoo\Library\Memory\Repository::import
-         * @covers Brickoo\Library\Memory\Repository::checkImportVersions
-         * @covers Brickoo\Library\Memory\Exceptions\InvalidRepositoryStructureException
-         * @expectedException Brickoo\Library\Memory\Exceptions\InvalidRepositoryStructureException
+         * @covers Brickoo\Memory\Repository::import
+         * @covers Brickoo\Memory\Repository::checkImportVersions
+         * @covers Brickoo\Memory\Exceptions\InvalidRepositoryStructureException
+         * @expectedException Brickoo\Memory\Exceptions\InvalidRepositoryStructureException
          */
         public function testImportOrderException()
         {
@@ -386,7 +386,7 @@
         /**
          * Test if a repository can be exported and returns the initialized value
          * or the latest version commited.
-         * @covers Brickoo\Library\Memory\Repository::export
+         * @covers Brickoo\Memory\Repository::export
          */
         public function testExport()
         {
@@ -397,7 +397,7 @@
 
         /**
          * Test if a wrong argument is passed throws an execption.
-         * @covers Brickoo\Library\Memory\Repository::export
+         * @covers Brickoo\Memory\Repository::export
          * @expectedException InvalidArgumentException
          */
         public function testExportArgumentException()
@@ -407,9 +407,9 @@
 
         /**
          * Test if a version is not available export throws an execption.
-         * @covers Brickoo\Library\Memory\Repository::export
-         * @covers Brickoo\Library\Memory\Exceptions\VersionNotAvailableException
-         * @expectedException Brickoo\Library\Memory\Exceptions\VersionNotAvailableException
+         * @covers Brickoo\Memory\Repository::export
+         * @covers Brickoo\Memory\Exceptions\VersionNotAvailableException
+         * @expectedException Brickoo\Memory\Exceptions\VersionNotAvailableException
          */
         public function testExportVersionException()
         {

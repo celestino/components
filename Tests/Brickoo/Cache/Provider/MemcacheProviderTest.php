@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Cache\Provider\MemcacheProvider;
+    use Brickoo\Cache\Provider\MemcacheProvider;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -39,7 +39,7 @@
      * MemcacheProviderTest
      *
      * Test suite for the MemcacheProvider class.
-     * @see Brickoo\Library\Cache\Provider\MemcacheProvider
+     * @see Brickoo\Cache\Provider\MemcacheProvider
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -77,7 +77,7 @@
 
         /**
          * Test if the Memcache dependency has been be injected.
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::__construct
+         * @covers Brickoo\Cache\Provider\MemcacheProvider::__construct
          */
         public function testConstruct()
         {
@@ -88,7 +88,7 @@
 
         /**
          * Test if the Memcache dependency can be retrieved.
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::Memcache
+         * @covers Brickoo\Cache\Provider\MemcacheProvider::Memcache
          */
         public function testGetMemcache()
         {
@@ -97,7 +97,7 @@
 
         /**
          * Test if the compression can be enabled and the MemcacheProvider reference is returned.
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::enableCompression
+         * @covers Brickoo\Cache\Provider\MemcacheProvider::enableCompression
          */
         public function testEnableCompression()
         {
@@ -110,7 +110,7 @@
 
         /**
          * Test if the compression can be disabled and the MemcacheProvider reference is returned.
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::disableCompression
+         * @covers Brickoo\Cache\Provider\MemcacheProvider::disableCompression
          * @depends testEnableCompression
          */
         public function testDisableCompression($MemcacheProvider)
@@ -122,7 +122,7 @@
 
         /**
          * Test if a content can be retrieved from the Memcache.
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::get
+         * @covers Brickoo\Cache\Provider\MemcacheProvider::get
          */
         public function testGet()
         {
@@ -136,7 +136,7 @@
 
         /**
          * Test if trying to use a wrong argument type throws an exception
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::get
+         * @covers Brickoo\Cache\Provider\MemcacheProvider::get
          * @expectedException InvalidArgumentException
          */
         public function testGetArgumentException()
@@ -146,7 +146,7 @@
 
         /**
          * Test if a content can be set to the Memcache and the result is returned.
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::set
+         * @covers Brickoo\Cache\Provider\MemcacheProvider::set
          */
         public function testSet()
         {
@@ -160,7 +160,7 @@
 
         /**
          * Test if trying to use a wrong argument type throws an exception
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::set
+         * @covers Brickoo\Cache\Provider\MemcacheProvider::set
          * @expectedException InvalidArgumentException
          */
         public function testSetArgumentException()
@@ -170,7 +170,7 @@
 
         /**
          * Test if a cached content can be delete by its identifier and the result is returned.
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::delete
+         * @covers Brickoo\Cache\Provider\MemcacheProvider::delete
          */
         public function testDelete()
         {
@@ -184,7 +184,7 @@
 
         /**
          * Test if trying to use a wrong argument type throws an exception
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::delete
+         * @covers Brickoo\Cache\Provider\MemcacheProvider::delete
          * @expectedException InvalidArgumentException
          */
         public function testDeleteArgumentException()
@@ -194,7 +194,7 @@
 
         /**
          * Test if a cached content can be flushed and the result is returned.
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::flush
+         * @covers Brickoo\Cache\Provider\MemcacheProvider::flush
          */
         public function testFlush()
         {
@@ -208,7 +208,7 @@
 
         /**
          * Test if a Memcache method not implemented can be called and the result is returned.
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::__call
+         * @covers Brickoo\Cache\Provider\MemcacheProvider::__call
          */
         public function test__call()
         {
@@ -222,7 +222,7 @@
 
         /**
          * Test if trying to call a not available method on the Memcache object throws an exception
-         * @covers Brickoo\Library\Cache\Provider\MemcacheProvider::__call
+         * @covers Brickoo\Cache\Provider\MemcacheProvider::__call
          * @expectedException BadMethodCallException
          */
         public function test__callBadMethodCallException()

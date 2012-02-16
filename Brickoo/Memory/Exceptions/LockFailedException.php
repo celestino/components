@@ -30,14 +30,14 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Memory\Exceptions;
+    namespace Brickoo\Memory\Exceptions;
 
     /**
      * LockerException
      *
      * Exception throwed by the Locker class if trying to lock some identifiers
      * and none could be locked.
-     * @see Brickoo\Library\Memory\Locker::lock
+     * @see Brickoo\Memory\Locker::lock
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

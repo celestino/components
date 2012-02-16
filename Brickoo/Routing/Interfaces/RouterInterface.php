@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Routing\Interfaces;
+    namespace Brickoo\Routing\Interfaces;
 
     /**
      * RouterInterface
@@ -51,7 +51,7 @@
         /**
          * Sets the cache file name.
          * @param string $cacheFilename the cache file name
-         * @return \Brickoo\Library\Routing\Router
+         * @return \Brickoo\Routing\Router
          */
         public function setCacheFilename($cacheFilename);
 
@@ -65,7 +65,7 @@
         /**
          * Sets the cache directory to use.
          * @param string $cacheDirectory the cache directory to use
-         * @return \Brickoo\Library\Routing\Router
+         * @return \Brickoo\Routing\Router
          */
         public function setCacheDirectory($cacheDirectory);
 
@@ -84,7 +84,7 @@
         /**
          * Sets the  routes file name searched in the modules directory.
          * @param string $routesFilename the routes file name
-         * @return \Brickoo\Library\Routing\Router
+         * @return \Brickoo\Routing\Router
          */
         public function setRoutesFilename($routesFilename);
 
@@ -99,7 +99,7 @@
          * If the modules a set directly, the modules will not be available through the Brickoo Registry.
          * @param array $modules the modules to load the routes from
          * @throws Core\Exceptions\ValueOverwriteException if trying to overwrite the available modules
-         * @return \Brickoo\Library\Routing\Router
+         * @return \Brickoo\Routing\Router
          */
         public function setModules(array $modules);
 
@@ -111,24 +111,24 @@
 
         /**
          * Returns the Request instance implementing the Core\Interfaces\RequestInterface.
-         * @return \Brickoo\Library\Core\Interfaces\RequestInterface
+         * @return \Brickoo\Core\Interfaces\RequestInterface
          */
         public function getRequest();
 
         /**
          * Lazy initialization of the RouteCollection dependecy.
-         * @param \Brickoo\Library\Routing\Interfaces\RouteCollectionInterface $RouteCollection the colection of routes
-         * @return \Brickoo\Library\Routing\Interfaces\RouterCollectionInterface
+         * @param \Brickoo\Routing\Interfaces\RouteCollectionInterface $RouteCollection the colection of routes
+         * @return \Brickoo\Routing\Interfaces\RouterCollectionInterface
          */
-        public function RouteCollection(\Brickoo\Library\Routing\Interfaces\RouteCollectionInterface $RouteCollection = null);
+        public function RouteCollection(\Brickoo\Routing\Interfaces\RouteCollectionInterface $RouteCollection = null);
 
         /**
          * Sets the requested Route for further routing.
-         * @param \Brickoo\Library\Routing\Interfaces\RouteInterface $Route the route matched the request
-         * @throws \Brickoo\Library\Core\Exceptions\ValueOverwriteException if trying to overwrite the request route
-         * @return \Brickoo\Library\Routing\Router
+         * @param \Brickoo\Routing\Interfaces\RouteInterface $Route the route matched the request
+         * @throws \Brickoo\Core\Exceptions\ValueOverwriteException if trying to overwrite the request route
+         * @return \Brickoo\Routing\Router
          */
-        public function setRequestRoute(\Brickoo\Library\Routing\Interfaces\RouteInterface $Route);
+        public function setRequestRoute(\Brickoo\Routing\Interfaces\RouteInterface $Route);
 
         /**
          * Checks if the requested Route has been found and is set.
@@ -140,7 +140,7 @@
          * Checks if the Route matches the request.
          * @return boolean check result
          */
-        public function isRequestRoute(\Brickoo\Library\Routing\Interfaces\RouteInterface $Route);
+        public function isRequestRoute(\Brickoo\Routing\Interfaces\RouteInterface $Route);
 
         /**
          * Checks if the cached route matches the request.
@@ -153,7 +153,7 @@
          * Returns the request matching route.
          * If the CacheManager is available the proceded routes will be cached.
          * @throws Routing\Exceptions\RequestedHasNoRouteException if the request has not a matching Route
-         * @return \Brickoo\Library\Routing\Route
+         * @return \Brickoo\Routing\Route
          */
         public function getRequestRoute();
 
@@ -187,9 +187,9 @@
 
         /**
          * Returns a regular expression from the route path and rules or default values available.
-         * @param \Brickoo\Library\Routing\Interfaces\RouteInterface $Route the route to use
+         * @param \Brickoo\Routing\Interfaces\RouteInterface $Route the route to use
          * @return string the regular expresion for the request path
          */
-        public function getRegexFromRoutePath(\Brickoo\Library\Routing\Interfaces\RouteInterface $Route);
+        public function getRegexFromRoutePath(\Brickoo\Routing\Interfaces\RouteInterface $Route);
 
     }

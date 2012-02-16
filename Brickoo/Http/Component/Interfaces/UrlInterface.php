@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Http\Component\Interfaces;
+    namespace Brickoo\Http\Component\Interfaces;
 
     /**
      * UrlInterface
@@ -84,7 +84,7 @@
         /**
          * Imports the url parts from string.
          * @param string $url the url to import from
-         * @return \Brickoo\Library\Http\Component\Url
+         * @return \Brickoo\Http\Component\Url
          */
         public function importFromString($url);
 

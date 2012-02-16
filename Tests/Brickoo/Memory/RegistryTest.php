@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Memory\Registry;
+    use Brickoo\Memory\Registry;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -39,7 +39,7 @@
      * RegistryTest
      *
      * Test suite for the Registry class.
-     * @see Brickoo\Library\Memory\Registry
+     * @see Brickoo\Memory\Registry
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -63,20 +63,20 @@
 
         /**
          * Test if the class can be created.
-         * @covers Brickoo\Library\Memory\Registry::__construct
+         * @covers Brickoo\Memory\Registry::__construct
          */
         public function testRegistryConstructor()
         {
             $this->assertInstanceOf
             (
-                '\Brickoo\Library\Memory\Registry',
+                '\Brickoo\Memory\Registry',
                 ($Registry = new Registry())
             );
         }
 
         /**
          * Test if the identifier can be registered.
-         * @covers Brickoo\Library\Memory\Registry::getAll
+         * @covers Brickoo\Memory\Registry::getAll
          */
         public function testGetRegistrations()
         {
@@ -87,8 +87,8 @@
 
          /**
          * Test if the registrations can be added as an array.
-         * @covers Brickoo\Library\Memory\Registry::add
-         * @covers Brickoo\Library\Memory\Registry::count
+         * @covers Brickoo\Memory\Registry::add
+         * @covers Brickoo\Memory\Registry::count
          */
         public function testAddRegistrations()
         {
@@ -102,8 +102,8 @@
 
         /**
          * Test if the registrations can be added as an array.
-         * @covers Brickoo\Library\Memory\Registry::isIdentifierAvailable
-         * @covers Brickoo\Library\Memory\Registry::isRegistered
+         * @covers Brickoo\Memory\Registry::isIdentifierAvailable
+         * @covers Brickoo\Memory\Registry::isRegistered
          */
         public function testIsIdentifierAvailable()
         {
@@ -114,7 +114,7 @@
 
         /**
          * Test if the unvalid identifier throws an exception.
-         * @covers Brickoo\Library\Memory\Registry::isIdentifierAvailable
+         * @covers Brickoo\Memory\Registry::isIdentifierAvailable
          * @expectedException InvalidArgumentException
          */
         public function testIsIdentifierAvailableException()
@@ -124,7 +124,7 @@
 
         /**
          * Test if an key-value pair can be registered.
-         * @covers Brickoo\Library\Memory\Registry::register
+         * @covers Brickoo\Memory\Registry::register
          */
         public function testRegister()
         {
@@ -133,10 +133,10 @@
 
         /**
          * Test if using the read only the registration throws an exception.
-         * @covers Brickoo\Library\Memory\Registry::register
-         * @covers Brickoo\Library\Memory\Registry::setReadOnly
-         * @covers Brickoo\Library\Memory\Exceptions\ReadonlyModeException
-         * @expectedException Brickoo\Library\Memory\Exceptions\ReadonlyModeException
+         * @covers Brickoo\Memory\Registry::register
+         * @covers Brickoo\Memory\Registry::setReadOnly
+         * @covers Brickoo\Memory\Exceptions\ReadonlyModeException
+         * @expectedException Brickoo\Memory\Exceptions\ReadonlyModeException
          */
         public function testRegisterReadonlyException()
         {
@@ -146,9 +146,9 @@
 
         /**
          * Test if the registration of an registered identifer throws an exception.
-         * @covers Brickoo\Library\Memory\Registry::register
-         * @covers Brickoo\Library\Memory\Exceptions\DuplicateRegistrationException
-         * @expectedException Brickoo\Library\Memory\Exceptions\DuplicateRegistrationException
+         * @covers Brickoo\Memory\Registry::register
+         * @covers Brickoo\Memory\Exceptions\DuplicateRegistrationException
+         * @expectedException Brickoo\Memory\Exceptions\DuplicateRegistrationException
          */
         public function testRegisterRegisteredException()
         {
@@ -158,7 +158,7 @@
 
         /**
          * Test if an registered key can be retrieved.
-         * @covers Brickoo\Library\Memory\Registry::get
+         * @covers Brickoo\Memory\Registry::get
          */
         public function testGetRegistered()
         {
@@ -168,7 +168,7 @@
 
         /**
          * Test if using the registration of an registered identifer throws an exception.
-         * @covers Brickoo\Library\Memory\Registry::get
+         * @covers Brickoo\Memory\Registry::get
          * @expectedException InvalidArgumentException
          */
         public function testGetRegisteredArgumentException()
@@ -178,9 +178,9 @@
 
         /**
          * Test if retrieving an not registered identifer throws an exception.
-         * @covers Brickoo\Library\Memory\Registry::get
-         * @covers Brickoo\Library\Memory\Exceptions\IdentifierNotRegisteredException
-         * @expectedException Brickoo\Library\Memory\Exceptions\IdentifierNotRegisteredException
+         * @covers Brickoo\Memory\Registry::get
+         * @covers Brickoo\Memory\Exceptions\IdentifierNotRegisteredException
+         * @expectedException Brickoo\Memory\Exceptions\IdentifierNotRegisteredException
          */
         public function testGetRegisteredException()
         {
@@ -189,7 +189,7 @@
 
         /**
          * Test overriding an registered key.
-         * @covers Brickoo\Library\Memory\Registry::override
+         * @covers Brickoo\Memory\Registry::override
          */
         public function testOverride()
         {
@@ -198,9 +198,9 @@
 
         /**
          * Test if overriding while identifier is locked throws an exception.
-         * @covers Brickoo\Library\Memory\Registry::override
-         * @covers Brickoo\Library\Memory\Exceptions\IdentifierLockedException
-         * @expectedException Brickoo\Library\Memory\Exceptions\IdentifierLockedException
+         * @covers Brickoo\Memory\Registry::override
+         * @covers Brickoo\Memory\Exceptions\IdentifierLockedException
+         * @expectedException Brickoo\Memory\Exceptions\IdentifierLockedException
          */
         public function testOverrideLockException()
         {
@@ -211,9 +211,9 @@
 
         /**
          * Test if overriding while the Registry is in read only mode throws an exception.
-         * @covers Brickoo\Library\Memory\Registry::override
-         * @covers Brickoo\Library\Memory\Exceptions\ReadonlyModeException
-         * @expectedException Brickoo\Library\Memory\Exceptions\ReadonlyModeException
+         * @covers Brickoo\Memory\Registry::override
+         * @covers Brickoo\Memory\Exceptions\ReadonlyModeException
+         * @expectedException Brickoo\Memory\Exceptions\ReadonlyModeException
          */
         public function testOverrideReadonlyException()
         {
@@ -224,7 +224,7 @@
 
         /**
          * Test if a key can be unregistered.
-         * @covers Brickoo\Library\Memory\Registry::unregister
+         * @covers Brickoo\Memory\Registry::unregister
          */
         public function testUnregister()
         {
@@ -234,9 +234,9 @@
 
         /**
          * Test if unregister of a non registred indentifier throws an exception.
-         * @covers Brickoo\Library\Memory\Registry::unregister
-         * @covers Brickoo\Library\Memory\Exceptions\IdentifierNotRegisteredException
-         * @expectedException Brickoo\Library\Memory\Exceptions\IdentifierNotRegisteredException
+         * @covers Brickoo\Memory\Registry::unregister
+         * @covers Brickoo\Memory\Exceptions\IdentifierNotRegisteredException
+         * @expectedException Brickoo\Memory\Exceptions\IdentifierNotRegisteredException
          */
         public function testUnregisterException()
         {
@@ -245,9 +245,9 @@
 
         /**
          * Test if unregister while the Registry is in read only mode throws an exception.
-         * @covers Brickoo\Library\Memory\Registry::unregister
-         * @covers Brickoo\Library\Memory\Exceptions\ReadonlyModeException
-         * @expectedException Brickoo\Library\Memory\Exceptions\ReadonlyModeException
+         * @covers Brickoo\Memory\Registry::unregister
+         * @covers Brickoo\Memory\Exceptions\ReadonlyModeException
+         * @expectedException Brickoo\Memory\Exceptions\ReadonlyModeException
          */
         public function testUnregisterReadonlyException()
         {
@@ -258,9 +258,9 @@
 
         /**
          * Test if unregister while the Registry identifier is locked throws an exception.
-         * @covers Brickoo\Library\Memory\Registry::unregister
-         * @covers Brickoo\Library\Memory\Exceptions\IdentifierLockedException
-         * @expectedException Brickoo\Library\Memory\Exceptions\IdentifierLockedException
+         * @covers Brickoo\Memory\Registry::unregister
+         * @covers Brickoo\Memory\Exceptions\IdentifierLockedException
+         * @expectedException Brickoo\Memory\Exceptions\IdentifierLockedException
          */
         public function testUnregisterLockedException()
         {
@@ -271,7 +271,7 @@
 
         /**
          * Test counting registrations.
-         * @covers Brickoo\Library\Memory\Registry::count
+         * @covers Brickoo\Memory\Registry::count
          */
         public function testCount()
         {
@@ -281,7 +281,7 @@
 
         /**
          * Test counting locked registration identifiers.
-         * @covers Brickoo\Library\Memory\Registry::countLocked
+         * @covers Brickoo\Memory\Registry::countLocked
          */
         public function testCountLocked()
         {
@@ -292,7 +292,7 @@
 
         /**
          * Test if a registered key can be retrieved by magic __get().
-         * @covers Brickoo\Library\Memory\Registry::__get
+         * @covers Brickoo\Memory\Registry::__get
          */
         public function testMagicFunctionGet()
         {
@@ -302,9 +302,9 @@
 
         /**
          * Test if a not registered key can be retrieved by magic __get() throws an exception.
-         * @covers Brickoo\Library\Memory\Registry::__get
-         * @covers Brickoo\Library\Memory\Exceptions\IdentifierNotRegisteredException
-         * @expectedException Brickoo\Library\Memory\Exceptions\IdentifierNotRegisteredException
+         * @covers Brickoo\Memory\Registry::__get
+         * @covers Brickoo\Memory\Exceptions\IdentifierNotRegisteredException
+         * @expectedException Brickoo\Memory\Exceptions\IdentifierNotRegisteredException
          */
         public function testMagicFunctionGetException()
         {
@@ -313,7 +313,7 @@
 
         /**
          * Test if an unregistered key can be stored by magic __set().
-         * @covers Brickoo\Library\Memory\Registry::__set
+         * @covers Brickoo\Memory\Registry::__set
          */
         public function testMagicFunctionSet()
         {
@@ -322,9 +322,9 @@
 
         /**
          * Test if a registered key assigned by magic __set() throws an exception.
-         * @covers Brickoo\Library\Memory\Registry::__set
-         * @covers Brickoo\Library\Memory\Exceptions\DuplicateRegistrationException
-         * @expectedException Brickoo\Library\Memory\Exceptions\DuplicateRegistrationException
+         * @covers Brickoo\Memory\Registry::__set
+         * @covers Brickoo\Memory\Exceptions\DuplicateRegistrationException
+         * @expectedException Brickoo\Memory\Exceptions\DuplicateRegistrationException
          */
         public function testMagicFunctionSetException()
         {
@@ -334,7 +334,7 @@
 
         /**
          * Test if a registerd key can be recognized by magic __isset().
-         * @covers Brickoo\Library\Memory\Registry::__isset
+         * @covers Brickoo\Memory\Registry::__isset
          */
         public function testMagicFunctionIsset()
         {
@@ -344,7 +344,7 @@
 
         /**
          * Test if a registered key can be unset by magic __unset().
-         * @covers Brickoo\Library\Memory\Registry::__unset
+         * @covers Brickoo\Memory\Registry::__unset
          */
         public function testMagicFunctionUnset()
         {
@@ -355,7 +355,7 @@
 
         /**
          * Test if read only mode disallows write and allows read permisions.
-         * @covers Brickoo\Library\Memory\Registry::isReadOnly
+         * @covers Brickoo\Memory\Registry::isReadOnly
          */
         public function testReadonlyMode()
         {
@@ -366,7 +366,7 @@
 
         /**
          * Test if a wrong type throws an exception.
-         * @covers Brickoo\Library\Memory\Registry::setReadOnly
+         * @covers Brickoo\Memory\Registry::setReadOnly
          * @expectedException InvalidArgumentException
          */
         public function testSetReadOnlyException()

@@ -30,13 +30,13 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Memory\Exceptions;
+    namespace Brickoo\Memory\Exceptions;
 
     /**
      * IdentifierNotRegisteredException
      *
      * Exception throwed by the Registry class if trying to retrieve an not registered identifier.
-     * @see Brickoo\Library\Memory\Registry:getRegistred
+     * @see Brickoo\Memory\Registry:getRegistred
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

@@ -30,14 +30,14 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Memory\Exceptions;
+    namespace Brickoo\Memory\Exceptions;
 
     /**
      * UnlockFailedException
      *
      * Exception throwed by the Locker class if trying to unlock identifiers
      * and any could not be unlocked.
-     * @see Brickoo\Library\Memory\Locker::unlock
+     * @see Brickoo\Memory\Locker::unlock
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

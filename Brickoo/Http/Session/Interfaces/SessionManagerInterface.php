@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Http\Session\Interfaces;
+    namespace Brickoo\Http\Session\Interfaces;
 
     /**
      * SessionManagerInterface
@@ -59,19 +59,19 @@
          * Sets the session configuration.
          * Available configuration keys are [id, name, limiter].
          * @param array $configuration the configuration to replace
-         * @return \Brickoo\Library\Http\Session\SessionManager
+         * @return \Brickoo\Http\Session\SessionManager
          */
         public function setSessionConfiguration(array $configuration);
 
         /**
          * Starts the Session.
-         * @return \Brickoo\Library\Http\Session\SessionManager
+         * @return \Brickoo\Http\Session\SessionManager
          */
         public function start();
 
         /**
          * Stops the session and calls for writing and close.
-         * @return \Brickoo\Library\Http\Session\SessionManager
+         * @return \Brickoo\Http\Session\SessionManager
          */
         public function stop();
 

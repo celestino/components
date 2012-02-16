@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Http\Response;
+    use Brickoo\Http\Response;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -39,7 +39,7 @@
      * ResponseTest
      *
      * Test suite for the Response class.
-     * @see Brickoo\Library\Http\Response
+     * @see Brickoo\Http\Response
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -47,7 +47,7 @@
     {
         /**
          * Holds an instance of the Response class.
-         * @var \Brickoo\Library\Http\Response
+         * @var \Brickoo\Http\Response
          */
         protected $Response;
 
@@ -62,21 +62,21 @@
 
         /**
          * Test if the Response implements the ResponseInterface.
-         * @covers Brickoo\Library\Http\Response::__construct
+         * @covers Brickoo\Http\Response::__construct
          */
         public function testConstruct()
         {
-            $this->assertInstanceOf('Brickoo\Library\Http\Interfaces\ResponseInterface', $this->Response);
+            $this->assertInstanceOf('Brickoo\Http\Interfaces\ResponseInterface', $this->Response);
         }
 
         /**
          * Test the Template dependency injection and the Response reference is returned.
-         * @covers Brickoo\Library\Http\Response::Template
-         * @covers Brickoo\Library\Http\Response::getDependency
+         * @covers Brickoo\Http\Response::Template
+         * @covers Brickoo\Http\Response::getDependency
          */
         public function testTemplate()
         {
-            $TemplateStub = $this->getMock('Brickoo\Library\Http\Template\Interfaces\TemplateInterface');
+            $TemplateStub = $this->getMock('Brickoo\Http\Template\Interfaces\TemplateInterface');
             $this->assertSame($this->Response, $this->Response->Template($TemplateStub));
             $this->assertSame($TemplateStub, $this->Response->Template());
             $this->assertAttributeContains($TemplateStub, 'dependencies', $this->Response);
@@ -84,10 +84,10 @@
 
         /**
          * Test if trying to retrieve a not available Template dependency throws an exception.
-         * @covers Brickoo\Library\Http\Response::Template
-         * @covers Brickoo\Library\Http\Response::getDependency
-         * @covers Brickoo\Library\Http\Exceptions\ResponseTemplateNotAvailableException::__construct
-         * @expectedException Brickoo\Library\Http\Exceptions\ResponseTemplateNotAvailableException
+         * @covers Brickoo\Http\Response::Template
+         * @covers Brickoo\Http\Response::getDependency
+         * @covers Brickoo\Http\Exceptions\ResponseTemplateNotAvailableException::__construct
+         * @expectedException Brickoo\Http\Exceptions\ResponseTemplateNotAvailableException
          */
         public function testTemplateDependencyException()
         {
@@ -96,11 +96,11 @@
 
         /**
          * Test if the avaibility of the Template dependency is recognized.
-         * @covers Brickoo\Library\Http\Response::hasTemplate
+         * @covers Brickoo\Http\Response::hasTemplate
          */
         public function testHasTemplate()
         {
-            $TemplateStub = $this->getMock('Brickoo\Library\Http\Template\Interfaces\TemplateInterface');
+            $TemplateStub = $this->getMock('Brickoo\Http\Template\Interfaces\TemplateInterface');
             $this->assertFalse($this->Response->hasTemplate());
             $this->assertSame($this->Response, $this->Response->Template($TemplateStub));
             $this->assertTrue($this->Response->hasTemplate());
@@ -108,13 +108,13 @@
 
         /**
          * Test if the Headers can be lazy initialized and returned.
-         * @covers Brickoo\Library\Http\Response::Headers
-         * @covers Brickoo\Library\Http\Response::getDependency
+         * @covers Brickoo\Http\Response::Headers
+         * @covers Brickoo\Http\Response::getDependency
          */
         public function testHeadersLazyInitialization()
         {
             $this->assertInstanceOf(
-                'Brickoo\Library\Http\Component\Interfaces\HeadersInterface',
+                'Brickoo\Http\Component\Interfaces\HeadersInterface',
                 ($Headers = $this->Response->Headers())
             );
 
@@ -123,23 +123,23 @@
 
         /**
          * Test if the Headers can be injected and the Response reference is returned.
-         * @covers Brickoo\Library\Http\Response::Headers
-         * @covers Brickoo\Library\Http\Response::getDependency
+         * @covers Brickoo\Http\Response::Headers
+         * @covers Brickoo\Http\Response::getDependency
          */
         public function testHeadersInjection()
         {
-            $HeadersStub = $this->getMock('Brickoo\Library\Http\Component\Interfaces\HeadersInterface');
+            $HeadersStub = $this->getMock('Brickoo\Http\Component\Interfaces\HeadersInterface');
             $this->assertSame($this->Response, $this->Response->Headers($HeadersStub));
             $this->assertAttributeContains($HeadersStub, 'dependencies', $this->Response);
         }
 
         /**
          * Test if the a available header is recognized.
-         * @covers Brickoo\Library\Http\Response::hasHeader
+         * @covers Brickoo\Http\Response::hasHeader
          */
         public function testHasHeader()
         {
-            $HeadersStub = $this->getMock('Brickoo\Library\Http\Component\Headers', array('has'));
+            $HeadersStub = $this->getMock('Brickoo\Http\Component\Headers', array('has'));
             $HeadersStub->expects($this->once())
                         ->method('has')
                         ->with('Content-Type')
@@ -150,7 +150,7 @@
 
         /**
          * Test if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Http\Response::hasHeader
+         * @covers Brickoo\Http\Response::hasHeader
          * @expectedException InvalidArgumentException
          */
         public function testHasHeaderArgumentException()
@@ -160,7 +160,7 @@
 
         /**
          * Test if the headers would be sent to the output buffer.
-         * @covers Brickoo\Library\Http\Response::sendHeaders
+         * @covers Brickoo\Http\Response::sendHeaders
          */
         public function testSendHeaders()
         {
@@ -182,8 +182,8 @@
 
         /**
          * Test if the protocol can be set and retrieved.
-         * @covers Brickoo\Library\Http\Response::getProtocol
-         * @covers Brickoo\Library\Http\Response::setProtocol
+         * @covers Brickoo\Http\Response::getProtocol
+         * @covers Brickoo\Http\Response::setProtocol
          */
         public function testGetSetProtocol()
         {
@@ -194,7 +194,7 @@
 
         /**
          * Test if trying to use a wrong protocol throws an exception.
-         * @covers Brickoo\Library\Http\Response::setProtocol
+         * @covers Brickoo\Http\Response::setProtocol
          * @expectedException InvalidArgumentException
          */
         public function testSetProcolArgumentException()
@@ -204,8 +204,8 @@
 
         /**
          * Test if the status code and phrase can be set and retrieved.
-         * @covers Brickoo\Library\Http\Response::getStatusCode
-         * @covers Brickoo\Library\Http\Response::setStatusCode
+         * @covers Brickoo\Http\Response::getStatusCode
+         * @covers Brickoo\Http\Response::setStatusCode
          */
         public function testGetSetStatusCode()
         {
@@ -216,7 +216,7 @@
 
         /**
          * Test if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Http\Response::setStatusCode
+         * @covers Brickoo\Http\Response::setStatusCode
          * @expectedException InvalidArgumentException
          */
         public function testSetStatusCodeArgumentException()
@@ -226,7 +226,7 @@
 
         /**
          * Test if the status code assigned can be recognized.
-         * @covers Brickoo\Library\Http\Response::hasStatusCode
+         * @covers Brickoo\Http\Response::hasStatusCode
          */
         public function testHasStatusCode()
         {
@@ -239,8 +239,8 @@
 
         /**
          * Test if the status phrase can be set and retrieved.
-         * @covers Brickoo\Library\Http\Response::getStatusPhrase
-         * @covers Brickoo\Library\Http\Response::setStatusPhrase
+         * @covers Brickoo\Http\Response::getStatusPhrase
+         * @covers Brickoo\Http\Response::setStatusPhrase
          */
         public function testGetSetStatusPhrase()
         {
@@ -251,7 +251,7 @@
 
         /**
          * Test if the status phrase from status code set.
-         * @covers Brickoo\Library\Http\Response::getStatusPhrase
+         * @covers Brickoo\Http\Response::getStatusPhrase
          */
         public function testGetStatusPhrase()
         {
@@ -261,9 +261,9 @@
 
         /**
          * Test if the status code is no set trying to retrieve the phrase throws an exception.
-         * @covers Brickoo\Library\Http\Response::getStatusPhrase
-         * @covers Brickoo\Library\Http\Exceptions\StatusCodeUnknownException::__construct
-         * @expectedException Brickoo\Library\Http\Exceptions\StatusCodeUnknownException
+         * @covers Brickoo\Http\Response::getStatusPhrase
+         * @covers Brickoo\Http\Exceptions\StatusCodeUnknownException::__construct
+         * @expectedException Brickoo\Http\Exceptions\StatusCodeUnknownException
          */
         public function testGetStatusPhraseUnknownException()
         {
@@ -273,8 +273,8 @@
 
         /**
          * Test if the content can be ste and retrieved.
-         * @covers Brickoo\Library\Http\Response::getContent
-         * @covers Brickoo\Library\Http\Response::setContent
+         * @covers Brickoo\Http\Response::getContent
+         * @covers Brickoo\Http\Response::setContent
          */
         public function testGetSetContent()
         {
@@ -285,13 +285,13 @@
 
         /**
          * Test if the content can be retrieved from the template dependency.
-         * @covers Brickoo\Library\Http\Response::getContent
+         * @covers Brickoo\Http\Response::getContent
          */
         public function testGetContentFromTemplate()
         {
             $expectedOutput = 'some content from template';
 
-            $TemplateStub = $this->getMock('Brickoo\Library\Http\Template\Interfaces\TemplateInterface', array('render'));
+            $TemplateStub = $this->getMock('Brickoo\Http\Template\Interfaces\TemplateInterface', array('render'));
             $TemplateStub->expects($this->once())
                          ->method('render')
                          ->will($this->returnValue($expectedOutput));
@@ -301,7 +301,7 @@
 
         /**
          * Test if tring to use a wrong argument typr throws an exception.
-         * @covers Brickoo\Library\Http\Response::setContent
+         * @covers Brickoo\Http\Response::setContent
          * @expectedException InvalidArgumentException
          */
         public function testSetContentArgumentException()
@@ -311,7 +311,7 @@
 
         /**
          * Test if the content would be sent to the output buffer.
-         * @covers Brickoo\Library\Http\Response::sendContent
+         * @covers Brickoo\Http\Response::sendContent
          */
         public function testSendContent()
         {
@@ -325,7 +325,7 @@
 
         /**
          * Test if the response including headers and content would be sent.
-         * @covers Brickoo\Library\Http\Response::send
+         * @covers Brickoo\Http\Response::send
          */
         public function testSend()
         {
@@ -352,8 +352,8 @@
 
         /**
          * Test if the response can be converted to string.
-         * @covers Brickoo\Library\Http\Response::toString
-         * @covers Brickoo\Library\Http\Response::__toString
+         * @covers Brickoo\Http\Response::toString
+         * @covers Brickoo\Http\Response::__toString
          */
         public function testToString()
         {

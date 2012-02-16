@@ -30,13 +30,13 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Core\Exceptions;
+    namespace Brickoo\Core\Exceptions;
 
     /**
      * ModuleNotAvailableException
      *
      * Exception throwed if trying to retrieve a module which does not exist.
-     * @see Brickoo\Library\Core\Autoloader::load
+     * @see Brickoo\Core\Autoloader::load
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

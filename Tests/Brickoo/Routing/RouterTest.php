@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Routing\Router;
+    use Brickoo\Routing\Router;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -40,7 +40,7 @@
      *
      * Test suite for the Router class.
      * This test suite uses the PHP system temporary directory to store and load the test routes.
-     * @see Brickoo\Library\Routing\Router
+     * @see Brickoo\Routing\Router
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -49,55 +49,55 @@
 
         /**
          * Returns a Request stub .
-         * @return \Brickoo\Library\Core\Interfaces\DynamicInterface
+         * @return \Brickoo\Core\Interfaces\DynamicInterface
          */
         public function getRequestStub()
         {
             return $this->getMock
             (
-                'Brickoo\Library\Core\Interfaces\RequestInterface',
+                'Brickoo\Core\Interfaces\RequestInterface',
                 array('getPath', 'getMethod', 'getHost', 'getProtocol', 'getFormat')
             );
         }
 
         /**
         * Returns a RouteCollection stub.
-        * @return \Brickoo\Library\Routing\Interfaces\RouteCollectionInterface
+        * @return \Brickoo\Routing\Interfaces\RouteCollectionInterface
         */
         public function getRouteCollectionStub()
         {
             return $this->getMock(
-                'Brickoo\Library\Routing\Interfaces\RouteCollectionInterface',
+                'Brickoo\Routing\Interfaces\RouteCollectionInterface',
                 array('getRoutes', 'addRoutes', 'getRoute', 'hasRoutes')
             );
         }
 
         /**
          * Returns an Aliases stub.
-         * @return \Brickoo\Library\Memory\Interfaces\ContainerInterface
+         * @return \Brickoo\Memory\Interfaces\ContainerInterface
          */
         public function getAliasesStub()
         {
             return $this->getMock(
-                'Brickoo\Library\Memory\Container',
+                'Brickoo\Memory\Container',
                 array('valid', 'key', 'current', 'next', 'rewind', 'isEmpty')
             );
         }
 
         /**
         * Returns a Route stub .
-        * @return \Brickoo\Library\Routing\Interfaces\RouteInterface
+        * @return \Brickoo\Routing\Interfaces\RouteInterface
         */
         public function getRouteStub()
         {
             return $this->getMock(
-                'Brickoo\Library\Routing\Interfaces\RouteInterface'
+                'Brickoo\Routing\Interfaces\RouteInterface'
             );
         }
 
         /**
          * Holds an instance of the Router class.
-         * @var Brickoo\Library\Routing\Router
+         * @var Brickoo\Routing\Router
          */
         protected $Router;
 
@@ -112,16 +112,16 @@
 
         /**
          * Test if the Route instance is created and implements the interface.
-         * @covers Brickoo\Library\Routing\Router::__construct
+         * @covers Brickoo\Routing\Router::__construct
          */
         public function testConstruct()
         {
-            $this->assertInstanceOf('Brickoo\Library\Routing\Interfaces\RouterInterface', $this->Router);
+            $this->assertInstanceOf('Brickoo\Routing\Interfaces\RouterInterface', $this->Router);
         }
 
         /**
          * Test if the Alias dependency can be injected and the Router reference is returned.
-         * @covers Brickoo\Library\Routing\Router::Aliases
+         * @covers Brickoo\Routing\Router::Aliases
          */
         public function testInjectAliases()
         {
@@ -133,12 +133,12 @@
 
         /**
          * Test if the Aliases can be lazy initialized.
-         * @covers Brickoo\Library\Routing\Router::Aliases
+         * @covers Brickoo\Routing\Router::Aliases
          */
         public function testAliasesLazyInitialization()
         {
             $this->assertInstanceOf(
-                'Brickoo\Library\Memory\Container',
+                'Brickoo\Memory\Container',
                 ($Aliases = $this->Router->Aliases())
             );
 
@@ -149,8 +149,8 @@
         /**
          * Tests if the cache director can be set and the Router reference is returned.
          * Test if the cache directory can be retrieved.
-         * @covers Brickoo\Library\Routing\Router::getCacheDirectory
-         * @covers Brickoo\Library\Routing\Router::setCacheDirectory
+         * @covers Brickoo\Routing\Router::getCacheDirectory
+         * @covers Brickoo\Routing\Router::setCacheDirectory
          */
         public function testGetSetCacheDirectory()
         {
@@ -170,7 +170,7 @@
 
         /**
          * Test if trying to set a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Routing\Router::setCacheDirectory
+         * @covers Brickoo\Routing\Router::setCacheDirectory
          * @expectedException InvalidArgumentException
          */
         public function testSetCacheDirectoryArgumentException()
@@ -180,7 +180,7 @@
 
         /**
          * Test if trying to retrieve the undefined cache directory throws an exception.
-         * @covers Brickoo\Library\Routing\Router::getCacheDirectory
+         * @covers Brickoo\Routing\Router::getCacheDirectory
          * @expectedException UnexpectedValueException
          */
         public function testGetCacheDirectoryValueException()
@@ -190,7 +190,7 @@
 
         /**
          * Test if the availability of the cache directory can be checked.
-         * @covers Brickoo\Library\Routing\Router::hasCacheDirectory
+         * @covers Brickoo\Routing\Router::hasCacheDirectory
          * @depends testGetSetCacheDirectory
          */
         public function testHasCacheDirectory($Router)
@@ -202,8 +202,8 @@
         /**
          * Test if the cache filename can be set and the Router reference is returned.
          * Test if the cache filename can be retrieved.
-         * @covers Brickoo\Library\Routing\Router::getCacheFilename
-         * @covers Brickoo\Library\Routing\Router::setCacheFilename
+         * @covers Brickoo\Routing\Router::getCacheFilename
+         * @covers Brickoo\Routing\Router::setCacheFilename
          */
         public function testGetSetCacheFilename()
         {
@@ -216,7 +216,7 @@
 
         /**
          * Test if trying to set a wrong argument type thrwos an exception.
-         * @covers Brickoo\Library\Routing\Router::setCacheFilename
+         * @covers Brickoo\Routing\Router::setCacheFilename
          * @expectedException InvalidArgumentException
          */
         public function testSetCacheFilenameArgumentException()
@@ -227,8 +227,8 @@
         /**
          * Test if the available modules can be set and the Router reference is returned.
          * Test if the modules can be retrieved.
-         * @covers Brickoo\Library\Routing\Router::setModules
-         * @covers Brickoo\Library\Routing\Router::getModules
+         * @covers Brickoo\Routing\Router::setModules
+         * @covers Brickoo\Routing\Router::getModules
          */
         public function testGetSetModules()
         {
@@ -242,7 +242,7 @@
 
         /**
          * Test if the available modules are recognized.
-         * @covers Brickoo\Library\Routing\Router::hasModules
+         * @covers Brickoo\Routing\Router::hasModules
          */
         public function testHasModules()
         {
@@ -254,9 +254,9 @@
 
         /**
          * Test if trying to overwrite the modules throws an exception.
-         * @covers Brickoo\Library\Routing\Router::setModules
-         * @covers Brickoo\Library\Core\Exceptions\ValueOverwriteException::__construct
-         * @expectedException Brickoo\Library\Core\Exceptions\ValueOverwriteException
+         * @covers Brickoo\Routing\Router::setModules
+         * @covers Brickoo\Core\Exceptions\ValueOverwriteException::__construct
+         * @expectedException Brickoo\Core\Exceptions\ValueOverwriteException
          * @depends testGetSetModules
          */
         public function testSetModulesValueOverwriteException($Router)
@@ -267,8 +267,8 @@
         /**
          * Test if the routes filename can be set and the Router reference is returned.
          * Test if the routes filename can be retrieved.
-         * @covers Brickoo\Library\Routing\Router::getRoutesFilename
-         * @covers Brickoo\Library\Routing\Router::setRoutesFilename
+         * @covers Brickoo\Routing\Router::getRoutesFilename
+         * @covers Brickoo\Routing\Router::setRoutesFilename
          */
         public function testGetSetRoutesFilename()
         {
@@ -279,7 +279,7 @@
 
         /**
          * Test if the Request instance can be retrieved.
-         * @covers Brickoo\Library\Routing\Router::getRequest
+         * @covers Brickoo\Routing\Router::getRequest
          */
         public function testGetRequest()
         {
@@ -291,8 +291,8 @@
 
         /**
          * Test if the RouteCollection instance can be injected and the Router reference is returned.
-         * @covers Brickoo\Library\Routing\Router::RouteCollection
-         * @covers Brickoo\Library\Routing\Router::getDependency
+         * @covers Brickoo\Routing\Router::RouteCollection
+         * @covers Brickoo\Routing\Router::getDependency
          */
         public function testInjectRouteCollection()
         {
@@ -303,14 +303,14 @@
 
         /**
          * Test if the RouteCollection instance can be lazy initialized and retrieved.
-         * @covers Brickoo\Library\Routing\Router::RouteCollection
-         * @covers Brickoo\Library\Routing\Router::getDependency
+         * @covers Brickoo\Routing\Router::RouteCollection
+         * @covers Brickoo\Routing\Router::getDependency
          */
         public function testGetRouteCollection()
         {
             $this->assertInstanceOf
             (
-                'Brickoo\Library\Routing\Interfaces\RouteCollectionInterface',
+                'Brickoo\Routing\Interfaces\RouteCollectionInterface',
                 ($RouteCollection = $this->Router->RouteCollection())
             );
             $this->assertAttributeContains($RouteCollection, 'dependencies', $this->Router);
@@ -318,28 +318,28 @@
 
         /**
          * Test if the RouteCollection instance can be retrieved with lazy initialization.
-         * @covers Brickoo\Library\Routing\Router::RouteCollection
-         * @covers Brickoo\Library\Routing\Router::getDependency
+         * @covers Brickoo\Routing\Router::RouteCollection
+         * @covers Brickoo\Routing\Router::getDependency
          */
         public function testLazyGetRouteCollection()
         {
             $this->assertInstanceOf
             (
-                'Brickoo\Library\Routing\Interfaces\RouteCollectionInterface',
+                'Brickoo\Routing\Interfaces\RouteCollectionInterface',
                 $this->Router->RouteCollection()
             );
         }
 
         /**
          * Test if the request route can be set and the Router reference is returned.
-         * @covers Brickoo\Library\Routing\Router::setRequestRoute
+         * @covers Brickoo\Routing\Router::setRequestRoute
          */
         public function testSetRequestRoute()
         {
             $Route = $this->getRouteStub();
             $this->assertSame($this->Router, $this->Router->setRequestRoute($Route));
             $this->assertAttributeInstanceOf(
-                'Brickoo\Library\Routing\Interfaces\RequestRouteInterface',
+                'Brickoo\Routing\Interfaces\RequestRouteInterface',
                 'RequestRoute',
                 $this->Router
             );
@@ -349,9 +349,9 @@
 
         /**
          * Test if trying to overwrite the value throws an exception.
-         * @covers Brickoo\Library\Routing\Router::setRequestRoute
-         * @covers Brickoo\Library\Core\Exceptions\ValueOverwriteException::__construct
-         * @expectedException Brickoo\Library\Core\Exceptions\ValueOverwriteException
+         * @covers Brickoo\Routing\Router::setRequestRoute
+         * @covers Brickoo\Core\Exceptions\ValueOverwriteException::__construct
+         * @expectedException Brickoo\Core\Exceptions\ValueOverwriteException
          */
         public function testSetRequestRouteOverwriteException()
         {
@@ -362,7 +362,7 @@
 
         /**
          * Test if the availability of the RequestRoute is recognized.
-         * @covers Brickoo\Library\Routing\Router::hasRequestRoute
+         * @covers Brickoo\Routing\Router::hasRequestRoute
          * @depends testSetRequestRoute
          */
         public function testHasRequestRoute($Router)
@@ -373,8 +373,8 @@
 
         /**
          * Test if the Route is recognized as responsible request route.
-         * @covers Brickoo\Library\Routing\Router::isRequestRoute
-         * @covers Brickoo\Library\Routing\Router::getRegexFromRoutePath
+         * @covers Brickoo\Routing\Router::isRequestRoute
+         * @covers Brickoo\Routing\Router::getRegexFromRoutePath
          */
         public function testIsRequestRoute()
         {
@@ -426,8 +426,8 @@
 
         /**
          * Test if the Route is not the responsible request route because of the wrong path.
-         * @covers Brickoo\Library\Routing\Router::isRequestRoute
-         * @covers Brickoo\Library\Routing\Router::getRegexFromRoutePath
+         * @covers Brickoo\Routing\Router::isRequestRoute
+         * @covers Brickoo\Routing\Router::getRegexFromRoutePath
          */
         public function testIsRequestRouteFailure()
         {
@@ -449,7 +449,7 @@
 
         /**
          * Test if a cached route is recognized.
-         * @covers Brickoo\Library\Routing\Router::isCachedRequestRoute
+         * @covers Brickoo\Routing\Router::isCachedRequestRoute
          */
         public function testIsCachedRequestRoute()
         {
@@ -477,7 +477,7 @@
 
         /**
          * Test if the required arrayy keys do not exist throws an exception.
-         * @covers Brickoo\Library\Routing\Router::collectModulesRoutes
+         * @covers Brickoo\Routing\Router::collectModulesRoutes
          * @expectedException InvalidArgumentException
          */
         public function testIsCachedRequestRouteArgumentException()
@@ -487,21 +487,21 @@
 
         /**
          * Test if the request route is returned when it is already recognized.
-         * @covers Brickoo\Library\Routing\Router::getRequestRoute
+         * @covers Brickoo\Routing\Router::getRequestRoute
          * @depends testSetRequestRoute
          */
         public function testGetRequestRoute($Router)
         {
             $this->assertInstanceOf
             (
-                'Brickoo\Library\Routing\Interfaces\RequestRouteInterface',
+                'Brickoo\Routing\Interfaces\RequestRouteInterface',
                 $Router->getRequestRoute()
             );
         }
 
         /**
          * Test if routes can be collected from the modules available.
-         * @covers Brickoo\Library\Routing\Router::collectModulesRoutes
+         * @covers Brickoo\Routing\Router::collectModulesRoutes
          */
         public function testCollectModulesRoutes()
         {
@@ -520,9 +520,9 @@
 
         /**
          * Test if the request route is returned when it is responsible and it is set as property.
-         * @covers Brickoo\Library\Routing\Router::getRequestRoute
-         * @covers Brickoo\Library\Routing\Router::collectModulesRoutes
-         * @covers Brickoo\Library\Routing\Router::saveRoutesToCache
+         * @covers Brickoo\Routing\Router::getRequestRoute
+         * @covers Brickoo\Routing\Router::collectModulesRoutes
+         * @covers Brickoo\Routing\Router::saveRoutesToCache
          * @depends testGetSetCacheDirectory
          */
         public function testGetRequestRouteResponsible($Router)
@@ -572,9 +572,9 @@
 
             $Router->RouteCollection($RouteCollectionStub);
 
-            $this->assertInstanceOf('Brickoo\Library\Routing\Interfaces\RequestRouteInterface', $Router->getRequestRoute());
+            $this->assertInstanceOf('Brickoo\Routing\Interfaces\RequestRouteInterface', $Router->getRequestRoute());
             $this->assertAttributeInstanceOf(
-                'Brickoo\Library\Routing\Interfaces\RequestRouteInterface',
+                'Brickoo\Routing\Interfaces\RequestRouteInterface',
                 'RequestRoute',
                 $Router
             );
@@ -582,9 +582,9 @@
 
         /**
          * Test if none request route is responsible throws an expection.
-         * @covers Brickoo\Library\Routing\Router::getRequestRoute
-         * @covers Brickoo\Library\Routing\Exceptions\RequestHasNoRouteException::__construct
-         * @expectedException \Brickoo\Library\Routing\Exceptions\RequestHasNoRouteException
+         * @covers Brickoo\Routing\Router::getRequestRoute
+         * @covers Brickoo\Routing\Exceptions\RequestHasNoRouteException::__construct
+         * @expectedException \Brickoo\Routing\Exceptions\RequestHasNoRouteException
          */
         public function testGetRequestRouteNoRouteException()
         {
@@ -598,7 +598,7 @@
 
         /**
          * Test if the routes can be compressed.
-         * @covers Brickoo\Library\Routing\Router::getCompressedRoutes
+         * @covers Brickoo\Routing\Router::getCompressedRoutes
          */
         public function testGetCompressedRoutes()
         {
@@ -627,7 +627,7 @@
 
         /**
          * Test if the routes can be cached.
-         * @covers Brickoo\Library\Routing\Router::saveRoutesToCache
+         * @covers Brickoo\Routing\Router::saveRoutesToCache
          */
         public function testSaveRoutesToCache()
         {
@@ -641,9 +641,9 @@
 
         /**
          * Test if trying to save the routes to an not writeable dreictory throws an exception.
-         * @covers Brickoo\Library\Routing\Router::saveRoutesToCache
-         * @covers Brickoo\Library\System\Exceptions\DirectoryIsNotWriteableException::__construct
-         * @expectedException Brickoo\Library\System\Exceptions\DirectoryIsNotWriteableException
+         * @covers Brickoo\Routing\Router::saveRoutesToCache
+         * @covers Brickoo\System\Exceptions\DirectoryIsNotWriteableException::__construct
+         * @expectedException Brickoo\System\Exceptions\DirectoryIsNotWriteableException
          */
         public function testSaveRoutesToCacheDirectoryException()
         {
@@ -660,7 +660,7 @@
 
         /**
          * Test if the routes can be loaded from cache and the matching route is recognized.
-         * @covers Brickoo\Library\Routing\Router::loadRoutesFromCache
+         * @covers Brickoo\Routing\Router::loadRoutesFromCache
          * @depends testSaveRoutesToCache
          */
         public function testLoadRoutesFromCache()
@@ -675,16 +675,16 @@
 
             $this->Router->setCacheDirectory(sys_get_temp_dir());
             $this->Router->loadRoutesFromCache();
-            $this->assertInstanceOf('Brickoo\Library\Routing\Interfaces\RequestRouteInterface', $this->Router->getRequestRoute());
+            $this->assertInstanceOf('Brickoo\Routing\Interfaces\RequestRouteInterface', $this->Router->getRequestRoute());
 
             unlink($this->Router->getCacheDirectory() . $this->Router->getCacheFilename());
         }
 
         /**
          * Test if the regular expression is returned as expected.
-         * @covers Brickoo\Library\Routing\Router::getRegexFromRoutePath
-         * @covers Brickoo\Library\Routing\Router::getRegexRouteFormat
-         * @covers Brickoo\Library\Routing\Router::getRouteAliasesPath
+         * @covers Brickoo\Routing\Router::getRegexFromRoutePath
+         * @covers Brickoo\Routing\Router::getRegexRouteFormat
+         * @covers Brickoo\Routing\Router::getRouteAliasesPath
          */
         public function testGetRegexFromRoutePath()
         {

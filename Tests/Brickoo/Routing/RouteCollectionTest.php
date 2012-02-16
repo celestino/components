@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Routing\RouteCollection;
+    use Brickoo\Routing\RouteCollection;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -39,7 +39,7 @@
      * RouteCollectionTest
      *
      * Test suite for the RouteCollection class.
-     * @see Brickoo\Library\Routing\RouteCollection
+     * @see Brickoo\Routing\RouteCollection
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -48,7 +48,7 @@
 
         /**
          * Holds an instance of the RouteCollection class.
-         * @var Brickoo\Library\Routing\RouteCollection
+         * @var Brickoo\Routing\RouteCollection
          */
         protected $RouteCollection;
 
@@ -64,22 +64,22 @@
 
         /**
          * Test if the RouteCOllection implements  the RouteCollectionInterface.
-         * @covers Brickoo\Library\Routing\RouteCollection::__construct
+         * @covers Brickoo\Routing\RouteCollection::__construct
          */
         public function testConstruct()
         {
-            $this->assertInstanceOf('Brickoo\Library\Routing\RouteCollection', $this->RouteCollection);
+            $this->assertInstanceOf('Brickoo\Routing\RouteCollection', $this->RouteCollection);
         }
 
         /**
          * Test if a Route instance can be lazy created and the Route reference is returned.
-         * @covers Brickoo\Library\Routing\RouteCollection::getRoute
+         * @covers Brickoo\Routing\RouteCollection::getRoute
          */
         public function testGetRoute()
         {
             $this->assertInstanceOf
             (
-                'Brickoo\Library\Routing\Interfaces\RouteInterface',
+                'Brickoo\Routing\Interfaces\RouteInterface',
                 ($Route = $this->RouteCollection->getRoute())
             );
             $this->assertAttributeEquals(array($Route), 'routes', $this->RouteCollection);
@@ -89,7 +89,7 @@
 
         /**
          * Test if the routes can be retrieved from the collection as an array.
-         * @covers Brickoo\Library\Routing\RouteCollection::getRoutes
+         * @covers Brickoo\Routing\RouteCollection::getRoutes
          */
         public function testGetRoutes()
         {
@@ -100,9 +100,9 @@
         {
             $routes = array
             (
-                $this->getMock('Brickoo\Library\Routing\Interfaces\RouteInterface'),
-                $this->getMock('Brickoo\Library\Routing\Interfaces\RouteInterface'),
-                $this->getMock('Brickoo\Library\Routing\Interfaces\RouteInterface')
+                $this->getMock('Brickoo\Routing\Interfaces\RouteInterface'),
+                $this->getMock('Brickoo\Routing\Interfaces\RouteInterface'),
+                $this->getMock('Brickoo\Routing\Interfaces\RouteInterface')
             );
             $this->assertSame($this->RouteCollection, $this->RouteCollection->addRoutes($routes));
             $this->assertAttributeEquals($routes, 'routes', $this->RouteCollection);
@@ -110,7 +110,7 @@
 
         /**
          * Test if the availability of routes can be recognized.
-         * @covers Brickoo\Library\Routing\RouteCollection::hasRoutes
+         * @covers Brickoo\Routing\RouteCollection::hasRoutes
          * @depends testGetRoute
          */
         public function testHasRoutes($RouteCollection)

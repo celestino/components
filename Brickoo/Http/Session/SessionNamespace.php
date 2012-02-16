@@ -30,10 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Http\Session;
+    namespace Brickoo\Http\Session;
 
-    use Brickoo\Library\Http\Session\Interfaces;
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Http\Session\Interfaces;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * SessionNamespace
@@ -96,7 +96,7 @@
          * Sets the session property and assigns the content to it.
          * @param string $property the property to assign the content to
          * @param mixed $content the content to store
-         * @return \Brickoo\Library\Http\Session\Session
+         * @return \Brickoo\Http\Session\Session
          */
         public function set($property, $content)
         {
@@ -110,7 +110,7 @@
         /**
          * Removes the session property if available.
          * @param string $property the property to remove
-         * @return \Brickoo\Library\Http\Session\Session
+         * @return \Brickoo\Http\Session\Session
          */
         public function remove($property)
         {

@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Http\Component\Query;
+    use Brickoo\Http\Component\Query;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -39,7 +39,7 @@
      * UrlTest
      *
      * Test suite for the Url class.
-     * @see Brickoo\Library\Component\Url
+     * @see Brickoo\Component\Url
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -48,7 +48,7 @@
 
         /**
          * Holds an instance of the Query class.
-         * @var \Brickoo\Library\Http\Component\Query
+         * @var \Brickoo\Http\Component\Query
          */
         protected $Query;
 
@@ -63,7 +63,7 @@
 
         /**
          * Test if the query parameters can be imported from the globals $_GET.
-         * @covers Brickoo\Library\Http\Component\Query::importFromGlobals
+         * @covers Brickoo\Http\Component\Query::importFromGlobals
          */
         public function testImportFromGlobals()
         {
@@ -75,7 +75,7 @@
 
         /**
          * Test if the query parameters can be imported from string.
-         * @covers Brickoo\Library\Http\Component\Query::importFromString
+         * @covers Brickoo\Http\Component\Query::importFromString
          */
         public function testImportFromString()
         {
@@ -93,7 +93,7 @@
 
         /**
          * Test if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Http\Component\Query::importFromString
+         * @covers Brickoo\Http\Component\Query::importFromString
          * @expectedException InvalidArgumentException
          */
         public function testImportFromStringArgumentException()
@@ -103,8 +103,8 @@
 
         /**
          * Test if the quer paramters can be converted to string.
-         * @covers Brickoo\Library\Http\Component\Query::toString
-         * @covers Brickoo\Library\Http\Component\Query::__toString
+         * @covers Brickoo\Http\Component\Query::toString
+         * @covers Brickoo\Http\Component\Query::__toString
          */
         public function testToString()
         {

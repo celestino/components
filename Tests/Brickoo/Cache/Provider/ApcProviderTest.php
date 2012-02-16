@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Cache\Provider\APCProvider;
+    use Brickoo\Cache\Provider\APCProvider;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -39,7 +39,7 @@
      * ApcProviderTest
      *
      * Test suite for the APCProvider class.
-     * @see Brickoo\Library\Cache\Provider\APCProvider
+     * @see Brickoo\Cache\Provider\APCProvider
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -72,7 +72,7 @@
 
         /**
          * Test if a content can be set to the Apc and the result is returned.
-         * @covers Brickoo\Library\Cache\Provider\ApcProvider::set
+         * @covers Brickoo\Cache\Provider\ApcProvider::set
          */
         public function testSet()
         {
@@ -81,7 +81,7 @@
 
         /**
          * Test if trying to use a wrong argument type throws an exception
-         * @covers Brickoo\Library\Cache\Provider\ApcProvider::set
+         * @covers Brickoo\Cache\Provider\ApcProvider::set
          * @expectedException InvalidArgumentException
          */
         public function testSetArgumentException()
@@ -91,7 +91,7 @@
 
         /**
          * Test if a content can be retrieved from the APC.
-         * @covers Brickoo\Library\Cache\Provider\ApcProvider::get
+         * @covers Brickoo\Cache\Provider\ApcProvider::get
          * @depends testSet
          */
         public function testGet()
@@ -101,7 +101,7 @@
 
         /**
          * Test if trying to use a wrong argument type throws an exception
-         * @covers Brickoo\Library\Cache\Provider\ApcProvider::get
+         * @covers Brickoo\Cache\Provider\ApcProvider::get
          * @expectedException InvalidArgumentException
          */
         public function testGetArgumentException()
@@ -111,7 +111,7 @@
 
         /**
          * Test if a cached content can be delete by its identifier and the result is returned.
-         * @covers Brickoo\Library\Cache\Provider\ApcProvider::delete
+         * @covers Brickoo\Cache\Provider\ApcProvider::delete
          * @depends testSet
          */
         public function testDelete()
@@ -121,7 +121,7 @@
 
         /**
          * Test if trying to use a wrong argument type throws an exception
-         * @covers Brickoo\Library\Cache\Provider\ApcProvider::delete
+         * @covers Brickoo\Cache\Provider\ApcProvider::delete
          * @expectedException InvalidArgumentException
          */
         public function testDeleteArgumentException()
@@ -131,7 +131,7 @@
 
         /**
          * Test if a cached content can be flushed and the result is returned.
-         * @covers Brickoo\Library\Cache\Provider\ApcProvider::flush
+         * @covers Brickoo\Cache\Provider\ApcProvider::flush
          */
         public function testFlush()
         {
@@ -140,7 +140,7 @@
 
         /**
          * Test if a APC method not implemented can be called and the result is returned.
-         * @covers Brickoo\Library\Cache\Provider\ApcProvider::__call
+         * @covers Brickoo\Cache\Provider\ApcProvider::__call
          */
         public function test__call()
         {
@@ -150,7 +150,7 @@
 
         /**
          * Test if trying to call a not available APC function throws an exception
-         * @covers Brickoo\Library\Cache\Provider\ApcProvider::__call
+         * @covers Brickoo\Cache\Provider\ApcProvider::__call
          * @expectedException BadMethodCallException
          */
         public function test__callBadMethodCallException()

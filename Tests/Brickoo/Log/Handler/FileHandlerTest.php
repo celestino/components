@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Log\Handler\FileHandler;
+    use Brickoo\Log\Handler\FileHandler;
 
 
     // require PHPUnit Autoloader
@@ -40,7 +40,7 @@
      * FileHandlerTest
      *
      * Test suite for the FileHandler class.
-     * @see Brickoo\Library\Log\Handler\FileHandler
+     * @see Brickoo\Log\Handler\FileHandler
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -70,21 +70,21 @@
         {
             return $this->getMock
             (
-                'Brickoo\Library\System\FileObject',
+                'Brickoo\System\FileObject',
                 ($methods === null ? null : array_values($methods))
             );
         }
 
         /**
         * Test if the class can be created and implementens the LogHandlerInterface.
-        * @covers Brickoo\Library\Log\handler\FileHandler::__construct
+        * @covers Brickoo\Log\handler\FileHandler::__construct
         */
         public function testConstructor()
         {
             $FileObject = $this->getFileObjectStub();
             $this->assertInstanceOf
             (
-                '\Brickoo\Library\Log\Handler\Interfaces\LogHandlerInterface',
+                '\Brickoo\Log\Handler\Interfaces\LogHandlerInterface',
                 ($FileHandler = new FileHandler($FileObject))
             );
             $this->assertAttributeSame($FileObject, '_FileObject', $FileHandler);
@@ -92,20 +92,20 @@
 
         /**
          * Test if the FileObject can be retrieved and implements te FileObjectInterface.
-         * @covers Brickoo\Library\Log\Handler\FileHandler::FileObject
+         * @covers Brickoo\Log\Handler\FileHandler::FileObject
          */
         public function testGetFileObject()
         {
             $this->assertInstanceOf
             (
-                '\Brickoo\Library\System\Interfaces\FileObjectInterface',
+                '\Brickoo\System\Interfaces\FileObjectInterface',
                 $this->FileHandler->FileObject()
             );
         }
 
         /**
          * Test if the directory can be set and returns the FileHandler reference.
-         * @covers Brickoo\Library\Log\Handler\FileHandler::setDirectory
+         * @covers Brickoo\Log\Handler\FileHandler::setDirectory
          */
         public function testSetDirectory()
         {
@@ -114,7 +114,7 @@
 
         /**
          * Test if the passing wront argument tyype as directory throw an exception.
-         * @covers Brickoo\Library\Log\Handler\FileHandler::setDirectory
+         * @covers Brickoo\Log\Handler\FileHandler::setDirectory
          * @expectedException InvalidArgumentException
          */
         public function testSetDirectoryArgumentException()
@@ -124,7 +124,7 @@
 
         /**
          * Test if the directory can be retrieved and the last backslash/slash is removed.
-         * @covers Brickoo\Library\Log\Handler\FileHandler::getDirectory
+         * @covers Brickoo\Log\Handler\FileHandler::getDirectory
          */
         public function testGetDirectory()
         {
@@ -134,7 +134,7 @@
 
         /**
          * Test if the retirving the not available directorythrows an exception.
-         * @covers Brickoo\Library\Log\Handler\FileHandler::getDirectory
+         * @covers Brickoo\Log\Handler\FileHandler::getDirectory
          * @expectedException UnexpectedValueException
          */
         public function testGetDirectoryUnexpectedValueException()
@@ -144,7 +144,7 @@
 
         /**
          * Test if the FilePrefix can be set and the FileHandler reference is returned.
-         * @covers \Brickoo\Library\Log\Handler\FileHandler::setFilePrefix
+         * @covers \Brickoo\Log\Handler\FileHandler::setFilePrefix
          */
         public function testSetFilePrefix()
         {
@@ -153,7 +153,7 @@
 
         /**
          * Test if a wrong argument type throws an exception.
-         * @covers \Brickoo\Library\Log\Handler\FileHandler::setFilePrefix
+         * @covers \Brickoo\Log\Handler\FileHandler::setFilePrefix
          * @expectedException InvalidArgumentException
          */
         public function testSetFilePrefixArgumentException()
@@ -163,7 +163,7 @@
 
         /**
          * Test if the FilePrefix can be retrived.
-         * @covers \Brickoo\Library\Log\Handler\FileHandler::getFilePrefix
+         * @covers \Brickoo\Log\Handler\FileHandler::getFilePrefix
          */
         public function testGetFilePrefix()
         {
@@ -175,7 +175,7 @@
         /**
          * Test if the messages array can be converted to a single message.
          * Test if the default severiy `Debug`is used if the severity is unknowed.
-         * @covers \Brickoo\Library\Log\Handler\FileHandler::convertToLogMessage
+         * @covers \Brickoo\Log\Handler\FileHandler::convertToLogMessage
          */
         public function testConvertToLogMessage()
         {
@@ -193,7 +193,7 @@
 
         /**
          * Test if an empty message array throws an exception.
-         * @covers \Brickoo\Library\Log\Handler\FileHandler::convertToLogMessage
+         * @covers \Brickoo\Log\Handler\FileHandler::convertToLogMessage
          * @expectedException InvalidArgumentException
          */
         public function testConvertToLogMessageArgumentMessageException()
@@ -203,7 +203,7 @@
 
         /**
          * Test if a wrong severity argument type throws an exception.
-         * @covers \Brickoo\Library\Log\Handler\FileHandler::convertToLogMessage
+         * @covers \Brickoo\Log\Handler\FileHandler::convertToLogMessage
          * @expectedException InvalidArgumentException
          */
         public function testConvertToLogMessageArgumentSeverityException()
@@ -213,7 +213,7 @@
 
         /**
         * Test if messages could be logged.
-        * @covers \Brickoo\Library\Log\Handler\FileHandler::log
+        * @covers \Brickoo\Log\Handler\FileHandler::log
         */
         public function testlog()
         {
@@ -241,7 +241,7 @@
 
         /**
         * Test if wrong severity argument type throws an exception..
-        * @covers \Brickoo\Library\Log\Handler\FileHandler::log
+        * @covers \Brickoo\Log\Handler\FileHandler::log
         * @expectedException InvalidArgumentException
         */
         public function testlogArgumentException()

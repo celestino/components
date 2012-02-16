@@ -37,7 +37,7 @@
      * AbstractHandlerTest
      *
      * Test suite for the AbstractHandler class.
-     * @see Brickoo\Library\Error\AbstractHandler
+     * @see Brickoo\Error\AbstractHandler
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -46,13 +46,13 @@
 
         /**
          * Returns an Logger Stub for testing the logging of messages.
-         * @return object Logger implementing the Brickoo\Library\Log\Interfaces\LoggerInterface
+         * @return object Logger implementing the Brickoo\Log\Interfaces\LoggerInterface
          */
         protected function getLoggerStub()
         {
             return $this->getMock
             (
-                'Brickoo\Library\Log\Interfaces\LoggerInterface',
+                'Brickoo\Log\Interfaces\LoggerInterface',
                 array
                 (
                     'LogHandler',
@@ -75,12 +75,12 @@
          */
         protected function setUp()
         {
-            $this->AbstractHandler = $this->getMockForAbstractClass('Brickoo\Library\Error\AbstractHandler');
+            $this->AbstractHandler = $this->getMockForAbstractClass('Brickoo\Error\AbstractHandler');
         }
 
         /**
          * Test if the Logger dependency can be injected and the AbstractHandler reference is returned.
-         * @covers Brickoo\Library\Error\AbstractHandler::Logger
+         * @covers Brickoo\Error\AbstractHandler::Logger
          */
         public function testLoggerInjection()
         {
@@ -91,7 +91,7 @@
 
         /**
          * Test if the Logger dependency can be retrieved.
-         * @covers Brickoo\Library\Error\AbstractHandler::Logger
+         * @covers Brickoo\Error\AbstractHandler::Logger
          */
         public function testGetLogger()
         {
@@ -101,9 +101,9 @@
 
         /**
          * Test if trying to retrive the not avilable Logger dependency throws an exception.
-         * @covers Brickoo\Library\Error\AbstractHandler::Logger
-         * @covers Brickoo\Library\Core\Exceptions\DependencyNotAvailableException::__construct
-         * @expectedException Brickoo\Library\Core\Exceptions\DependencyNotAvailableException
+         * @covers Brickoo\Error\AbstractHandler::Logger
+         * @covers Brickoo\Core\Exceptions\DependencyNotAvailableException::__construct
+         * @expectedException Brickoo\Core\Exceptions\DependencyNotAvailableException
          */
         public function testGetLoggerDependencyException()
         {
@@ -112,7 +112,7 @@
 
         /**
          * Test if the Logger dependency can be removed and the object reference is returned.
-         * @covers Brickoo\Library\Error\AbstractHandler::removeLogger
+         * @covers Brickoo\Error\AbstractHandler::removeLogger
          */
         public function testRemoveLogger()
         {
@@ -123,9 +123,9 @@
 
         /**
          * Test if trying to remove a not available Logger dependency throws an exception.
-         * @covers Brickoo\Library\Error\AbstractHandler::removeLogger
-         * @covers Brickoo\Library\Core\Exceptions\DependencyNotAvailableException::__construct
-         * @expectedException Brickoo\Library\Core\Exceptions\DependencyNotAvailableException
+         * @covers Brickoo\Error\AbstractHandler::removeLogger
+         * @covers Brickoo\Core\Exceptions\DependencyNotAvailableException::__construct
+         * @expectedException Brickoo\Core\Exceptions\DependencyNotAvailableException
          */
         public function testRemoveLoggerDependencyException()
         {
@@ -134,7 +134,7 @@
 
         /**
          * Test if a Logger is available it is recognized.
-         * @covers Brickoo\Library\Error\AbstractHandler::hasLogger
+         * @covers Brickoo\Error\AbstractHandler::hasLogger
          */
         public function testHasLogger()
         {

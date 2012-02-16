@@ -30,11 +30,11 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Routing;
+    namespace Brickoo\Routing;
 
-    use Brickoo\Library\Core;
-    use Brickoo\Library\Memory;
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Core;
+    use Brickoo\Memory;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * RequestRoute
@@ -48,7 +48,7 @@
 
         /**
          * Holds an instance of the matched drequest route.
-         * @var \Brickoo\Library\Routing\Interfaces\RouteInterface
+         * @var \Brickoo\Routing\Interfaces\RouteInterface
          */
         protected $RequestRoute;
 
@@ -80,14 +80,14 @@
 
         /**
          * Lazy initialization of the Container dependecy.
-         * @param \Brickoo\Library\Memory\Interfaces\ContainerInterface $Container the route parasm container
-         * @return \Brickoo\Library\Memory\Interfaces\ContainerInterface
+         * @param \Brickoo\Memory\Interfaces\ContainerInterface $Container the route parasm container
+         * @return \Brickoo\Memory\Interfaces\ContainerInterface
          */
-        public function Params(\Brickoo\Library\Memory\Interfaces\ContainerInterface $Container = null)
+        public function Params(\Brickoo\Memory\Interfaces\ContainerInterface $Container = null)
         {
             return $this->getDependency(
                 'Params',
-                '\Brickoo\Library\Memory\Interfaces\ContainerInterface',
+                '\Brickoo\Memory\Interfaces\ContainerInterface',
                 function(){return new Memory\Container();},
                 $Container
             );
@@ -96,10 +96,10 @@
         /**
          * Class constructor.
          * Initializes the class properties.
-         * @param \Brickoo\Library\Routing\Interfaces\RouteInterface $Route
+         * @param \Brickoo\Routing\Interfaces\RouteInterface $Route
          * @return void
          */
-        public function __construct(\Brickoo\Library\Routing\Interfaces\RouteInterface $Route)
+        public function __construct(\Brickoo\Routing\Interfaces\RouteInterface $Route)
         {
             $this->RequestRoute    = $Route;
             $this->dependencies    = array();

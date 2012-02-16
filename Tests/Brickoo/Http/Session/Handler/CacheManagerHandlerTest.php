@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Http\Session\Handler\CacheManagerHandler;
+    use Brickoo\Http\Session\Handler\CacheManagerHandler;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -39,7 +39,7 @@
      * CacheManagerHandlerTest
      *
      * Test suite for the CacheManagerHandler class.
-     * @see Brickoo\Library\Http\Session\Handler\CacheManagerHandler
+     * @see Brickoo\Http\Session\Handler\CacheManagerHandler
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -55,15 +55,15 @@
         {
             return $this->getMock
             (
-                'Brickoo\Library\Cache\CacheManager',
+                'Brickoo\Cache\CacheManager',
                 (empty($methods) ? null : array_values($methods)),
-                array($this->getMock('Brickoo\Library\Cache\Provider\FileProvider'))
+                array($this->getMock('Brickoo\Cache\Provider\FileProvider'))
             );
         }
 
         /**
          * Holds an instance of the CacheManagerHandler class.
-         * @var Brickoo\Library\Http\Session\Handler\CacheManagerHandler
+         * @var Brickoo\Http\Session\Handler\CacheManagerHandler
          */
         protected $CacheManagerHandler;
 
@@ -78,14 +78,14 @@
 
         /**
          * Test if the lazy initialization returns an instance of the CacheManager class.
-         * @covers Brickoo\Library\Http\Session\Handler\CacheManagerHandler::CacheManager
-         * @covers Brickoo\Library\Http\Session\Handler\CacheManagerHandler::getDependency
+         * @covers Brickoo\Http\Session\Handler\CacheManagerHandler::CacheManager
+         * @covers Brickoo\Http\Session\Handler\CacheManagerHandler::getDependency
          */
         public function testCacheManagerLazyInitialization()
         {
             $this->assertInstanceOf
             (
-                'Brickoo\Library\Cache\CacheManager',
+                'Brickoo\Cache\CacheManager',
                 ($CacheManager = $this->CacheManagerHandler->CacheManager())
             );
             $this->assertAttributeContains($CacheManager, 'dependencies', $this->CacheManagerHandler);
@@ -93,8 +93,8 @@
 
         /**
          * Test if the CacheManager dependency can be injected and the CacheManagerHandler reference is returned.
-         * @covers Brickoo\Library\Http\Session\Handler\CacheManagerHandler::CacheManager
-         * @covers Brickoo\Library\Http\Session\Handler\CacheManagerHandler::getDependency
+         * @covers Brickoo\Http\Session\Handler\CacheManagerHandler::CacheManager
+         * @covers Brickoo\Http\Session\Handler\CacheManagerHandler::getDependency
          */
         public function testInjectCacheManager()
         {
@@ -106,7 +106,7 @@
 
         /**
          * Test if the lifetime can be set and the CacheManagerHandler reference is returned.
-         * @covers Brickoo\Library\Http\Session\Handler\CacheManagerHandler::setLifetime
+         * @covers Brickoo\Http\Session\Handler\CacheManagerHandler::setLifetime
          */
         public function testSetLifetime()
         {
@@ -116,7 +116,7 @@
 
         /**
          * Test if trying to use an wrong argument type throws an exception.
-         * @covers Brickoo\Library\Http\Session\Handler\CacheManagerHandler::setLifetime
+         * @covers Brickoo\Http\Session\Handler\CacheManagerHandler::setLifetime
          * @expectedException InvalidArgumentException
          */
         public function testSetLifetimeArgumentException()
@@ -126,7 +126,7 @@
 
         /**
          * Test if calling the open method the CacheManager disables the local cache.
-         * @covers Brickoo\Library\Http\Session\Handler\CacheManagerHandler::open
+         * @covers Brickoo\Http\Session\Handler\CacheManagerHandler::open
          */
         public function testOpen()
         {
@@ -141,7 +141,7 @@
 
         /**
          * Test if boolean true is always returned.
-         * @covers Brickoo\Library\Http\Session\Handler\CacheManagerHandler::close
+         * @covers Brickoo\Http\Session\Handler\CacheManagerHandler::close
          */
         public function testClose()
         {
@@ -150,7 +150,7 @@
 
         /**
          * Test if the saved session content can be retrieved through the CacheManager get method.
-         * @covers Brickoo\Library\Http\Session\Handler\CacheManagerHandler::read
+         * @covers Brickoo\Http\Session\Handler\CacheManagerHandler::read
          */
         public function testRead()
         {
@@ -171,7 +171,7 @@
 
         /**
          * Test if the sesssion content is saved through the CacheManager set method.
-         * @covers Brickoo\Library\Http\Session\Handler\CacheManagerHandler::write
+         * @covers Brickoo\Http\Session\Handler\CacheManagerHandler::write
          */
         public function testWrite()
         {
@@ -187,7 +187,7 @@
 
         /**
          * Test if destrying a session the CacheManager delete method is called.
-         * @covers Brickoo\Library\Http\Session\Handler\CacheManagerHandler::destroy
+         * @covers Brickoo\Http\Session\Handler\CacheManagerHandler::destroy
          */
         public function testDestroy()
         {
@@ -203,7 +203,7 @@
 
         /**
          * test if the garbage collector returns always boolean true.
-         * @covers Brickoo\Library\Http\Session\Handler\CacheManagerHandler::gc
+         * @covers Brickoo\Http\Session\Handler\CacheManagerHandler::gc
          */
         public function testGc()
         {

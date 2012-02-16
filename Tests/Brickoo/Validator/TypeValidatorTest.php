@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Validator\TypeValidator;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -47,7 +47,7 @@
 
         /**
          * Test if validation of the isString method works without flags.
-         * @covers Brickoo\Library\Validator\TypeValidator::IsString
+         * @covers Brickoo\Validator\TypeValidator::IsString
          */
         public function testIsString()
         {
@@ -56,8 +56,8 @@
 
         /**
          * Test if validation of the isString method throws an exception without flag.
-         * @covers Brickoo\Library\Validator\TypeValidator::IsString
-         * @covers Brickoo\Library\Validator\TypeValidator::ThrowInvalidArgumentException
+         * @covers Brickoo\Validator\TypeValidator::IsString
+         * @covers Brickoo\Validator\TypeValidator::ThrowInvalidArgumentException
          * @expectedException InvalidArgumentException
          */
         public function testIsStringArgumentException()
@@ -67,7 +67,7 @@
 
         /**
          * Test if validation of the isString method works with empty flag and empty value.
-         * @covers Brickoo\Library\Validator\TypeValidator::IsString
+         * @covers Brickoo\Validator\TypeValidator::IsString
          */
         public function testIsStringWithoutEmpty()
         {
@@ -76,7 +76,7 @@
 
         /**
          * Test if validation of the isInteger method works without flags and accepts zero.
-         * @covers Brickoo\Library\Validator\TypeValidator::IsInteger
+         * @covers Brickoo\Validator\TypeValidator::IsInteger
          */
         public function testIsInteger()
         {
@@ -86,7 +86,7 @@
 
         /**
          * Test if validation of zero values throws an exception.
-         * @covers Brickoo\Library\Validator\TypeValidator::IsInteger
+         * @covers Brickoo\Validator\TypeValidator::IsInteger
          * @expectedException InvalidArgumentException
          */
         public function testIsIntegerWithoutZero()
@@ -96,7 +96,7 @@
 
         /**
          * Test if validation of the isArray method works without flags and different arguments.
-         * @covers Brickoo\Library\Validator\TypeValidator::IsArray
+         * @covers Brickoo\Validator\TypeValidator::IsArray
          */
         public function testIsArray()
         {
@@ -105,7 +105,7 @@
 
         /**
          * Test if validation of the isArray method throws an exception without flag.
-         * @covers Brickoo\Library\Validator\TypeValidator::IsArray
+         * @covers Brickoo\Validator\TypeValidator::IsArray
          * @expectedException InvalidArgumentException
          */
         public function testIsArrayArgumentException()
@@ -115,7 +115,7 @@
 
         /**
          * Test if validation of the isArray method works with flags and empty values.
-         * @covers Brickoo\Library\Validator\TypeValidator::IsArray
+         * @covers Brickoo\Validator\TypeValidator::IsArray
          */
         public function testIsArrayWithoutEmpty()
         {
@@ -124,7 +124,7 @@
 
         /**
          * Test if validation of the arrayContainsString method works.
-         * @covers Brickoo\Library\Validator\TypeValidator::ArrayContainsStrings
+         * @covers Brickoo\Validator\TypeValidator::ArrayContainsStrings
          */
         public function testArrayContainsStrings()
         {
@@ -133,7 +133,7 @@
 
         /**
          * Test if validation of the arrayContainsString method throws an exception.
-         * @covers Brickoo\Library\Validator\TypeValidator::ArrayContainsStrings
+         * @covers Brickoo\Validator\TypeValidator::ArrayContainsStrings
          * @expectedException InvalidArgumentException
          */
         public function testArrayContainsStringsArgumentException()
@@ -143,7 +143,7 @@
 
         /**
          * Test if validation of the arrayContainsString method works.
-         * @covers Brickoo\Library\Validator\TypeValidator::ArrayContainsIntegers
+         * @covers Brickoo\Validator\TypeValidator::ArrayContainsIntegers
          */
         public function testArrayContainsIntegers()
         {
@@ -152,7 +152,7 @@
 
         /**
          * Test if validation of the arrayContainsString method throws an exception.
-         * @covers Brickoo\Library\Validator\TypeValidator::ArrayContainsIntegers
+         * @covers Brickoo\Validator\TypeValidator::ArrayContainsIntegers
          * @expectedException InvalidArgumentException
          */
         public function testArrayContainsIntegersArgumentException()
@@ -162,7 +162,7 @@
 
         /**
          * Test if validation of the ArrayContainsKeys method works.
-         * @covers Brickoo\Library\Validator\TypeValidator::ArrayContainsKeys
+         * @covers Brickoo\Validator\TypeValidator::ArrayContainsKeys
          */
         public function testArrayContainsKeys()
         {
@@ -178,7 +178,7 @@
 
         /**
          * Test if validation of ArrayContainsKeys throws an exception.
-         * @covers Brickoo\Library\Validator\TypeValidator::ArrayContainsKeys
+         * @covers Brickoo\Validator\TypeValidator::ArrayContainsKeys
          * @expectedException InvalidArgumentException
          */
         public function testArrayContainsKeysArgumentException()
@@ -188,7 +188,7 @@
 
         /**
          * Test if validation of the isBoolean method.
-         * @covers Brickoo\Library\Validator\TypeValidator::IsBoolean
+         * @covers Brickoo\Validator\TypeValidator::IsBoolean
          */
         public function testIsBoolean()
         {
@@ -198,7 +198,7 @@
 
         /**
          * Test if validation of the isBoolean method throws an exception.
-         * @covers Brickoo\Library\Validator\TypeValidator::IsBoolean
+         * @covers Brickoo\Validator\TypeValidator::IsBoolean
          * @expectedException InvalidArgumentException
          */
         public function testIsBooleanException()
@@ -208,7 +208,7 @@
 
         /**
          * Test if validation of the isFloat method works without flags.
-         * @covers Brickoo\Library\Validator\TypeValidator::IsFloat
+         * @covers Brickoo\Validator\TypeValidator::IsFloat
          */
         public function testIsFloat()
         {
@@ -217,7 +217,7 @@
 
         /**
          * Test if validation of the isFloat method throws an exception.
-         * @covers Brickoo\Library\Validator\TypeValidator::IsFloat
+         * @covers Brickoo\Validator\TypeValidator::IsFloat
          * @expectedException InvalidArgumentException
          */
         public function testIsFloatException()
@@ -227,7 +227,7 @@
 
         /**
          * Test if validation of the isNotEmpty method.
-         * @covers Brickoo\Library\Validator\TypeValidator::IsNotEmpty
+         * @covers Brickoo\Validator\TypeValidator::IsNotEmpty
          */
         public function testIsNotEmpty()
         {
@@ -239,7 +239,7 @@
 
         /**
          * Test if validation of the isNotEmpty method throws an exception.
-         * @covers Brickoo\Library\Validator\TypeValidator::IsNotEmpty
+         * @covers Brickoo\Validator\TypeValidator::IsNotEmpty
          * @expectedException InvalidArgumentException
          */
         public function testIsNotEmptyException()
@@ -249,7 +249,7 @@
 
         /**
          * Test if validation of the isStringOrInteger method.
-         * @covers Brickoo\Library\Validator\TypeValidator::IsStringOrInteger
+         * @covers Brickoo\Validator\TypeValidator::IsStringOrInteger
          */
         public function testIsStringOrInteger()
         {
@@ -268,7 +268,7 @@
 
         /**
          * Test if validation of the isStringOrInteger method throws an exception.
-         * @covers Brickoo\Library\Validator\TypeValidator::IsStringOrInteger
+         * @covers Brickoo\Validator\TypeValidator::IsStringOrInteger
          * @expectedException InvalidArgumentException
          */
         public function testIsStringOrIntegerWithEmptyException()
@@ -278,7 +278,7 @@
 
         /**
          * Test if validation of the isStringOrInteger method throws an exception.
-         * @covers Brickoo\Library\Validator\TypeValidator::IsStringOrInteger
+         * @covers Brickoo\Validator\TypeValidator::IsStringOrInteger
          * @expectedException InvalidArgumentException
          */
         public function testIsStringOrIntegerWithoutZeroException()
@@ -288,7 +288,7 @@
 
         /**
          * Test if validation of the isRegex method method.
-         * @covers Brickoo\Library\Validator\TypeValidator::MatchesRegex
+         * @covers Brickoo\Validator\TypeValidator::MatchesRegex
          */
         public function testMatchesRegex()
         {
@@ -298,7 +298,7 @@
 
         /**
          * Test if validation of the useRegex method throws an exception.
-         * @covers Brickoo\Library\Validator\TypeValidator::MatchesRegex
+         * @covers Brickoo\Validator\TypeValidator::MatchesRegex
          * @expectedException InvalidArgumentException
          */
         public function testMatchesRegexException()

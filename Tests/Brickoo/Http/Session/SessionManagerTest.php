@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Http\Session\SessionManager;
+    use Brickoo\Http\Session\SessionManager;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -40,7 +40,7 @@
      *
      * Test suite for the SessionManager class.
      * Using the SessionManager the session.autostart configuration should be set to zero.
-     * @see Brickoo\Library\Http\Session\SessionManager
+     * @see Brickoo\Http\Session\SessionManager
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -56,7 +56,7 @@
         {
             return $this->getMock
             (
-                'Brickoo\Library\Http\Session\Handler\Interfaces\SessionHandlerInterface',
+                'Brickoo\Http\Session\Handler\Interfaces\SessionHandlerInterface',
                 array('setLifetime', 'open', 'read', 'write', 'destroy', 'close', 'gc')
             );
         }
@@ -73,8 +73,8 @@
 
         /**
          * Test if the SessionManager can be created and the session handler lifetime is assigned.
-         * @covers Brickoo\Library\Http\Session\SessionManager::__construct
-         * @covers Brickoo\Library\Http\Session\SessionManager::registerSessionHandler
+         * @covers Brickoo\Http\Session\SessionManager::__construct
+         * @covers Brickoo\Http\Session\SessionManager::registerSessionHandler
          */
         public function testConstruct()
         {
@@ -89,7 +89,7 @@
         /**
          * Test if the session cookie parameters can be overwriten and the session handler lifetime is updated.
          * Enable session cookies to test if the parameters did be overwriten.
-         * @covers Brickoo\Library\Http\Session\SessionManager::setCookieParameters
+         * @covers Brickoo\Http\Session\SessionManager::setCookieParameters
          */
         public function testSetCookieParameters()
         {
@@ -117,7 +117,7 @@
 
         /**
          * Test if the session configuration can be overwriten an the SessionManager reference is returned.
-         * @covers Brickoo\Library\Http\Session\SessionManager::setSessionConfiguration
+         * @covers Brickoo\Http\Session\SessionManager::setSessionConfiguration
          */
         public function testSetSessionConfiguration()
         {
@@ -136,9 +136,9 @@
 
         /**
          * Test if a session  can be started and stopped and the start flag is updated.
-         * @covers Brickoo\Library\Http\Session\SessionManager::start
-         * @covers Brickoo\Library\Http\Session\SessionManager::stop
-         * @covers Brickoo\Library\Http\Session\SessionManager::hasSessionStarted
+         * @covers Brickoo\Http\Session\SessionManager::start
+         * @covers Brickoo\Http\Session\SessionManager::stop
+         * @covers Brickoo\Http\Session\SessionManager::hasSessionStarted
          */
         public function testStartAndStop()
         {

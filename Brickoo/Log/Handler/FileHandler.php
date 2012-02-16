@@ -30,10 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Log\Handler;
+    namespace Brickoo\Log\Handler;
 
-    use Brickoo\Library\Log;
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Log;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * FileHandler
@@ -53,13 +53,13 @@
 
         /**
          * Holds an instance of the FileObject class.
-         * @var \Brickoo\Library\System\Interfaces\FileObjectInterface
+         * @var \Brickoo\System\Interfaces\FileObjectInterface
          */
         protected $_FileObject;
 
         /**
          * Returns the FileObject dependency.
-         * @return Brickoo\Library\System\Interfaces\FileObjectInterface
+         * @return Brickoo\System\Interfaces\FileObjectInterface
          */
         public function FileObject()
         {
@@ -134,7 +134,7 @@
         * Initializes the class properties.
         * @return void
         */
-        public function __construct(\Brickoo\Library\System\Interfaces\FileObjectInterface $FileObject)
+        public function __construct(\Brickoo\System\Interfaces\FileObjectInterface $FileObject)
         {
             $this->_FileObject    = $FileObject;
             $this->filePrefix      = 'log_';

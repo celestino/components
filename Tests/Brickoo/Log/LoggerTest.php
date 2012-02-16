@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Log\Logger;
+    use Brickoo\Log\Logger;
 
 
     // require PHPUnit Autoloader
@@ -40,7 +40,7 @@
      * LoggerTest
      *
      * Test suite for the Logger class.
-     * @see Brickoo\Library\Log\Logger
+     * @see Brickoo\Log\Logger
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -49,20 +49,20 @@
 
         /**
          * Returns an LogHandler Stub for testing the logging of messages.
-         * @return \Brickoo\Library\Log\Handler\Interfaces\LogHandlerInterface
+         * @return \Brickoo\Log\Handler\Interfaces\LogHandlerInterface
          */
         protected function getLogHandlerStub()
         {
             return $this->getMock
             (
-                'Brickoo\Library\Log\Handler\Interfaces\LogHandlerInterface',
+                'Brickoo\Log\Handler\Interfaces\LogHandlerInterface',
                 array('log')
             );
         }
 
         /**
          * Holds an instance of the Logger class.
-         * @var Brickoo\Library\Log\Logger
+         * @var Brickoo\Log\Logger
          */
         protected $Logger;
 
@@ -78,16 +78,16 @@
 
         /**
          * Test the constructor of the Logger class.
-         * @covers Brickoo\Library\Log\Logger::__construct
+         * @covers Brickoo\Log\Logger::__construct
          */
         public function testLoggerConstructor()
         {
-            $this->assertInstanceOf('Brickoo\Library\Log\Interfaces\LoggerInterface', $this->Logger);
+            $this->assertInstanceOf('Brickoo\Log\Interfaces\LoggerInterface', $this->Logger);
         }
 
         /**
          * Test if the default severity is returned.
-         * @covers Brickoo\Library\Log\Logger::getDefaultSeverity
+         * @covers Brickoo\Log\Logger::getDefaultSeverity
          */
         public function testGetDefaultSeverity()
         {
@@ -96,8 +96,8 @@
 
         /**
          * Test if the default severity can be overriden.
-         * @covers Brickoo\Library\Log\Logger::setDefaultSeverity
-         * @covers Brickoo\Library\Log\Logger::getDefaultSeverity
+         * @covers Brickoo\Log\Logger::setDefaultSeverity
+         * @covers Brickoo\Log\Logger::getDefaultSeverity
          */
         public function testSetDefaultSeverity()
         {
@@ -107,7 +107,7 @@
 
         /**
          * Test if trying to set a wrong type of severity throws an exception.
-         * @covers Brickoo\Library\Log\Logger::setDefaultSeverity
+         * @covers Brickoo\Log\Logger::setDefaultSeverity
          * @expectedException InvalidArgumentException
          */
         public function testSetDefaultSeverityArgumentException()
@@ -117,7 +117,7 @@
 
         /**
          * Test if the LogHandler dependency can be retrieved.
-         * @covers Brickoo\Library\Log\Logger::LogHandler
+         * @covers Brickoo\Log\Logger::LogHandler
          */
         public function testGetLogHandler()
         {
@@ -130,7 +130,7 @@
 
         /**
         * Test if a string can be logged.
-        * @covers Brickoo\Library\Log\Logger::log
+        * @covers Brickoo\Log\Logger::log
         */
         public function testLogOfString()
         {
@@ -143,7 +143,7 @@
 
         /**
         * Test if an array can be logged with severity.
-        * @covers Brickoo\Library\Log\Logger::log
+        * @covers Brickoo\Log\Logger::log
         */
         public function testLogOfArrayWithSeverity()
         {
@@ -156,7 +156,7 @@
 
         /**
         * Test if passed a wrong severity argument type throws an exception.
-        * @covers Brickoo\Library\Log\Logger::log
+        * @covers Brickoo\Log\Logger::log
         * @expectedException InvalidArgumentException
         */
         public function testSeverityArgumentException()

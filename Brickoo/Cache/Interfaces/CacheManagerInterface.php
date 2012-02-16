@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Cache\Interfaces;
+    namespace Brickoo\Cache\Interfaces;
 
     /**
      * CacheManagerInterface
@@ -44,16 +44,16 @@
 
         /**
         * Returns the CacheProvider dependency.
-        * @return \Brickoo\Library\Cache\Provider\Interfaces\CacheProviderInterface
+        * @return \Brickoo\Cache\Provider\Interfaces\CacheProviderInterface
         */
         public function CacheProvider();
 
         /**
          * Lazy initialization of the LocalCache.
-         * @param \Brickoo\Library\Cache\Interfaces\LocalCacheInterface $LocalCache the LocalCache dependecy to inject
-         * @return \Brickoo\Library\Cache\Interfaces\LocalCacheInterface
+         * @param \Brickoo\Cache\Interfaces\LocalCacheInterface $LocalCache the LocalCache dependecy to inject
+         * @return \Brickoo\Cache\Interfaces\LocalCacheInterface
          */
-        public function LocalCache(\Brickoo\Library\Cache\Interfaces\LocalCacheInterface $LocalCache = null);
+        public function LocalCache(\Brickoo\Cache\Interfaces\LocalCacheInterface $LocalCache = null);
 
         /**
         * Flushes the LocalCache cached content.
@@ -66,7 +66,7 @@
         /**
          * Enables the use of the local cache.
          * This provides less call to the cache provider for indentifiers already loaded.
-         * @return \Brickoo\Library\Cache\Interfaces\CacheProviderInterface
+         * @return \Brickoo\Cache\Interfaces\CacheProviderInterface
          */
         public function enableLocalCache();
 
@@ -74,7 +74,7 @@
          * Disables the use of the local cache.
          * If the local cache is disabled, all call to the same indentifier will be loaded
          * through the cache provider. This could be a performance decreasement.
-         * @return \Brickoo\Library\Cache\Interfaces\CacheProviderInterface
+         * @return \Brickoo\Cache\Interfaces\CacheProviderInterface
          */
         public function disableLocalCache();
 
@@ -111,7 +111,7 @@
          * @param string $identifier the identifier which holds the content
          * @param mixed $content the content to cache
          * @param integer $lifetime the lifetime of the cached content
-         * @return \Brickoo\Library\Cache\Interfaces\CacheProviderInterface
+         * @return \Brickoo\Cache\Interfaces\CacheProviderInterface
          */
         public function set($identifier, $content, $lifetime);
 
@@ -119,14 +119,14 @@
          * Deletes the cached content which is holded by the identifier.
          * Removes the local cached content.
          * @param string $identifier the identifier which holds the content
-         * @return \Brickoo\Library\Cache\Interfaces\CacheProviderInterface
+         * @return \Brickoo\Cache\Interfaces\CacheProviderInterface
          */
         public function delete($identifier);
 
         /**
          * Flushes the cache which (flag as removed) removes the cached content.
          * Flushes the local cache.
-         * @return \Brickoo\Library\Cache\Interfaces\CacheProviderInterface
+         * @return \Brickoo\Cache\Interfaces\CacheProviderInterface
          */
         public function flush();
 

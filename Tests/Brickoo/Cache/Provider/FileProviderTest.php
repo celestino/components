@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Cache\Provider\FileProvider;
+    use Brickoo\Cache\Provider\FileProvider;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -40,7 +40,7 @@
      *
      * Test suite for the FileProvider class.
      * Some of the test cases are using the PHP temporary directory for the cache files.
-     * @see Brickoo\Library\Cache\Provider\FileProvider
+     * @see Brickoo\Cache\Provider\FileProvider
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -56,7 +56,7 @@
         {
             return $this->getMock
             (
-                'Brickoo\Library\System\FileObject',
+                'Brickoo\System\FileObject',
                 ($methods === null ? null : array_values($methods))
             );
         }
@@ -78,21 +78,21 @@
 
         /**
          * Test if the FileProvider implements the CacheProviderInterface.
-         * @covers Brickoo\Library\Cache\Provider\FileProvider::__construct
+         * @covers Brickoo\Cache\Provider\FileProvider::__construct
          */
         public function testConstruct()
         {
             $this->assertInstanceOf
             (
-                'Brickoo\Library\Cache\Provider\Interfaces\CacheProviderInterface',
+                'Brickoo\Cache\Provider\Interfaces\CacheProviderInterface',
                 $this->FileProvider
             );
         }
 
         /**
          * Test if the FileObject can be injected and the FileProvider referece is returned.
-         * @covers Brickoo\Library\Cache\Provider\FileProvider::FileObject
-         * @covers Brickoo\Library\Cache\Provider\FileProvider::getDependency
+         * @covers Brickoo\Cache\Provider\FileProvider::FileObject
+         * @covers Brickoo\Cache\Provider\FileProvider::getDependency
          */
         public function testInjectFileObject()
         {
@@ -105,14 +105,14 @@
 
         /**
          * Test if the FileObject is lazy initializated and the dependency is returned.
-         * @covers Brickoo\Library\Cache\Provider\FileProvider::FileObject
-         * @covers Brickoo\Library\Cache\Provider\FileProvider::getDependency
+         * @covers Brickoo\Cache\Provider\FileProvider::FileObject
+         * @covers Brickoo\Cache\Provider\FileProvider::getDependency
          */
         public function testGetFileObjectLazyInitalization()
         {
             $this->assertInstanceOf
             (
-                'Brickoo\Library\System\Interfaces\FileObjectInterface',
+                'Brickoo\System\Interfaces\FileObjectInterface',
                 ($FileObject = $this->FileProvider->FileObject())
             );
             $this->assertAttributeContains($FileObject, 'dependencies', $this->FileProvider);
@@ -120,7 +120,7 @@
 
         /**
          * Test if the file prefix can be set an the FileProvider reference is returned.
-         * @covers Brickoo\Library\Cache\Provider\FileProvider::setFilePrefix
+         * @covers Brickoo\Cache\Provider\FileProvider::setFilePrefix
          */
         public function testSetFilePrefix()
         {
@@ -132,7 +132,7 @@
 
         /**
          * Test if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Cache\Provider\FileProvider::setFilePrefix
+         * @covers Brickoo\Cache\Provider\FileProvider::setFilePrefix
          * @expectedException InvalidArgumentException
          */
         public function testSetFilePrefixArgumentException()
@@ -143,7 +143,7 @@
         /**
          * Test if trying to set a wrong file prefix throws an exception.
          * Allowed characters should cover a-z and the underscore.
-         * @covers Brickoo\Library\Cache\Provider\FileProvider::setFilePrefix
+         * @covers Brickoo\Cache\Provider\FileProvider::setFilePrefix
          * @expectedException UnexpectedValueException
          */
         public function testSetFilePrefixValueException()
@@ -153,7 +153,7 @@
 
         /**
          * Test if the file prefix can be retrieved.
-         * @covers Brickoo\Library\Cache\Provider\FileProvider::getFilePrefix
+         * @covers Brickoo\Cache\Provider\FileProvider::getFilePrefix
          * @depends testSetFilePrefix
          */
         public function testGetFilePrefix($FileProvider)
@@ -163,7 +163,7 @@
 
         /**
          * Test if the cache directory (system temp directory) can be retrieved.
-         * @covers Brickoo\Library\Cache\Provider\FileProvider::getDirectory
+         * @covers Brickoo\Cache\Provider\FileProvider::getDirectory
          */
         public function testGetDirectory()
         {
@@ -173,7 +173,7 @@
         /**
          * Test if the cache directory can be set and the FileProvider reference is returned.
          * The ending slash should be automaticly added.
-         * @covers Brickoo\Library\Cache\Provider\FileProvider::setDirectory
+         * @covers Brickoo\Cache\Provider\FileProvider::setDirectory
          */
         public function testSetDirectory()
         {
@@ -185,7 +185,7 @@
 
         /**
          * Test if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Cache\Provider\FileProvider::setDirectory
+         * @covers Brickoo\Cache\Provider\FileProvider::setDirectory
          * @expectedException InvalidArgumentException
          */
         public function testSetDirectoryArgumentException()
@@ -196,7 +196,7 @@
         /**
          * Test if the full file path and name can be retrieved.
          * The white spaces should be converted to underscores.
-         * @covers Brickoo\Library\Cache\Provider\FileProvider::getFileName
+         * @covers Brickoo\Cache\Provider\FileProvider::getFileName
          */
         public function testGetFileName()
         {
@@ -209,7 +209,7 @@
 
         /**
          * Tets if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Cache\Provider\FileProvider::getFileName
+         * @covers Brickoo\Cache\Provider\FileProvider::getFileName
          * @expectedException InvalidArgumentException
          */
         public function testGetFileNameArgumentException()
@@ -219,7 +219,7 @@
 
         /**
          * Test if ca content can be cached with an identifier.
-         * @covers Brickoo\Library\Cache\Provider\FileProvider::set
+         * @covers Brickoo\Cache\Provider\FileProvider::set
          */
         public function testSet()
         {
@@ -245,7 +245,7 @@
         /**
          * Test if a cached content can be retireved using the FileObject.
          * This test case uses the PHP temporary directory for the cache files.
-         * @covers Brickoo\Library\Cache\Provider\FileProvider::get
+         * @covers Brickoo\Cache\Provider\FileProvider::get
          */
         public function testGet()
         {
@@ -261,7 +261,7 @@
         /**
          * Test if trying to retrieve a not available cache file the check fails.
          * This test case uses the PHP temporary directory for the cache files.
-         * @covers Brickoo\Library\Cache\Provider\FileProvider::get
+         * @covers Brickoo\Cache\Provider\FileProvider::get
          */
         public function testGetFileDoesNotExist()
         {
@@ -271,8 +271,8 @@
         /**
          * Test if an expired file is not readed and it will be unlinked.
          * This test case uses the PHP temporary directory for the cache files.
-         * @covers Brickoo\Library\Cache\Provider\FileProvider::get
-         * @covers Brickoo\Library\Cache\Provider\FileProvider::delete
+         * @covers Brickoo\Cache\Provider\FileProvider::get
+         * @covers Brickoo\Cache\Provider\FileProvider::delete
          */
         public function testGetFileExpired()
         {
@@ -288,7 +288,7 @@
         /**
          * Test if trying to delete a not available cahe file it will return boolean false.
          * This test case uses the PHP temporary directory for the cache files.
-         * @covers Brickoo\Library\Cache\Provider\FileProvider::delete
+         * @covers Brickoo\Cache\Provider\FileProvider::delete
          */
         public function testDeleteFileNotExists()
         {
@@ -298,7 +298,7 @@
         /**
          * Test if the cache files can be unlinked from the cache directory.
          * This test case uses the PHP temporary directory for the cache files.
-         * @covers Brickoo\Library\Cache\Provider\FileProvider::flush
+         * @covers Brickoo\Cache\Provider\FileProvider::flush
          */
         public function testFlush()
         {

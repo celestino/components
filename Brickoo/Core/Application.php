@@ -30,14 +30,14 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Core;
+    namespace Brickoo\Core;
 
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * Application framework main class.
      * Used to have an global Registry which is part managed by the framework.
-     * Holds an object of the \Brickoo\Library\Memory\Registry.
+     * Holds an object of the \Brickoo\Memory\Registry.
      * Defines the Registry identifers reserved.
      * Contains methods to make registration or checks easier.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
@@ -78,13 +78,13 @@
 
         /**
          * Holds an instance of the Registry class.
-         * @var \Brickoo\Library\Core\Interfaces\RegistryInterface
+         * @var \Brickoo\Core\Interfaces\RegistryInterface
          */
         protected $_Registry;
 
         /**
          * Returns the Registry dependency.
-         * @return \Brickoo\Library\Core\Interfaces\RegistryInterface
+         * @return \Brickoo\Core\Interfaces\RegistryInterface
          */
         public function Registry()
         {
@@ -93,13 +93,13 @@
 
         /**
          * Holds an instance of the Request class.
-         * @var \Brickoo\Library\Core\Interfaces\RequestInterface
+         * @var \Brickoo\Core\Interfaces\RequestInterface
          */
         protected $_Request;
 
         /**
          * Return the Request dependency.
-         * @return \Brickoo\Library\Core\Interfaces\RequestInterface
+         * @return \Brickoo\Core\Interfaces\RequestInterface
          */
         public function Request()
         {
@@ -110,13 +110,13 @@
          * Class constructor.
          * Initializes the class properties.
          * Registers the Application and Request to the Registry.
-         * @param \Brickoo\Library\Core\Interfaces\RegistryInterface $Registry the Registry dependency to inject
-         * @param \Brickoo\Library\Core\Interfaces\RequestInterface $Request the Request dependency to inject
+         * @param \Brickoo\Core\Interfaces\RegistryInterface $Registry the Registry dependency to inject
+         * @param \Brickoo\Core\Interfaces\RequestInterface $Request the Request dependency to inject
          * @return void
          */
         public function __construct(
-            \Brickoo\Library\Core\Interfaces\RegistryInterface $Registry,
-            \Brickoo\Library\Core\Interfaces\RequestInterface $Request
+            \Brickoo\Core\Interfaces\RegistryInterface $Registry,
+            \Brickoo\Core\Interfaces\RequestInterface $Request
         )
         {
             $this->_Registry   = $Registry;
@@ -147,7 +147,7 @@
         /**
          * Registers the available modules to the Registry.
          * @param array $modules the available modules to register
-         * @return \Brickoo\Library\Core\AbstractApplication
+         * @return \Brickoo\Core\AbstractApplication
          */
         public function registerModules(array $modules)
         {
@@ -198,7 +198,7 @@
         /**
          * Registers the cache directory to the Registry.
          * @param string $cacheDirectory the cache directory to register
-         * @return \Brickoo\Library\Core\AbstractApplication
+         * @return \Brickoo\Core\AbstractApplication
          */
         public function registerCacheDirectory($cacheDirectory)
         {
@@ -215,7 +215,7 @@
         /**
          * Registers the log directory to the Registry.
          * @param string $logDirectory the log directory to register
-         * @return \Brickoo\Library\Core\AbstractApplication
+         * @return \Brickoo\Core\AbstractApplication
          */
         public function registerLogDirectory($logDirectory)
         {
@@ -252,7 +252,7 @@
          * @param string $method the method to call
          * @param array $arguments the value to register
          * @throws \BadMethodCallException if the method could not be converted
-         * @return \Brickoo\Library\Core\AbstractApplication
+         * @return \Brickoo\Core\AbstractApplication
          */
         public function __call($method, $arguments)
         {
@@ -269,12 +269,12 @@
 
         /**
          * Layt initiliaziation of the Router dependency.
-         * @return \Brickoo\Library\Routing\Interfaces\RouterInterface
+         * @return \Brickoo\Routing\Interfaces\RouterInterface
          */
         public function getRouter()
         {
             if (($Router = $this->Router) === null) {
-                $Router = new \Brickoo\Library\Routing\Router($this->Request);
+                $Router = new \Brickoo\Routing\Router($this->Request);
                 $this->registerRouter($Router);
             }
 
@@ -283,7 +283,7 @@
 
         /**
          * Configures the Router cache directory and available modules.
-         * @return \Brickoo\Library\Core\AbstractApplication
+         * @return \Brickoo\Core\AbstractApplication
          */
         public function configureRouter()
         {

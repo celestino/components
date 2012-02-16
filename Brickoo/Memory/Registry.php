@@ -30,9 +30,9 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Memory;
+    namespace Brickoo\Memory;
 
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * Registry
@@ -181,7 +181,7 @@
          * Alias for for isRegistered to check if an identifier is registered
          * @param string|integer $identifier the identifier to check
          * @return boolean check result
-         * @see Brickoo\Library\Memory\Locker::isIdentifierAvailable()
+         * @see Brickoo\Memory\Locker::isIdentifierAvailable()
          */
         public function isIdentifierAvailable($identifier)
         {

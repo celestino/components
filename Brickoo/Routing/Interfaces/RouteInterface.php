@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Routing\Interfaces;
+    namespace Brickoo\Routing\Interfaces;
 
     /**
      * RouteInterface
@@ -52,7 +52,7 @@
         /**
          * Sets the route path to listen to.
          * @param string $path the path to liste to
-         * @return \Brickoo\Library\Routing\Route
+         * @return \Brickoo\Routing\Route
          */
         public function setPath($path);
 
@@ -65,7 +65,7 @@
         /**
          * Sets the request accepted formats.
          * @param string $format the format as regular expression like json|xml
-         * @return \Brickoo\Library\Routing\Route
+         * @return \Brickoo\Routing\Route
          */
         public function setFormat($format);
 
@@ -83,7 +83,7 @@
          * @param string $controller the controller namespace path
          * @param string $method the method name
          * @param boolean $static flag to mark the call as static
-         * @return \Brickoo\Library\Routing\Route
+         * @return \Brickoo\Routing\Route
          */
         public function setController($controller, $method, $static = false);
 
@@ -99,7 +99,7 @@
          * Sets the request method to listen to.
          * The method could be a regular expression like GET|POST.
          * @param string $method the request method to listen
-         * @return \Brickoo\Library\Routing\Route
+         * @return \Brickoo\Routing\Route
          */
         public function setMethod($method);
 
@@ -113,7 +113,7 @@
          * Sets the request method to listen to.
          * The hostname could be a regular expression like ([a-z]+\.)?domain\.com
          * @param string $method the request method to listen
-         * @return \Brickoo\Library\Routing\Route
+         * @return \Brickoo\Routing\Route
          */
         public function setHostname($hostname);
 
@@ -125,7 +125,7 @@
 
         /**
          * Enables the session usage.
-         * @return \Brickoo\Library\Routing\Route
+         * @return \Brickoo\Routing\Route
          */
         public function enableSession();
 
@@ -142,7 +142,7 @@
          * - name  for session_name()
          * - limiter for session_set_limiter()
          * @param array $configuration the session configuration
-         * @return \Brickoo\Library\Routing\Route
+         * @return \Brickoo\Routing\Route
          */
         public function setSessionConfiguration(array $configuration);
 
@@ -154,7 +154,7 @@
 
         /**
          * Enables or disables the response cache.
-         * @return \Brickoo\Library\Routing\Route
+         * @return \Brickoo\Routing\Route
          */
         public function enableCache();
 
@@ -167,7 +167,7 @@
         /**
          * Sets the response cache lifetime in seconds
          * @param integer $lifetime the response cache lifetime
-         * @return \Brickoo\Library\Routing\Route
+         * @return \Brickoo\Routing\Route
          */
         public function setCacheLifetime($lifetime);
 
@@ -196,7 +196,7 @@
          * If the parameter name does exists it will be overwritten !
          * @param string $parameterName the parameter name to add the value to
          * @param mixed $defaultValue the default value to add
-         * @return \Brickoo\Library\Routing\Route
+         * @return \Brickoo\Routing\Route
          */
         public function addDefaultValue($parameterName, $defaultValue);
 
@@ -218,7 +218,7 @@
          * Adds a regular expression rule to a parameter name.
          * @param string $parameterName the parameter name to add the rule to
          * @param string $rule the rule to add
-         * @return \Brickoo\Library\Routing\Route
+         * @return \Brickoo\Routing\Route
          */
         public function addRule($parameterName, $rule);
 

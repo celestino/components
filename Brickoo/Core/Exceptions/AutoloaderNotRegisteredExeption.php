@@ -30,14 +30,14 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Core\Exceptions;
+    namespace Brickoo\Core\Exceptions;
 
     /**
      * AutoloaderNotRegisteredExeption
      *
      * Exception throwed by the Autoloader class if trying to unregister the instance
      * without beeing registered before.
-     * @see Brickoo\Library\Core\Autoloader::unregister
+     * @see Brickoo\Core\Autoloader::unregister
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

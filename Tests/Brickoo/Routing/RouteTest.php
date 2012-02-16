@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Routing\Route;
+    use Brickoo\Routing\Route;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -39,7 +39,7 @@
      * RouteTest
      *
      * Test suite for the Route class.
-     * @see Brickoo\Library\Routing\Route
+     * @see Brickoo\Routing\Route
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -63,7 +63,7 @@
 
         /**
         * Test if the path can be set and the Route reference is returned.
-        * @covers Brickoo\Library\Routing\Route::setPath
+        * @covers Brickoo\Routing\Route::setPath
         */
         public function testSetPath()
         {
@@ -75,7 +75,7 @@
 
         /**
          * Test if trying to set a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Routing\Route::setPath
+         * @covers Brickoo\Routing\Route::setPath
          * @expectedException InvalidArgumentException
          */
         public function testSetPathArgumentException()
@@ -85,7 +85,7 @@
 
         /**
          * Test if the path property can be retrieved.
-         * @covers Brickoo\Library\Routing\Route::getPath
+         * @covers Brickoo\Routing\Route::getPath
          * @depends testSetPath
          */
         public function testGetPath($Route)
@@ -95,7 +95,7 @@
 
         /**
          * Test if trying to retrieve the empty path property throws an exception.
-         * @covers Brickoo\Library\Routing\Route::getPath
+         * @covers Brickoo\Routing\Route::getPath
          * @expectedException UnexpectedValueException
          */
         public function testGetPathValueException()
@@ -106,8 +106,8 @@
         /**
          * Test if the controller can be set and the Route reference is returned.
          * Test if the controller can be retrieved after set.
-         * @covers Brickoo\Library\Routing\Route::setController
-         * @covers Brickoo\Library\Routing\Route::getController
+         * @covers Brickoo\Routing\Route::setController
+         * @covers Brickoo\Routing\Route::getController
          */
         public function testGetSetController()
         {
@@ -123,7 +123,7 @@
 
         /**
          * Test if trying to set a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Routing\Route::setController
+         * @covers Brickoo\Routing\Route::setController
          * @expectedException InvalidArgumentException
          */
         public function testSetControllerArgumentException()
@@ -133,7 +133,7 @@
 
         /**
          * Test if trying to retrieve the empty controller property throws an exception.
-         * @covers Brickoo\Library\Routing\Route::getController
+         * @covers Brickoo\Routing\Route::getController
          * @expectedException UnexpectedValueException
          */
         public function testGetControllerValueException()
@@ -143,7 +143,7 @@
 
         /**
          * Test if the method can be set and the Route reference is returned.
-         * @covers Brickoo\Library\Routing\Route::setMethod
+         * @covers Brickoo\Routing\Route::setMethod
          */
         public function testSetMethod()
         {
@@ -155,7 +155,7 @@
 
         /**
          * Test if trying to set a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Routing\Route::setMethod
+         * @covers Brickoo\Routing\Route::setMethod
          * @expectedException InvalidArgumentException
          */
         public function testSetMethodArgumentException()
@@ -165,7 +165,7 @@
 
         /**
          * Test if the method property can be retrieved.
-         * @covers Brickoo\Library\Routing\Route::getMethod
+         * @covers Brickoo\Routing\Route::getMethod
          * @depends testSetMethod
          */
         public function testGetMethod($Route)
@@ -175,7 +175,7 @@
 
         /**
          * Test if the hostname can be set and the Route reference is returned.
-         * @covers Brickoo\Library\Routing\Route::setHostname
+         * @covers Brickoo\Routing\Route::setHostname
          */
         public function testSetHostname()
         {
@@ -187,7 +187,7 @@
 
         /**
          * Test if trying to set a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Routing\Route::setHostname
+         * @covers Brickoo\Routing\Route::setHostname
          * @expectedException InvalidArgumentException
          */
         public function testSetHostnameArgumentException()
@@ -197,7 +197,7 @@
 
         /**
          * Test if the hostname property can be retrieved.
-         * @covers Brickoo\Library\Routing\Route::getHostname
+         * @covers Brickoo\Routing\Route::getHostname
          * @depends testSetHostname
          */
         public function testGetHostname($Route)
@@ -207,8 +207,8 @@
 
         /**
          * Test if the format can be set and retrieved.
-         * @covers Brickoo\Library\Routing\Route::getFormat
-         * @covers Brickoo\Library\Routing\Route::setFormat
+         * @covers Brickoo\Routing\Route::getFormat
+         * @covers Brickoo\Routing\Route::setFormat
          */
         public function testGetSetFormat()
         {
@@ -219,7 +219,7 @@
 
         /**
          * Test if the session can be enabled and the Route referende is returned.
-         * @covers Brickoo\Library\Routing\Route::enableSession
+         * @covers Brickoo\Routing\Route::enableSession
          */
         public function testEnableSession()
         {
@@ -229,7 +229,7 @@
 
         /**
          * Test if the status of the session can be retrieved.
-         * @covers Brickoo\Library\Routing\Route::isSessionEnabled
+         * @covers Brickoo\Routing\Route::isSessionEnabled
          */
         public function testIsSessionEnabled()
         {
@@ -240,7 +240,7 @@
 
         /**
          * Test if the session configuration can be set and the Route reference is returned.
-         * @covers Brickoo\Library\Routing\Route::setSessionConfiguration
+         * @covers Brickoo\Routing\Route::setSessionConfiguration
          */
         public function testSetSessionConfiguration()
         {
@@ -253,7 +253,7 @@
 
         /**
          * Test if the sessionConfiguration property can be retrieved.
-         * @covers Brickoo\Library\Routing\Route::getSessionConfiguration
+         * @covers Brickoo\Routing\Route::getSessionConfiguration
          * @depends testSetSessionConfiguration
          */
         public function testGetSessionConfiguration($Route)
@@ -263,7 +263,7 @@
 
         /**
          * Test if the cache can be enabled and the Route reference is returned.
-         * @covers Brickoo\Library\Routing\Route::enableCache
+         * @covers Brickoo\Routing\Route::enableCache
          */
         public function testEnableCache()
         {
@@ -273,7 +273,7 @@
 
         /**
          * Test if the status of the cache can be retrieved.
-         * @covers Brickoo\Library\Routing\Route::isCacheable
+         * @covers Brickoo\Routing\Route::isCacheable
          */
         public function testIsCacheable()
         {
@@ -284,7 +284,7 @@
 
         /**
          * Test if the cache lifetime can be set and the Rotue refernce is returned.
-         * @covers Brickoo\Library\Routing\Route::setCacheLifetime
+         * @covers Brickoo\Routing\Route::setCacheLifetime
          */
         public function testSetCacheLifetime()
         {
@@ -296,7 +296,7 @@
 
         /**
          * Test if trying to set a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Routing\Route::setCacheLifetime
+         * @covers Brickoo\Routing\Route::setCacheLifetime
          * @expectedException InvalidArgumentException
          */
         public function testSetCacheLifetimeArgumentException()
@@ -306,7 +306,7 @@
 
         /**
          * Test if the cache lifetime can be retrieved.
-         * @covers Brickoo\Library\Routing\Route::getCacheLifetime
+         * @covers Brickoo\Routing\Route::getCacheLifetime
          * @depends testSetCacheLifetime
          */
         public function testGetCacheLifetime($Route)
@@ -316,7 +316,7 @@
 
         /**
          * Test if trying to retrieve the empty method property throws an exception.
-         * @covers Brickoo\Library\Routing\Route::getMethod
+         * @covers Brickoo\Routing\Route::getMethod
          * @expectedException UnexpectedValueException
          */
         public function testGetMethodValueException()
@@ -326,7 +326,7 @@
 
         /**
          * Test if a default value can be added and the  Route reference ist returned.
-         * @covers Brickoo\Library\Routing\Route::addDefaultValue
+         * @covers Brickoo\Routing\Route::addDefaultValue
          */
         public function testAddDefaultValue()
         {
@@ -338,7 +338,7 @@
 
         /**
          * Test if passign an wrong arguemtn type throws an exception.
-         * @covers Brickoo\Library\Routing\Route::addDefaultValue
+         * @covers Brickoo\Routing\Route::addDefaultValue
          * @expectedException InvalidArgumentException
          */
         public function testAddDefaultValueArgumentException()
@@ -348,7 +348,7 @@
 
         /**
          * Test if all default values can be retrieved.
-         * @covers Brickoo\Library\Routing\Route::getDefaultValues
+         * @covers Brickoo\Routing\Route::getDefaultValues
          * @depends testAddDefaultValue
          */
         public function testGetDefaultValues($Route)
@@ -358,7 +358,7 @@
 
         /**
          * Test if a default value can be retrieved.
-         * @covers Brickoo\Library\Routing\Route::getDefaultValue
+         * @covers Brickoo\Routing\Route::getDefaultValue
          * @depends testAddDefaultValue
          */
         public function testGetDefaultValue($Route)
@@ -368,7 +368,7 @@
 
         /**
          * Test if trying passing a wrong arguemnt type throws an exception.
-         * @covers Brickoo\Library\Routing\Route::getDefaultValue
+         * @covers Brickoo\Routing\Route::getDefaultValue
          * @expectedException InvalidArgumentException
          */
         public function testGetDefaultValueArgumentException()
@@ -378,7 +378,7 @@
 
         /**
          * Test if trying to retrieve a not existing default valeu throws an exception.
-         * @covers Brickoo\Library\Routing\Route::getDefaultValue
+         * @covers Brickoo\Routing\Route::getDefaultValue
          * @expectedException UnexpectedValueException
          */
         public function testGetDefaultValueException()
@@ -388,7 +388,7 @@
 
         /**
          * Test if a defaultvalue can be located and the check result si returned.
-         * @covers Brickoo\Library\Routing\Route::hasDefaultValue
+         * @covers Brickoo\Routing\Route::hasDefaultValue
          * @depends testAddDefaultValue
          */
         public function testHasDefaultValue($Route)
@@ -398,7 +398,7 @@
 
         /**
          * Test if a  rule can be added and the Route reference is returned.
-         * @covers Brickoo\Library\Routing\Route::addRule
+         * @covers Brickoo\Routing\Route::addRule
          */
         public function testAddRule()
         {
@@ -410,7 +410,7 @@
 
         /**
          * Test if trying to add a wrong argument type as parameter throws an exception.
-         * @covers Brickoo\Library\Routing\Route::addRule
+         * @covers Brickoo\Routing\Route::addRule
          * @expectedException InvalidArgumentException
          */
         public function testAddRuleArgumentException()
@@ -420,7 +420,7 @@
 
         /**
          * Test if all ruels can be retrieved.
-         * @covers Brickoo\Library\Routing\Route::getRules
+         * @covers Brickoo\Routing\Route::getRules
          * @depends testAddRule
          */
         public function testGetRules($Route)
@@ -430,7 +430,7 @@
 
         /**
          * Test f a rule can be retrieved by its parameter.
-         * @covers Brickoo\Library\Routing\Route::getRule
+         * @covers Brickoo\Routing\Route::getRule
          * @depends testAddRule
          */
         public function testGetRule($Route)
@@ -440,7 +440,7 @@
 
         /**
          * Test if a wrong argument type trwos an exception.
-         * @covers Brickoo\Library\Routing\Route::getRule
+         * @covers Brickoo\Routing\Route::getRule
          * @expectedException InvalidArgumentException
          */
         public function testGetRuleArgumentException()
@@ -450,7 +450,7 @@
 
         /**
          * Test if trying to retrieve a not available rule thrwos an exception.
-         * @covers Brickoo\Library\Routing\Route::getRule
+         * @covers Brickoo\Routing\Route::getRule
          * @expectedException UnexpectedValueException
          */
         public function testGetRuleValueException()
@@ -460,7 +460,7 @@
 
         /**
          * Test if an assigned rule is recognized by its parameter.
-         * @covers Brickoo\Library\Routing\Route::hasRule
+         * @covers Brickoo\Routing\Route::hasRule
          * @depends testAddRule
          */
         public function testHasRule($Route)
@@ -470,11 +470,11 @@
 
         /**
          * Test if the Route instance is implemnting the ROuteInterface.
-         * @covers Brickoo\Library\ROuting\Route::__construct
+         * @covers Brickoo\ROuting\Route::__construct
          */
         public function testConstruct()
         {
-            $this->assertInstanceof('Brickoo\Library\Routing\Interfaces\RouteInterface', $this->Route);
+            $this->assertInstanceof('Brickoo\Routing\Interfaces\RouteInterface', $this->Route);
         }
 
     }

@@ -30,9 +30,9 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Http\Component\Interfaces;
+    namespace Brickoo\Http\Component\Interfaces;
 
-    use Brickoo\Library\Memory;
+    use Brickoo\Memory;
 
     /**
      * HeadersInterface
@@ -103,14 +103,14 @@
 
         /**
          * Imports the request http headers.
-         * @return \Brickoo\Library\Http\Component\Headers
+         * @return \Brickoo\Http\Component\Headers
          */
         public function importFromGlobals();
 
         /**
          * Imports the headers from a string.
          * @param string $headers the headers to import
-         * @return \Brickoo\Library\Http\Component\Headers
+         * @return \Brickoo\Http\Component\Headers
          */
         public function importFromString($headers);
 

@@ -30,9 +30,9 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Memory;
+    namespace Brickoo\Memory;
 
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * Locker
@@ -78,7 +78,7 @@
          * @param string|integer $identifier the identifier which should be unlocked
          * @param string $unlockKey the key to unlock the identifier
          * @throws UnlockFailedException if all the identifiers can not be unlocked
-         * @return \Brickoo\Library\Memory\Locker
+         * @return \Brickoo\Memory\Locker
          */
         public function unlock($identifier, $unlockKey)
         {

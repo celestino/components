@@ -30,14 +30,14 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Memory\Exceptions;
+    namespace Brickoo\Memory\Exceptions;
 
     /**
      * ReadonlyModeException
      *
      * Exception throwed by the Registry class if trying to execute an action while
      * the Registry is in read only mode.
-     * @see Brickoo\Library\Memory\Registry
+     * @see Brickoo\Memory\Registry
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

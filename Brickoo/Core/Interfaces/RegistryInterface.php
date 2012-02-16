@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Core\Interfaces;
+    namespace Brickoo\Core\Interfaces;
 
     /**
      * RegistryInterface
@@ -44,11 +44,11 @@
 
         /**
          * Lazy initialization of the Registry dependency.
-         * @param \Brickoo\Library\Memory\Interfaces\RegistryInterface $Registry the Registry dependency
+         * @param \Brickoo\Memory\Interfaces\RegistryInterface $Registry the Registry dependency
          * @throws DependencyOverwriteException if trying to override the Registry dependency available
-         * @return \Brickoo\Library\Memory\Interfaces\RegistryInterface
+         * @return \Brickoo\Memory\Interfaces\RegistryInterface
          */
-        public function Registry(\Brickoo\Library\Memory\Interfaces\RegistryInterface $Registry = null);
+        public function Registry(\Brickoo\Memory\Interfaces\RegistryInterface $Registry = null);
 
         /**
          * Shortcut to retrieve a value from the Registry.
@@ -63,7 +63,7 @@
          * not allow to overwrite a system wide available identifier.
          * @param string|integer $identifier the identifier to register
          * @param string $value the valuue to be holded
-         * @return \Brickoo\Library\Core\Brickoo
+         * @return \Brickoo\Core\Brickoo
          */
         public  function register($identifier, $value);
 

@@ -30,10 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Core;
+    namespace Brickoo\Core;
 
-    use Brickoo\Library\Memory;
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Memory;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * Registry
@@ -47,17 +47,17 @@
 
         /**
          * Holds an instance of the Registry class.
-         * @var \Brickoo\Library\Memory\Interfaces\RegistryInterface
+         * @var \Brickoo\Memory\Interfaces\RegistryInterface
          */
         protected static $_Registry;
 
         /**
          * Lazy initialization of the Registry dependency.
-         * @param \Brickoo\Library\Memory\Interfaces\RegistryInterface $Registry the Registry dependency
+         * @param \Brickoo\Memory\Interfaces\RegistryInterface $Registry the Registry dependency
          * @throws DependencyOverwriteException if trying to override the Registry dependency available
-         * @return \Brickoo\Library\Memory\Interfaces\RegistryInterface
+         * @return \Brickoo\Memory\Interfaces\RegistryInterface
          */
-        public function Registry(\Brickoo\Library\Memory\Interfaces\RegistryInterface $Registry = null)
+        public function Registry(\Brickoo\Memory\Interfaces\RegistryInterface $Registry = null)
         {
             if ($Registry !== null) {
                 if (static::$_Registry !== null) {
@@ -90,7 +90,7 @@
          * not allow to overwrite a system wide available identifier.
          * @param string|integer $identifier the identifier to register
          * @param string $value the valuue to be holded
-         * @return \Brickoo\Library\Core\Registry
+         * @return \Brickoo\Core\Registry
          */
         public  function register($identifier, $value)
         {

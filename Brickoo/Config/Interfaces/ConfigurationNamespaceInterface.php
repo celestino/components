@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Config\Interfaces;
+    namespace Brickoo\Config\Interfaces;
 
     /**
      * ConfigurationNamespaceInterface
@@ -72,7 +72,7 @@
          * Sets the content to be holded by the identifier.
          * @param string $identifier the identifier to attach the content to
          * @param mixed $content the content to attach to the identifier
-         * @return \Brickoo\Library\Config\ConfigurationNamespace
+         * @return \Brickoo\Config\ConfigurationNamespace
          */
         public function setConfiguration($identifier, $content);
 

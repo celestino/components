@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Http\Interfaces;
+    namespace Brickoo\Http\Interfaces;
 
     /**
      * ResponseInterface
@@ -51,7 +51,7 @@
 
         /**
          * Sends the headers to the output buffer.
-         * @return \Brickoo\Library\Http\Response
+         * @return \Brickoo\Http\Response
          */
         public function sendHeaders();
 
@@ -64,7 +64,7 @@
         /**
          * Sets the response protocol used.
          * @param string $protocol the response protocol
-         * @return \Brickoo\Library\Http\Response
+         * @return \Brickoo\Http\Response
          */
         public function setProtocol($protocol);
 
@@ -77,7 +77,7 @@
         /**
          * Sets the status code of the response.
          * @param integer $statusCode the status code
-         * @return \Brickoo\Library\Http\Response
+         * @return \Brickoo\Http\Response
          */
         public function setStatusCode($statusCode);
 
@@ -101,7 +101,7 @@
          * Sets or adds an status code and phrase to the knowed list.
          * @param integer $statusCode the status code to add or overwrite
          * @param string $statusPhrase the phrase to bind to the status code
-         * @return \Brickoo\Library\Http\Response
+         * @return \Brickoo\Http\Response
          */
         public function setStatusPhrase($statusCode, $statusPhrase);
 
@@ -114,13 +114,13 @@
         /**
          * Sets the response content to sent.
          * @param string $content the response content
-         * @return \Brickoo\Library\Http\Response
+         * @return \Brickoo\Http\Response
          */
         public function setContent($content);
 
         /**
          * Sends the response content to the output buffer.
-         * @return \Brickoo\Library\Http\Response
+         * @return \Brickoo\Http\Response
          */
         public function sendContent();
 

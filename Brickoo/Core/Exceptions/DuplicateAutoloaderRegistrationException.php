@@ -30,13 +30,13 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Core\Exceptions;
+    namespace Brickoo\Core\Exceptions;
 
     /**
      * DuplicateAutoloaderRegistrationException
      *
      * Exception throwed by the Autoloader class if trying to register the same Autoloader.
-     * @see Brickoo\Library\Core\Autoloader::register
+     * @see Brickoo\Core\Autoloader::register
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

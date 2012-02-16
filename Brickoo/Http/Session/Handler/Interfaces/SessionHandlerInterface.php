@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Http\Session\Handler\Interfaces;
+    namespace Brickoo\Http\Session\Handler\Interfaces;
 
     /**
      * SessionHandlerInterface
@@ -45,7 +45,7 @@
         /**
         * Sets the session lifetime in seconds.
         * @param integer $lifetime the lifetime of the session
-        * @return object \Brickoo\Library\Http\Session\Interfaces\SessionHandlerInterface
+        * @return object \Brickoo\Http\Session\Interfaces\SessionHandlerInterface
         */
         public function setLifetime($lifetime);
 

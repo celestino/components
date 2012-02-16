@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Cache\Provider\NullProvider;
+    use Brickoo\Cache\Provider\NullProvider;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -40,7 +40,7 @@
      *
      * Test suite for the NullProvider class.
      * Some of the test cases are using the PHP temporary directory for the cache files.
-     * @see Brickoo\Library\Cache\Provider\FileProvider
+     * @see Brickoo\Cache\Provider\FileProvider
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -64,7 +64,7 @@
 
         /**
          * Test if the NullProvider returns always false.
-         * @covers Brickoo\Library\Cache\Provider\NullProvider::get
+         * @covers Brickoo\Cache\Provider\NullProvider::get
          */
         public function testGet()
         {
@@ -73,7 +73,7 @@
 
         /**
          * Test if the NullProvider returns always true.
-         * @covers Brickoo\Library\Cache\Provider\NullProvider::set
+         * @covers Brickoo\Cache\Provider\NullProvider::set
          */
         public function testSet()
         {
@@ -82,7 +82,7 @@
 
         /**
          * Test if the NullProvider returns always true.
-         * @covers Brickoo\Library\Cache\Provider\NullProvider::delete
+         * @covers Brickoo\Cache\Provider\NullProvider::delete
          */
         public function testDelete()
         {
@@ -91,7 +91,7 @@
 
         /**
          * Test if the NullProvider returns always true.
-         * @covers Brickoo\Library\Cache\Provider\NullProvider::flush
+         * @covers Brickoo\Cache\Provider\NullProvider::flush
          */
         public function testFlush()
         {

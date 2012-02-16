@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Routing\RequestRoute;
+    use Brickoo\Routing\RequestRoute;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -39,7 +39,7 @@
      * RequestRouteTest
      *
      * Test suite for the RequestRoute class.
-     * @see Brickoo\Library\Routing\RequestRoute
+     * @see Brickoo\Routing\RequestRoute
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -48,7 +48,7 @@
 
         /**
          * Holds an instance of the RequestRoute class.
-         * @var \Brickoo\Library\Routing\RequestRoute
+         * @var \Brickoo\Routing\RequestRoute
          */
         protected $RequestRoute;
 
@@ -59,27 +59,27 @@
         protected function setUp()
         {
             $this->RequestRoute = new RequestRoute(
-                $this->getMock('Brickoo\Library\Routing\Interfaces\RouteInterface')
+                $this->getMock('Brickoo\Routing\Interfaces\RouteInterface')
             );
         }
 
         /**
          * Test if the ResquestRoute implements the requestRouteInterface
-         * @covers Brickoo\Library\Routing\RequestRoute::__construct
+         * @covers Brickoo\Routing\RequestRoute::__construct
          */
         public function testConstructor()
         {
-            $this->assertInstanceOf('Brickoo\Library\Routing\Interfaces\RequestRouteInterface', $this->RequestRoute);
+            $this->assertInstanceOf('Brickoo\Routing\Interfaces\RequestRouteInterface', $this->RequestRoute);
         }
 
         /**
          * Test if the Params container can be injected and the RequesstRoute reference is returned.
-         * @covers Brickoo\Library\Routing\RequestRoute::Params
-         * @covers Brickoo\Library\Routing\RequestRoute::getDependency
+         * @covers Brickoo\Routing\RequestRoute::Params
+         * @covers Brickoo\Routing\RequestRoute::getDependency
          */
         public function testInjectParams()
         {
-            $Container = $this->getMock('Brickoo\Library\Memory\Interfaces\ContainerInterface');
+            $Container = $this->getMock('Brickoo\Memory\Interfaces\ContainerInterface');
             $this->assertSame($this->RequestRoute, $this->RequestRoute->Params($Container));
             $this->assertAttributeContains($Container, 'dependencies', $this->RequestRoute);
             $this->assertSame($Container, $this->RequestRoute->Params());
@@ -87,13 +87,13 @@
 
         /**
          * Test if the Params container can be lazy initialized and returned.
-         * @covers Brickoo\Library\Routing\RequestRoute::Params
-         * @covers Brickoo\Library\Routing\RequestRoute::getDependency
+         * @covers Brickoo\Routing\RequestRoute::Params
+         * @covers Brickoo\Routing\RequestRoute::getDependency
          */
         public function testParamsLazyInitialization()
         {
             $this->assertInstanceOf(
-                'Brickoo\Library\Memory\Interfaces\ContainerInterface',
+                'Brickoo\Memory\Interfaces\ContainerInterface',
                 ($Container = $this->RequestRoute->Params())
             );
             $this->assertAttributeContains($Container, 'dependencies', $this->RequestRoute);
@@ -101,11 +101,11 @@
 
         /**
          * test if the method are forwarded to the Route.
-         * @covers Brickoo\Library\Routing\RequestRoute::__call
+         * @covers Brickoo\Routing\RequestRoute::__call
          */
         public function testMagicCall()
         {
-            $Route = $this->getMock('Brickoo\Library\Routing\Route', array('setPath'));
+            $Route = $this->getMock('Brickoo\Routing\Route', array('setPath'));
             $Route->expects($this->once())
                   ->method('setPath')
                   ->with('/path/to/somewhere')
@@ -117,7 +117,7 @@
 
         /**
          * test if calling a not available method throws an exception.
-         * @covers Brickoo\Library\Routing\RequestRoute::__call
+         * @covers Brickoo\Routing\RequestRoute::__call
          * @expectedException BadMethodCallException
          */
         public function testMagicCallBadMethodException()

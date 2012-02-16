@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Error\ErrorHandler;
+    use Brickoo\Error\ErrorHandler;
 
 
     // require PHPUnit Autoloader
@@ -40,7 +40,7 @@
      * ErrorHandlerTest
      *
      * Test suite for the ErrorHandler class.
-     * @see Brickoo\Library\Error\ErrorHandler
+     * @see Brickoo\Error\ErrorHandler
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -49,13 +49,13 @@
 
         /**
          * Returns an Logger Stub for testing the logging of messages.
-         * @return object Logger implementing the Brickoo\Library\Log\Interfaces\LoggerInterface
+         * @return object Logger implementing the Brickoo\Log\Interfaces\LoggerInterface
          */
         protected function getLoggerStub()
         {
             return $this->getMock
             (
-                'Brickoo\Library\Log\Interfaces\LoggerInterface',
+                'Brickoo\Log\Interfaces\LoggerInterface',
                 array
                 (
                     'LogHandler',
@@ -68,7 +68,7 @@
 
         /**
          * Holds the ErrorHandler instance for the tests.
-         * @var Brickoo\Library\Error\ErrorHandler
+         * @var Brickoo\Error\ErrorHandler
          */
         protected $ErrorHandler;
 
@@ -84,20 +84,20 @@
 
         /**
          * Test if the class can be created.
-         * @covers Brickoo\Library\Error\ErrorHandler::__construct
+         * @covers Brickoo\Error\ErrorHandler::__construct
          */
         public function testErrorHandlerConstructor()
         {
             $this->assertInstanceOf
             (
-                '\Brickoo\Library\Error\ErrorHandler',
+                '\Brickoo\Error\ErrorHandler',
                 $this->ErrorHandler
             );
         }
 
         /**
          * Test if the error level can be retrieved.
-         * @covers Brickoo\Library\Error\ErrorHandler::getErrorLevel
+         * @covers Brickoo\Error\ErrorHandler::getErrorLevel
          */
         public function testGetErrorLevel()
         {
@@ -106,8 +106,8 @@
 
         /**
          * Test if the error level can be set and retrieved.
-         * @covers Brickoo\Library\Error\ErrorHandler::setErrorLevel
-         * @covers Brickoo\Library\Error\ErrorHandler::getErrorLevel
+         * @covers Brickoo\Error\ErrorHandler::setErrorLevel
+         * @covers Brickoo\Error\ErrorHandler::getErrorLevel
          */
         public function testSetErrorLevel()
         {
@@ -117,7 +117,7 @@
 
         /**
          * Test if the error level with an wrong type throws an exception.
-         * @covers Brickoo\Library\Error\ErrorHandler::setErrorLevel
+         * @covers Brickoo\Error\ErrorHandler::setErrorLevel
          * @expectedException InvalidArgumentException
          */
         public function testSetErrorLevelArgumentException()
@@ -127,8 +127,8 @@
 
         /**
          * Test if the error handler can be registered and unregistered.
-         * @covers Brickoo\Library\Error\ErrorHandler::register
-         * @covers Brickoo\Library\Error\ErrorHandler::unregister
+         * @covers Brickoo\Error\ErrorHandler::register
+         * @covers Brickoo\Error\ErrorHandler::unregister
          */
         public function testUnRegisterProcess()
         {
@@ -138,9 +138,9 @@
 
         /**
          * Test if the unregistration without being registered before throws an exception.
-         * @covers Brickoo\Library\Error\ErrorHandler::register
-         * @covers Brickoo\Library\Error\Exceptions\DuplicateHandlerRegistrationException
-         * @expectedException Brickoo\Library\Error\Exceptions\DuplicateHandlerRegistrationException
+         * @covers Brickoo\Error\ErrorHandler::register
+         * @covers Brickoo\Error\Exceptions\DuplicateHandlerRegistrationException
+         * @expectedException Brickoo\Error\Exceptions\DuplicateHandlerRegistrationException
          */
         public function testRegisterDuplicateRegistrationException()
         {
@@ -150,9 +150,9 @@
 
         /**
          * Test if the unregistration without being registered before throws an exception.
-         * @covers Brickoo\Library\Error\ErrorHandler::unregister
-         * @covers Brickoo\Library\Error\Exceptions\HandlerNotRegisteredException
-         * @expectedException Brickoo\Library\Error\Exceptions\HandlerNotRegisteredException
+         * @covers Brickoo\Error\ErrorHandler::unregister
+         * @covers Brickoo\Error\Exceptions\HandlerNotRegisteredException
+         * @expectedException Brickoo\Error\Exceptions\HandlerNotRegisteredException
          */
         public function testUnregisterNotregisteredException()
         {
@@ -161,7 +161,7 @@
 
         /**
          * Test if the error handler return the registered status.
-         * @covers Brickoo\Library\Error\ErrorHandler::isRegistered
+         * @covers Brickoo\Error\ErrorHandler::isRegistered
          */
         public function testIsRegistered()
         {
@@ -174,7 +174,7 @@
 
         /**
          * Test if the sending an not catched error level message does nothing.
-         * @covers Brickoo\Library\Error\ErrorHandler::handleError
+         * @covers Brickoo\Error\ErrorHandler::handleError
          */
         public function testHandleError()
         {
@@ -183,9 +183,9 @@
 
         /**
          * Test if the sending an message with matched error level throws an exception.
-         * @covers Brickoo\Library\Error\ErrorHandler::handleError
-         * @covers Brickoo\Library\Error\Exceptions\ErrorHandlerException
-         * @expectedException Brickoo\Library\Error\Exceptions\ErrorHandlerException
+         * @covers Brickoo\Error\ErrorHandler::handleError
+         * @covers Brickoo\Error\Exceptions\ErrorHandlerException
+         * @expectedException Brickoo\Error\Exceptions\ErrorHandlerException
          */
         public function testHandleErrorException()
         {
@@ -195,7 +195,7 @@
 
         /**
          * Test if the sending an message with matched error level is passed to the Logger.
-         * @covers Brickoo\Library\Error\ErrorHandler::handleError
+         * @covers Brickoo\Error\ErrorHandler::handleError
          */
         public function testHandleErrorWithLogger()
         {

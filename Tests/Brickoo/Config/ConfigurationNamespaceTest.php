@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Config\ConfigurationNamespace;
+    use Brickoo\Config\ConfigurationNamespace;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -39,7 +39,7 @@
      * ConfigurationNamespaceTest
      *
      * Test suite for the ConfigurationNamespace class.
-     * @see Brickoo\Library\Config\ConfigurationNamespace
+     * @see Brickoo\Config\ConfigurationNamespace
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -49,16 +49,16 @@
         /**
          * Test if the ConfigurationNamespace implements the Config\Interfaces\ConfiguratioNamespaceInterface.
          * Test if the namespace class property is set.
-         * @covers Brickoo\Library\Config\ConfigurationNamespace::__construct
-         * @covers Brickoo\Library\Config\ConfigurationNamespace::GetReservedNamespaces
-         * @covers Brickoo\Library\Config\ConfigurationNamespace::AddReservedNamespace
+         * @covers Brickoo\Config\ConfigurationNamespace::__construct
+         * @covers Brickoo\Config\ConfigurationNamespace::GetReservedNamespaces
+         * @covers Brickoo\Config\ConfigurationNamespace::AddReservedNamespace
          */
         public function testConstructor()
         {
             $ConfigFixture = new ConfigFixture('brickoo');
             $this->assertInstanceOf
             (
-                'Brickoo\Library\Config\Interfaces\ConfigurationNamespaceInterface',
+                'Brickoo\Config\Interfaces\ConfigurationNamespaceInterface',
                 $ConfigFixture
             );
             $this->assertAttributeEquals('brickoo', 'namespace', $ConfigFixture);
@@ -75,9 +75,9 @@
 
         /**
          * Test if trying to reserve a already reserved namespace throws an exception.
-         * @covers Brickoo\Library\Config\ConfigurationNamespace::__construct
-         * @covers Brickoo\Library\Config\Exceptions\NamespaceReservedException::__construct
-         * @expectedException Brickoo\Library\Config\Exceptions\NamespaceReservedException
+         * @covers Brickoo\Config\ConfigurationNamespace::__construct
+         * @covers Brickoo\Config\Exceptions\NamespaceReservedException::__construct
+         * @expectedException Brickoo\Config\Exceptions\NamespaceReservedException
          */
         public function testConstructNamespaceException()
         {
@@ -87,7 +87,7 @@
 
         /**
          * Test if all reserved namspaces can be retrieved.
-         * @covers Brickoo\Library\Config\ConfigurationNamespace::GetReservedNamespaces
+         * @covers Brickoo\Config\ConfigurationNamespace::GetReservedNamespaces
          */
         public function testGetReservedNamespaces()
         {
@@ -98,7 +98,7 @@
 
         /**
          * Test if the a reserved namespace is recoginized.
-         * @covers Brickoo\Library\Config\ConfigurationNamespace::IsNamespaceReserved
+         * @covers Brickoo\Config\ConfigurationNamespace::IsNamespaceReserved
          */
         public function testIsNamespaceReserved()
         {
@@ -118,7 +118,7 @@
 
         /**
          * Test if the object namespace can be retrieved.
-         * @covers Brickoo\Library\Config\ConfigurationNamespace::getNamespace
+         * @covers Brickoo\Config\ConfigurationNamespace::getNamespace
          */
         public function testGetNamespace()
         {
@@ -128,7 +128,7 @@
 
         /**
          * Test if a configuration can be stored and the ConfigurationNamespace reference is returned.
-         * @covers Brickoo\Library\Config\ConfigurationNamespace::setConfiguration
+         * @covers Brickoo\Config\ConfigurationNamespace::setConfiguration
          */
         public function testSetConfiguration()
         {
@@ -139,9 +139,9 @@
 
         /**
          * Test if trying to overwrite a configuration throws an exception
-         * @covers Brickoo\Library\Config\ConfigurationNamespace::setConfiguration
-         * @covers Brickoo\Library\Core\Exceptions\ValueOverwriteException::__construct
-         * @expectedException Brickoo\Library\Core\Exceptions\ValueOverwriteException
+         * @covers Brickoo\Config\ConfigurationNamespace::setConfiguration
+         * @covers Brickoo\Core\Exceptions\ValueOverwriteException::__construct
+         * @expectedException Brickoo\Core\Exceptions\ValueOverwriteException
          */
         public function testSetConfigurationOverwriteException()
         {
@@ -152,7 +152,7 @@
 
         /**
          * Test if a configuration identifier is recognized as available.
-         * @covers Brickoo\Library\Config\ConfigurationNamespace::hasConfiguration
+         * @covers Brickoo\Config\ConfigurationNamespace::hasConfiguration
          */
         public function testHasConfiguration()
         {
@@ -166,7 +166,7 @@
 
         /**
          * Test if the configuration can be retrieved.
-         * @covers Brickoo\Library\Config\ConfigurationNamespace::getConfiguration
+         * @covers Brickoo\Config\ConfigurationNamespace::getConfiguration
          */
         public function testGetConfiguration()
         {

@@ -30,10 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Error;
+    namespace Brickoo\Error;
 
-    use Brickoo\Library\Log;
-    use Brickoo\Library\Core;
+    use Brickoo\Log;
+    use Brickoo\Core;
 
     /**
      * AbstractHandler
@@ -55,30 +55,30 @@
         /**
          * Registers the instance as error/exception handler.
          * @throws DuplicateHandlerRegistrationException if the instance is already registred
-         * @return \Brickoo\Library\Error\AbstractHandler
+         * @return \Brickoo\Error\AbstractHandler
          */
         abstract public function register();
 
         /**
          * Unregisters the instance as error/exception handler by restoring previous error/exception handler.
          * @throws HandlerNotRegisteredException if the instance is not registred as handler
-         * @return Brickoo\Library\Error\AbstractHandler
+         * @return Brickoo\Error\AbstractHandler
          */
         abstract public function unregister();
 
         /**
          * Holds an instance of an Logger.
-         * @var \Brickoo\Library\Log\Interfaces\LoggerInterface
+         * @var \Brickoo\Log\Interfaces\LoggerInterface
          */
         protected $_Logger;
 
         /**
          * Returns or inject the Logger dependency.
-         * @param \Brickoo\Library\Log\Interfaces\LogInterface $Logger
-         * @throws \Brickoo\Library\Core\Exceptions\DependencyNotAvailableException if the dependency is not available
-         * @return \Brickoo\Library\Log\Interfaces\LoggerInterface
+         * @param \Brickoo\Log\Interfaces\LogInterface $Logger
+         * @throws \Brickoo\Core\Exceptions\DependencyNotAvailableException if the dependency is not available
+         * @return \Brickoo\Log\Interfaces\LoggerInterface
          */
-        public function Logger(\Brickoo\Library\Log\Interfaces\LoggerInterface $Logger = null)
+        public function Logger(\Brickoo\Log\Interfaces\LoggerInterface $Logger = null)
         {
             if ($Logger !== null) {
                 $this->_Logger = $Logger;
@@ -95,7 +95,7 @@
         /**
          * Removes the assigned log handler.
          * @throws DependencyNotAvailableException if trying to remove an not assigned dependency
-         * @return Brickoo\Library\Error\AbstractHandler
+         * @return Brickoo\Error\AbstractHandler
          */
         public function removeLogger()
         {

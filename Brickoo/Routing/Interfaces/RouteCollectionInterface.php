@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Routing\Interfaces;
+    namespace Brickoo\Routing\Interfaces;
 
     /**
      * RouteCollectionInterface
@@ -51,13 +51,13 @@
         /**
          * Adds a collection of routes.
          * @param array $routes the routes to add
-         * @return Brickoo\Library\Routing\Interfaces\RouteCollectionInterface
+         * @return Brickoo\Routing\Interfaces\RouteCollectionInterface
          */
         public function addRoutes(array $routes);
 
         /**
          * Lazy Route initialization which is returned for configuration.
-         * @return Brickoo\Library\Routing\Interfaces\RouteInterface
+         * @return Brickoo\Routing\Interfaces\RouteInterface
          */
         public function getRoute();
 

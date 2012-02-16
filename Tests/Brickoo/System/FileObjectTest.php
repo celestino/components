@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\System\FileObject;
+    use Brickoo\System\FileObject;
 
 
     // require PHPUnit Autoloader
@@ -40,7 +40,7 @@
      * FileObjectTest
      *
      * Test suite for the FileObject class.
-     * @see Brickoo\Library\System\FileObject
+     * @see Brickoo\System\FileObject
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
     class FileObjectTest extends PHPUnit_Framework_TestCase
@@ -64,16 +64,16 @@
 
         /**
          * Test if the constructor can be called.
-         * @covers Brickoo\Library\System\FileObject::__construct
+         * @covers Brickoo\System\FileObject::__construct
          */
         public function testConstruct()
         {
-            $this->assertInstanceOf('Brickoo\Library\System\FileObject', $this->FileObject);
+            $this->assertInstanceOf('Brickoo\System\FileObject', $this->FileObject);
         }
 
         /**
          * Tests if the location can be set and the FileObject reference is returned.
-         * @covers Brickoo\Library\System\FileObject::setLocation
+         * @covers Brickoo\System\FileObject::setLocation
          */
         public function testSetLocation()
         {
@@ -82,7 +82,7 @@
 
         /**
          * Trying to set a wrong argument type throws an exception.
-         * @covers Brickoo\Library\System\FileObject::setLocation
+         * @covers Brickoo\System\FileObject::setLocation
          * @expectedException InvalidArgumentException
          */
         public function testSetLocationArgumentException()
@@ -92,9 +92,9 @@
 
         /**
          * Trying to set a new location while handle exists throws an exception.
-         * @covers Brickoo\Library\System\FileObject::setLocation
-         * @covers Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
-         * @expectedException Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
+         * @covers Brickoo\System\FileObject::setLocation
+         * @covers Brickoo\System\Exceptions\HandleAlreadyExistsException
+         * @expectedException Brickoo\System\Exceptions\HandleAlreadyExistsException
          */
         public function testSetLocationHandleException()
         {
@@ -106,7 +106,7 @@
 
         /**
          * Test if the lcoation can be retrieved
-         * @covers Brickoo\Library\System\FileObject::getLocation
+         * @covers Brickoo\System\FileObject::getLocation
          */
         public function testGetLocation()
         {
@@ -116,7 +116,7 @@
 
         /**
          * Trying to get an not available location throws an exception.
-         * @covers Brickoo\Library\System\FileObject::getLocation
+         * @covers Brickoo\System\FileObject::getLocation
          * @expectedException UnexpectedValueException
          */
         public function testGetLocationValueException()
@@ -126,7 +126,7 @@
 
         /**
          * Test if the mode can be retrieved.
-         * @covers Brickoo\Library\System\FileObject::getMode
+         * @covers Brickoo\System\FileObject::getMode
          */
         public function testGetMode()
         {
@@ -136,7 +136,7 @@
 
         /**
          * Trying to get an not available mode throws an exception.
-         * @covers Brickoo\Library\System\FileObject::getMode
+         * @covers Brickoo\System\FileObject::getMode
          * @expectedException UnexpectedValueException
          */
         public function testGetModeValueException()
@@ -146,7 +146,7 @@
 
         /**
          * Test if the mode can be set and the FileObject reference is returned.
-         * @covers Brickoo\Library\System\FileObject::setMode
+         * @covers Brickoo\System\FileObject::setMode
          */
         public function testSetMode()
         {
@@ -155,7 +155,7 @@
 
         /**
          * Trying to set a wrong argument type throws an exception.
-         * @covers Brickoo\Library\System\FileObject::setMode
+         * @covers Brickoo\System\FileObject::setMode
          * @expectedException InvalidArgumentException
          */
         public function testSetModeArgumentException()
@@ -165,9 +165,9 @@
 
         /**
          * Trying to set a new mode while handle exists throws an exception.
-         * @covers Brickoo\Library\System\FileObject::setMode
-         * @covers Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
-         * @expectedException Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
+         * @covers Brickoo\System\FileObject::setMode
+         * @covers Brickoo\System\Exceptions\HandleAlreadyExistsException
+         * @expectedException Brickoo\System\Exceptions\HandleAlreadyExistsException
          */
         public function testSetModeHandleException()
         {
@@ -179,7 +179,7 @@
 
         /**
          * Test if a handle can be created.
-         * @covers Brickoo\Library\System\FileObject::open
+         * @covers Brickoo\System\FileObject::open
          */
         public function testOpen()
         {
@@ -190,9 +190,9 @@
 
         /**
          * Trying to create a new handle while one exists throws an exception.
-         * @covers Brickoo\Library\System\FileObject::open
-         * @covers Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
-         * @expectedException Brickoo\Library\System\Exceptions\HandleAlreadyExistsException
+         * @covers Brickoo\System\FileObject::open
+         * @covers Brickoo\System\Exceptions\HandleAlreadyExistsException
+         * @expectedException Brickoo\System\Exceptions\HandleAlreadyExistsException
          */
         public function testOpenDuplicateHandleException()
         {
@@ -204,9 +204,9 @@
 
         /**
          * Trying to create a new handle while one exists throws an exception.
-         * @covers Brickoo\Library\System\FileObject::open
-         * @covers Brickoo\Library\System\Exceptions\UnableToCreateHandleException
-         * @expectedException Brickoo\Library\System\Exceptions\UnableToCreateHandleException
+         * @covers Brickoo\System\FileObject::open
+         * @covers Brickoo\System\Exceptions\UnableToCreateHandleException
+         * @expectedException Brickoo\System\Exceptions\UnableToCreateHandleException
          */
         public function testOpenCreateHandleException()
         {
@@ -217,7 +217,7 @@
 
         /**
          * Test if a handle can be returned.
-         * @covers Brickoo\Library\System\FileObject::getHandle
+         * @covers Brickoo\System\FileObject::getHandle
          */
         public function testGetHandle()
         {
@@ -228,7 +228,7 @@
 
         /**
          * Test is the handle can be checked as available.
-         * @covers Brickoo\Library\System\FileObject::hasHandle
+         * @covers Brickoo\System\FileObject::hasHandle
          */
         public function testHasHandle()
         {
@@ -241,7 +241,7 @@
 
         /**
          * Test is the handle can removed.
-         * @covers Brickoo\Library\System\FileObject::removeHandle
+         * @covers Brickoo\System\FileObject::removeHandle
          */
         public function testRemoveHandle()
         {
@@ -253,11 +253,11 @@
 
         /**
          * Test if the instance removes the handle when the destructor is called.
-         * @covers Brickoo\Library\System\FileObject::__destruct
+         * @covers Brickoo\System\FileObject::__destruct
          */
         public function test__destruct()
         {
-            $FileObjectStub = $this->getMock('Brickoo\Library\System\FileObject', array('removeHandle'));
+            $FileObjectStub = $this->getMock('Brickoo\System\FileObject', array('removeHandle'));
             $FileObjectStub->expects($this->once())
                            ->method('removeHandle')
                            ->will($this->returnSelf());
@@ -267,7 +267,7 @@
 
         /**
          * Test if the write method can write to the handle location.
-         * @covers Brickoo\Library\System\FileObject::write
+         * @covers Brickoo\System\FileObject::write
          */
         public function testWrite()
         {
@@ -279,9 +279,9 @@
 
         /**
          * Test if the write method with wrong mode used throws an exception.
-         * @covers Brickoo\Library\System\FileObject::write
-         * @covers Brickoo\Library\System\Exceptions\InvalidModeOperationException
-         * @expectedException Brickoo\Library\System\Exceptions\InvalidModeOperationException
+         * @covers Brickoo\System\FileObject::write
+         * @covers Brickoo\System\Exceptions\InvalidModeOperationException
+         * @expectedException Brickoo\System\Exceptions\InvalidModeOperationException
          */
         public function testWriteInvalidModeOperationException()
         {
@@ -291,7 +291,7 @@
 
         /**
          * Test if the read method can read from the handle location.
-         * @covers Brickoo\Library\System\FileObject::read
+         * @covers Brickoo\System\FileObject::read
          */
         public function testRead()
         {
@@ -305,7 +305,7 @@
 
         /**
          * Test if the read method with wrong argument throws an exception.
-         * @covers Brickoo\Library\System\FileObject::read
+         * @covers Brickoo\System\FileObject::read
          * @expectedException InvalidArgumentException
          */
         public function testReadArgumentException()
@@ -315,9 +315,9 @@
 
         /**
          * Test if the read method with wrong mode used throws an exception.
-         * @covers Brickoo\Library\System\FileObject::read
-         * @covers Brickoo\Library\System\Exceptions\InvalidModeOperationException
-         * @expectedException Brickoo\Library\System\Exceptions\InvalidModeOperationException
+         * @covers Brickoo\System\FileObject::read
+         * @covers Brickoo\System\Exceptions\InvalidModeOperationException
+         * @expectedException Brickoo\System\Exceptions\InvalidModeOperationException
          */
         public function testReadInvalidModeOperationException()
         {
@@ -327,7 +327,7 @@
 
         /**
          * Test if the close method remove the handle handle.
-         * @covers Brickoo\Library\System\FileObject::close
+         * @covers Brickoo\System\FileObject::close
          */
         public function testClose()
         {
@@ -339,9 +339,9 @@
 
         /**
          * Test if the trying to close the handle without being opened throws an exception.
-         * @covers Brickoo\Library\System\FileObject::close
-         * @covers Brickoo\Library\System\Exceptions\HandleNotAvailableException
-         * @expectedException Brickoo\Library\System\Exceptions\HandleNotAvailableException
+         * @covers Brickoo\System\FileObject::close
+         * @covers Brickoo\System\Exceptions\HandleNotAvailableException
+         * @expectedException Brickoo\System\Exceptions\HandleNotAvailableException
          */
         public function testCloseHandleException()
         {
@@ -350,7 +350,7 @@
 
         /**
          * Test if magic functions can be called an returns the function return value.
-         * @covers Brickoo\Library\System\FileObject::__call
+         * @covers Brickoo\System\FileObject::__call
          */
         public function test__call()
         {
@@ -371,7 +371,7 @@
 
         /**
          * Test if the trying to call fopen() throws an exception.
-         * @covers Brickoo\Library\System\FileObject::__call
+         * @covers Brickoo\System\FileObject::__call
          * @expectedException BadMethodCallException
          */
         public function testFopenBadMethodCallException()
@@ -381,7 +381,7 @@
 
         /**
          * Test if the trying to call fclose() throws an exception.
-         * @covers Brickoo\Library\System\FileObject::__call
+         * @covers Brickoo\System\FileObject::__call
          * @expectedException BadMethodCallException
          */
         public function testFcloseBadMethodCallException()

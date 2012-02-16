@@ -30,14 +30,14 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Core\Exceptions;
+    namespace Brickoo\Core\Exceptions;
 
     /**
      * DuplicateNamespaceRegistrationException
      *
      * Exception throwed by the Autoloader class if trying to register a namespace
      * which has been already registered.
-     * @see Brickoo\Library\Core\Autoloader::registerNamespace
+     * @see Brickoo\Core\Autoloader::registerNamespace
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

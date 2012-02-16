@@ -30,10 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Http\Component;
+    namespace Brickoo\Http\Component;
 
-    use Brickoo\Library\Memory;
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Memory;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * Query
@@ -47,7 +47,7 @@
 
         /**
          * Importst the request query parameter.
-         * @return \Brickoo\Library\Http\Component\Query
+         * @return \Brickoo\Http\Component\Query
          */
         public function importFromGlobals()
         {
@@ -59,7 +59,7 @@
         /**
          * Imports the query parameters from query string.
          * @param string $query the query string to import from
-         * @return \Brickoo\Library\Http\Component\Query
+         * @return \Brickoo\Http\Component\Query
          */
         public function importFromString($query)
         {

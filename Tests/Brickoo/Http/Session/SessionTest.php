@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Http\Session\SessionNamespace;
+    use Brickoo\Http\Session\SessionNamespace;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -40,7 +40,7 @@
      *
      * Test suite for the SessionNamespace class.
      * Using the SessionManager the session.autostart configuration should be set to zero.
-     * @see Brickoo\Library\Http\Session\SessionNamespace
+     * @see Brickoo\Http\Session\SessionNamespace
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -66,20 +66,20 @@
 
         /**
          * Test if a SessionNamespace instance can be created and implements the Session\Interfaces\SessionNamespaceInterface.
-         * @covers Brickoo\Library\Http\Session\SessionNamespace::__construct
+         * @covers Brickoo\Http\Session\SessionNamespace::__construct
          */
         public function testConstruct()
         {
             $this->assertInstanceOf
             (
-                'Brickoo\Library\Http\Session\Interfaces\SessionNamespaceInterface',
+                'Brickoo\Http\Session\Interfaces\SessionNamespaceInterface',
                 $SessionNamespace = new SessionNamespace('some_namespace')
             );
         }
 
         /**
          * Test if trying to create a SessionNamespace instance with a wrong namespace type throws an exception.
-         * @covers Brickoo\Library\Http\Session\SessionNamespace::__construct
+         * @covers Brickoo\Http\Session\SessionNamespace::__construct
          * @expectedException InvalidArgumentException
          */
         public function testConstructArgumentException()
@@ -89,7 +89,7 @@
 
         /**
          * Test if the session property is recognized.
-         * @covers Brickoo\Library\Http\Session\SessionNamespace::has
+         * @covers Brickoo\Http\Session\SessionNamespace::has
          */
         public function testHas()
         {
@@ -99,7 +99,7 @@
 
         /**
          * Test if the session property value can be retrieved and if othrewise the default value is returned.
-         * @covers Brickoo\Library\Http\Session\SessionNamespace::get
+         * @covers Brickoo\Http\Session\SessionNamespace::get
          */
         public function testGet()
         {
@@ -109,7 +109,7 @@
 
         /**
          * Test if a session property can be set and the SessionNamespace reference is returned.
-         * @covers Brickoo\Library\Http\Session\SessionNamespace::set
+         * @covers Brickoo\Http\Session\SessionNamespace::set
          */
         public function testSet()
         {
@@ -119,7 +119,7 @@
 
         /**
          * Test if a session property can be removed and the SessionNamespace reference is returned.
-         * @covers Brickoo\Library\Http\Session\SessionNamespace::remove
+         * @covers Brickoo\Http\Session\SessionNamespace::remove
          */
         public function testRemove()
         {
@@ -129,7 +129,7 @@
 
         /**
          * Test if using the magic method __get the session property value can be retrieved.
-         * @covers Brickoo\Library\Http\Session\SessionNamespace::__get
+         * @covers Brickoo\Http\Session\SessionNamespace::__get
          */
         public function test__get()
         {
@@ -138,7 +138,7 @@
 
         /**
          * Test if using the magic method __set the session value can be stored.
-         * @covers Brickoo\Library\Http\Session\SessionNamespace::__set
+         * @covers Brickoo\Http\Session\SessionNamespace::__set
          */
         public function test__set()
         {
@@ -148,7 +148,7 @@
 
         /**
          * Test if using the magic method __unset the session property can be removed.
-         * @covers Brickoo\Library\Http\Session\SessionNamespace::__unset
+         * @covers Brickoo\Http\Session\SessionNamespace::__unset
          */
         public function test__unset()
         {
@@ -158,7 +158,7 @@
 
         /**
          * Test if using the magic method __isset the session property can be checked if exists.
-         * @covers Brickoo\Library\Http\Session\SessionNamespace::__isset
+         * @covers Brickoo\Http\Session\SessionNamespace::__isset
          */
         public function test__isset()
         {

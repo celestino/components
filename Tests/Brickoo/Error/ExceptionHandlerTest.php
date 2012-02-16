@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Error\ExceptionHandler;
+    use Brickoo\Error\ExceptionHandler;
 
 
     // require PHPUnit Autoloader
@@ -40,7 +40,7 @@
      * ExceptionHandlerTest
      *
      * Test suite for the ExceptionHandler class.
-     * @see Brickoo\Library\Error\ExceptionHandler
+     * @see Brickoo\Error\ExceptionHandler
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -49,13 +49,13 @@
 
         /**
          * Returns an Logger Stub for testing the logging of messages.
-         * @return object Logger implementing the Brickoo\Library\Log\Interfaces\LoggerInterface
+         * @return object Logger implementing the Brickoo\Log\Interfaces\LoggerInterface
          */
         protected function getLoggerStub()
         {
             return $this->getMock
             (
-                'Brickoo\Library\Log\Interfaces\LoggerInterface',
+                'Brickoo\Log\Interfaces\LoggerInterface',
                 array
                 (
                     'LogHandler',
@@ -68,7 +68,7 @@
 
         /**
          * Holds the ExceptionHandler instance for the tests.
-         * @var Brickoo\Library\Error\ExceptionHandler
+         * @var Brickoo\Error\ExceptionHandler
          */
         protected $ExceptionHandler;
 
@@ -84,21 +84,21 @@
 
         /**
          * Test if the class can be created and implements the ExceptionHandlerInterface.
-         * @covers Brickoo\Library\Error\ExceptionHandler::__construct
+         * @covers Brickoo\Error\ExceptionHandler::__construct
          */
         public function testExceptionHandlerConstructor()
         {
             $this->assertInstanceOf
             (
-                '\Brickoo\Library\Error\ExceptionHandler',
+                '\Brickoo\Error\ExceptionHandler',
                 $this->ExceptionHandler
             );
         }
 
         /**
          * Test if the error handler can be registered and unregistered.
-         * @covers Brickoo\Library\Error\ExceptionHandler::register
-         * @covers Brickoo\Library\Error\ExceptionHandler::unregister
+         * @covers Brickoo\Error\ExceptionHandler::register
+         * @covers Brickoo\Error\ExceptionHandler::unregister
          */
         public function testUnRegisterProcess()
         {
@@ -108,9 +108,9 @@
 
         /**
          * Test if the unregistration without being registered before throws an exception.
-         * @covers Brickoo\Library\Error\ExceptionHandler::register
-         * @covers Brickoo\Library\Error\Exceptions\DuplicateHandlerRegistrationException
-         * @expectedException Brickoo\Library\Error\Exceptions\DuplicateHandlerRegistrationException
+         * @covers Brickoo\Error\ExceptionHandler::register
+         * @covers Brickoo\Error\Exceptions\DuplicateHandlerRegistrationException
+         * @expectedException Brickoo\Error\Exceptions\DuplicateHandlerRegistrationException
          */
         public function testRegisterDuplicateRegistrationException()
         {
@@ -120,9 +120,9 @@
 
         /**
          * Test if the unregistration without being registered before throws an exception.
-         * @covers Brickoo\Library\Error\ExceptionHandler::unregister
-         * @covers Brickoo\Library\Error\Exceptions\HandlerNotRegisteredException
-         * @expectedException Brickoo\Library\Error\Exceptions\HandlerNotRegisteredException
+         * @covers Brickoo\Error\ExceptionHandler::unregister
+         * @covers Brickoo\Error\Exceptions\HandlerNotRegisteredException
+         * @expectedException Brickoo\Error\Exceptions\HandlerNotRegisteredException
          */
         public function testUnregisterNotregisteredException()
         {
@@ -131,7 +131,7 @@
 
         /**
          * Test if the error handler can be registered and unregistered.
-         * @covers Brickoo\Library\Error\ExceptionHandler::isRegistered
+         * @covers Brickoo\Error\ExceptionHandler::isRegistered
          */
         public function testIsRegistered()
         {
@@ -144,7 +144,7 @@
 
         /**
          * Test if the exception returns nothing further.
-         * @covers Brickoo\Library\Error\ExceptionHandler::handleException
+         * @covers Brickoo\Error\ExceptionHandler::handleException
          */
         public function testHandleException()
         {
@@ -157,8 +157,8 @@
 
         /**
          * Test if the exception message is passed to the Logger.
-         * @covers Brickoo\Library\Error\ExceptionHandler::getExceptionMessage
-         * @covers Brickoo\Library\Error\ExceptionHandler::handleException
+         * @covers Brickoo\Error\ExceptionHandler::getExceptionMessage
+         * @covers Brickoo\Error\ExceptionHandler::handleException
          */
         public function testHandleExceptionWithLogger()
         {
@@ -177,9 +177,9 @@
 
         /**
          * Test if the exception message is displayed.
-         * @covers Brickoo\Library\Error\ExceptionHandler::handleException
-         * @covers Brickoo\Library\Error\ExceptionHandler::getExceptionMessage
-         * @expectedException Brickoo\Library\Error\Exceptions\ErrorHandlerException
+         * @covers Brickoo\Error\ExceptionHandler::handleException
+         * @covers Brickoo\Error\ExceptionHandler::getExceptionMessage
+         * @expectedException Brickoo\Error\Exceptions\ErrorHandlerException
          * @expectedExceptionMessage some exception message
          */
         public function testDisplayException()
@@ -190,7 +190,7 @@
             (
                 $this->ExceptionHandler->handleException
                 (
-                    new Brickoo\Library\Error\Exceptions\ErrorHandlerException('some exception message')
+                    new Brickoo\Error\Exceptions\ErrorHandlerException('some exception message')
                 )
             );
         }

@@ -30,9 +30,9 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Http\Session;
+    namespace Brickoo\Http\Session;
 
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * SessionManager
@@ -68,10 +68,10 @@
 
         /**
          * Registers the session handler.
-         * @param \Brickoo\Library\Http\Session\Handler\Interfaces\SessionHandlerInterface $SessionHandler the session hadnler to register
+         * @param \Brickoo\Http\Session\Handler\Interfaces\SessionHandlerInterface $SessionHandler the session hadnler to register
          * @return boolean success
          */
-        protected function registerSessionHandler(\Brickoo\Library\Http\Session\Handler\Interfaces\SessionHandlerInterface $SessionHandler)
+        protected function registerSessionHandler(\Brickoo\Http\Session\Handler\Interfaces\SessionHandlerInterface $SessionHandler)
         {
             $this->SessionHandler = $SessionHandler;
 
@@ -111,7 +111,7 @@
          * Sets the session configuration.
          * Available configuration keys are [id, name, limiter].
          * @param array $configuration the configuration to replace
-         * @return \Brickoo\Library\Http\Session\SessionManager
+         * @return \Brickoo\Http\Session\SessionManager
          */
         public function setSessionConfiguration(array $configuration)
         {
@@ -136,10 +136,10 @@
          * Registers the session handler.
          * Sets the default session lifetime to the session handler.
          * Sets the default session configuration used.
-         * @param \Brickoo\Library\Http\Session\Handler\Interfaces\SessionHandlerInterface $SessionHandler the SessionHandler to inject
+         * @param \Brickoo\Http\Session\Handler\Interfaces\SessionHandlerInterface $SessionHandler the SessionHandler to inject
          * @return void
          */
-        public function __construct(\Brickoo\Library\Http\Session\Handler\Interfaces\SessionHandlerInterface $SessionHandler)
+        public function __construct(\Brickoo\Http\Session\Handler\Interfaces\SessionHandlerInterface $SessionHandler)
         {
             if (! $this->hasSessionStarted()) {
                 $this->registerSessionHandler($SessionHandler);
@@ -151,7 +151,7 @@
 
         /**
          * Starts the Session.
-         * @return \Brickoo\Library\Http\Session\SessionManager
+         * @return \Brickoo\Http\Session\SessionManager
          */
         public function start()
         {
@@ -165,7 +165,7 @@
 
         /**
          * Stops the session and calls for writing and close.
-         * @return \Brickoo\Library\Http\Session\SessionManager
+         * @return \Brickoo\Http\Session\SessionManager
          */
         public function stop()
         {

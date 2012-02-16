@@ -30,14 +30,14 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Core\Autoloader;
+    use Brickoo\Core\Autoloader;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
      * Test suite for the Autoloader class.
-     * @see Brickoo\Library\Core\Autoloader
+     * @see Brickoo\Core\Autoloader
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -60,20 +60,20 @@
 
         /**
          * Test if the class can be created.
-         * @covers Brickoo\Library\Core\Autoloader::__construct
+         * @covers Brickoo\Core\Autoloader::__construct
          */
         public function testAutoloaderConstructor()
         {
             $this->assertInstanceOf
             (
-                '\Brickoo\Library\Core\Autoloader',
+                '\Brickoo\Core\Autoloader',
                 $this->Autoloader
              );
         }
 
         /**
          * Test if a namespace with its path can be registered.
-         * @covers Brickoo\Library\Core\Autoloader::registerNamespace
+         * @covers Brickoo\Core\Autoloader::registerNamespace
          */
         public function testRegisterNamespace()
         {
@@ -86,7 +86,7 @@
 
         /**
          * Test if the not valid argumentsthrows an exception.
-         * @covers Brickoo\Library\Core\Autoloader::registerNamespace
+         * @covers Brickoo\Core\Autoloader::registerNamespace
          * @expectedException InvalidArgumentException
          */
         public function testRegisterNamespaceArgumentException()
@@ -96,9 +96,9 @@
 
         /**
          * Test if assigning the same namespace throws an exception.
-         * @covers Brickoo\Library\Core\Autoloader::registerNamespace
-         * @covers Brickoo\Library\Core\Exceptions\DuplicateNamespaceRegistrationException
-         * @expectedException Brickoo\Library\Core\Exceptions\DuplicateNamespaceRegistrationException
+         * @covers Brickoo\Core\Autoloader::registerNamespace
+         * @covers Brickoo\Core\Exceptions\DuplicateNamespaceRegistrationException
+         * @expectedException Brickoo\Core\Exceptions\DuplicateNamespaceRegistrationException
          */
         public function testDuplicateNamespaceRegistrationException()
         {
@@ -108,7 +108,7 @@
 
         /**
          * Test if a namespace with its path has been unregistered.
-         * @covers Brickoo\Library\Core\Autoloader::unregisterNamespace
+         * @covers Brickoo\Core\Autoloader::unregisterNamespace
          */
         public function testUnregisterNamespace()
         {
@@ -118,9 +118,9 @@
 
         /**
          * Test if not assigned namespace throws an exception.
-         * @covers Brickoo\Library\Core\Autoloader::unregisterNamespace
-         * @covers Brickoo\Library\Core\Exceptions\NamespaceNotRegisteredException
-         * @expectedException Brickoo\Library\Core\Exceptions\NamespaceNotRegisteredException
+         * @covers Brickoo\Core\Autoloader::unregisterNamespace
+         * @covers Brickoo\Core\Exceptions\NamespaceNotRegisteredException
+         * @expectedException Brickoo\Core\Exceptions\NamespaceNotRegisteredException
          */
         public function testNamespaceNotRegisteredException()
         {
@@ -129,7 +129,7 @@
 
         /**
          * Test if a namespace is returned in the namespaces container.
-         * @covers Brickoo\Library\Core\Autoloader::getAvailableNamespaces
+         * @covers Brickoo\Core\Autoloader::getAvailableNamespaces
          */
         public function testGetAvailableNamespaces()
         {
@@ -139,7 +139,7 @@
 
         /**
          * Test if a namespace can be registered.
-         * @covers Brickoo\Library\Core\Autoloader::isNamespaceRegistered
+         * @covers Brickoo\Core\Autoloader::isNamespaceRegistered
          */
         public function testIsNamespaceRegistered()
         {
@@ -149,7 +149,7 @@
 
         /**
          * Test if a not registred namespace fails.
-         * @covers Brickoo\Library\Core\Autoloader::isNamespaceRegistered
+         * @covers Brickoo\Core\Autoloader::isNamespaceRegistered
          */
         public function testIsNamespaceRegisteredFails()
         {
@@ -157,7 +157,7 @@
         }
 
         /** Test if an not valid argument throws an exception.
-         * @covers Brickoo\Library\Core\Autoloader::isNamespaceRegistered
+         * @covers Brickoo\Core\Autoloader::isNamespaceRegistered
          * @expectedException InvalidArgumentException
          */
         public function testIsNamespaceRegisteredArgumentException()
@@ -167,7 +167,7 @@
 
         /**
          * Test if the namespace path is returned by its namespace.
-         * @covers Brickoo\Library\Core\Autoloader::getNamespacePath
+         * @covers Brickoo\Core\Autoloader::getNamespacePath
          */
         public function testGetNamespacePath()
         {
@@ -177,7 +177,7 @@
 
         /**
          * Test if an not registred namespace path fails by retrieving.
-         * @covers Brickoo\Library\Core\Autoloader::getNamespacePath
+         * @covers Brickoo\Core\Autoloader::getNamespacePath
          */
         public function testGetNamespacePathFails()
         {
@@ -185,7 +185,7 @@
         }
 
         /** Test if an not valid argument throws an exception.
-         * @covers Brickoo\Library\Core\Autoloader::getNamespacePath
+         * @covers Brickoo\Core\Autoloader::getNamespacePath
          * @expectedException InvalidArgumentException
          */
         public function testGetNamespacePathArgumentException()
@@ -195,7 +195,7 @@
 
         /**
          * Test if the namespace path is returned by its namespace and class name.
-         * @covers Brickoo\Library\Core\Autoloader::getAbsolutePath
+         * @covers Brickoo\Core\Autoloader::getAbsolutePath
          */
         public function testGetAbsolutePath()
         {
@@ -210,7 +210,7 @@
 
         /**
          * Test if an not registered namespace path fails by retrieving the absolute path..
-         * @covers Brickoo\Library\Core\Autoloader::getAbsolutePath
+         * @covers Brickoo\Core\Autoloader::getAbsolutePath
          */
         public function testGetAbsolutePathFails()
         {
@@ -218,7 +218,7 @@
         }
 
         /** Test if an not valid argument throws an exception.
-         * @covers Brickoo\Library\Core\Autoloader::getAbsolutePath
+         * @covers Brickoo\Core\Autoloader::getAbsolutePath
          * @expectedException InvalidArgumentException
          */
         public function testGetAbsolutePathArgumentException()
@@ -229,17 +229,17 @@
         /**
          * Test if the Registry (or any other) class can be loaded.
          * and register it after the test again for further tests.
-         * @covers Brickoo\Library\Core\Autoloader::loadClass
+         * @covers Brickoo\Core\Autoloader::loadClass
          */
         public function testLoadClass()
         {
             $this->Autoloader->registerNamespace('Brickoo', BRICKOO_DIR);
-            $this->assertTrue($this->Autoloader->loadClass('Brickoo\Library\Memory\Container'));
+            $this->assertTrue($this->Autoloader->loadClass('Brickoo\Memory\Container'));
         }
 
         /**
          * Test if the a class can not be loaded if the namespace is unknowed.
-         * @covers Brickoo\Library\Core\Autoloader::loadClass
+         * @covers Brickoo\Core\Autoloader::loadClass
          */
         public function testLoadClassFails()
         {
@@ -247,19 +247,19 @@
         }
 
         /** Test if a class which does exist in an kowed namespace throws an exception.
-         * @covers Brickoo\Library\Core\Autoloader::loadClass
-         * @covers Brickoo\Library\Core\Exceptions\AutoloadFileDoesNotExistException
-         * @expectedException Brickoo\Library\Core\Exceptions\AutoloadFileDoesNotExistException
+         * @covers Brickoo\Core\Autoloader::loadClass
+         * @covers Brickoo\Core\Exceptions\AutoloadFileDoesNotExistException
+         * @expectedException Brickoo\Core\Exceptions\AutoloadFileDoesNotExistException
          */
         public function testAutoloadFileDoesNotExistException()
         {
             $this->Autoloader->registerNamespace('Brickoo', BRICKOO_DIR);
-            $this->Autoloader->loadClass('Brickoo\Library\Memory\DoesNotExist');
+            $this->Autoloader->loadClass('Brickoo\Memory\DoesNotExist');
         }
 
         /**
          * Test if the autoloader is can be registred.
-         * @covers Brickoo\Library\Core\Autoloader::register
+         * @covers Brickoo\Core\Autoloader::register
          */
         public function testRegisterAutoloader()
         {
@@ -268,9 +268,9 @@
 
         /**
          * Test if the registering of the same autloader throws an exception.
-         * @covers Brickoo\Library\Core\Autoloader::register
-         * @covers Brickoo\Library\Core\Exceptions\DuplicateAutoloaderRegistrationException
-         * @expectedException Brickoo\Library\Core\Exceptions\DuplicateAutoloaderRegistrationException
+         * @covers Brickoo\Core\Autoloader::register
+         * @covers Brickoo\Core\Exceptions\DuplicateAutoloaderRegistrationException
+         * @expectedException Brickoo\Core\Exceptions\DuplicateAutoloaderRegistrationException
          */
         public function testDuplicateAutoloaderRegistrationException()
         {
@@ -280,7 +280,7 @@
 
         /**
          * Test if the autoloader can be unregistered.
-         * @covers Brickoo\Library\Core\Autoloader::unregister
+         * @covers Brickoo\Core\Autoloader::unregister
          */
         public function testUnregister()
         {
@@ -291,9 +291,9 @@
         /**
          * Test if trying to unregister an not registered autoloader
          * throws an exception
-         * @covers Brickoo\Library\Core\Autoloader::unregister
-         * @covers Brickoo\Library\Core\Exceptions\AutoloaderNotRegisteredExeption
-         * @expectedException Brickoo\Library\Core\Exceptions\AutoloaderNotRegisteredExeption
+         * @covers Brickoo\Core\Autoloader::unregister
+         * @covers Brickoo\Core\Exceptions\AutoloaderNotRegisteredExeption
+         * @expectedException Brickoo\Core\Exceptions\AutoloaderNotRegisteredExeption
          */
         public function testAutoloaderNotRegisteredExeption()
         {

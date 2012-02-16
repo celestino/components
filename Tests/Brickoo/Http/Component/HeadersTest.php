@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Http\Component\Headers;
+    use Brickoo\Http\Component\Headers;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -49,7 +49,7 @@
      * HeadersTest
      *
      * Test suite for the Headers class.
-     * @see Brickoo\Library\Component\Headers
+     * @see Brickoo\Component\Headers
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -58,7 +58,7 @@
 
         /**
          * Holds an instance if the Headers class.
-         * @var \Brickoo\Library\Http\Component\Headers
+         * @var \Brickoo\Http\Component\Headers
          */
         protected $Headers;
 
@@ -73,11 +73,11 @@
 
         /**
          * Test if the Headers class implements the HeadersInterface and the properties are initialized.
-         * @covers Brickoo\Library\Http\Component\Headers::__construct
+         * @covers Brickoo\Http\Component\Headers::__construct
          */
         public function testConstruct()
         {
-            $this->assertInstanceOf('Brickoo\Library\Http\Component\Headers', $this->Headers);
+            $this->assertInstanceOf('Brickoo\Http\Component\Headers', $this->Headers);
             $this->assertAttributeInternalType('array', 'acceptTypes', $this->Headers);
             $this->assertAttributeInternalType('array', 'acceptCharsets', $this->Headers);
             $this->assertAttributeInternalType('array', 'acceptLanguages', $this->Headers);
@@ -86,8 +86,8 @@
 
         /**
          * Test if the accept types can be retrieved.
-         * @covers Brickoo\Library\Http\Component\Headers::getAcceptTypes
-         * @covers Brickoo\Library\Http\Component\Headers::getAcceptHeaderByRegex
+         * @covers Brickoo\Http\Component\Headers::getAcceptTypes
+         * @covers Brickoo\Http\Component\Headers::getAcceptHeaderByRegex
          */
         public function testGetAcceptTypes()
         {
@@ -104,7 +104,7 @@
 
         /**
          * Test if the types can be recognized as supported.
-         * @covers Brickoo\Library\Http\Component\Headers::isTypeSupported
+         * @covers Brickoo\Http\Component\Headers::isTypeSupported
          */
         public function testIsTypeSupported()
         {
@@ -116,7 +116,7 @@
 
         /**
          * Test is a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Http\Component\Headers::isTypeSupported
+         * @covers Brickoo\Http\Component\Headers::isTypeSupported
          * @expectedException InvalidArgumentException
          */
         public function testIsTypeSupportedArgumentException()
@@ -126,8 +126,8 @@
 
         /**
          * Test if the accept languages can be retrieved.
-         * @covers Brickoo\Library\Http\Component\Headers::getAcceptLanguages
-         * @covers Brickoo\Library\Http\Component\Headers::getAcceptHeaderByRegex
+         * @covers Brickoo\Http\Component\Headers::getAcceptLanguages
+         * @covers Brickoo\Http\Component\Headers::getAcceptHeaderByRegex
          */
         public function testGetAcceptLanguages()
         {
@@ -144,7 +144,7 @@
 
         /**
          * Test if the language can be recognized as supported.
-         * @covers Brickoo\Library\Http\Component\Headers::isLanguageSupported
+         * @covers Brickoo\Http\Component\Headers::isLanguageSupported
          */
         public function testIsLanguageSupported()
         {
@@ -157,7 +157,7 @@
 
         /**
          * Test is a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Http\Component\Headers::isLanguageSupported
+         * @covers Brickoo\Http\Component\Headers::isLanguageSupported
          * @expectedException InvalidArgumentException
          */
         public function testIsLanguageSupportedArgumentException()
@@ -167,8 +167,8 @@
 
         /**
          * Test if the accept encodings can be retrieved.
-         * @covers Brickoo\Library\Http\Component\Headers::getAcceptEncodings
-         * @covers Brickoo\Library\Http\Component\Headers::getAcceptHeaderByRegex
+         * @covers Brickoo\Http\Component\Headers::getAcceptEncodings
+         * @covers Brickoo\Http\Component\Headers::getAcceptHeaderByRegex
          */
         public function testGetAcceptEncodings()
         {
@@ -184,7 +184,7 @@
 
         /**
          * Test if the encoding can be recognized as supported.
-         * @covers Brickoo\Library\Http\Component\Headers::isEncodingSupported
+         * @covers Brickoo\Http\Component\Headers::isEncodingSupported
          */
         public function testIsEncodingSupported()
         {
@@ -196,7 +196,7 @@
 
         /**
          * Test is a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Http\Component\Headers::isEncodingSupported
+         * @covers Brickoo\Http\Component\Headers::isEncodingSupported
          * @expectedException InvalidArgumentException
          */
         public function testIsEncodingSupportedArgumentException()
@@ -206,8 +206,8 @@
 
         /**
          * Test if the accept charsets can be retrieved.
-         * @covers Brickoo\Library\Http\Component\Headers::getAcceptCharsets
-         * @covers Brickoo\Library\Http\Component\Headers::getAcceptHeaderByRegex
+         * @covers Brickoo\Http\Component\Headers::getAcceptCharsets
+         * @covers Brickoo\Http\Component\Headers::getAcceptHeaderByRegex
          */
         public function testGetAcceptCharsets()
         {
@@ -223,7 +223,7 @@
 
         /**
          * Test if the charset can be recognized as supported.
-         * @covers Brickoo\Library\Http\Component\Headers::isCharsetSupported
+         * @covers Brickoo\Http\Component\Headers::isCharsetSupported
          */
         public function testIsCharsetSupported()
         {
@@ -235,7 +235,7 @@
 
         /**
          * Test if passing an wrong type it throws an exception.
-         * @covers Brickoo\Library\Http\Component\Headers::isCharsetSupported
+         * @covers Brickoo\Http\Component\Headers::isCharsetSupported
          * @expectedException InvalidArgumentException
          */
         public function testIsCharsetSupportedArgumentException()
@@ -245,7 +245,7 @@
 
         /**
          * Test if the parameters are validated.
-         * @covers Brickoo\Library\Http\Component\Headers::getAcceptHeaderByRegex
+         * @covers Brickoo\Http\Component\Headers::getAcceptHeaderByRegex
          */
         public function testGetAcceptHeaderByRegex()
         {
@@ -264,8 +264,8 @@
 
         /**
          * Test if the server request headers can be imported.
-         * @covers Brickoo\Library\Http\Component\Headers::importFromGlobals
-         * @covers Brickoo\Library\Http\Component\Headers::normalizeHeaders
+         * @covers Brickoo\Http\Component\Headers::importFromGlobals
+         * @covers Brickoo\Http\Component\Headers::normalizeHeaders
          */
         public function testImportFromGlobals()
         {
@@ -283,7 +283,7 @@
 
         /**
          * Test if the request headers can be retrieved.
-         * @covers Brickoo\Library\Http\Component\Headers::getRequestHeaders
+         * @covers Brickoo\Http\Component\Headers::getRequestHeaders
          */
         public function testGetRequestHeaders()
         {
@@ -299,8 +299,8 @@
 
         /**
          * Test if the request headers can be imported from string.
-         * @covers Brickoo\Library\Http\Component\Headers::importFromString
-         * @covers Brickoo\Library\Http\Component\Headers::normalizeHeaders
+         * @covers Brickoo\Http\Component\Headers::importFromString
+         * @covers Brickoo\Http\Component\Headers::normalizeHeaders
          */
         public function testImportFromString()
         {
@@ -326,9 +326,9 @@
 
         /**
          * Test if the headers can be converterd to string.
-         * @covers Brickoo\Library\Http\Component\Headers::toString
-         * @covers Brickoo\Library\Http\Component\Headers::__toString
-         * @covers Brickoo\Library\Http\Component\Headers::normalizeHeaders
+         * @covers Brickoo\Http\Component\Headers::toString
+         * @covers Brickoo\Http\Component\Headers::__toString
+         * @covers Brickoo\Http\Component\Headers::normalizeHeaders
          */
         public function testToString()
         {

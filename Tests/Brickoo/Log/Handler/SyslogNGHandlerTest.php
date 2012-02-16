@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Log\Handler\SyslogNGHandler;
+    use Brickoo\Log\Handler\SyslogNGHandler;
 
 
     // require PHPUnit Autoloader
@@ -40,7 +40,7 @@
      * SyslogNGHandlerTest
      *
      * Test suite for the SyslogNGHandler class.
-     * @see Brickoo\Library\Log\Handler\SyslogNGHandler
+     * @see Brickoo\Log\Handler\SyslogNGHandler
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -57,7 +57,7 @@
         {
             return $this->getMock
             (
-                'Brickoo\Library\System\SocketObject',
+                'Brickoo\System\SocketObject',
                 ($methods === null ? null : array_values($methods))
             );
         }
@@ -78,14 +78,14 @@
 
         /**
          * Test if the SyslogNGHandler can be created.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::__construct
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::__construct
          */
         public function testConstruct()
         {
             $SocketObject = $this->getSocketObjectStub();
             $this->assertInstanceOf
             (
-                '\Brickoo\Library\Log\Handler\Interfaces\LogHandlerInterface',
+                '\Brickoo\Log\Handler\Interfaces\LogHandlerInterface',
                 ($SyslogHandler = new SyslogNGHandler($SocketObject))
             );
             $this->assertAttributeSame($SocketObject, '_SocketObject', $SyslogHandler);
@@ -93,20 +93,20 @@
 
         /**
          * Test is the injected SocketObject can be retrieved.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::SocketObject
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::SocketObject
          */
         public function testGetSocketObject()
         {
             $this->assertInstanceOf
             (
-                'Brickoo\Library\System\Interfaces\SocketObjectInterface',
+                'Brickoo\System\Interfaces\SocketObjectInterface',
                 $this->SyslogNGHandler->SocketObject()
             );
         }
 
         /**
          * Test if the hostname can be retrieved.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::getHostname
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::getHostname
          */
         public function testGetHostname()
         {
@@ -116,7 +116,7 @@
 
         /**
          * Test if the trying to retrieve not available hostname throws an exception.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::getHostname
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::getHostname
          * @expectedException UnexpectedValueException
          */
         public function testGetHostnameValueException()
@@ -126,7 +126,7 @@
 
         /**
          * Test if the hostname can be set and the object refenrece is returned.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::setHostname
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::setHostname
          */
         public function testSetHostname()
         {
@@ -136,7 +136,7 @@
 
         /**
          * Test if the trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::setHostname
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::setHostname
          * @expectedException InvalidArgumentException
          */
         public function testSetHostnameArgumentException()
@@ -146,7 +146,7 @@
 
         /**
          * Test if the server adress can be retrieved.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::getServerAdress
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::getServerAdress
          */
         public function testGetServerAdress()
         {
@@ -156,7 +156,7 @@
 
         /**
          * Test if the trying to retrieve not available server adress throws an exception.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::getServerAdress
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::getServerAdress
          * @expectedException UnexpectedValueException
          */
         public function testGetServerAdressValueException()
@@ -166,7 +166,7 @@
 
         /**
          * Test if the server adress can be set and the object refenrece is returned.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::setServerAdress
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::setServerAdress
          */
         public function testSetServerAdress()
         {
@@ -176,7 +176,7 @@
 
         /**
          * Test if the trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::setServerAdress
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::setServerAdress
          * @expectedException InvalidArgumentException
          */
         public function testSetAdressArgumentException()
@@ -186,7 +186,7 @@
 
         /**
          * Test if the server port can be retrieved.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::getServerPort
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::getServerPort
          */
         public function testGetServerPort()
         {
@@ -196,7 +196,7 @@
 
         /**
          * Test if the trying to retrieve not available server port throws an exception.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::getServerPort
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::getServerPort
          * @expectedException UnexpectedValueException
          */
         public function testGetServerPortValueException()
@@ -206,7 +206,7 @@
 
         /**
          * Test if the server port can be set and the object refenrece is returned.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::setServerPort
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::setServerPort
          */
         public function testSetServerPort()
         {
@@ -216,7 +216,7 @@
 
         /**
          * Test if the trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::setServerPort
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::setServerPort
          * @expectedException InvalidArgumentException
          */
         public function testSetPortArgumentException()
@@ -226,7 +226,7 @@
 
         /**
          * Test if the timeout can be retrieved.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::getTimeout
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::getTimeout
          */
         public function testGetTimeout()
         {
@@ -236,7 +236,7 @@
 
         /**
          * Test if the trying to retrieve not available timeout throws an exception.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::getTimeout
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::getTimeout
          * @expectedException UnexpectedValueException
          */
         public function testGetTimeoutValueException()
@@ -246,7 +246,7 @@
 
         /**
          * Test if the timeout can be set and the object refenrece is returned.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::setTimeout
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::setTimeout
          */
         public function testSetTimeout()
         {
@@ -256,7 +256,7 @@
 
         /**
          * Test if the trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::setTimeout
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::setTimeout
          * @expectedException InvalidArgumentException
          */
         public function testSetTimeoutArgumentException()
@@ -266,7 +266,7 @@
 
         /**
          * Test if the facility can be retrieved.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::getFacility
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::getFacility
          */
         public function testGetFacility()
         {
@@ -276,7 +276,7 @@
 
         /**
          * Test if the trying to retrieve not available timeout throws an exception.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::getFacility
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::getFacility
          * @expectedException UnexpectedValueException
          */
         public function testGetFacilityValueException()
@@ -286,7 +286,7 @@
 
         /**
          * Test if the facility can be set and the object refenrece is returned.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::setFacility
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::setFacility
          */
         public function testSetFacility()
         {
@@ -296,7 +296,7 @@
 
         /**
          * Test if the trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::setFacility
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::setFacility
          * @expectedException InvalidArgumentException
          */
         public function testSetFacilityArgumentException()
@@ -306,7 +306,7 @@
 
         /**
          * Test if the trying to use a wrong argument range throws an exception.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::setFacility
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::setFacility
          * @expectedException OutOfRangeException
          */
         public function testSetFacilityRangeException()
@@ -316,7 +316,7 @@
 
         /**
          * Test if the message header returns the expected value format.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::getMessageHeader
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::getMessageHeader
          */
         public function testGetMessageHeader()
         {
@@ -331,7 +331,7 @@
 
         /**
          * Test if the trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::getMessageHeader
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::getMessageHeader
          * @expectedException InvalidArgumentException
          */
         public function testGetMessageHeaderArgumentException()
@@ -341,9 +341,9 @@
 
         /**
          * Test if messages can be sent and the SocketObject is used.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::log
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::sendMessages
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::getMessageHeader
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::log
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::sendMessages
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::getMessageHeader
          */
         public function testLog()
         {
@@ -382,7 +382,7 @@
 
         /**
          * Test if the trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Library\Log\Handler\SyslogNGHandler::log
+         * @covers Brickoo\Log\Handler\SyslogNGHandler::log
          * @expectedException InvalidArgumentException
          */
         public function testLogSeverityArgumentException()

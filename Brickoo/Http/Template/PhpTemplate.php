@@ -30,9 +30,9 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Http\Template;
+    namespace Brickoo\Http\Template;
 
-    use Brickoo\Library\Validator\TypeValidator;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * PhpTemplate
@@ -63,7 +63,7 @@
          * Sets the full path to template file.
          * @param string $templateFile the full path and template file name.
          * @throws Exceptions\TemplateFileDoesNotExist if the template is not available
-         * @return \Brickoo\Library\Http\Response\PhpResponse
+         * @return \Brickoo\Http\Response\PhpResponse
          */
         public function setTemplateFile($templateFile)
         {
@@ -96,7 +96,7 @@
         /**
          * Adds template variables to make available in the template file.
          * @param array $variables the variables used in the template
-         * @return \Brickoo\Library\Http\Response\PhpResponse
+         * @return \Brickoo\Http\Response\PhpResponse
          */
         public function addTemplateVars(array $variables)
         {
@@ -159,7 +159,7 @@
 
         /**
          * Renders the template with the assigned variables.
-         * @see Brickoo\Library\Http\Interfaces.ResponseInterface::render()
+         * @see Brickoo\Http\Interfaces.ResponseInterface::render()
          * @throws \UnexpectedValueException if the template file is not set
          * @return string the rendered content
          */

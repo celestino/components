@@ -6,25 +6,24 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    use Brickoo\Library\Core\Autoloader,
-        Brickoo\Library\Core\Registry,
-        Brickoo\Library\Http\Application,
-        Brickoo\Library\Http\Request,
-        Brickoo\Library\Error\ErrorHandler,
-        Brickoo\Library\Error\ExceptionHandler;
+    use Brickoo\Core\Autoloader,
+        Brickoo\Core\Registry,
+        Brickoo\Http\Application,
+        Brickoo\Http\Request,
+        Brickoo\Error\ErrorHandler,
+        Brickoo\Error\ExceptionHandler;
 
     /**
-    * Define the BrickOO Framework root directory which needs just read access.
-    * This has to be the realpath to the root directory containing the Library.
+    * Define the Brickoo directory which needs just read access.
     */
     if (! defined ('BRICKOO_DIR')) {
-        define ('BRICKOO_DIR', '/path/to/Brickoo/directory');
+        define ('BRICKOO_DIR', '/path/to/Brickoo');
     }
 
     /**
      * Require the Core\Autoloader.
      */
-    require_once (BRICKOO_DIR . '/Library/Core/Autoloader.php');
+    require_once (BRICKOO_DIR . '/Core/Autoloader.php');
 
     /**
      * Create an instance of the Autoloader class.
@@ -77,9 +76,9 @@
      * Registers the same CacheManager as reponse and as data cache.
      * Recommended to enable output caching and/or other heavy performace cost data.
      */
-    $CacheProvider = new \Brickoo\Library\Cache\Provider\FileProvider();
+    $CacheProvider = new \Brickoo\Cache\Provider\FileProvider();
     $CacheProvider->setDirectory($Application->cacheDirectory);
-    $CacheManager = new \Brickoo\Library\Cache\CacheManager($CacheProvider);
+    $CacheManager = new \Brickoo\Cache\CacheManager($CacheProvider);
     $Application->registerCacheManager($CacheManager)
                 ->registerResponseCacheManager($CacheManager);
     /**
@@ -88,9 +87,9 @@
      * Create a LogHandler which uses the cache directory as target directory.
      * Recommended to enable vendors modules to have a common log possibility.
      */
-    $LogHandler = new \Brickoo\Library\Log\Handler\FileHandler(new \Brickoo\Library\System\FileObject());
+    $LogHandler = new \Brickoo\Log\Handler\FileHandler(new \Brickoo\System\FileObject());
     $LogHandler->setDirectory($Application->logDirectory);
-    $Logger = new Brickoo\Library\Log\Logger($LogHandler);
+    $Logger = new Brickoo\Log\Logger($LogHandler);
     $Application->registerLogger($Logger);
 
     /**

@@ -30,14 +30,14 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Core\Exceptions;
+    namespace Brickoo\Core\Exceptions;
 
     /**
      * NamspaceNotRegisteredException
      *
      * Exception throwed by the Autoloader class if trying to unregister a namespace
      * which has not been registered before.
-     * @see Brickoo\Library\Core\Autoloader::unregisterNamespace
+     * @see Brickoo\Core\Autoloader::unregisterNamespace
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
