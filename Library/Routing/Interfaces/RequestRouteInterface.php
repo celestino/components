@@ -30,37 +30,23 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Library\Routing\Config\Interfaces;
+    namespace Brickoo\Library\Routing\Interfaces;
 
     /**
-     * RouterConfigInterface
+     * RequestRouteInterface
      *
      * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    Interface RouterConfigInterface
+    interface RequestRouteInterface
     {
 
         /**
-        * Returns the configuration.
-        * @return array the configuration
+        * Lazy initialization of the Container dependecy.
+        * @param \Brickoo\Library\Memory\Interfaces\ContainerInterface $Container the route parasm container
+        * @return \Brickoo\Library\Memory\Interfaces\ContainerInterface
         */
-        public function getConfiguration();
-
-        /**
-         * Sets the configuration to use.
-         * @param array $configuration the configuration to use
-         * @return \Brickoo\Library\Routing\Config\RouterConfig
-         */
-        public function setConfiguration(array $configuration);
-
-        /**
-         * Configures the Router instance using the available configuration.
-         * @param \Brickoo\Library\Routing\Interfaces\RouterInterface $Routerthe Router to configure
-         * @throws Config\Exceptions\ConfigurationMissingException if the configuration is missing
-         * @return \Brickoo\Library\Routing\Config\RouterConfig
-         */
-        public function configure(\Brickoo\Library\Routing\Interfaces\RouterInterface $Router);
+        public function Params(\Brickoo\Library\Memory\Interfaces\ContainerInterface $Container = null);
 
     }

@@ -35,217 +35,72 @@
     use Brickoo\Library\Validator\TypeValidator;
 
     /**
-     * Application framework main class.
-     * Used to have an global Registry which is part managed by the framework.
-     * Holds an object of the \Brickoo\Library\Memory\Registry.
-     * Defines the Registry identifers reserved.
-     * Contains methods to make registration or checks easier.
+     * Implements methods to handle HTTP requests.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Application
+    class Application extends AbstractApplication
     {
 
         /**
-         * Defines the BrickOO Version.
-         * @var string
+         * Holds a reference to te registered Request instance.
+         * This is made for performance reasons.
+         * @var \Brickoo\Library\Core\Interfaces\RequestInterface
          */
-        const VERSION = 'DEV{3.0}';
+        protected $_Request;
 
         /**
-         * Defines the Registry reserved indetifiers.
-         * @var array
+         * Return the reference to the Request instance.
+         * @return \Brickoo\Library\Core\Interfaces\RequestInterface
          */
-        protected $reservedIdentifiers = array(
-            'application'            => 'application',
-            'logdirectory'           => 'application.log.directory',
-            'cachedirectory'         => 'application.cache.directory',
-            'environment'            => 'application.environment',
-            'modules'                => 'application.modules',
-            'router'                 => 'application.router',
-            'logger'                 => 'application.logger',
-            'sessionmanager'         => 'application.session.manager',
-            'databaseconfig'         => 'application.database.config',
-            'errorhandler'           => 'application.error.handler',
-            'exceptionhandler'       => 'application.exception.handler',
-            'request'                => 'application.request',
-            'response'               => 'application.response',
-            'autoloader'             => 'application.autoloader',
-            'outputcachemanager'     => 'application.output.cache.manager',
-            'cachemanager'           => 'application.cache.manager'
-        );
-
-        /**
-         * Holds an instance of the Registry class.
-         * @var \Brickoo\Library\Core\Interfaces\RegistryInterface
-         */
-        protected $Registry;
-
-        /**
-         * Returns the Registry dependency.
-         * @return \Brickoo\Library\Core\Interfaces\RegistryInterface
-         */
-        public function getRegistry()
+        public function Request()
         {
-            return $this->Registry;
+            if($this->_Request === null) {
+                $this->_Request = $this->Request;
+            }
+
+            return $this->_Request;
         }
 
-        /**
-         * Class constructor.
-         * Initializes the class properties.
-         * @param \Brickoo\Library\Core\Interfaces\RegistryInterface $Registry the Registry dependency to inject
-         * @param \Brickoo\Library\Core\Interfaces\RequestInterface $Request the Request dependency to inject
-         * @return void
-         */
-        public function __construct(
-            \Brickoo\Library\Core\Interfaces\RegistryInterface $Registry,
-            \Brickoo\Library\Core\Interfaces\RequestInterface $Request
+        public function isCacheableRequest()
+        {
+            return in_array($this->Request()->getMethod(), array('GET', 'HEAD'));
+        }
+
+        public function getCacheUID()
+        {
+            return null;
+        }
+
+        public function hasCachedResponse()
+        {
+            if ((! $ResponseCacheManager = $this->ResponseCacheManager) ||
+                (! $cacheUID = $this->getCacheUID())||
+                (! $cachedResponseParts = $ResponseCacheManager->get($cacheUID))
+            ){
+               return false;
+            }
+
+            $Response = new \Brickoo\Library\Http\Response();
+            $Response->setContent($cachedResponseParts . '</br><h1>CACHED</h1>');
+            $this->registerResponse($Response);
+
+            return true;
+        }
+
+        public function cacheResponse(
+            \Brickoo\Library\Http\Interfaces\ResponseInterface $Response,
+            \Brickoo\Library\Routing\Interfaces\RequestRouteInterface $RequestRoute
         )
         {
-            $this->Registry = $Registry;
-            $this->Registry->register($this->reservedIdentifiers['request'], $Request);
-        }
-
-        /**
-         * Returns the full BrickOO version with prefix and suffix.
-         * @return string the full BrickOO version
-         */
-        public function getVersion()
-        {
-            return self::VERSION;
-        }
-
-        /**
-         * Returns the BrickOO version number without prefix or suffix.
-         * @return string the BrickOO version number
-         */
-        public function getVersionNumber()
-        {
-            preg_match('~\{(?<versionNumber>[0-9\.]+)\}~', self::VERSION, $matches);
-            return $matches['versionNumber'];
-        }
-
-        /**
-         * Registers the available modules to the Registry.
-         * @param array $modules the available modules to register
-         * @return \Brickoo\Library\Core\Brickoo
-         */
-        public function registerModules(array $modules)
-        {
-            foreach($modules as $index => $moduleDirectory) {
-                $modules[$index] = rtrim($moduleDirectory, '/\\') . DIRECTORY_SEPARATOR;
-            }
-
-            $this->Registry->register($this->reservedIdentifiers['modules'], $modules);
-
-            return $this;
-        }
-
-        /**
-         * Checks if a module has been registered and should be available.
-         * @param string $moduleName the module name to check
-         * @return boolean check result
-         */
-        public function isModuleAvailable($moduleName)
-        {
-            if (! $this->Registry->isRegistered($this->reservedIdentifiers['modules'])) {
-                return false;
-            }
-
-            TypeValidator::IsString($moduleName);
-
-            return array_key_exists($moduleName, $this->Registry->get($this->reservedIdentifiers['modules']));
-        }
-
-        /**
-         * Returns the module absolute path to the root directory.
-         * @param string $moduleName the module to return the path from
-         * @throws Exceptions\ModuleNotAvailableException if the module is not available
-         * @return string the module absolute path to the root directory
-         */
-        public function getModulePath($moduleName)
-        {
-            TypeValidator::IsString($moduleName);
-
-            if (! $this->isModuleAvailable($moduleName)) {
-                throw new Exceptions\ModuleNotAvailableException($moduleName);
-            }
-
-            $modules = $this->Registry->get($this->reservedIdentifiers['modules']);
-
-            return $modules[$moduleName];
-        }
-
-        /**
-         * Registers the cache directory to the Registry.
-         * @param string $cacheDirectory the cache directory to register
-         * @return \Brickoo\Library\Core\Brickoo
-         */
-        public function registerCacheDirectory($cacheDirectory)
-        {
-            TypeValidator::IsString($cacheDirectory);
-
-            $this->Registry->register(
-                $this->reservedIdentifiers['cachedirectory'],
-                rtrim($cacheDirectory, '/\\') . DIRECTORY_SEPARATOR
-            );
-
-            return $this;
-        }
-
-        /**
-         * Registers the log directory to the Registry.
-         * @param string $logDirectory the log directory to register
-         * @return \Brickoo\Library\Core\Brickoo
-         */
-        public function registerLogDirectory($logDirectory)
-        {
-            TypeValidator::IsString($logDirectory);
-
-            $this->Registry->register(
-                $this->reservedIdentifiers['logdirectory'],
-                rtrim($logDirectory, '/\\') . DIRECTORY_SEPARATOR
-            );
-
-            return $this;
-        }
-
-        /**
-         * Returns the value of the application registered identifier.
-         * @param string $identifier the registered identifier
-         * @return mixed the value of the registered identifier or null if it is not registered
-         */
-        public function __get($identifier)
-        {
-            TypeValidator::IsString($identifier);
-
-            $reservedIdentifier = strtolower($identifier);
-            if (array_key_exists($reservedIdentifier, $this->reservedIdentifiers) &&
-                ($identifier = $this->reservedIdentifiers[$reservedIdentifier]) &&
-                $this->Registry->isRegistered($identifier)
-            ) {
-                return $this->Registry->get($identifier);
-            }
-        }
-
-        /**
-         * Registers an application identifier with its value.
-         * @param string $method the method to call
-         * @param array $arguments the value to register
-         * @throws \BadMethodCallException if the method could not be converted
-         * @return \Brickoo\Library\Core\Application
-         */
-        public function __call($method, $arguments)
-        {
-            if (! empty($arguments) &&
-                preg_match('~^register(?<identifier>[a-z]+)$~i', $method, $matches) &&
-                array_key_exists(($identifier = strtolower($matches['identifier'])), $this->reservedIdentifiers)
-            ) {
-                $this->Registry->register($this->reservedIdentifiers[$identifier], array_shift($arguments));
+            if((! $ResponseCacheManager = $this->ResponseCacheManager) ||
+                (! in_array($this->Request->getMethod(), array('GET', 'HEAD')))) {
                 return $this;
             }
 
-            throw new \BadMethodCallException(sprintf('The method `%s` is not available.', $method));
+            $ResponseCacheManager->set('UID', $Response->getContent(), 15);
+
+            return $this;
         }
 
         /**
@@ -253,51 +108,54 @@
          * Calls the Router to get the matching request Route.
          * Executes the registerd controller configuration.
          * Registers the Response returned by the controller.
-         * @todo Caching of the Response need to be implemented
-         * @todo Swap the Router creation and configuration
          * @return \Brickoo\Library\Core\Application
          */
         public function run()
         {
-            if ($this->Application === null) {
-                $this->Registry->register($this->reservedIdentifiers['application'], $this);
-            }
-
-            if (($Router = $this->Router) === null) {
-                $Router = new \Brickoo\Library\Routing\Router($this->Request);
-                $this->registerRouter($Router);
-            }
-
-            if ($this->modules !== null) {
-                $Router->setModules($this->modules);
-            }
-
-            if ($this->cacheDirectory !== null) {
-                $Router->setCacheDirectory($this->CacheDirectory);
-                $Router->loadRoutesFromCache();
-            }
-
             try {
-                if ($Route = $Router->getRequestRoute()) {
-                    $ControllerConfig = $Route->getController();
-                    $Controller = new $ControllerConfig['controller'];
-                    $Response = call_user_func(array($Controller, $ControllerConfig['method']));
-                    if ($Response instanceof Interfaces\ResponseInterface) {
-                        $this->registerResponse($Response);
-                    }
+
+                $Router = $this->getRouter();
+
+                $this->configureRouter();
+
+                if ($Router->hasCacheDirectory()) {
+                    $Router->loadRoutesFromCache();
+                }
+
+                $this->registerRequestRoute(($RequestRoute = $Router->getRequestRoute()));
+
+                if ((! $this->isCacheableRequest()) || (! $this->hasCachedResponse())) {
+                    $this->execute($RequestRoute);
                 }
             }
             catch (\Exception $Exception) {
                 $Response = new \Brickoo\Library\Http\Response();
-                $Response->setContent('<h1>' . $Exception->getMessage() . '</h1>');
+                $Response->setContent($Exception->getMessage());
                 $this->registerResponse($Response);
             }
 
             return $this;
         }
 
+        public function execute($RequestRoute)
+        {
+            $RouteController = $RequestRoute->getController();
+            if (! $RouteController['static']) {
+                $RouteController['controller'] = new $RouteController['controller'];
+            }
+
+            $Response = call_user_func(array($RouteController['controller'], $RouteController['method']));
+
+            if ($Response instanceof Interfaces\ResponseInterface) {
+                $this->registerResponse($Response);
+                $this->cacheResponse($Response, $RequestRoute);
+            }
+
+            return $this;
+        }
+
         /**
-         * Sends the Response content to the output buffer.
+         * Sends the Response headers and content.
          * @return \Brickoo\Library\Core\Application
          */
         public function send()

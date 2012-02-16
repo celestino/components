@@ -97,8 +97,8 @@
         }
 
         /**
+         * Test if the a reserved namespace is recoginized.
          * @covers Brickoo\Library\Config\ConfigurationNamespace::IsNamespaceReserved
-         * @todo Implement testIsNamespaceReserved().
          */
         public function testIsNamespaceReserved()
         {

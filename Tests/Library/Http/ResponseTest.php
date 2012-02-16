@@ -324,8 +324,8 @@
         }
 
         /**
+         * Test if the response including headers and content would be sent.
          * @covers Brickoo\Library\Http\Response::send
-         * @todo Implement testSend().
          */
         public function testSend()
         {

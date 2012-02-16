@@ -34,6 +34,7 @@
 
     use Brickoo\Library\Core;
     use Brickoo\Library\System;
+    use Brickoo\Library\Memory;
     use Brickoo\Library\Validator\TypeValidator;
 
     /**
@@ -58,7 +59,7 @@
          * @param string $interface the interface which has to be implemented by the dependency
          * @param callback $callback the callback to create a new dependency
          * @param object $Dependecy the dependecy to inject
-         * @return object Request if overwritten otherwise the dependency
+         * @return object Router if overwritten otherwise the dependency
          */
         protected function getDependency($name, $interface, $callback, $Dependecy = null)
         {
@@ -74,7 +75,7 @@
 
         /**
          * Lazy initialization of the RouteCollection dependecy.
-         * @param \Brickoo\Library\Routing\Interfaces\RouteCollectionInterface $RouteCollection the colection of routes
+         * @param \Brickoo\Library\Routing\Interfaces\RouteCollectionInterface $RouteCollection the collection of routes
          * @return \Brickoo\Library\Routing\Interfaces\RouterCollectionInterface
          */
         public function RouteCollection(\Brickoo\Library\Routing\Interfaces\RouteCollectionInterface $RouteCollection = null)
@@ -84,6 +85,21 @@
                 '\Brickoo\Library\Routing\Interfaces\RouteCollectionInterface',
                 function(){return new RouteCollection();},
                 $RouteCollection
+            );
+        }
+
+        /**
+         * Lazy initialization of the Aliases dependecy.
+         * @param \Brickoo\Library\Memory\Interfaces\ContainerInterface $Aliases the Container dependency
+         * @return \Brickoo\Library\Memory\Interfaces\ContainerInterface
+         */
+        public function Aliases(\Brickoo\Library\Memory\Interfaces\ContainerInterface $Aliases = null)
+        {
+            return $this->getDependency(
+                'Aliases',
+                '\Brickoo\Library\Memory\Interfaces\ContainerInterface',
+                function(){return new Memory\Container();},
+                $Aliases
             );
         }
 
@@ -247,7 +263,7 @@
 
         /**
          * Holds the requeste Route instance.
-         * @var Brickoo\Library\Routing\Interfaces\Route
+         * @var Brickoo\Library\Routing\Interfaces\RequestRouteInterface
          */
         protected $RequestRoute;
 
@@ -263,7 +279,7 @@
                 throw new Core\Exceptions\ValueOverwriteException('Router::RequestRoute');
             }
 
-            $this->RequestRoute = $Route;
+            $this->RequestRoute = new RequestRoute($Route);
 
             return $this;
         }
@@ -274,7 +290,7 @@
          */
         public function hasRequestRoute()
         {
-            return ($this->RequestRoute instanceof Interfaces\RouteInterface);
+            return ($this->RequestRoute instanceof Interfaces\RequestRouteInterface);
         }
 
         /**
@@ -349,7 +365,7 @@
                 $this->saveRoutesToCache();
             }
 
-            return $this->getRequestRoute();
+            return $this->RequestRoute;
         }
 
         /**
@@ -366,6 +382,7 @@
             $this->FileObject         = null;
             $this->cacheDirectory     = null;
             $this->modules            = array();
+            $this->aliases            = array();
             $this->cacheFilename      = 'router.routes.php';
             $this->routesFilename     = 'routes.php';
         }
@@ -461,20 +478,54 @@
         }
 
         /**
-         * Returns a regular expression from the route path and rules or default values available.
-         * @param \Brickoo\Library\Routing\Interfaces\RouteInterface $Route the route to use
-         * @return string the regular expresion for the request path
+         * Returns the Route regular expression to add for matching formats.
+         * @param \Brickoo\Library\Routing\Interfaces\RouteInterface $Route the Route instance
+         * @return string the regular expression of the route format
          */
-        public function getRegexFromRoutePath(\Brickoo\Library\Routing\Interfaces\RouteInterface $Route)
+        public function getRegexRouteFormat(\Brickoo\Library\Routing\Interfaces\RouteInterface $Route)
         {
-            $regex = $Route->getPath();
-
             $formatRegex = '(\..*)?';
+
             if (($routeFormat = $Route->getFormat()) !== null) {
                 $formatRegex = '\.(' . $routeFormat . ')';
             }
 
-            $regex .= $formatRegex;
+            return $formatRegex;
+        }
+
+        /**
+         * Returns the route path containg the aliases definitions.
+         * @param string $routePath the route path to look for aliases
+         * @return string the modified route path containing the aliases
+         */
+        public function getRouteAliasesPath($routePath)
+        {
+            TypeValidator::IsString($routePath);
+
+            if (($Aliases = $this->Aliases()) && (! $Aliases->isEmpty())) {
+                while($Aliases->valid()) {
+                    if (($position = strpos($routePath, ($key = $Aliases->key()))) === 1) {
+                        $replacement = sprintf('(%s|%s)', $key, preg_quote($Aliases->current(), '~'));
+                        $routePath = str_replace($key, $replacement, $routePath);
+                        break;
+                    }
+                    $Aliases->next();
+                }
+                $Aliases->rewind();
+            }
+
+            return $routePath;
+        }
+
+        /**
+         * Returns a regular expression from the route path and rules or default values available.
+         * @param \Brickoo\Library\Routing\Interfaces\RouteInterface $Route the route to use
+         * @return string the regular expression for the request path
+         */
+        public function getRegexFromRoutePath(\Brickoo\Library\Routing\Interfaces\RouteInterface $Route)
+        {
+            $regex  = $this->getRouteAliasesPath($Route->getPath());
+            $regex .= $this->getRegexRouteFormat($Route);
 
             if (preg_match_all('~(\{(?<parameters>[\w]+)\})~', $regex, $matches)) {
                 foreach ($matches['parameters'] as $parameterName) {

@@ -46,7 +46,7 @@
      * The Application class is used as a global registry.
      * You can register any configuration or global objects.
      * Registers the Registry used as global container.
-     * Registers the Request which should be processed, this can be Http\Request, Cli\Request
+     * Registers the Request which should be processed, this can be a Http\Request instance
      * or any other object implementing the Core\Interfaces\RequestInterface.
      * Values will be copy by value and made readonly while objects are not cloned.
      * Registers the Autoloader to the Registry which will be used to load the modules.
@@ -75,14 +75,14 @@
      * Create a CacheManager instance for cache purposes.
      * The CacheManager needs a Provider to handle cache operations, for simplicity
      * we do use the FileProvider to cache the content.
-     * Registers the same CacheManager for Output and as data cache.
+     * Registers the same CacheManager as reponse and as data cache.
      * Recommended to enable output caching and/or other heavy performace cost data.
      */
     $CacheProvider = new \Brickoo\Library\Cache\Provider\FileProvider();
     $CacheProvider->setDirectory($Application->cacheDirectory);
     $CacheManager = new \Brickoo\Library\Cache\CacheManager($CacheProvider);
     $Application->registerCacheManager($CacheManager)
-                ->registerOutputCacheManager($CacheManager);
+                ->registerResponseCacheManager($CacheManager);
     /**
      * [OPTIONAL]
      * Create a Logger instance and add it to the Registry.

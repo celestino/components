@@ -49,7 +49,7 @@
 
         /**
          * Returns a Request stub .
-         * @return Brickoo\Library\Core\Interfaces\DynamicInterface
+         * @return \Brickoo\Library\Core\Interfaces\DynamicInterface
          */
         public function getRequestStub()
         {
@@ -62,25 +62,35 @@
 
         /**
         * Returns a RouteCollection stub.
-        * @return Brickoo\Library\Routing\Interfaces\RouteCollectionInterface
+        * @return \Brickoo\Library\Routing\Interfaces\RouteCollectionInterface
         */
         public function getRouteCollectionStub()
         {
-            return $this->getMock
-            (
+            return $this->getMock(
                 'Brickoo\Library\Routing\Interfaces\RouteCollectionInterface',
                 array('getRoutes', 'addRoutes', 'getRoute', 'hasRoutes')
             );
         }
 
         /**
+         * Returns an Aliases stub.
+         * @return \Brickoo\Library\Memory\Interfaces\ContainerInterface
+         */
+        public function getAliasesStub()
+        {
+            return $this->getMock(
+                'Brickoo\Library\Memory\Container',
+                array('valid', 'key', 'current', 'next', 'rewind', 'isEmpty')
+            );
+        }
+
+        /**
         * Returns a Route stub .
-        * @return Brickoo\Library\Routing\Interfaces\RouteInterface
+        * @return \Brickoo\Library\Routing\Interfaces\RouteInterface
         */
         public function getRouteStub()
         {
-            return $this->getMock
-            (
+            return $this->getMock(
                 'Brickoo\Library\Routing\Interfaces\RouteInterface'
             );
         }
@@ -107,6 +117,33 @@
         public function testConstruct()
         {
             $this->assertInstanceOf('Brickoo\Library\Routing\Interfaces\RouterInterface', $this->Router);
+        }
+
+        /**
+         * Test if the Alias dependency can be injected and the Router reference is returned.
+         * @covers Brickoo\Library\Routing\Router::Aliases
+         */
+        public function testInjectAliases()
+        {
+            $Aliases = $this->getAliasesStub();
+            $this->assertSame($this->Router, $this->Router->Aliases($Aliases));
+            $this->assertAttributeContains($Aliases, 'dependencies', $this->Router);
+            $this->assertSame($Aliases, $this->Router->Aliases());
+        }
+
+        /**
+         * Test if the Aliases can be lazy initialized.
+         * @covers Brickoo\Library\Routing\Router::Aliases
+         */
+        public function testAliasesLazyInitialization()
+        {
+            $this->assertInstanceOf(
+                'Brickoo\Library\Memory\Container',
+                ($Aliases = $this->Router->Aliases())
+            );
+
+            $this->assertAttributeContains($Aliases, 'dependencies', $this->Router);
+            $this->assertSame($Aliases, $this->Router->Aliases());
         }
 
         /**
@@ -301,7 +338,11 @@
         {
             $Route = $this->getRouteStub();
             $this->assertSame($this->Router, $this->Router->setRequestRoute($Route));
-            $this->assertAttributeSame($Route, 'RequestRoute', $this->Router);
+            $this->assertAttributeInstanceOf(
+                'Brickoo\Library\Routing\Interfaces\RequestRouteInterface',
+                'RequestRoute',
+                $this->Router
+            );
 
             return $this->Router;
         }
@@ -453,7 +494,7 @@
         {
             $this->assertInstanceOf
             (
-                'Brickoo\Library\Routing\Interfaces\RouteInterface',
+                'Brickoo\Library\Routing\Interfaces\RequestRouteInterface',
                 $Router->getRequestRoute()
             );
         }
@@ -486,14 +527,12 @@
          */
         public function testGetRequestRouteResponsible($Router)
         {
-            $hasRule = array
-            (
+            $hasRule = array(
                 array('name', true),
                 array('otherplace', true)
             );
 
-            $getRule = array
-            (
+            $getRule = array(
                 array('name', '[a-z]+'),
                 array('otherplace', '.*')
             );
@@ -533,8 +572,12 @@
 
             $Router->RouteCollection($RouteCollectionStub);
 
-            $this->assertSame($RouteStub, $Router->getRequestRoute());
-            $this->assertAttributeSame($RouteStub, 'RequestRoute', $Router);
+            $this->assertInstanceOf('Brickoo\Library\Routing\Interfaces\RequestRouteInterface', $Router->getRequestRoute());
+            $this->assertAttributeInstanceOf(
+                'Brickoo\Library\Routing\Interfaces\RequestRouteInterface',
+                'RequestRoute',
+                $Router
+            );
         }
 
         /**
@@ -570,10 +613,8 @@
                             ->addDefaultValue('name', 'somename')
                             ->addDefaultValue('otherplace', 'someplace');
 
-            $expectedCompression = array
-            (
-                array
-                (
+            $expectedCompression = array(
+                array(
                     'path'        => '~^/path(/(?<name>([a-z]+)?))?/to(/(?<otherplace>(.*)?))?(\..*)?$~i',
                     'method'      => '~^(GET|HEAD)$~i',
                     'hostname'    => '~^(([a-z]+\.)?localhost\.com)$~i',
@@ -634,7 +675,7 @@
 
             $this->Router->setCacheDirectory(sys_get_temp_dir());
             $this->Router->loadRoutesFromCache();
-            $this->assertInstanceOf('Brickoo\Library\Routing\Interfaces\RouteInterface', $this->Router->getRequestRoute());
+            $this->assertInstanceOf('Brickoo\Library\Routing\Interfaces\RequestRouteInterface', $this->Router->getRequestRoute());
 
             unlink($this->Router->getCacheDirectory() . $this->Router->getCacheFilename());
         }
@@ -642,6 +683,8 @@
         /**
          * Test if the regular expression is returned as expected.
          * @covers Brickoo\Library\Routing\Router::getRegexFromRoutePath
+         * @covers Brickoo\Library\Routing\Router::getRegexRouteFormat
+         * @covers Brickoo\Library\Routing\Router::getRouteAliasesPath
          */
         public function testGetRegexFromRoutePath()
         {
@@ -674,9 +717,28 @@
                       ->method('getFormat')
                       ->will($this->returnValue('json'));
 
+            $Aliases = $this->getAliasesStub();
+            $Aliases->expects($this->exactly(2))
+                    ->method('valid')
+                    ->will($this->returnValue(true));
+            $Aliases->expects($this->exactly(2))
+                    ->method('key')
+                    ->will($this->onConsecutiveCalls('next', 'path'));
+            $Aliases->expects($this->once())
+                    ->method('current')
+                    ->will($this->returnValue('new_path'));
+            $Aliases->expects($this->once())
+                    ->method('rewind')
+                    ->will($this->returnSelf());
+            $Aliases->expects($this->once())
+                    ->method('isEmpty')
+                    ->will($this->returnValue(false));
+
+            $this->Router->Aliases($Aliases);
+
             $this->assertEquals
             (
-                '~^/path/(?<name>[a-z]+)/to/(?<otherplace>.*)/index\.(json)$~i',
+                '~^/(path|new_path)/(?<name>[a-z]+)/to/(?<otherplace>.*)/index\.(json)$~i',
                 $this->Router->getRegexFromRoutePath($RouteStub)
             );
         }

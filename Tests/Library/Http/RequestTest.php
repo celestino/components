@@ -183,6 +183,33 @@
         }
 
         /**
+         * Test if the Files dependency can be lazy initialized and stored.
+         * @covers Brickoo\Library\Http\Request::Files
+         * @covers Brickoo\Library\Http\Request::getDependency
+         */
+        public function testFilesLazyInitialization()
+        {
+            $this->assertInstanceOf
+            (
+                'Brickoo\Library\Memory\Interfaces\ContainerInterface',
+                $this->Request->Files()
+            );
+            $this->assertAttributeContains($this->Request->Files(), 'dependencies', $this->Request);
+        }
+
+        /**
+         * Test if the Files dependency inject is stored and the Request reference is returned.
+         * @covers Brickoo\Library\Http\Request::Files
+         * @covers Brickoo\Library\Http\Request::getDependency
+         */
+        public function testFilesInjection()
+        {
+            $Files = $this->getMock('\Brickoo\Library\Memory\Interfaces\ContainerInterface');
+            $this->assertSame($this->Request, $this->Request->Files($Files));
+            $this->assertAttributeContains($Files, 'dependencies', $this->Request);
+        }
+
+        /**
          * Test if setter and getter work together like expected.
          * @covers Brickoo\Library\Http\Request::setProtocol
          * @covers Brickoo\Library\Http\Request::getProtocol

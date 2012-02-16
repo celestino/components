@@ -30,9 +30,6 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Library\Error\ErrorHandler;
-
-
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 

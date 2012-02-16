@@ -137,8 +137,31 @@
             return $this->getDependency(
                 'Post',
                 '\Brickoo\Library\Memory\Interfaces\ContainerInterface',
-                function(){return new Memory\Container();},
+                function(){
+                    $Container = new Memory\Container();
+                    $Container->merge($_POST);
+                    return $Container;
+                },
                 $Post
+            );
+        }
+
+        /**
+         * Lazy initialization of the Files dependency.
+         * @param \Brickoo\Library\Memory\Interfaces\ContainerInterface $Files the Files dependency to inject
+         * @return \Brickoo\Library\Memory\Interfaces\ContainerInterface
+         */
+        public function Files(\Brickoo\Library\Memory\Interfaces\ContainerInterface $Files = null)
+        {
+            return $this->getDependency(
+                'Files',
+                '\Brickoo\Library\Memory\Interfaces\ContainerInterface',
+                function(){
+                    $Container = new Memory\Container();
+                    $Container->merge($_FILES);
+                    return $Container;
+                },
+                $Files
             );
         }
 

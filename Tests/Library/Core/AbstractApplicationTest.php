@@ -93,9 +93,8 @@
         {
             $Request  = $this->getRequestStub();
             $Registry = $this->getRegistryStub();
-            $Registry->expects($this->once())
-                     ->method('register')
-                     ->with('application.request', $Request);
+            $Registry->expects($this->exactly(2))
+                     ->method('register');
 
             $Application = new Application($Registry, $Request);
             $this->assertInstanceOf('Brickoo\Library\Core\Application', $Application);
@@ -266,6 +265,85 @@
         public function testMagicCallBadMethodException()
         {
             $this->Application->methodDoesNotExist();
+        }
+
+        /**
+         * Test if the Router can be injected and is returned.
+         * @covers Brickoo\Library\Core\Application::getRouter
+         */
+        public function testGetRouterInjected()
+        {
+            $Router = $this->getMock('Brickoo\Library\Routing\Interfaces\RouterInterface');
+
+            $Registry = $this->Application->getRegistry();
+            $Registry->expects($this->once())
+                     ->method('isRegistered')
+                     ->with('application.router')
+                     ->will($this->returnValue(true));
+            $Registry->expects($this->once())
+                     ->method('get')
+                     ->with('application.router')
+                     ->will($this->returnValue($Router));
+
+            $this->assertSame($Router, $this->Application->getRouter());
+        }
+
+        /**
+         * Test if the Router can be lazy initialized and is returned.
+         * @covers Brickoo\Library\Core\Application::getRouter
+         */
+        public function testGetRouterLazyInitialization()
+        {
+            $Request = $this->getMock('Brickoo\Library\Core\Interfaces\RequestInterface');
+
+            $Registry = $this->Application->getRegistry();
+            $Registry->expects($this->exactly(2))
+                     ->method('isRegistered')
+                     ->will($this->onConsecutiveCalls(false, true));
+            $Registry->expects($this->once())
+                     ->method('get')
+                     ->with('application.request')
+                     ->will($this->returnValue($Request));
+
+            $this->assertInstanceOf('Brickoo\Library\Routing\Interfaces\RouterInterface', $this->Application->getRouter());
+        }
+
+        /**
+         * Test if the Router can be configured and the Application reference is returned.
+         * @covers Brickoo\Library\Core\Application::configureRouter
+         */
+        public function testConfigureRouter()
+        {
+            $Router = $this->getMock(
+                'Brickoo\Library\Routing\Router',
+                array('setCacheDirectory', 'setModules'),
+                array($this->getMock('Brickoo\Library\Core\Interfaces\RequestInterface'))
+            );
+            $Router->expects($this->once())
+                   ->method('setCacheDirectory')
+                   ->with('/path/to/cache')
+                   ->will($this->returnSelf());
+            $Router->expects($this->once())
+                   ->method('setModules')
+                   ->with(array('ModuleA' => '/path/to/moduleA'))
+                   ->will($this->returnSelf());
+
+            $valueMap = array(
+                array('application.router', $Router),
+                array('application.cache.directory', '/path/to/cache'),
+                array('application.modules', array('ModuleA' => '/path/to/moduleA'))
+            );
+
+            $Registry = $this->Application->getRegistry();
+            $Registry->expects($this->any())
+                     ->method('isRegistered')
+                     ->will($this->returnValue(true));
+            $Registry->expects($this->exactly(3))
+                     ->method('get')
+                     ->will($this->returnValueMap($valueMap));
+
+            $this->assertSame($this->Application, $this->Application->configureRouter());
+
         }
 
 
