@@ -166,7 +166,6 @@
         public function run()
         {
             try {
-                $this->configureRouter();
                 $Router = $this->Router();
 
                 if ($Router->hasCacheDirectory()) {

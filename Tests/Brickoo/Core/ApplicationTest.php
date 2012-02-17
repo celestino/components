@@ -298,40 +298,8 @@
         {
             $Request = $this->getMock('Brickoo\Core\Interfaces\RequestInterface');
 
-            $Registry = $this->Application->Registry();
-            $Registry->expects($this->exactly(2))
-                     ->method('isRegistered')
-                     ->will($this->onConsecutiveCalls(false, true));
-            $Registry->expects($this->once())
-                     ->method('get')
-                     ->with('application.request')
-                     ->will($this->returnValue($Request));
-
-            $this->assertInstanceOf('Brickoo\Routing\Interfaces\RouterInterface', $this->Application->Router());
-        }
-
-        /**
-         * Test if the Router can be configured and the Application reference is returned.
-         * @covers Brickoo\Core\Application::configureRouter
-         */
-        public function testConfigureRouter()
-        {
-            $Router = $this->getMock(
-                'Brickoo\Routing\Router',
-                array('setCacheDirectory', 'setModules'),
-                array($this->getMock('Brickoo\Core\Interfaces\RequestInterface'))
-            );
-            $Router->expects($this->once())
-                   ->method('setCacheDirectory')
-                   ->with('/path/to/cache')
-                   ->will($this->returnSelf());
-            $Router->expects($this->once())
-                   ->method('setModules')
-                   ->with(array('ModuleA' => '/path/to/moduleA'))
-                   ->will($this->returnSelf());
-
             $valueMap = array(
-                array('application.router', $Router),
+                array('application.request', $Request),
                 array('application.cache.directory', '/path/to/cache'),
                 array('application.modules', array('ModuleA' => '/path/to/moduleA'))
             );
@@ -340,12 +308,11 @@
             $Registry->expects($this->any())
                      ->method('isRegistered')
                      ->will($this->returnValue(true));
-            $Registry->expects($this->exactly(3))
+            $Registry->expects($this->any())
                      ->method('get')
                      ->will($this->returnValueMap($valueMap));
 
-            $this->assertSame($this->Application, $this->Application->configureRouter());
-
+            $this->assertInstanceOf('Brickoo\Routing\Interfaces\RouterInterface', $this->Application->Router());
         }
 
         /**

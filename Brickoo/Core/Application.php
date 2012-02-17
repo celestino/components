@@ -275,27 +275,17 @@
         {
             if (($Router = $this->Router) === null) {
                 $Router = new \Brickoo\Routing\Router($this->Request);
+
+                if (($directory = $this->cacheDirectory) !== null) {
+                    $Router->setCacheDirectory($directory);
+                }
+
+                $Router->setModules(($modules = $this->modules) ?: array());
+
                 $this->registerRouter($Router);
             }
 
             return $Router;
-        }
-
-        /**
-         * Configures the Router cache directory and available modules.
-         * @return \Brickoo\Core\Application
-         */
-        public function configureRouter()
-        {
-            $Router = $this->Router();
-
-            if (($directory = $this->cacheDirectory) !== null) {
-                $Router->setCacheDirectory($directory);
-            }
-
-            $Router->setModules(($modules = $this->modules) ?: array());
-
-            return $this;
         }
 
         /**
