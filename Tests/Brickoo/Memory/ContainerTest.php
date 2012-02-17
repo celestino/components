@@ -134,12 +134,12 @@
         }
 
         /**
-         * Test if element can be added to the container.
-         * @covers Brickoo\Memory\Container::add
+         * Test if element can be set to the container.
+         * @covers Brickoo\Memory\Container::set
          */
-        public function testAdd()
+        public function testSet()
         {
-            $this->assertSame($this->Container, $this->Container->add('unit', 'test'));
+            $this->assertSame($this->Container, $this->Container->set('unit', 'test'));
             $this->assertAttributeEquals(array('unit' => 'test'), 'container', $this->Container);
         }
 

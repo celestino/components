@@ -51,12 +51,12 @@
         public function get($offset, $defaultValue = null);
 
         /**
-         * Adds an offset-value pair to the array object.
+         * Sets an offset-value pair to the array object.
          * @param string|imteger $offset the offset to add
          * @param mixed $value the value of the offset
          * @return \Brickoo\Memory\Container
          */
-        public function add($offset, $value);
+        public function set($offset, $value);
 
         /**
          * Checks if the element is available.
