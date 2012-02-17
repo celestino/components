@@ -190,4 +190,30 @@
             $this->assertEquals('some description', $this->Description->getDescription());
         }
 
+        /**
+         * Test if the description can be returned as string.
+         * @covers Brickoo\Module\description::toString
+         * @covers Brickoo\Module\description::__toString
+         */
+        public function testDescriptionToString()
+        {
+            $expected = '';
+            $expected .= "Vendor: Brickoo\n";
+            $expected .= "Website: http://brickoo.test\n";
+            $expected .= "Contact: contact@brickoo.test\n";
+            $expected .= "Status: stable\n";
+            $expected .= "Version: 3.0\n";
+            $expected .= "Description: some description text";
+
+            $this->Description->setVendor('Brickoo')
+                              ->setWebsite('http://brickoo.test')
+                              ->setContact('contact@brickoo.test')
+                              ->setStatus('stable')
+                              ->setVersion('3.0')
+                              ->setDescription('some description text');
+
+            $this->assertEquals($expected, $this->Description->toString());
+            $this->assertEquals($expected, (string)$this->Description);
+        }
+
     }

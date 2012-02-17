@@ -254,4 +254,40 @@
             $this->availableStatus = array('stable', 'dev', 'beta', 'alpha', 'rc');
         }
 
+        /**
+         * Returns the module description as string.
+         * @return string the module description
+         */
+        public function toString()
+        {
+            $result = '';
+
+            $result .= "Vendor: " . $this->getVendor() . "\n";
+            $result .= "Website: " . $this->getWebsite() . "\n";
+            $result .= "Contact: " . $this->getContact() . "\n";
+
+            if ($stautus = $this->getStatus()) {
+                $result .= "Status: " . $stautus . "\n";
+            }
+
+            if ($version = $this->getVersion()) {
+                $result .= "Version: " . $version . "\n";
+            }
+
+            if($description = $this->getDescription()) {
+                $result .= "Description: " . $description;
+            }
+
+            return $result;
+        }
+
+        /**
+         * Returns the module description as string.
+         * @return string the module description
+         */
+        public function __toString()
+        {
+            return $this->toString();
+        }
+
     }
