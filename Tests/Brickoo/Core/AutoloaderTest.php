@@ -85,13 +85,24 @@
         }
 
         /**
-         * Test if the not valid argumentsthrows an exception.
+         * Test if the not valid arguments throws an exception.
          * @covers Brickoo\Core\Autoloader::registerNamespace
          * @expectedException InvalidArgumentException
          */
         public function testRegisterNamespaceArgumentException()
         {
             $this->Autoloader->registerNamespace(array('wrongType'), null);
+        }
+
+        /**
+         * Test if the not available directory throws an exception.
+         * @covers Brickoo\Core\Autoloader::registerNamespace
+         * @covers Brickoo\Core\Exceptions\DirectoryDoesNotExistException
+         * @expectedException Brickoo\Core\Exceptions\DirectoryDoesNotExistException
+         */
+        public function testRegisterNamespaceDirectoryException()
+        {
+            $this->Autoloader->registerNamespace('brickoo', 'path/does/not/exist');
         }
 
         /**

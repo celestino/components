@@ -421,11 +421,13 @@
         /**
          * Test if all ruels can be retrieved.
          * @covers Brickoo\Routing\Route::getRules
+         * @covers Brickoo\Routing\Route::hasRules
          * @depends testAddRule
          */
         public function testGetRules($Route)
         {
             $this->assertEquals(array('name' => '[a-z]+'), $Route->getRules());
+            $this->assertTrue($Route->hasRules());
         }
 
         /**

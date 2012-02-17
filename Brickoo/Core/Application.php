@@ -271,7 +271,7 @@
          * Layt initiliaziation of the Router dependency.
          * @return \Brickoo\Routing\Interfaces\RouterInterface
          */
-        public function getRouter()
+        public function Router()
         {
             if (($Router = $this->Router) === null) {
                 $Router = new \Brickoo\Routing\Router($this->Request);
@@ -287,13 +287,31 @@
          */
         public function configureRouter()
         {
-            $Router = $this->getRouter();
+            $Router = $this->Router();
 
             if (($directory = $this->cacheDirectory) !== null) {
                 $Router->setCacheDirectory($directory);
             }
 
             $Router->setModules(($modules = $this->modules) ?: array());
+
+            return $this;
+        }
+
+        /**
+         * Configures the Controller by adding the dependencies.
+         * @param \Brickoo\Core\Interfaces\ControllerInterface $Controller the Controller to configure
+         * @return \Brickoo\Core\Application
+         */
+        public function configureController(\Brickoo\Core\Interfaces\ControllerInterface $Controller)
+        {
+            $Controller->Registry($this->Registry())
+                       ->Request($this->Request())
+                       ->Application($this);
+
+            if ($RequestRoute = $this->RequestRoute) {
+                $Controller->Route($RequestRoute);
+            }
 
             return $this;
         }

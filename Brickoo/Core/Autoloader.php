@@ -72,10 +72,14 @@
             (
                 (! is_string($namespace)) ||
                 (! $namespace = trim($namespace)) ||
-                (! is_string($namespacePath)) ||
-                (! is_dir($namespacePath))
+                (! is_string($namespacePath))
             ) {
                 throw new \InvalidArgumentException('Invalid arguments used.');
+            }
+
+            if (! is_dir($namespacePath)) {
+                require_once 'Exceptions/DirectoryDoesNotExistException.php';
+                throw new Exceptions\DirectoryDoesNotExistException($namespacePath);
             }
 
             if ($this->isNamespaceRegistered($namespace)) {

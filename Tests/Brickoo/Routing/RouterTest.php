@@ -91,7 +91,8 @@
         public function getRouteStub()
         {
             return $this->getMock(
-                'Brickoo\Routing\Interfaces\RouteInterface'
+                'Brickoo\Routing\Interfaces\RouteInterface',
+                array()
             );
         }
 
@@ -578,6 +579,87 @@
                 'RequestRoute',
                 $Router
             );
+        }
+
+        /**
+         * Test if the request route params are passed to the request route.
+         * @covers Brickoo\Routing\Router::getRequestRouteParams
+         */
+        public function testGetRequestRouteParams()
+        {
+            $expected = array(
+                'name'    => 'brickoo',
+                'place'   => 'home'
+            );
+
+            $hasRule = array(
+                array('name', true),
+                array('place', true)
+            );
+
+            $getRule = array(
+                array('name', '[a-z]+'),
+                array('place', '.*')
+            );
+
+            $getRules = array('name' => '[a-z]+', 'place' => '.*');
+
+            $hasDefaultValue = array(
+                array('name', false),
+                array('place', true)
+            );
+
+            $getDefaultValue = array(
+                array('place', 'home')
+            );
+
+            $RouteStub = $this->getRouteStub();
+            $RouteStub->expects($this->any())
+                    ->method('getPath')
+                    ->will($this->returnValue('/path/{name}/{place}'));
+            $RouteStub->expects($this->any())
+                    ->method('hasRules')
+                    ->will($this->returnValue(true));
+            $RouteStub->expects($this->any())
+                    ->method('hasRule')
+                    ->will($this->returnValueMap($hasRule));
+            $RouteStub->expects($this->any())
+                    ->method('hasDefaultValue')
+                    ->will($this->returnValueMap($hasDefaultValue));
+            $RouteStub->expects($this->any())
+                    ->method('getDefaultValue')
+                    ->will($this->returnValueMap($getDefaultValue));
+            $RouteStub->expects($this->any())
+                    ->method('getRule')
+                    ->will($this->returnValueMap($getRule));
+            $RouteStub->expects($this->any())
+                    ->method('getRules')
+                    ->will($this->returnValue($getRules));
+            $RouteStub->expects($this->any())
+                    ->method('getMethod')
+                    ->will($this->returnValue('GET'));
+
+            $RequestStub = $this->Router->getRequest();
+            $RequestStub->expects($this->any())
+                        ->method('getPath')
+                        ->will($this->returnValue('/path/brickoo/'));
+            $RequestStub->expects($this->any())
+                        ->method('getMethod')
+                        ->will($this->returnValue('GET'));
+
+            $this->Router->setRequestRoute($RouteStub);
+            $this->assertEquals($expected, $this->Router->getRequestRouteParams());
+        }
+
+        /**
+         * Test if trying to retrieve the params from an not available request route throws an exception.
+         * @covers Brickoo\Routing\Router::getRequestRouteParams
+         * @covers Brickoo\Routing\Exceptions\RequestHasNoRouteException::__construct
+         * @expectedException \Brickoo\Routing\Exceptions\RequestHasNoRouteException
+         */
+        public function testGetRequestRouteParamsException()
+        {
+            $this->Router->getRequestRouteParams();
         }
 
         /**

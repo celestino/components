@@ -271,7 +271,7 @@
 
         /**
          * Test if the Router can be injected and is returned.
-         * @covers Brickoo\Core\Application::getRouter
+         * @covers Brickoo\Core\Application::Router
          */
         public function testGetRouterInjected()
         {
@@ -287,12 +287,12 @@
                      ->with('application.router')
                      ->will($this->returnValue($Router));
 
-            $this->assertSame($Router, $this->Application->getRouter());
+            $this->assertSame($Router, $this->Application->Router());
         }
 
         /**
          * Test if the Router can be lazy initialized and is returned.
-         * @covers Brickoo\Core\Application::getRouter
+         * @covers Brickoo\Core\Application::Router
          */
         public function testGetRouterLazyInitialization()
         {
@@ -307,7 +307,7 @@
                      ->with('application.request')
                      ->will($this->returnValue($Request));
 
-            $this->assertInstanceOf('Brickoo\Routing\Interfaces\RouterInterface', $this->Application->getRouter());
+            $this->assertInstanceOf('Brickoo\Routing\Interfaces\RouterInterface', $this->Application->Router());
         }
 
         /**
@@ -346,6 +346,49 @@
 
             $this->assertSame($this->Application, $this->Application->configureRouter());
 
+        }
+
+        /**
+         * Test if a conreoller implementing the ControllerInterface can be configured
+         * with the dependencies.
+         * @covers Brickoo\Core\Application::configureController
+         */
+        public function testConfigureController()
+        {
+            $Route = $this->getMock('Brickoo\Routing\Interfaces\RequestRouteInterface');
+
+            $Registry = $this->Application->Registry();
+            $Registry->expects($this->once())
+                     ->method('isRegistered')
+                     ->with('application.request.route')
+                     ->will($this->returnValue(true));
+            $Registry->expects($this->once())
+                     ->method('get')
+                     ->with('application.request.route')
+                     ->will($this->returnValue($Route));
+
+            $Controller = $this->getMock(
+                'Brickoo\Core\Interfaces\ControllerInterface',
+                array('Registry', 'Application', 'Route', 'Request')
+            );
+            $Controller->expects($this->once())
+                       ->method('Registry')
+                       ->with($this->Application->Registry())
+                       ->will($this->returnSelf());
+            $Controller->expects($this->once())
+                       ->method('Application')
+                       ->with($this->Application)
+                       ->will($this->returnSelf());
+            $Controller->expects($this->once())
+                       ->method('Request')
+                       ->with($this->Application->Request())
+                       ->will($this->returnSelf());
+            $Controller->expects($this->once())
+                       ->method('Route')
+                       ->with($Route)
+                       ->will($this->returnSelf());
+
+            $this->assertSame($this->Application, $this->Application->configureController($Controller));
         }
 
 

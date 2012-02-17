@@ -30,29 +30,27 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Routing\Interfaces;
+    namespace Brickoo\Core\Exceptions;
 
     /**
-     * RequestRouteInterface
+     * DirectoryDoesNotExistException
      *
-     * Describes the methods implemented by this interface.
+     * Exception throwed by the Autoloader class if trying to access a directory which does not exist.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface RequestRouteInterface
+    class DirectoryDoesNotExistException extends \Exception
     {
 
         /**
-         * Returns the request module route.
-         * @return \Brickoo\Routing\Interfaces\RouteInterface
+         * Class constructor.
+         * Calls the parent Exception constructor.
+         * @param string $directory the directory which does not exists
+         * @return void
          */
-        public function getModuleRoute();
-
-        /**
-        * Lazy initialization of the Container dependecy.
-        * @param \Brickoo\Memory\Interfaces\ContainerInterface $Container the route parasm container
-        * @return \Brickoo\Memory\Interfaces\ContainerInterface
-        */
-        public function Params(\Brickoo\Memory\Interfaces\ContainerInterface $Container = null);
+        public function __construct($directory)
+        {
+            parent::__construct(sprintf('Directory `%s` does not exists or is not readable.', $directory));
+        }
 
     }

@@ -414,6 +414,15 @@
         }
 
         /**
+         * Checks if the route has rules.
+         * @return boolean check result
+         */
+        public function hasRules()
+        {
+            return (! empty($this->rules));
+        }
+
+        /**
          * Returns the regular expression rule for the passed parameter name.
          * @param string $parameterName the parameter name to retrieve the rule for
          * @throws UnexpectedValueException if the parameter name has not an defualt value
@@ -473,7 +482,7 @@
             $this->hostname                = null;
             $this->format                  = null;
             $this->sessionEnabled          = false;
-            $this->sessionConfiguration    = array();
+            $this->sessionConfiguration    = null;
             $this->defaultValues           = array();
             $this->rules                   = array();
             $this->cacheable               = false;

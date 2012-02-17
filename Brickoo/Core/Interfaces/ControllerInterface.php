@@ -30,29 +30,44 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Routing\Interfaces;
+    namespace Brickoo\Core\Interfaces;
 
     /**
-     * RequestRouteInterface
+     * ControllerInterface
      *
      * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface RequestRouteInterface
+    interface ControllerInterface
     {
 
         /**
-         * Returns the request module route.
-         * @return \Brickoo\Routing\Interfaces\RouteInterface
+         * Returns an instance of the Registry class.
+         * @param \Brickoo\Core\Interfaces\RegistryInterface $Registry the Registry dependency to inject
+         * @return \Brickoo\Core\Interfaces\RegistryInterface
          */
-        public function getModuleRoute();
+        public function Registry(\Brickoo\Core\Interfaces\RegistryInterface $Registry = null);
 
         /**
-        * Lazy initialization of the Container dependecy.
-        * @param \Brickoo\Memory\Interfaces\ContainerInterface $Container the route parasm container
-        * @return \Brickoo\Memory\Interfaces\ContainerInterface
-        */
-        public function Params(\Brickoo\Memory\Interfaces\ContainerInterface $Container = null);
+         * Returns an instance of the Application class.
+         * @param \Brickoo\Core\Application $Application the Application dependency to inject
+         * @return \Brickoo\Core\Application
+         */
+        public function Application(\Brickoo\Core\Application $Application = null);
+
+        /**
+         * Returns an instance of the Request class.
+         * @param \Brickoo\Core\Interfaces\RequestInterface $Request the Request dependency to inject
+         * @return \Brickoo\Core\Interfaces\RequestInterface
+         */
+        public function Request(\Brickoo\Core\Interfaces\RequestInterface $Request = null);
+
+        /**
+         * Returns an instance of the RequestRoute class.
+         * @param \Brickoo\Routing\Interfaces\RouteInterface $Route the Route dependency to inject
+         * @return \Brickoo\Routing\Interfaces\RouteInterface
+         */
+        public function Route(\Brickoo\Routing\Interfaces\RequestRouteInterface $Route = null);
 
     }

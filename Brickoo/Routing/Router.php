@@ -268,6 +268,42 @@
         protected $RequestRoute;
 
         /**
+         * Returns the request route parameters.
+         * @throws Exceptions\RequestHasNoRouteException if the request has not a mathced route
+         * @return array the request route parmeters
+         */
+        public function getRequestRouteParams()
+        {
+            if (! $this->hasRequestRoute()) {
+                throw new Exceptions\RequestHasNoRouteException($this->getRequest()->getPath());
+            }
+
+            $routeParams = array();
+            $Route = $this->RequestRoute->getModuleRoute();
+
+            if ($Route->hasRules()) {
+                preg_match($this->getRegexFromRoutePath($Route),
+                    $this->getRequest()->getPath(),
+                    $matches
+                );
+
+                foreach(array_keys($Route->getRules()) as $parameter) {
+                    if (isset($matches[$parameter]) && (! empty($matches[$parameter]))) {
+                        $routeParams[$parameter] = $matches[$parameter];
+                        continue;
+                    }
+
+                    if (isset($matches[$parameter]) && $Route->hasDefaultValue($parameter)) {
+                        $routeParams[$parameter] = $Route->getDefaultValue($parameter);
+                        continue;
+                    }
+                }
+            }
+
+            return $routeParams;
+        }
+
+        /**
          * Sets the requested Route for further routing.
          * @param \Brickoo\Routing\Interfaces\RouteInterface $Route the route matched the request
          * @throws \Brickoo\Core\Exceptions\ValueOverwriteException if trying to overwrite the request route
@@ -280,6 +316,7 @@
             }
 
             $this->RequestRoute = new RequestRoute($Route);
+            $this->RequestRoute->Params()->merge($this->getRequestRouteParams());
 
             return $this;
         }

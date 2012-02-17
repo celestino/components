@@ -64,12 +64,30 @@
         }
 
         /**
-         * Test if the ResquestRoute implements the requestRouteInterface
+         * Test if the ResquestRoute implements the requestRouteInterface.
+         * Test if the module route is assigned to the ModuleRoute property.
          * @covers Brickoo\Routing\RequestRoute::__construct
          */
         public function testConstructor()
         {
             $this->assertInstanceOf('Brickoo\Routing\Interfaces\RequestRouteInterface', $this->RequestRoute);
+            $this->assertAttributeInstanceOf(
+                'Brickoo\Routing\Interfaces\RouteInterface',
+                'ModuleRoute',
+                $this->RequestRoute
+            );
+        }
+
+        /**
+         * Test if the module route can be retrieved.
+         * @covers Brickoo\Routing\RequestRoute::getModuleRoute
+         */
+        public function testGetModuleRoute()
+        {
+            $Route = $this->getMock('Brickoo\Routing\Interfaces\RouteInterface');
+            $RequestRoute = new RequestRoute($Route);
+            $this->assertAttributeSame($Route, 'ModuleRoute', $RequestRoute);
+            $this->assertSame($Route, $RequestRoute->getModuleRoute());
         }
 
         /**

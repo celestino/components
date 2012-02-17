@@ -44,8 +44,61 @@
     {
 
         /**
+         * Lazy initialization of the SessionManager.
+         * Checks first if the SessionManager is available in the Registry.
+         * @return \Brickoo\Http\Session\SessionManager
+         */
+        public function SessionManager()
+        {
+            if (! $SessionManager = $this->SessionManager) {
+                $SessionManager = new \Brickoo\Http\Session\SessionManager(
+                    new \Brickoo\Http\Session\Handler\CacheManagerHandler()
+                );
+                $this->registerSessionManager($SessionManager);
+            }
+
+            return $SessionManager;
+        }
+
+        /**
+         * Start the session if its enabled by the request route.
+         * @return \Brickoo\Http\Application
+         */
+        public function startSession()
+        {
+            $Route = $this->Router()->getRequestRoute()->getModuleRoute();
+
+            if ($Route->isSessionEnabled())
+            {
+                if ($sessionCconfiguration = $Route->getSessionConfiguration()) {
+                    $this->SessionManager()->setSessionConfiguration($sessionCconfiguration);
+                }
+
+                $this->SessionManager()->start();
+            }
+
+            return $this;
+        }
+
+        /**
+         * Stops the session if its enabled by the request route and
+         * the session has been started.
+         * @return \Brickoo\Http\Application
+         */
+        public function stopSession()
+        {
+            $Route = $this->Router()->getRequestRoute()->getModuleRoute();
+
+            if ($Route->isSessionEnabled() && $this->SessionManager()->hasSessionStarted()) {
+                $this->SessionManager()->stop();
+            }
+
+            return $this;
+        }
+
+        /**
          * Checks if the request is cacheable.
-         * @todo Needs to look into the request headers.
+         * @todo Needs to look into the request headers and route caching config
          * @return boolean check result
          */
         public function isCacheableRequest()
@@ -113,10 +166,8 @@
         public function run()
         {
             try {
-
-                $Router = $this->getRouter();
-
                 $this->configureRouter();
+                $Router = $this->Router();
 
                 if ($Router->hasCacheDirectory()) {
                     $Router->loadRoutesFromCache();
@@ -143,9 +194,14 @@
          */
         public function execute()
         {
+            $this->startSession();
+
             $RouteController = $this->RequestRoute->getController();
             if (! $RouteController['static']) {
                 $RouteController['controller'] = new $RouteController['controller'];
+                if ($RouteController['controller'] instanceof Core\Interfaces\ControllerInterface) {
+                    $this->configureController($RouteController['controller']);
+                }
             }
 
             $Response = call_user_func(array($RouteController['controller'], $RouteController['method']));
@@ -154,6 +210,8 @@
                 $this->registerResponse($Response);
                 $this->cacheResponse($Response, $this->RequestRoute);
             }
+
+            $this->stopSession();
 
             return $this;
         }

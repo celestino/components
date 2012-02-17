@@ -30,41 +30,23 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Routing;
-
-    use Brickoo\Core;
-    use Brickoo\Memory;
-    use Brickoo\Validator\TypeValidator;
+    namespace Brickoo\Core;
 
     /**
-     * RequestRoute
+     * Controller
      *
-     * Implements methods to handle the matched request route.
+     * Implements methods to provide access to the basic components
+     * to avoid the performace cost of calling the Registry for often used components.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class RequestRoute implements Interfaces\RequestRouteInterface
+    class Controller implements Interfaces\ControllerInterface
     {
 
         /**
-         * Holds an instance of the matched request module route.
-         * @var \Brickoo\Routing\Interfaces\RouteInterface
+         * Holds the class dependencies.
+         * @var array
          */
-        protected $ModuleRoute;
-
-        /**
-         * Returns the request module route.
-         * @return \Brickoo\Routing\Interfaces\RouteInterface
-         */
-        public function getModuleRoute()
-        {
-            return $this->ModuleRoute;
-        }
-
-        /**
-        * Holds the class dependencies.
-        * @var array
-        */
         protected $dependencies;
 
         /**
@@ -73,7 +55,7 @@
          * @param string $interface the interface which has to be implemented by the dependency
          * @param callback $callback the callback to create a new dependency
          * @param object $Dependecy the dependecy to inject
-         * @return object RequestRoute if overwritten otherwise the dependency
+         * @return object Controller if overwritten otherwise the dependency
          */
         protected function getDependency($name, $interface, $callback, $Dependecy = null)
         {
@@ -82,52 +64,69 @@
                 return $this;
             }
             elseif ((! isset($this->dependencies[$name])) || (! $this->dependencies[$name] instanceof $interface)) {
-                $this->dependencies[$name] = call_user_func($callback, $this);
+                return $this->dependencies[$name] = call_user_func($callback, $this);
             }
             return $this->dependencies[$name];
         }
 
         /**
-         * Lazy initialization of the Container dependecy.
-         * @param \Brickoo\Memory\Interfaces\ContainerInterface $Container the route parasm container
-         * @return \Brickoo\Memory\Interfaces\ContainerInterface
+         * Returns an instance of the Registry class.
+         * @param \Brickoo\Core\Interfaces\RegistryInterface $Registry the Registry dependency to inject
+         * @return \Brickoo\Core\Interfaces\RegistryInterface
          */
-        public function Params(\Brickoo\Memory\Interfaces\ContainerInterface $Container = null)
+        public function Registry(\Brickoo\Core\Interfaces\RegistryInterface $Registry = null)
         {
             return $this->getDependency(
-                'Params',
-                '\Brickoo\Memory\Interfaces\ContainerInterface',
-                function(){return new Memory\Container();},
-                $Container
+                'Registry',
+                '\Brickoo\Core\Interfaces\RegistryInterface',
+                function() {throw new Exceptions\DependencyNotAvailableException('RegistryInterface');},
+                $Registry
             );
         }
 
         /**
-         * Class constructor.
-         * Initializes the class properties.
-         * @param \Brickoo\Routing\Interfaces\RouteInterface $Routehte request module route
-         * @return void
+         * Returns an instance of the Application class.
+         * @param \Brickoo\Core\Application $Application the Application dependency to inject
+         * @return \Brickoo\Core\Application
          */
-        public function __construct(\Brickoo\Routing\Interfaces\RouteInterface $Route)
+        public function Application(\Brickoo\Core\Application $Application = null)
         {
-            $this->ModuleRoute     = $Route;
-            $this->dependencies    = array();
+            return $this->getDependency(
+                'Application',
+                '\Brickoo\Core\Application',
+                function() {throw new Exceptions\DependencyNotAvailableException('Application');},
+                $Application
+            );
         }
 
         /**
-         * Forwards the called method to the request module route.
-         * @param string $method the method called
-         * @param array $arguments the arguments passed
-         * @throws \BadMethodCallException if the method does not exist
-         * @return mixed the returned value of the called method
+         * Returns an instance of the Request class.
+         * @param \Brickoo\Core\Interfaces\RequestInterface $Request the Request dependency to inject
+         * @return \Brickoo\Core\Interfaces\RequestInterface
          */
-        public function __call($method, $arguments)
+        public function Request(\Brickoo\Core\Interfaces\RequestInterface $Request = null)
         {
-            if (! method_exists($this->ModuleRoute, $method)) {
-                throw new \BadMethodCallException(sprintf('The method `%s` does not exist.', $method));
-            }
+            return $this->getDependency(
+                'Request',
+                '\Brickoo\Core\Interfaces\RequestInterface',
+                function() {throw new Exceptions\DependencyNotAvailableException('RequestInterface');},
+                $Request
+            );
+        }
 
-            return call_user_func_array(array($this->ModuleRoute, $method), $arguments);
+        /**
+         * Returns an instance of the RequestRoute class.
+         * @param \Brickoo\Routing\Interfaces\RouteInterface $Route the Route dependency to inject
+         * @return \Brickoo\Routing\Interfaces\RouteInterface
+         */
+        public function Route(\Brickoo\Routing\Interfaces\RequestRouteInterface $Route = null)
+        {
+            return $this->getDependency(
+                'Route',
+                '\Brickoo\Routing\Interfaces\RequestRouteInterface',
+                function() {throw new Exceptions\DependencyNotAvailableException('RequestRouteInterface');},
+                $Route
+            );
         }
 
     }
