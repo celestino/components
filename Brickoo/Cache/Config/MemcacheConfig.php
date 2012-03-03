@@ -45,7 +45,7 @@
     {
 
         /**
-         * Holds the servers list with configurations for the MemcacheProvider class.
+         * Holds the servers list with configurations for a Memcache object.
          * @var array
          */
         protected $servers;
@@ -63,7 +63,7 @@
          * Adds a server configuration to the server list.
          * @param string $host the host to connect to
          * @param integer $port the port to connect to
-         * @return object reference
+         * @return \Brickoo\Cache\Config\MemcacheConfig
          */
         public function addServer($host, $port = 0)
         {
@@ -88,7 +88,7 @@
         /**
          * Configures the Memcache instance using the available servers list.
          * @param \Memcache $Memcache the Memcache instance to configure
-         * @return object reference
+         * @return \Brickoo\Cache\Config\MemcacheConfig
          */
         public function configure(\Memcache $Memcache)
         {

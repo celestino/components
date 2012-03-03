@@ -32,8 +32,8 @@
 
     namespace Brickoo\Http\Component;
 
-    use Brickoo\Memory;
-    use Brickoo\Validator\TypeValidator;
+    use Brickoo\Memory,
+        Brickoo\Validator\TypeValidator;
 
     /**
      * Headers

@@ -32,8 +32,8 @@
 
     namespace Brickoo\Http\Component;
 
-    use Brickoo\Memory;
-    use Brickoo\Validator\TypeValidator;
+    use Brickoo\Memory,
+        Brickoo\Validator\TypeValidator;
 
     /**
      * Query
@@ -86,12 +86,11 @@
         {
             $query = array();
 
+            $this->rewind();
             while($this->valid()) {
                 $query[] = rawurlencode($this->key()) . '=' . rawurlencode($this->current());
                 $this->next();
             }
-
-            $this->rewind();
 
             return implode('&', $query);
         }

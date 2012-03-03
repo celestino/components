@@ -278,6 +278,20 @@
         }
 
         /**
+         * Checks if the argument is an object.
+         * @param object $argument the argument to validate
+         * @return boolean check result
+         */
+        public static function IsObject($argument)
+        {
+            if (! is_object($argument)) {
+                return self::ThrowInvalidArgumentException($argument, null);
+            }
+
+            return true;
+        }
+
+        /**
          * Check if the argument is not empty.
          * @param string $argument the argument to validate
          * @param integer $flag does not affect

@@ -164,4 +164,16 @@
             $this->Logger->Log('mesage', 'wrongType');
         }
 
+        /**
+         * Test if the listener is added to the EventManager.
+         * @covers Brickoo\Log\Logger::attachListener
+         */
+        public function testAddListener()
+        {
+            $EventManager = $this->getMock('Brickoo\Event\EventManager', array('attachListener'));
+            $EventManager->expects($this->once())
+                         ->method('attachListener');
+            $this->assertSame($this->Logger, $this->Logger->attachListener($EventManager));
+        }
+
     }

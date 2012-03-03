@@ -65,7 +65,7 @@
         /**
          * Adds the list of registrations to the registry.
          * @param array $registrations the registrations to add
-         * @return object reference
+         * @return \Brickoo\Memory\Registry
          */
         public function add(array $registrations)
         {
@@ -102,7 +102,7 @@
          * @param mixed $value the identifier value to reguister with
          * @throws DuplicateRegistrationException the identifier is already registered
          * @throws ReadonlyModeException if the mode is currently read only
-         * @return object reference
+         * @return \Brickoo\Memory\Registry
          */
         public function register($identifier, $value)
         {
@@ -128,7 +128,7 @@
          * @param mixed $value the identifier value to register
          * @throws ReadonlyModeException if the mode is currently read only
          * @throws IdentifierLockedException if the identifier is locked
-         * @return object reference
+         * @return \Brickoo\Memory\Registry
          */
         public function override($identifier, $value)
         {
@@ -153,7 +153,7 @@
          * @throws ReadonlyModeException if the mode is currently read only
          * @throws IdentifierLockedException if the identifier is locked
          * @throws IdentifierNotRegisteredException if the identifier is not registered
-         * @return object reference
+         * @return \Brickoo\Memory\Registry
          */
         public function unregister($identifier)
         {
@@ -212,7 +212,7 @@
          * False for read and all write operations,
          * locked identifiers will still being locked .
          * @param boolean $mode the mode to set
-         * @return object reference
+         * @return \Brickoo\Memory\Registry
          */
         public function setReadOnly($mode = true)
         {

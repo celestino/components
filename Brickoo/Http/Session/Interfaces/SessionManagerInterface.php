@@ -56,22 +56,23 @@
         public function setCookieParameters(array $cookieParameters);
 
         /**
-         * Sets the session configuration.
-         * Available configuration keys are [id, name, limiter].
-         * @param array $configuration the configuration to replace
-         * @return \Brickoo\Http\Session\SessionManager
+         * Configures the session name and limiter.
+         * This method just combnies the common session settings.
+         * @param string $sessionName the session name to set
+         * @param string $sessionLimiter the session limiter to set
+         * @return \Brickoo\Http\Session\Interfaces\SessionManagerInterface
          */
-        public function setSessionConfiguration(array $configuration);
+        public function configureSession($sessionName, $sessionLimiter = null);
 
         /**
          * Starts the Session.
-         * @return \Brickoo\Http\Session\SessionManager
+         * @return \Brickoo\Http\Session\Interfaces\SessionManagerInterface
          */
         public function start();
 
         /**
          * Stops the session and calls for writing and close.
-         * @return \Brickoo\Http\Session\SessionManager
+         * @return \Brickoo\Http\Session\Interfaces\SessionManagerInterface
          */
         public function stop();
 

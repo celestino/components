@@ -37,8 +37,7 @@
     /**
      * SessionManager
      *
-     * Manages session operations with a session handler dependency
-     * implementing the Session\Interfaces\SessionHandlerInterface.
+     * Wrapper of the basic PHP session handling.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -108,24 +107,20 @@
         }
 
         /**
-         * Sets the session configuration.
-         * Available configuration keys are [id, name, limiter].
-         * @param array $configuration the configuration to replace
+         * Configures the session name and limiter.
+         * This method just combnies the common session settings.
+         * @param string $sessionName the session name to set
+         * @param string $sessionLimiter the session limiter to set
          * @return \Brickoo\Http\Session\SessionManager
          */
-        public function setSessionConfiguration(array $configuration)
+        public function configureSession($sessionName, $sessionLimiter = null)
         {
-            if (! $this->hasSessionStarted()) {
-                foreach($configuration as $option => $value) {
-                    if ($option == 'name') {
-                        session_name($value);
-                        continue;
-                    }
-                    if ($option == 'limiter') {
-                        session_cache_limiter($value);
-                        continue;
-                    }
-                }
+            TypeValidator::IsString($sessionName);
+
+            session_name($sessionName);
+
+            if ($sessionLimiter !== null) {
+                session_cache_limiter($sessionLimiter);
             }
 
             return $this;
@@ -137,15 +132,18 @@
          * Sets the default session lifetime to the session handler.
          * Sets the default session configuration used.
          * @param \Brickoo\Http\Session\Handler\Interfaces\SessionHandlerInterface $SessionHandler the SessionHandler to inject
+         * @param array $cookieParams the cookie parameters to overwritte
          * @return void
          */
-        public function __construct(\Brickoo\Http\Session\Handler\Interfaces\SessionHandlerInterface $SessionHandler)
+        public function __construct(
+            \Brickoo\Http\Session\Handler\Interfaces\SessionHandlerInterface $SessionHandler,
+            array $cookieParams = array()
+        )
         {
             if (! $this->hasSessionStarted()) {
                 $this->registerSessionHandler($SessionHandler);
-                $cookieParameters = session_get_cookie_params();
-                $this->SessionHandler->setLifetime($cookieParameters['lifetime']);
-                $this->setSessionConfiguration(array('name' => 'BOO', 'limiter' => false));
+                $this->setCookieParameters($cookieParams);
+                $this->configureSession('BOO', false);
             }
         }
 

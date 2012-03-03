@@ -32,8 +32,8 @@
 
     namespace Brickoo\Http;
 
-    use Brickoo\Core;
-    use Brickoo\Validator\TypeValidator;
+    use Brickoo\Template,
+        Brickoo\Validator\TypeValidator;
 
     /**
      * Response
@@ -42,7 +42,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Response implements Interfaces\ResponseInterface, Core\Interfaces\ResponseInterface
+    class Response implements Interfaces\ResponseInterface
     {
 
         /**
@@ -126,15 +126,15 @@
 
         /**
          * Injects a response template dependency.
-         * @param \Brickoo\Http\Template\Interfaces\TemplateInterface $Template the Template to inject
+         * @param \Brickoo\Template\Interfaces\TemplateInterface $Template the Template to inject
          * @throws Exceptions\ResponseTemplateNotAvailableException if trying to retrieve the not injected dependency
-         * @return \Brickoo\Http\Template\Interfaces\TemplateInterface
+         * @return \Brickoo\Template\Interfaces\TemplateInterface
          */
-        public function Template(\Brickoo\Http\Template\Interfaces\TemplateInterface $Template = null)
+        public function Template(\Brickoo\Template\Interfaces\TemplateInterface $Template = null)
         {
             return $this->getDependency(
                 'Template',
-                '\Brickoo\Http\Template\Interfaces\TemplateInterface',
+                '\Brickoo\Template\Interfaces\TemplateInterface',
                 function() {throw new Exceptions\ResponseTemplateNotAvailableException();},
                 $Template
             );
@@ -193,11 +193,11 @@
                 sprintf("%s %d %s", $this->getProtocol(), $this->getStatusCode(), $this->getStatusPhrase())
             );
 
+            $this->Headers()->rewind();
             while($this->Headers()->valid()) {
                 call_user_func($function, sprintf("%s: %s", $this->Headers()->key(), $this->Headers()->current()));
                 $this->Headers()->next();
             }
-            $this->Headers()->rewind();
 
             return $this;
         }
@@ -351,7 +351,7 @@
          */
         public function sendContent()
         {
-            echo ("\r\n" . ltrim($this->getContent(), "\r\n"));
+            echo (ltrim($this->getContent(), "\r\n"));
 
             return $this;
         }

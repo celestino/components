@@ -32,9 +32,8 @@
 
     namespace Brickoo\Error;
 
-    use Brickoo\Core;
-    use Brickoo\Log;
-    use Brickoo\Validator\TypeValidator;
+    use Brickoo\Log,
+        Brickoo\Validator\TypeValidator;
 
     /**
      * ErrorHandler
@@ -67,7 +66,7 @@
          * Sets the bitwise error level to convert errors to exceptions.
          * @param integer $errorLevel the error level to set
          * @throws InvalidArgumentException if the argument is not an integer
-         * @return object reference
+         * @return \Brickoo\Error\ErrorHandler
          */
         public function setErrorLevel($errorLevel)
         {
@@ -96,7 +95,7 @@
         /**
          * Registers the instance as error handler.
          * @throws DuplicateHandlerRegistrationException if the instance is already registred
-         * @return object reference
+         * @return \Brickoo\Error\ErrorHandler
          */
         public function register()
         {
@@ -113,7 +112,7 @@
         /**
          * Unregisters the instance as error handler by restoring previous error handler.
          * @throws HandlerNotRegisteredException if the instance is not registred as handler
-         * @return object reference
+         * @return \Brickoo\Error\ErrorHandler
          */
         public function unregister()
         {

@@ -32,9 +32,8 @@
 
     namespace Brickoo\Http\Component;
 
-    use Brickoo\Core;
-    use Brickoo\Http;
-    use Brickoo\Validator\TypeValidator;
+    use Brickoo\Http,
+        Brickoo\Validator\TypeValidator;
 
     /**
      * Url

@@ -30,14 +30,14 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Http\Template;
+    namespace Brickoo\Template;
 
     use Brickoo\Validator\TypeValidator;
 
     /**
      * PhpTemplate
      *
-     * Implements a PHP based template to generate the response content.
+     * Implements a PHP based template to generate a response content.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -63,7 +63,7 @@
          * Sets the full path to template file.
          * @param string $templateFile the full path and template file name.
          * @throws Exceptions\TemplateFileDoesNotExist if the template is not available
-         * @return \Brickoo\Http\Response\PhpResponse
+         * @return \Brickoo\Template\PhpTemplate
          */
         public function setTemplateFile($templateFile)
         {
@@ -96,7 +96,7 @@
         /**
          * Adds template variables to make available in the template file.
          * @param array $variables the variables used in the template
-         * @return \Brickoo\Http\Response\PhpResponse
+         * @return \Brickoo\Template\PhpTemplate
          */
         public function addTemplateVars(array $variables)
         {
@@ -149,12 +149,16 @@
         /**
          * Class constructor.
          * Initializes the class properties.
+         * @param string $templateFile the php template to use
+         * @param array $templateVars the template variables to assign
          * @return void
          */
-        public function __construct()
+        public function __construct($templateFile = null, array $templateVars = array())
         {
-            $this->templateFile    = null;
-            $this->templateVars    = array();
+            if ($templateFile !== null) {
+                $this->setTemplateFile($templateFile);
+            }
+            $this->templateVars = $templateVars;
         }
 
         /**
@@ -166,13 +170,13 @@
         public function render()
         {
             if (! $this->hasTemplateFile()) {
-                throw new \UnexpectedValueException('The template file is not set.');
+                throw new \UnexpectedValueException('The php template file is not set.');
             }
 
             if ($this->hasTemplateVar()) {
-                $P = $this->getTemplateVar();
+                $_TEMPLATE_VARS_ = $this->getTemplateVar();
 
-                extract($P, EXTR_SKIP);
+                extract($_TEMPLATE_VARS_, EXTR_SKIP);
             }
 
             ob_start();

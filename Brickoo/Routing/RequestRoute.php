@@ -32,9 +32,8 @@
 
     namespace Brickoo\Routing;
 
-    use Brickoo\Core;
-    use Brickoo\Memory;
-    use Brickoo\Validator\TypeValidator;
+    use Brickoo\Memory,
+        Brickoo\Validator\TypeValidator;
 
     /**
      * RequestRoute
@@ -124,7 +123,7 @@
         public function __call($method, $arguments)
         {
             if (! method_exists($this->ModuleRoute, $method)) {
-                throw new \BadMethodCallException(sprintf('The method `%s` does not exist.', $method));
+                throw new \BadMethodCallException(sprintf('The Route method `%s` does not exist.', $method));
             }
 
             return call_user_func_array(array($this->ModuleRoute, $method), $arguments);

@@ -32,8 +32,6 @@
 
     namespace Brickoo\System;
 
-    use Brickoo\System\Interfaces;
-    use Brickoo\System\Exceptions;
     use Brickoo\Validator\TypeValidator;
 
     /**
@@ -100,7 +98,7 @@
          * Sets the location to use for file operations.
          * @param string $location the location to use
          * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
-         * @return object reference
+         * @return \Brickoo\System\FileObject
          */
         public function setLocation($location)
         {
@@ -138,7 +136,7 @@
          * Sets the mode for the file operation.
          * @param string $mode the mode to use
          * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
-         * @return object reference
+         * @return \Brickoo\System\FileObject
          */
         public function setMode($mode)
         {
@@ -185,7 +183,7 @@
         /**
          * Removes the holded handle by closing the data handle.
          * This method does not throw an exception like the explicit FileObject::close does.
-         * @return object reference
+         * @return \Brickoo\System\FileObject
          */
         public function removeHandle()
         {
@@ -243,7 +241,7 @@
          * Writes the data into the file location.
          * Makes sure the mode supports write operations.
          * @param integer|string $data the data to write
-         * @return object reference;
+         * @return \Brickoo\System\FileObject;
          */
         public function write($data)
         {
@@ -277,7 +275,7 @@
         /**
          * Closes the data handle and frees the holded ressource.
          * @throws Exceptions\HandleNotAvailableException if the handle is not initialized
-         * @return object reference
+         * @return \Brickoo\System\FileObject
          */
         public function close()
         {

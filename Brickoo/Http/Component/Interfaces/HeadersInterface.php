@@ -45,63 +45,6 @@
     {
 
         /**
-        * Returns the accept types supported by the request client.
-        * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
-        * @param string $neededType the type which is needed if supported
-        * @return array accept types sorted by priority descening otherwise null
-        */
-        public function getAcceptTypes();
-
-        /**
-         * Checks if the passed type is supported.
-         * @param string $acceptType the accept type to check
-         * @return boolean check result
-         */
-        public function isTypeSupported($acceptType);
-
-        /**
-         * Returns the accept languages supported by the request client.
-         * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.4
-         * @return array the languages sorted by priority descening
-         */
-        public function getAcceptLanguages();
-
-        /**
-         * Checks if the passed language is supported.
-         * @param string $acceptLanguage the accept language to check
-         * @return boolean check result
-         */
-        public function isLanguageSupported($acceptLanguage);
-
-        /**
-         * Returns the accept encodings supported by the request client.
-         * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.3
-         * @return array the encondings sorted by priority descening
-         */
-        public function getAcceptEncodings();
-
-        /**
-         * Checks if the passed encoding type is supported.
-         * @param string $acceptEncoding the accept encoding type to check
-         * @return boolean check result
-         */
-        public function isEncodingSupported($acceptEncoding);
-
-        /**
-         * Returns the accept charsets supported by the request client.
-         * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.2
-         * @return array the charsets sorted by priority descening
-         */
-        public function getAcceptCharsets();
-
-        /**
-         * Checks if the passed encoding type is supported.
-         * @param string $acceptEncoding the accept encoding type to check
-         * @return boolean check result
-         */
-        public function isCharsetSupported($acceptCharset);
-
-        /**
          * Imports the request http headers.
          * @return \Brickoo\Http\Component\Headers
          */

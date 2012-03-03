@@ -30,44 +30,24 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Core\Interfaces;
+    namespace Brickoo\Template\Interfaces;
 
     /**
-     * ControllerInterface
+     * TemplateInterface
      *
      * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface ControllerInterface
+    interface TemplateInterface
     {
 
         /**
-         * Returns an instance of the Registry class.
-         * @param \Brickoo\Core\Interfaces\RegistryInterface $Registry the Registry dependency to inject
-         * @return \Brickoo\Core\Interfaces\RegistryInterface
+         * Renders the template with the assigned variables.
+         * @see Brickoo\Http\Interfaces.ResponseInterface::render()
+         * @throws \UnexpectedValueException if the template file is not set
+         * @return string the rendered content
          */
-        public function Registry(\Brickoo\Core\Interfaces\RegistryInterface $Registry = null);
-
-        /**
-         * Returns an instance of the Application class.
-         * @param \Brickoo\Core\Application $Application the Application dependency to inject
-         * @return \Brickoo\Core\Application
-         */
-        public function Application(\Brickoo\Core\Application $Application = null);
-
-        /**
-         * Returns an instance of the Request class.
-         * @param \Brickoo\Core\Interfaces\RequestInterface $Request the Request dependency to inject
-         * @return \Brickoo\Core\Interfaces\RequestInterface
-         */
-        public function Request(\Brickoo\Core\Interfaces\RequestInterface $Request = null);
-
-        /**
-         * Returns an instance of the RequestRoute class.
-         * @param \Brickoo\Routing\Interfaces\RouteInterface $Route the Route dependency to inject
-         * @return \Brickoo\Routing\Interfaces\RouteInterface
-         */
-        public function Route(\Brickoo\Routing\Interfaces\RequestRouteInterface $Route = null);
+        public function render();
 
     }

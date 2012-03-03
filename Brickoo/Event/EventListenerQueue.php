@@ -30,58 +30,44 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Config\Interfaces;
+    namespace Brickoo\Event;
 
     /**
-     * ConfigurationNamespaceInterface
+     * EventListenerQueue
      *
-     * Describes the methods implemented by this interface.
+     * Implements a priority oriented queue for event listeners.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    Interface ConfigurationNamespaceInterface
+    class EventListenerQueue extends \SplPriorityQueue
     {
 
         /**
-        * Returns the currently reserved namespaces.
-        * @return array the reserved namespaces as values
-        */
-        public static function GetReservedNamespaces();
+         * Holds the priority extra serial to keep the
+         * order of listeners registration with the same priority.
+         * @var integer
+         */
+        protected $serial;
 
         /**
-         * Checks if the namespace is already reserved.
-         * @param string $namespace the namespace to check
-         * return boolean check result
+         * Overrides the \SplPriorityQueue::instert method to add the serial.
+         * @see SplPriorityQueue::insert()
+         * @return void
          */
-        public static function IsNamespaceReserved($namespace);
+        public function insert($listener, $priority) {
+            parent::insert($listener, array($priority, $this->serial--));
+        }
 
         /**
-         * Returns the namespace working with.
-         * @return string the namespace working with
+         * Class cosntructor.
+         * Initializes the class properties.
+         * Sets the extract flag to return only the data value.
+         * @return void
          */
-        public function getNamespace();
-
-        /**
-         * Checks if the configuration of the identifier is available.
-         * @param string $identifier the identifier to check
-         * @return boolean check result
-         */
-        public function hasConfiguration($identifier);
-
-        /**
-         * Sets the content to be holded by the identifier.
-         * @param string $identifier the identifier to attach the content to
-         * @param mixed $content the content to attach to the identifier
-         * @return \Brickoo\Config\ConfigurationNamespace
-         */
-        public function setConfiguration($identifier, $content);
-
-        /**
-         * Returns the content holded by the identifier or the default content if the identifier is not available.
-         * @param string $identifier the identifier to retrieve the content from
-         * @param mixed $defaultValue the default content to return if the identifier is not available
-         * @return mixed the identifier holded content otherwise the defaul content
-         */
-        public function getConfiguration($identifier, $defaultValue = null);
+        public function __construct()
+        {
+            $this->serial = PHP_INT_MAX;
+            $this->setExtractFlags(static::EXTR_DATA);
+        }
 
     }

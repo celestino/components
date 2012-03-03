@@ -47,8 +47,9 @@
          * @param string $namespace the namespace to register
          * @param string $namespacePath the absolute path to the namespace
          * @throws InvalidArgumentException if passed arguments are not valid
+         * @throws DirectoryDoesNotExistException if the namespace mapped as directora does not exist
          * @throws DuplicateNamespaceRegistrationException if the namespace is already registered
-         * @return object reference
+         * @return \Brickoo\Core\Interfaces\AutoloaderInterface
          */
         public function registerNamespace($namespace, $namespacePath);
 
@@ -56,7 +57,7 @@
          * Unregister the namespace available by the given name.
          * @param string $namespace the name of the namespace to remove
          * @throws NamspaceNotRegisteredException if the namespace is not registered
-         * @return object reference
+         * @return \Brickoo\Core\Interfaces\AutoloaderInterface
          */
         public function unregisterNamespace($namespace);
 
@@ -75,23 +76,6 @@
         public function getAvailableNamespaces();
 
         /**
-         * Returns the namespace path of the assigned namespace name.
-         * @param string $namespace the namespace name to return the path from
-         * @throws InvalidArgumentException if the passe namespace is not a string
-         * @return string the namespace path or false if the namespace is not registered
-         */
-        public function getNamespacePath($namespace);
-
-        /**
-         * Returns the absolute path for the requested class.
-         * It requires an registered namespace.
-         * @param string $className the class to retrieve the path for
-         * @throws InvalidArgumentException if the class name is not a string
-         * @return string the absolute file path or false if the namespace is not registered
-         */
-        public function getAbsolutePath($className);
-
-        /**
          * Requires the given class by using the assigned namespaces.
          * @param string $className the class name to require containing the namespace
          * @throws AutoloadFileDoesNotExistException throws an exception if the file does not exists
@@ -102,14 +86,14 @@
         /**
          * Registers the instance with method Autoloader:loadClass for autoloading.
          * @throws DuplicateAutoloaderRegistrationException if the autoloader is already registered
-         * @return object reference
+         * @return \Brickoo\Core\Interfaces\AutoloaderInterface
          */
         public function register();
 
         /**
          * Unregisters the instance from the autoloading.
          * @throws AutoloaderNotRegisteredExeption if the autoloader did not be registered
-         * @return object reference
+         * @return \Brickoo\Core\Interfaces\AutoloaderInterface
          */
         public function unregister();
 

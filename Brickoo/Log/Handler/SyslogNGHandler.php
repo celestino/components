@@ -126,7 +126,7 @@
         /**
          * Sets the hostname or IP adress of the current server.
          * @param string $hostname the hostname to set
-         * @return object reference
+         * @return \Brickoo\Log\Handler\SyslogNGHandler
          */
         public function setHostname($hostname)
         {
@@ -159,7 +159,7 @@
         /**
          * Sets the server adress of the syslog-ng to log to.
          * @param string $serverAdress the server adress to set
-         * @return object reference
+         * @return \Brickoo\Log\Handler\SyslogNGHandler
          */
         public function setServerAdress($serverAdress)
         {
@@ -194,7 +194,7 @@
         /**
          * Sets the port of the syslog-ng server to connect to.
          * @param integer $port the syslog-ng port number
-         * @return object reference
+         * @return \Brickoo\Log\Handler\SyslogNGHandler
          */
         public function setServerPort($port)
         {
@@ -263,7 +263,7 @@
          * Sets the facility to use..
          * @param integer $facility the facility to use
          * @throws OutOfRangeException if the facility is out of range
-         * @return object reference
+         * @return \Brickoo\Log\Handler\SyslogNGHandler
          */
         public function setFacility($facility)
         {
@@ -305,7 +305,7 @@
          * Sends the  messages to the syslog-ng server with the SockeObject.
          * @param array $messages the messages to send
          * @throws Core\Exceptions\UnableToConnectException if the connection can not be created
-         * @return object reference
+         * @return \Brickoo\Log\Handler\SyslogNGHandler
          */
         protected function sendMessages(array $messages, $severity)
         {
@@ -332,7 +332,7 @@
          * Sends the messages to the syslog-ng server.
          * @param array|string $messages the messages to send
          * @param integer $severity the severity of the messages
-         * @return object reference
+         * @return \Brickoo\Log\Handler\SyslogNGHandler
          */
         public function log($messages, $severity)
         {

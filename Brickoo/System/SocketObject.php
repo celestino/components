@@ -32,8 +32,6 @@
 
     namespace Brickoo\System;
 
-    use Brickoo\System\Interfaces;
-    use Brickoo\System\Exceptions;
     use Brickoo\Validator\TypeValidator;
 
     /**
@@ -94,7 +92,7 @@
          * Sets the protocol to use with the adress.
          * @param string $protocol the protocol to use
          * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
-         * @return object reference
+         * @return \Brickoo\System\SocketObject
          */
         public function setProtocol($protocol)
         {
@@ -132,7 +130,7 @@
          * Sets the severAdress to connect to.
          * @param string $severAdress the serverAdress to use
          * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
-         * @return object reference
+         * @return \Brickoo\System\SocketObject
          */
         public function setServerAdress($serverAdress)
         {
@@ -171,7 +169,7 @@
          * Sets the server port to connect to.
          * @param integer $serverPort the server port to use
          * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
-         * @return object reference
+         * @return \Brickoo\System\SocketObject
          */
         public function setServerPort($serverPort)
         {
@@ -210,7 +208,7 @@
          * Sets the connection timeout in seconds.
          * @param integer $timeout the connection timeout to use
          * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
-         * @return object reference
+         * @return \Brickoo\System\SocketObject
          */
         public function setTimeout($timeout)
         {
@@ -282,7 +280,7 @@
         /**
          * Removes the holded handle by closing the data handle.
          * This method does not throw an exception like the explicit FileObject::close does.
-         * @return object reference
+         * @return \Brickoo\System\SocketObject
          */
         public function removeHandle()
         {
@@ -321,7 +319,7 @@
         /**
          * Closes the data handle and frees the holded ressource.
          * @throws Exceptions\HandleNotAvailableException if the handle is not initialized
-         * @return object reference
+         * @return \Brickoo\System\SocketObject
          */
         public function close()
         {

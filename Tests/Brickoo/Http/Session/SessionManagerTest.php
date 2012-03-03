@@ -72,7 +72,7 @@
         }
 
         /**
-         * Test if the SessionManager can be created and the session handler lifetime is assigned.
+         * Test if the SessionManager can be created and implements the SessionManagerInterface.
          * @covers Brickoo\Http\Session\SessionManager::__construct
          * @covers Brickoo\Http\Session\SessionManager::registerSessionHandler
          */
@@ -83,7 +83,9 @@
                                ->method('setLifetime')
                                ->will($this->returnSelf());
 
-            $SessionManager = new SessionManager($SessionHandlerStub);
+            $this->assertInstanceOf('Brickoo\Http\Session\Interfaces\SessionManagerInterface',
+                new SessionManager($SessionHandlerStub)
+            );
         }
 
         /**
@@ -117,9 +119,9 @@
 
         /**
          * Test if the session configuration can be overwriten an the SessionManager reference is returned.
-         * @covers Brickoo\Http\Session\SessionManager::setSessionConfiguration
+         * @covers Brickoo\Http\Session\SessionManager::configureSession
          */
-        public function testSetSessionConfiguration()
+        public function testConfigureSession()
         {
             $configuration = array
             (
@@ -129,7 +131,9 @@
 
             $SessionManager = new SessionManager($this->getSessionHandlerStub());
 
-            $this->assertSame($SessionManager, $SessionManager->setSessionConfiguration($configuration));
+            $this->assertSame($SessionManager, $SessionManager->configureSession(
+                $configuration['name'], $configuration['limiter']
+            ));
             $this->assertEquals(session_name(), $configuration['name']);
             $this->assertEquals(session_cache_limiter(), $configuration['limiter']);
         }

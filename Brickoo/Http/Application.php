@@ -32,198 +32,138 @@
 
     namespace Brickoo\Http;
 
-    use Brickoo\Core;
-    use Brickoo\Validator\TypeValidator;
+    use Brickoo\Core,
+        Brickoo\Event,
+        Brickoo\Validator\TypeValidator;
 
     /**
      * Implements methods to handle HTTP requests.
+     * This class is listening to the Brickoo\Core\Application events.
+     * The cache events are NOT implemented within this class.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Application extends Core\Application
+    class Application implements Event\Interfaces\ListenerAggregateInterface
     {
 
         /**
-         * Lazy initialization of the SessionManager.
-         * Checks first if the SessionManager is available in the Registry.
-         * @return \Brickoo\Http\Session\SessionManager
+         * Holds an flag for preventing duplicate listener aggregation.
+         * @var boolean
          */
-        public function SessionManager()
-        {
-            if (! $SessionManager = $this->SessionManager) {
-                $SessionManager = new \Brickoo\Http\Session\SessionManager(
-                    new \Brickoo\Http\Session\Handler\CacheManagerHandler()
-                );
-                $this->registerSessionManager($SessionManager);
-            }
+        protected $listenerAggregated;
 
-            return $SessionManager;
+        /**
+         * Registers the listeners to the EventManager.
+         * This method is automaticly called by Brickoo\Core\Application::run if injected
+         * since this application implements the ListenerAggreagteInterface.
+         * @param \Brickoo\Event\Interfaces\EventManagerInterface $EventManager
+         * @return void
+         */
+        public function aggregateListeners(\Brickoo\Event\Interfaces\EventManagerInterface $EventManager)
+        {
+            if ($this->listenerAggregated !== true) {
+                $EventManager->attachListener(Core\Application::EVENT_ROUTER_BOOT, array($this, 'routerBoot'));
+                $EventManager->attachListener(Core\Application::EVENT_ROUTER_ERROR, array($this, 'displayError'), 0, array('Exception'));
+                $EventManager->attachListener(Core\Application::EVENT_SESSION_START, array($this, 'startSession'), 0, array('SessionManager'));
+                $EventManager->attachListener(Core\Application::EVENT_SESSION_STOP, array($this, 'stopSession'), 0, array('SessionManager'));
+                $EventManager->attachListener(Core\Application::EVENT_RESPONSE_GET, array($this, 'getResponse'));
+                $EventManager->attachListener(Core\Application::EVENT_RESPONSE_SEND, array($this, 'sendResponse'), 0, array('Response'));
+                $EventManager->attachListener(Core\Application::EVENT_APPLICATION_ERROR, array($this, 'displayError'), 0, array('Exception'));
+
+                $this->eventsRegistered = true;
+            }
         }
 
         /**
-         * Start the session if its enabled by the request route.
+         * Boot route of the Router.
+         * Sets the available modules if they are not set.
+         * @param \Brickoo\Event\Interfaces\EventInterface $Event the application event
          * @return \Brickoo\Http\Application
          */
-        public function startSession()
+        public function routerBoot(\Brickoo\Event\Interfaces\EventInterface $Event)
         {
-            $Route = $this->Router()->getRequestRoute()->getModuleRoute();
-
-            if ($Route->isSessionEnabled())
-            {
-                if ($sessionCconfiguration = $Route->getSessionConfiguration()) {
-                    $this->SessionManager()->setSessionConfiguration($sessionCconfiguration);
+            if (($Application = $Event->Sender()) instanceof \Brickoo\Core\Application) {
+                if (! $Application->Router()->hasModules()) {
+                    $Application->Router()->setModules($Application->getModules());
                 }
-
-                $this->SessionManager()->start();
             }
 
             return $this;
         }
 
         /**
-         * Stops the session if its enabled by the request route and
-         * the session has been started.
-         * @return \Brickoo\Http\Application
+         * Sends a simple http response if an exception is throwed by the router
+         * or within the Brickoo\Core\Application::run method.
+         * This is just a dummy to display SOMETHING on errors.
+         * @param \Exception $Exception the Exception throwed
+         * @return void
          */
-        public function stopSession()
+        public function displayError(\Exception $Exception)
         {
-            $Route = $this->Router()->getRequestRoute()->getModuleRoute();
-
-            if ($Route->isSessionEnabled() && $this->SessionManager()->hasSessionStarted()) {
-                $this->SessionManager()->stop();
-            }
-
-            return $this;
-        }
-
-        /**
-         * Checks if the request is cacheable.
-         * @todo Needs to look into the request headers and route caching config
-         * @return boolean check result
-         */
-        public function isCacheableRequest()
-        {
-            return in_array($this->Request()->getMethod(), array('GET', 'HEAD'));
-        }
-
-        /**
-         * Returns the request cache unique identifier.
-         * @todo Find a way to make this more "unique"
-         * @return string the cache unique identifier
-         */
-        public function getCacheUID()
-        {
-            return md5($this->Request()->getPath()) .'.'. md5($this->Request()->Url()->toString());
-        }
-
-        /**
-         * Checks if the request has a cached response.
-         * @todo Needs other cached inforamtion format to store headers as well
-         * @return boolean checks result
-         */
-        public function hasCachedResponse()
-        {
-            if ((! $ResponseCacheManager = $this->ResponseCacheManager) ||
-                (! $cacheUID = $this->getCacheUID())||
-                (! $cachedResponseParts = $ResponseCacheManager->get($cacheUID))
-            ){
-               return false;
-            }
-
             $Response = new \Brickoo\Http\Response();
-            $Response->setContent($cachedResponseParts);
-            $this->registerResponse($Response);
-
-            return true;
+            $Response->setContent("<html><head><title></title></head><body>\r\n".
+                "<h1>This is not the response you are looking for...</h1>\r\n".
+                "<div>(<b>Exception</b>: ". $Exception->getMessage() .")\r\n".
+                "</body></html>"
+            );
+            $Response->send();
         }
 
         /**
-         * Caches the Response if it is possible.
-         * @todo Needs to look into the Response Headers to verify caching
-         * @param \Brickoo\Http\Interfaces\ResponseInterface $Response
-         * @param \Brickoo\Routing\Interfaces\RequestRouteInterface $RequestRoute
-         */
-        public function cacheResponse(
-            \Brickoo\Http\Interfaces\ResponseInterface $Response,
-            \Brickoo\Routing\Interfaces\RequestRouteInterface $RequestRoute
-        )
-        {
-            if((! $this->isCacheableRequest()) || (! $ResponseCacheManager = $this->ResponseCacheManager)) {
-                return $this;
-            }
-
-            $ResponseCacheManager->set($this->getCacheUID(), $Response->getContent(), 15);
-
-            return $this;
-        }
-
-        /**
-         * Runs the application.
-         * Configures the Router.
-         * Calls the Router to get the matching request Route.
+         * Starts the session.
+         * This method is called on the event Brickoo\Core\Application::EVENT_SESSION_START
+         * @param \Brickoo\Http\Session\Interfaces\SessionManagerInterface $SessionManager
          * @return \Brickoo\Http\Application
          */
-        public function run()
+        public function startSession(\Brickoo\Http\Session\Interfaces\SessionManagerInterface $SessionManager)
         {
-            try {
-                $Router = $this->Router();
-
-                if ($Router->hasCacheDirectory()) {
-                    $Router->loadRoutesFromCache();
-                }
-
-                $this->registerRequestRoute(($RequestRoute = $Router->getRequestRoute()));
-
-                if ((! $this->isCacheableRequest()) || (! $this->hasCachedResponse())) {
-                    $this->execute();
-                }
-            }
-            catch (\Exception $Exception) {
-                $Response = new \Brickoo\Http\Response();
-                $Response->setContent($Exception->getMessage());
-                $this->registerResponse($Response);
-            }
-
+            $SessionManager->start();
             return $this;
         }
 
         /**
-         * Exectutes the request for a fresh response.
+         * Stops the session.
+         * This method is called on the event Brickoo\Core\Application::EVENT_SESSION_STOP.
+         * @param \Brickoo\Http\Session\Interfaces\SessionManagerInterface $SessionManager
          * @return \Brickoo\Http\Application
          */
-        public function execute()
+        public function stopSession(\Brickoo\Http\Session\Interfaces\SessionManagerInterface $SessionManager)
         {
-            $this->startSession();
-
-            $RouteController = $this->RequestRoute->getController();
-            if (! $RouteController['static']) {
-                $RouteController['controller'] = new $RouteController['controller'];
-                if ($RouteController['controller'] instanceof Core\Interfaces\ControllerInterface) {
-                    $this->configureController($RouteController['controller']);
-                }
-            }
-
-            $Response = call_user_func(array($RouteController['controller'], $RouteController['method']));
-
-            if ($Response instanceof Interfaces\ResponseInterface) {
-                $this->registerResponse($Response);
-                $this->cacheResponse($Response, $this->RequestRoute);
-            }
-
-            $this->stopSession();
-
+            $SessionManager->stop();
             return $this;
+        }
+
+        /**
+         * Returns always a fresh response.
+         * Notifies the module boot event listeners.
+         * @param \Brickoo\Event\Interfaces\EventInterface $Event the application event asking
+         * @return \Brickoo\Core\Interfaces\ResponseInterface
+         */
+        public function getResponse(\Brickoo\Event\Interfaces\EventInterface $Event)
+        {
+            if (($RequestRoute = $Event->getParam('Route')) instanceof \Brickoo\Routing\Interfaces\RequestRouteInterface) {
+
+                $RouteController = $RequestRoute->getModuleRoute()->getController();
+                if (! $RouteController['static']) {
+                    $RouteController['controller'] = new $RouteController['controller'];
+                }
+
+                $Event->EventManager()->notify(new Event\Event(
+                    Core\Application::EVENT_MODULE_BOOT, $Event->Sender(), array('controller' => $RouteController)
+                ));
+
+                return $RouteController['controller']->$RouteController['method']($Event->Sender());
+            }
         }
 
         /**
          * Sends the Response headers and content.
+         * @param \Brickoo\Core\Interfaces\ResponseInterface $Response the request response
          * @return \Brickoo\Core\Application
          */
-        public function send()
+        public function sendResponse(\Brickoo\Core\Interfaces\ResponseInterface $Response)
         {
-            if (($Response = $this->Response) instanceof Interfaces\ResponseInterface) {
-                $Response->send();
-            }
+            $Response->send();
 
             return $this;
         }

@@ -1,10 +1,10 @@
 
-##Welcome to BrickOO
+##BrickOO
 BrickOO is a PHP framework which focus on module based applications and has been developed in strict mode and with focus on coming PHP requirements.
 
 
 ###Requirements
-PHP 5.3 or any later version required, the current stable is recommended.
+PHP 5.3.x / 5.4 or any later version required.
 
 Maybe some of the framework libraries require PHP libraries not installed on your machine
 or PHP configuration need to be done to enable the full functionality.
@@ -22,15 +22,12 @@ Just copy the Brickoo folder to a location you have access to.
 For an example of how to create and configure an entry point (aka index.php), take a look at the example included
 in this archive or available on github [index.example.php](https://github.com/celestino/BrickOO/blob/master/index.example.php)
 
+###Testing
+BrickOO is tested with PHPUnit 3.6.10. PHPUnit installation information can be found [here](http://www.phpunit.de/manual/3.6/en/installation.html) 
+
+`phpunit -c /path/to/Brickoo/Tests/phpunit.xml /path/to/Brickoo/Tests`
 
 ###License
-Since BrickOO is using the new BSD license, we hope that BrickOO gives
-you the freedom to build and use your application the way you like.
-
-The freedom of this software does not include a copyleft which forces you to make
-changes public, but we would like to hear about your requirements and modifications
-to keep the quality of BrickOO as good as we can, please contact us.
-
 The files in this archive are released under the new BSD license.
 You can find a copy of this license in the LICENSE file included.
 

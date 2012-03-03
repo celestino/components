@@ -35,7 +35,7 @@
     /**
      * RequestInterface
      *
-     * This interface is for the dynamic type hinting of the Http and Cli Requests.
+     * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

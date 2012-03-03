@@ -32,7 +32,6 @@
 
     namespace Brickoo\Cache;
 
-    use Brickoo\Core;
     use Brickoo\Validator\TypeValidator;
 
     /**

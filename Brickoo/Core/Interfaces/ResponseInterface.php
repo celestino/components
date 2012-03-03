@@ -35,7 +35,7 @@
     /**
      * ResponseInterface
      *
-     * This interface is for the dynamic type hinting of the Http and Cli Responses.
+     * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

@@ -30,27 +30,27 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Http\Exceptions;
+    namespace Brickoo\Template\Exceptions;
 
     /**
-     * MethodNotSupportedException
+     * TemplateFileDoesNotExist
      *
-     * Exception throwed if the request method is not supported.
+     * Exception throwed by a Response which requires a template file.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class MethodNotSupportedException extends \Exception
+    class TemplateFileDoesNotExist extends \Exception
     {
 
         /**
          * Class constructor.
          * Calls the parent Exception constructor.
-         * @param string $method the method not supported
+         * @param string $templateFilename the template file name which does not exist
          * @return void
          */
-        public function __construct($method)
+        public function __construct($templateFilename)
         {
-            parent::__construct(sprintf('The request menthod `%s` is not supported.', $method));
+            parent::__construct(sprintf('The template file `%s` does not exist.', $templateFilename));
         }
 
     }

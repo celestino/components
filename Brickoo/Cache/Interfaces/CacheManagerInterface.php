@@ -42,49 +42,7 @@
     Interface CacheManagerInterface
     {
 
-        /**
-        * Returns the CacheProvider dependency.
-        * @return \Brickoo\Cache\Provider\Interfaces\CacheProviderInterface
-        */
-        public function CacheProvider();
-
-        /**
-         * Lazy initialization of the LocalCache.
-         * @param \Brickoo\Cache\Interfaces\LocalCacheInterface $LocalCache the LocalCache dependecy to inject
-         * @return \Brickoo\Cache\Interfaces\LocalCacheInterface
-         */
-        public function LocalCache(\Brickoo\Cache\Interfaces\LocalCacheInterface $LocalCache = null);
-
-        /**
-        * Flushes the LocalCache cached content.
-         * This method can be called with the local cache disabled
-        * to make sure the local cache can be cleaned up after disabling it.
-        * @return void
-        */
-        public function flushLocalCache();
-
-        /**
-         * Enables the use of the local cache.
-         * This provides less call to the cache provider for indentifiers already loaded.
-         * @return \Brickoo\Cache\Interfaces\CacheProviderInterface
-         */
-        public function enableLocalCache();
-
-        /**
-         * Disables the use of the local cache.
-         * If the local cache is disabled, all call to the same indentifier will be loaded
-         * through the cache provider. This could be a performance decreasement.
-         * @return \Brickoo\Cache\Interfaces\CacheProviderInterface
-         */
-        public function disableLocalCache();
-
-        /**
-         * Checks if the local cache is enabled.
-         * @return boolean check result
-         */
-        public function isLocalCacheEnabled();
-
-        /**
+         /**
          * Return a cached content assigned to the identifier.
          * If the cached content is not available, it will be retrieved
          * with the given callback and cached again with the lifetime expiration.

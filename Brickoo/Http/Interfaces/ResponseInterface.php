@@ -32,6 +32,8 @@
 
     namespace Brickoo\Http\Interfaces;
 
+    use Brickoo\Core;
+
     /**
      * ResponseInterface
      *
@@ -39,8 +41,29 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    Interface ResponseInterface
+    Interface ResponseInterface extends Core\Interfaces\ResponseInterface
     {
+
+        /**
+         * Injects a response template dependency.
+         * @param \Brickoo\Template\Interfaces\TemplateInterface $Template the Template to inject
+         * @throws Exceptions\ResponseTemplateNotAvailableException if trying to retrieve the not injected dependency
+         * @return \Brickoo\Template\Interfaces\TemplateInterface
+         */
+        public function Template(\Brickoo\Template\Interfaces\TemplateInterface $Template = null);
+
+        /**
+         * Checks if the Response has a template dependency injected.
+         * @return boolean check result
+         */
+        public function hasTemplate();
+
+        /**
+         * Lazy initialization of the Headers dependency
+         * @param \Brickoo\Http\Component\Interfaces\HeadersInterface $Headers the Headers dependency to inject
+         * @return \Brickoo\Http\Component\Interfaces\HeadersInterface
+         */
+        public function Headers(\Brickoo\Http\Component\Interfaces\HeadersInterface $Headers = null);
 
         /**
          * Checks if a response header is set.
@@ -51,9 +74,10 @@
 
         /**
          * Sends the headers to the output buffer.
+         * @param callable $callback this argument should be only used for test purposes
          * @return \Brickoo\Http\Response
          */
-        public function sendHeaders();
+        public function sendHeaders($callback = null);
 
         /**
          * Returns then response protocol.

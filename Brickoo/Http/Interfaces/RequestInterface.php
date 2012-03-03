@@ -32,6 +32,8 @@
 
     namespace Brickoo\Http\Interfaces;
 
+    use Brickoo\Core;
+
     /**
      * RequestInterface
      *
@@ -39,7 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    Interface RequestInterface
+    Interface RequestInterface extends Core\Interfaces\RequestInterface
     {
 
         /**
@@ -71,17 +73,18 @@
         public function Post(\Brickoo\Memory\Interfaces\ContainerInterface $Post = null);
 
         /**
-         * Returns the supported methods.
-         * @return array containing the supported methods
+         * Lazy initialization of the Files dependency.
+         * @param \Brickoo\Memory\Interfaces\ContainerInterface $Files the Files dependency to inject
+         * @return \Brickoo\Memory\Interfaces\ContainerInterface
          */
-        public function getSupportedMethods();
+        public function Files(\Brickoo\Memory\Interfaces\ContainerInterface $Files = null);
 
         /**
-         * Checks if the http method is supported.
-         * @param string $method the http method to heck
-         * @return boolean check result
+         * Sets the request protocol used.
+         * @param string $protocol the protocol to set.
+         * @return \Brickoo\Http\Request
          */
-        public function isSupportedMethod($method);
+        public function setProtocol($protocol);
 
         /**
          * Returns the server variable value if available.
@@ -90,12 +93,6 @@
          * @return string the value of the server variable otherwise mixed the default value
          */
         public function getServerVar($name, $defaultValue = null);
-
-        /**
-         * Returns the raw body of the request.
-         * @return string
-         */
-        public function getRawBody();
 
         /**
          * Checks if the connection is based on https.

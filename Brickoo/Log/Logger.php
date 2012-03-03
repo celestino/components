@@ -32,14 +32,12 @@
 
     namespace Brickoo\Log;
 
-    use Brickoo\Core;
-    use Brickoo\Log\Interfaces;
     use Brickoo\Validator\TypeValidator;
 
     /**
      * Logger
      *
-     * The LogManager is used to store logs to a specific location.
+     * The Logger provides methods to store log entries to a specific location using a handler.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -94,7 +92,7 @@
          * Sets the default log severity to use.
          * @link http://www.php.net/manual/en/network.constants.php
          * @param integer $logSeverity the default log severity to set
-         * @return object reference
+         * @return \Brickoo\Log\Logger
          */
         public function setDefaultSeverity($severity)
         {
@@ -121,7 +119,7 @@
         /**
          * Sends the log messages using log handler assigned.
          * @param array|string $messages the messages to send
-         * @return object reference
+         * @return \Brickoo\Log\Logger
          */
         public function log($messages, $severity = null)
         {
@@ -137,6 +135,18 @@
             }
 
             $this->LogHandler()->log($messages, $severity);
+
+            return $this;
+        }
+
+        /**
+         * Adds the event listener to the EventManager.
+         * @param \Brickoo\Event\Interfaces\EventManagerInterface $EventManager
+         * @return \Brickoo\Log\Logger
+         */
+        public function attachListener(\Brickoo\Event\Interfaces\EventManagerInterface $EventManager)
+        {
+            $EventManager->attachListener('log', array($this, 'log'), 0, array('messages', 'severity'));
 
             return $this;
         }

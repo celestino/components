@@ -52,7 +52,7 @@
          * Adds the list of registrations to the registry.
          * @param array $registrations the registrations to add
          * @throws InvalidArgumentException if passed registrations is empty
-         * @return object reference
+         * @return \Brickoo\Memory\Interfaces\RegistryInterface
          */
         public function add(array $registrations);
 
@@ -73,7 +73,7 @@
          * @param mixed $value the identifier value to reguister with
          * @throws DuplicateRegistrationException the identifier is already registered
          * @throws ReadonlyModeException if the mode is currently read only
-         * @return object reference
+         * @return \Brickoo\Memory\Interfaces\RegistryInterface
          */
         public function register($identifier, $value);
 
@@ -84,7 +84,7 @@
          * @param mixed $value the identifier value to register
          * @throws ReadonlyModeException if the mode is currently read only
          * @throws IdentifierLockedException if the identifier is locked
-         * @return object reference
+         * @return \Brickoo\Memory\Interfaces\RegistryInterface
          */
         public function override($identifier, $value);
 
@@ -94,7 +94,7 @@
          * @throws ReadonlyModeException if the mode is currently read only
          * @throws IdentifierLockedException if the identifier is locked
          * @throws IdentifierNotRegisteredException if the identifier is not registered
-         * @return object reference
+         * @return \Brickoo\Memory\Interfaces\RegistryInterface
          */
         public function unregister($identifier);
 
@@ -112,7 +112,7 @@
          * False for read and all write operations,
          * locked identifiers will still being locked .
          * @param boolean $mode the mode to set
-         * @return object reference
+         * @return \Brickoo\Memory\Interfaces\RegistryInterface
          */
         public function setReadOnly($mode = true);
 
@@ -123,53 +123,11 @@
         public function isReadOnly();
 
         /**
-         * Registry constructor.
-         * Initializes the class properties.
-         * @return void
-         */
-        public function __construct();
-
-        /**
          * Countable interface function.
          * Returns the number of registrations.
          * @see Countable::count()
          * @return integer the number of registrations
          */
         public function count();
-
-        /**
-         * Returns the number of locked identifiers.
-         * @return integer the number of locked identifiers
-         */
-        public function countLocked();
-
-        /**
-         * Returns the value of the identifier from the registrations container.
-         * @param string|integer $identifier the identifer to retrieve the value from
-         * @return mixed the corresponding identifer value
-         */
-        public function __get($identifier);
-
-        /**
-         * Adds the identifer and his value to the registrations container.
-         * @param string|integer $identifier the identifier to register
-         * @param mixed $value the value of the identifier
-         * @return object reference
-         */
-        public function __set($identifier, $value);
-
-        /**
-         * Checks if the identifier is registered.
-         * @param string|integer $identifier the indentifier to check
-         * @return boolean check result
-         */
-        public function __isset($identifier);
-
-        /**
-         * Unsets the identifier from the registrations.
-         * @param string|integer $identifier the identifier to unregister
-         * @return void
-         */
-        public function __unset($identifier);
 
     }

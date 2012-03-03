@@ -30,27 +30,62 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Config\Exceptions;
+    use Brickoo\Event\EventListenerQueue;
+
+
+    // require PHPUnit Autoloader
+    require_once ('PHPUnit/Autoload.php');
 
     /**
-     * NamespaceReservedException
+     * EventTest
      *
-     * Exception throwed if trying to reserve a namespace which has been already reserved.
+     * Test suite for the EventListenerQueue class.
+     * @see Brickoo\Event\EventListenerQueue
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class NamespaceReservedException extends \Exception
+    class EventListenerQueueTest extends \PHPUnit_Framework_TestCase
     {
+        /**
+         * Holds an instance of the EventListenerQueue class.
+         * @var \Brickoo\Event\EventListenerQueue
+         */
+        protected $EventListenerQueue;
 
         /**
-         * Class constructor.
-         * Calls the parent Exception constructor.
-         * @param string $namspace the namespace reserved
+         * Sets up the the used EventListenerQueue instance.
          * @return void
          */
-        public function __construct($namespace)
+        protected function setUp()
         {
-            parent::__construct(sprintf('The namespace `%s` has already been reserved.', $namespace));
+            $this->EventListenerQueue = new EventListenerQueue();
+        }
+
+        /**
+         * Test if the serial property is initialized.
+         * @covers Brickoo\Event\EventListenerQueue::__construct
+         */
+        public function testConstruct()
+        {
+            $this->assertAttributeEquals(PHP_INT_MAX, 'serial', $this->EventListenerQueue);
+        }
+
+        /**
+         * Test if a value can be inserted to the queue and the priority is respected.
+         * @covers Brickoo\Event\EventListenerQueue::insert
+         */
+        public function testInsert()
+        {
+            $this->EventListenerQueue->insert('A', 100);
+            $this->EventListenerQueue->insert('B', 100);
+            $this->EventListenerQueue->insert('C', 200);
+
+            $values = array();
+            $queue = clone $this->EventListenerQueue;
+            foreach($queue as $value) {
+                $values[] = $value;
+            }
+            $this->assertEquals(array('C', 'A', 'B'), $values);
         }
 
     }

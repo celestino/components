@@ -32,7 +32,6 @@
 
     namespace Brickoo\Memory;
 
-    use Brickoo\Memory\Exceptions;
     use Brickoo\Validator\TypeValidator;
 
     /**
@@ -59,7 +58,7 @@
          * Take care by using this method as it will erase any holding content.
          * @param array $repository the repositoryList to use
          * @throws InvalidArgumentException if the passed repository is empty
-         * @return object reference
+         * @return \Brickoo\Memory\Repository
          */
         protected function setRepository(array $repository)
         {
@@ -122,7 +121,7 @@
          * and the version is set as current used version.
          * @param integer $version the version to use
          * @throws InvalidArgumentException if the version passed is not a integer
-         * @return object reference
+         * @return \Brickoo\Memory\Repository
          */
         protected function setCurrentVersion($version)
         {
@@ -135,7 +134,7 @@
 
         /**
          * Sets the last version available as the one currently used.
-         * @return object reference
+         * @return \Brickoo\Memory\Repository
          */
         public function useLastVersion()
         {
@@ -201,7 +200,7 @@
 
         /**
          * Resets the class properties.
-         * @return object reference
+         * @return \Brickoo\Memory\Repository
          */
         public function resetRepository()
         {
@@ -234,18 +233,13 @@
                 TypeValidator::IsInteger($version);
             }
 
-            if
-            (
-                ($version !== null)
-                &&
-                ! $this->isVersionAvailable($version)
-            ) {
+            if (($version !== null) && (! $this->isVersionAvailable($version))) {
                 throw new Exceptions\VersionNotAvailableException($version);
             }
 
             return array(
-                'version'  => ($version !== null ?: $this->getCurrentVersion()),
-                'content'  => $this->export(($version !== null ?: $this->getCurrentVersion()))
+                'version'  => ($version !== null ? $version : $this->getCurrentVersion()),
+                'content'  => $this->export(($version !== null ? $version : $this->getCurrentVersion()))
             );
         }
 
@@ -282,7 +276,7 @@
          * Stores the given content under the current revision.
          * @param mixed $content the content to store under the next revision
          * @throws RepositoryLockedException if the Repository is locked
-         * @return object reference
+         * @return \Brickoo\Memory\Repository
          */
         public function commit($content)
         {
@@ -311,7 +305,7 @@
          * @param integer $version the version to restore
          * @throws RepositoryLockedException if the Repository is locked
          * @throws VersionNotAvailableException if the Repository version is passed and not available
-         * @return object reference
+         * @return \Brickoo\Memory\Repository
          */
         public function restore($version)
         {
@@ -336,7 +330,7 @@
          * @param integer $version the version to remove
          * @throws RepositoryLockedException if the Repository is locked
          * @throws VersionNotAvailableException if the Repository version is passed and not available
-         * @return object reference
+         * @return \Brickoo\Memory\Repository
          */
         public function remove($version)
         {
@@ -388,7 +382,7 @@
          * @throws InvalidArgumentException if the repository passed is empty
          * @throws RepositoryLockedException if the Repository is locked
          * @throws InvalidRepositoryStructureException if the Repository has not incremented key order
-         * @return object reference
+         * @return \Brickoo\Memory\Repository
          */
         public function import(array $repository)
         {

@@ -32,8 +32,6 @@
 
     namespace Brickoo\Core;
 
-    use Brickoo\Core\Exceptions;
-
     require_once 'Interfaces\AutoloaderInterface.php';
 
     /**
@@ -61,25 +59,26 @@
         /**
          * Register the namespace to the available namespaces.
          * @param string $namespace the namespace to register
-         * @param string $namespacePath the absolute path to the namespace
+         * @param string $includePath the include path of the namespace
          * @throws InvalidArgumentException if passed arguments are not valid
+         * @throws DirectoryDoesNotExistException if the namespace mapped as directora does not exist
          * @throws DuplicateNamespaceRegistrationException if the namespace is already registered
-         * @return object reference
+         * @return \Brickoo\Core\Autoloader
          */
-        public function registerNamespace($namespace, $namespacePath)
+        public function registerNamespace($namespace, $includePath)
         {
             if
             (
                 (! is_string($namespace)) ||
                 (! $namespace = trim($namespace)) ||
-                (! is_string($namespacePath))
+                (! is_string($includePath))
             ) {
                 throw new \InvalidArgumentException('Invalid arguments used.');
             }
 
-            if (! is_dir($namespacePath)) {
+            if (! is_dir($includePath)) {
                 require_once 'Exceptions/DirectoryDoesNotExistException.php';
-                throw new Exceptions\DirectoryDoesNotExistException($namespacePath);
+                throw new Exceptions\DirectoryDoesNotExistException($includePath);
             }
 
             if ($this->isNamespaceRegistered($namespace)) {
@@ -87,7 +86,7 @@
                 throw new Exceptions\DuplicateNamespaceRegistrationException($namespace);
             }
 
-            $this->namespaces[strtoupper($namespace)] = $namespacePath;
+            $this->namespaces[strtoupper($namespace)] = rtrim($includePath, '/\\');
 
             return $this;
         }
@@ -96,7 +95,7 @@
          * Unregister the namespace available by the given name.
          * @param string $namespace the name of the namespace to remove
          * @throws NamspaceNotRegisteredException if the namespace is not registered
-         * @return object reference
+         * @return \Brickoo\Core\Autoloader
          */
         public function unregisterNamespace($namespace)
         {
@@ -135,22 +134,27 @@
         }
 
         /**
-         * Returns the namespace path of the assigned namespace name.
-         * @param string $namespace the namespace name to return the path from
-         * @throws InvalidArgumentException if the passe namespace is not a string
+         * Returns the include path of the class namespace.
+         * @param string $classNamespace the class namespace to return the include path from
+         * @throws InvalidArgumentException if the passed namespace is not a string
          * @return string the namespace path or false if the namespace is not registered
          */
-        public function getNamespacePath($namespace)
+        public function getIncludePath($classNamespace)
         {
-            if (! is_string($namespace)) {
-                throw new \InvalidArgumentException('Invalid arguments used');
+            if (! is_string($classNamespace)) {
+                throw new \InvalidArgumentException('Invalid namespace argument used.');
             }
 
-            if (! $this->isNamespaceRegistered($namespace)) {
-                return false;
+            $includePath = false;
+
+            foreach($this->namespaces as $namespace => $namespaceIncludePath) {
+                if (strpos(strtoupper($classNamespace), $namespace) === 0) {
+                    $includePath = $namespaceIncludePath;
+                    break;
+                }
             }
 
-            return $this->namespaces[strtoupper($namespace)];
+            return $includePath;
         }
 
         /**
@@ -166,28 +170,21 @@
 
         /**
          * Returns the absolute path for the requested class.
-         * It requires an registered namespace.
          * @param string $className the class to retrieve the path for
          * @throws InvalidArgumentException if the class name is not a string
          * @return string the absolute file path or false if the namespace is not registered
          */
         public function getAbsolutePath($className)
         {
-            if ((! is_string($className)) || (! $className = trim($className))) {
-                throw new \InvalidArgumentException('Invalid arguments used');
+            if ((! is_string($className)) || (! $className = trim($className, '\\'))) {
+                throw new \InvalidArgumentException('Invalid class argument used.');
             }
 
-            if
-            (
-                (! preg_match('~^(?<ns>[\w]+)(?:/|\\\\)(?<classPath>[\w/\\\\]+)$~i', $className, $matches)) ||
-                (! $namespacePath = $this->getNamespacePath($matches['ns']))
-            ) {
+            if (! $includePath = $this->getIncludePath($className)) {
                 return false;
             }
 
-            $namespacePath = rtrim(str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $namespacePath), DIRECTORY_SEPARATOR);
-
-            return $namespacePath . DIRECTORY_SEPARATOR . $matches['classPath'] .'.php';
+            return $includePath . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $className) .'.php';
         }
 
         /**
@@ -215,7 +212,7 @@
         /**
          * Registers the instance with method Autoloader:loadClass for autoloading.
          * @throws DuplicateAutoloaderRegistrationException if the autoloader is already registered
-         * @return object reference
+         * @return \Brickoo\Core\Autoloader
          */
         public function register()
         {
@@ -233,7 +230,7 @@
         /**
          * Unregisters the instance from the autoloading.
          * @throws AutoloaderNotRegisteredExeption if the autoloader did not be registered
-         * @return object reference
+         * @return \Brickoo\Core\Autoloader
          */
         public function unregister()
         {

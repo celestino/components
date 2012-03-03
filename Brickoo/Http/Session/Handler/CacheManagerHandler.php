@@ -32,8 +32,8 @@
 
     namespace Brickoo\Http\Session\Handler;
 
-    use Brickoo\Cache;
-    use Brickoo\Validator\TypeValidator;
+    use Brickoo\Cache,
+        Brickoo\Validator\TypeValidator;
 
     /**
      * CacheManagerHandler

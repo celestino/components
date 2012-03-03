@@ -32,8 +32,8 @@
 
     namespace Brickoo\Log\Handler;
 
-    use Brickoo\Log;
-    use Brickoo\Validator\TypeValidator;
+    use Brickoo\Log,
+        Brickoo\Validator\TypeValidator;
 
     /**
      * FileHandler
@@ -89,7 +89,7 @@
         /**
          * Sets the full path of the directory to log into.
          * @param string $directory the directory full path
-         * @return object reference
+         * @return \Brickoo\Log\Handler\FileHandler
          */
         public function setDirectory($directory)
         {
@@ -118,7 +118,7 @@
         /**
          * Sets the log file prefix to use.
          * @param string $filePrefix the file prefix to use
-         * @return object reference
+         * @return \Brickoo\Log\Handler\FileHandler
          */
         public function setFilePrefix($filePrefix)
         {
@@ -175,7 +175,7 @@
         * Logs the passed messages to the location.
         * @param array|string $messages the messages to log
         * @param integer $severity the severity level to add
-        * @return object reference
+        * @return \Brickoo\Log\Handler\FileHandler
         */
         public function log($messages, $severity)
         {

@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Http\Template\PhpTemplate;
+    use Brickoo\Template\PhpTemplate;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -47,7 +47,7 @@
     {
         /**
          * Holds an instance of the PhpTemplate class.
-         * @var \Brickoo\Http\Template\PhpTemplate
+         * @var \Brickoo\Template\PhpTemplate
          */
         protected $PhpTemplate;
 
@@ -63,24 +63,25 @@
          */
         protected function setUp()
         {
-            $this->PhpTemplate     = new PhpTemplate();
             $this->templateFile    = __DIR__ .'/assets/UnitTestTemplate.php';
+            $this->PhpTemplate     = new PhpTemplate();
         }
 
         /**
          * Test if the PhpTemplate implements the TemplateInterface.
-         * @covers Brickoo\Http\Template\PhpTemplate::__construct
+         * @covers Brickoo\Template\PhpTemplate::__construct
          */
         public function testConstruct()
         {
-            $this->assertInstanceOf('Brickoo\Http\Template\Interfaces\TemplateInterface', $this->PhpTemplate);
+            $Template = new PhpTemplate($this->templateFile);
+            $this->assertInstanceOf('Brickoo\Template\Interfaces\TemplateInterface', $Template);
         }
 
         /**
          * Test if the template files routines work as expected.
-         * @covers Brickoo\Http\Template\PhpTemplate::getTemplateFile
-         * @covers Brickoo\Http\Template\PhpTemplate::setTemplateFile
-         * @covers Brickoo\Http\Template\PhpTemplate::hasTemplateFile
+         * @covers Brickoo\Template\PhpTemplate::getTemplateFile
+         * @covers Brickoo\Template\PhpTemplate::setTemplateFile
+         * @covers Brickoo\Template\PhpTemplate::hasTemplateFile
          */
         public function testTemplateFileRoutines()
         {
@@ -92,9 +93,9 @@
 
         /**
          * Test if trying to set a non existing file throws an exception.
-         * @covers Brickoo\Http\Template\PhpTemplate::setTemplateFile
-         * @covers Brickoo\Http\Template\Exceptions\TemplateFileDoesNotExist::__construct
-         * @expectedException Brickoo\Http\Template\Exceptions\TemplateFileDoesNotExist
+         * @covers Brickoo\Template\PhpTemplate::setTemplateFile
+         * @covers Brickoo\Template\Exceptions\TemplateFileDoesNotExist::__construct
+         * @expectedException Brickoo\Template\Exceptions\TemplateFileDoesNotExist
          */
         public function testSetTemplateFileException()
         {
@@ -103,9 +104,9 @@
 
         /**
          * Test the template variables routines.
-         * @covers Brickoo\Http\Template\PhpTemplate::getTemplateVar
-         * @covers Brickoo\Http\Template\PhpTemplate::addTemplateVars
-         * @covers Brickoo\Http\Template\PhpTemplate::hasTemplateVar
+         * @covers Brickoo\Template\PhpTemplate::getTemplateVar
+         * @covers Brickoo\Template\PhpTemplate::addTemplateVars
+         * @covers Brickoo\Template\PhpTemplate::hasTemplateVar
          */
         public function testTemplateVarsRoutines()
         {
@@ -118,7 +119,7 @@
 
         /**
          * Test if the content of a single template variable can be retrieved.
-         * @covers Brickoo\Http\Template\PhpTemplate::getTemplateVar
+         * @covers Brickoo\Template\PhpTemplate::getTemplateVar
          */
         public function testGetTemplateVar()
         {
@@ -129,7 +130,7 @@
 
         /**
          * Test if trying to retrieve a non available template variable throws an excception.
-         * @covers Brickoo\Http\Template\PhpTemplate::getTemplateVar
+         * @covers Brickoo\Template\PhpTemplate::getTemplateVar
          * @expectedException UnexpectedValueException
          */
         public function testGetTemplateVarValueException()
@@ -139,7 +140,7 @@
 
         /**
          * Test if a template is recognized as available.
-         * @covers Brickoo\Http\Template\PhpTemplate::hasTemplateVar
+         * @covers Brickoo\Template\PhpTemplate::hasTemplateVar
          */
         public function testHasTemplateVar()
         {
@@ -150,7 +151,7 @@
 
         /**
          * Test if the template can be rendered.
-         * @covers Brickoo\Http\Template\PhpTemplate::render
+         * @covers Brickoo\Template\PhpTemplate::render
          */
         public function testRender()
         {
@@ -163,7 +164,7 @@
 
         /**
          * Test if trying to render without an assigned template throws an exception.
-         * @covers Brickoo\Http\Template\PhpTemplate::render
+         * @covers Brickoo\Template\PhpTemplate::render
          * @expectedException UnexpectedValueException
          */
         public function testRenderTemplateException()
@@ -173,7 +174,7 @@
 
         /**
          * Test if a template variable can be retrived through the magic get method.
-         * @covers Brickoo\Http\Template\PhpTemplate::__get
+         * @covers Brickoo\Template\PhpTemplate::__get
          */
         public function testMagicGet()
         {
@@ -183,7 +184,7 @@
 
         /**
          * Test if template variables can be added through the magic set method.
-         * @covers Brickoo\Http\Template\PhpTemplate::__set
+         * @covers Brickoo\Template\PhpTemplate::__set
          */
         public function testMagicSet()
         {

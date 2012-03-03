@@ -81,4 +81,10 @@
          */
         public function getDescription();
 
+        /**
+         * Returns the module description properties as string.
+         * @return string the module description
+         */
+        public function toString();
+
     }

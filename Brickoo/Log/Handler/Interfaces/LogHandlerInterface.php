@@ -46,7 +46,7 @@
          * Logs the passed messages to the location.
          * @param array|string $messages the messages to log
          * @param integer $severity the severity level to add
-         * @return object reference
+         * @return \Brickoo\Log\Handler\Interfaces\LogHandlerInterface
          */
         public function log($messages, $severity);
 

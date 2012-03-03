@@ -77,28 +77,22 @@
         public function getHostname();
 
         /**
-         * Checks if the session should be available.
-         * @return boolean check result
+         * Enables or the session usage.
+         * @return \Brickoo\Routing\Route
          */
-        public function isSessionEnabled();
+        public function requireSession();
 
         /**
-         * Returns the session configuration to use.
-         * @return array the session configuration to use
+         * Checks if a session is required.
+         * @return boolean check result
          */
-        public function getSessionConfiguration();
+        public function isSessionRequired();
 
         /**
          * Checks if the response is cacheable.
          * @return boolean check result
          */
         public function isCacheable();
-
-        /**
-         * Returns the response cache lifetime.
-         * @return the response cache lifetime in seconds
-         */
-        public function getCacheLifetime();
 
         /**
          * Returns all the default values available.

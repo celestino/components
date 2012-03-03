@@ -30,33 +30,23 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Core\Exceptions;
+    namespace Brickoo\Event\Interfaces;
 
     /**
-     * DependencyOverwriteException
+     * ListenerAggregateInterface
      *
-     * Exception throwed by a class which is trying to override an dependency.
+     * Describes the methods implemented y this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class DependencyOverwriteException extends \Exception
+    interface ListenerAggregateInterface
     {
 
         /**
-         * Class constructor.
-         * Calls the parent Exception constructor.
+         * Registers the contained listeners to the EventManager.
+         * @param \Brickoo\Event\Interfaces\EventManagerInterface $EventManager
          * @return void
          */
-        public function __construct($instanceInterfaceName)
-        {
-            parent::__construct
-            (
-                sprintf
-                (
-                    'The dependency implementing the `%s` can not be overwritten.',
-                    $instanceInterfaceName
-                )
-            );
-        }
+        public function aggregateListeners(\Brickoo\Event\Interfaces\EventManagerInterface $EventManager);
 
     }

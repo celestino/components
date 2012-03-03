@@ -76,7 +76,7 @@
          */
         public function testTemplate()
         {
-            $TemplateStub = $this->getMock('Brickoo\Http\Template\Interfaces\TemplateInterface');
+            $TemplateStub = $this->getMock('Brickoo\Template\Interfaces\TemplateInterface');
             $this->assertSame($this->Response, $this->Response->Template($TemplateStub));
             $this->assertSame($TemplateStub, $this->Response->Template());
             $this->assertAttributeContains($TemplateStub, 'dependencies', $this->Response);
@@ -100,7 +100,7 @@
          */
         public function testHasTemplate()
         {
-            $TemplateStub = $this->getMock('Brickoo\Http\Template\Interfaces\TemplateInterface');
+            $TemplateStub = $this->getMock('Brickoo\Template\Interfaces\TemplateInterface');
             $this->assertFalse($this->Response->hasTemplate());
             $this->assertSame($this->Response, $this->Response->Template($TemplateStub));
             $this->assertTrue($this->Response->hasTemplate());
@@ -291,7 +291,7 @@
         {
             $expectedOutput = 'some content from template';
 
-            $TemplateStub = $this->getMock('Brickoo\Http\Template\Interfaces\TemplateInterface', array('render'));
+            $TemplateStub = $this->getMock('Brickoo\Template\Interfaces\TemplateInterface', array('render'));
             $TemplateStub->expects($this->once())
                          ->method('render')
                          ->will($this->returnValue($expectedOutput));
@@ -315,7 +315,7 @@
          */
         public function testSendContent()
         {
-            $expectedOutput = "\r\nsome content to sent.";
+            $expectedOutput = "some content to sent.";
             $this->Response->setContent('some content to sent.');
             ob_start();
             $this->assertSame($this->Response, $this->Response->sendContent());
@@ -330,7 +330,7 @@
         public function testSend()
         {
             $expectedOutput  = "HTTP/1.1 200 OK\r\n";
-            $expectedOutput .= "Unit: TEST\r\n\r\n";
+            $expectedOutput .= "Unit: TEST\r\n";
             $expectedOutput .= "some content sent.";
 
             $output = '';

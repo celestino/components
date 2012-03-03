@@ -46,7 +46,7 @@
 
         /**
          * Holds the Autoloader  object.
-         * @var Autoloader\Autoloader
+         * @var \Brickoo\Core\Autoloader
          */
         public $Autoloader;
 
@@ -177,45 +177,17 @@
         }
 
         /**
-         * Test if the namespace path is returned by its namespace.
-         * @covers Brickoo\Core\Autoloader::getNamespacePath
-         */
-        public function testGetNamespacePath()
-        {
-            $this->Autoloader->registerNamespace('TestNamespace', dirname(__FILE__));
-            $this->assertEquals(dirname(__FILE__), $this->Autoloader->getNamespacePath('testnamespace'));
-        }
-
-        /**
-         * Test if an not registred namespace path fails by retrieving.
-         * @covers Brickoo\Core\Autoloader::getNamespacePath
-         */
-        public function testGetNamespacePathFails()
-        {
-            $this->assertFalse($this->Autoloader->getNamespacePath('doesNotExistNamespace'));
-        }
-
-        /** Test if an not valid argument throws an exception.
-         * @covers Brickoo\Core\Autoloader::getNamespacePath
-         * @expectedException InvalidArgumentException
-         */
-        public function testGetNamespacePathArgumentException()
-        {
-            $this->Autoloader->getNamespacePath(true);
-        }
-
-        /**
          * Test if the namespace path is returned by its namespace and class name.
          * @covers Brickoo\Core\Autoloader::getAbsolutePath
          */
         public function testGetAbsolutePath()
         {
             $this->Autoloader->registerNamespace('TestNamespace', dirname(__FILE__));
-            $path = str_replace('/', DIRECTORY_SEPARATOR, 'path\to\the\Class');
+            $class = 'testnamespacepath\to\the\Class';
             $this->assertEquals
             (
-                dirname(__FILE__) .DIRECTORY_SEPARATOR . $path . '.php',
-                $this->Autoloader->getAbsolutePath('testnamespace\path\to\the\Class')
+                dirname(__FILE__) .DIRECTORY_SEPARATOR . $class . '.php',
+                $this->Autoloader->getAbsolutePath($class)
             );
         }
 
@@ -235,6 +207,27 @@
         public function testGetAbsolutePathArgumentException()
         {
             $this->Autoloader->getAbsolutePath(null);
+        }
+
+        /**
+         * Test if the include path can be retrieved for a registered namespace.
+         * @covers Brickoo\Core\Autoloader::getIncludePath
+         */
+        public function testGetIncludePath()
+        {
+            $this->Autoloader->registerNamespace('CompanyA', dirname(__FILE__));
+            $this->assertEquals(dirname(__FILE__), $this->Autoloader->getIncludePath('CompanyA\Class'));
+        }
+
+        /**
+         * Test if the include path can be retrieved for a registered namespace.
+         * @covers Brickoo\Core\Autoloader::getIncludePath
+         * @expectedException InvalidArgumentException
+         */
+        public function testGetIncludePathArgumentException()
+        {
+            $this->Autoloader->registerNamespace('CompanyA', dirname(__FILE__));
+            $this->Autoloader->getIncludePath(array('wrongType'));
         }
 
         /**

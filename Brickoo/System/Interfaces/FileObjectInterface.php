@@ -52,7 +52,7 @@
         /**
          * Sets the lcoation to use for file operations.
          * @param string $location the location to use
-         * @return object reference
+         * @return \Brickoo\System\Interfaces\FileObjectInterface
          */
         public function setLocation($location);
 
@@ -66,7 +66,7 @@
         /**
          * Sets the mode for the file operation.
          * @param string $mode the mode to use
-         * @return object reference
+         * @return \Brickoo\System\Interfaces\FileObjectInterface
          */
         public function setMode($mode);
 
@@ -94,14 +94,14 @@
         /**
          * Removes the holded handle by closing the data pointer.
          * This method does not throw an exception like the explicit FileoBject::close does.
-         * @return object reference
+         * @return \Brickoo\System\Interfaces\FileObjectInterface
          */
         public function removeHandle();
 
         /**
          * Writes the data into the file location.
          * @param integer|string $data the data to write
-         * @return object reference;
+         * @return \Brickoo\System\Interfaces\FileObjectInterface;
          */
         public function write($data);
 
@@ -115,7 +115,7 @@
         /**
          * Closes the the data handler and frees the ressource.
          * @throws Exceptions\HandleNotAvailableException if the handle is not initialized
-         * @return object reference
+         * @return \Brickoo\System\Interfaces\FileObjectInterface
          */
         public function close();
 

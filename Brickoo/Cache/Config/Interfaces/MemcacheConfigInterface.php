@@ -43,23 +43,9 @@
     {
 
         /**
-        * Returns the available server list.
-        * @return array the avialable server list
-        */
-        public function getServers();
-
-        /**
-         * Adds a server configuration to the server list.
-         * @param array $serverConfig the server configuration to add
-         * @throws \UnexpectedValueException if a configuration key is missed
-         * @return object reference
-         */
-        public function addServer($host, $port);
-
-        /**
          * Configures the Memcache instance.
-         * @param \Memcache $Mecache the Memcache instance to configure
-         * @return object reference
+         * @param \Memcache $Memcache the Memcache instance to configure
+         * @return \Brickoo\Cache\Config\Interfaces\MemcacheConfigInterface
          */
         public function configure(\Memcache $Memcache);
 

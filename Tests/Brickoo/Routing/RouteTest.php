@@ -219,46 +219,23 @@
 
         /**
          * Test if the session can be enabled and the Route referende is returned.
-         * @covers Brickoo\Routing\Route::enableSession
+         * @covers Brickoo\Routing\Route::requireSession
          */
-        public function testEnableSession()
+        public function testRequireSession()
         {
-            $this->assertSame($this->Route, $this->Route->enableSession());
-            $this->assertAttributeEquals(true, 'sessionEnabled', $this->Route);
+            $this->assertSame($this->Route, $this->Route->requireSession());
+            $this->assertAttributeEquals(true, 'sessionRequired', $this->Route);
         }
 
         /**
          * Test if the status of the session can be retrieved.
-         * @covers Brickoo\Routing\Route::isSessionEnabled
+         * @covers Brickoo\Routing\Route::isSessionRequired
          */
-        public function testIsSessionEnabled()
+        public function testisSessionRequired()
         {
-            $this->assertFalse($this->Route->isSessionEnabled());
-            $this->Route->enableSession();
-            $this->assertTrue($this->Route->isSessionEnabled());
-        }
-
-        /**
-         * Test if the session configuration can be set and the Route reference is returned.
-         * @covers Brickoo\Routing\Route::setSessionConfiguration
-         */
-        public function testSetSessionConfiguration()
-        {
-            $config = array('name' =>  'sessionX');
-            $this->assertSame($this->Route, $this->Route->setSessionConfiguration($config));
-            $this->assertAttributeEquals($config, 'sessionConfiguration', $this->Route);
-
-            return $this->Route;
-        }
-
-        /**
-         * Test if the sessionConfiguration property can be retrieved.
-         * @covers Brickoo\Routing\Route::getSessionConfiguration
-         * @depends testSetSessionConfiguration
-         */
-        public function testGetSessionConfiguration($Route)
-        {
-            $this->assertEquals(array('name' => 'sessionX'), $Route->getSessionConfiguration());
+            $this->assertFalse($this->Route->isSessionRequired());
+            $this->Route->requireSession();
+            $this->assertTrue($this->Route->isSessionRequired());
         }
 
         /**
@@ -280,38 +257,6 @@
             $this->assertFalse($this->Route->isCacheable());
             $this->Route->enableCache();
             $this->assertTrue($this->Route->isCacheable());
-        }
-
-        /**
-         * Test if the cache lifetime can be set and the Rotue refernce is returned.
-         * @covers Brickoo\Routing\Route::setCacheLifetime
-         */
-        public function testSetCacheLifetime()
-        {
-            $this->assertSame($this->Route, $this->Route->setCacheLifetime(120));
-            $this->assertAttributeEquals(120, 'cacheLifetime', $this->Route);
-
-            return $this->Route;
-        }
-
-        /**
-         * Test if trying to set a wrong argument type throws an exception.
-         * @covers Brickoo\Routing\Route::setCacheLifetime
-         * @expectedException InvalidArgumentException
-         */
-        public function testSetCacheLifetimeArgumentException()
-        {
-            $this->Route->setCacheLifetime('wrongType');
-        }
-
-        /**
-         * Test if the cache lifetime can be retrieved.
-         * @covers Brickoo\Routing\Route::getCacheLifetime
-         * @depends testSetCacheLifetime
-         */
-        public function testGetCacheLifetime($Route)
-        {
-            $this->assertEquals(120, $Route->getCacheLifetime());
         }
 
         /**

@@ -30,27 +30,61 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Http\Template\Exceptions;
+    namespace Brickoo\Event\Interfaces;
 
     /**
-     * TemplateFileDoesNotExist
+     * EventInterface
      *
-     * Exception throwed by a Response which requires a template file.
+     * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class TemplateFileDoesNotExist extends \Exception
+    interface EventInterface
     {
 
         /**
-         * Class constructor.
-         * Calls the parent Exception constructor.
-         * @param string $templateFilename the template file name which does not exist
-         * @return void
+        * Lazy initialization of the EventManager dependency
+        * @param \Brickoo\Event\Interfaces\EventManagerInterface $EventManager the EventManager dependency to inject
+        * @return \Brickoo\Event\Interfaces\EventManagerInterface
+        */
+        public function EventManager(\Brickoo\Event\Interfaces\EventManagerInterface $EventManager = null);
+
+        /**
+         * Checks if the EventManager depndency is injected.
+         * @return boolean check result
          */
-        public function __construct($templateFilename)
-        {
-            parent::__construct(sprintf('The template file `%s` does not exist.', $templateFilename));
-        }
+        public function hasEventManager();
+
+        /**
+         * Returns the event name.
+         * @return string the event name
+         */
+        public function getName();
+
+        /**
+         * Returns the event  parameters.
+         * @return array the assigned event parameters
+         */
+        public function getParams();
+
+        /**
+         * Returns the parameter value of the identifier
+         * @param string $identifier the identifier to return the value from
+         * @return mixed the parmeter value or null if not set
+         */
+        public function getParam($identifier);
+
+        /**
+         * Checks if the identifier is an parameter.
+         * @param string $identifier the idetifier to check
+         * @return boolean check result
+         */
+        public function hasParam($identifier);
+
+        /**
+         * Returns the sender object reference.
+         * @return object the sender object reference or null if not set
+         */
+        public function Sender();
 
     }

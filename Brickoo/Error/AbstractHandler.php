@@ -32,8 +32,8 @@
 
     namespace Brickoo\Error;
 
-    use Brickoo\Log;
-    use Brickoo\Core;
+    use Brickoo\Log,
+        Brickoo\Core;
 
     /**
      * AbstractHandler

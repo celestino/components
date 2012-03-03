@@ -243,21 +243,6 @@
         }
 
         /**
-         * Test the supported methods routines.
-         * @covers Brickoo\Http\Request::setSupportedMethods
-         * @covers Brickoo\Http\Request::getSupportedMethods
-         * @covers Brickoo\Http\Request::isSupportedMethod
-         */
-        public function testSupportedMethods()
-        {
-            $this->assertSame($this->Request, $this->Request->setSupportedMethods(array('GET')));
-            $this->assertAttributeEquals(array('GET'), 'supportedMethods', $this->Request);
-            $this->assertEquals(array('GET'), $this->Request->getSupportedMethods());
-            $this->assertTrue($this->Request->isSupportedMethod('get'));
-            $this->assertFalse($this->Request->isSupportedMethod('post'));
-        }
-
-        /**
          * Test the getter and setter of the method.
          * @covers Brickoo\Http\Request::setMethod
          * @covers Brickoo\Http\Request::getMethod
@@ -280,17 +265,6 @@
         }
 
         /**
-         * Test if trying to set a not supported method throws an exception.
-         * @covers Brickoo\Http\Request::setMethod
-         * @covers Brickoo\Http\Exceptions\MethodNotSupportedException::__construct
-         * @expectedException Brickoo\Http\Exceptions\MethodNotSupportedException
-         */
-        public function testSetMethodSupportedMethodException()
-        {
-            $this->Request->setMethod('UNKNOWN');
-        }
-
-        /**
          * Test to if the method can be retrieved from the globals.
          * @covers Brickoo\Http\Request::getMethod
          */
@@ -301,93 +275,48 @@
         }
 
         /**
-         * Test the getter and setter of the host.
-         * @covers Brickoo\Http\Request::setHost
+         * Test if the host can be retrieved from the Url dependency.
          * @covers Brickoo\Http\Request::getHost
          */
-        public function testGetSetHost()
+        public function testGetHost()
         {
-            $Url = $this->getMock('Brickoo\Http\Component\Url', array('setHost', 'getHost'));
-            $Url->expects($this->once())
-                ->method('setHost')
-                ->with('localhost');
+            $Url = $this->getMock('Brickoo\Http\Component\Url', array('getHost'));
             $Url->expects($this->once())
                 ->method('getHost')
                 ->will($this->returnValue('localhost'));
 
             $this->Request->Url($Url);
-            $this->assertSame($this->Request, $this->Request->setHost('localhost'));
             $this->assertEquals('localhost', $this->Request->getHost());
         }
 
         /**
-         * Test if trying to use a wrong argument throws an exception.
-         * @covers Brickoo\Http\Request::setHost
-         * @expectedException InvalidArgumentException
-         */
-        public function testSetHostArgumentException()
-        {
-            $this->Request->setHost(array('wrongType'));
-        }
-
-        /**
-         * Test the getter and setter of the path.
-         * @covers Brickoo\Http\Request::setPath
+         * Test if the path can be retrieved from the Url dependency.
          * @covers Brickoo\Http\Request::getPath
          */
         public function testGetSetPath()
         {
-            $Url = $this->getMock('Brickoo\Http\Component\Url', array('setPath', 'getPath'));
-            $Url->expects($this->once())
-                ->method('setPath')
-                ->with('/path/to/somewhere/');
+            $Url = $this->getMock('Brickoo\Http\Component\Url', array('getPath'));
             $Url->expects($this->once())
                 ->method('getPath')
                 ->will($this->returnValue('/path/to/somewhere'));
 
             $this->Request->Url($Url);
-            $this->assertSame($this->Request, $this->Request->setPath('/path/to/somewhere/'));
             $this->assertEquals('/path/to/somewhere', $this->Request->getPath());
         }
 
         /**
-         * Test if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Http\Request::setPath
-         * @expectedException InvalidArgumentException
-         */
-        public function testSetPathArgumentException()
-        {
-            $this->Request->setPath(array('wrongType'));
-        }
-
-        /**
-         * Test the getter and setter of the format.
-         * @covers Brickoo\Http\Request::setFormat
+         * Test if the format can be retrieved from the Url dependency.
          * @covers Brickoo\Http\Request::getFormat
          */
         public function testGetSetFormat()
         {
-            $Url = $this->getMock('Brickoo\Http\Component\Url', array('setFormat', 'getFormat'));
-            $Url->expects($this->once())
-                ->method('setFormat')
-                ->with('xml');
+            $Url = $this->getMock('Brickoo\Http\Component\Url', array('getFormat'));
             $Url->expects($this->once())
                 ->method('getFormat')
                 ->will($this->returnValue('xml'));
 
             $this->Request->Url($Url);
-            $this->assertSame($this->Request, $this->Request->setFormat('xml'));
             $this->assertEquals('xml', $this->Request->getFormat());
-        }
-
-        /**
-         * Test if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Http\Request::setFormat
-         * @expectedException InvalidArgumentException
-         */
-        public function testSetFormatArgumentException()
-        {
-            $this->Request->setFormat(array('wrongType'));
         }
 
         /**
@@ -399,15 +328,6 @@
             $_SERVER['TEST'] = 'VALUE';
             $this->assertEquals('VALUE', $this->Request->getServerVar('TEST'));
             $this->assertEquals('DEFAULT_VALUE', $this->Request->getServerVar('UNSET', 'DEFAULT_VALUE'));
-        }
-
-        /**
-         * Test if the raw data retruned from php://input is of type string.
-         * @covers Brickoo\Http\Request::getRawBody
-         */
-        public function testGetRawBody()
-        {
-            $this->assertInternalType('string', $this->Request->getRawBody());
         }
 
         /**
@@ -495,9 +415,12 @@
                 ->will($this->returnValue('/path/to/somewhere'));
 
             $this->Request->Url($Url)->Headers($Headers);
-            $this->Request->setMethod('get')->setHost('localhost')->setProtocol('HTTP/1.1');
+            $this->Request->setMethod('GET')
+                          ->setProtocol('HTTP/1.1');
 
             $this->assertEquals($request . $headers, $this->Request->toString());
+
+            return $this->Request;
         }
 
         /**
@@ -521,9 +444,45 @@
                 ->will($this->returnValue('/path/to/somewhere'));
 
             $this->Request->Url($Url)->Headers($Headers);
-            $this->Request->setMethod('get')->setHost('localhost')->setProtocol('HTTP/1.1');
+            $this->Request->setMethod('GET')
+                          ->setProtocol('HTTP/1.1');
 
             $this->assertEquals($request . $headers, (string)$this->Request);
+        }
+
+        /**
+         * Test if the dependencies are called to import the global values.
+         * @covers Brickoo\Http\Request::importFromGlobals
+         */
+        public function testImportFromGlobals()
+        {
+            $Headers = $this->getMock('Brickoo\Http\Component\Headers',array('importFromGlobals'));
+            $Headers->expects($this->once())
+                    ->method('importFromGlobals');;
+
+            $Url = $this->getMock('Brickoo\Http\Component\Url', array('importFromGlobals'));
+            $Url->expects($this->once())
+                ->method('importFromGlobals');
+
+            $Query = $this->getMock('Brickoo\Http\Component\Query', array('importFromGlobals'));
+            $Query->expects($this->once())
+                  ->method('importFromGlobals');
+
+            $Post = $this->getMock('Brickoo\Memory\Container', array('merge'));
+            $Post->expects($this->once())
+                 ->method('merge');
+
+            $Files = $this->getMock('Brickoo\Memory\Container', array('merge'));
+            $Files->expects($this->once())
+                  ->method('merge');
+
+            $this->Request->Url($Url)
+                          ->Headers($Headers)
+                          ->Query($Query)
+                          ->Post($Post)
+                          ->Files($Files);
+
+            $this->assertSame($this->Request, $this->Request->importFromGlobals());
         }
 
     }

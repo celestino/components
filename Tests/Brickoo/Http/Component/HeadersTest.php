@@ -98,7 +98,7 @@
                 "application/xhtml+xml"    => 1,
                 "text/html"                => 1
             );
-            $this->Headers->add('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8');
+            $this->Headers->set('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8');
             $this->assertEquals($expectedTypes, $this->Headers->getAcceptTypes());
         }
 
@@ -108,7 +108,7 @@
          */
         public function testIsTypeSupported()
         {
-            $this->Headers->add('Accept', 'text/html,application/xml;q=0.9,*/*;q=0.8');
+            $this->Headers->set('Accept', 'text/html,application/xml;q=0.9,*/*;q=0.8');
             $this->assertTrue($this->Headers->isTypeSupported('application/xml'));
             $this->assertTrue($this->Headers->isTypeSupported('text/html'));
             $this->assertTrue($this->Headers->isTypeSupported('*/*'));
@@ -138,7 +138,7 @@
                 "en-US" => 0.6,
                 "en"    => 0.4
             );
-            $this->Headers->add('Accept-Language', 'de-DE,de;q=0.8,en-US;q=0.6,en;q=0.4');
+            $this->Headers->set('Accept-Language', 'de-DE,de;q=0.8,en-US;q=0.6,en;q=0.4');
             $this->assertEquals($expectedLanguages, $this->Headers->getAcceptLanguages());
         }
 
@@ -148,7 +148,7 @@
          */
         public function testIsLanguageSupported()
         {
-            $this->Headers->add('Accept-Language', 'de-DE,de;q=0.8,en-US;q=0.6,en;q=0.4');
+            $this->Headers->set('Accept-Language', 'de-DE,de;q=0.8,en-US;q=0.6,en;q=0.4');
             $this->assertTrue($this->Headers->isLanguageSupported('de-DE'));
             $this->assertTrue($this->Headers->isLanguageSupported('de'));
             $this->assertTrue($this->Headers->isLanguageSupported('en-US'));
@@ -178,7 +178,7 @@
                 "deflate"    => 1,
                 "special"    => 0.1
             );
-            $this->Headers->add('Accept-Encoding', 'gzip,deflate,special;q=0.1');
+            $this->Headers->set('Accept-Encoding', 'gzip,deflate,special;q=0.1');
             $this->assertEquals($expectedEncodings, $this->Headers->getAcceptEncodings());
         }
 
@@ -188,7 +188,7 @@
          */
         public function testIsEncodingSupported()
         {
-            $this->Headers->add('Accept-Encoding', 'gzip,deflate,special;q=0.1');
+            $this->Headers->set('Accept-Encoding', 'gzip,deflate,special;q=0.1');
             $this->assertTrue($this->Headers->isEncodingSupported('deflate'));
             $this->assertTrue($this->Headers->isEncodingSupported('gzip'));
             $this->assertTrue($this->Headers->isEncodingSupported('special'));
@@ -217,7 +217,7 @@
                 "utf-8"        => 0.7,
                 "*"            => 0.3
             );
-            $this->Headers->add('Accept-Charset', 'ISO-8859-1,utf-8;q=0.7,*;q=0.3');
+            $this->Headers->set('Accept-Charset', 'ISO-8859-1,utf-8;q=0.7,*;q=0.3');
             $this->assertEquals($expectedCharsets, $this->Headers->getAcceptCharsets());
         }
 
@@ -227,7 +227,7 @@
          */
         public function testIsCharsetSupported()
         {
-            $this->Headers->add('Accept-Charset', 'ISO-8859-1,utf-8;q=0.7,*;q=0.3');
+            $this->Headers->set('Accept-Charset', 'ISO-8859-1,utf-8;q=0.7,*;q=0.3');
             $this->assertTrue($this->Headers->isCharsetSupported('ISO-8859-1'));
             $this->assertTrue($this->Headers->isCharsetSupported('utf-8'));
             $this->assertTrue($this->Headers->isCharsetSupported('*'));
@@ -249,7 +249,7 @@
          */
         public function testGetAcceptHeaderByRegex()
         {
-            $this->Headers->add('Accept-Charset', 'ISO-8859-1;q=0.3');
+            $this->Headers->set('Accept-Charset', 'ISO-8859-1;q=0.3');
             $this->assertEquals
             (
                 array('ISO-8859-1' => 0.3),

@@ -95,6 +95,25 @@
         }
 
         /**
+         * Test if validation of an object works.
+         * @covers Brickoo\Validator\TypeValidator::IsObject
+         */
+        public function testIsObject()
+        {
+            $this->assertTrue(TypeValidator::IsObject(new stdClass()));
+        }
+
+        /**
+         * Test if validation of a non object throws an exception.
+         * @covers Brickoo\Validator\TypeValidator::IsObject
+         * @expectedException InvalidArgumentException
+         */
+        public function testIsObjectArgumentException()
+        {
+            TypeValidator::IsObject('wrongType');
+        }
+
+        /**
          * Test if validation of the isArray method works without flags and different arguments.
          * @covers Brickoo\Validator\TypeValidator::IsArray
          */

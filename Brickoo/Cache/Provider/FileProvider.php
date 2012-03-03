@@ -32,8 +32,8 @@
 
    namespace Brickoo\Cache\Provider;
 
-    use Brickoo\System;
-    use Brickoo\Validator\TypeValidator;
+    use Brickoo\System,
+        Brickoo\Validator\TypeValidator;
 
     /**
      * FileProvider

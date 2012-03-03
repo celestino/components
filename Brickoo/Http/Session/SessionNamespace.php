@@ -32,7 +32,6 @@
 
     namespace Brickoo\Http\Session;
 
-    use Brickoo\Http\Session\Interfaces;
     use Brickoo\Validator\TypeValidator;
 
     /**

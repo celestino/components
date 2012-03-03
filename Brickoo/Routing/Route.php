@@ -32,7 +32,6 @@
 
     namespace Brickoo\Routing;
 
-    use Brickoo\Routing\Interfaces;
     use Brickoo\Validator\TypeValidator;
 
     /**
@@ -42,7 +41,7 @@
      * which execute the assigned controller and action.
      * The regular espressions properties should not contain the delimiters or
      * the `^` on the beginning nor the `$` at the end of the expression.
-     * The delimter used later for the regular expressions is `~`.
+     * The delimter automaticly used for the regular expressions is `~`.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -225,58 +224,27 @@
 
 
         /**
-         * Holds the flag to enable session usage.
+         * Holds the flag of session requirement.
          * @var boolean
          */
-        protected $sessionEnabled;
+        protected $sessionRequired;
 
         /**
-         * Checks if the session should be available.
+         * Checks if the session is required.
          * @return boolean check result
          */
-        public function isSessionEnabled()
+        public function isSessionRequired()
         {
-            return $this->sessionEnabled;
+            return $this->sessionRequired;
         }
 
         /**
          * Enables or the session usage.
          * @return \Brickoo\Routing\Route
          */
-        public function enableSession()
+        public function requireSession()
         {
-            $this->sessionEnabled = true;
-
-            return $this;
-        }
-
-        /**
-         * Holds the session configuration to set.
-         * @var array
-         */
-        protected $sessionConfiguration;
-
-        /**
-         * Returns the session configuration to use.
-         * @return array the session configuration to use
-         */
-        public function getSessionConfiguration()
-        {
-            return $this->sessionConfiguration;
-        }
-
-        /**
-         * Sets the session configuration to use.
-         * The array keys which have effect are:
-         * - id for session_id()
-         * - name  for session_name()
-         * - limiter for session_set_limiter()
-         * @param array $configuration the session configuration
-         * @return \Brickoo\Routing\Route
-         */
-        public function setSessionConfiguration(array $configuration)
-        {
-            $this->sessionConfiguration = $configuration;
+            $this->sessionRequired = true;
 
             return $this;
         }
@@ -303,35 +271,6 @@
         public function enableCache()
         {
             $this->cacheable = true;
-
-            return $this;
-        }
-
-        /**
-         * Holds the response cache lifetime in seconds.
-         * @var integer
-         */
-        protected $cacheLifetime;
-
-        /**
-         * Returns the response cache lifetime.
-         * @return the response cache lifetime in seconds
-         */
-        public function getCacheLifetime()
-        {
-            return $this->cacheLifetime;
-        }
-
-        /**
-         * Sets the response cache lifetime in seconds
-         * @param integer $lifetime the response cache lifetime
-         * @return \Brickoo\Routing\Route
-         */
-        public function setCacheLifetime($lifetime)
-        {
-            TypeValidator::IsInteger($lifetime);
-
-            $this->cacheLifetime = $lifetime;
 
             return $this;
         }
@@ -481,12 +420,10 @@
             $this->method                  = null;
             $this->hostname                = null;
             $this->format                  = null;
-            $this->sessionEnabled          = false;
-            $this->sessionConfiguration    = null;
+            $this->sessionRequired         = false;
             $this->defaultValues           = array();
             $this->rules                   = array();
             $this->cacheable               = false;
-            $this->cacheLifetime           = 60;
         }
 
     }

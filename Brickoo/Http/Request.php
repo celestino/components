@@ -32,9 +32,8 @@
 
     namespace Brickoo\Http;
 
-    use Brickoo\Core;
-    use Brickoo\Memory;
-    use Brickoo\Validator\TypeValidator;
+    use Brickoo\Memory,
+        Brickoo\Validator\TypeValidator;
 
     /**
      * Request
@@ -43,7 +42,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Request implements Interfaces\RequestInterface, Core\Interfaces\RequestInterface
+    class Request implements Interfaces\RequestInterface
     {
 
         /**
@@ -85,7 +84,7 @@
                 function($Request) {
                     $Url = new Component\Url();
                     $Url->Request($Request);
-                    return $Url->importFromGlobals();
+                    return $Url;
                 },
                 $Url
             );
@@ -101,10 +100,7 @@
             return $this->getDependency(
                 'Headers',
                 '\Brickoo\Http\Component\Interfaces\HeadersInterface',
-                function() {
-                    $Headers = new Component\Headers();
-                    return $Headers->importFromGlobals();
-                },
+                function() {return new Component\Headers();},
                 $Headers
             );
         }
@@ -119,10 +115,7 @@
             return $this->getDependency(
                 'Query',
                 '\Brickoo\Http\Component\Interfaces\QueryInterface',
-                function() {
-                    $Query = new Component\Query();
-                    return $Query->importFromGlobals();
-                },
+                function() {return new Component\Query();},
                 $Query
             );
         }
@@ -137,11 +130,7 @@
             return $this->getDependency(
                 'Post',
                 '\Brickoo\Memory\Interfaces\ContainerInterface',
-                function(){
-                    $Container = new Memory\Container();
-                    $Container->merge($_POST);
-                    return $Container;
-                },
+                function(){return new Memory\Container();},
                 $Post
             );
         }
@@ -156,11 +145,7 @@
             return $this->getDependency(
                 'Files',
                 '\Brickoo\Memory\Interfaces\ContainerInterface',
-                function(){
-                    $Container = new Memory\Container();
-                    $Container->merge($_FILES);
-                    return $Container;
-                },
+                function(){return new Memory\Container();},
                 $Files
             );
         }
@@ -193,50 +178,11 @@
         public function setProtocol($protocol)
         {
             TypeValidator::IsString($protocol);
-            TypeValidator::MatchesRegex('~^HTTP/1\.[1|0]$~', $protocol);
+            TypeValidator::MatchesRegex('~^HTTP/1\.[0|1]$~', $protocol);
 
             $this->protocol = $protocol;
 
             return $this;
-        }
-
-        /**
-         * Holds the supported http methods.
-         * @var array
-         */
-        protected $supportedMethods;
-
-        /**
-         * Returns the supported methods.
-         * @return array containing the supported methods
-         */
-        public function getSupportedMethods()
-        {
-            return $this->supportedMethods;
-        }
-
-        /**
-         * Sets the supported http methods.
-         * @param array $methods the methods supported
-         * @return \Brickoo\Http\Request
-         */
-        public function setSupportedMethods(array $methods)
-        {
-            $this->supportedMethods = $methods;
-
-            return $this;
-        }
-
-        /**
-         * Checks if the http method is supported.
-         * @param string $method the http method to heck
-         * @return boolean check result
-         */
-        public function isSupportedMethod($method)
-        {
-            TypeValidator::IsString($method);
-
-            return in_array(strtoupper($method), $this->supportedMethods);
         }
 
         /**
@@ -253,8 +199,7 @@
         public function getMethod()
         {
             if ($this->method === null) {
-                $method = $this->getServerVar('REQUEST_METHOD', 'GET');
-                $this->setMethod(($this->isSupportedMethod($method) ? strtoupper($method) : 'GET'));
+                $this->setMethod($this->getServerVar('REQUEST_METHOD', 'GET'));
             }
 
             return $this->method;
@@ -269,10 +214,6 @@
         public function setMethod($method)
         {
             TypeValidator::IsString($method);
-
-            if (! $this->isSupportedMethod($method)) {
-                throw new Exceptions\MethodNotSupportedException($method);
-            }
 
             $this->method = strtoupper($method);
 
@@ -289,38 +230,12 @@
         }
 
         /**
-         * Sets the host name.
-         * @param string $host the host name to set
-         * @return \Brickoo\Http\Request
-         */
-        public function setHost($host)
-        {
-            TypeValidator::IsString($host);
-            $this->Url()->setHost($host);
-
-            return $this;
-        }
-
-        /**
          * Returns the request path.
          * @return string the request path
          */
         public function getPath()
         {
             return $this->Url()->getPath();
-        }
-
-        /**
-         * Sets the request path.
-         * @param string $path the request path to set
-         * @return \Brickoo\Http\Request
-         */
-        public function setPath($path)
-        {
-            TypeValidator::IsString($path);
-            $this->Url()->setPath($path);
-
-            return $this;
         }
 
         /**
@@ -333,19 +248,6 @@
         }
 
         /**
-         * Sets the request format.
-         * @param string $format the request format
-         * @return \Brickoo\Http\Request
-         */
-        public function setFormat($format)
-        {
-            TypeValidator::IsString($format);
-            $this->Url()->setFormat($format);
-
-            return $this;
-        }
-
-        /**
          * Class constructor.
          * Initializes class properties.
          * @return void
@@ -353,8 +255,22 @@
         public function __construct()
         {
             $this->method              = null;
-            $this->supportedMethods    = array('HEAD', 'GET', 'POST', 'PUT', 'DELETE');
             $this->dependencies        = array();
+        }
+
+        /**
+         * Imports the global request variables.
+         * @return \Brickoo\Http\Request
+         */
+        public function importFromGlobals()
+        {
+            $this->Url()->importFromGlobals();
+            $this->Query()->importFromGlobals();
+            $this->Headers()->importFromGlobals();
+            $this->Post()->merge($_POST);
+            $this->Files()->merge($_FILES);
+
+            return $this;
         }
 
         /**
@@ -375,16 +291,7 @@
         }
 
         /**
-         * Returns the raw body of the request.
-         * @return string
-         */
-        public function getRawBody()
-        {
-            return file_get_contents('php://input');
-        }
-
-        /**
-         * Checks if the connection is based on https.
+         * Checks if the connection is https.
          * @return boolean check result
          */
         public function isSecureConnection()

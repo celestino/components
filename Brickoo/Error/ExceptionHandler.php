@@ -32,9 +32,8 @@
 
     namespace Brickoo\Error;
 
-    use Brickoo\Log;
-    use Brickoo\Error\Exceptions;
-    use Brickoo\Validator\TypeValidator;
+    use Brickoo\Log,
+        Brickoo\Validator\TypeValidator;
 
     /**
      * ExceptionHandler
@@ -71,7 +70,7 @@
         /**
          * Registers the instance as exception handler.
          * @throws DuplicateHandlerRegistrationException if the instance is already registred
-         * @return object reference
+         * @return \Brickoo\Error\ExceptionHandler
          */
         public function register()
         {
@@ -88,7 +87,7 @@
         /**
          * Unregisters the instance as exception handler by restoring previous exception handler.
          * @throws HandlerNotRegisteredException if the instance is not registred as handler
-         * @return object reference
+         * @return \Brickoo\Error\ExceptionHandler
          */
         public function unregister()
         {

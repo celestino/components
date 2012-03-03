@@ -32,10 +32,10 @@
 
     namespace Brickoo\Routing;
 
-    use Brickoo\Core;
-    use Brickoo\System;
-    use Brickoo\Memory;
-    use Brickoo\Validator\TypeValidator;
+    use Brickoo\Core,
+        Brickoo\System,
+        Brickoo\Memory,
+        Brickoo\Validator\TypeValidator;
 
     /**
      * Router
@@ -540,6 +540,7 @@
             TypeValidator::IsString($routePath);
 
             if (($Aliases = $this->Aliases()) && (! $Aliases->isEmpty())) {
+                $Aliases->rewind();
                 while($Aliases->valid()) {
                     if (($position = strpos($routePath, ($key = $Aliases->key()))) === 1) {
                         $replacement = sprintf('(%s|%s)', $key, preg_quote($Aliases->current(), '~'));
@@ -548,7 +549,6 @@
                     }
                     $Aliases->next();
                 }
-                $Aliases->rewind();
             }
 
             return $routePath;
