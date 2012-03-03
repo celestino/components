@@ -59,10 +59,27 @@
         const FLAG_ARRAY_CAN_BE_EMPTY         = 4;
         const FLAG_REGEX_NEGATIVE_CHECK       = 8;
 
-        public static function ThrowInvalidArgumentException($argument, $flag)
+        public static function ThrowInvalidArgumentException($argument, $flag, $method)
         {
+            switch (gettype($argument)) {
+                case "boolean":
+                    $argument = ($argument ? 'true' : 'false');
+                    break;
+                case "array":
+                    $argument = str_replace(array("\r", "\n", " "), "", var_export($argument, true));
+                    break;
+                case "object":
+                    $argument = "[object] ". get_class($argument);
+                    break;
+                case "NULL":
+                    $argument = "null";
+                    break;
+                default:
+                    $argument = serialize($argument);
+            }
+
             throw new \InvalidArgumentException(
-                sprintf(self::ExceptionMessage, serialize($argument), (int)$flag, __METHOD__)
+                sprintf(self::ExceptionMessage, $argument, (int)$flag, $method)
             );
         }
 
@@ -96,7 +113,7 @@
                 )
             )
             {
-                return self::ThrowInvalidArgumentException($argument, $flag);
+                return self::ThrowInvalidArgumentException($argument, $flag, __METHOD__);
             }
 
             return true;
@@ -131,7 +148,7 @@
                     )
                 )
             ) {
-                return self::ThrowInvalidArgumentException($argument, $flag);
+                return self::ThrowInvalidArgumentException($argument, $flag, __METHOD__);
             }
 
             return true;
@@ -147,7 +164,7 @@
         public static function IsFloat($argument, $flag = null)
         {
             if (! is_float($argument)) {
-                return self::ThrowInvalidArgumentException($argument, $flag);
+                return self::ThrowInvalidArgumentException($argument, $flag, __METHOD__);
             }
 
             return true;
@@ -179,7 +196,7 @@
                     )
                 )
             ) {
-                return self::ThrowInvalidArgumentException($argument, $flag);
+                return self::ThrowInvalidArgumentException($argument, $flag, __METHOD__);
             }
 
             return true;
@@ -204,7 +221,7 @@
                     (count($argument) == count($filtered))
                 )
             ) {
-                return self::ThrowInvalidArgumentException($argument, $flag);
+                return self::ThrowInvalidArgumentException($argument, $flag, __METHOD__);
             }
 
             return true;
@@ -229,7 +246,7 @@
                     (count($argument) == count($filtered))
                 )
             ) {
-                return self::ThrowInvalidArgumentException($argument, $flag);
+                return self::ThrowInvalidArgumentException($argument, $flag, __METHOD__);
             }
 
             return true;
@@ -255,7 +272,7 @@
                     (! empty($result))
                 )
             ) {
-                return self::ThrowInvalidArgumentException($argument, $flag);
+                return self::ThrowInvalidArgumentException($argument, $flag, __METHOD__);
             }
 
             return true;
@@ -271,7 +288,7 @@
         public static function IsBoolean($argument, $flag = null)
         {
             if (! is_bool($argument)) {
-                return self::ThrowInvalidArgumentException($argument, $flag);
+                return self::ThrowInvalidArgumentException($argument, $flag, __METHOD__);
             }
 
             return true;
@@ -285,7 +302,7 @@
         public static function IsObject($argument)
         {
             if (! is_object($argument)) {
-                return self::ThrowInvalidArgumentException($argument, null);
+                return self::ThrowInvalidArgumentException($argument, null, __METHOD__);
             }
 
             return true;
@@ -301,7 +318,7 @@
         public static function IsNotEmpty($argument, $flag = null)
         {
             if (empty($argument)) {
-                return self::ThrowInvalidArgumentException($argument, $flag);
+                return self::ThrowInvalidArgumentException($argument, $flag, __METHOD__);
             }
 
             return true;
@@ -355,7 +372,7 @@
                     )
                 )
             ) {
-                return self::ThrowInvalidArgumentException($argument, $flag);
+                return self::ThrowInvalidArgumentException($argument, $flag, __METHOD__);
             }
 
             return true;
@@ -388,7 +405,7 @@
                     )
                 )
             ) {
-                return self::ThrowInvalidArgumentException(array($regex, $argument), $flag);
+                return self::ThrowInvalidArgumentException(array($regex, $argument), $flag, __METHOD__);
             }
 
             return true;

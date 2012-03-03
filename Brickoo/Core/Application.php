@@ -74,7 +74,7 @@
         const EVENT_ROUTER_BOOT = 'router.boot';
 
         /**
-         * Notifies that an exception occured because the request has no matching route.
+         * Notifies that an exception occured because the request has not a matching route.
          * @var string
          */
         const EVENT_ROUTER_ERROR = 'router.error';
@@ -111,7 +111,7 @@
         const EVENT_RESPONSE_SAVE = 'response.save';
 
         /**
-         * Notifies that the response could e sent now.
+         * Notifies that the response could be sent now.
          * @var string
          */
         const EVENT_RESPONSE_SEND = 'response.send';
@@ -124,7 +124,7 @@
 
         /**
          * Notifies that the MAIN application will be execute the module controller and
-         * required dependencies, services, configuration, etc. have to initaliazed now.
+         * required dependencies, services, configuration, etc. have to be initaliazed now.
          * @var string
          */
         const EVENT_MODULE_BOOT = 'module.boot';
@@ -152,7 +152,7 @@
          * @param string $interface the interface which has to be implemented by the dependency
          * @param callback $callback the callback to create a new dependency
          * @param object $Dependecy the dependecy to inject
-         * @return object Request if overwritten otherwise the dependency
+         * @return object the Application if overwritten otherwise the dependency
          */
         protected function getDependency($name, $interface, $callback, $Dependecy = null)
         {
@@ -539,7 +539,9 @@
          */
         protected function notifySessionStart()
         {
-            if ($this->Route()->getModuleRoute()->isSessionRequired()) {
+            if ($this->Route()->getModuleRoute()->isSessionRequired() &&
+                (! $this->SessionManager()->hasSessionStarted())
+            ){
                 $this->EventManager()->notify(new Event(
                     self::EVENT_SESSION_START, $this, array('SessionManager' => $this->SessionManager())
                 ));
