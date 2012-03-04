@@ -79,14 +79,14 @@
         const EVENT_RESPONSE_LOAD = 'response.load';
 
         /**
-         * Asks for a fresh response if no cached response has been returned or did not be
+         * Asks for a fresh response if the cached response has not been returned or did not be
          * enabled by the module route.
          * @var string
          */
         const EVENT_RESPONSE_GET = 'response.get';
 
         /**
-         * Notifies that the response could be cached if the module route did enable response caching.
+         * Notifies that the response could be cached if the module route did enabled response caching.
          * @var string
          */
         const EVENT_RESPONSE_SAVE = 'response.save';
@@ -98,13 +98,13 @@
         const EVENT_RESPONSE_SEND = 'response.send';
 
         /**
-         * Notifies that the application did not get a response after asking for.
+         * Notifies that the application did not get a fresh response after asking for.
          * @var string
          */
         const EVENT_RESPONSE_MISSING = 'response.missing';
 
         /**
-         * Notifies that the MAIN application will be execute the module controller and
+         * Notifies that the MAIN application will execute the module controller and
          * required dependencies, services, configuration, etc. have to be initaliazed now.
          * @var string
          */

@@ -47,6 +47,47 @@
     {
 
         /**
+        * Holds the class dependencies.
+        * @var array
+        */
+        protected $dependencies;
+
+        /**
+         * Returns the dependency holded, created or overwritten.
+         * @param string $name the name of the dependency
+         * @param string $interface the interface which has to be implemented by the dependency
+         * @param callback $callback the callback to create a new dependency
+         * @param object $Dependency the dependecy to inject
+         * @return object Application if overwritten otherwise the dependency
+         */
+        protected function getDependency($name, $interface, $callback, $Dependency = null)
+        {
+            if ($Dependency instanceof $interface) {
+                $this->dependencies[$name] = $Dependency;
+                return $this;
+            }
+            elseif ((! isset($this->dependencies[$name])) || (! $this->dependencies[$name] instanceof $interface)) {
+                $this->dependencies[$name] = call_user_func($callback, $this);
+            }
+            return $this->dependencies[$name];
+        }
+
+        /**
+         * Lazy initialization of the Response dependency.
+         * @param \Brickoo\Core\Interfaces\ResponseInterface $Response the Response dependency to inject
+         * @return \Brickoo\Core\Interfaces\ResponseInterface
+         */
+        public function Response(\Brickoo\Core\Interfaces\ResponseInterface $Response = null)
+        {
+            return $this->getDependency(
+                'Response',
+                '\Brickoo\Core\Interfaces\ResponseInterface',
+                function() {return new Response();},
+                $Response
+            );
+        }
+
+        /**
          * Holds an flag for preventing duplicate listener aggregation.
          * @var boolean
          */
@@ -68,7 +109,7 @@
                 $EventManager->attachListener(Core\Application::EVENT_RESPONSE_SEND, array($this, 'sendResponse'), 0, array('Response'));
                 $EventManager->attachListener(Core\Application::EVENT_APPLICATION_ERROR, array($this, 'displayError'), 0, array('Exception'));
 
-                $this->eventsRegistered = true;
+                $this->listenerAggregated = true;
             }
         }
 
@@ -81,13 +122,12 @@
          */
         public function displayError(\Exception $Exception)
         {
-            $Response = new \Brickoo\Http\Response();
-            $Response->setContent("<html><head><title></title></head><body>\r\n".
+            $this->Response()->setContent("<html><head><title></title></head><body>\r\n".
                 "<h1>This is not the response you are looking for...</h1>\r\n".
                 "<div>(<b>Exception</b>: ". $Exception->getMessage() .")\r\n".
                 "</body></html>"
             );
-            $Response->send();
+            $this->Response()->send();
         }
 
         /**
@@ -130,7 +170,10 @@
                 }
 
                 $Event->EventManager()->notify(new Event\Event(
-                    Core\Application::EVENT_MODULE_BOOT, $Event->Sender(), array('controller' => $RouteController)
+                    Core\Application::EVENT_MODULE_BOOT, $Event->Sender(), array(
+                        'controller' => $RouteController['controller'],
+                        'method'     => $RouteController['method']
+                    )
                 ));
 
                 return $RouteController['controller']->$RouteController['method']($Event->Sender());

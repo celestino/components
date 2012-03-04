@@ -516,7 +516,7 @@
                 ));
             }
 
-            if ($Response === null) {
+            if (! $Response instanceof Interfaces\ResponseInterface) {
                 $Response = $this->EventManager()->ask(new Event(
                     self::EVENT_RESPONSE_GET, $this, array('Route' => $RequestRoute)
                 ));
