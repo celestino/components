@@ -68,7 +68,7 @@
         {
             return $this->getMock(
                 'Brickoo\Routing\Interfaces\RouteCollectionInterface',
-                array('getRoutes', 'addRoutes', 'getRoute', 'hasRoutes')
+                array('getRoutes', 'addRoutes', 'createRoute', 'hasRoutes', 'getRoute', 'hasRoute')
             );
         }
 
@@ -90,10 +90,16 @@
         */
         public function getRouteStub()
         {
-            return $this->getMock(
-                'Brickoo\Routing\Interfaces\RouteInterface',
-                array()
-            );
+            return $this->getMock('Brickoo\Routing\Interfaces\RouteInterface');
+        }
+
+        /**
+        * Returns an EventManager stub .
+        * @return \Brickoo\Event\EventManager
+        */
+        public function getEventManagerStub()
+        {
+            return $this->getMock('Brickoo\Event\EventManager', array('notify', 'ask'));
         }
 
         /**
@@ -114,6 +120,7 @@
         /**
          * Test if the Route instance is created and implements the interface.
          * @covers Brickoo\Routing\Router::__construct
+         * @covers Brickoo\Routing\RouterEvents
          */
         public function testConstruct()
         {
@@ -148,81 +155,30 @@
         }
 
         /**
-         * Tests if the cache director can be set and the Router reference is returned.
-         * Test if the cache directory can be retrieved.
-         * @covers Brickoo\Routing\Router::getCacheDirectory
-         * @covers Brickoo\Routing\Router::setCacheDirectory
+         * Test if the Alias dependency can be injected and the Router reference is returned.
+         * @covers Brickoo\Routing\Router::EventManager
          */
-        public function testGetSetCacheDirectory()
+        public function testInjectEventManager()
         {
-            if (! is_writable(sys_get_temp_dir()))
-            {
-                $this->markTestSkipped('The system temporary directory is not writeable.');
-            }
-
-            $directory = rtrim(sys_get_temp_dir(), '/\\') . DIRECTORY_SEPARATOR;
-
-            $this->assertSame($this->Router, $this->Router->setCacheDirectory(sys_get_temp_dir()));
-            $this->assertAttributeEquals($directory, 'cacheDirectory', $this->Router);
-            $this->assertEquals($directory, $this->Router->getCacheDirectory());
-
-            return $this->Router;
+            $EventManager = $this->getEventManagerStub();
+            $this->assertSame($this->Router, $this->Router->EventManager($EventManager));
+            $this->assertAttributeContains($EventManager, 'dependencies', $this->Router);
+            $this->assertSame($EventManager, $this->Router->EventManager());
         }
 
         /**
-         * Test if trying to set a wrong argument type throws an exception.
-         * @covers Brickoo\Routing\Router::setCacheDirectory
-         * @expectedException InvalidArgumentException
+         * Test if the EventManager can be lazy initialized.
+         * @covers Brickoo\Routing\Router::EventManager
          */
-        public function testSetCacheDirectoryArgumentException()
+        public function testEventManagerLazyInitialization()
         {
-            $this->Router->setCacheDirectory(array('wrongType'));
-        }
+            $this->assertInstanceOf(
+                'Brickoo\Event\Interfaces\EventManagerInterface',
+                ($EventManager = $this->Router->EventManager())
+            );
 
-        /**
-         * Test if trying to retrieve the undefined cache directory throws an exception.
-         * @covers Brickoo\Routing\Router::getCacheDirectory
-         * @expectedException UnexpectedValueException
-         */
-        public function testGetCacheDirectoryValueException()
-        {
-            $this->Router->getCacheDirectory();
-        }
-
-        /**
-         * Test if the availability of the cache directory can be checked.
-         * @covers Brickoo\Routing\Router::hasCacheDirectory
-         * @depends testGetSetCacheDirectory
-         */
-        public function testHasCacheDirectory($Router)
-        {
-            $this->assertFalse($this->Router->hasCacheDirectory());
-            $this->assertTrue($Router->hasCacheDirectory());
-        }
-
-        /**
-         * Test if the cache filename can be set and the Router reference is returned.
-         * Test if the cache filename can be retrieved.
-         * @covers Brickoo\Routing\Router::getCacheFilename
-         * @covers Brickoo\Routing\Router::setCacheFilename
-         */
-        public function testGetSetCacheFilename()
-        {
-            $this->assertSame($this->Router, $this->Router->setCacheFilename('file.cache.php'));
-            $this->assertAttributeEquals('file.cache.php', 'cacheFilename', $this->Router);
-            $this->assertEquals('file.cache.php', $this->Router->getCacheFilename());
-
-            return $this->Router;
-        }
-
-        /**
-         * Test if trying to set a wrong argument type thrwos an exception.
-         * @covers Brickoo\Routing\Router::setCacheFilename
-         * @expectedException InvalidArgumentException
-         */
-        public function testSetCacheFilenameArgumentException()
-        {
-            $this->Router->setCacheFilename(array('wrongType'));
+            $this->assertAttributeContains($EventManager, 'dependencies', $this->Router);
+            $this->assertSame($EventManager, $this->Router->EventManager());
         }
 
         /**
@@ -449,44 +405,6 @@
         }
 
         /**
-         * Test if a cached route is recognized.
-         * @covers Brickoo\Routing\Router::isCachedRequestRoute
-         */
-        public function testIsCachedRequestRoute()
-        {
-            $cachedRoute = array
-            (
-                'path'        => '~^/path/to/some(/(?<place>([\w]+)?))?$~i',
-                'method'      => '~^GET|HEAD$~i',
-                'hostname'    => '~^localhost$~i',
-                'class'       => 'stored serialized route'
-            );
-
-            $RequestStub = $this->Router->getRequest();
-            $RequestStub->expects($this->once())
-                        ->method('getPath')
-                        ->will($this->returnValue('/path/to/some/place'));
-            $RequestStub->expects($this->once())
-                        ->method('getMethod')
-                        ->will($this->returnValue('GET'));
-            $RequestStub->expects($this->once())
-                        ->method('getHost')
-                        ->will($this->returnValue('localhost'));
-
-            $this->assertTrue($this->Router->isCachedRequestRoute($cachedRoute));
-        }
-
-        /**
-         * Test if the required arrayy keys do not exist throws an exception.
-         * @covers Brickoo\Routing\Router::collectModulesRoutes
-         * @expectedException InvalidArgumentException
-         */
-        public function testIsCachedRequestRouteArgumentException()
-        {
-            $this->Router->isCachedRequestRoute(array('expectedException'));
-        }
-
-        /**
          * Test if the request route is returned when it is already recognized.
          * @covers Brickoo\Routing\Router::getRequestRoute
          * @depends testSetRequestRoute
@@ -497,6 +415,72 @@
             (
                 'Brickoo\Routing\Interfaces\RequestRouteInterface',
                 $Router->getRequestRoute()
+            );
+        }
+
+        /**
+         * Test if the route can be retrived by the route.get event.
+         * @covers Brickoo\Routing\Router::getRequestRoute
+         */
+        public function testGetRequestRouteByGetEvent()
+        {
+            $Route = $this->getRouteStub();
+            $EventManager = $this->getEventManagerStub();
+            $EventManager->expects($this->once())
+                         ->method('ask')
+                         ->will($this->returnValue($Route));
+
+            $this->Router->EventManager($EventManager);
+            $this->assertInstanceOf
+            (
+                'Brickoo\Routing\Interfaces\RequestRouteInterface',
+                $this->Router->getRequestRoute()
+            );
+        }
+
+        /**
+         * Test if the route can be retrived using the routes.load event.
+         * @covers Brickoo\Routing\Router::getRequestRoute
+         * @covers Brickoo\Routing\Router::collectModulesRoutes
+         */
+        public function testGetRequestRouteByLoadEvent()
+        {
+            $RouteStub = $this->getRouteStub();
+            $RouteStub->expects($this->once())
+                      ->method('getPath')
+                      ->will($this->returnValue('/path/goes/to/home'));
+            $RouteStub->expects($this->once())
+                      ->method('getMethod')
+                      ->will($this->returnValue('HEAD'));
+
+            $RouteCollectionStub = $this->getRouteCollectionStub();
+            $RouteCollectionStub->expects($this->once())
+                                ->method('hasRoutes')
+                                ->will($this->returnValue(true));
+            $RouteCollectionStub->expects($this->once())
+                                ->method('getRoutes')
+                                ->will($this->returnValue(array($RouteStub)));
+
+            $RequestStub = $this->Router->getRequest();
+            $RequestStub->expects($this->once())
+                        ->method('getPath')
+                        ->will($this->returnValue('/path/goes/to/home'));
+            $RequestStub->expects($this->once())
+                        ->method('getMethod')
+                        ->will($this->returnValue('HEAD'));
+
+            $EventManager = $this->getEventManagerStub();
+            $EventManager->expects($this->exactly(2))
+                         ->method('ask')
+                         ->will($this->onConsecutiveCalls(null, $RouteCollectionStub));
+
+            $this->Router->EventManager($EventManager);
+
+            $this->assertInstanceOf('Brickoo\Routing\Interfaces\RequestRouteInterface', $this->Router->getRequestRoute());
+            $this->assertAttributeInstanceOf(
+                'Brickoo\Routing\Interfaces\RequestRouteInterface',
+                'RequestRoute',
+                $this->Router
             );
         }
 
@@ -513,20 +497,20 @@
             );
             $this->Router->setModules(array('module', realpath(__DIR__) . '/assets/'));
             $this->Router->collectModulesRoutes();
+            $Route = $this->Router->RouteCollection()->getRoute('test');
+
             $this->assertNotEmpty(($routes = $this->Router->RouteCollection()->getRoutes()));
-            $this->assertEquals('/', $routes[0]->getPath());
-            $this->assertEquals($expectedController, $routes[0]->getController());
-            $this->assertEquals('GET', $routes[0]->getMethod());
+            $this->assertEquals('/', $Route->getPath());
+            $this->assertEquals($expectedController, $Route->getController());
+            $this->assertEquals('GET', $Route->getMethod());
         }
 
         /**
          * Test if the request route is returned when it is responsible and it is set as property.
          * @covers Brickoo\Routing\Router::getRequestRoute
          * @covers Brickoo\Routing\Router::collectModulesRoutes
-         * @covers Brickoo\Routing\Router::saveRoutesToCache
-         * @depends testGetSetCacheDirectory
          */
-        public function testGetRequestRouteResponsible($Router)
+        public function testGetRequestRouteResponsible()
         {
             $hasRule = array(
                 array('name', true),
@@ -539,19 +523,19 @@
             );
 
             $RouteStub = $this->getRouteStub();
-            $RouteStub->expects($this->exactly(2))
+            $RouteStub->expects($this->once())
                       ->method('getPath')
                       ->will($this->returnValue('/path/{name}/to/{otherplace}'));
-            $RouteStub->expects($this->exactly(4))
+            $RouteStub->expects($this->exactly(2))
                       ->method('hasRule')
                       ->will($this->returnValueMap($hasRule));
-            $RouteStub->expects($this->exactly(4))
+            $RouteStub->expects($this->exactly(2))
                       ->method('hasDefaultValue')
                       ->will($this->returnValue(true));
-            $RouteStub->expects($this->exactly(4))
+            $RouteStub->expects($this->exactly(2))
                       ->method('getRule')
                       ->will($this->returnValueMap($getRule));
-            $RouteStub->expects($this->exactly(2))
+            $RouteStub->expects($this->once())
                       ->method('getMethod')
                       ->will($this->returnValue('HEAD'));
 
@@ -563,7 +547,7 @@
                                 ->method('hasRoutes')
                                 ->will($this->returnValue(false));
 
-            $RequestStub = $Router->getRequest();
+            $RequestStub = $this->Router->getRequest();
             $RequestStub->expects($this->once())
                         ->method('getPath')
                         ->will($this->returnValue('/path/goes/to/home'));
@@ -571,13 +555,13 @@
                         ->method('getMethod')
                         ->will($this->returnValue('HEAD'));
 
-            $Router->RouteCollection($RouteCollectionStub);
+            $this->Router->RouteCollection($RouteCollectionStub);
 
-            $this->assertInstanceOf('Brickoo\Routing\Interfaces\RequestRouteInterface', $Router->getRequestRoute());
+            $this->assertInstanceOf('Brickoo\Routing\Interfaces\RequestRouteInterface', $this->Router->getRequestRoute());
             $this->assertAttributeInstanceOf(
                 'Brickoo\Routing\Interfaces\RequestRouteInterface',
                 'RequestRoute',
-                $Router
+                $this->Router
             );
         }
 
@@ -676,90 +660,6 @@
                         ->will($this->returnValue('/path/goes/to/home'));
 
             $this->Router->RouteCollection($this->getRouteCollectionStub())->getRequestRoute();
-        }
-
-        /**
-         * Test if the routes can be compressed.
-         * @covers Brickoo\Routing\Router::getCompressedRoutes
-         */
-        public function testGetCompressedRoutes()
-        {
-            $RouteCollection = $this->Router->RouteCollection();
-
-            $Route = $RouteCollection->getRoute()
-                            ->setPath('/path/{name}/to/{otherplace}')
-                            ->setMethod('GET|HEAD')
-                            ->setHostname('([a-z]+\.)?localhost\.com')
-                            ->addRule('name', '[a-z]+')
-                            ->addRule('otherplace', '.*')
-                            ->addDefaultValue('name', 'somename')
-                            ->addDefaultValue('otherplace', 'someplace');
-
-            $expectedCompression = array(
-                array(
-                    'path'        => '~^/path(/(?<name>([a-z]+)?))?/to(/(?<otherplace>(.*)?))?(\..*)?$~i',
-                    'method'      => '~^(GET|HEAD)$~i',
-                    'hostname'    => '~^(([a-z]+\.)?localhost\.com)$~i',
-                    'class'       => serialize($Route)
-                )
-            );
-
-            $this->assertEquals($expectedCompression, $this->Router->getCompressedRoutes());
-        }
-
-        /**
-         * Test if the routes can be cached.
-         * @covers Brickoo\Routing\Router::saveRoutesToCache
-         */
-        public function testSaveRoutesToCache()
-        {
-            $RouteCollection = $this->Router->RouteCollection();
-            $Route = $RouteCollection->getRoute()->setPath('/path/to/some/place')->setMethod('GET');
-
-            $this->Router->setCacheDirectory(sys_get_temp_dir());
-            $this->Router->saveRoutesToCache();
-            $this->assertFileExists($this->Router->getCacheDirectory() . $this->Router->getCacheFilename());
-        }
-
-        /**
-         * Test if trying to save the routes to an not writeable dreictory throws an exception.
-         * @covers Brickoo\Routing\Router::saveRoutesToCache
-         * @covers Brickoo\System\Exceptions\DirectoryIsNotWriteableException::__construct
-         * @expectedException Brickoo\System\Exceptions\DirectoryIsNotWriteableException
-         */
-        public function testSaveRoutesToCacheDirectoryException()
-        {
-            $RouteCollection = $this->Router->RouteCollection();
-
-            $Route = $RouteCollection->getRoute()
-                                     ->setPath('/path/to/some/place')
-                                     ->setMethod('GET')
-                                     ->setHostname('localhost');
-
-            $this->Router->setCacheDirectory('/path/does/not/exist/' . uniqid());
-            $this->Router->saveRoutesToCache();
-        }
-
-        /**
-         * Test if the routes can be loaded from cache and the matching route is recognized.
-         * @covers Brickoo\Routing\Router::loadRoutesFromCache
-         * @depends testSaveRoutesToCache
-         */
-        public function testLoadRoutesFromCache()
-        {
-            $RequestStub = $this->Router->getRequest();
-            $RequestStub->expects($this->once())
-                        ->method('getPath')
-                        ->will($this->returnValue('/path/to/some/place'));
-            $RequestStub->expects($this->once())
-                        ->method('getMethod')
-                        ->will($this->returnValue('GET'));
-
-            $this->Router->setCacheDirectory(sys_get_temp_dir());
-            $this->Router->loadRoutesFromCache();
-            $this->assertInstanceOf('Brickoo\Routing\Interfaces\RequestRouteInterface', $this->Router->getRequestRoute());
-
-            unlink($this->Router->getCacheDirectory() . $this->Router->getCacheFilename());
         }
 
         /**

@@ -42,6 +42,12 @@
     interface RouteInterface
     {
 
+        /**
+         * Returns the unique name of the route.
+         * @return string the unique route name
+         */
+        public function getName();
+
        /**
          * Returns the route path listening to.
          * @throws UnexpectedValueException if the path is null

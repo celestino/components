@@ -62,8 +62,6 @@
         public function aggregateListeners(\Brickoo\Event\Interfaces\EventManagerInterface $EventManager)
         {
             if ($this->listenerAggregated !== true) {
-                $EventManager->attachListener(Core\Application::EVENT_ROUTER_BOOT, array($this, 'routerBoot'));
-                $EventManager->attachListener(Core\Application::EVENT_ROUTER_ERROR, array($this, 'displayError'), 0, array('Exception'));
                 $EventManager->attachListener(Core\Application::EVENT_SESSION_START, array($this, 'startSession'), 0, array('SessionManager'));
                 $EventManager->attachListener(Core\Application::EVENT_SESSION_STOP, array($this, 'stopSession'), 0, array('SessionManager'));
                 $EventManager->attachListener(Core\Application::EVENT_RESPONSE_GET, array($this, 'getResponse'));
@@ -72,23 +70,6 @@
 
                 $this->eventsRegistered = true;
             }
-        }
-
-        /**
-         * Boot route of the Router.
-         * Sets the available modules if they are not set.
-         * @param \Brickoo\Event\Interfaces\EventInterface $Event the application event
-         * @return \Brickoo\Http\Application
-         */
-        public function routerBoot(\Brickoo\Event\Interfaces\EventInterface $Event)
-        {
-            if (($Application = $Event->Sender()) instanceof \Brickoo\Core\Application) {
-                if (! $Application->Router()->hasModules()) {
-                    $Application->Router()->setModules($Application->getModules());
-                }
-            }
-
-            return $this;
         }
 
         /**

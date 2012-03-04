@@ -40,7 +40,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Application
+    class Application extends ApplicationEvents
     {
 
         /**
@@ -48,86 +48,6 @@
          * @var string
          */
         const VERSION = 'DEV{3.0}';
-
-        /**
-         * Notifies the application boot event.
-         * @var string
-         */
-        const EVENT_APPLICATION_BOOT = 'application.boot';
-
-        /**
-         * Notifies that an error/exception occured while running the application.
-         * @var string
-         */
-        const EVENT_APPLICATION_ERROR = 'application.error';
-
-        /**
-         * Notifies that the application has finished and can be shutdown.
-         * @var string
-         */
-        const EVENT_APPLICATION_SHUTDOWN = 'application.shutdown';
-
-        /**
-         * Notifies the router boot event.
-         * @var string
-         */
-        const EVENT_ROUTER_BOOT = 'router.boot';
-
-        /**
-         * Notifies that an exception occured because the request has not a matching route.
-         * @var string
-         */
-        const EVENT_ROUTER_ERROR = 'router.error';
-
-        /**
-         * Notifies that the module route requires session management and it should be started.
-         * @var string
-         */
-        const EVENT_SESSION_START = 'session.start';
-
-        /**
-         * Notifies that the session previously started can be now stopped.
-         * @var string
-         */
-        const EVENT_SESSION_STOP = 'session.stop';
-
-        /**
-         * Asks for a cached response if the module route did enable the response cache.
-         * @var string
-         */
-        const EVENT_RESPONSE_LOAD = 'response.load';
-
-        /**
-         * Asks for a fresh response if no cached response has been returned or did not be
-         * enabled by the module route.
-         * @var string
-         */
-        const EVENT_RESPONSE_GET = 'response.get';
-
-        /**
-         * Notifies that the response could be cached if the module route did enable response caching.
-         * @var string
-         */
-        const EVENT_RESPONSE_SAVE = 'response.save';
-
-        /**
-         * Notifies that the response could be sent now.
-         * @var string
-         */
-        const EVENT_RESPONSE_SEND = 'response.send';
-
-        /**
-         * Notifies that the application did not get a response after asking for.
-         * @var string
-         */
-        const EVENT_RESPONSE_MISSING = 'response.missing';
-
-        /**
-         * Notifies that the MAIN application will be execute the module controller and
-         * required dependencies, services, configuration, etc. have to be initaliazed now.
-         * @var string
-         */
-        const EVENT_MODULE_BOOT = 'module.boot';
 
         /**
          * Defines the Registry reserved indetifiers.
@@ -151,13 +71,13 @@
          * @param string $name the name of the dependency
          * @param string $interface the interface which has to be implemented by the dependency
          * @param callback $callback the callback to create a new dependency
-         * @param object $Dependecy the dependecy to inject
+         * @param object $Dependency the dependecy to inject
          * @return object the Application if overwritten otherwise the dependency
          */
-        protected function getDependency($name, $interface, $callback, $Dependecy = null)
+        protected function getDependency($name, $interface, $callback, $Dependency = null)
         {
-            if ($Dependecy instanceof $interface) {
-                $this->dependencies[$name] = $Dependecy;
+            if ($Dependency instanceof $interface) {
+                $this->dependencies[$name] = $Dependency;
                 return $this;
             }
             elseif ((! isset($this->dependencies[$name])) || (! $this->dependencies[$name] instanceof $interface)) {
@@ -210,7 +130,11 @@
             return $this->getDependency(
                 'Router',
                 '\Brickoo\Routing\Interfaces\RouterInterface',
-                function ($Application){return new \Brickoo\Routing\Router($Application->Request());},
+                function ($Application){
+                    $Router = new \Brickoo\Routing\Router($Application->Request());
+                    $Router->EventManager($Application->EventManager());
+                    return $Router;
+                },
                 $Router
             );
         }
@@ -502,7 +426,8 @@
 
             try {
                 $EventManager->notify(new Event(self::EVENT_APPLICATION_BOOT, $this));
-                $EventManager->notify(new Event(self::EVENT_ROUTER_BOOT, $this));
+
+                $this->routerBoot();
 
                 $this->Route($this->Router()->getRequestRoute());
 
@@ -522,12 +447,22 @@
 
                 $EventManager->notify(new Event(self::EVENT_APPLICATION_SHUTDOWN, $this));
             }
-            catch (\Brickoo\Routing\Exceptions\RequestHasNoRouteException $Exception)
-            {
-                $EventManager->notify(new Event(self::EVENT_ROUTER_ERROR, $this, array('Exception' => $Exception)));
-            }
             catch(\Exception $Exception) {
                 $EventManager->notify(new Event(self::EVENT_APPLICATION_ERROR, $this, array('Exception' => $Exception)));
+            }
+
+            return $this;
+        }
+
+        /**
+         * Boot route of the Router.
+         * Sets the available modules if they are not set.
+         * @return \Brickoo\Http\Application
+         */
+        public function routerBoot()
+        {
+            if (! $this->Router()->hasModules()) {
+                $this->Router()->setModules($this->getModules());
             }
 
             return $this;

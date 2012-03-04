@@ -30,27 +30,42 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\System\Exceptions;
+    namespace Brickoo\Routing;
 
     /**
-     * DirectoryIsNotWriteableException
+     * RouterEvents
      *
-     * This exceptions if throwed if the directory does not have write permissions.
+     * Holds the router events.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class DirectoryIsNotWriteableException extends \Exception
+    class RouterEvents
     {
 
         /**
-         * Class constructor.
-         * Calls the parent Exception constructor.
-         * @param string $directory the directory which does not have write permissions
-         * @return void
+         * Asks for loaded routes and returned as an RouteCollection object.
+         * @see Brickoo\Routing\Interfaces\RouteCollectionInterface
+         * @var string
          */
-        public function __construct($directory)
-        {
-            parent::__construct(sprintf('The directory `%s` has not write permissions.', $directory));
-        }
+        const EVENT_ROUTES_LOAD    = 'routes.load';
+
+        /**
+         * Notifies that the routes loaded could be saved.
+         * @var string
+         */
+        const EVENT_ROUTES_SAVE    = 'routes.save';
+
+        /**
+         * Aks of the route to use witch has to be returned as an Route object.
+         * @see Brickoo\Routing\Interfaces\RouteInterface
+         * @var string
+         */
+        const EVENT_ROUTE_GET      = 'route.get';
+
+        /**
+         * Notifies that the router has not a matched route.
+         * @var string
+         */
+        const EVENT_ROUTER_ERROR   = 'router.error';
 
     }

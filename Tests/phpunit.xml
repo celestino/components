@@ -8,6 +8,11 @@
     convertNoticesToExceptions="true"
     convertWarningsToExceptions="true"
     bootstrap="bootstrap.php">
+    <testsuites>
+        <testsuite name="BrickOO Test Suite">
+            <directory>./Brickoo/</directory>
+        </testsuite>
+    </testsuites>
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
             <!-- path to the brickoo library -->

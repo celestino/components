@@ -33,8 +33,7 @@
     namespace Brickoo\Routing;
 
     use Brickoo\Core,
-        Brickoo\System,
-        Brickoo\Memory,
+        Brickoo\Event,
         Brickoo\Validator\TypeValidator;
 
     /**
@@ -44,7 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Router implements Interfaces\RouterInterface
+    class Router extends RouterEvents implements Interfaces\RouterInterface
     {
 
         /**
@@ -58,13 +57,13 @@
          * @param string $name the name of the dependency
          * @param string $interface the interface which has to be implemented by the dependency
          * @param callback $callback the callback to create a new dependency
-         * @param object $Dependecy the dependecy to inject
+         * @param object $Dependency the dependecy to inject
          * @return object Router if overwritten otherwise the dependency
          */
-        protected function getDependency($name, $interface, $callback, $Dependecy = null)
+        protected function getDependency($name, $interface, $callback, $Dependency = null)
         {
-            if ($Dependecy instanceof $interface) {
-                $this->dependencies[$name] = $Dependecy;
+            if ($Dependency instanceof $interface) {
+                $this->dependencies[$name] = $Dependency;
                 return $this;
             }
             elseif ((! isset($this->dependencies[$name])) || (! $this->dependencies[$name] instanceof $interface)) {
@@ -98,81 +97,24 @@
             return $this->getDependency(
                 'Aliases',
                 '\Brickoo\Memory\Interfaces\ContainerInterface',
-                function(){return new Memory\Container();},
+                function(){return new \Brickoo\Memory\Container();},
                 $Aliases
             );
         }
 
         /**
-         * Holds the routes cache file name.
-         * @var string
+         * Lazy initialization of the EventManager dependecy.
+         * @param \Brickoo\Event\Interfaces\EventManagerInterface $EventManager the EventManager dependency
+         * @return \Brickoo\Event\Interfaces\EventManagerInterface
          */
-        protected $cacheFilename;
-
-        /**
-         * Returns the cache file name.
-         * @return string the cache file name
-         */
-        public function getCacheFilename()
+        public function EventManager(\Brickoo\Event\Interfaces\EventManagerInterface $EventManager = null)
         {
-            return $this->cacheFilename;
-        }
-
-        /**
-         * Sets the cache file name.
-         * @param string $cacheFilename the cache file name
-         * @return \Brickoo\Routing\Router
-         */
-        public function setCacheFilename($cacheFilename)
-        {
-            TypeValidator::IsString($cacheFilename);
-
-            $this->cacheFilename = $cacheFilename;
-
-            return $this;
-        }
-
-        /**
-         * Holds the cache directory to use.
-         * @var string
-         */
-        protected $cacheDirectory;
-
-        /**
-         * Returns the cache directory used.
-         * @throws UnexpectedValueException if the cache directory is not set
-         * @return string the cache directory
-         */
-        public function getCacheDirectory()
-        {
-            if ($this->cacheDirectory === null) {
-                throw new \UnexpectedValueException('The cache directory is `null`.');
-            }
-
-            return $this->cacheDirectory;
-        }
-
-        /**
-         * Sets the cache directory to use.
-         * @param string $cacheDirectory the cache directory to use
-         * @return \Brickoo\Routing\Router
-         */
-        public function setCacheDirectory($cacheDirectory)
-        {
-            TypeValidator::IsString($cacheDirectory);
-
-            $this->cacheDirectory = rtrim($cacheDirectory, '/\\') . DIRECTORY_SEPARATOR;
-
-            return $this;
-        }
-
-        /**
-         * Checks if the cache directory is set.
-         * @return boolean check result
-         */
-        public function hasCacheDirectory()
-        {
-            return ($this->cacheDirectory !== null);
+            return $this->getDependency(
+                'EventManager',
+                '\Brickoo\Event\Interfaces\EventManagerInterface',
+                function(){return new \Brickoo\Event\EventManager();},
+                $EventManager
+            );
         }
 
         /**
@@ -349,27 +291,6 @@
         }
 
         /**
-         * Checks if the cached route matches the request.
-         * @param array $route the route configuration to check
-         * @return boolean check result
-         */
-        public function isCachedRequestRoute(array $route)
-        {
-            TypeValidator::ArrayContainsKeys(array('method', 'path', 'hostname', 'class'), $route);
-
-            $Request = $this->getRequest();
-
-            return(
-                preg_match($route['method'], $Request->getMethod()) &&
-                (
-                    ($route['hostname'] === null) ||
-                    preg_match($route['hostname'], $Request->getHost())
-                ) &&
-                preg_match($route['path'], $Request->getPath())
-            );
-        }
-
-        /**
          * Returns the request matching route.
          * If the CacheManager is available the proceded routes will be cached.
          * @throws Routing\Exceptions\RequestedHasNoRouteException if the request has not a matching Route
@@ -381,8 +302,26 @@
                 return $this->RequestRoute;
             }
 
+            if (($Route = $this->EventManager()->ask(new Event\Event(self::EVENT_ROUTE_GET, $this))) &&
+                ($Route instanceof Interfaces\RouteInterface)
+            ){
+                $this->setRequestRoute($Route);
+                return $this->RequestRoute;
+            }
+
+            $routesLoadedByEvent = false;
+
             if (! $this->RouteCollection()->hasRoutes()) {
-                $this->collectModulesRoutes();
+                if (($RouteCollection = $this->EventManager()->ask(new Event\Event(self::EVENT_ROUTES_LOAD, $this))) &&
+                    ($RouteCollection instanceof Interfaces\RouteCollectionInterface) &&
+                    $RouteCollection->hasRoutes()
+                ){
+                     $this->RouteCollection()->addRoutes($RouteCollection->getRoutes());
+                     $routesLoadedByEvent = true;
+                }
+                else {
+                    $this->collectModulesRoutes();
+                }
             }
 
             if ($routes = $this->RouteCollection()->getRoutes()) {
@@ -395,11 +334,15 @@
             }
 
             if (! $this->hasRequestRoute()) {
-                throw new Exceptions\RequestHasNoRouteException($this->getRequest()->getPath());
+                $Exception = new Exceptions\RequestHasNoRouteException($this->getRequest()->getPath());
+                $this->EventManager()->notify(new Event\Event(self::EVENT_ROUTER_ERROR, $this, array('Exception' => $Exception)));
+                throw $Exception;
             }
 
-            if ($this->hasCacheDirectory()) {
-                $this->saveRoutesToCache();
+            if ($routesLoadedByEvent === false) {
+                $this->EventManager()->notify(
+                    new Event\Event(self::EVENT_ROUTES_SAVE, $this, array('RouteCollection' => $this->RouteCollection()))
+                );
             }
 
             return $this->RequestRoute;
@@ -416,11 +359,8 @@
             $this->Request            = $Request;
             $this->RequestRoute       = null;
             $this->dependencies       = array();
-            $this->FileObject         = null;
-            $this->cacheDirectory     = null;
             $this->modules            = array();
             $this->aliases            = array();
-            $this->cacheFilename      = 'router.routes.php';
             $this->routesFilename     = 'routes.php';
         }
 
@@ -444,73 +384,6 @@
                         $this->RouteCollection()->addRoutes($ModuleRouteCollection->getRoutes());
                     }
                 }
-            }
-        }
-
-        /**
-         * Returns the parsed routes for caching purpose.
-         * @return array the parsed routes
-         */
-        public function getCompressedRoutes()
-        {
-            $parsedRoutes = array();
-
-            if ($routes = $this->RouteCollection()->getRoutes()) {
-                foreach ($routes as $Route) {
-                    $routeConfig = array(
-                        'method'      => '~^(' . $Route->getMethod() . ')$~i',
-                        'path'        => $this->getRegexFromRoutePath($Route),
-                        'hostname'    => ($Route->getHostname() ? '~^(' . $Route->getHostname() . ')$~i' : null),
-                        'class'       => serialize($Route),
-                    );
-
-                    $parsedRoutes[] = $routeConfig;
-                }
-            }
-
-            return $parsedRoutes;
-        }
-
-        /**
-         * Loads the routes from the cache file and tries to find the request matching route.
-         * This requires an available cache directory with read permission.
-         * @return void
-         */
-        public function loadRoutesFromCache()
-        {
-            if (
-                $this->hasCacheDirectory() &&
-                file_exists(($filename = $this->getCacheDirectory() . $this->getCacheFilename())) &&
-                is_readable($filename) &&
-                is_array(($cachedRoutes = include ($filename)))
-            ) {
-                foreach ($cachedRoutes as $cachedRoute) {
-                    if ($this->isCachedRequestRoute($cachedRoute) &&
-                        (($Route = unserialize($cachedRoute['class'])) instanceof Interfaces\RouteInterface)
-                    ) {
-                        $this->setRequestRoute($Route);
-                        break;
-                    }
-                }
-            }
-        }
-
-        /**
-         * Saves the parsed routes to the cache directory.
-         * This requires an available cache directory with write permission.
-         * @return void
-         */
-        public function saveRoutesToCache()
-        {
-            if($routes = $this->getCompressedRoutes()) {
-                if (! is_writeable(($directory = $this->getCacheDirectory()))) {
-                    throw new System\Exceptions\DirectoryIsNotWriteableException($directory);
-                }
-
-                file_put_contents(
-                   $directory . $this->getCacheFilename(),
-                    "<?php \nreturn ". var_export($routes, true) . "; ?>"
-                );
             }
         }
 

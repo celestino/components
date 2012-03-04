@@ -56,15 +56,31 @@
         public function addRoutes(array $routes);
 
         /**
-         * Lazy Route initialization which is returned for configuration.
-         * @return Brickoo\Routing\Interfaces\RouteInterface
-         */
-        public function getRoute();
-
-        /**
          * Checks if the collection contains routes.
          * @return boolean check result
          */
         public function hasRoutes();
+
+        /**
+         * Lazy Route initialization which is returned for configuration.
+         * @param string $name the unique route name
+         * @throws DuplicateRouteException if the route name is already used
+         * @return Brickoo\Routing\Interfaces\RouteInterface
+         */
+        public function createRoute($name);
+
+        /**
+         * Returns the route matching the unique name.
+         * @param string $name the route to return
+         * @return \Bricko\Routing\Interfaces\RouteInterface
+         */
+        public function getRoute($name);
+
+        /**
+         * Checks if the Route exists.
+         * @param string $name the route to check
+         * @return boolean check result
+         */
+        public function hasRoute($name);
 
     }

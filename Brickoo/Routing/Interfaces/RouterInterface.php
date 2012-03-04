@@ -43,39 +43,6 @@
     {
 
         /**
-         * Returns the cache file name.
-         * @return string the cache file name
-         */
-        public function getCacheFilename();
-
-        /**
-         * Sets the cache file name.
-         * @param string $cacheFilename the cache file name
-         * @return \Brickoo\Routing\Router
-         */
-        public function setCacheFilename($cacheFilename);
-
-        /**
-         * Returns the cache directory used.
-         * @throws UnexpectedValueException if the cache directory is not set
-         * @return string the cache directory
-         */
-        public function getCacheDirectory();
-
-        /**
-         * Sets the cache directory to use.
-         * @param string $cacheDirectory the cache directory to use
-         * @return \Brickoo\Routing\Router
-         */
-        public function setCacheDirectory($cacheDirectory);
-
-        /**
-         * Checks if the cache directory is set.
-         * @return boolean check result
-         */
-        public function hasCacheDirectory();
-
-        /**
          * Returns the routes file name.
          * @return string the routes file name
          */
@@ -123,6 +90,20 @@
         public function RouteCollection(\Brickoo\Routing\Interfaces\RouteCollectionInterface $RouteCollection = null);
 
         /**
+         * Lazy initialization of the Aliases dependecy.
+         * @param \Brickoo\Memory\Interfaces\ContainerInterface $Aliases the Container dependency
+         * @return \Brickoo\Memory\Interfaces\ContainerInterface
+         */
+        public function Aliases(\Brickoo\Memory\Interfaces\ContainerInterface $Aliases = null);
+
+        /**
+         * Lazy initialization of the EventManager dependecy.
+         * @param \Brickoo\Event\Interfaces\EventManagerInterface $EventManager the EventManager dependency
+         * @return \Brickoo\Event\Interfaces\EventManagerInterface
+         */
+        public function EventManager(\Brickoo\Event\Interfaces\EventManagerInterface $EventManager = null);
+
+        /**
          * Sets the requested Route for further routing.
          * @param \Brickoo\Routing\Interfaces\RouteInterface $Route the route matched the request
          * @throws \Brickoo\Core\Exceptions\ValueOverwriteException if trying to overwrite the request route
@@ -143,13 +124,6 @@
         public function isRequestRoute(\Brickoo\Routing\Interfaces\RouteInterface $Route);
 
         /**
-         * Checks if the cached route matches the request.
-         * @param array $route the route configuration to check
-         * @return boolean check result
-         */
-        public function isCachedRequestRoute(array $route);
-
-        /**
          * Returns the request matching route.
          * If the CacheManager is available the proceded routes will be cached.
          * @throws Routing\Exceptions\RequestedHasNoRouteException if the request has not a matching Route
@@ -166,24 +140,18 @@
         public function collectModulesRoutes();
 
         /**
-         * Returns the parsed routes for caching purpose.
-         * @return array the parsed routes
+         * Returns the Route regular expression to add for matching formats.
+         * @param \Brickoo\Routing\Interfaces\RouteInterface $Route the Route instance
+         * @return string the regular expression of the route format
          */
-        public function getCompressedRoutes();
+        public function getRegexRouteFormat(\Brickoo\Routing\Interfaces\RouteInterface $Route);
 
         /**
-         * Loads the routes from the cache file and tries to find the request matching route.
-         * This requires an available cache directory with read permission.
-         * @return void
+         * Returns the route path containg the aliases definitions.
+         * @param string $routePath the route path to look for aliases
+         * @return string the modified route path containing the aliases
          */
-        public function loadRoutesFromCache();
-
-        /**
-         * Saves the parsed routes to the cache directory.
-         * This requires an available cache directory with write permission.
-         * @return void
-         */
-        public function saveRoutesToCache();
+        public function getRouteAliasesPath($routePath);
 
         /**
          * Returns a regular expression from the route path and rules or default values available.

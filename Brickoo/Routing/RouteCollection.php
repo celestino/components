@@ -32,6 +32,8 @@
 
     namespace Brickoo\Routing;
 
+    use Brickoo\Validator\TypeValidator;
+
     /**
      * RouteCollection
      *
@@ -70,23 +72,60 @@
         }
 
         /**
-         * Lazy Route initialization which is returned for configuration.
-         * @return Brickoo\Routing\Interfaces\RouteInterface
-         */
-        public function getRoute()
-        {
-            $this->routes[] = ($Route = new Route());
-
-            return $Route;
-        }
-
-        /**
          * Checks if the collection contains routes.
          * @return boolean check result
          */
         public function hasRoutes()
         {
             return (! empty($this->routes));
+        }
+
+        /**
+         * Lazy Route initialization which is returned for configuration.
+         * @param string $name the unique route name
+         * @throws DuplicateRouteException if the route name is already used
+         * @return Brickoo\Routing\Interfaces\RouteInterface
+         */
+        public function createRoute($name)
+        {
+            TypeValidator::IsString($name);
+
+            if ($this->hasRoute($name)) {
+                throw new Exceptions\DuplicateRouteException($name);
+            }
+
+            $this->routes[$name] = ($Route = new Route($name));
+
+            return $Route;
+        }
+
+        /**
+         * Returns the route matching the unique name.
+         * @param string $name the route to return
+         * @throws RouteNotFoundException if the route is not available
+         * @return \Bricko\Routing\Interfaces\RouteInterface
+         */
+        public function getRoute($name)
+        {
+            TypeValidator::IsString($name);
+
+            if (! $this->hasRoute($name)) {
+                throw new Exceptions\RouteNotFoundException($name);
+            }
+
+            return $this->routes[$name];
+        }
+
+        /**
+         * Checks if the Route exists.
+         * @param string $name the route to check
+         * @return boolean check result
+         */
+        public function hasRoute($name)
+        {
+            TypeValidator::IsString($name);
+
+            return isset($this->routes[$name]);
         }
 
         /**

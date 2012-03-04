@@ -30,28 +30,27 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Core\Autoloader;
+    namespace Brickoo\Routing\Exceptions;
 
     /**
-     * Bootstrap for the Brickoo Framework used for Tests.
-     * Sets the default timezone for Date functions.
-     * Defines test constants and initializes the required autoloader.
+     * DuplicateRouteException
+     *
+     * Exception throwed if trying to create a route with a name already used.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    // set the default timezone
-    date_default_timezone_set('UTC');
+    class DuplicateRouteException extends \Exception
+    {
 
-    define('BRICKOO_DIR', realpath(dirname(__FILE__)) .'/../');
+        /**
+         * Class constructor.
+         * Calls the parent Exception constructor.
+         * @param string $name the route name used
+         * @return void
+         */
+        public function __construct($name)
+        {
+            parent::__construct(sprintf('The route `%s` does already exist.', $name));
+        }
 
-    // require the default autoloader must implement the AutoloaderInterface
-    require_once ('/../Brickoo/Core/Autoloader.php');
-
-    // create the class autoloader instance
-    $Autoloader = new Autoloader();
-
-    // register the brickoo path as new namespace to the autoloader
-    $Autoloader->registerNamespace('Brickoo', BRICKOO_DIR);
-
-    // register the autoloader instance to php
-    $Autoloader->register();
+    }

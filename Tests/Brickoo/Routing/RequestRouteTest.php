@@ -123,7 +123,7 @@
          */
         public function testMagicCall()
         {
-            $Route = $this->getMock('Brickoo\Routing\Route', array('setPath'));
+            $Route = $this->getMock('Brickoo\Routing\Route', array('setPath'), array('routeName'));
             $Route->expects($this->once())
                   ->method('setPath')
                   ->with('/path/to/somewhere')

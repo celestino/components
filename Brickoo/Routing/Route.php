@@ -49,6 +49,21 @@
     {
 
         /**
+         * Holds the unique route name.
+         * @var string
+         */
+        protected $name;
+
+        /**
+        * Returns the unique name of the route.
+        * @return string the unique route name
+        */
+        public function getName()
+        {
+            return $this->name;
+        }
+
+        /**
          * Holds the route path listening to.
          * @var string
          */
@@ -411,10 +426,14 @@
         /**
         * Class constructor.
         * Initializes the class properties.
+        * @param string $name the unique route name.
         * @return void
         */
-        public function __construct()
+        public function __construct($name)
         {
+            TypeValidator::IsString($name);
+
+            $this->name                    = $name;
             $this->controller              = null;
             $this->path                    = null;
             $this->method                  = null;

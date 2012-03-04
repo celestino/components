@@ -109,13 +109,13 @@
          * @param string $name the name of the dependency
          * @param string $interface the interface which has to be implemented by the dependency
          * @param callback $callback the callback to create a new dependency
-         * @param object $Dependecy the dependecy to inject
+         * @param object $Dependency the dependecy to inject
          * @return object Request if overwritten otherwise the dependency
          */
-        protected function getDependency($name, $interface, $callback, $Dependecy = null)
+        protected function getDependency($name, $interface, $callback, $Dependency = null)
         {
-            if ($Dependecy instanceof $interface) {
-                $this->dependencies[$name] = $Dependecy;
+            if ($Dependency instanceof $interface) {
+                $this->dependencies[$name] = $Dependency;
                 return $this;
             }
             elseif ((! isset($this->dependencies[$name])) || (! $this->dependencies[$name] instanceof $interface)) {

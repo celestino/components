@@ -73,18 +73,62 @@
 
         /**
          * Test if a Route instance can be lazy created and the Route reference is returned.
-         * @covers Brickoo\Routing\RouteCollection::getRoute
+         * @covers Brickoo\Routing\RouteCollection::createRoute
          */
-        public function testGetRoute()
+        public function testCreateRoute()
         {
             $this->assertInstanceOf
             (
                 'Brickoo\Routing\Interfaces\RouteInterface',
-                ($Route = $this->RouteCollection->getRoute())
+                ($Route = $this->RouteCollection->createRoute('routeName'))
             );
-            $this->assertAttributeEquals(array($Route), 'routes', $this->RouteCollection);
+            $this->assertAttributeEquals(array('routeName' => $Route), 'routes', $this->RouteCollection);
 
             return $this->RouteCollection;
+        }
+
+        /**
+         * Test if trying to create a route with the same name throws an exception.
+         * @covers Brickoo\Routing\RouteCollection::createRoute
+         * @covers Brickoo\Routing\Exceptions\DuplicateRouteException::__construct
+         * @expectedException Brickoo\Routing\Exceptions\DuplicateRouteException
+         */
+        public function testCreateRouteDuplicateException()
+        {
+            $this->RouteCollection->createRoute('test');
+            $this->RouteCollection->createRoute('test');
+        }
+
+        /**
+         * Test if a route can be retrieved by its name.
+         * @covers Brickoo\Routing\RouteCollection::getRoute
+         */
+        public function testGetRoute()
+        {
+            $Route = $this->RouteCollection->createRoute('test');
+            $this->assertSame($Route, $this->RouteCollection->getRoute('test'));
+        }
+
+        /**
+         * Test if trying to retrieve a not available route throws an exception.
+         * @covers Brickoo\Routing\RouteCollection::getRoute
+         * @covers Brickoo\Routing\Exceptions\RouteNotFoundException::__construct
+         * @expectedException Brickoo\Routing\Exceptions\RouteNotFoundException
+         */
+        public function testGetRouteNotFoundException()
+        {
+            $this->RouteCollection->getRoute('test');
+        }
+
+        /**
+         * Test if a route can be recognized.
+         * @covers Brickoo\Routing\RouteCollection::hasRoute
+         */
+        public function testHasRoute()
+        {
+            $this->assertFalse($this->RouteCollection->hasRoute('test'));
+            $this->RouteCollection->createRoute('test');
+            $this->assertTrue($this->RouteCollection->hasRoute('test'));
         }
 
         /**
@@ -96,6 +140,10 @@
             $this->assertInternalType('array', $this->RouteCollection->getRoutes());
         }
 
+        /**
+         * Test if routes can be added as container.
+         * @covers Brickoo\Routing\RouteCollection::addRoutes
+         */
         public function testAddRoutes()
         {
             $routes = array
@@ -111,12 +159,12 @@
         /**
          * Test if the availability of routes can be recognized.
          * @covers Brickoo\Routing\RouteCollection::hasRoutes
-         * @depends testGetRoute
          */
-        public function testHasRoutes($RouteCollection)
+        public function testHasRoutes()
         {
             $this->assertFalse($this->RouteCollection->hasRoutes());
-            $this->assertTrue($RouteCollection->hasRoutes());
+            $this->RouteCollection->createRoute('test');
+            $this->assertTrue($this->RouteCollection->hasRoutes());
         }
 
     }

@@ -58,7 +58,27 @@
          */
         protected function setUp()
         {
-            $this->Route = new Route();
+            $this->Route = new Route('test');
+        }
+
+        /**
+         * Test if the Route instance is implemnting the ROuteInterface.
+         * @covers Brickoo\Routing\Route::__construct
+         */
+        public function testConstruct()
+        {
+            $Route = new Route('testConstructor');
+            $this->assertInstanceof('Brickoo\Routing\Interfaces\RouteInterface', $Route);
+            $this->assertAttributeEquals('testConstructor', 'name', $Route);
+        }
+
+        /**
+         * Test if the route name can be retrieved.
+         * @covers Brickoo\Routing\Route::getName
+         */
+        public function testGetName()
+        {
+            $this->assertEquals('test', $this->Route->getName());
         }
 
         /**
@@ -413,15 +433,6 @@
         public function testHasRule($Route)
         {
             $this->assertTrue($Route->hasRule('name'));
-        }
-
-        /**
-         * Test if the Route instance is implemnting the ROuteInterface.
-         * @covers Brickoo\ROuting\Route::__construct
-         */
-        public function testConstruct()
-        {
-            $this->assertInstanceof('Brickoo\Routing\Interfaces\RouteInterface', $this->Route);
         }
 
     }
