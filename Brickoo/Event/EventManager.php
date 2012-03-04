@@ -220,30 +220,27 @@
          */
         public function notify(\Brickoo\Event\Interfaces\EventInterface $Event)
         {
-            $eventName = $this->getUniformEventName($Event->getName());
-
-            if ($this->isEventProcessing($eventName)) {
-                throw new Exceptions\InfiniteEventLoopException($eventName);
-            }
-            if ($this->hasEventListeners($eventName)) {
-                if (! $Event->hasEventManager()) {
-                    $Event->EventManager($this);
-                }
-                $this->addEventProcessing($eventName);
-                $ListenerQueue = clone $this->getEventListenerQueue($eventName);
-                foreach ($ListenerQueue as $listenerUID) {
-                    $this->call($listenerUID, $Event);
-                }
-                $this->removeProcessedEvent($eventName);
-            }
+            $this->processEvent($Event);
         }
 
         /**
          * Asks all event listeners until one listener returns a response.
-         * @param \Brickoo\Event\Interfaces\EventInterface $Event the exectued
-         * @return mixed the listener response or null if no response has been returned
+         * @param \Brickoo\Event\Interfaces\EventInterface $Event the executed event
+         * @return mixed the event listener response or null if no response has been returned
          */
         public function ask(\Brickoo\Event\Interfaces\EventInterface $Event)
+        {
+            return $this->processEvent($Event, true);
+        }
+
+        /**
+         * Process the Event and returns the response if needed.
+         * @param \Brickoo\Event\Interfaces\EventInterface $Event the executed event
+         * @param Boolean $responseNeeded flag to break the queue and return the response
+         * @throws Exceptions\InfiniteEventLoopException throwed if an infinite lopp is detected
+         * @return mixed the event listener response
+         */
+        protected function processEvent(\Brickoo\Event\Interfaces\EventInterface $Event, $responseNeeded = false)
         {
             $response    = null;
             $eventName   = $this->getUniformEventName($Event->getName());
@@ -259,7 +256,7 @@
                 $ListenerQueue = clone $this->getEventListenerQueue($eventName);
                 foreach ($ListenerQueue as $listenerUID) {
                     $response = $this->call($listenerUID, $Event);
-                    if ($response !== null) {
+                    if ($responseNeeded && $response !== null) {
                         break;
                     }
                 }

@@ -139,6 +139,7 @@
          * @covers Brickoo\Event\EventManager::isEventProcessing
          * @covers Brickoo\Event\EventManager::addEventProcessing
          * @covers Brickoo\Event\EventManager::removeProcessedEvent
+         * @covers Brickoo\Event\EventManager::processEvent
          */
         public function testNotify()
         {
@@ -166,6 +167,7 @@
 
         /**
          * @covers Brickoo\Event\EventManager::notify
+         * @covers Brickoo\Event\EventManager::processEvent
          * @covers Brickoo\Event\Exceptions\InfiniteEventLoopException::__construct
          * @expectedException Brickoo\Event\Exceptions\InfiniteEventLoopException
          */
@@ -190,6 +192,7 @@
 
         /**
          * @covers Brickoo\Event\EventManager::ask
+         * @covers Brickoo\Event\EventManager::processEvent
          * @covers Brickoo\Event\Exceptions\InfiniteEventLoopException::__construct
          * @expectedException Brickoo\Event\Exceptions\InfiniteEventLoopException
          */
@@ -214,6 +217,7 @@
 
         /**
          * @covers Brickoo\Event\EventManager::ask
+         * @covers Brickoo\Event\EventManager::processEvent
          * @covers Brickoo\Event\EventManager::getCallbackArguments
          * @covers Brickoo\Event\EventManager::call
          * @covers Brickoo\Event\EventManager::isEventProcessing
