@@ -47,25 +47,25 @@
          * @see Brickoo\Routing\Interfaces\RouteCollectionInterface
          * @var string
          */
-        const EVENT_ROUTES_LOAD    = 'routes.load';
+        const EVENT_LOAD    = 'routes.load';
 
         /**
          * Notifies that the routes loaded could be saved.
          * @var string
          */
-        const EVENT_ROUTES_SAVE    = 'routes.save';
+        const EVENT_SAVE    = 'routes.save';
 
         /**
          * Aks of the route to use witch has to be returned as an Route object.
          * @see Brickoo\Routing\Interfaces\RouteInterface
          * @var string
          */
-        const EVENT_ROUTE_GET      = 'route.get';
+        const EVENT_GET      = 'route.get';
 
         /**
          * Notifies that the router has not a matched route.
          * @var string
          */
-        const EVENT_ROUTER_ERROR   = 'router.error';
+        const EVENT_ERROR   = 'router.error';
 
     }

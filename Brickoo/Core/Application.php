@@ -40,7 +40,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Application extends ApplicationEvents
+    class Application
     {
 
         /**
@@ -309,7 +309,7 @@
         {
             TypeValidator::IsString($publicDirectory);
 
-            $this->set($identifier, rtrim($directoryPath, '/') . '/');
+            $this->set('publicdirectory', rtrim($publicDirectory, '/') . '/');
 
             return $this;
         }
@@ -425,7 +425,7 @@
             }
 
             try {
-                $EventManager->notify(new Event(self::EVENT_APPLICATION_BOOT, $this));
+                $EventManager->notify(new Event(ApplicationEvents::EVENT_BOOT, $this));
 
                 $this->bootRouter()->startSession();
                 $Response = $this->askForResponse();
@@ -433,16 +433,20 @@
 
                 if ($Response instanceof Interfaces\ResponseInterface) {
                     $this->notifyResponseCache($Response);
-                    $EventManager->notify(new Event(self::EVENT_RESPONSE_SEND, $this, array('Response' => $Response)));
+                    $EventManager->notify(
+                        new Event(ApplicationEvents::EVENT_RESPONSE_SEND, $this, array('Response' => $Response))
+                    );
                 }
                 else {
-                    $EventManager->notify(new Event(self::EVENT_RESPONSE_MISSING, $this));
+                    $EventManager->notify(new Event(ApplicationEvents::EVENT_RESPONSE_MISSING, $this));
                 }
 
-                $EventManager->notify(new Event(self::EVENT_APPLICATION_SHUTDOWN, $this));
+                $EventManager->notify(new Event(ApplicationEvents::EVENT_SHUTDOWN, $this));
             }
             catch(\Exception $Exception) {
-                $EventManager->notify(new Event(self::EVENT_APPLICATION_ERROR, $this, array('Exception' => $Exception)));
+                $EventManager->notify(
+                    new Event(ApplicationEvents::EVENT_ERROR, $this, array('Exception' => $Exception))
+                );
             }
 
             return $this;
@@ -476,7 +480,7 @@
                 (! $this->SessionManager()->hasSessionStarted())
             ){
                 $this->EventManager()->notify(new Event(
-                    self::EVENT_SESSION_CONFIGURE, $this, array('SessionManager' => $this->SessionManager())
+                    ApplicationEvents::EVENT_SESSION_CONFIGURE, $this, array('SessionManager' => $this->SessionManager())
                 ));
                 $this->SessionManager()->start();
             }
@@ -510,13 +514,13 @@
 
             if ($RequestRoute->getModuleRoute()->isCacheable()) {
                 $Response = $this->EventManager()->ask(new Event(
-                    self::EVENT_RESPONSE_LOAD, $this, array('Route' => $RequestRoute)
+                    ApplicationEvents::EVENT_RESPONSE_LOAD, $this, array('Route' => $RequestRoute)
                 ));
             }
 
             if (! $Response instanceof Interfaces\ResponseInterface) {
                 $Response = $this->EventManager()->ask(new Event(
-                    self::EVENT_RESPONSE_GET, $this, array('Route' => $RequestRoute)
+                    ApplicationEvents::EVENT_RESPONSE_GET, $this, array('Route' => $RequestRoute)
                 ));
             }
 
@@ -532,7 +536,7 @@
         {
             if ($this->Route()->getModuleRoute()->isCacheable()) {
                 $this->EventManager()->notify(
-                    new Event(self::EVENT_RESPONSE_SAVE, $this, array('Response' => $Response)
+                    new Event(ApplicationEvents::EVENT_RESPONSE_SAVE, $this, array('Response' => $Response)
                 ));
             }
 

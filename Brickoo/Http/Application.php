@@ -32,6 +32,8 @@
 
     namespace Brickoo\Http;
 
+    use Brickoo\Core\ApplicationEvents;
+
     use Brickoo\Core,
         Brickoo\Event,
         Brickoo\Module,
@@ -104,13 +106,13 @@
         {
             if ($this->listenerAggregated !== true) {
                 $EventManager->attachListener(
-                    Core\Application::EVENT_RESPONSE_GET, array($this, 'run')
+                    Core\ApplicationEvents::EVENT_RESPONSE_GET, array($this, 'run')
                 );
                 $EventManager->attachListener(
-                    Core\Application::EVENT_RESPONSE_SEND, array($this, 'sendResponse'), 0, array('Response')
+                    Core\ApplicationEvents::EVENT_RESPONSE_SEND, array($this, 'sendResponse'), 0, array('Response')
                 );
                 $EventManager->attachListener(
-                    Core\Application::EVENT_APPLICATION_ERROR, array($this, 'displayError'), 0, array('Exception')
+                    Core\ApplicationEvents::EVENT_ERROR, array($this, 'displayError'), 0, array('Exception')
                 );
 
                 $this->listenerAggregated = true;

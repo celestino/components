@@ -43,7 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Router extends RouterEvents implements Interfaces\RouterInterface
+    class Router implements Interfaces\RouterInterface
     {
 
         /**
@@ -302,7 +302,7 @@
                 return $this->RequestRoute;
             }
 
-            if (($Route = $this->EventManager()->ask(new Event\Event(self::EVENT_ROUTE_GET, $this))) &&
+            if (($Route = $this->EventManager()->ask(new Event\Event(RouterEvents::EVENT_GET, $this))) &&
                 ($Route instanceof Interfaces\RouteInterface)
             ){
                 $this->setRequestRoute($Route);
@@ -312,7 +312,7 @@
             $routesLoadedByEvent = false;
 
             if (! $this->RouteCollection()->hasRoutes()) {
-                if (($RouteCollection = $this->EventManager()->ask(new Event\Event(self::EVENT_ROUTES_LOAD, $this))) &&
+                if (($RouteCollection = $this->EventManager()->ask(new Event\Event(RouterEvents::EVENT_LOAD, $this))) &&
                     ($RouteCollection instanceof Interfaces\RouteCollectionInterface) &&
                     $RouteCollection->hasRoutes()
                 ){
@@ -335,13 +335,13 @@
 
             if (! $this->hasRequestRoute()) {
                 $Exception = new Exceptions\RequestHasNoRouteException($this->getRequest()->getPath());
-                $this->EventManager()->notify(new Event\Event(self::EVENT_ROUTER_ERROR, $this, array('Exception' => $Exception)));
+                $this->EventManager()->notify(new Event\Event(RouterEvents::EVENT_ERROR, $this, array('Exception' => $Exception)));
                 throw $Exception;
             }
 
             if ($routesLoadedByEvent === false) {
                 $this->EventManager()->notify(
-                    new Event\Event(self::EVENT_ROUTES_SAVE, $this, array('RouteCollection' => $this->RouteCollection()))
+                    new Event\Event(RouterEvents::EVENT_SAVE, $this, array('RouteCollection' => $this->RouteCollection()))
                 );
             }
 

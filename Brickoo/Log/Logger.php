@@ -147,7 +147,7 @@
          */
         public function aggregateListeners(\Brickoo\Event\Interfaces\EventManagerInterface $EventManager)
         {
-            $EventManager->attachListener('log', array($this, 'log'), 0, array('messages', 'severity'));
+            $EventManager->attachListener(LoggerEvents::EVENT_LOG, array($this, 'log'), 0, array('messages', 'severity'));
 
             return $this;
         }

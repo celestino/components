@@ -46,19 +46,19 @@
         * Notifies the application boot event.
         * @var string
         */
-        const EVENT_APPLICATION_BOOT = 'application.boot';
+        const EVENT_BOOT = 'application.boot';
 
         /**
          * Notifies that an error/exception occured while running the application.
          * @var string
          */
-        const EVENT_APPLICATION_ERROR = 'application.error';
+        const EVENT_ERROR = 'application.error';
 
         /**
          * Notifies that the application has finished and can be shutdown.
          * @var string
          */
-        const EVENT_APPLICATION_SHUTDOWN = 'application.shutdown';
+        const EVENT_SHUTDOWN = 'application.shutdown';
 
         /**
          * Notifies that the module route requires session management and it could be configured.

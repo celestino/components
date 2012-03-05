@@ -167,6 +167,7 @@
         /**
          * Test if the listener is added to the EventManager.
          * @covers Brickoo\Log\Logger::aggregateListeners
+         * @covers Brickoo\Log\LoggerEvents
          */
         public function testAddListener()
         {
