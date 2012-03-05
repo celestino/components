@@ -159,6 +159,35 @@
         }
 
         /**
+        * Test if the an error occured an excetion is throwed.
+        * @covers Brickoo\Http\Application::run
+        */
+        public function testControllerException()
+        {
+            $Route = $this->getMock('Brickoo\Routing\Route', array('getController'), array('test.route'));
+            $Route->expects($this->once())
+                  ->method('getController')
+                  ->will($this->returnValue(array(
+                        'controller'    => 'TestController',
+                        'method'        => 'exceptionMethod',
+                        'static'        => false
+                  )));
+
+            $RequestRoute = $this->getMock('Brickoo\Routing\RequestRoute', array('getModuleRoute'), array($Route));
+            $RequestRoute->expects($this->once())
+                         ->method('getModuleRoute')
+                         ->will($this->returnValue($Route));
+
+            $Event = $this->getMock('Brickoo\Event\Event', array('getParam'), array('response.get'));
+            $Event->expects($this->once())
+                  ->method('getParam')
+                  ->with('Route')
+                  ->will($this->returnValue($RequestRoute));
+
+            $this->Application->run($Event);
+        }
+
+        /**
          * Test if the response would be sent.
          * @covers Brickoo\Http\Application::sendResponse
          */
@@ -181,5 +210,10 @@
         public function testMethod()
         {
             return 'test response.';
+        }
+
+        public function exceptionMethod()
+        {
+            throw new \Brickoo\Http\Exceptions\ResponseTemplateNotAvailableException();
         }
     }
