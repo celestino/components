@@ -155,6 +155,21 @@
         }
 
         /**
+         * Lazy intialization of the EventManager dependency.
+         * @param \Brickoo\Event\Interfaces\EventManagerInterface $EventManager
+         * @return \Brickoo\Event\Interfaces\EventManagerInterface
+         */
+        public function EventManager(\Brickoo\Event\Interfaces\EventManagerInterface $EventManager = null)
+        {
+            return $this->getDependency(
+                'EventManager',
+                '\Brickoo\Event\Interfaces\EventManagerInterface',
+                function() {return new \Brickoo\Event\EventManager();},
+                $EventManager
+            );
+        }
+
+        /**
          * Lazy intialization of the SessionManager dependency.
          * @param \Brickoo\Http\Session\Interfaces\SessionManagerInterface $SessionManager
          * @return \Brickoo\Http\Session\Interfaces\SessionManagerInterface
@@ -170,21 +185,6 @@
                     );
                 },
                 $SessionManager
-            );
-        }
-
-        /**
-         * Lazy intialization of the EventManager dependency.
-         * @param \Brickoo\Event\Interfaces\EventManagerInterface $EventManager
-         * @return \Brickoo\Event\Interfaces\EventManagerInterface
-         */
-        public function EventManager(\Brickoo\Event\Interfaces\EventManagerInterface $EventManager = null)
-        {
-            return $this->getDependency(
-                'EventManager',
-                '\Brickoo\Event\Interfaces\EventManagerInterface',
-                function() {return new \Brickoo\Event\EventManager();},
-                $EventManager
             );
         }
 
@@ -309,7 +309,7 @@
         {
             TypeValidator::IsString($publicDirectory);
 
-            $this->registerDirectory($this->reservedIdentifiers['publicdirectory'], $publicDirectory);
+            $this->set($identifier, rtrim($directoryPath, '/') . '/');
 
             return $this;
         }
@@ -427,15 +427,9 @@
             try {
                 $EventManager->notify(new Event(self::EVENT_APPLICATION_BOOT, $this));
 
-                $this->routerBoot();
-
-                $this->Route($this->Router()->getRequestRoute());
-
-                $this->notifySessionStart();
-
+                $this->bootRouter()->startSession();
                 $Response = $this->askForResponse();
-
-                $this->notifySessionStop();
+                $this->stopSession();
 
                 if ($Response instanceof Interfaces\ResponseInterface) {
                     $this->notifyResponseCache($Response);
@@ -457,45 +451,49 @@
         /**
          * Boot route of the Router.
          * Sets the available modules if they are not set.
+         * Runs the route search.
          * @return \Brickoo\Http\Application
          */
-        public function routerBoot()
+        public function bootRouter()
         {
             if (! $this->Router()->hasModules()) {
                 $this->Router()->setModules($this->getModules());
+            }
+
+            $this->Route($this->Router()->getRequestRoute());
+
+            return $this;
+        }
+
+        /**
+         * Start the session if the route did required a session.
+         * Notifies that the session can be nofigured.
+         * @return \Brickoo\Core\Application
+         */
+        protected function startSession()
+        {
+            if ($this->Route()->getModuleRoute()->isSessionRequired() &&
+                (! $this->SessionManager()->hasSessionStarted())
+            ){
+                $this->EventManager()->notify(new Event(
+                    self::EVENT_SESSION_CONFIGURE, $this, array('SessionManager' => $this->SessionManager())
+                ));
+                $this->SessionManager()->start();
             }
 
             return $this;
         }
 
         /**
-         * Notifies that the session should be started if the route did required a session.
+         * Stops the session if the route did required a session and the session has been started.
          * @return \Brickoo\Core\Application
          */
-        protected function notifySessionStart()
-        {
-            if ($this->Route()->getModuleRoute()->isSessionRequired() &&
-                (! $this->SessionManager()->hasSessionStarted())
-            ){
-                $this->EventManager()->notify(new Event(
-                    self::EVENT_SESSION_START, $this, array('SessionManager' => $this->SessionManager())
-                ));
-            }
-        }
-
-        /**
-         * Notifies that the session can be stopped if the route did required a session
-         * and the session has been started.
-         * @return \Brickoo\Core\Application
-         */
-        protected function notifySessionStop()
+        protected function stopSession()
         {
             if ($this->Route()->getModuleRoute()->isSessionRequired() &&
                 $this->SessionManager()->hasSessionStarted()
             ){
-                $this->EventManager()->notify(new Event(
-                    self::EVENT_SESSION_STOP, $this, array('SessionManager' => $this->SessionManager())
-                ));
+                $this->SessionManager()->stop();
             }
 
             return $this;

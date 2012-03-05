@@ -30,71 +30,35 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Core;
+    namespace Brickoo\Module;
 
     /**
-     * ApplicationEvents
+     * Events
      *
-     * Holds the core application events.
+     * Holds the module events.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ApplicationEvents
+    class Events
     {
 
         /**
-        * Notifies the application boot event.
-        * @var string
-        */
-        const EVENT_APPLICATION_BOOT = 'application.boot';
-
-        /**
-         * Notifies that an error/exception occured while running the application.
+         * Notifies that the application will execute the module controller and
+         * required dependencies, services, configuration, etc have to be initaliazed now.
          * @var string
          */
-        const EVENT_APPLICATION_ERROR = 'application.error';
+        const EVENT_MODULE_BOOT = 'module.boot';
 
         /**
-         * Notifies that the application has finished and can be shutdown.
+         * Notifies that an error occured while processing the module.
          * @var string
          */
-        const EVENT_APPLICATION_SHUTDOWN = 'application.shutdown';
+        const EVENT_MODULE_ERROR = 'module.error';
 
         /**
-         * Notifies that the module route requires session management and it could be configured.
+         * Notifies that the module may shutdown.
          * @var string
          */
-        const EVENT_SESSION_CONFIGURE = 'session.configure';
-
-        /**
-         * Asks for a cached response if the module route did enable the response cache.
-         * @var string
-         */
-        const EVENT_RESPONSE_LOAD = 'response.load';
-
-        /**
-         * Asks for a fresh response if the cached response has not been returned or did not be
-         * enabled by the module route.
-         * @var string
-         */
-        const EVENT_RESPONSE_GET = 'response.get';
-
-        /**
-         * Notifies that the response could be cached if the module route did enabled response caching.
-         * @var string
-         */
-        const EVENT_RESPONSE_SAVE = 'response.save';
-
-        /**
-         * Notifies that the response could be sent now.
-         * @var string
-         */
-        const EVENT_RESPONSE_SEND = 'response.send';
-
-        /**
-         * Notifies that the application did not get a fresh response after asking for.
-         * @var string
-         */
-        const EVENT_RESPONSE_MISSING = 'response.missing';
+        const EVENT_MODULE_SHUTDOWN = 'module.shutdown';
 
     }

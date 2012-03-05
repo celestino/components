@@ -34,12 +34,12 @@
 
     use Brickoo\Core,
         Brickoo\Event,
+        Brickoo\Module,
         Brickoo\Validator\TypeValidator;
 
     /**
-     * Implements methods to handle HTTP requests.
      * This class is listening to the Brickoo\Core\Application events.
-     * The cache events are NOT implemented within this class.
+     * The cache, routing, session events are NOT implemented within this class.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -103,11 +103,15 @@
         public function aggregateListeners(\Brickoo\Event\Interfaces\EventManagerInterface $EventManager)
         {
             if ($this->listenerAggregated !== true) {
-                $EventManager->attachListener(Core\Application::EVENT_SESSION_START, array($this, 'startSession'), 0, array('SessionManager'));
-                $EventManager->attachListener(Core\Application::EVENT_SESSION_STOP, array($this, 'stopSession'), 0, array('SessionManager'));
-                $EventManager->attachListener(Core\Application::EVENT_RESPONSE_GET, array($this, 'getResponse'));
-                $EventManager->attachListener(Core\Application::EVENT_RESPONSE_SEND, array($this, 'sendResponse'), 0, array('Response'));
-                $EventManager->attachListener(Core\Application::EVENT_APPLICATION_ERROR, array($this, 'displayError'), 0, array('Exception'));
+                $EventManager->attachListener(
+                    Core\Application::EVENT_RESPONSE_GET, array($this, 'run')
+                );
+                $EventManager->attachListener(
+                    Core\Application::EVENT_RESPONSE_SEND, array($this, 'sendResponse'), 0, array('Response')
+                );
+                $EventManager->attachListener(
+                    Core\Application::EVENT_APPLICATION_ERROR, array($this, 'displayError'), 0, array('Exception')
+                );
 
                 $this->listenerAggregated = true;
             }
@@ -131,52 +135,41 @@
         }
 
         /**
-         * Starts the session.
-         * This method is called on the event Brickoo\Core\Application::EVENT_SESSION_START
-         * @param \Brickoo\Http\Session\Interfaces\SessionManagerInterface $SessionManager
-         * @return \Brickoo\Http\Application
-         */
-        public function startSession(\Brickoo\Http\Session\Interfaces\SessionManagerInterface $SessionManager)
-        {
-            $SessionManager->start();
-            return $this;
-        }
-
-        /**
-         * Stops the session.
-         * This method is called on the event Brickoo\Core\Application::EVENT_SESSION_STOP.
-         * @param \Brickoo\Http\Session\Interfaces\SessionManagerInterface $SessionManager
-         * @return \Brickoo\Http\Application
-         */
-        public function stopSession(\Brickoo\Http\Session\Interfaces\SessionManagerInterface $SessionManager)
-        {
-            $SessionManager->stop();
-            return $this;
-        }
-
-        /**
          * Returns always a fresh response.
          * Notifies the module boot event listeners.
          * @param \Brickoo\Event\Interfaces\EventInterface $Event the application event asking
          * @return \Brickoo\Core\Interfaces\ResponseInterface
          */
-        public function getResponse(\Brickoo\Event\Interfaces\EventInterface $Event)
+        public function run(\Brickoo\Event\Interfaces\EventInterface $Event)
         {
             if (($RequestRoute = $Event->getParam('Route')) instanceof \Brickoo\Routing\Interfaces\RequestRouteInterface) {
 
-                $RouteController = $RequestRoute->getModuleRoute()->getController();
-                if (! $RouteController['static']) {
-                    $RouteController['controller'] = new $RouteController['controller'];
+                $Response = null;
+
+                try {
+                    $RouteController = $RequestRoute->getModuleRoute()->getController();
+                    if (! $RouteController['static']) {
+                        $RouteController['controller'] = new $RouteController['controller'];
+                    }
+
+                    $Event->EventManager()->notify(new Event\Event(
+                        Module\Events::EVENT_MODULE_BOOT, $Event->Sender(), array(
+                            'controller' => $RouteController['controller'],
+                            'method'     => $RouteController['method']
+                        )
+                    ));
+
+                    $Response = $RouteController['controller']->$RouteController['method']($Event->Sender());
+
+                    $Event->EventManager()->notify(new Event\Event(Module\Events::EVENT_MODULE_SHUTDOWN, $Event->Sender()));
+                }
+                catch (\Exception $Exception) {
+                    $Event->EventManager()->notify(new Event\Event(
+                        Module\Events::EVENT_MODULE_ERROR, $Event->Sender(), array('Exception' => $Exception)
+                    ));
                 }
 
-                $Event->EventManager()->notify(new Event\Event(
-                    Core\Application::EVENT_MODULE_BOOT, $Event->Sender(), array(
-                        'controller' => $RouteController['controller'],
-                        'method'     => $RouteController['method']
-                    )
-                ));
-
-                return $RouteController['controller']->$RouteController['method']($Event->Sender());
+                return $Response;
             }
         }
 

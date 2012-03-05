@@ -107,45 +107,14 @@
         }
 
         /**
-         * Test if the session would be started.
-         * @covers Brickoo\Http\Application::startSession
-         */
-        public function testStartSession()
-        {
-            $SessionManager = $this->getMock('Brickoo\Http\Session\SessionManager',
-                array('start'),
-                array($this->getMock('Brickoo\Http\Session\Handler\Interfaces\SessionHandlerInterface'))
-            );
-            $SessionManager->expects($this->once())
-                           ->method('start');
-
-            $this->assertSame($this->Application, $this->Application->startSession($SessionManager));
-        }
-
-        /**
-         * Test if the session would be stopped.
-         * @covers Brickoo\Http\Application::stopSession
-         */
-        public function testStopSession()
-        {
-            $SessionManager = $this->getMock('Brickoo\Http\Session\SessionManager',
-                array('stop'),
-                array($this->getMock('Brickoo\Http\Session\Handler\Interfaces\SessionHandlerInterface'))
-            );
-            $SessionManager->expects($this->once())
-                           ->method('stop');
-
-            $this->assertSame($this->Application, $this->Application->stopSession($SessionManager));
-        }
-
-        /**
          * Test if the Response is returned after processing the controller call.
-         * @covers Brickoo\Http\Application::getResponse
+         * @covers Brickoo\Http\Application::run
+         * @covers Brickoo\Module\Events
          */
-        public function testGetResponse()
+        public function testRun()
         {
             $EventManager = $this->getMock('Brickoo\Event\EventManager', array('notify'));
-            $EventManager->expects($this->once())
+            $EventManager->expects($this->any())
                          ->method('notify');
 
             $Route = $this->getMock('Brickoo\Routing\Route', array('getController'), array('test.route'));
@@ -167,18 +136,18 @@
                   ->method('getParam')
                   ->with('Route')
                   ->will($this->returnValue($RequestRoute));
-            $Event->expects($this->once())
+            $Event->expects($this->any())
                   ->method('EventManager')
                   ->will($this->returnValue($EventManager));
 
-            $this->assertEquals('test response.', $this->Application->getResponse($Event));
+            $this->assertEquals('test response.', $this->Application->run($Event));
         }
 
         /**
         * Test if the Event does not contain the Route param, null is returned.
-        * @covers Brickoo\Http\Application::getResponse
+        * @covers Brickoo\Http\Application::run
         */
-        public function testGetResponseNullReturned()
+        public function testRunNullResponseReturned()
         {
             $Event = $this->getMock('Brickoo\Event\Event', array('getParam'), array('response.get'));
             $Event->expects($this->once())
@@ -186,7 +155,7 @@
                   ->with('Route')
                   ->will($this->returnValue(null));
 
-            $this->assertNull($this->Application->getResponse($Event));
+            $this->assertNull($this->Application->run($Event));
         }
 
         /**
