@@ -84,20 +84,31 @@
             $expectedListeners = array(
                 $listenerUID => array(
                     'callback'    => $callback,
-                    'params'      => null
+                    'params'      => null,
+                    'condition'   => null
                 )
             );
             $this->assertAttributeEquals($expectedListeners, 'listeners', $this->EventManager);
         }
 
         /**
-         * Test if trying to attach a listener without a callback throws an exception.
+         * Test if trying to attach a listener without a valid callback throws an exception.
          * @covers Brickoo\Event\EventManager::attachListener
          * @expectedException InvalidArgumentException
          */
         public function testAttachListenerCallbackException()
         {
-            $this->EventManager->attachListener('test', 'fail');
+            $this->EventManager->attachListener('test', 'wrongType');
+        }
+
+        /**
+         * Test if trying to attach a listener without a valid condition throws an exception.
+         * @covers Brickoo\Event\EventManager::attachListener
+         * @expectedException InvalidArgumentException
+         */
+        public function testAttachListenerConditionException()
+        {
+            $this->EventManager->attachListener('test', function(){}, 0, null, 'wrongType');
         }
 
         /**
@@ -112,7 +123,8 @@
             $expectedListeners = array(
                 $listenerUID => array(
                     'callback'    => $callback,
-                    'params'      => null
+                    'params'      => null,
+                    'condition'   => null
                 )
             );
             $this->assertAttributeEquals($expectedListeners, 'listeners', $this->EventManager);
@@ -163,6 +175,39 @@
 
             $this->EventManager->attachListener('test.event', function($eventParam){}, 0, array('Class'));
             $this->assertNull($this->EventManager->notify($Event));
+        }
+
+        /**
+         * @covers Brickoo\Event\EventManager::notifyOnce
+         * @covers Brickoo\Event\EventManager::getCallbackArguments
+         * @covers Brickoo\Event\EventManager::call
+         * @covers Brickoo\Event\EventManager::isEventProcessing
+         * @covers Brickoo\Event\EventManager::addEventProcessing
+         * @covers Brickoo\Event\EventManager::removeProcessedEvent
+         * @covers Brickoo\Event\EventManager::processEvent
+         */
+        public function testNotifyOnce()
+        {
+            $Event = $this->getMock('Brickoo\Event\Event',
+                array('getName', 'hasEventManager', 'getParams', 'getParam'),
+                array('test.event')
+            );
+            $Event->expects($this->any())
+                  ->method('getName')
+                  ->will($this->returnValue('test.event'));
+            $Event->expects($this->any())
+                  ->method('hasEventManager')
+                  ->will($this->returnValue(false));
+            $Event->expects($this->any())
+                  ->method('getParams')
+                  ->will($this->returnValue(array('Class' => 'some class')));
+            $Event->expects($this->any())
+                  ->method('getParam')
+                  ->with('Class')
+                  ->will($this->returnValue('some class'));
+
+            $this->EventManager->attachListener('test.event', function($eventParam){}, 0, array('Class'));
+            $this->assertNull($this->EventManager->notifyOnce($Event));
         }
 
         /**
@@ -242,12 +287,61 @@
         }
 
         /**
-         * Test if the listener unique identifier is not knowed returns null.
+         * Test if the listener is not knowed returns null.
          * @covers Brickoo\Event\EventManager::call
          */
         public function testCall()
         {
             $this->assertNull($this->EventManager->call('unknowed',  new \Brickoo\Event\Event('nothingToDo')));
+        }
+
+        /**
+         * Test if the condition fails the call returns null.
+         * @covers Brickoo\Event\EventManager::call
+         * @covers Brickoo\Event\EventManager::getCallbackArguments
+         */
+        public function testCallConditionFails()
+        {
+            $Event = $this->getMock('Brickoo\Event\Event',
+                array('getName', 'hasEventManager'),
+                array('test.event')
+            );
+            $Event->expects($this->any())
+                  ->method('getName')
+                  ->will($this->returnValue('test.event'));
+            $Event->expects($this->any())
+                  ->method('hasEventManager')
+                  ->will($this->returnValue(false));
+
+            $listenerUID = $this->EventManager->attachListener('test.event', function(){}, 0, null,
+                function($Event){return ($Event->getName() == 'fail');}
+            );
+            $this->assertNull($this->EventManager->call($listenerUID, $Event));
+        }
+
+        /**
+         * Test if the condition fails the call returns null.
+         * @covers Brickoo\Event\EventManager::call
+         * @covers Brickoo\Event\EventManager::getCallbackArguments
+         */
+        public function testCallExpectedArgumentsFails()
+        {
+            $Event = $this->getMock('Brickoo\Event\Event',
+                array('getName', 'hasEventManager', 'getParams'),
+                array('test.event')
+            );
+            $Event->expects($this->any())
+                  ->method('getName')
+                  ->will($this->returnValue('test.event'));
+            $Event->expects($this->any())
+                  ->method('hasEventManager')
+                  ->will($this->returnValue(false));
+            $Event->expects($this->any())
+                  ->method('getParams')
+                  ->will($this->returnValue(array()));
+
+            $listenerUID = $this->EventManager->attachListener('test.event', function(){}, 0, array('Param'));
+            $this->assertNull($this->EventManager->call($listenerUID, $Event));
         }
 
     }

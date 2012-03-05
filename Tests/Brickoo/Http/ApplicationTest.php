@@ -84,16 +84,14 @@
         }
 
         /**
-         * Test if the Response content is set and and will be sent.
+         * Test if the error Response content is set and and will be sent.
          * @covers Brickoo\Http\Application::displayError
          * @covers Brickoo\Http\Application::Response
          * @covers Brickoo\Http\Application::getDependency
          */
         public function testDisplayError()
         {
-            $expected = "The exception message.";
-
-            $Exception = new \Exception('The exception message.');
+            $Exception = new \Exception();
 
             $Response = $this->getMock('Brickoo\Http\Response', array('setContent', 'send'));
             $Response->expects($this->once())
@@ -104,6 +102,27 @@
             $this->Application->Response($Response);
 
             $this->assertNull($this->Application->displayError($Exception));
+        }
+
+        /**
+         * Test if the error Response content is set and and will be sent.
+         * @covers Brickoo\Http\Application::displayResponseError
+         * @covers Brickoo\Http\Application::Response
+         * @covers Brickoo\Http\Application::getDependency
+         */
+        public function testDisplayResponseError()
+        {
+            $Event = $this->getMock('Brickoo\Event\Event', null, array('tes.event'));
+
+            $Response = $this->getMock('Brickoo\Http\Response', array('setContent', 'send'));
+            $Response->expects($this->once())
+                     ->method('setContent');
+            $Response->expects($this->once())
+                     ->method('send');
+
+            $this->Application->Response($Response);
+
+            $this->assertNull($this->Application->displayResponseError($Event));
         }
 
         /**
@@ -141,21 +160,6 @@
                   ->will($this->returnValue($EventManager));
 
             $this->assertEquals('test response.', $this->Application->run($Event));
-        }
-
-        /**
-        * Test if the Event does not contain the Route param, null is returned.
-        * @covers Brickoo\Http\Application::run
-        */
-        public function testRunNullResponseReturned()
-        {
-            $Event = $this->getMock('Brickoo\Event\Event', array('getParam'), array('response.get'));
-            $Event->expects($this->once())
-                  ->method('getParam')
-                  ->with('Route')
-                  ->will($this->returnValue(null));
-
-            $this->assertNull($this->Application->run($Event));
         }
 
         /**

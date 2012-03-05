@@ -106,13 +106,19 @@
         {
             if ($this->listenerAggregated !== true) {
                 $EventManager->attachListener(
-                    Core\ApplicationEvents::EVENT_RESPONSE_GET, array($this, 'run')
+                    Core\ApplicationEvents::EVENT_RESPONSE_GET, array($this, 'run'), 0, null,
+                        function($Event){return ($Event->getParam('Route') instanceof \Brickoo\Routing\Interfaces\RequestRouteInterface);}
                 );
                 $EventManager->attachListener(
-                    Core\ApplicationEvents::EVENT_RESPONSE_SEND, array($this, 'sendResponse'), 0, array('Response')
+                    Core\ApplicationEvents::EVENT_RESPONSE_SEND, array($this, 'sendResponse'), 0, array('Response'),
+                    function($Event){return ($Event->getParam('Response') instanceof \Brickoo\Core\Interfaces\ResponseInterface);}
+
                 );
                 $EventManager->attachListener(
                     Core\ApplicationEvents::EVENT_ERROR, array($this, 'displayError'), 0, array('Exception')
+                );
+                $EventManager->attachListener(
+                    Core\ApplicationEvents::EVENT_RESPONSE_MISSING, array($this, 'displayResponseError')
                 );
 
                 $this->listenerAggregated = true;
@@ -120,7 +126,7 @@
         }
 
         /**
-         * Sends a simple http response if an exception is throwed by the router
+         * Sends a simple http response if an exception is throwed by the router.
          * or within the Brickoo\Core\Application::run method.
          * This is just a dummy to display SOMETHING on errors.
          * @param \Exception $Exception the Exception throwed
@@ -137,6 +143,22 @@
         }
 
         /**
+         * Sends a simple http response if the response is missed.
+         * This is just a dummy to display SOMETHING on errors.
+         * @param \Exception $Exception the Exception throwed
+         * @return void
+         */
+        public function displayResponseError(\Brickoo\Event\Event $Event)
+        {
+            $this->Response()->setContent("<html><head><title></title></head><body>\r\n".
+                "<h1>Who likes to get a beer?</h1>\r\n".
+                "<div>(<b>Exception</b>: Controller did not return a response.)\r\n".
+                "</body></html>"
+            );
+            $this->Response()->send();
+        }
+
+        /**
          * Returns always a fresh response.
          * Notifies the module boot event listeners.
          * @param \Brickoo\Event\Interfaces\EventInterface $Event the application event asking
@@ -144,35 +166,33 @@
          */
         public function run(\Brickoo\Event\Interfaces\EventInterface $Event)
         {
-            if (($RequestRoute = $Event->getParam('Route')) instanceof \Brickoo\Routing\Interfaces\RequestRouteInterface) {
+            $RequestRoute = $Event->getParam('Route');
+            $Response = null;
 
-                $Response = null;
-
-                try {
-                    $RouteController = $RequestRoute->getModuleRoute()->getController();
-                    if (! $RouteController['static']) {
-                        $RouteController['controller'] = new $RouteController['controller'];
-                    }
-
-                    $Event->EventManager()->notify(new Event\Event(
-                        Module\Events::EVENT_MODULE_BOOT, $Event->Sender(), array(
-                            'controller' => $RouteController['controller'],
-                            'method'     => $RouteController['method']
-                        )
-                    ));
-
-                    $Response = $RouteController['controller']->$RouteController['method']($Event->Sender());
-
-                    $Event->EventManager()->notify(new Event\Event(Module\Events::EVENT_MODULE_SHUTDOWN, $Event->Sender()));
-                }
-                catch (\Exception $Exception) {
-                    $Event->EventManager()->notify(new Event\Event(
-                        Module\Events::EVENT_MODULE_ERROR, $Event->Sender(), array('Exception' => $Exception)
-                    ));
+            try {
+                $RouteController = $RequestRoute->getModuleRoute()->getController();
+                if (! $RouteController['static']) {
+                    $RouteController['controller'] = new $RouteController['controller'];
                 }
 
-                return $Response;
+                $Event->EventManager()->notify(new Event\Event(
+                    Module\Events::EVENT_MODULE_BOOT, $Event->Sender(), array(
+                        'controller' => $RouteController['controller'],
+                        'method'     => $RouteController['method']
+                    )
+                ));
+
+                $Response = $RouteController['controller']->$RouteController['method']($Event->Sender());
+
+                $Event->EventManager()->notify(new Event\Event(Module\Events::EVENT_MODULE_SHUTDOWN, $Event->Sender()));
             }
+            catch (\Exception $Exception) {
+                $Event->EventManager()->notify(new Event\Event(
+                    Module\Events::EVENT_MODULE_ERROR, $Event->Sender(), array('Exception' => $Exception)
+                ));
+            }
+
+            return $Response;
         }
 
         /**

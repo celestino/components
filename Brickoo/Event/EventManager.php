@@ -103,7 +103,7 @@
          * @param strign $listenerUID the listener unique identifier
          * @return boolean check result
          */
-        protected function isListener($listenerUID)
+        public function isListener($listenerUID)
         {
             TypeValidator::IsString($listenerUID);
 
@@ -116,9 +116,10 @@
          * @param callback $callback the callback to execute
          * @param integer $priority the listener priority factor
          * @param array|null $expectedParams the expected event parameters
+         * @param callback $condition the condition which has to be true
          * @return string the listener unique identifier
          */
-        public function attachListener($eventName, $callback, $priority = 0, array $expectedParams = null)
+        public function attachListener($eventName, $callback, $priority = 0, array $expectedParams = null, $condition = null)
         {
             TypeValidator::IsInteger($priority);
             $eventName = $this->getUniformEventName($eventName);
@@ -127,13 +128,19 @@
                 throw new \InvalidArgumentException('The callback argument is not callable.');
             }
 
+            if (($condition !== null) && (! is_callable($condition)))
+            {
+                throw new \InvalidArgumentException('The condition argument is not callable.');
+            }
+
             $listenerUID = uniqid();
 
             $this->getEventListenerQueue($eventName)->insert($listenerUID, $priority);
 
             $this->listeners[$listenerUID] = array(
                 'callback'    => $callback,
-                'params'      => $expectedParams
+                'params'      => $expectedParams,
+                'condition'   => $condition
             );
 
             return $listenerUID;
@@ -234,13 +241,24 @@
         }
 
         /**
+         * Notifies the event with the highest priority.
+         * @param \Brickoo\Event\Event $Event the executed event
+         * @return void
+         */
+        public function notifyOnce(\Brickoo\Event\Event $Event)
+        {
+            $this->processEvent($Event, false, true);
+        }
+
+        /**
          * Process the Event and returns the response if needed.
          * @param \Brickoo\Event\Interfaces\EventInterface $Event the executed event
-         * @param Boolean $responseNeeded flag to break the queue and return the response
+         * @param boolean $responseNeeded flag to break the queue and return the response
+         * @param boolean $once flag if just the listener with the highest priority should be notified
          * @throws Exceptions\InfiniteEventLoopException throwed if an infinite lopp is detected
          * @return mixed the event listener response
          */
-        protected function processEvent(\Brickoo\Event\Interfaces\EventInterface $Event, $responseNeeded = false)
+        protected function processEvent(\Brickoo\Event\Interfaces\EventInterface $Event, $responseNeeded = false, $once = false)
         {
             $response    = null;
             $eventName   = $this->getUniformEventName($Event->getName());
@@ -256,7 +274,7 @@
                 $ListenerQueue = clone $this->getEventListenerQueue($eventName);
                 foreach ($ListenerQueue as $listenerUID) {
                     $response = $this->call($listenerUID, $Event);
-                    if ($responseNeeded && $response !== null) {
+                    if ($once === true || ($responseNeeded && $response !== null)) {
                         break;
                     }
                 }
@@ -270,35 +288,50 @@
          * Calls the event listener.
          * @param string $listenerUID the unique identiier of the listener
          * @param \Brickoo\Event\Interfaces\EventInterface $Event the event
-         * @return mixed the listener response
+         * @return mixed the listener response or null if the event does not contain expected params
          */
         public function call($listenerUID, \Brickoo\Event\Interfaces\EventInterface $Event)
         {
-            if ($this->isListener($listenerUID)) {
-                return call_user_func_array($this->listeners[$listenerUID]['callback'],
-                    $this->getCallbackArguments($this->listeners[$listenerUID]['params'], $Event)
-                );
+            if (! $this->isListener($listenerUID)) {
+                return null;
             }
+
+            if ($this->listeners[$listenerUID]['condition'] !== null &&
+                (($success = call_user_func_array($this->listeners[$listenerUID]['condition'], array($Event))) !== true)
+            ){
+                return null;
+            }
+
+            if (! is_array($arguments = $this->getCallbackArguments($this->listeners[$listenerUID]['params'], $Event))) {
+                return null;
+            }
+
+            return call_user_func_array($this->listeners[$listenerUID]['callback'], $arguments);
         }
 
         /**
          * Returns the callback arguments.
          * @param array|null $expectedParams the listener expected parameters
          * @param \Brickoo\Event\Interfaces\EventInterface $Event the Event executed
-         * @return array the callback arguments
+         * @return array the callback arguments or null if the requires arguments are not available
          */
         protected function getCallbackArguments($expectedParams, \Brickoo\Event\Interfaces\EventInterface $Event)
         {
             if (is_array($expectedParams) &&
-                array_diff($expectedParams, array_keys($Event->getParams())) === array()
+                array_diff($expectedParams, array_keys($Event->getParams())) !== array()
             ){
-                $arguments = array();
+                return null;
+            }
+
+            $arguments = array();
+
+            if(is_array($expectedParams)) {
                 foreach ($expectedParams as $param) {
                     $arguments[] = $Event->getParam($param);
                 }
             }
             else {
-                $arguments = array($Event);
+                $arguments[] = $Event;
             }
 
             return $arguments;

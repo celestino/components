@@ -441,7 +441,7 @@
                     $EventManager->notify(new Event(ApplicationEvents::EVENT_RESPONSE_MISSING, $this));
                 }
 
-                $EventManager->notify(new Event(ApplicationEvents::EVENT_SHUTDOWN, $this));
+                $EventManager->notifyOnce(new Event(ApplicationEvents::EVENT_SHUTDOWN, $this));
             }
             catch(\Exception $Exception) {
                 $EventManager->notify(
