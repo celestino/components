@@ -274,7 +274,7 @@
                 $ListenerQueue = clone $this->getEventListenerQueue($eventName);
                 foreach ($ListenerQueue as $listenerUID) {
                     $response = $this->call($listenerUID, $Event);
-                    if ($once === true || ($responseNeeded && $response !== null)) {
+                    if ($Event->isStopped() || $once === true || ($responseNeeded && $response !== null)) {
                         break;
                     }
                 }

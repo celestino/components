@@ -32,8 +32,6 @@
 
     namespace Brickoo\Http;
 
-    use Brickoo\Core\ApplicationEvents;
-
     use Brickoo\Core,
         Brickoo\Event,
         Brickoo\Module,
@@ -144,6 +142,7 @@
 
         /**
          * Sends a simple http response if the response is missed.
+         * It stops the event to be processed by an other listener.
          * This is just a dummy to display SOMETHING on errors.
          * @param \Exception $Exception the Exception throwed
          * @return void
@@ -156,6 +155,7 @@
                 "</body></html>"
             );
             $this->Response()->send();
+            $Event->stop();
         }
 
         /**

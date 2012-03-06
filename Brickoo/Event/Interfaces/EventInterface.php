@@ -56,6 +56,18 @@
         public function hasEventManager();
 
         /**
+         * Stops the event of been called by other listeners.
+         * @retunr \Brickooo\Event\Event
+         */
+        public function stop();
+
+        /**
+         * Checks if the event has been stopped.
+         * @return boolean check result
+         */
+        public function isStopped();
+
+        /**
          * Returns the event name.
          * @return string the event name
          */

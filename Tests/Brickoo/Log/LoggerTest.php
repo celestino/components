@@ -155,6 +155,69 @@
         }
 
         /**
+         * Test if a string can be logged through the Event method.
+         * @covers Brickoo\Log\Logger::logEvent
+         */
+        public function testLogEvent()
+        {
+            $valueMap = array(
+                array('messages', 'log message'),
+                array('severity', 3)
+            );
+
+            $LogHandler = $this->Logger->LogHandler();
+            $LogHandler->expects($this->once())
+                       ->method('log')
+                       ->with(array('log message'), 3);
+
+            $Event = $this->getMock('Brickoo\Event\Event', array('getParam'), array('log.event'));
+            $Event->expects($this->exactly(2))
+                  ->method('getParam')
+                  ->will($this->returnValueMap($valueMap));
+
+            $this->assertNull($this->Logger->logEvent($Event));
+        }
+
+        /**
+         * Test if the event does not have messages the logging is canceled.
+         * @covers Brickoo\Log\Logger::logEvent
+         */
+        public function testLogEventNullMessages()
+        {
+            $Event = $this->getMock('Brickoo\Event\Event', array('getParam'), array('log.event'));
+            $Event->expects($this->once())
+                  ->method('getParam')
+                  ->with('messages')
+                  ->will($this->returnValue(null));
+
+            $this->assertNull($this->Logger->logEvent($Event));
+        }
+
+        /**
+         * Test if the severity is not available as event parameters the Logger default is taken.
+         * @covers Brickoo\Log\Logger::logEvent
+         */
+        public function testLogEventNullSeverity()
+        {
+            $valueMap = array(
+                array('messages', 'log message'),
+                array('severity', null)
+            );
+
+            $LogHandler = $this->Logger->LogHandler();
+            $LogHandler->expects($this->once())
+                       ->method('log')
+                       ->with(array('log message'), $this->Logger->getDefaultSeverity());
+
+            $Event = $this->getMock('Brickoo\Event\Event', array('getParam'), array('log.event'));
+            $Event->expects($this->exactly(2))
+                  ->method('getParam')
+                  ->will($this->returnValueMap($valueMap));
+
+            $this->assertNull($this->Logger->logEvent($Event));
+        }
+
+        /**
         * Test if passed a wrong severity argument type throws an exception.
         * @covers Brickoo\Log\Logger::log
         * @expectedException InvalidArgumentException
@@ -169,12 +232,12 @@
          * @covers Brickoo\Log\Logger::aggregateListeners
          * @covers Brickoo\Log\LoggerEvents
          */
-        public function testAddListener()
+        public function testAggregateListeners()
         {
             $EventManager = $this->getMock('Brickoo\Event\EventManager', array('attachListener'));
             $EventManager->expects($this->once())
                          ->method('attachListener');
-            $this->assertSame($this->Logger, $this->Logger->aggregateListeners($EventManager));
+            $this->assertNull($this->Logger->aggregateListeners($EventManager));
         }
 
     }

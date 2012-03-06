@@ -433,7 +433,7 @@
 
                 if ($Response instanceof Interfaces\ResponseInterface) {
                     $this->notifyResponseCache($Response);
-                    $EventManager->notify(
+                    $EventManager->notifyOnce(
                         new Event(ApplicationEvents::EVENT_RESPONSE_SEND, $this, array('Response' => $Response))
                     );
                 }
@@ -441,7 +441,7 @@
                     $EventManager->notify(new Event(ApplicationEvents::EVENT_RESPONSE_MISSING, $this));
                 }
 
-                $EventManager->notifyOnce(new Event(ApplicationEvents::EVENT_SHUTDOWN, $this));
+                $EventManager->notify(new Event(ApplicationEvents::EVENT_SHUTDOWN, $this));
             }
             catch(\Exception $Exception) {
                 $EventManager->notify(
@@ -458,7 +458,7 @@
          * Runs the route search.
          * @return \Brickoo\Http\Application
          */
-        public function bootRouter()
+        protected function bootRouter()
         {
             if (! $this->Router()->hasModules()) {
                 $this->Router()->setModules($this->getModules());

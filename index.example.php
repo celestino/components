@@ -47,7 +47,7 @@
      */
     $Application = new Application();
     $Application->registerAutoloader($Autoloader)
-                ->registerPublicDirectory(getcwd() . '/public')
+                ->registerPublicDirectory('/public')
                 ->registerModules(array(
                     'YourCompany/Forum'    => '/path/to/modules/YourCompany/Forum',
                     'OtherCompany/Blog'    => '/path/to/modules/vendor/OtherCompany/Blog'

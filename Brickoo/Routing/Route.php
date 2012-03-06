@@ -237,7 +237,6 @@
             return $this;
         }
 
-
         /**
          * Holds the flag of session requirement.
          * @var boolean

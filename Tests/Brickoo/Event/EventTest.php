@@ -111,6 +111,20 @@
         }
 
         /**
+         * Test if the stopping routine of an event works.
+         * @covers Brickoo\Event\Event::isStopped
+         * @covers Brickoo\Event\Event::stop
+         */
+        public function testStopRoutine()
+        {
+            $this->assertAttributeEquals(false, 'stopped', $this->Event);
+            $this->assertFalse($this->Event->isStopped());
+            $this->assertSame($this->Event, $this->Event->stop());
+            $this->assertAttributeEquals(true, 'stopped', $this->Event);
+            $this->assertTrue($this->Event->isStopped());
+        }
+
+        /**
          * Test if the vent name can be retrieved.
          * @covers Brickoo\Event\Event::getName
          */

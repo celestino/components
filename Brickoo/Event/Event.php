@@ -94,6 +94,31 @@
         }
 
         /**
+         * Holds the stop flag.
+         * @var boolean
+         */
+        protected $stopped;
+
+        /**
+         * Stops the event of been called by other listeners.
+         * @retunr \Brickooo\Event\Event
+         */
+        public function stop()
+        {
+            $this->stopped = true;
+            return $this;
+        }
+
+        /**
+         * Checks if the event has been stopped.
+         * @return boolean check result
+         */
+        public function isStopped()
+        {
+            return ($this->stopped === true);
+        }
+
+        /**
          * Holds the event name.
          * @var string
          */
@@ -184,6 +209,7 @@
             $this->name      = $name;
             $this->Sender    = $Sender;
             $this->params    = $parameters;
+            $this->stopped   = false;
         }
 
     }

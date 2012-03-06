@@ -141,15 +141,37 @@
         }
 
         /**
+         * Lthe messages of an Event.
+         * @param \Brickoo\Event\Interfaces\EventInterface $Event the event executed
+         * @return void
+         */
+        public function logEvent(\Brickoo\Event\Interfaces\EventInterface $Event)
+        {
+            if (($messages = $Event->getParam('messages')) === null) {
+                return null;
+            }
+            if (($severity = $Event->getParam('severity')) !== null) {
+                TypeValidator::IsInteger($severity);
+            }
+            else {
+                $severity = $this->getDefaultSeverity();
+            }
+
+            if (! is_array($messages)) {
+                $messages = array($messages);
+            }
+
+            $this->LogHandler()->log($messages, $severity);
+        }
+
+        /**
          * Aggregates the log event listener.
          * @param \Brickoo\Event\Interfaces\EventManagerInterface $EventManager
-         * @return \Brickoo\Log\Logger
+         * @return void
          */
         public function aggregateListeners(\Brickoo\Event\Interfaces\EventManagerInterface $EventManager)
         {
-            $EventManager->attachListener(LoggerEvents::EVENT_LOG, array($this, 'log'), 0, array('messages', 'severity'));
-
-            return $this;
+            $EventManager->attachListener(LoggerEvents::EVENT_LOG, array($this, 'logEvent'));
         }
 
     }
