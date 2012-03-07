@@ -83,7 +83,7 @@
          */
         public function testEventManagerLazyInitialization()
         {
-            $this->assertInstanceOf('Brickoo\Event\Interfaces\EventManagerInterface', ($EM = $this->Event->EventManager()));
+            $this->assertInstanceOf('Brickoo\Event\Interfaces\ManagerInterface', ($EM = $this->Event->EventManager()));
             $this->assertAttributeContains($EM, 'dependencies', $this->Event);
         }
 
@@ -94,7 +94,7 @@
          */
         public function testEventManagerInjection()
         {
-            $EventManager = $this->getMock('Brickoo\Event\EventManager');
+            $EventManager = $this->getMock('Brickoo\Event\Manager');
             $this->assertSame($this->Event, $this->Event->EventManager($EventManager));
             $this->assertAttributeContains($EventManager, 'dependencies', $this->Event);
         }

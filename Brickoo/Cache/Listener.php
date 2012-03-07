@@ -36,20 +36,20 @@
         Brickoo\Validator\TypeValidator;
 
     /**
-     * CacheListener
+     * Listener
      *
      * Implements the event listeners for caching purposes.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class CacheListener implements Event\Interfaces\ListenerAggregateInterface
+    class Listener implements Event\Interfaces\ListenerAggregateInterface
     {
 
         /**
-         * Holds an instance of the CacheManager class.
-         * @var \Brickoo\Cache\Interfaces\CacheManagerInterface
+         * Holds an instance of the Manager class.
+         * @var \Brickoo\Cache\Interfaces\ManagerInterface
          */
-        protected $CacheManager;
+        protected $Manager;
 
         /**
          * Holds the listener priority.
@@ -60,39 +60,39 @@
         /**
          * Class constructor.
          * Initializes the class properties.
-         * @param \Brickoo\Cache\Interfaces\CacheManagerInterface $CacheManager the CacheManager to inject
+         * @param \Brickoo\Cache\Interfaces\ManagerInterface $Manager the Manager to inject
          * @param integer $priority the listener priority
          * @return void
          */
-        public function __construct(\Brickoo\Cache\Interfaces\CacheManagerInterface $CacheManager, $priority = 0)
+        public function __construct(\Brickoo\Cache\Interfaces\ManagerInterface $Manager, $priority = 0)
         {
             TypeValidator::IsInteger($priority);
 
-            $this->CacheManager        = $CacheManager;
+            $this->Manager        = $Manager;
             $this->listenerPriority    = $priority;
         }
 
         /**
          * Aggregates the event listeners.
-         * @param \Brickoo\Event\Interfaces\EventManagerInterface $EventManager
+         * @param \Brickoo\Event\Interfaces\ManagerInterface $EventManager
          * @return void
          */
-        public function aggregateListeners(\Brickoo\Event\Interfaces\EventManagerInterface $EventManager)
+        public function aggregateListeners(\Brickoo\Event\Interfaces\ManagerInterface $EventManager)
         {
-            $EventManager->attachListener(CacheEvents::EVENT_CACHE_GET,
-                array($this->CacheManager, 'get'), $this->listenerPriority, array('id')
+            $EventManager->attachListener(Events::EVENT_CACHE_GET,
+                array($this->Manager, 'get'), $this->listenerPriority, array('id')
             );
-            $EventManager->attachListener(CacheEvents::EVENT_CACHE_CALLBACK,
-                array($this->CacheManager, 'getByCallback'), $this->listenerPriority, array('id', 'callback', 'arguments', 'lifetime')
+            $EventManager->attachListener(Events::EVENT_CACHE_CALLBACK,
+                array($this->Manager, 'getByCallback'), $this->listenerPriority, array('id', 'callback', 'arguments', 'lifetime')
             );
-            $EventManager->attachListener(CacheEvents::EVENT_CACHE_SET,
-                array($this->CacheManager, 'get'), $this->listenerPriority, array('id', 'content', 'lifetime')
+            $EventManager->attachListener(Events::EVENT_CACHE_SET,
+                array($this->Manager, 'get'), $this->listenerPriority, array('id', 'content', 'lifetime')
             );
-            $EventManager->attachListener(CacheEvents::EVENT_CACHE_DELETE,
-                array($this->CacheManager, 'get'), $this->listenerPriority, array('id')
+            $EventManager->attachListener(Events::EVENT_CACHE_DELETE,
+                array($this->Manager, 'get'), $this->listenerPriority, array('id')
             );
-            $EventManager->attachListener(CacheEvents::EVENT_CACHE_FLUSH,
-                array($this->CacheManager, 'get'), $this->listenerPriority
+            $EventManager->attachListener(Events::EVENT_CACHE_FLUSH,
+                array($this->Manager, 'get'), $this->listenerPriority
             );
         }
 

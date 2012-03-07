@@ -95,11 +95,11 @@
 
         /**
         * Returns an EventManager stub .
-        * @return \Brickoo\Event\EventManager
+        * @return \Brickoo\Event\Manager
         */
         public function getEventManagerStub()
         {
-            return $this->getMock('Brickoo\Event\EventManager', array('notify', 'ask'));
+            return $this->getMock('Brickoo\Event\Manager', array('notify', 'ask'));
         }
 
         /**
@@ -120,7 +120,7 @@
         /**
          * Test if the Route instance is created and implements the interface.
          * @covers Brickoo\Routing\Router::__construct
-         * @covers Brickoo\Routing\RouterEvents
+         * @covers Brickoo\Routing\Events
          */
         public function testConstruct()
         {
@@ -173,7 +173,7 @@
         public function testEventManagerLazyInitialization()
         {
             $this->assertInstanceOf(
-                'Brickoo\Event\Interfaces\EventManagerInterface',
+                'Brickoo\Event\Interfaces\ManagerInterface',
                 ($EventManager = $this->Router->EventManager())
             );
 

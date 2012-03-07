@@ -30,42 +30,44 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Routing;
+    namespace Brickoo\Event;
 
     /**
-     * RouterEvents
+     * EventListenerQueue
      *
-     * Holds the router events.
+     * Implements a priority oriented queue for event listeners.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class RouterEvents
+    class ListenerQueue extends \SplPriorityQueue
     {
 
         /**
-         * Asks for loaded routes and returned as an RouteCollection object.
-         * @see Brickoo\Routing\Interfaces\RouteCollectionInterface
-         * @var string
+         * Holds the priority extra serial to keep the
+         * order of listeners registration with the same priority.
+         * @var integer
          */
-        const EVENT_LOAD    = 'routes.load';
+        protected $serial;
 
         /**
-         * Notifies that the routes loaded could be saved.
-         * @var string
+         * Overrides the \SplPriorityQueue::instert method to add the serial.
+         * @see SplPriorityQueue::insert()
+         * @return void
          */
-        const EVENT_SAVE    = 'routes.save';
+        public function insert($listener, $priority) {
+            parent::insert($listener, array($priority, $this->serial--));
+        }
 
         /**
-         * Aks of the route to use witch has to be returned as an Route object.
-         * @see Brickoo\Routing\Interfaces\RouteInterface
-         * @var string
+         * Class cosntructor.
+         * Initializes the class properties.
+         * Sets the extract flag to return only the data value.
+         * @return void
          */
-        const EVENT_GET      = 'route.get';
-
-        /**
-         * Notifies that the router has not a matched route.
-         * @var string
-         */
-        const EVENT_ERROR   = 'router.error';
+        public function __construct()
+        {
+            $this->serial = PHP_INT_MAX;
+            $this->setExtractFlags(static::EXTR_DATA);
+        }
 
     }

@@ -30,71 +30,42 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Core;
+    namespace Brickoo\Routing;
 
     /**
-     * ApplicationEvents
+     * Events
      *
-     * Holds the core application events.
+     * Holds the router events.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ApplicationEvents
+    class Events
     {
 
         /**
-        * Notifies the application boot event.
-        * @var string
-        */
-        const EVENT_BOOT = 'application.boot';
-
-        /**
-         * Notifies that an error/exception occured while running the application.
+         * Asks for loaded routes and returned as an RouteCollection object.
+         * @see Brickoo\Routing\Interfaces\RouteCollectionInterface
          * @var string
          */
-        const EVENT_ERROR = 'application.error';
+        const EVENT_LOAD    = 'routes.load';
 
         /**
-         * Notifies that the application has finished and can be shutdown.
+         * Notifies that the routes loaded could be saved.
          * @var string
          */
-        const EVENT_SHUTDOWN = 'application.shutdown';
+        const EVENT_SAVE    = 'routes.save';
 
         /**
-         * Notifies that the module route requires session management and it could be configured.
+         * Aks of the route to use witch has to be returned as an Route object.
+         * @see Brickoo\Routing\Interfaces\RouteInterface
          * @var string
          */
-        const EVENT_SESSION_CONFIGURE = 'session.configure';
+        const EVENT_GET      = 'route.get';
 
         /**
-         * Asks for a cached response if the module route did enable the response cache.
+         * Notifies that the router has not a matched route.
          * @var string
          */
-        const EVENT_RESPONSE_LOAD = 'response.load';
-
-        /**
-         * Asks for a fresh response if the cached response has not been returned or did not be
-         * enabled by the module route.
-         * @var string
-         */
-        const EVENT_RESPONSE_GET = 'response.get';
-
-        /**
-         * Notifies that the response could be cached if the module route did enabled response caching.
-         * @var string
-         */
-        const EVENT_RESPONSE_SAVE = 'response.save';
-
-        /**
-         * Notifies that the response could be sent now.
-         * @var string
-         */
-        const EVENT_RESPONSE_SEND = 'response.send';
-
-        /**
-         * Notifies that the application did not get a fresh response after asking for.
-         * @var string
-         */
-        const EVENT_RESPONSE_MISSING = 'response.missing';
+        const EVENT_ERROR   = 'router.error';
 
     }

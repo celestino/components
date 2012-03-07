@@ -71,15 +71,15 @@
 
         /**
          * Lazy initialization of the EventManager dependency
-         * @param \Brickoo\Event\Interfaces\EventManagerInterface $EventManager the EventManager dependency to inject
-         * @return \Brickoo\Event\Interfaces\EventManagerInterface
+         * @param \Brickoo\Event\Interfaces\ManagerInterface $EventManager the EventManager dependency to inject
+         * @return \Brickoo\Event\Interfaces\ManagerInterface
          */
-        public function EventManager(\Brickoo\Event\Interfaces\EventManagerInterface $EventManager = null)
+        public function EventManager(\Brickoo\Event\Interfaces\ManagerInterface $EventManager = null)
         {
             return $this->getDependency(
                 'EventManager',
-                '\Brickoo\Event\Interfaces\EventManagerInterface',
-                function() {return new EventManager();},
+                '\Brickoo\Event\Interfaces\ManagerInterface',
+                function() {return new Manager();},
                 $EventManager
             );
         }

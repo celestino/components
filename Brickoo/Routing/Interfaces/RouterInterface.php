@@ -98,10 +98,10 @@
 
         /**
          * Lazy initialization of the EventManager dependecy.
-         * @param \Brickoo\Event\Interfaces\EventManagerInterface $EventManager the EventManager dependency
-         * @return \Brickoo\Event\Interfaces\EventManagerInterface
+         * @param \Brickoo\Event\Interfaces\ManagerInterface $EventManager the EventManager dependency
+         * @return \Brickoo\Event\Interfaces\ManagerInterface
          */
-        public function EventManager(\Brickoo\Event\Interfaces\EventManagerInterface $EventManager = null);
+        public function EventManager(\Brickoo\Event\Interfaces\ManagerInterface $EventManager = null);
 
         /**
          * Sets the requested Route for further routing.
@@ -125,7 +125,7 @@
 
         /**
          * Returns the request matching route.
-         * If the CacheManager is available the proceded routes will be cached.
+         * If the Manager is available the proceded routes will be cached.
          * @throws Routing\Exceptions\RequestedHasNoRouteException if the request has not a matching Route
          * @return \Brickoo\Routing\Route
          */

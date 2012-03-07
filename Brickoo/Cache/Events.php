@@ -33,13 +33,13 @@
     namespace Brickoo\Cache;
 
     /**
-     * CacheEvents
+     * Events
      *
      * Holds the cache events.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class CacheEvents
+    class Events
     {
 
         /**

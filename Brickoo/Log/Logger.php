@@ -166,10 +166,10 @@
 
         /**
          * Aggregates the log event listener.
-         * @param \Brickoo\Event\Interfaces\EventManagerInterface $EventManager
+         * @param \Brickoo\Event\Interfaces\ManagerInterface $EventManager
          * @return void
          */
-        public function aggregateListeners(\Brickoo\Event\Interfaces\EventManagerInterface $EventManager)
+        public function aggregateListeners(\Brickoo\Event\Interfaces\ManagerInterface $EventManager)
         {
             $EventManager->attachListener(LoggerEvents::EVENT_LOG, array($this, 'logEvent'));
         }

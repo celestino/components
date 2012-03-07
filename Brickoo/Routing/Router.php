@@ -34,6 +34,7 @@
 
     use Brickoo\Core,
         Brickoo\Event,
+        Brickoo\Routing\Events as RouterEvents,
         Brickoo\Validator\TypeValidator;
 
     /**
@@ -104,15 +105,15 @@
 
         /**
          * Lazy initialization of the EventManager dependecy.
-         * @param \Brickoo\Event\Interfaces\EventManagerInterface $EventManager the EventManager dependency
-         * @return \Brickoo\Event\Interfaces\EventManagerInterface
+         * @param \Brickoo\Event\Interfaces\ManagerInterface $EventManager the EventManager dependency
+         * @return \Brickoo\Event\Interfaces\ManagerInterface
          */
-        public function EventManager(\Brickoo\Event\Interfaces\EventManagerInterface $EventManager = null)
+        public function EventManager(\Brickoo\Event\Interfaces\ManagerInterface $EventManager = null)
         {
             return $this->getDependency(
                 'EventManager',
-                '\Brickoo\Event\Interfaces\EventManagerInterface',
-                function(){return new \Brickoo\Event\EventManager();},
+                '\Brickoo\Event\Interfaces\ManagerInterface',
+                function(){return new \Brickoo\Event\Manager();},
                 $EventManager
             );
         }
@@ -235,7 +236,7 @@
                         continue;
                     }
 
-                    if (isset($matches[$parameter]) && $Route->hasDefaultValue($parameter)) {
+                    if ($Route->hasDefaultValue($parameter)) {
                         $routeParams[$parameter] = $Route->getDefaultValue($parameter);
                         continue;
                     }
@@ -292,7 +293,7 @@
 
         /**
          * Returns the request matching route.
-         * If the CacheManager is available the proceded routes will be cached.
+         * If the Manager is available the proceded routes will be cached.
          * @throws Routing\Exceptions\RequestedHasNoRouteException if the request has not a matching Route
          * @return \Brickoo\Routing\Route
          */

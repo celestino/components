@@ -30,51 +30,51 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Cache\CacheListener;
+    use Brickoo\Cache\Listener;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
-     * CacheListenerTest
+     * ListenerTest
      *
-     * Test suite for the CacheListener class.
-     * @see Brickoo\Cache\CacheListener
+     * Test suite for the Listener class.
+     * @see Brickoo\Cache\Listener
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class CacheListenerTest extends \PHPUnit_Framework_TestCase
+    class ListenerTest extends \PHPUnit_Framework_TestCase
     {
 
         /**
          * Test if the constructor intializes the class properties.
-         * @covers Brickoo\Cache\CacheListener::__construct
+         * @covers Brickoo\Cache\Listener::__construct
          */
         public function testConstruct()
         {
-            $CacheManager = $this->getMock('Brickoo\Cache\Interfaces\CacheManagerInterface');
-            $CacheListener = new CacheListener($CacheManager, 222);
-            $this->assertAttributeSame($CacheManager, 'CacheManager', $CacheListener);
-            $this->assertAttributeEquals(222, 'listenerPriority', $CacheListener);
+            $Manager = $this->getMock('Brickoo\Cache\Interfaces\ManagerInterface');
+            $Listener = new Listener($Manager, 222);
+            $this->assertAttributeSame($Manager, 'Manager', $Listener);
+            $this->assertAttributeEquals(222, 'listenerPriority', $Listener);
         }
 
         /**
          * Test if the event listeners can be aggregated.
-         * @covers Brickoo\Cache\CacheListener::aggregateListeners
-         * @covers Brickoo\Cache\CacheEvents
+         * @covers Brickoo\Cache\Listener::aggregateListeners
+         * @covers Brickoo\Cache\Events
          */
         public function testAggregateListeners()
         {
-            $EventManager = $this->getMock('Brickoo\Event\EventManager');
+            $EventManager = $this->getMock('Brickoo\Event\Manager');
             $EventManager->expects($this->exactly(5))
                          ->method('attachListener');
 
-            $CacheManager = $this->getMock('Brickoo\Cache\Interfaces\CacheManagerInterface');
+            $Manager = $this->getMock('Brickoo\Cache\Interfaces\ManagerInterface');
 
-            $CacheListener = new CacheListener($CacheManager, 111);
-            $this->assertAttributeSame($CacheManager, 'CacheManager', $CacheListener);
-            $this->assertAttributeEquals(111, 'listenerPriority', $CacheListener);
-            $this->assertNull($CacheListener->aggregateListeners($EventManager));
+            $Listener = new Listener($Manager, 111);
+            $this->assertAttributeSame($Manager, 'Manager', $Listener);
+            $this->assertAttributeEquals(111, 'listenerPriority', $Listener);
+            $this->assertNull($Listener->aggregateListeners($EventManager));
         }
 
     }

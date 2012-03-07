@@ -234,7 +234,7 @@
          */
         public function testAggregateListeners()
         {
-            $EventManager = $this->getMock('Brickoo\Event\EventManager', array('attachListener'));
+            $EventManager = $this->getMock('Brickoo\Event\Manager', array('attachListener'));
             $EventManager->expects($this->once())
                          ->method('attachListener');
             $this->assertNull($this->Logger->aggregateListeners($EventManager));

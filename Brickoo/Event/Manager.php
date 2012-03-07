@@ -35,13 +35,13 @@
     use Brickoo\Validator\TypeValidator;
 
     /**
-     * EventManager
+     * Event Manager
      *
-     * EventManager event handling with registered listeners.
+     * Event Manager for handling registered event listeners.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class EventManager implements Interfaces\EventManagerInterface
+    class Manager implements Interfaces\ManagerInterface
     {
 
         /**
@@ -65,7 +65,7 @@
         /**
          * Adds an event to the processing list.
          * @param string $eventName the event to add
-         * @return \Brickoo\Event\EventManager
+         * @return \Brickoo\Event\Manager
          */
         protected function addEventProcessing($eventName)
         {
@@ -79,7 +79,7 @@
         /**
          * Removes an event from the processing list.
          * @param string $eventName the vent to remove
-         * @return \Brickoo\Event\EventManager
+         * @return \Brickoo\Event\Manager
          */
         protected function removeProcessedEvent($eventName)
         {
@@ -149,7 +149,7 @@
         /**
          * Removes the event listener.
          * @param string $listenerUID the listener unique identifier
-         * @return \Brickoo\Event\EventManager
+         * @return \Brickoo\Event\Manager
          */
         public function detachListener($listenerUID)
         {
@@ -195,14 +195,14 @@
         /**
          * Returns the event listener queue listening to the event.
          * @param string $eventName the event to return the listener queue from
-         * @return \Brickoo\Event\EventListenerQueue
+         * @return \Brickoo\Event\ListenerQueue
          */
         public function getEventListenerQueue($eventName)
         {
             $eventName = $this->getUniformEventName($eventName);
 
             if (! $this->hasEventListeners($eventName)) {
-                $this->events[$eventName] = new EventListenerQueue();
+                $this->events[$eventName] = new ListenerQueue();
             }
 
             return $this->events[$eventName];

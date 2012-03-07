@@ -30,44 +30,71 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Event;
+    namespace Brickoo\Core;
 
     /**
-     * EventListenerQueue
+     * Events
      *
-     * Implements a priority oriented queue for event listeners.
+     * Holds the core application events.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class EventListenerQueue extends \SplPriorityQueue
+    class Events
     {
 
         /**
-         * Holds the priority extra serial to keep the
-         * order of listeners registration with the same priority.
-         * @var integer
-         */
-        protected $serial;
+        * Notifies the application boot event.
+        * @var string
+        */
+        const EVENT_BOOT = 'application.boot';
 
         /**
-         * Overrides the \SplPriorityQueue::instert method to add the serial.
-         * @see SplPriorityQueue::insert()
-         * @return void
+         * Notifies that an error/exception occured while running the application.
+         * @var string
          */
-        public function insert($listener, $priority) {
-            parent::insert($listener, array($priority, $this->serial--));
-        }
+        const EVENT_ERROR = 'application.error';
 
         /**
-         * Class cosntructor.
-         * Initializes the class properties.
-         * Sets the extract flag to return only the data value.
-         * @return void
+         * Notifies that the application has finished and can be shutdown.
+         * @var string
          */
-        public function __construct()
-        {
-            $this->serial = PHP_INT_MAX;
-            $this->setExtractFlags(static::EXTR_DATA);
-        }
+        const EVENT_SHUTDOWN = 'application.shutdown';
+
+        /**
+         * Notifies that the module route requires session management and it could be configured.
+         * @var string
+         */
+        const EVENT_SESSION_CONFIGURE = 'session.configure';
+
+        /**
+         * Asks for a cached response if the module route did enable the response cache.
+         * @var string
+         */
+        const EVENT_RESPONSE_LOAD = 'response.load';
+
+        /**
+         * Asks for a fresh response if the cached response has not been returned or did not be
+         * enabled by the module route.
+         * @var string
+         */
+        const EVENT_RESPONSE_GET = 'response.get';
+
+        /**
+         * Notifies that the response could be cached if the module route did enabled response caching.
+         * @var string
+         */
+        const EVENT_RESPONSE_SAVE = 'response.save';
+
+        /**
+         * Notifies that the response could be sent now.
+         * @var string
+         */
+        const EVENT_RESPONSE_SEND = 'response.send';
+
+        /**
+         * Notifies that the application did not get a fresh response after asking for.
+         * @var string
+         */
+        const EVENT_RESPONSE_MISSING = 'response.missing';
 
     }

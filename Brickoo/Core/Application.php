@@ -156,15 +156,15 @@
 
         /**
          * Lazy intialization of the EventManager dependency.
-         * @param \Brickoo\Event\Interfaces\EventManagerInterface $EventManager
-         * @return \Brickoo\Event\Interfaces\EventManagerInterface
+         * @param \Brickoo\Event\Interfaces\ManagerInterface $EventManager
+         * @return \Brickoo\Event\Interfaces\ManagerInterface
          */
-        public function EventManager(\Brickoo\Event\Interfaces\EventManagerInterface $EventManager = null)
+        public function EventManager(\Brickoo\Event\Interfaces\ManagerInterface $EventManager = null)
         {
             return $this->getDependency(
                 'EventManager',
-                '\Brickoo\Event\Interfaces\EventManagerInterface',
-                function() {return new \Brickoo\Event\EventManager();},
+                '\Brickoo\Event\Interfaces\ManagerInterface',
+                function() {return new \Brickoo\Event\Manager();},
                 $EventManager
             );
         }
@@ -181,7 +181,7 @@
                 '\Brickoo\Http\Session\Interfaces\SessionManagerInterface',
                 function() {
                     return new \Brickoo\Http\Session\SessionManager(
-                        new \Brickoo\Http\Session\Handler\CacheManagerHandler()
+                        new \Brickoo\Http\Session\Handler\CacheHandler()
                     );
                 },
                 $SessionManager
@@ -425,7 +425,7 @@
             }
 
             try {
-                $EventManager->notify(new Event(ApplicationEvents::EVENT_BOOT, $this));
+                $EventManager->notify(new Event(Events::EVENT_BOOT, $this));
 
                 $this->bootRouter()->startSession();
                 $Response = $this->askForResponse();
@@ -434,18 +434,18 @@
                 if ($Response instanceof Interfaces\ResponseInterface) {
                     $this->notifyResponseCache($Response);
                     $EventManager->notifyOnce(
-                        new Event(ApplicationEvents::EVENT_RESPONSE_SEND, $this, array('Response' => $Response))
+                        new Event(Events::EVENT_RESPONSE_SEND, $this, array('Response' => $Response))
                     );
                 }
                 else {
-                    $EventManager->notify(new Event(ApplicationEvents::EVENT_RESPONSE_MISSING, $this));
+                    $EventManager->notify(new Event(Events::EVENT_RESPONSE_MISSING, $this));
                 }
 
-                $EventManager->notify(new Event(ApplicationEvents::EVENT_SHUTDOWN, $this));
+                $EventManager->notify(new Event(Events::EVENT_SHUTDOWN, $this));
             }
             catch(\Exception $Exception) {
                 $EventManager->notify(
-                    new Event(ApplicationEvents::EVENT_ERROR, $this, array('Exception' => $Exception))
+                    new Event(Events::EVENT_ERROR, $this, array('Exception' => $Exception))
                 );
             }
 
@@ -480,7 +480,7 @@
                 (! $this->SessionManager()->hasSessionStarted())
             ){
                 $this->EventManager()->notify(new Event(
-                    ApplicationEvents::EVENT_SESSION_CONFIGURE, $this, array('SessionManager' => $this->SessionManager())
+                    Events::EVENT_SESSION_CONFIGURE, $this, array('SessionManager' => $this->SessionManager())
                 ));
                 $this->SessionManager()->start();
             }
@@ -514,13 +514,13 @@
 
             if ($RequestRoute->getModuleRoute()->isCacheable()) {
                 $Response = $this->EventManager()->ask(new Event(
-                    ApplicationEvents::EVENT_RESPONSE_LOAD, $this, array('Route' => $RequestRoute)
+                    Events::EVENT_RESPONSE_LOAD, $this, array('Route' => $RequestRoute)
                 ));
             }
 
             if (! $Response instanceof Interfaces\ResponseInterface) {
                 $Response = $this->EventManager()->ask(new Event(
-                    ApplicationEvents::EVENT_RESPONSE_GET, $this, array('Route' => $RequestRoute)
+                    Events::EVENT_RESPONSE_GET, $this, array('Route' => $RequestRoute)
                 ));
             }
 
@@ -536,7 +536,7 @@
         {
             if ($this->Route()->getModuleRoute()->isCacheable()) {
                 $this->EventManager()->notify(
-                    new Event(ApplicationEvents::EVENT_RESPONSE_SAVE, $this, array('Response' => $Response)
+                    new Event(Events::EVENT_RESPONSE_SAVE, $this, array('Response' => $Response)
                 ));
             }
 

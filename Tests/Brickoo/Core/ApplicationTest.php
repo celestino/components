@@ -71,7 +71,7 @@
 
         public function getEventManagerStub(array $mockedMethods = null)
         {
-            return $this->getMock('Brickoo\Event\EventManager', $mockedMethods);
+            return $this->getMock('Brickoo\Event\Manager', $mockedMethods);
         }
 
         /**

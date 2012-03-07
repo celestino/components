@@ -36,15 +36,15 @@
         Brickoo\Validator\TypeValidator;
 
     /**
-     * CacheManagerHandler
+     * CacheHandler
      *
-     * Handles the session operations with an CacheManager instance.
-     * The dedault CacheManager used has a FileProvider injected which will save the sessions
+     * Handles the session operations with an Manager instance.
+     * The dedault Manager used has a FileProvider injected which will save the sessions
      * to the default PHP temporary directory.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class CacheManagerHandler implements Interfaces\SessionHandlerInterface
+    class CacheHandler implements Interfaces\SessionHandlerInterface
     {
 
         /**
@@ -80,17 +80,17 @@
         }
 
         /**
-         * Lazy initialization of the CacheManager dependency with the default FileProvider.
-         * @param \Brickoo\Cache\Interfaces\CacheManagerInterface $CacheManager the CacheManager depedency
-         * @return \Brickoo\Cache\Interfaces\CacheManagerInterface
+         * Lazy initialization of the Manager dependency with the default FileProvider.
+         * @param \Brickoo\Cache\Interfaces\ManagerInterface $Manager the Manager depedency
+         * @return \Brickoo\Cache\Interfaces\ManagerInterface
          */
-        public function CacheManager(\Brickoo\Cache\Interfaces\CacheManagerInterface $CacheManager = null)
+        public function Manager(\Brickoo\Cache\Interfaces\ManagerInterface $Manager = null)
         {
             return $this->getDependency(
-                'CacheManager',
-                '\Brickoo\Cache\Interfaces\CacheManagerInterface',
-                function(){return new Cache\CacheManager(new Cache\Provider\FileProvider());},
-                $CacheManager
+                'Manager',
+                '\Brickoo\Cache\Interfaces\ManagerInterface',
+                function(){return new Cache\Manager(new Cache\Provider\FileProvider());},
+                $Manager
             );
         }
 
@@ -103,7 +103,7 @@
         /**
          * Sets the session lifetime in seconds.
          * @param integer $lifetime the lifetime of the session
-         * @return \Brickoo\Http\Session\Handler\CacheManagerHandler
+         * @return \Brickoo\Http\Session\Handler\CacheHandler
          */
         public function setLifetime($lifetime)
         {
@@ -125,7 +125,7 @@
          */
         public function open($savePath, $sessionName)
         {
-            $this->CacheManager()->disableLocalCache();
+            $this->Manager()->disableLocalCache();
 
             return true;
         }
@@ -148,7 +148,7 @@
          */
         public function read($identifier)
         {
-            return $this->CacheManager()->get(self::SESSION_CACHE_PREFIX . $identifier);
+            return $this->Manager()->get(self::SESSION_CACHE_PREFIX . $identifier);
         }
 
         /**
@@ -160,7 +160,7 @@
          */
         public function write($identifier, $data)
         {
-            $this->CacheManager()->set(self::SESSION_CACHE_PREFIX . $identifier, $data, $this->lifetime);
+            $this->Manager()->set(self::SESSION_CACHE_PREFIX . $identifier, $data, $this->lifetime);
             return true;
         }
 
@@ -173,7 +173,7 @@
          */
         public function destroy($identifier)
         {
-            $this->CacheManager()->delete(self::SESSION_CACHE_PREFIX . $identifier);
+            $this->Manager()->delete(self::SESSION_CACHE_PREFIX . $identifier);
             return true;
         }
 

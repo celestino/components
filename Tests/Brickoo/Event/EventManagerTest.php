@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Event\EventManager;
+    use Brickoo\Event\Manager;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -39,7 +39,7 @@
      * EventTest
      *
      * Test suite for the EventManager class.
-     * @see Brickoo\Event\EventManager
+     * @see Brickoo\Event\Manager
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -48,7 +48,7 @@
 
         /**
          * Holds an instance of the EventManager class.
-         * @var \Brickoo\Event\EventManager
+         * @var \Brickoo\Event\Manager
          */
         protected $EventManager;
 
@@ -58,23 +58,23 @@
          */
         protected function setUp()
         {
-            $this->EventManager = new EventManager();
+            $this->EventManager = new Manager();
         }
 
         /**
          * Test if the EventManager implements the EventManagerInterface.
-         * @covers Brickoo\Event\EventManager::__construct
+         * @covers Brickoo\Event\Manager::__construct
          */
         public function testConstruct()
         {
-            $this->assertInstanceOf('Brickoo\Event\Interfaces\EventManagerInterface', $this->EventManager);
+            $this->assertInstanceOf('Brickoo\Event\Interfaces\ManagerInterface', $this->EventManager);
         }
 
         /**
          * Test if a listener can be attached.
-         * @covers Brickoo\Event\EventManager::attachListener
-         * @covers Brickoo\Event\EventManager::getEventListenerQueue
-         * @covers Brickoo\Event\EventManager::getUniformEventName
+         * @covers Brickoo\Event\Manager::attachListener
+         * @covers Brickoo\Event\Manager::getEventListenerQueue
+         * @covers Brickoo\Event\Manager::getUniformEventName
          */
         public function testAttachListener()
         {
@@ -93,7 +93,7 @@
 
         /**
          * Test if trying to attach a listener without a valid callback throws an exception.
-         * @covers Brickoo\Event\EventManager::attachListener
+         * @covers Brickoo\Event\Manager::attachListener
          * @expectedException InvalidArgumentException
          */
         public function testAttachListenerCallbackException()
@@ -103,7 +103,7 @@
 
         /**
          * Test if trying to attach a listener without a valid condition throws an exception.
-         * @covers Brickoo\Event\EventManager::attachListener
+         * @covers Brickoo\Event\Manager::attachListener
          * @expectedException InvalidArgumentException
          */
         public function testAttachListenerConditionException()
@@ -113,8 +113,8 @@
 
         /**
          * Test if a listener can be detached.
-         * @covers Brickoo\Event\EventManager::detachListener
-         * @covers Brickoo\Event\EventManager::isListener
+         * @covers Brickoo\Event\Manager::detachListener
+         * @covers Brickoo\Event\Manager::isListener
          */
         public function testDetachListener()
         {
@@ -134,8 +134,8 @@
 
         /**
          * Test if the avaibility of listeners is recognized.
-         * @covers Brickoo\Event\EventManager::hasEventListeners
-         * @covers Brickoo\Event\EventManager::getUniformEventName
+         * @covers Brickoo\Event\Manager::hasEventListeners
+         * @covers Brickoo\Event\Manager::getUniformEventName
          */
         public function testHasEventListeners()
         {
@@ -145,13 +145,13 @@
         }
 
         /**
-         * @covers Brickoo\Event\EventManager::notify
-         * @covers Brickoo\Event\EventManager::getCallbackArguments
-         * @covers Brickoo\Event\EventManager::call
-         * @covers Brickoo\Event\EventManager::isEventProcessing
-         * @covers Brickoo\Event\EventManager::addEventProcessing
-         * @covers Brickoo\Event\EventManager::removeProcessedEvent
-         * @covers Brickoo\Event\EventManager::processEvent
+         * @covers Brickoo\Event\Manager::notify
+         * @covers Brickoo\Event\Manager::getCallbackArguments
+         * @covers Brickoo\Event\Manager::call
+         * @covers Brickoo\Event\Manager::isEventProcessing
+         * @covers Brickoo\Event\Manager::addEventProcessing
+         * @covers Brickoo\Event\Manager::removeProcessedEvent
+         * @covers Brickoo\Event\Manager::processEvent
          */
         public function testNotify()
         {
@@ -178,13 +178,13 @@
         }
 
         /**
-         * @covers Brickoo\Event\EventManager::notifyOnce
-         * @covers Brickoo\Event\EventManager::getCallbackArguments
-         * @covers Brickoo\Event\EventManager::call
-         * @covers Brickoo\Event\EventManager::isEventProcessing
-         * @covers Brickoo\Event\EventManager::addEventProcessing
-         * @covers Brickoo\Event\EventManager::removeProcessedEvent
-         * @covers Brickoo\Event\EventManager::processEvent
+         * @covers Brickoo\Event\Manager::notifyOnce
+         * @covers Brickoo\Event\Manager::getCallbackArguments
+         * @covers Brickoo\Event\Manager::call
+         * @covers Brickoo\Event\Manager::isEventProcessing
+         * @covers Brickoo\Event\Manager::addEventProcessing
+         * @covers Brickoo\Event\Manager::removeProcessedEvent
+         * @covers Brickoo\Event\Manager::processEvent
          */
         public function testNotifyOnce()
         {
@@ -211,8 +211,8 @@
         }
 
         /**
-         * @covers Brickoo\Event\EventManager::notify
-         * @covers Brickoo\Event\EventManager::processEvent
+         * @covers Brickoo\Event\Manager::notify
+         * @covers Brickoo\Event\Manager::processEvent
          * @covers Brickoo\Event\Exceptions\InfiniteEventLoopException::__construct
          * @expectedException Brickoo\Event\Exceptions\InfiniteEventLoopException
          */
@@ -236,8 +236,8 @@
         }
 
         /**
-         * @covers Brickoo\Event\EventManager::ask
-         * @covers Brickoo\Event\EventManager::processEvent
+         * @covers Brickoo\Event\Manager::ask
+         * @covers Brickoo\Event\Manager::processEvent
          * @covers Brickoo\Event\Exceptions\InfiniteEventLoopException::__construct
          * @expectedException Brickoo\Event\Exceptions\InfiniteEventLoopException
          */
@@ -261,13 +261,13 @@
         }
 
         /**
-         * @covers Brickoo\Event\EventManager::ask
-         * @covers Brickoo\Event\EventManager::processEvent
-         * @covers Brickoo\Event\EventManager::getCallbackArguments
-         * @covers Brickoo\Event\EventManager::call
-         * @covers Brickoo\Event\EventManager::isEventProcessing
-         * @covers Brickoo\Event\EventManager::addEventProcessing
-         * @covers Brickoo\Event\EventManager::removeProcessedEvent
+         * @covers Brickoo\Event\Manager::ask
+         * @covers Brickoo\Event\Manager::processEvent
+         * @covers Brickoo\Event\Manager::getCallbackArguments
+         * @covers Brickoo\Event\Manager::call
+         * @covers Brickoo\Event\Manager::isEventProcessing
+         * @covers Brickoo\Event\Manager::addEventProcessing
+         * @covers Brickoo\Event\Manager::removeProcessedEvent
          */
         public function testAsk()
         {
@@ -288,7 +288,7 @@
 
         /**
          * Test if the listener is not knowed returns null.
-         * @covers Brickoo\Event\EventManager::call
+         * @covers Brickoo\Event\Manager::call
          */
         public function testCall()
         {
@@ -297,8 +297,8 @@
 
         /**
          * Test if the condition fails the call returns null.
-         * @covers Brickoo\Event\EventManager::call
-         * @covers Brickoo\Event\EventManager::getCallbackArguments
+         * @covers Brickoo\Event\Manager::call
+         * @covers Brickoo\Event\Manager::getCallbackArguments
          */
         public function testCallConditionFails()
         {
@@ -321,8 +321,8 @@
 
         /**
          * Test if the condition fails the call returns null.
-         * @covers Brickoo\Event\EventManager::call
-         * @covers Brickoo\Event\EventManager::getCallbackArguments
+         * @covers Brickoo\Event\Manager::call
+         * @covers Brickoo\Event\Manager::getCallbackArguments
          */
         public function testCallExpectedArgumentsFails()
         {

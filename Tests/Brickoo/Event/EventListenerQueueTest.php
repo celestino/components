@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Event\EventListenerQueue;
+    use Brickoo\Event\ListenerQueue;
 
 
     // require PHPUnit Autoloader
@@ -40,7 +40,7 @@
      * EventTest
      *
      * Test suite for the EventListenerQueue class.
-     * @see Brickoo\Event\EventListenerQueue
+     * @see Brickoo\Event\ListenerQueue
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -48,7 +48,7 @@
     {
         /**
          * Holds an instance of the EventListenerQueue class.
-         * @var \Brickoo\Event\EventListenerQueue
+         * @var \Brickoo\Event\ListenerQueue
          */
         protected $EventListenerQueue;
 
@@ -58,12 +58,12 @@
          */
         protected function setUp()
         {
-            $this->EventListenerQueue = new EventListenerQueue();
+            $this->EventListenerQueue = new ListenerQueue();
         }
 
         /**
          * Test if the serial property is initialized.
-         * @covers Brickoo\Event\EventListenerQueue::__construct
+         * @covers Brickoo\Event\ListenerQueue::__construct
          */
         public function testConstruct()
         {
@@ -72,7 +72,7 @@
 
         /**
          * Test if a value can be inserted to the queue and the priority is respected.
-         * @covers Brickoo\Event\EventListenerQueue::insert
+         * @covers Brickoo\Event\ListenerQueue::insert
          */
         public function testInsert()
         {

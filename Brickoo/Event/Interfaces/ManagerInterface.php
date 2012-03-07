@@ -33,13 +33,13 @@
     namespace Brickoo\Event\Interfaces;
 
     /**
-     * EventManagerInterface
+     * ManagerInterface
      *
      * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface EventManagerInterface
+    interface ManagerInterface
     {
 
         /**
@@ -59,7 +59,7 @@
         /**
          * Returns the event listener queue listening to the event.
          * @param string $eventName the event to return the listener queue from
-         * @return \Brickoo\Event\EventListenerQueue
+         * @return \Brickoo\Event\ListenerQueue
          */
         public function getEventListenerQueue($eventName);
 
@@ -76,7 +76,7 @@
         /**
          * Removes the event listener.
          * @param string $listenerUID the listener unique identifier
-         * @return \Brickoo\Event\Interfaces\EventManagerInterface
+         * @return \Brickoo\Event\Interfaces\ManagerInterface
          */
         public function detachListener($listenerUID);
 

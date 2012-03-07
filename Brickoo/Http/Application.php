@@ -97,26 +97,26 @@
          * Registers the listeners to the EventManager.
          * This method is automaticly called by Brickoo\Core\Application::run if injected
          * since this application implements the ListenerAggreagteInterface.
-         * @param \Brickoo\Event\Interfaces\EventManagerInterface $EventManager
+         * @param \Brickoo\Event\Interfaces\ManagerInterface $EventManager
          * @return void
          */
-        public function aggregateListeners(\Brickoo\Event\Interfaces\EventManagerInterface $EventManager)
+        public function aggregateListeners(\Brickoo\Event\Interfaces\ManagerInterface $EventManager)
         {
             if ($this->listenerAggregated !== true) {
                 $EventManager->attachListener(
-                    Core\ApplicationEvents::EVENT_RESPONSE_GET, array($this, 'run'), 0, null,
+                    Core\Events::EVENT_RESPONSE_GET, array($this, 'run'), 0, null,
                         function($Event){return ($Event->getParam('Route') instanceof \Brickoo\Routing\Interfaces\RequestRouteInterface);}
                 );
                 $EventManager->attachListener(
-                    Core\ApplicationEvents::EVENT_RESPONSE_SEND, array($this, 'sendResponse'), 0, array('Response'),
+                    Core\Events::EVENT_RESPONSE_SEND, array($this, 'sendResponse'), 0, array('Response'),
                     function($Event){return ($Event->getParam('Response') instanceof \Brickoo\Core\Interfaces\ResponseInterface);}
 
                 );
                 $EventManager->attachListener(
-                    Core\ApplicationEvents::EVENT_ERROR, array($this, 'displayError'), 0, array('Exception')
+                    Core\Events::EVENT_ERROR, array($this, 'displayError'), 0, array('Exception')
                 );
                 $EventManager->attachListener(
-                    Core\ApplicationEvents::EVENT_RESPONSE_MISSING, array($this, 'displayResponseError')
+                    Core\Events::EVENT_RESPONSE_MISSING, array($this, 'displayResponseError')
                 );
 
                 $this->listenerAggregated = true;
