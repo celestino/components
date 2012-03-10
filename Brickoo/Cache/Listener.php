@@ -68,7 +68,7 @@
         {
             TypeValidator::IsInteger($priority);
 
-            $this->Manager        = $Manager;
+            $this->Manager             = $Manager;
             $this->listenerPriority    = $priority;
         }
 
@@ -86,13 +86,13 @@
                 array($this->Manager, 'getByCallback'), $this->listenerPriority, array('id', 'callback', 'arguments', 'lifetime')
             );
             $EventManager->attachListener(Events::EVENT_CACHE_SET,
-                array($this->Manager, 'get'), $this->listenerPriority, array('id', 'content', 'lifetime')
+                array($this->Manager, 'set'), $this->listenerPriority, array('id', 'content', 'lifetime')
             );
             $EventManager->attachListener(Events::EVENT_CACHE_DELETE,
-                array($this->Manager, 'get'), $this->listenerPriority, array('id')
+                array($this->Manager, 'delete'), $this->listenerPriority, array('id')
             );
             $EventManager->attachListener(Events::EVENT_CACHE_FLUSH,
-                array($this->Manager, 'get'), $this->listenerPriority
+                array($this->Manager, 'flush'), $this->listenerPriority
             );
         }
 
