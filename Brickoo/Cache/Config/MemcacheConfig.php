@@ -76,6 +76,17 @@
         }
 
         /**
+         * Sets the Memcache servers.
+         * @param array $servers the servers to set
+         * @return \Brickoo\Cache\Config\MemcacheConfig
+         */
+        public function setServers(array $servers)
+        {
+            $this->servers = $servers;
+            return $this;
+        }
+
+        /**
          * Class constructor.
          * Initializes the class properties.
          * @return void

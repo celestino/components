@@ -110,6 +110,21 @@
         }
 
         /**
+         * Test if a collection of servers can be set.
+         * @covers Brickoo\Cache\Config\MemcacheConfig::setServers
+         */
+        public function testSetServer()
+        {
+            $servers = array(
+                array('host' => 'localhost', 'port' => 112211),
+                array('host' => '127.0.0.1', 'port' => 112211),
+            );
+
+            $this->assertSame($this->MemcacheConfig, $this->MemcacheConfig->setServers($servers));
+            $this->assertAttributeEquals($servers, 'servers', $this->MemcacheConfig);
+        }
+
+        /**
         * Test if the Memcache instacne can be configured.
         * @covers Brickoo\Cache\Config\MemcacheConfig::configure
         * @depends testAddServer
