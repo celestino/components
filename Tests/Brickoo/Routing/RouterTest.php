@@ -720,7 +720,7 @@
 
             $this->assertEquals
             (
-                '~^/(path|new_path)/(?<name>[a-z]+)/to/(?<otherplace>.*)/index\.(json)$~i',
+                '~^/(path|new_path)/(?<name>[a-z]+)/to/(?<otherplace>.*)/index(\.(json))?$~i',
                 $this->Router->getRegexFromRoutePath($RouteStub)
             );
         }

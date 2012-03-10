@@ -398,7 +398,7 @@
             $formatRegex = '(\..*)?';
 
             if (($routeFormat = $Route->getFormat()) !== null) {
-                $formatRegex = '\.(' . $routeFormat . ')';
+                $formatRegex = '(\.(' . $routeFormat . '))?';
             }
 
             return $formatRegex;
