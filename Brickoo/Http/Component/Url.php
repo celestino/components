@@ -394,7 +394,7 @@
          */
         public function getRequestFormat()
         {
-            $requestFormat = '';
+            $requestFormat = null;
 
             if (($path = $this->getPath()) && ($position = strpos($path, '.'))) {
                 $requestFormat = substr($path, $position + 1);
