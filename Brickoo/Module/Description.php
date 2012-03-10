@@ -266,8 +266,8 @@
             $result .= "Website: " . $this->getWebsite() . "\n";
             $result .= "Contact: " . $this->getContact() . "\n";
 
-            if ($stautus = $this->getStatus()) {
-                $result .= "Status: " . $stautus . "\n";
+            if ($status = $this->getStatus()) {
+                $result .= "Status: " . $status . "\n";
             }
 
             if ($version = $this->getVersion()) {
