@@ -393,7 +393,7 @@
          */
         public function __set($identifier, $value)
         {
-            $this->set($indentifier, $value);
+            $this->set($identifier, $value);
         }
 
         /**
