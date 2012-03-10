@@ -69,9 +69,10 @@
         * @param callback $callback the callback to execute
         * @param integer $priority the listener priority factor
         * @param array|null $expectedParams the expected event parameters
+        * @param callback $condition the condition which has to be true
         * @return string the listener unique identifier
         */
-        public function attachListener($eventName, $callback, $priority = 0, array $expectedParams = null);
+        public function attachListener($eventName, $callback, $priority = 0, array $expectedParams = null, $condition = null);
 
         /**
          * Removes the event listener.
@@ -86,6 +87,13 @@
          * @return void
          */
         public function notify(\Brickoo\Event\Interfaces\EventInterface $Event);
+
+        /**
+         * Notifies the event with the highest priority.
+         * @param \Brickoo\Event\Event $Event the executed event
+         * @return void
+         */
+        public function notifyOnce(\Brickoo\Event\Event $Event);
 
         /**
          * Asks all event listeners until one listener returns a response.
