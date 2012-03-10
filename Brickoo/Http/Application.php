@@ -187,7 +187,7 @@
                 $Event->EventManager()->notify(new Event\Event(Module\Events::EVENT_MODULE_SHUTDOWN, $Event->Sender()));
             }
             catch (\Exception $Exception) {
-                $Event->EventManager()->notify(new Event\Event(
+                $Response = $Event->EventManager()->ask(new Event\Event(
                     Module\Events::EVENT_MODULE_ERROR, $Event->Sender(), array('Exception' => $Exception)
                 ));
             }
