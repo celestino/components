@@ -224,13 +224,34 @@
         }
 
         /**
+         * Holds the default format.
+         * @var string
+         */
+        protected $defaultFormat;
+
+        /**
+         * Returns the default format.
+         * @return string the default format or null if none set.
+         */
+        public function getDefaultFormat()
+        {
+            return $this->defaultFormat;
+        }
+
+        /**
          * Sets the request accepted formats.
          * @param string $format the format as regular expression like json|xml
+         * @param string $defaultFormat the default format to use
          * @return \Brickoo\Routing\Route
          */
-        public function setFormat($format)
+        public function setFormat($format, $defaultFormat = null)
         {
             TypeValidator::IsString($format);
+
+            if ($defaultFormat !== null) {
+                TypeValidator::IsString($defaultFormat);
+                $this->defaultFormat = $defaultFormat;
+            }
 
             $this->format = $format;
 
@@ -398,12 +419,17 @@
          * Adds a regular expression rule to a parameter name.
          * @param string $parameterName the parameter name to add the rule to
          * @param string $rule the rule to add
+         * @param string $defaultValue optional default rule default value
          * @return \Brickoo\Routing\Route
          */
-        public function addRule($parameterName, $rule)
+        public function addRule($parameterName, $rule, $defaultValue = null)
         {
             TypeValidator::IsString($parameterName);
             TypeValidator::isString($rule);
+
+            if ($defaultValue !== null) {
+                $this->addDefaultValue($parameterName, $defaultValue);
+            }
 
             $this->rules[$parameterName] = $rule;
 
@@ -438,6 +464,7 @@
             $this->method                  = null;
             $this->hostname                = null;
             $this->format                  = null;
+            $this->defaultFormat           = null;
             $this->sessionRequired         = false;
             $this->defaultValues           = array();
             $this->rules                   = array();

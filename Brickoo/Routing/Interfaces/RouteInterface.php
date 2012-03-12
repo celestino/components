@@ -62,6 +62,12 @@
         public function getFormat();
 
         /**
+         * Returns the default format.
+         * @return string the default format or null if none set.
+         */
+        public function getDefaultFormat();
+
+        /**
          * Returns the controller configuration.
          * @throws UnexpectedValueException if the controller is null
          * @return array the controller configuration

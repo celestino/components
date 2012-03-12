@@ -446,10 +446,10 @@
         public function testGetRequestRouteByLoadEvent()
         {
             $RouteStub = $this->getRouteStub();
-            $RouteStub->expects($this->once())
+            $RouteStub->expects($this->any())
                       ->method('getPath')
                       ->will($this->returnValue('/path/goes/to/home'));
-            $RouteStub->expects($this->once())
+            $RouteStub->expects($this->any())
                       ->method('getMethod')
                       ->will($this->returnValue('HEAD'));
 
@@ -573,7 +573,8 @@
         {
             $expected = array(
                 'name'    => 'brickoo',
-                'place'   => 'home'
+                'place'   => 'home',
+                'format'  => 'xml'
             );
 
             $hasRule = array(
@@ -599,37 +600,76 @@
 
             $RouteStub = $this->getRouteStub();
             $RouteStub->expects($this->any())
-                    ->method('getPath')
-                    ->will($this->returnValue('/path/{name}/{place}'));
+                      ->method('getPath')
+                      ->will($this->returnValue('/path/{name}/{place}'));
             $RouteStub->expects($this->any())
-                    ->method('hasRules')
-                    ->will($this->returnValue(true));
+                      ->method('hasRules')
+                      ->will($this->returnValue(true));
             $RouteStub->expects($this->any())
-                    ->method('hasRule')
-                    ->will($this->returnValueMap($hasRule));
+                      ->method('hasRule')
+                      ->will($this->returnValueMap($hasRule));
             $RouteStub->expects($this->any())
-                    ->method('hasDefaultValue')
-                    ->will($this->returnValueMap($hasDefaultValue));
+                      ->method('hasDefaultValue')
+                      ->will($this->returnValueMap($hasDefaultValue));
             $RouteStub->expects($this->any())
-                    ->method('getDefaultValue')
-                    ->will($this->returnValueMap($getDefaultValue));
+                      ->method('getDefaultValue')
+                      ->will($this->returnValueMap($getDefaultValue));
             $RouteStub->expects($this->any())
-                    ->method('getRule')
-                    ->will($this->returnValueMap($getRule));
+                      ->method('getRule')
+                      ->will($this->returnValueMap($getRule));
             $RouteStub->expects($this->any())
-                    ->method('getRules')
-                    ->will($this->returnValue($getRules));
+                      ->method('getRules')
+                      ->will($this->returnValue($getRules));
             $RouteStub->expects($this->any())
-                    ->method('getMethod')
-                    ->will($this->returnValue('GET'));
+                      ->method('getMethod')
+                      ->will($this->returnValue('GET'));
+            $RouteStub->expects($this->any())
+                      ->method('getFormat')
+                      ->will($this->returnValue('xml|json'));
+
 
             $RequestStub = $this->Router->getRequest();
             $RequestStub->expects($this->any())
                         ->method('getPath')
-                        ->will($this->returnValue('/path/brickoo/'));
+                        ->will($this->returnValue('/path/brickoo.xml'));
             $RequestStub->expects($this->any())
                         ->method('getMethod')
                         ->will($this->returnValue('GET'));
+
+            $this->Router->setRequestRoute($RouteStub);
+            $this->assertEquals($expected, $this->Router->getRequestRouteParams());
+        }
+
+        /**
+         * Test if the request format is retrieved from the request url if the
+         * Route has no format expected.
+         * @covers Brickoo\Routing\Router::getRequestRouteParams
+         */
+        public function testGetRequestRouteParamsDefaultWithRequestFormat()
+        {
+            $expected = array('format' => 'xml');
+
+            $RouteStub = $this->getRouteStub();
+            $RouteStub->expects($this->any())
+                      ->method('getPath')
+                      ->will($this->returnValue('/path/to/brickoo'));
+            $RouteStub->expects($this->any())
+                      ->method('getMethod')
+                      ->will($this->returnValue('GET'));
+            $RouteStub->expects($this->any())
+                      ->method('getFormat')
+                      ->will($this->returnValue('xml|json'));
+
+            $RequestStub = $this->Router->getRequest();
+            $RequestStub->expects($this->any())
+                        ->method('getPath')
+                        ->will($this->returnValue('/path/to/brickoo.xml'));
+            $RequestStub->expects($this->any())
+                        ->method('getMethod')
+                        ->will($this->returnValue('GET'));
+            $RequestStub->expects($this->any())
+                        ->method('getFormat')
+                        ->will($this->returnValue('xml'));
 
             $this->Router->setRequestRoute($RouteStub);
             $this->assertEquals($expected, $this->Router->getRequestRouteParams());
@@ -720,7 +760,7 @@
 
             $this->assertEquals
             (
-                '~^/(path|new_path)/(?<name>[a-z]+)/to/(?<otherplace>.*)/index(\.(json))?$~i',
+                '~^/(path|new_path)/(?<name>[a-z]+)/to/(?<otherplace>.*)/index(\.(?<__FORMAT__>json))?$~i',
                 $this->Router->getRegexFromRoutePath($RouteStub)
             );
         }

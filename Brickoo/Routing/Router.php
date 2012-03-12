@@ -225,22 +225,27 @@
             $Route = $this->RequestRoute->getModuleRoute();
 
             if ($Route->hasRules()) {
-                preg_match($this->getRegexFromRoutePath($Route),
-                    $this->getRequest()->getPath(),
-                    $matches
-                );
+                preg_match($this->getRegexFromRoutePath($Route), $this->getRequest()->getPath(), $matches);
 
                 foreach(array_keys($Route->getRules()) as $parameter) {
                     if (isset($matches[$parameter]) && (! empty($matches[$parameter]))) {
                         $routeParams[$parameter] = $matches[$parameter];
-                        continue;
                     }
-
-                    if ($Route->hasDefaultValue($parameter)) {
+                    elseif ($Route->hasDefaultValue($parameter)) {
                         $routeParams[$parameter] = $Route->getDefaultValue($parameter);
-                        continue;
                     }
                 }
+
+                if (isset($matches['__FORMAT__'])) {
+                    $routeParams['format'] = $matches['__FORMAT__'];
+                }
+            }
+
+            if (! isset($routeParams['format'])) {
+                $routeParams['format'] = (
+                    ($defaultFormat = $Route->getDefaultFormat()) !== null ? $defaultFormat :
+                    $this->getRequest()->getFormat()
+                );
             }
 
             return $routeParams;
@@ -398,7 +403,7 @@
             $formatRegex = '(\..*)?';
 
             if (($routeFormat = $Route->getFormat()) !== null) {
-                $formatRegex = '(\.(' . $routeFormat . '))?';
+                $formatRegex = '(\.(?<__FORMAT__>' . $routeFormat . '))?';
             }
 
             return $formatRegex;

@@ -229,12 +229,15 @@
          * Test if the format can be set and retrieved.
          * @covers Brickoo\Routing\Route::getFormat
          * @covers Brickoo\Routing\Route::setFormat
+         * @covers Brickoo\Routing\Route::getDefaultFormat
          */
         public function testGetSetFormat()
         {
-            $this->assertSame($this->Route, $this->Route->setFormat('json|xml'));
+            $this->assertSame($this->Route, $this->Route->setFormat('json|xml', 'xml'));
             $this->assertAttributeEquals('json|xml', 'format', $this->Route);
+            $this->assertAttributeEquals('xml', 'defaultFormat', $this->Route);
             $this->assertEquals('json|xml', $this->Route->getFormat());
+            $this->assertEquals('xml', $this->Route->getDefaultFormat());
         }
 
         /**
@@ -363,12 +366,15 @@
 
         /**
          * Test if a  rule can be added and the Route reference is returned.
+         * Test if the default rule value would be assigned.
          * @covers Brickoo\Routing\Route::addRule
+         * @covers Brickoo\Routing\Route::addDefaultValue
          */
         public function testAddRule()
         {
-            $this->assertSame($this->Route, $this->Route->addRule('name', '[a-z]+'));
+            $this->assertSame($this->Route, $this->Route->addRule('name', '[a-z]+', 'MyDefaultName'));
             $this->assertAttributeEquals(array('name' => '[a-z]+'), 'rules', $this->Route);
+            $this->assertAttributeEquals(array('name' => 'MyDefaultName'), 'defaultValues', $this->Route);
 
             return $this->Route;
         }
