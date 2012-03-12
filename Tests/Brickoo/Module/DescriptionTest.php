@@ -68,6 +68,29 @@
             $this->assertInstanceOf('Brickoo\Module\Interfaces\DescriptionInterface', $this->Description);
             $this->assertAttributeInternalType('array', 'availableStatus', $this->Description);
         }
+
+        /**
+         * Test if te modle name can be set and retrieved.
+         * @covers Brickoo\Module\Description::getName
+         * @covers Brickoo\Module\Description::setName
+         */
+        public function testGetSetName()
+        {
+            $this->assertSame($this->Description, $this->Description->setName('phpunit.test'));
+            $this->assertAttributeEquals('phpunit.test', 'name', $this->Description);
+            $this->assertEquals('phpunit.test', $this->Description->getName());
+        }
+
+        /**
+         * Test if trying to retrieve the unset module name throws an exception.
+         * @covers Brickoo\Module\Description::getName
+         * @expectedException UnexpectedValueException
+         */
+        public function testGetNameValueExcpetion()
+        {
+            $this->Description->getName();
+        }
+
         /**
          * Test if the vendor can be set and retrieved.
          * @covers Brickoo\Module\Description::getVendor
@@ -198,6 +221,7 @@
         public function testDescriptionToString()
         {
             $expected = '';
+            $expected .= "Name: Brickoo Test Module\n";
             $expected .= "Vendor: Brickoo\n";
             $expected .= "Website: http://brickoo.test\n";
             $expected .= "Contact: contact@brickoo.test\n";
@@ -205,7 +229,8 @@
             $expected .= "Version: 3.0\n";
             $expected .= "Description: some description text";
 
-            $this->Description->setVendor('Brickoo')
+            $this->Description->setName('Brickoo Test Module')
+                              ->setVendor('Brickoo')
                               ->setWebsite('http://brickoo.test')
                               ->setContact('contact@brickoo.test')
                               ->setStatus('stable')

@@ -51,6 +51,40 @@
         protected $availableStatus;
 
         /**
+         * Holds the name of the module.
+         * @var string
+         */
+        protected $name;
+
+        /**
+         * Returns the module name.
+         * @throws \UnexpectedValueException if the module name is not set
+         * @return string the module name
+         */
+        public function getName()
+        {
+            if ($this->name === null) {
+                throw new \UnexpectedValueException('The module name is `null`.');
+            }
+
+            return $this->name;
+        }
+
+        /**
+         * Sets the module name.
+         * @param string $name the module name to set
+         * @return \Brickoo\Module\Description
+         */
+        public function setName($name)
+        {
+            TypeValidator::IsString($name);
+
+            $this->name = $name;
+
+            return $this;
+        }
+
+        /**
          * Holds the vendor name of the module.
          * @var string
          */
@@ -262,6 +296,7 @@
         {
             $result = '';
 
+            $result .= "Name: " . $this->getName() . "\n";
             $result .= "Vendor: " . $this->getVendor() . "\n";
             $result .= "Website: " . $this->getWebsite() . "\n";
             $result .= "Contact: " . $this->getContact() . "\n";

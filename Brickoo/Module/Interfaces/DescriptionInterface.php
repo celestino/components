@@ -43,6 +43,13 @@
     {
 
         /**
+        * Returns the module name.
+         * @throws \UnexpectedValueException if the module name is not set
+        * @return string the module name
+        */
+        public function getName();
+
+        /**
         * Returns the vendor name.
         * @throws \UnexpectedValueException if the vendor name is not set
         * @return string the vendor name
