@@ -168,7 +168,7 @@
             $LogHandler = $this->Logger->LogHandler();
             $LogHandler->expects($this->once())
                        ->method('log')
-                       ->with(array('log message'), 3);
+                       ->with('log message', 3);
 
             $Event = $this->getMock('Brickoo\Event\Event', array('getParam'), array('log.event'));
             $Event->expects($this->exactly(2))
@@ -207,7 +207,7 @@
             $LogHandler = $this->Logger->LogHandler();
             $LogHandler->expects($this->once())
                        ->method('log')
-                       ->with(array('log message'), $this->Logger->getDefaultSeverity());
+                       ->with('log message', $this->Logger->getDefaultSeverity());
 
             $Event = $this->getMock('Brickoo\Event\Event', array('getParam'), array('log.event'));
             $Event->expects($this->exactly(2))
@@ -225,19 +225,6 @@
         public function testSeverityArgumentException()
         {
             $this->Logger->Log('mesage', 'wrongType');
-        }
-
-        /**
-         * Test if the listener is added to the EventManager.
-         * @covers Brickoo\Log\Logger::aggregateListeners
-         * @covers Brickoo\Log\LoggerEvents
-         */
-        public function testAggregateListeners()
-        {
-            $EventManager = $this->getMock('Brickoo\Event\Manager', array('attachListener'));
-            $EventManager->expects($this->once())
-                         ->method('attachListener');
-            $this->assertNull($this->Logger->aggregateListeners($EventManager));
         }
 
     }

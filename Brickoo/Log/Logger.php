@@ -32,8 +32,7 @@
 
     namespace Brickoo\Log;
 
-    use Brickoo\Event,
-        Brickoo\Validator\TypeValidator;
+    use Brickoo\Validator\TypeValidator;
 
     /**
      * Logger
@@ -42,7 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Logger implements Interfaces\LoggerInterface, Event\Interfaces\ListenerAggregateInterface
+    class Logger implements Interfaces\LoggerInterface
     {
 
         /**
@@ -141,7 +140,7 @@
         }
 
         /**
-         * Lthe messages of an Event.
+         * Logs the messages of an Event.
          * @param \Brickoo\Event\Interfaces\EventInterface $Event the event executed
          * @return void
          */
@@ -150,28 +149,12 @@
             if (($messages = $Event->getParam('messages')) === null) {
                 return null;
             }
-            if (($severity = $Event->getParam('severity')) !== null) {
-                TypeValidator::IsInteger($severity);
-            }
-            else {
+
+            if (($severity = $Event->getParam('severity')) === null) {
                 $severity = $this->getDefaultSeverity();
             }
 
-            if (! is_array($messages)) {
-                $messages = array($messages);
-            }
-
             $this->LogHandler()->log($messages, $severity);
-        }
-
-        /**
-         * Aggregates the log event listener.
-         * @param \Brickoo\Event\Interfaces\ManagerInterface $EventManager
-         * @return void
-         */
-        public function aggregateListeners(\Brickoo\Event\Interfaces\ManagerInterface $EventManager)
-        {
-            $EventManager->attachListener(LoggerEvents::EVENT_LOG, array($this, 'logEvent'));
         }
 
     }
