@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <phpunit
-    stopOnError="true"
-    stopOnFailure="true"
+    stopOnError="false"
+    stopOnFailure="false"
     strict="true"
     verbose="true"
     convertErrorsToExceptions="true"
@@ -19,6 +19,7 @@
             <directory suffix=".php">../Brickoo</directory>
             <exclude>
                 <!-- exclude interfaces from code coverage -->
+                <directory suffix=".php">../Brickoo/Module/Info/View</directory>
                 <directory suffix=".php">../Brickoo/*/Interfaces</directory>
                 <directory suffix=".php">../Brickoo/*/*/Interfaces</directory>
                 <directory suffix=".php">../Brickoo/*/*/*/Interfaces</directory>
