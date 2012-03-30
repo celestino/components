@@ -230,6 +230,27 @@
         }
 
         /**
+         * Imports the container values from an array.
+         * @param array $container the container to import
+         * @return \Brickoo\Memory\Container
+         */
+        public function fromArray(array $container)
+        {
+            $this->container = $container;
+
+            return $this;
+        }
+
+        /**
+         * Returns the holded hey/value pairs as an array.
+         * @return array the holded key/value pairs
+         */
+        public function toArray()
+        {
+            return $this->container;
+        }
+
+        /**
          * Magic function to retrieve a value from offset.
          * @param string|integer $offset the offset to retrieve the value from
          * @return mixed the offset value

@@ -171,6 +171,28 @@
         }
 
         /**
+         * Test if an array can be imported and used as the container.
+         * @covers Brickoo\Memory\Container::fromArray
+         */
+        public function testFromArray()
+        {
+            $expected  = array('test', 'import');
+            $this->assertSame($this->Container, $this->Container->fromArray($expected));
+            $this->assertAttributeEquals($expected, 'container', $this->Container);
+        }
+
+        /**
+         * Test if the container can be retrived as array.
+         * @covers Brickoo\Memory\Container::toArray
+         */
+        public function testToArray()
+        {
+            $expected = array('test');
+            $this->assertSame($this->Container, $this->Container->fromArray($expected));
+            $this->assertEquals($expected, $this->Container->toArray());
+        }
+
+        /**
          * Test if the container can be recognized as empty or not.
          * @covers Brickoo\Memory\Container::isEmpty
          */
