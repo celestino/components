@@ -395,6 +395,15 @@
         }
 
         /**
+         * Test if the raw input can be retrieved.
+         * @covers Brickoo\Http\Request::getRawInput
+         */
+        public function testGetRawInput()
+        {
+            $this->assertInternalType('string', $this->Request->getRawInput());
+        }
+
+        /**
          * Test if the request can be returned as string.
          * @covers Brickoo\Http\Request::toString
          */
