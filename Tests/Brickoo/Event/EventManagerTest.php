@@ -71,6 +71,54 @@
         }
 
         /**
+         * Test if the static Mananager instance canbe injected.
+         * @covers Brickoo\Event\Manager::Instance
+         */
+        public function testStaticInstanceInjection()
+        {
+            require_once 'Fixture/EventManagerFixture.php';
+            $EventManager = new EventManagerFixture();
+            $EventManager->resetInstance();
+
+            $ExpectedManager = new Manager();
+
+            Manager::Instance($ExpectedManager);
+            $this->assertSame($ExpectedManager, Manager::Instance());
+
+            $EventManager->resetInstance();
+        }
+
+        /**
+         * Test if the static Manager can be lazy initialized.
+         * @covers Brickoo\Event\Manager::Instance
+         */
+        public function testStaticInstanceLazyInitialization()
+        {
+            require_once 'Fixture/EventManagerFixture.php';
+            $EventManager = new EventManagerFixture();
+            $EventManager->resetInstance();
+
+            $this->assertInstanceOf('Brickoo\Event\Interfaces\ManagerInterface', Manager::Instance());
+
+            $EventManager->resetInstance();
+        }
+
+        /**
+         * Test if aggregated listeners would be attached.
+         * @covers Brickoo\Event\Manager::attachAggregatedListeners
+         */
+        public function testAttachAggregatedListeners()
+        {
+            $Listener = $this->getMock('\Brickoo\Event\Interfaces\ListenerAggregateInterface', array('aggregateListeners'));
+            $Listener->expects($this->once())
+                     ->method('aggregateListeners')
+                     ->with($this->EventManager)
+                     ->will($this->returnValue(null));
+
+            $this->assertSame($this->EventManager, $this->EventManager->attachAggregatedListeners($Listener));
+        }
+
+        /**
          * Test if a listener can be attached.
          * @covers Brickoo\Event\Manager::attachListener
          * @covers Brickoo\Event\Manager::getEventListenerQueue

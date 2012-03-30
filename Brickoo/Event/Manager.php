@@ -45,6 +45,31 @@
     {
 
         /**
+         * Holds an sttic instance of the EventManager class.
+         * @var \Brickoo\Event\Interfaces\ManagerInterface
+         */
+        protected static $staticManager;
+
+        /**
+         * Returns the static EventManager instance.
+         * @param \Brickoo\Event\Manager $Manager the Manager to inject
+         * @return \Brickoo\Event\Interfaces\ManagerInterface
+         */
+        public static function Instance(\Brickoo\Event\Interfaces\ManagerInterface $Manager = null)
+        {
+            if (static::$staticManager === null) {
+                if ($Manager !== null) {
+                    static::$staticManager = $Manager;
+                }
+                else {
+                    static::$staticManager = new self();
+                }
+            }
+
+            return static::$staticManager;
+        }
+
+        /**
          * Holds a list of currently processing events.
          * @var array
          */
@@ -218,6 +243,18 @@
             $this->listeners           = array();
             $this->events              = array();
             $this->processingEvents    = array();
+        }
+
+        /**
+         * Attach the aggregated event listeners.
+         * @param \Brickoo\Event\Interfaces\ListenerAggregateInterface $Listener
+         * @return \Brickoo\Event\Manager
+         */
+        public function attachAggregatedListeners(\Brickoo\Event\Interfaces\ListenerAggregateInterface $Listener)
+        {
+            $Listener->aggregateListeners($this);
+
+            return $this;
         }
 
         /**

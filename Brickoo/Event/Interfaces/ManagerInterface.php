@@ -82,6 +82,13 @@
         public function detachListener($listenerUID);
 
         /**
+        * Attach the aggregated event listeners.
+        * @param \Brickoo\Event\Interfaces\ListenerAggregateInterface $Listener
+        * @return \Brickoo\Event\Interfaces\ManagerInterface
+        */
+        public function attachAggregatedListeners(\Brickoo\Event\Interfaces\ListenerAggregateInterface $Listener);
+
+        /**
          * Notify all event listeners.
          * @param \Brickoo\Event\Interfaces\EventInterface $Event the executed event
          * @return void
