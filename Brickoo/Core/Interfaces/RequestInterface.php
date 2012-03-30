@@ -43,9 +43,9 @@
     {
 
         /**
-        * Returns the request protocol.
-        * @return string the request protocol
-        */
+         * Returns the request protocol.
+         * @return string the request protocol
+         */
         public function getProtocol();
 
         /**
