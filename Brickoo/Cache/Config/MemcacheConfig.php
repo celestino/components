@@ -91,9 +91,9 @@
          * Initializes the class properties.
          * @return void
          */
-        public function __construct()
+        public function __construct(array $servers = array())
         {
-            $this->servers = array();
+            $this->servers = $servers;
         }
 
         /**
