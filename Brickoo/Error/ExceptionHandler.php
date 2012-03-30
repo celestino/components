@@ -33,6 +33,7 @@
     namespace Brickoo\Error;
 
     use Brickoo\Log,
+        Brickoo\Event,
         Brickoo\Validator\TypeValidator;
 
     /**
@@ -43,7 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ExceptionHandler extends AbstractHandler
+    class ExceptionHandler
     {
 
         /**
@@ -132,7 +133,7 @@
 
         /**
          * Handles the exception throwed by the user or system.
-         * Uses the LogHandler if assigned or displays the exception message.
+         * Notifies a log event containing the exception message.
          * @param integer $errorCode the error code number
          * @return string the exception message
          */
@@ -140,9 +141,9 @@
         {
             $message = $this->getExceptionMessage($Exception);
 
-            if ($this->hasLogger()) {
-                $this->Logger()->log($message, Log\Logger::SEVERITY_ERROR);
-            }
+            Event\Manager::Instance()->notify(new Event\Event(Log\Events::EVENT_LOG, $this, array(
+                'messages' => $message
+            )));
 
             if ($this->displayExceptions !== false) {
                 $this->unregister();

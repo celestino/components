@@ -48,25 +48,6 @@
     {
 
         /**
-         * Returns an Logger Stub for testing the logging of messages.
-         * @return object Logger implementing the Brickoo\Log\Interfaces\LoggerInterface
-         */
-        protected function getLoggerStub()
-        {
-            return $this->getMock
-            (
-                'Brickoo\Log\Interfaces\LoggerInterface',
-                array
-                (
-                    'LogHandler',
-                    'getDefaultSeverity',
-                    'setDefaultSeverity',
-                    'log'
-                )
-            );
-        }
-
-        /**
          * Holds the ErrorHandler instance for the tests.
          * @var Brickoo\Error\ErrorHandler
          */
@@ -191,21 +172,6 @@
         {
             $this->ErrorHandler->setErrorLevel(777);
             $this->ErrorHandler->handleError(777, 'message', 'file', 0);
-        }
-
-        /**
-         * Test if the sending an message with matched error level is passed to the Logger.
-         * @covers Brickoo\Error\ErrorHandler::handleError
-         */
-        public function testHandleErrorWithLogger()
-        {
-            $LoggerStub = $this->getLoggerStub();
-            $LoggerStub->expects($this->any())
-                       ->method('log')
-                       ->will($this->returnSelf());
-
-            $this->ErrorHandler->Logger($LoggerStub);
-            $this->assertTrue($this->ErrorHandler->handleError(777, 'message', 'myFile.php', 123));
         }
 
     }

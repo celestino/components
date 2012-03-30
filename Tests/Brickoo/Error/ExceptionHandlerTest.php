@@ -48,25 +48,6 @@
     {
 
         /**
-         * Returns an Logger Stub for testing the logging of messages.
-         * @return object Logger implementing the Brickoo\Log\Interfaces\LoggerInterface
-         */
-        protected function getLoggerStub()
-        {
-            return $this->getMock
-            (
-                'Brickoo\Log\Interfaces\LoggerInterface',
-                array
-                (
-                    'LogHandler',
-                    'getDefaultSeverity',
-                    'setDefaultSeverity',
-                    'log'
-                )
-            );
-        }
-
-        /**
          * Holds the ExceptionHandler instance for the tests.
          * @var Brickoo\Error\ExceptionHandler
          */
@@ -145,33 +126,14 @@
         /**
          * Test if the exception returns nothing further.
          * @covers Brickoo\Error\ExceptionHandler::handleException
+         * @covers Brickoo\Error\ExceptionHandler::getExceptionMessage
          */
         public function testHandleException()
         {
             $this->assertEquals
             (
-                '[123]: message Throwed in ' . __FILE__ . ' on line 154',
+                '[123]: message Throwed in ' . __FILE__ . ' on line 136',
                 $this->ExceptionHandler->handleException(new Exception('message', 123))
-            );
-        }
-
-        /**
-         * Test if the exception message is passed to the Logger.
-         * @covers Brickoo\Error\ExceptionHandler::getExceptionMessage
-         * @covers Brickoo\Error\ExceptionHandler::handleException
-         */
-        public function testHandleExceptionWithLogger()
-        {
-            $LoggerStub = $this->getLoggerStub();
-            $LoggerStub->expects($this->any())
-                           ->method('log')
-                           ->will($this->returnArgument(0));
-
-            $this->ExceptionHandler->Logger($LoggerStub);
-            $this->assertEquals
-            (
-                '[777]: message Throwed in ' . __FILE__ . ' on line 174',
-                $this->ExceptionHandler->handleException(new Exception('message', 777))
             );
         }
 
