@@ -41,7 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class IniProviderTest extends \PHPUnit_Framework_TestCase
+    class ArrayProviderTest extends \PHPUnit_Framework_TestCase
     {
 
         /**
