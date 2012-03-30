@@ -318,6 +318,15 @@
         }
 
         /**
+         * Returns the raw input of the request.
+         * @return string the raw input
+         */
+        public function getRawInput()
+        {
+            return file_get_contents('php://input');
+        }
+
+        /**
          * Returns the http request headers.
          * @retrun string http request headers
          */

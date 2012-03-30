@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Http\Session\SessionManager;
+    use Brickoo\Http\Session\Manager;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -40,7 +40,7 @@
      *
      * Test suite for the SessionManager class.
      * Using the SessionManager the session.autostart configuration should be set to zero.
-     * @see Brickoo\Http\Session\SessionManager
+     * @see Brickoo\Http\Session\Manager
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -72,9 +72,9 @@
         }
 
         /**
-         * Test if the SessionManager can be created and implements the SessionManagerInterface.
-         * @covers Brickoo\Http\Session\SessionManager::__construct
-         * @covers Brickoo\Http\Session\SessionManager::registerSessionHandler
+         * Test if the Manager can be created and implements the ManagerInterface.
+         * @covers Brickoo\Http\Session\Manager::__construct
+         * @covers Brickoo\Http\Session\Manager::registerSessionHandler
          */
         public function testConstruct()
         {
@@ -83,15 +83,15 @@
                                ->method('setLifetime')
                                ->will($this->returnSelf());
 
-            $this->assertInstanceOf('Brickoo\Http\Session\Interfaces\SessionManagerInterface',
-                new SessionManager($SessionHandlerStub)
+            $this->assertInstanceOf('Brickoo\Http\Session\Interfaces\ManagerInterface',
+                new Manager($SessionHandlerStub)
             );
         }
 
         /**
          * Test if the session cookie parameters can be overwriten and the session handler lifetime is updated.
          * Enable session cookies to test if the parameters did be overwriten.
-         * @covers Brickoo\Http\Session\SessionManager::setCookieParameters
+         * @covers Brickoo\Http\Session\Manager::setCookieParameters
          */
         public function testSetCookieParameters()
         {
@@ -111,15 +111,15 @@
                                ->method('setLifetime')
                                ->will($this->returnSelf());
 
-            $SessionManager = new SessionManager($SessionHandlerStub);
+            $Manager = new Manager($SessionHandlerStub);
 
-            $this->assertEquals($cookieParameters, $SessionManager->setCookieParameters($cookieParameters));
+            $this->assertEquals($cookieParameters, $Manager->setCookieParameters($cookieParameters));
             $this->assertEquals(session_get_cookie_params(), $cookieParameters);
         }
 
         /**
-         * Test if the session configuration can be overwriten an the SessionManager reference is returned.
-         * @covers Brickoo\Http\Session\SessionManager::configureSession
+         * Test if the session configuration can be overwriten an the Manager reference is returned.
+         * @covers Brickoo\Http\Session\Manager::configureSession
          */
         public function testConfigureSession()
         {
@@ -129,9 +129,9 @@
                 'limiter'     => 'private',
             );
 
-            $SessionManager = new SessionManager($this->getSessionHandlerStub());
+            $Manager = new Manager($this->getSessionHandlerStub());
 
-            $this->assertSame($SessionManager, $SessionManager->configureSession(
+            $this->assertSame($Manager, $Manager->configureSession(
                 $configuration['name'], $configuration['limiter']
             ));
             $this->assertEquals(session_name(), $configuration['name']);
@@ -140,9 +140,9 @@
 
         /**
          * Test if a session  can be started and stopped and the start flag is updated.
-         * @covers Brickoo\Http\Session\SessionManager::start
-         * @covers Brickoo\Http\Session\SessionManager::stop
-         * @covers Brickoo\Http\Session\SessionManager::hasSessionStarted
+         * @covers Brickoo\Http\Session\Manager::start
+         * @covers Brickoo\Http\Session\Manager::stop
+         * @covers Brickoo\Http\Session\Manager::hasSessionStarted
          */
         public function testStartAndStop()
         {
@@ -163,13 +163,13 @@
                                ->method('close')
                                ->will($this->returnValue(true));
 
-            $SessionManager = new SessionManager($SessionHandlerStub);
+            $Manager = new Manager($SessionHandlerStub);
 
-            $SessionManager->start();
-            $this->assertTrue($SessionManager->hasSessionStarted());
+            $Manager->start();
+            $this->assertTrue($Manager->hasSessionStarted());
 
-            $SessionManager->stop();
-            $this->assertFalse($SessionManager->hasSessionStarted());
+            $Manager->stop();
+            $this->assertFalse($Manager->hasSessionStarted());
         }
 
     }

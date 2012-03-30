@@ -35,13 +35,13 @@
     use Brickoo\Validator\TypeValidator;
 
     /**
-     * SessionManager
+     * Manager
      *
      * Wrapper of the basic PHP session handling.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class SessionManager implements Interfaces\SessionManagerInterface
+    class Manager implements Interfaces\ManagerInterface
     {
 
         /**
@@ -111,7 +111,7 @@
          * This method just combnies the common session settings.
          * @param string $sessionName the session name to set
          * @param string $sessionLimiter the session limiter to set
-         * @return \Brickoo\Http\Session\SessionManager
+         * @return \Brickoo\Http\Session\Manager
          */
         public function configureSession($sessionName, $sessionLimiter = null)
         {
@@ -149,7 +149,7 @@
 
         /**
          * Starts the Session.
-         * @return \Brickoo\Http\Session\SessionManager
+         * @return \Brickoo\Http\Session\Manager
          */
         public function start()
         {
@@ -163,7 +163,7 @@
 
         /**
          * Stops the session and calls for writing and close.
-         * @return \Brickoo\Http\Session\SessionManager
+         * @return \Brickoo\Http\Session\Manager
          */
         public function stop()
         {

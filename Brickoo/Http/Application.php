@@ -113,6 +113,9 @@
 
                 );
                 $EventManager->attachListener(
+                    Module\Events::EVENT_MODULE_ERROR, array($this, 'displayModuleError'), 0, array('Exception')
+                );
+                $EventManager->attachListener(
                     Core\Events::EVENT_ERROR, array($this, 'displayError'), 0, array('Exception')
                 );
                 $EventManager->attachListener(
@@ -138,6 +141,23 @@
                 "</body></html>"
             );
             $this->Response()->send();
+        }
+
+        /**
+         * Sends a simple http response if an exception is throwed by the module.
+         * or within the Brickoo\Core\Application::run method.
+         * This is just a dummy to display SOMETHING on module errors.
+         * @param \Exception $Exception the Exception throwed
+         * @return void
+         */
+        public function displayModuleError(\Exception $Exception)
+        {
+            $this->Response()->setContent("<html><head><title></title></head><body>\r\n".
+                "<h1>Something did go wrong within the module...</h1>\r\n".
+                "<div>(<b>Exception</b>: ". $Exception->getMessage() .")\r\n".
+                "</body></html>"
+            );
+            return $this->Response();
         }
 
         /**
@@ -171,9 +191,6 @@
 
             try {
                 $RouteController = $RequestRoute->getModuleRoute()->getController();
-                if (! $RouteController['static']) {
-                    $RouteController['controller'] = new $RouteController['controller'];
-                }
 
                 $Event->EventManager()->notify(new Event\Event(
                     Module\Events::EVENT_MODULE_BOOT, $Event->Sender(), array(
@@ -182,7 +199,16 @@
                     )
                 ));
 
-                $Response = $RouteController['controller']->$RouteController['method']($Event->Sender());
+                if (! $RouteController['static']) {
+                    $RouteController['controller'] = new $RouteController['controller']($Event->Sender());
+                    $Response = $RouteController['controller']->$RouteController['method']();
+                }
+                else {
+                    $Response = call_user_func(
+                        array($RouteController['controller'], $RouteController['method']),
+                        $Event->Sender()
+                    );
+                }
 
                 $Event->EventManager()->notify(new Event\Event(Module\Events::EVENT_MODULE_SHUTDOWN, $Event->Sender()));
             }

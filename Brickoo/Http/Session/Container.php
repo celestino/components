@@ -35,13 +35,13 @@
     use Brickoo\Validator\TypeValidator;
 
     /**
-     * SessionNamespace
+     * Container
      *
      * Provides a session object based on namespaces which should prevent conflicts.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class SessionNamespace implements Interfaces\SessionNamespaceInterface
+    class Container implements Interfaces\ContainerInterface
     {
 
         /**

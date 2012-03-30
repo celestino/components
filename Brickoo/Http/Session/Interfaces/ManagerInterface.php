@@ -33,13 +33,13 @@
     namespace Brickoo\Http\Session\Interfaces;
 
     /**
-     * SessionManagerInterface
+     * ManagerInterface
      *
      * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface SessionManagerInterface
+    interface ManagerInterface
     {
 
         /**
@@ -60,19 +60,19 @@
          * This method just combnies the common session settings.
          * @param string $sessionName the session name to set
          * @param string $sessionLimiter the session limiter to set
-         * @return \Brickoo\Http\Session\Interfaces\SessionManagerInterface
+         * @return \Brickoo\Http\Session\Interfaces\ManagerInterface
          */
         public function configureSession($sessionName, $sessionLimiter = null);
 
         /**
          * Starts the Session.
-         * @return \Brickoo\Http\Session\Interfaces\SessionManagerInterface
+         * @return \Brickoo\Http\Session\Interfaces\ManagerInterface
          */
         public function start();
 
         /**
          * Stops the session and calls for writing and close.
-         * @return \Brickoo\Http\Session\Interfaces\SessionManagerInterface
+         * @return \Brickoo\Http\Session\Interfaces\ManagerInterface
          */
         public function stop();
 

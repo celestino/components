@@ -33,13 +33,13 @@
     namespace Brickoo\Http\Session\Interfaces;
 
     /**
-     * SessionNamespaceInterface
+     * ContainerInterface
      *
      * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface SessionNamespaceInterface
+    interface ContainerInterface
     {
 
         /**
@@ -61,14 +61,14 @@
          * Sets the session property and assigns the content to it.
          * @param string $property the property to assign the content to
          * @param mixed $content the content to store
-         * @return \Brickoo\Http\Session\Interfaces\SessionNamespaceInterface
+         * @return \Brickoo\Http\Session\Interfaces\ContainerInterface
          */
         public function set($property, $content);
 
         /**
          * Removes the session property if available.
          * @param string $property the property to remove
-         * @return \Brickoo\Http\Session\Interfaces\SessionNamespaceInterface
+         * @return \Brickoo\Http\Session\Interfaces\ContainerInterface
          */
         public function remove($property);
 

@@ -63,6 +63,8 @@
         /**
          * Test if the Application listeners can be aggregaded and the flag is set.
          * @covers Brickoo\Http\Application::aggregateListeners
+         * @covers Brickoo\Core\Events
+         * @covers Brickoo\Module\Events
          */
         public function testAggregateListeners()
         {
@@ -105,6 +107,22 @@
         }
 
         /**
+         * Test if the module error could be trasformed into a http response.
+         * @covers Brickoo\Http\Application::displayModuleError
+         */
+        public function testDisplayModuleError()
+        {
+            $Exception = new \Exception();
+
+            $Response = $this->getMock('Brickoo\Http\Response', array('setContent'));
+            $Response->expects($this->once())
+                     ->method('setContent');
+            $this->Application->Response($Response);
+
+            $this->assertSame($Response, $this->Application->displayModuleError($Exception));
+        }
+
+        /**
          * Test if the error Response content is set and and will be sent.
          * @covers Brickoo\Http\Application::displayResponseError
          * @covers Brickoo\Http\Application::Response
@@ -112,7 +130,7 @@
          */
         public function testDisplayResponseError()
         {
-            $Event = $this->getMock('Brickoo\Event\Event', null, array('tes.event'));
+            $Event = $this->getMock('Brickoo\Event\Event', null, array('test.event'));
 
             $Response = $this->getMock('Brickoo\Http\Response', array('setContent', 'send'));
             $Response->expects($this->once())

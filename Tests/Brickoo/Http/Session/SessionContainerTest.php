@@ -30,139 +30,139 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Http\Session\SessionNamespace;
+    use Brickoo\Http\Session\Container;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
-     * SessionNamespaceTest
+     * SessionContainerTest
      *
-     * Test suite for the SessionNamespace class.
+     * Test suite for the Container class.
      * Using the SessionManager the session.autostart configuration should be set to zero.
-     * @see Brickoo\Http\Session\SessionNamespace
+     * @see Brickoo\Http\Session\Container
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class SessionNamespaceTest extends PHPUnit_Framework_TestCase
+    class SessionContainerTest extends PHPUnit_Framework_TestCase
     {
 
         /**
-         * Holds an instance of the SessionNamespace implementing the Session\Interfaces\SessionNamespaceInterface.
+         * Holds an instance of the Container implementing the Session\Interfaces\ContainerInterface.
          * @var object
          */
-        protected $SessionNamespace;
+        protected $Container;
 
         /**
-         * Set up the SessionNamespace instance used.
+         * Set up the Container instance used.
          * Clean up the global $_SESSION variable.
          * @return void
          */
         public function setUp()
         {
             $_SESSION = array('my_namespace.test_property' => 'some value');
-            $this->SessionNamespace = new SessionNamespace('my_namespace');
+            $this->Container = new Container('my_namespace');
         }
 
         /**
-         * Test if a SessionNamespace instance can be created and implements the Session\Interfaces\SessionNamespaceInterface.
-         * @covers Brickoo\Http\Session\SessionNamespace::__construct
+         * Test if a Container instance can be created and implements the Session\Interfaces\ContainerInterface.
+         * @covers Brickoo\Http\Session\Container::__construct
          */
         public function testConstruct()
         {
             $this->assertInstanceOf
             (
-                'Brickoo\Http\Session\Interfaces\SessionNamespaceInterface',
-                $SessionNamespace = new SessionNamespace('some_namespace')
+                'Brickoo\Http\Session\Interfaces\ContainerInterface',
+                $Container = new Container('some_namespace')
             );
         }
 
         /**
-         * Test if trying to create a SessionNamespace instance with a wrong namespace type throws an exception.
-         * @covers Brickoo\Http\Session\SessionNamespace::__construct
+         * Test if trying to create a Container instance with a wrong namespace type throws an exception.
+         * @covers Brickoo\Http\Session\Container::__construct
          * @expectedException InvalidArgumentException
          */
         public function testConstructArgumentException()
         {
-            $SessionNamespace = new SessionNamespace('wrong.namespace?type');
+            $Container = new Container('wrong.namespace?type');
         }
 
         /**
          * Test if the session property is recognized.
-         * @covers Brickoo\Http\Session\SessionNamespace::has
+         * @covers Brickoo\Http\Session\Container::has
          */
         public function testHas()
         {
-            $this->assertTrue($this->SessionNamespace->has('test_property'));
-            $this->assertFalse($this->SessionNamespace->has('not_available'));
+            $this->assertTrue($this->Container->has('test_property'));
+            $this->assertFalse($this->Container->has('not_available'));
         }
 
         /**
          * Test if the session property value can be retrieved and if othrewise the default value is returned.
-         * @covers Brickoo\Http\Session\SessionNamespace::get
+         * @covers Brickoo\Http\Session\Container::get
          */
         public function testGet()
         {
-            $this->assertEquals('some value', $this->SessionNamespace->get('test_property'));
-            $this->assertEquals('default value', $this->SessionNamespace->get('not_available', 'default value'));
+            $this->assertEquals('some value', $this->Container->get('test_property'));
+            $this->assertEquals('default value', $this->Container->get('not_available', 'default value'));
         }
 
         /**
-         * Test if a session property can be set and the SessionNamespace reference is returned.
-         * @covers Brickoo\Http\Session\SessionNamespace::set
+         * Test if a session property can be set and the Container reference is returned.
+         * @covers Brickoo\Http\Session\Container::set
          */
         public function testSet()
         {
-            $this->assertSame($this->SessionNamespace, $this->SessionNamespace->set('new_property', 'new value'));
+            $this->assertSame($this->Container, $this->Container->set('new_property', 'new value'));
             $this->assertTrue(($_SESSION['my_namespace.new_property'] == 'new value'));
         }
 
         /**
-         * Test if a session property can be removed and the SessionNamespace reference is returned.
-         * @covers Brickoo\Http\Session\SessionNamespace::remove
+         * Test if a session property can be removed and the Container reference is returned.
+         * @covers Brickoo\Http\Session\Container::remove
          */
         public function testRemove()
         {
-            $this->assertSame($this->SessionNamespace, $this->SessionNamespace->remove('test_property'));
+            $this->assertSame($this->Container, $this->Container->remove('test_property'));
             $this->assertFalse(isset($_SESSION['my_namespace.test_property']));
         }
 
         /**
          * Test if using the magic method __get the session property value can be retrieved.
-         * @covers Brickoo\Http\Session\SessionNamespace::__get
+         * @covers Brickoo\Http\Session\Container::__get
          */
         public function test__get()
         {
-            $this->assertEquals('some value', $this->SessionNamespace->test_property);
+            $this->assertEquals('some value', $this->Container->test_property);
         }
 
         /**
          * Test if using the magic method __set the session value can be stored.
-         * @covers Brickoo\Http\Session\SessionNamespace::__set
+         * @covers Brickoo\Http\Session\Container::__set
          */
         public function test__set()
         {
-            $this->SessionNamespace->new_property = 'some new value';
+            $this->Container->new_property = 'some new value';
             $this->assertTrue(($_SESSION['my_namespace.new_property'] == 'some new value'));
         }
 
         /**
          * Test if using the magic method __unset the session property can be removed.
-         * @covers Brickoo\Http\Session\SessionNamespace::__unset
+         * @covers Brickoo\Http\Session\Container::__unset
          */
         public function test__unset()
         {
-            unset($this->SessionNamespace->test_property);
+            unset($this->Container->test_property);
             $this->assertFalse(isset($_SESSION['my_namespace.test_property']));
         }
 
         /**
          * Test if using the magic method __isset the session property can be checked if exists.
-         * @covers Brickoo\Http\Session\SessionNamespace::__isset
+         * @covers Brickoo\Http\Session\Container::__isset
          */
         public function test__isset()
         {
-            $this->assertTrue(isset($this->SessionNamespace->test_property));
+            $this->assertTrue(isset($this->Container->test_property));
         }
 
     }
