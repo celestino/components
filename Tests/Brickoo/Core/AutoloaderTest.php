@@ -226,7 +226,6 @@
          */
         public function testGetIncludePathArgumentException()
         {
-            $this->Autoloader->registerNamespace('CompanyA', dirname(__FILE__));
             $this->Autoloader->getIncludePath(array('wrongType'));
         }
 
@@ -237,8 +236,8 @@
          */
         public function testLoadClass()
         {
-            $this->Autoloader->registerNamespace('Brickoo', BRICKOO_DIR);
-            $this->assertTrue($this->Autoloader->loadClass('Brickoo\Memory\Container'));
+            $this->Autoloader->registerNamespace('assets', dirname(__FILE__));
+            $this->assertTrue($this->Autoloader->loadClass('assets\LoadableClass'));
         }
 
         /**
@@ -257,7 +256,7 @@
          */
         public function testAutoloadFileDoesNotExistException()
         {
-            $this->Autoloader->registerNamespace('Brickoo', BRICKOO_DIR);
+            $this->Autoloader->registerNamespace('Brickoo', dirname(__FILE__));
             $this->Autoloader->loadClass('Brickoo\Memory\DoesNotExist');
         }
 

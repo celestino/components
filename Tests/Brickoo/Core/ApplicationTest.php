@@ -44,36 +44,6 @@
     class ApplicationTest extends \PHPUnit_Framework_TestCase
     {
 
-        public function getRegistryStub(array $mockedMethods = null)
-        {
-            return $this->getMock('Brickoo\Memory\Registry', $mockedMethods);
-        }
-
-        public function getRequestStub(array $mockedMethods = null)
-        {
-            return $this->getMock('Brickoo\Core\Interfaces\RequestInterface', $mockedMethods);
-        }
-
-        public function getRouterStub(array $mockedMethods = null)
-        {
-            return $this->getMock('Brickoo\Routing\Router', $mockedMethods);
-        }
-
-        public function getRequestRouteStub(array $mockedMethods = null)
-        {
-            return $this->getMock('Brickoo\Routing\RequestRoute', $mockedMethods);
-        }
-
-        public function getSessionManagerStub(array $mockedMethods = null)
-        {
-            return $this->getMock('Brickoo\Http\Session\SessionManager', $mockedMethods);
-        }
-
-        public function getEventManagerStub(array $mockedMethods = null)
-        {
-            return $this->getMock('Brickoo\Event\Manager', $mockedMethods);
-        }
-
         /**
          * Holds an instance of the Application class.
          * @var \Brickoo\Core\Application
@@ -90,267 +60,454 @@
         }
 
         /**
+         * Test if the Brickoo\Memory\Registry can be lazy initialized and retrieved.
          * @covers Brickoo\Core\Application::Registry
-         * @todo Implement testRegistry().
+         * @covers Brickoo\Core\Application::getDependency
          */
-        public function testRegistry()
+        public function testRegistryLazyInitialization()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
+            $this->assertInstanceOf('Brickoo\Memory\Interfaces\RegistryInterface', ($Registry = $this->Application->Registry()));
+            $this->assertAttributeEquals(array('Registry' => $Registry), 'dependencies', $this->Application);
         }
 
         /**
+         * Test of the Registry instance can be injected and the Application reference is returned.
+         * @covers Brickoo\Core\Application::Registry
+         * @covers Brickoo\Core\Application::getDependency
+         */
+        public function testRegistryInjection()
+        {
+            $Registry = $this->getMock('Brickoo\Memory\Registry');
+            $this->assertSame($this->Application, $this->Application->Registry($Registry));
+            $this->assertAttributeEquals(array('Registry' => $Registry), 'dependencies', $this->Application);
+        }
+
+        /**
+         * Test if the Brickoo\Http\Request instance can be lazy initialized.
          * @covers Brickoo\Core\Application::Request
-         * @todo Implement testRequest().
+         * @covers Brickoo\Core\Application::getDependency
          */
-        public function testRequest()
+        public function testRequestLazyInitialization()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
+            $this->assertInstanceOf('Brickoo\Http\Request', ($Request = $this->Application->Request()));
+            $this->assertAttributeEquals(array('Request' => $Request), 'dependencies', $this->Application);
         }
 
         /**
+         * Test if the Request dependency can be injected and the Application reference is returned.
+         * @covers Brickoo\Core\Application::Request
+         * @covers Brickoo\Core\Application::getDependency
+         */
+        public function testRequestInjection()
+        {
+            $Request = $this->getMock('Brickoo\Http\Request');
+            $this->assertSame($this->Application, $this->Application->Request($Request));
+            $this->assertAttributeEquals(array('Request' => $Request), 'dependencies', $this->Application);
+        }
+
+        /**
+         * Test if the Brickoo\Routing\Router dependency can be lazy initialized.
          * @covers Brickoo\Core\Application::Router
-         * @todo Implement testRouter().
+         * @covers Brickoo\Core\Application::getDependency
          */
-        public function testRouter()
+        public function testRouterLazyInitialization()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
+            $Request = $this->getMock('Brickoo\Http\Request');
+            $EventManager = $this->getMock('Brickoo\Event\Manager');
+            $this->Application->Request($Request);
+            $this->Application->EventManager($EventManager);
+
+            $this->assertInstanceOf('Brickoo\Routing\Interfaces\RouterInterface', ($Router = $this->Application->Router()));
+            $this->assertAttributeEquals(
+                array('Router' => $Router, 'Request' => $Request, 'EventManager' => $EventManager),
+                'dependencies',
+                $this->Application
             );
         }
 
         /**
+         * Test if the Router deoendency can be injected and the Application reference is returned.
+         * @covers Brickoo\Core\Application::Router
+         * @covers Brickoo\Core\Application::getDependency
+         */
+        public function testRouterInjection()
+        {
+            $Router = $this->getMock('Brickoo\Routing\Router', null, array($this->getMock('Brickoo\Http\Request')));
+            $this->assertSame($this->Application, $this->Application->Router($Router));
+            $this->assertAttributeEquals(array('Router' => $Router), 'dependencies', $this->Application);
+        }
+
+        /**
+         * Test if the Brickoo\Routing\RequestRoute can be injected and the Application reference is returned.
          * @covers Brickoo\Core\Application::Route
-         * @todo Implement testRoute().
+         * @covers Brickoo\Core\Application::getDependency
          */
-        public function testRoute()
+        public function testRouteInjection()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
+            $RequestRoute = $this->getMock('Brickoo\Routing\RequestRoute', null, array(new \Brickoo\Routing\Route('test.route')));
+            $this->assertSame($this->Application, $this->Application->Route($RequestRoute));
+            $this->assertAttributeEquals(array('Route' => $RequestRoute), 'dependencies', $this->Application);
         }
 
         /**
+         * Test if the SessionManager can be lazy initialized and retrieved.
          * @covers Brickoo\Core\Application::SessionManager
-         * @todo Implement testSessionManager().
+         * @covers Brickoo\Core\Application::getDependency
          */
         public function testSessionManager()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
+            $this->assertInstanceOf(
+                'Brickoo\Http\Session\Interfaces\ManagerInterface',
+                ($SessionManager = $this->Application->SessionManager())
             );
+
+            $this->assertAttributeEquals(array('SessionManager' => $SessionManager), 'dependencies', $this->Application);
         }
 
         /**
-         * @covers Brickoo\Core\Application::EventManager
-         * @todo Implement testEventManager().
+         * Test if the Manager can be injected and the Application reference is returned.
+         * @covers Brickoo\Core\Application::SessionManager
+         * @covers Brickoo\Core\Application::getDependency
          */
-        public function testEventManager()
+        public function testSessionManagerInjection()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
+            $SessionManager = $this->getMock(
+                'Brickoo\Http\Session\Manager',
+                null,
+                array($this->getMock('Brickoo\Http\Session\Handler\CacheHandler'))
             );
+            $this->assertSame($this->Application, $this->Application->SessionManager($SessionManager));
+            $this->assertAttributeEquals(array('SessionManager' => $SessionManager), 'dependencies', $this->Application);
         }
 
         /**
+         * Test if the Brickoo\Event\EventManager can be lazy initialized and retrieved.
+         * @covers Brickoo\Core\Application::EventManager
+         * @covers Brickoo\Core\Application::getDependency
+         */
+        public function testEventManagerLazyIntialization()
+        {
+            $this->assertInstanceOf('Brickoo\Event\Interfaces\ManagerInterface',
+                ($EventManager = $this->Application->EventManager())
+            );
+            $this->assertAttributeEquals(array('EventManager' => $EventManager), 'dependencies', $this->Application);
+        }
+
+        /**
+         * Test if the EventManager dependency can be injected and the Application reference is returned.
+         * @covers Brickoo\Core\Application::EventManager
+         * @covers Brickoo\Core\Application::getDependency
+         */
+        public function testEventManagerInjection()
+        {
+            $EventManager =  $this->getMock('Brickoo\Event\Manager');
+            $this->assertSame($this->Application, $this->Application->EventManager($EventManager));
+        }
+
+        /**
+         * Test if the version can be retrieved and matches the expected regular expression.
          * @covers Brickoo\Core\Application::getVersion
-         * @todo Implement testGetVersion().
          */
         public function testGetVersion()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
+            $this->assertRegExp('~^([A-Z]{3,6}\-)?[0-9]\.[0-9]$~', $this->Application->getVersion());
         }
 
         /**
+         * Test if the version number can be retrieved and matches a float value.
          * @covers Brickoo\Core\Application::getVersionNumber
-         * @todo Implement testGetVersionNumber().
          */
         public function testGetVersionNumber()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
+            $this->assertRegExp('~^[0-9]\.[0-9]$~', $this->Application->getVersionNumber());
         }
 
         /**
+         * Test if the Autoloader can be registered to the local Registry.
          * @covers Brickoo\Core\Application::registerAutoloader
-         * @todo Implement testRegisterAutoloader().
          */
         public function testRegisterAutoloader()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
+            $Autoloader = $this->getMock('Brickoo\Core\Autoloader');
+
+            $Registry = $this->getMock('Brickoo\Memory\Registry', array('register', 'lock'));
+            $Registry->expects($this->once())
+                     ->method('register')
+                     ->with('brickoo.autoloader', $Autoloader)
+                     ->will($this->returnSelf());
+            $Registry->expects($this->once())
+                     ->method('lock')
+                     ->with('brickoo.autoloader')
+                     ->will($this->returnSelf());
+
+            $this->Application->Registry($Registry);
+
+            $this->assertSame($this->Application, $this->Application->registerAutoloader($Autoloader));
         }
 
         /**
+         * Test if the modules can be registered.
          * @covers Brickoo\Core\Application::registerModules
-         * @todo Implement testRegisterModules().
-         */
-        public function testRegisterModules()
-        {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
-        }
-
-        /**
          * @covers Brickoo\Core\Application::getModules
-         * @todo Implement testGetModules().
          */
-        public function testGetModules()
+        public function testModulesRoutine()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
+            $modules = array(
+                'Test/ModuleA' => 'path/to/module/A',
+                'Test/ModuleB' => 'path/to/module/B',
             );
+
+            $expected = array(
+                'Test/ModuleA' => 'path/to/module/A'.DIRECTORY_SEPARATOR,
+                'Test/ModuleB' => 'path/to/module/B'.DIRECTORY_SEPARATOR,
+            );
+
+            $Registry = $this->getMock('Brickoo\Memory\Registry', array('register', 'lock', 'isRegistered', 'get'));
+            $Registry->expects($this->once())
+                     ->method('register')
+                     ->with('brickoo.modules', $expected)
+                     ->will($this->returnSelf());
+            $Registry->expects($this->once())
+                     ->method('lock')
+                     ->with('brickoo.modules')
+                     ->will($this->returnSelf());
+            $Registry->expects($this->once())
+                     ->method('isRegistered')
+                     ->with('brickoo.modules')
+                     ->will($this->returnValue(true));
+            $Registry->expects($this->once())
+                     ->method('get')
+                     ->with('brickoo.modules')
+                     ->will($this->returnValue($expected));
+
+            $this->Application->Registry($Registry);
+
+            $this->assertSame($this->Application, $this->Application->registerModules($modules));
+            $this->assertEquals($expected, $this->Application->getModules());
         }
 
         /**
+         * Test if the registered modules are recognized.
          * @covers Brickoo\Core\Application::isModuleAvailable
-         * @todo Implement testIsModuleAvailable().
          */
         public function testIsModuleAvailable()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
+            $expected = array(
+                'Test/ModuleA' => 'path/to/module/A'.DIRECTORY_SEPARATOR,
+                'Test/ModuleB' => 'path/to/module/B'.DIRECTORY_SEPARATOR,
             );
+
+            $Registry = $this->getMock('Brickoo\Memory\Registry', array('isRegistered', 'get'));
+            $Registry->expects($this->exactly(2))
+                     ->method('isRegistered')
+                     ->with('brickoo.modules')
+                     ->will($this->returnValue(true));
+            $Registry->expects($this->exactly(2))
+                     ->method('get')
+                     ->with('brickoo.modules')
+                     ->will($this->returnValue($expected));
+
+            $this->Application->Registry($Registry);
+
+            $this->assertTrue($this->Application->isModuleAvailable('Test/ModuleA'));
+            $this->assertTrue($this->Application->isModuleAvailable('Test/ModuleB'));
         }
 
         /**
+         * Test if the module path can be returned.
          * @covers Brickoo\Core\Application::getModulePath
-         * @todo Implement testGetModulePath().
          */
         public function testGetModulePath()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
+            $expected = array(
+                'Test/ModuleA' => 'path/to/module/A'.DIRECTORY_SEPARATOR,
+                'Test/ModuleB' => 'path/to/module/B'.DIRECTORY_SEPARATOR,
             );
+
+            $Registry = $this->getMock('Brickoo\Memory\Registry', array('isRegistered', 'get'));
+            $Registry->expects($this->exactly(4))
+                     ->method('isRegistered')
+                     ->with('brickoo.modules')
+                     ->will($this->returnValue(true));
+            $Registry->expects($this->exactly(4))
+                     ->method('get')
+                     ->with('brickoo.modules')
+                     ->will($this->returnValue($expected));
+
+            $this->Application->Registry($Registry);
+
+            $this->assertEquals($expected['Test/ModuleA'], $this->Application->getModulePath('Test/ModuleA'));
+            $this->assertEquals($expected['Test/ModuleB'], $this->Application->getModulePath('Test/ModuleB'));
         }
 
         /**
+         * Test if trying to retrieve a not existing path throws an exception.
+         * @covers Brickoo\Core\Application::getModulePath
+         * @expectedException Brickoo\Core\Exceptions\ModuleNotAvailableException
+         */
+        public function testModuleNotAvailableException()
+        {
+            $this->Application->getModulePath('FAILURE');
+        }
+
+        /**
+         * Test if a directory path can be registerd.
          * @covers Brickoo\Core\Application::registerDirectory
-         * @todo Implement testRegisterDirectory().
          */
         public function testRegisterDirectory()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
+            $Registry = $this->getMock('Brickoo\Memory\Registry', array('register', 'lock'));
+            $Registry->expects($this->once())
+                     ->method('register')
+                     ->with('testDir', getcwd() . DIRECTORY_SEPARATOR)
+                     ->will($this->returnSelf());
+            $Registry->expects($this->once())
+                     ->method('lock')
+                     ->with('testDir')
+                     ->will($this->returnSelf());
+
+            $this->Application->Registry($Registry);
+
+            $this->assertSame($this->Application, $this->Application->registerDirectory(
+                'testDir', getcwd()
+            ));
         }
 
         /**
+         * Test if trying to register a not existing directora throws an exception.
+         * @covers Brickoo\Core\Application::registerDirectory
+         * @expectedException Brickoo\Core\Exceptions\DirectoryDoesNotExistException
+         */
+        public function testNotExistingDirectoryException()
+        {
+            $this->Application->registerDirectory('fail', '/path/does/not/exist');
+        }
+
+        /**
+         * Test if the public directory can be registered.
          * @covers Brickoo\Core\Application::registerPublicDirectory
-         * @todo Implement testRegisterPublicDirectory().
          */
         public function testRegisterPublicDirectory()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
+            $publicDirectory = '/path/to/public/directory';
+            $expected = $publicDirectory . '/';
+
+            $Registry = $this->getMock('Brickoo\Memory\Registry', array('register', 'lock'));
+            $Registry->expects($this->once())
+                     ->method('register')
+                     ->with('brickoo.public.directory', $expected)
+                     ->will($this->returnSelf());
+            $Registry->expects($this->once())
+                     ->method('lock')
+                     ->with('brickoo.public.directory')
+                     ->will($this->returnSelf());
+
+            $this->Application->Registry($Registry);
+
+            $this->assertSame($this->Application, $this->Application->registerPublicDirectory($publicDirectory));
         }
 
         /**
+         * Test if the  public directory is recognized as available.
          * @covers Brickoo\Core\Application::hasPublicDirectory
-         * @todo Implement testHasPublicDirectory().
          */
         public function testHasPublicDirectory()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
+            $Registry = $this->getMock('Brickoo\Memory\Registry', array('isRegistered'));
+            $Registry->expects($this->once())
+                     ->method('isRegistered')
+                     ->with('brickoo.public.directory')
+                     ->will($this->returnValue(true));
+
+            $this->Application->Registry($Registry);
+
+            $this->assertTrue($this->Application->hasPublicDirectory());
         }
 
         /**
+         * Test if a Registry entry could be recognized.
          * @covers Brickoo\Core\Application::has
-         * @todo Implement testHas().
+         * @covers Brickoo\Core\Application::__isset
          */
         public function testHas()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
+            $Registry = $this->getMock('Brickoo\Memory\Registry', array('isRegistered'));
+            $Registry->expects($this->exactly(2))
+                     ->method('isRegistered')
+                     ->with('brickoo.modules')
+                     ->will($this->returnValue(true));
+
+            $this->Application->Registry($Registry);
+
+            $this->assertTrue($this->Application->has('modules'));
+            $this->assertTrue(isset($this->Application->modules));
         }
 
         /**
+         * Test if a Registry value could be retrieved.
          * @covers Brickoo\Core\Application::get
-         * @todo Implement testGet().
+         * @covers Brickoo\Core\Application::__get
          */
         public function testGet()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
+            $expected = array('SampleModule', '/sample/path/');
+
+            $Registry = $this->getMock('Brickoo\Memory\Registry', array('isRegistered', 'get'));
+            $Registry->expects($this->exactly(2))
+                     ->method('isRegistered')
+                     ->with('brickoo.modules')
+                     ->will($this->returnValue(true));
+            $Registry->expects($this->exactly(2))
+                     ->method('get')
+                     ->with('brickoo.modules')
+                     ->will($this->returnValue($expected));
+
+            $this->Application->Registry($Registry);
+
+            $this->assertEquals($expected, $this->Application->get('modules'));
+            $this->assertEquals($expected, $this->Application->modules);
         }
 
         /**
+         * Test if a Registry value does not exist null is returned.
+         * @covers Brickoo\Core\Application::get
+         */
+        public function testGetNullReturnValue()
+        {
+            $Registry = $this->getMock('Brickoo\Memory\Registry', array('isRegistered', 'get'));
+            $Registry->expects($this->once())
+                     ->method('isRegistered')
+                     ->with('notAvailable')
+                     ->will($this->returnValue(null));
+
+            $this->Application->Registry($Registry);
+
+            $this->assertNull($this->Application->get('notAvailable'));
+        }
+
+        /**
+         * Test if Registry values could be set.
          * @covers Brickoo\Core\Application::set
-         * @todo Implement testSet().
+         * @covers Brickoo\Core\Application::__set
          */
         public function testSet()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
-        }
+            $expected = 'testValue';
 
-        /**
-         * @covers Brickoo\Core\Application::__get
-         * @todo Implement test__get().
-         */
-        public function test__get()
-        {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
-        }
+            $Registry = $this->getMock('Brickoo\Memory\Registry', array('register', 'lock'));
+            $Registry->expects($this->exactly(2))
+                     ->method('register')
+                     ->with('entry', $expected)
+                     ->will($this->returnSelf());
+            $Registry->expects($this->exactly(2))
+                     ->method('lock')
+                     ->with('entry')
+                     ->will($this->returnSelf());
 
-        /**
-         * @covers Brickoo\Core\Application::__set
-         * @todo Implement test__set().
-         */
-        public function test__set()
-        {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
-        }
+            $this->Application->Registry($Registry);
 
-        /**
-         * @covers Brickoo\Core\Application::__isset
-         * @todo Implement test__isset().
-         */
-        public function test__isset()
-        {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
-            );
+            $this->assertSame($this->Application, $this->Application->set('entry', $expected));
+            $this->assertEquals($expected, ($this->Application->entry = $expected));
         }
 
         /**

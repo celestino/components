@@ -47,7 +47,7 @@
          * Defines the BrickOO Version.
          * @var string
          */
-        const VERSION = 'DEV{3.0}';
+        const VERSION = 'DEV-3.0';
 
         /**
          * Defines the Registry reserved indetifiers.
@@ -122,7 +122,7 @@
 
         /**
          * Lazy initializiation of the Router dependency.
-         * @param \Brickoo\Routing\Interfaces\RouterInterface $Router the Router dependency to inject
+         * @param \Brickoo\Routing\Interfaces\RouterInterface $Router
          * @return \Brickoo\Routing\Interfaces\RouterInterface
          */
         public function Router(\Brickoo\Routing\Interfaces\RouterInterface $Router = null)
@@ -141,7 +141,7 @@
 
         /**
          * Holds an instance of the request Route.
-         * @param \Brickoo\Routing\Interfaces\RequestRouteInterface $Route the request Route
+         * @param \Brickoo\Routing\Interfaces\RequestRouteInterface $Route
          * @return \Brickoo\Routing\Interfaces\RequestRouteInterface
          */
         public function Route(\Brickoo\Routing\Interfaces\RequestRouteInterface $Route = null)
@@ -155,7 +155,7 @@
         }
 
         /**
-         * Lazy intialization of the EventManager dependency.
+         * Lazy intialization of the static EventManager dependency.
          * @param \Brickoo\Event\Interfaces\ManagerInterface $EventManager
          * @return \Brickoo\Event\Interfaces\ManagerInterface
          */
@@ -164,23 +164,23 @@
             return $this->getDependency(
                 'EventManager',
                 '\Brickoo\Event\Interfaces\ManagerInterface',
-                function() {return new \Brickoo\Event\Manager();},
+                function() {return \Brickoo\Event\Manager::Instance();},
                 $EventManager
             );
         }
 
         /**
          * Lazy intialization of the SessionManager dependency.
-         * @param \Brickoo\Http\Session\Interfaces\SessionManagerInterface $SessionManager
-         * @return \Brickoo\Http\Session\Interfaces\SessionManagerInterface
+         * @param \Brickoo\Http\Session\Interfaces\ManagerInterface $Manager
+         * @return \Brickoo\Http\Session\Interfaces\ManagerInterface
          */
-        public function SessionManager(\Brickoo\Http\Session\Interfaces\SessionManagerInterface $SessionManager = null)
+        public function SessionManager(\Brickoo\Http\Session\Interfaces\ManagerInterface $SessionManager = null)
         {
             return $this->getDependency(
                 'SessionManager',
-                '\Brickoo\Http\Session\Interfaces\SessionManagerInterface',
+                '\Brickoo\Http\Session\Interfaces\ManagerInterface',
                 function() {
-                    return new \Brickoo\Http\Session\SessionManager(
+                    return new \Brickoo\Http\Session\Manager(
                         new \Brickoo\Http\Session\Handler\CacheHandler()
                     );
                 },
@@ -203,7 +203,7 @@
          */
         public function getVersionNumber()
         {
-            preg_match('~\{(?<versionNumber>[0-9\.]+)\}~', self::VERSION, $matches);
+            preg_match('~(?<versionNumber>[0-9\.]+)~', self::VERSION, $matches);
             return $matches['versionNumber'];
         }
 
@@ -251,13 +251,9 @@
          */
         public function isModuleAvailable($moduleName)
         {
-            if (! $this->has('modules')) {
-                return false;
-            }
-
             TypeValidator::IsString($moduleName);
 
-            return array_key_exists($moduleName, $this->get('modules'));
+            return array_key_exists($moduleName, $this->getModules());
         }
 
         /**
@@ -309,7 +305,7 @@
         {
             TypeValidator::IsString($publicDirectory);
 
-            $this->set('publicdirectory', rtrim($publicDirectory, '/') . '/');
+            $this->set($this->reservedIdentifiers['publicdirectory'], rtrim($publicDirectory, '/\\') . '/');
 
             return $this;
         }
@@ -354,9 +350,11 @@
                 ($identifier = $this->reservedIdentifiers[$reservedIdentifier]);
             }
 
-            if ($this->Registry()->isRegistered($identifier)) {
-                return $this->Registry()->get($identifier);
+            if (! $this->Registry()->isRegistered($identifier)) {
+                return null;
             }
+
+            return $this->Registry()->get($identifier);
         }
 
         /**
@@ -477,12 +475,12 @@
         protected function startSession()
         {
             if ($this->Route()->getModuleRoute()->isSessionRequired() &&
-                (! $this->SessionManager()->hasSessionStarted())
+                (! $this->Manager()->hasSessionStarted())
             ){
                 $this->EventManager()->notify(new Event(
-                    Events::EVENT_SESSION_CONFIGURE, $this, array('SessionManager' => $this->SessionManager())
+                    Events::EVENT_SESSION_CONFIGURE, $this, array('SessionManager' => $this->Manager())
                 ));
-                $this->SessionManager()->start();
+                $this->Manager()->start();
             }
 
             return $this;
@@ -495,9 +493,9 @@
         protected function stopSession()
         {
             if ($this->Route()->getModuleRoute()->isSessionRequired() &&
-                $this->SessionManager()->hasSessionStarted()
+                $this->Manager()->hasSessionStarted()
             ){
-                $this->SessionManager()->stop();
+                $this->Manager()->stop();
             }
 
             return $this;
