@@ -48,6 +48,21 @@
     {
 
         /**
+         * Holds an instance of the Request class.
+         * @var \Brickoo\Core\Interfaces\RequestInterface
+         */
+        protected $Request;
+
+        /**
+         * Returns the Request instance implementing the RequestInterface.
+         * @return \Brickoo\Core\Interfaces\RequestInterface
+         */
+        public function getRequest()
+        {
+            return $this->Request;
+        }
+
+        /**
         * Holds the class dependencies.
         * @var array
         */
@@ -85,6 +100,25 @@
                 '\Brickoo\Routing\Interfaces\RouteCollectionInterface',
                 function(){return new RouteCollection();},
                 $RouteCollection
+            );
+        }
+
+        /**
+         * Lazy initialization of the RouteFinder dependecy.
+         * @param \Brickoo\Routing\Interfaces\RouteFinderInterface $RouteFinder the RouteFinder dependency
+         * @return \Brickoo\Routing\Interfaces\RouteFinderInterface
+         */
+        public function RouteFinder(\Brickoo\Routing\Interfaces\RouteFinderInterface $RouteFinder = null)
+        {
+            return $this->getDependency(
+                'RouteFinder',
+                '\Brickoo\Routing\Interfaces\RouteFinderInterface',
+                function($Router){
+                    return new RouteFinder(
+                        $Router->RouteCollection(), $Router->getRequest(), $Router->Aliases()
+                    );
+                },
+                $RouteFinder
             );
         }
 
@@ -190,81 +224,24 @@
         }
 
         /**
-         * Holds an instance of the Request class.
-         * @var \Brickoo\Core\Interfaces\RequestInterface
-         */
-        protected $Request;
-
-        /**
-         * Returns the Request instance implementing the RequestInterface.
-         * @return \Brickoo\Core\Interfaces\RequestInterface
-         */
-        public function getRequest()
-        {
-            return $this->Request;
-        }
-
-        /**
          * Holds the requeste Route instance.
          * @var Brickoo\Routing\Interfaces\RequestRouteInterface
          */
         protected $RequestRoute;
 
         /**
-         * Returns the request route parameters.
-         * @throws Exceptions\RequestHasNoRouteException if the request has not a mathced route
-         * @return array the request route parmeters
-         */
-        public function getRequestRouteParams()
-        {
-            if (! $this->hasRequestRoute()) {
-                throw new Exceptions\RequestHasNoRouteException($this->getRequest()->getPath());
-            }
-
-            $routeParams = array();
-            $Route = $this->RequestRoute->getModuleRoute();
-
-            if ($Route->hasRules()) {
-                preg_match($this->getRegexFromRoutePath($Route), $this->getRequest()->getPath(), $matches);
-
-                foreach(array_keys($Route->getRules()) as $parameter) {
-                    if (isset($matches[$parameter]) && (! empty($matches[$parameter]))) {
-                        $routeParams[$parameter] = $matches[$parameter];
-                    }
-                    elseif ($Route->hasDefaultValue($parameter)) {
-                        $routeParams[$parameter] = $Route->getDefaultValue($parameter);
-                    }
-                }
-
-                if (isset($matches['__FORMAT__'])) {
-                    $routeParams['format'] = $matches['__FORMAT__'];
-                }
-            }
-
-            if (! isset($routeParams['format'])) {
-                $routeParams['format'] = (
-                    ($defaultFormat = $Route->getDefaultFormat()) !== null ? $defaultFormat :
-                    $this->getRequest()->getFormat()
-                );
-            }
-
-            return $routeParams;
-        }
-
-        /**
          * Sets the requested Route for further routing.
-         * @param \Brickoo\Routing\Interfaces\RouteInterface $Route the route matched the request
+         * @param \Brickoo\Routing\Interfaces\RequestRouteInterface $RequestRoute the route matched the request
          * @throws \Brickoo\Core\Exceptions\ValueOverwriteException if trying to overwrite the request route
          * @return \Brickoo\Routing\Router
          */
-        public function setRequestRoute(\Brickoo\Routing\Interfaces\RouteInterface $Route)
+        public function setRequestRoute(\Brickoo\Routing\Interfaces\RequestRouteInterface $RequestRoute)
         {
             if ($this->RequestRoute !== null) {
                 throw new Core\Exceptions\ValueOverwriteException('Router::RequestRoute');
             }
 
-            $this->RequestRoute = new RequestRoute($Route);
-            $this->RequestRoute->Params()->merge($this->getRequestRouteParams());
+            $this->RequestRoute = $RequestRoute;
 
             return $this;
         }
@@ -279,24 +256,6 @@
         }
 
         /**
-         * Checks if the Route matches the request.
-         * @return boolean check result
-         */
-        public function isRequestRoute(\Brickoo\Routing\Interfaces\RouteInterface $Route)
-        {
-            $Request = $this->getRequest();
-
-            return(
-                preg_match('~^(' . $Route->getMethod() . ')$~i', $Request->getMethod()) &&
-                (
-                    (($hostname = $Route->getHostname()) === null) ||
-                    preg_match('~^(' . $hostname . ')$~i', $Request->getHost())
-                ) &&
-                preg_match($this->getRegexFromRoutePath($Route), $Request->getPath())
-            );
-        }
-
-        /**
          * Returns the request matching route.
          * If the Manager is available the proceded routes will be cached.
          * @throws Routing\Exceptions\RequestedHasNoRouteException if the request has not a matching Route
@@ -308,48 +267,21 @@
                 return $this->RequestRoute;
             }
 
-            if (($Route = $this->EventManager()->ask(new Event\Event(RouterEvents::EVENT_GET, $this))) &&
-                ($Route instanceof Interfaces\RouteInterface)
-            ){
-                $this->setRequestRoute($Route);
-                return $this->RequestRoute;
-            }
-
-            $routesLoadedByEvent = false;
-
             if (! $this->RouteCollection()->hasRoutes()) {
-                if (($RouteCollection = $this->EventManager()->ask(new Event\Event(RouterEvents::EVENT_LOAD, $this))) &&
-                    ($RouteCollection instanceof Interfaces\RouteCollectionInterface) &&
-                    $RouteCollection->hasRoutes()
-                ){
-                     $this->RouteCollection()->addRoutes($RouteCollection->getRoutes());
-                     $routesLoadedByEvent = true;
-                }
-                else {
-                    $this->collectModulesRoutes();
-                }
+                $this->loadModulesRoutes();
             }
 
-            if ($routes = $this->RouteCollection()->getRoutes()) {
-                foreach($routes as $Route) {
-                    if ($this->isRequestRoute($Route)) {
-                        $this->setRequestRoute($Route);
-                        break;
-                    }
-                }
+            try {
+                $this->setRequestRoute($this->RouteFinder()->find());
             }
-
-            if (! $this->hasRequestRoute()) {
-                $Exception = new Exceptions\RequestHasNoRouteException($this->getRequest()->getPath());
-                $this->EventManager()->notify(new Event\Event(RouterEvents::EVENT_ERROR, $this, array('Exception' => $Exception)));
+            catch (\Brickoo\Routing\Exceptions\RequestHasNoRouteException $Exception) {
+                $this->EventManager()->notify(new Event\Event(
+                    RouterEvents::EVENT_ERROR, $this, array('Exception' => $Exception)
+                ));
                 throw $Exception;
             }
 
-            if ($routesLoadedByEvent === false) {
-                $this->EventManager()->notify(
-                    new Event\Event(RouterEvents::EVENT_SAVE, $this, array('RouteCollection' => $this->RouteCollection()))
-                );
-            }
+            $this->saveModulesRoutes();
 
             return $this->RequestRoute;
         }
@@ -371,6 +303,37 @@
         }
 
         /**
+         * Loads the Modules routes by asking over an event or collecting from filesystem.
+         * @return \Brickoo\Routing\Router
+         */
+        public function loadModulesRoutes()
+        {
+            if (($RouteCollection = $this->EventManager()->ask(new Event\Event(RouterEvents::EVENT_LOAD, $this))) &&
+                ($RouteCollection instanceof Interfaces\RouteCollectionInterface)
+            ){
+                $this->RouteCollection($RouteCollection);
+            }
+            else {
+                $this->collectModulesRoutes();
+            }
+
+            return $this;
+        }
+
+        /**
+         * Saves the collected routes over an event notification.
+         * @return \Brickoo\Routing\Router
+         */
+        public function saveModulesRoutes()
+        {
+            $this->EventManager()->notify(new Event\Event(
+                RouterEvents::EVENT_SAVE, $this, array('RouteCollection' => $this->RouteCollection())
+            ));
+
+            return $this;
+        }
+
+        /**
          * Collectes the routes available to add to the RouteCollection.
          * Searches through all available modules available to require the route collections.
          * This requires the registered modules, which is normaly done by the FrontController.
@@ -380,89 +343,15 @@
         {
             if ($modules = $this->getModules()) {
                 foreach($modules as $modulePath) {
-                    if
-                    (
-                        file_exists(($routingFilename = $modulePath . $this->getRoutesFilename()))&&
+                    if (file_exists(($routingFilename = $modulePath . $this->getRoutesFilename()))&&
                         ($ModuleRouteCollection = (require ($routingFilename))) &&
                         ($ModuleRouteCollection instanceof Interfaces\RouteCollectionInterface) &&
                         $ModuleRouteCollection->hasRoutes()
-                    ) {
+                    ){
                         $this->RouteCollection()->addRoutes($ModuleRouteCollection->getRoutes());
                     }
                 }
             }
-        }
-
-        /**
-         * Returns the Route regular expression to add for matching formats.
-         * @param \Brickoo\Routing\Interfaces\RouteInterface $Route the Route instance
-         * @return string the regular expression of the route format
-         */
-        public function getRegexRouteFormat(\Brickoo\Routing\Interfaces\RouteInterface $Route)
-        {
-            $formatRegex = '(\..*)?';
-
-            if (($routeFormat = $Route->getFormat()) !== null) {
-                $formatRegex = '(\.(?<__FORMAT__>' . $routeFormat . '))?';
-            }
-
-            return $formatRegex;
-        }
-
-        /**
-         * Returns the route path containg the aliases definitions.
-         * @param string $routePath the route path to look for aliases
-         * @return string the modified route path containing the aliases
-         */
-        public function getRouteAliasesPath($routePath)
-        {
-            TypeValidator::IsString($routePath);
-
-            if (($Aliases = $this->Aliases()) && (! $Aliases->isEmpty())) {
-                $Aliases->rewind();
-                while($Aliases->valid()) {
-                    if (($position = strpos($routePath, ($key = $Aliases->key()))) === 1) {
-                        $replacement = sprintf('(%s|%s)', $key, preg_quote($Aliases->current(), '~'));
-                        $routePath = str_replace($key, $replacement, $routePath);
-                        break;
-                    }
-                    $Aliases->next();
-                }
-            }
-
-            return $routePath;
-        }
-
-        /**
-         * Returns a regular expression from the route path and rules or default values available.
-         * @param \Brickoo\Routing\Interfaces\RouteInterface $Route the route to use
-         * @return string the regular expression for the request path
-         */
-        public function getRegexFromRoutePath(\Brickoo\Routing\Interfaces\RouteInterface $Route)
-        {
-            $regex  = $this->getRouteAliasesPath($Route->getPath());
-            $regex .= $this->getRegexRouteFormat($Route);
-
-            if (preg_match_all('~(\{(?<parameters>[\w]+)\})~', $regex, $matches)) {
-                foreach ($matches['parameters'] as $parameterName) {
-                    if ($Route->hasRule($parameterName)) {
-                        $regex = str_replace(
-                            '/{' . $parameterName . '}',
-                            (
-                                $Route->hasDefaultValue($parameterName) ?
-                                '(/(?<' . $parameterName .'>(' . $Route->getRule($parameterName) . ')?))?' :
-                                '/(?<'. $parameterName . '>' . $Route->getRule($parameterName) . ')'
-                            ),
-                            $regex
-                        );
-                        continue;
-                    }
-
-                    $regex = str_replace('{' . $parameterName . '}', uniqid($parameterName), $regex);
-                }
-            }
-
-            return '~^/' . trim($regex, '/') . '$~i';
         }
 
     }

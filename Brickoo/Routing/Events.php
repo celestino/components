@@ -56,13 +56,6 @@
         const EVENT_SAVE    = 'routes.save';
 
         /**
-         * Aks of the route to use witch has to be returned as an Route object.
-         * @see Brickoo\Routing\Interfaces\RouteInterface
-         * @var string
-         */
-        const EVENT_GET      = 'route.get';
-
-        /**
          * Notifies that the router has not a matched route.
          * @var string
          */

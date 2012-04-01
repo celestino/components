@@ -62,12 +62,12 @@
 
         /**
         * Returns a RouteCollection stub.
-        * @return \Brickoo\Routing\Interfaces\RouteCollectionInterface
+        * @return \Brickoo\Routing\RouteCollection
         */
         public function getRouteCollectionStub()
         {
             return $this->getMock(
-                'Brickoo\Routing\Interfaces\RouteCollectionInterface',
+                'Brickoo\Routing\RouteCollection',
                 array('getRoutes', 'addRoutes', 'createRoute', 'hasRoutes', 'getRoute', 'hasRoute')
             );
         }
@@ -155,7 +155,7 @@
         }
 
         /**
-         * Test if the Alias dependency can be injected and the Router reference is returned.
+         * Test if the EventManager dependency can be injected and the Router reference is returned.
          * @covers Brickoo\Routing\Router::EventManager
          */
         public function testInjectEventManager()
@@ -179,6 +179,37 @@
 
             $this->assertAttributeContains($EventManager, 'dependencies', $this->Router);
             $this->assertSame($EventManager, $this->Router->EventManager());
+        }
+
+        /**
+         * Test if the RouteFinder dependency can be injected and the Router reference is returned.
+         * @covers Brickoo\Routing\Router::RouteFinder
+         */
+        public function testInjectRouteFinder()
+        {
+            $RouteFinder = new \Brickoo\Routing\RouteFinder(
+                new \Brickoo\Routing\RouteCollection(),
+                new \Brickoo\Http\Request(),
+                new \Brickoo\Memory\Container()
+            );
+            $this->assertSame($this->Router, $this->Router->RouteFinder($RouteFinder));
+            $this->assertAttributeContains($RouteFinder, 'dependencies', $this->Router);
+            $this->assertSame($RouteFinder, $this->Router->RouteFinder());
+        }
+
+        /**
+         * Test if the RouteFinder can be lazy initialized.
+         * @covers Brickoo\Routing\Router::RouteFinder
+         */
+        public function testRouteFinderLazyInitialization()
+        {
+            $this->assertInstanceOf(
+                'Brickoo\Routing\Interfaces\RouteFinderInterface',
+                ($RouteFinder = $this->Router->RouteFinder())
+            );
+
+            $this->assertAttributeContains($RouteFinder, 'dependencies', $this->Router);
+            $this->assertSame($RouteFinder, $this->Router->RouteFinder());
         }
 
         /**
@@ -293,8 +324,8 @@
          */
         public function testSetRequestRoute()
         {
-            $Route = $this->getRouteStub();
-            $this->assertSame($this->Router, $this->Router->setRequestRoute($Route));
+            $RequestRoute = $this->getMock('Brickoo\Routing\Interfaces\RequestRouteInterface');
+            $this->assertSame($this->Router, $this->Router->setRequestRoute($RequestRoute));
             $this->assertAttributeInstanceOf(
                 'Brickoo\Routing\Interfaces\RequestRouteInterface',
                 'RequestRoute',
@@ -312,176 +343,134 @@
          */
         public function testSetRequestRouteOverwriteException()
         {
-            $Route = $this->getRouteStub();
-            $this->Router->setRequestRoute($Route);
-            $this->Router->setRequestRoute($Route);
+            $RequestRoute = $this->getMock('Brickoo\Routing\Interfaces\RequestRouteInterface');
+            $this->Router->setRequestRoute($RequestRoute);
+            $this->Router->setRequestRoute($RequestRoute);
         }
 
         /**
          * Test if the availability of the RequestRoute is recognized.
          * @covers Brickoo\Routing\Router::hasRequestRoute
-         * @depends testSetRequestRoute
          */
-        public function testHasRequestRoute($Router)
+        public function testHasRequestRoute()
         {
             $this->assertFalse($this->Router->hasRequestRoute());
-            $this->assertTrue($Router->hasRequestRoute());
-        }
 
-        /**
-         * Test if the Route is recognized as responsible request route.
-         * @covers Brickoo\Routing\Router::isRequestRoute
-         * @covers Brickoo\Routing\Router::getRegexFromRoutePath
-         */
-        public function testIsRequestRoute()
-        {
-            $hasRule = array
-            (
-                array('name', true),
-                array('otherplace', true)
-            );
+            $RequestRoute = $this->getMock('Brickoo\Routing\Interfaces\RequestRouteInterface');
+            $this->Router->setRequestRoute($RequestRoute);
 
-            $getRule = array
-            (
-                array('name', '[a-z]+'),
-                array('otherplace', '.*'),
-            );
-
-            $RouteStub = $this->getRouteStub();
-            $RouteStub->expects($this->once())
-                      ->method('getPath')
-                      ->will($this->returnValue('/path/{name}/to/{otherplace}'));
-            $RouteStub->expects($this->exactly(2))
-                      ->method('hasRule')
-                      ->will($this->returnValueMap($hasRule));
-            $RouteStub->expects($this->exactly(2))
-                      ->method('hasDefaultValue')
-                      ->will($this->returnValue(true));
-            $RouteStub->expects($this->exactly(2))
-                      ->method('getRule')
-                      ->will($this->returnValueMap($getRule));
-            $RouteStub->expects($this->once())
-                      ->method('getMethod')
-                      ->will($this->returnValue('GET|HEAD'));
-            $RouteStub->expects($this->once())
-                      ->method('getHostname')
-                      ->will($this->returnValue('([a-z]+\.)?localhost\.com'));
-
-            $RequestStub = $this->Router->getRequest();
-            $RequestStub->expects($this->once())
-                        ->method('getPath')
-                        ->will($this->returnValue('/path/goes/to/home'));
-            $RequestStub->expects($this->once())
-                        ->method('getMethod')
-                        ->will($this->returnValue('HEAD'));
-            $RequestStub->expects($this->once())
-                        ->method('getHost')
-                        ->will($this->returnValue('home.localhost.com'));
-
-            $this->assertTrue($this->Router->isRequestRoute($RouteStub));
-        }
-
-        /**
-         * Test if the Route is not the responsible request route because of the wrong path.
-         * @covers Brickoo\Routing\Router::isRequestRoute
-         * @covers Brickoo\Routing\Router::getRegexFromRoutePath
-         */
-        public function testIsRequestRouteFailure()
-        {
-            $RouteStub = $this->getRouteStub();
-            $RouteStub->expects($this->once())
-                      ->method('getPath')
-                      ->will($this->returnValue('/path/to/some/place/{notExpected}'));
-            $RouteStub->expects($this->once())
-                      ->method('hasRule')
-                      ->will($this->returnValue(false));
-
-            $RequestStub = $this->Router->getRequest();
-            $RequestStub->expects($this->once())
-                        ->method('getPath')
-                        ->will($this->returnValue('/path/to/some/place'));
-
-            $this->assertFalse($this->Router->isRequestRoute($RouteStub));
+            $this->assertTrue($this->Router->hasRequestRoute());
         }
 
         /**
          * Test if the request route is returned when it is already recognized.
          * @covers Brickoo\Routing\Router::getRequestRoute
-         * @depends testSetRequestRoute
          */
-        public function testGetRequestRoute($Router)
+        public function testGetRequestRoutePreset()
         {
-            $this->assertInstanceOf
-            (
-                'Brickoo\Routing\Interfaces\RequestRouteInterface',
-                $Router->getRequestRoute()
-            );
-        }
+            $RequestRoute = $this->getMock('Brickoo\Routing\Interfaces\RequestRouteInterface');
+            $this->Router->setRequestRoute($RequestRoute);
 
-        /**
-         * Test if the route can be retrived by the route.get event.
-         * @covers Brickoo\Routing\Router::getRequestRoute
-         */
-        public function testGetRequestRouteByGetEvent()
-        {
-            $Route = $this->getRouteStub();
-            $EventManager = $this->getEventManagerStub();
-            $EventManager->expects($this->once())
-                         ->method('ask')
-                         ->will($this->returnValue($Route));
-
-            $this->Router->EventManager($EventManager);
-            $this->assertInstanceOf
-            (
-                'Brickoo\Routing\Interfaces\RequestRouteInterface',
-                $this->Router->getRequestRoute()
-            );
+            $this->assertSame($RequestRoute, $this->Router->getRequestRoute());
         }
 
         /**
          * Test if the route can be retrived using the routes.load event.
          * @covers Brickoo\Routing\Router::getRequestRoute
-         * @covers Brickoo\Routing\Router::collectModulesRoutes
          */
-        public function testGetRequestRouteByLoadEvent()
+        public function testGetRequestRoute()
         {
             $RouteStub = $this->getRouteStub();
-            $RouteStub->expects($this->any())
-                      ->method('getPath')
-                      ->will($this->returnValue('/path/goes/to/home'));
-            $RouteStub->expects($this->any())
-                      ->method('getMethod')
-                      ->will($this->returnValue('HEAD'));
 
             $RouteCollectionStub = $this->getRouteCollectionStub();
             $RouteCollectionStub->expects($this->once())
                                 ->method('hasRoutes')
-                                ->will($this->returnValue(true));
-            $RouteCollectionStub->expects($this->once())
-                                ->method('getRoutes')
-                                ->will($this->returnValue(array($RouteStub)));
+                                ->will($this->onConsecutiveCalls(false, true));
+            $this->Router->RouteCollection($RouteCollectionStub);
 
-            $RequestStub = $this->Router->getRequest();
-            $RequestStub->expects($this->once())
-                        ->method('getPath')
-                        ->will($this->returnValue('/path/goes/to/home'));
-            $RequestStub->expects($this->once())
-                        ->method('getMethod')
-                        ->will($this->returnValue('HEAD'));
+
+            $RequestStub = $this->getRequestStub();
 
             $EventManager = $this->getEventManagerStub();
-            $EventManager->expects($this->exactly(2))
+            $EventManager->expects($this->once())
                          ->method('ask')
-                         ->will($this->onConsecutiveCalls(null, $RouteCollectionStub));
-
+                         ->will($this->returnValue($RouteCollectionStub));
             $this->Router->EventManager($EventManager);
 
-            $this->assertInstanceOf('Brickoo\Routing\Interfaces\RequestRouteInterface', $this->Router->getRequestRoute());
-            $this->assertAttributeInstanceOf(
-                'Brickoo\Routing\Interfaces\RequestRouteInterface',
-                'RequestRoute',
-                $this->Router
+            $RequestRoute = $this->getMock('Brickoo\Routing\Interfaces\RequestRouteInterface');
+
+            $RouteFinder = $this->getMock('Brickoo\Routing\Interfaces\RouteFinderInterface', array('find'));
+            $RouteFinder->expects($this->once())
+                        ->method('find')
+                        ->will($this->returnValue($RequestRoute));
+            $this->Router->RouteFinder($RouteFinder);
+
+            $this->assertSame($RequestRoute, $this->Router->getRequestRoute());
+            $this->assertAttributeSame($RequestRoute, 'RequestRoute', $this->Router);
+        }
+
+        /**
+         * Test if no route matches or is available throws an exception.
+         * @covers Brickoo\Routing\Router::getRequestRoute
+         * @expectedException \Brickoo\Routing\Exceptions\RequestHasNoRouteException
+         */
+        public function testGetRequestRouteException()
+        {
+            $this->Router->getRequestRoute();
+        }
+
+        /**
+         * Test if the modules would be loaded with an event.
+         * @covers Brickoo\Routing\Router::loadModulesRoutes
+         */
+        public function testLoadModulesRoutes()
+        {
+            $RouteCollection = $this->getRouteCollectionStub();
+
+            $EventManager = $this->getEventManagerStub();
+            $EventManager->expects($this->once())
+                         ->method('ask')
+                         ->will($this->returnValue($RouteCollection));
+            $this->Router->EventManager($EventManager);
+
+            $this->assertSame($this->Router, $this->Router->loadModulesRoutes());
+            $this->assertSame($RouteCollection, $this->Router->RouteCollection());
+        }
+
+        /**
+         * Test if the collection would be loaded from filesystem.
+         * @covers Brickoo\Routing\Router::loadModulesRoutes
+         */
+        public function testLoadModulesRoutesByCollection()
+        {
+            $expectedController = array(
+                'controller'    => '\module\lib\Controller',
+                'method'        => 'method',
+                'static'        => true
             );
+            $this->Router->setModules(array('module', realpath(__DIR__) . '/assets/'));
+            $this->Router->collectModulesRoutes();
+            $Route = $this->Router->RouteCollection()->getRoute('test');
+
+            $this->assertSame($this->Router, $this->Router->loadModulesRoutes());
+            $this->assertEquals('/', $Route->getPath());
+            $this->assertEquals($expectedController, $Route->getController());
+            $this->assertEquals('GET', $Route->getMethod());
+        }
+
+        /**
+         * Test if the event manager is called to notify the event.
+         * @covers Brickoo\Routing\Router::saveModulesRoutes
+         */
+        public function testSaveModulesRoutes()
+        {
+            $EventManager = $this->getEventManagerStub();
+            $EventManager->expects($this->once())
+                         ->method('notify')
+                         ->will($this->returnValue(null));
+            $this->Router->EventManager($EventManager);
+
+            $this->assertSame($this->Router, $this->Router->saveModulesRoutes());
         }
 
         /**
@@ -503,266 +492,6 @@
             $this->assertEquals('/', $Route->getPath());
             $this->assertEquals($expectedController, $Route->getController());
             $this->assertEquals('GET', $Route->getMethod());
-        }
-
-        /**
-         * Test if the request route is returned when it is responsible and it is set as property.
-         * @covers Brickoo\Routing\Router::getRequestRoute
-         * @covers Brickoo\Routing\Router::collectModulesRoutes
-         */
-        public function testGetRequestRouteResponsible()
-        {
-            $hasRule = array(
-                array('name', true),
-                array('otherplace', true)
-            );
-
-            $getRule = array(
-                array('name', '[a-z]+'),
-                array('otherplace', '.*')
-            );
-
-            $RouteStub = $this->getRouteStub();
-            $RouteStub->expects($this->once())
-                      ->method('getPath')
-                      ->will($this->returnValue('/path/{name}/to/{otherplace}'));
-            $RouteStub->expects($this->exactly(2))
-                      ->method('hasRule')
-                      ->will($this->returnValueMap($hasRule));
-            $RouteStub->expects($this->exactly(2))
-                      ->method('hasDefaultValue')
-                      ->will($this->returnValue(true));
-            $RouteStub->expects($this->exactly(2))
-                      ->method('getRule')
-                      ->will($this->returnValueMap($getRule));
-            $RouteStub->expects($this->once())
-                      ->method('getMethod')
-                      ->will($this->returnValue('HEAD'));
-
-            $RouteCollectionStub = $this->getRouteCollectionStub();
-            $RouteCollectionStub->expects($this->any())
-                                ->method('getRoutes')
-                                ->will($this->returnValue(array($RouteStub)));
-            $RouteCollectionStub->expects($this->once())
-                                ->method('hasRoutes')
-                                ->will($this->returnValue(false));
-
-            $RequestStub = $this->Router->getRequest();
-            $RequestStub->expects($this->once())
-                        ->method('getPath')
-                        ->will($this->returnValue('/path/goes/to/home'));
-            $RequestStub->expects($this->once())
-                        ->method('getMethod')
-                        ->will($this->returnValue('HEAD'));
-
-            $this->Router->RouteCollection($RouteCollectionStub);
-
-            $this->assertInstanceOf('Brickoo\Routing\Interfaces\RequestRouteInterface', $this->Router->getRequestRoute());
-            $this->assertAttributeInstanceOf(
-                'Brickoo\Routing\Interfaces\RequestRouteInterface',
-                'RequestRoute',
-                $this->Router
-            );
-        }
-
-        /**
-         * Test if the request route params are passed to the request route.
-         * @covers Brickoo\Routing\Router::getRequestRouteParams
-         */
-        public function testGetRequestRouteParams()
-        {
-            $expected = array(
-                'name'    => 'brickoo',
-                'place'   => 'home',
-                'format'  => 'xml'
-            );
-
-            $hasRule = array(
-                array('name', true),
-                array('place', true)
-            );
-
-            $getRule = array(
-                array('name', '[a-z]+'),
-                array('place', '.*')
-            );
-
-            $getRules = array('name' => '[a-z]+', 'place' => '.*');
-
-            $hasDefaultValue = array(
-                array('name', false),
-                array('place', true)
-            );
-
-            $getDefaultValue = array(
-                array('place', 'home')
-            );
-
-            $RouteStub = $this->getRouteStub();
-            $RouteStub->expects($this->any())
-                      ->method('getPath')
-                      ->will($this->returnValue('/path/{name}/{place}'));
-            $RouteStub->expects($this->any())
-                      ->method('hasRules')
-                      ->will($this->returnValue(true));
-            $RouteStub->expects($this->any())
-                      ->method('hasRule')
-                      ->will($this->returnValueMap($hasRule));
-            $RouteStub->expects($this->any())
-                      ->method('hasDefaultValue')
-                      ->will($this->returnValueMap($hasDefaultValue));
-            $RouteStub->expects($this->any())
-                      ->method('getDefaultValue')
-                      ->will($this->returnValueMap($getDefaultValue));
-            $RouteStub->expects($this->any())
-                      ->method('getRule')
-                      ->will($this->returnValueMap($getRule));
-            $RouteStub->expects($this->any())
-                      ->method('getRules')
-                      ->will($this->returnValue($getRules));
-            $RouteStub->expects($this->any())
-                      ->method('getMethod')
-                      ->will($this->returnValue('GET'));
-            $RouteStub->expects($this->any())
-                      ->method('getFormat')
-                      ->will($this->returnValue('xml|json'));
-
-
-            $RequestStub = $this->Router->getRequest();
-            $RequestStub->expects($this->any())
-                        ->method('getPath')
-                        ->will($this->returnValue('/path/brickoo.xml'));
-            $RequestStub->expects($this->any())
-                        ->method('getMethod')
-                        ->will($this->returnValue('GET'));
-
-            $this->Router->setRequestRoute($RouteStub);
-            $this->assertEquals($expected, $this->Router->getRequestRouteParams());
-        }
-
-        /**
-         * Test if the request format is retrieved from the request url if the
-         * Route has no format expected.
-         * @covers Brickoo\Routing\Router::getRequestRouteParams
-         */
-        public function testGetRequestRouteParamsDefaultWithRequestFormat()
-        {
-            $expected = array('format' => 'xml');
-
-            $RouteStub = $this->getRouteStub();
-            $RouteStub->expects($this->any())
-                      ->method('getPath')
-                      ->will($this->returnValue('/path/to/brickoo'));
-            $RouteStub->expects($this->any())
-                      ->method('getMethod')
-                      ->will($this->returnValue('GET'));
-            $RouteStub->expects($this->any())
-                      ->method('getFormat')
-                      ->will($this->returnValue('xml|json'));
-
-            $RequestStub = $this->Router->getRequest();
-            $RequestStub->expects($this->any())
-                        ->method('getPath')
-                        ->will($this->returnValue('/path/to/brickoo.xml'));
-            $RequestStub->expects($this->any())
-                        ->method('getMethod')
-                        ->will($this->returnValue('GET'));
-            $RequestStub->expects($this->any())
-                        ->method('getFormat')
-                        ->will($this->returnValue('xml'));
-
-            $this->Router->setRequestRoute($RouteStub);
-            $this->assertEquals($expected, $this->Router->getRequestRouteParams());
-        }
-
-        /**
-         * Test if trying to retrieve the params from an not available request route throws an exception.
-         * @covers Brickoo\Routing\Router::getRequestRouteParams
-         * @covers Brickoo\Routing\Exceptions\RequestHasNoRouteException::__construct
-         * @expectedException \Brickoo\Routing\Exceptions\RequestHasNoRouteException
-         */
-        public function testGetRequestRouteParamsException()
-        {
-            $this->Router->getRequestRouteParams();
-        }
-
-        /**
-         * Test if none request route is responsible throws an expection.
-         * @covers Brickoo\Routing\Router::getRequestRoute
-         * @covers Brickoo\Routing\Exceptions\RequestHasNoRouteException::__construct
-         * @expectedException \Brickoo\Routing\Exceptions\RequestHasNoRouteException
-         */
-        public function testGetRequestRouteNoRouteException()
-        {
-            $RequestStub = $this->Router->getRequest();
-            $RequestStub->expects($this->once())
-                        ->method('getPath')
-                        ->will($this->returnValue('/path/goes/to/home'));
-
-            $this->Router->RouteCollection($this->getRouteCollectionStub())->getRequestRoute();
-        }
-
-        /**
-         * Test if the regular expression is returned as expected.
-         * @covers Brickoo\Routing\Router::getRegexFromRoutePath
-         * @covers Brickoo\Routing\Router::getRegexRouteFormat
-         * @covers Brickoo\Routing\Router::getRouteAliasesPath
-         */
-        public function testGetRegexFromRoutePath()
-        {
-            $hasRule = array
-            (
-                array('name', true),
-                array('otherplace', true)
-            );
-
-            $getRule = array
-            (
-                array('name', '[a-z]+'),
-                array('otherplace', '.*'),
-            );
-
-            $RouteStub = $this->getRouteStub();
-            $RouteStub->expects($this->once())
-                      ->method('getPath')
-                      ->will($this->returnValue('/path/{name}/to/{otherplace}/index'));
-            $RouteStub->expects($this->exactly(2))
-                      ->method('hasRule')
-                      ->will($this->returnValueMap($hasRule));
-            $RouteStub->expects($this->exactly(2))
-                      ->method('hasDefaultValue')
-                      ->will($this->returnValue(false));
-            $RouteStub->expects($this->exactly(2))
-                      ->method('getRule')
-                      ->will($this->returnValueMap($getRule));
-            $RouteStub->expects($this->once())
-                      ->method('getFormat')
-                      ->will($this->returnValue('json'));
-
-            $Aliases = $this->getAliasesStub();
-            $Aliases->expects($this->exactly(2))
-                    ->method('valid')
-                    ->will($this->returnValue(true));
-            $Aliases->expects($this->exactly(2))
-                    ->method('key')
-                    ->will($this->onConsecutiveCalls('next', 'path'));
-            $Aliases->expects($this->once())
-                    ->method('current')
-                    ->will($this->returnValue('new_path'));
-            $Aliases->expects($this->once())
-                    ->method('rewind')
-                    ->will($this->returnSelf());
-            $Aliases->expects($this->once())
-                    ->method('isEmpty')
-                    ->will($this->returnValue(false));
-
-            $this->Router->Aliases($Aliases);
-
-            $this->assertEquals
-            (
-                '~^/(path|new_path)/(?<name>[a-z]+)/to/(?<otherplace>.*)/index(\.(?<__FORMAT__>json))?$~i',
-                $this->Router->getRegexFromRoutePath($RouteStub)
-            );
         }
 
     }
