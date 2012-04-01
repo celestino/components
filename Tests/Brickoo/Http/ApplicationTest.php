@@ -150,6 +150,8 @@
          */
         public function testRun()
         {
+            include (dirname(__FILE__) .'/Assets/TestController.php');
+
             $EventManager = $this->getMock('Brickoo\Event\Manager', array('notify'));
             $EventManager->expects($this->any())
                          ->method('notify');
@@ -178,6 +180,45 @@
                   ->will($this->returnValue($EventManager));
 
             $this->assertEquals('test response.', $this->Application->run($Event));
+        }
+
+        /**
+         * Test if the Response is returned after processing the static controller call.
+         * @covers Brickoo\Http\Application::run
+         * @covers Brickoo\Module\Events
+         */
+        public function testRunStaticController()
+        {
+            include (dirname(__FILE__) .'/Assets/TestStaticController.php');
+
+            $EventManager = $this->getMock('Brickoo\Event\Manager', array('notify'));
+            $EventManager->expects($this->any())
+                         ->method('notify');
+
+            $Route = $this->getMock('Brickoo\Routing\Route', array('getController'), array('test.route'));
+            $Route->expects($this->once())
+                  ->method('getController')
+                  ->will($this->returnValue(array(
+                      'controller'    => 'TestStaticController',
+                      'method'        => 'TestMethod',
+                      'static'        => true
+                  )));
+
+            $RequestRoute = $this->getMock('Brickoo\Routing\RequestRoute', array('getModuleRoute'), array($Route));
+            $RequestRoute->expects($this->once())
+                         ->method('getModuleRoute')
+                         ->will($this->returnValue($Route));
+
+            $Event = $this->getMock('Brickoo\Event\Event', array('getParam', 'EventManager'), array('response.get'));
+            $Event->expects($this->once())
+                  ->method('getParam')
+                  ->with('Route')
+                  ->will($this->returnValue($RequestRoute));
+            $Event->expects($this->any())
+                  ->method('EventManager')
+                  ->will($this->returnValue($EventManager));
+
+            $this->assertEquals('test static response.', $this->Application->run($Event));
         }
 
         /**
@@ -222,20 +263,4 @@
             $this->assertSame($this->Application, $this->Application->sendResponse($Response));
         }
 
-    }
-
-    /**
-     * Test controller for the testGetResponse.
-     */
-    class TestController
-    {
-        public function testMethod()
-        {
-            return 'test response.';
-        }
-
-        public function exceptionMethod()
-        {
-            throw new \Brickoo\Http\Exceptions\ResponseTemplateNotAvailableException();
-        }
     }
