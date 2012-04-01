@@ -214,6 +214,18 @@
         }
 
         /**
+         * Test if the dependencies can be set and retrieved.
+         * @covers Brickoo\Module\Description::getDependencies
+         * @covers Brickoo\Module\Description::setDependencies
+         */
+        public function testGetSetDependencies()
+        {
+            $this->assertSame($this->Description, $this->Description->setDependencies(array('Test/Module')));
+            $this->assertAttributeEquals(array('Test/Module'), 'dependencies', $this->Description);
+            $this->assertEquals(array('Test/Module'), $this->Description->getDependencies());
+        }
+
+        /**
          * Test if the description can be returned as string.
          * @covers Brickoo\Module\description::toString
          * @covers Brickoo\Module\description::__toString
@@ -228,6 +240,7 @@
             $expected .= "Status: stable\n";
             $expected .= "Version: 3.0\n";
             $expected .= "Description: some description text";
+            $expected .= "Dependencies: Test/ModuleA, Test/ModuleB";
 
             $this->Description->setName('Brickoo Test Module')
                               ->setVendor('Brickoo')
@@ -235,7 +248,8 @@
                               ->setContact('contact@brickoo.test')
                               ->setStatus('stable')
                               ->setVersion('3.0')
-                              ->setDescription('some description text');
+                              ->setDescription('some description text')
+                              ->setDependencies(array('Test/ModuleA', 'Test/ModuleB'));
 
             $this->assertEquals($expected, $this->Description->toString());
             $this->assertEquals($expected, (string)$this->Description);

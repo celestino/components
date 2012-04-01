@@ -279,6 +279,33 @@
         }
 
         /**
+         * Holds the module dependencies.
+         * @var array
+         */
+        protected $dependencies;
+
+        /**
+         * Returns the module dependencies.
+         * @return array
+         */
+        public function getDependencies()
+        {
+            return $this->dependencies;
+        }
+
+        /**
+         * Sets the module dependencies.
+         * @param array $dependencies the module dependencies
+         * @return \Brickoo\Module\Description
+         */
+        public function setDependencies(array $dependencies)
+        {
+            $this->dependencies = $dependencies;
+
+            return $this;
+        }
+
+        /**
          * Class constructor.
          * Initializes the class properties.
          * @return void
@@ -311,6 +338,10 @@
 
             if($description = $this->getDescription()) {
                 $result .= "Description: " . $description;
+            }
+
+            if ($dependencies = $this->getDependencies()) {
+                $result .= "Dependencies: ". implode(', ', $dependencies);
             }
 
             return $result;
