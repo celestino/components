@@ -19,7 +19,6 @@
             <directory suffix=".php">../Brickoo</directory>
             <exclude>
                 <!-- exclude interfaces from code coverage -->
-                <directory suffix=".php">../Brickoo/Module/Info/View</directory>
                 <directory suffix=".php">../Brickoo/*/Interfaces</directory>
                 <directory suffix=".php">../Brickoo/*/*/Interfaces</directory>
                 <directory suffix=".php">../Brickoo/*/*/*/Interfaces</directory>
