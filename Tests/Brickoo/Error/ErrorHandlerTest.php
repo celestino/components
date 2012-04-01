@@ -156,6 +156,7 @@
         /**
          * Test if the sending an not catched error level message does nothing.
          * @covers Brickoo\Error\ErrorHandler::handleError
+         * @covers Brickoo\Log\Events
          */
         public function testHandleError()
         {

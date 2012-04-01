@@ -127,12 +127,13 @@
          * Test if the exception returns nothing further.
          * @covers Brickoo\Error\ExceptionHandler::handleException
          * @covers Brickoo\Error\ExceptionHandler::getExceptionMessage
+         * @covers Brickoo\Log\Events
          */
         public function testHandleException()
         {
             $this->assertEquals
             (
-                '[123]: message Throwed in ' . __FILE__ . ' on line 136',
+                '[123]: message Throwed in ' . __FILE__ . ' on line 137',
                 $this->ExceptionHandler->handleException(new Exception('message', 123))
             );
         }
