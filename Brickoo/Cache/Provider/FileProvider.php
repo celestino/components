@@ -173,11 +173,12 @@
          * Initializes the class properties.
          * @return void
          */
-        public function __construct()
+        public function __construct($directory = null, $filePrefix = 'cache_')
         {
-            $this->directory       = null;
-            $this->filePrefix      = 'cache_';
-            $this->dependencies    = array('FileObject');
+            if ($directory !== null) {
+                $this->setDirectory($directory);
+            }
+            $this->setFilePrefix($filePrefix);
         }
 
         /**

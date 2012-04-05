@@ -78,6 +78,7 @@
 
         /**
          * Test if the FileProvider implements the CacheProviderInterface.
+         * Test if the properties are set.
          * @covers Brickoo\Cache\Provider\FileProvider::__construct
          */
         public function testConstruct()
@@ -85,8 +86,10 @@
             $this->assertInstanceOf
             (
                 'Brickoo\Cache\Provider\Interfaces\CacheProviderInterface',
-                $this->FileProvider
+                ($Provider = new FileProvider(getcwd(), 'test_prefix'))
             );
+            $this->assertAttributeEquals(getcwd().DIRECTORY_SEPARATOR, 'directory', $Provider);
+            $this->assertAttributeEquals('test_prefix', 'filePrefix', $Provider);
         }
 
         /**
