@@ -475,7 +475,7 @@
         protected function startSession()
         {
             if ($this->Route()->getModuleRoute()->isSessionRequired() &&
-                (! $this->Manager()->hasSessionStarted())
+                (! $this->SessionManager()->hasSessionStarted())
             ){
                 $this->EventManager()->notify(new Event(
                     Events::EVENT_SESSION_CONFIGURE, $this, array('SessionManager' => $this->Manager())
@@ -493,7 +493,7 @@
         protected function stopSession()
         {
             if ($this->Route()->getModuleRoute()->isSessionRequired() &&
-                $this->Manager()->hasSessionStarted()
+                $this->SessionManager()->hasSessionStarted()
             ){
                 $this->Manager()->stop();
             }
