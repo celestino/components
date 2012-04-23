@@ -311,7 +311,7 @@
 
             foreach ($this->container as $headerName => $headerValue) {
                 $headerName = str_replace(' ', '-', ucwords(
-                strtolower(str_replace(array('_', '-'), ' ', $headerName))
+                    strtolower(str_replace(array('_', '-'), ' ', $headerName))
                 ));
                 $normalizedHeaders[$headerName] = $headerValue;
             }
