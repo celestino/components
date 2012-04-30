@@ -57,12 +57,12 @@
         }
 
         /**
-         * Test if the Description class implements the DescriptionInterface.
+         * Test if the Description class implements the Description.
          * Test if the status are available in the class property.
          * @covers Brickoo\Module\description::__construct
          */
         public function testConstructor() {
-            $this->assertInstanceOf('Brickoo\Module\Interfaces\DescriptionInterface', $this->Description);
+            $this->assertInstanceOf('Brickoo\Module\Interfaces\Description', $this->Description);
             $this->assertAttributeInternalType('array', 'availableStatus', $this->Description);
         }
 

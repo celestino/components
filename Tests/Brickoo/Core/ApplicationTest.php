@@ -41,8 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ApplicationTest extends \PHPUnit_Framework_TestCase
-    {
+    class ApplicationTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance of the Application class.
@@ -54,8 +53,7 @@
          * Sets up the fixture, for example, opens a network connection.
          * This method is called before a test is executed.
          */
-        protected function setUp()
-        {
+        protected function setUp() {
             $this->Application = new Application();
         }
 
@@ -64,9 +62,8 @@
          * @covers Brickoo\Core\Application::Registry
          * @covers Brickoo\Core\Application::getDependency
          */
-        public function testRegistryLazyInitialization()
-        {
-            $this->assertInstanceOf('Brickoo\Memory\Interfaces\RegistryInterface', ($Registry = $this->Application->Registry()));
+        public function testRegistryLazyInitialization() {
+            $this->assertInstanceOf('Brickoo\Memory\Interfaces\Registry', ($Registry = $this->Application->Registry()));
             $this->assertAttributeEquals(array('Registry' => $Registry), 'dependencies', $this->Application);
         }
 
@@ -75,8 +72,7 @@
          * @covers Brickoo\Core\Application::Registry
          * @covers Brickoo\Core\Application::getDependency
          */
-        public function testRegistryInjection()
-        {
+        public function testRegistryInjection() {
             $Registry = $this->getMock('Brickoo\Memory\Registry');
             $this->assertSame($this->Application, $this->Application->Registry($Registry));
             $this->assertAttributeEquals(array('Registry' => $Registry), 'dependencies', $this->Application);
@@ -87,8 +83,7 @@
          * @covers Brickoo\Core\Application::Request
          * @covers Brickoo\Core\Application::getDependency
          */
-        public function testRequestLazyInitialization()
-        {
+        public function testRequestLazyInitialization() {
             $this->assertInstanceOf('Brickoo\Http\Request', ($Request = $this->Application->Request()));
             $this->assertAttributeEquals(array('Request' => $Request), 'dependencies', $this->Application);
         }
@@ -98,8 +93,7 @@
          * @covers Brickoo\Core\Application::Request
          * @covers Brickoo\Core\Application::getDependency
          */
-        public function testRequestInjection()
-        {
+        public function testRequestInjection() {
             $Request = $this->getMock('Brickoo\Http\Request');
             $this->assertSame($this->Application, $this->Application->Request($Request));
             $this->assertAttributeEquals(array('Request' => $Request), 'dependencies', $this->Application);
@@ -110,14 +104,13 @@
          * @covers Brickoo\Core\Application::Router
          * @covers Brickoo\Core\Application::getDependency
          */
-        public function testRouterLazyInitialization()
-        {
+        public function testRouterLazyInitialization() {
             $Request = $this->getMock('Brickoo\Http\Request');
             $EventManager = $this->getMock('Brickoo\Event\Manager');
             $this->Application->Request($Request);
             $this->Application->EventManager($EventManager);
 
-            $this->assertInstanceOf('Brickoo\Routing\Interfaces\RouterInterface', ($Router = $this->Application->Router()));
+            $this->assertInstanceOf('Brickoo\Routing\Interfaces\Router', ($Router = $this->Application->Router()));
             $this->assertAttributeEquals(
                 array('Router' => $Router, 'Request' => $Request, 'EventManager' => $EventManager),
                 'dependencies',
@@ -130,8 +123,7 @@
          * @covers Brickoo\Core\Application::Router
          * @covers Brickoo\Core\Application::getDependency
          */
-        public function testRouterInjection()
-        {
+        public function testRouterInjection() {
             $Router = $this->getMock('Brickoo\Routing\Router', null, array($this->getMock('Brickoo\Http\Request')));
             $this->assertSame($this->Application, $this->Application->Router($Router));
             $this->assertAttributeEquals(array('Router' => $Router), 'dependencies', $this->Application);
@@ -142,8 +134,7 @@
          * @covers Brickoo\Core\Application::Route
          * @covers Brickoo\Core\Application::getDependency
          */
-        public function testRouteInjection()
-        {
+        public function testRouteInjection() {
             $RequestRoute = $this->getMock('Brickoo\Routing\RequestRoute', null, array(new \Brickoo\Routing\Route('test.route')));
             $this->assertSame($this->Application, $this->Application->Route($RequestRoute));
             $this->assertAttributeEquals(array('Route' => $RequestRoute), 'dependencies', $this->Application);
@@ -154,8 +145,7 @@
          * @covers \Brickoo\Core\Exceptions\DependencyNotAvailableException
          * @expectedException \Brickoo\Core\Exceptions\DependencyNotAvailableException
          */
-        public function testRouteLazyException()
-        {
+        public function testRouteLazyException() {
             $this->Application->Route();
         }
 
@@ -164,10 +154,9 @@
          * @covers Brickoo\Core\Application::SessionManager
          * @covers Brickoo\Core\Application::getDependency
          */
-        public function testSessionManager()
-        {
+        public function testSessionManager() {
             $this->assertInstanceOf(
-                'Brickoo\Http\Session\Interfaces\ManagerInterface',
+                'Brickoo\Http\Session\Interfaces\Manager',
                 ($SessionManager = $this->Application->SessionManager())
             );
 
@@ -179,8 +168,7 @@
          * @covers Brickoo\Core\Application::SessionManager
          * @covers Brickoo\Core\Application::getDependency
          */
-        public function testSessionManagerInjection()
-        {
+        public function testSessionManagerInjection() {
             $SessionManager = $this->getMock(
                 'Brickoo\Http\Session\Manager',
                 null,
@@ -195,9 +183,8 @@
          * @covers Brickoo\Core\Application::EventManager
          * @covers Brickoo\Core\Application::getDependency
          */
-        public function testEventManagerLazyIntialization()
-        {
-            $this->assertInstanceOf('Brickoo\Event\Interfaces\ManagerInterface',
+        public function testEventManagerLazyIntialization() {
+            $this->assertInstanceOf('Brickoo\Event\Interfaces\Manager',
                 ($EventManager = $this->Application->EventManager())
             );
             $this->assertAttributeEquals(array('EventManager' => $EventManager), 'dependencies', $this->Application);
@@ -208,8 +195,7 @@
          * @covers Brickoo\Core\Application::EventManager
          * @covers Brickoo\Core\Application::getDependency
          */
-        public function testEventManagerInjection()
-        {
+        public function testEventManagerInjection() {
             $EventManager =  $this->getMock('Brickoo\Event\Manager');
             $this->assertSame($this->Application, $this->Application->EventManager($EventManager));
         }
@@ -218,8 +204,7 @@
          * Test if the version can be retrieved and matches the expected regular expression.
          * @covers Brickoo\Core\Application::getVersion
          */
-        public function testGetVersion()
-        {
+        public function testGetVersion() {
             $this->assertRegExp('~^([A-Z]{3,6}\-)?[0-9]\.[0-9]$~', $this->Application->getVersion());
         }
 
@@ -227,8 +212,7 @@
          * Test if the version number can be retrieved and matches a float value.
          * @covers Brickoo\Core\Application::getVersionNumber
          */
-        public function testGetVersionNumber()
-        {
+        public function testGetVersionNumber() {
             $this->assertRegExp('~^[0-9]\.[0-9]$~', $this->Application->getVersionNumber());
         }
 
@@ -236,8 +220,7 @@
          * Test if the Autoloader can be registered to the local Registry.
          * @covers Brickoo\Core\Application::registerAutoloader
          */
-        public function testRegisterAutoloader()
-        {
+        public function testRegisterAutoloader() {
             $Autoloader = $this->getMock('Brickoo\Core\Autoloader');
 
             $Registry = $this->getMock('Brickoo\Memory\Registry', array('register', 'lock'));
@@ -260,8 +243,7 @@
          * @covers Brickoo\Core\Application::registerModules
          * @covers Brickoo\Core\Application::getModules
          */
-        public function testModulesRoutine()
-        {
+        public function testModulesRoutine() {
             $modules = array(
                 'Test/ModuleA' => 'path/to/module/A',
                 'Test/ModuleB' => 'path/to/module/B',
@@ -300,8 +282,7 @@
          * Test if the registered modules are recognized.
          * @covers Brickoo\Core\Application::isModuleAvailable
          */
-        public function testIsModuleAvailable()
-        {
+        public function testIsModuleAvailable() {
             $expected = array(
                 'Test/ModuleA' => 'path/to/module/A'.DIRECTORY_SEPARATOR,
                 'Test/ModuleB' => 'path/to/module/B'.DIRECTORY_SEPARATOR,
@@ -327,8 +308,7 @@
          * Test if the module path can be returned.
          * @covers Brickoo\Core\Application::getModulePath
          */
-        public function testGetModulePath()
-        {
+        public function testGetModulePath() {
             $expected = array(
                 'Test/ModuleA' => 'path/to/module/A'.DIRECTORY_SEPARATOR,
                 'Test/ModuleB' => 'path/to/module/B'.DIRECTORY_SEPARATOR,
@@ -356,8 +336,7 @@
          * @covers Brickoo\Core\Exceptions\ModuleNotAvailableException
          * @expectedException Brickoo\Core\Exceptions\ModuleNotAvailableException
          */
-        public function testModuleNotAvailableException()
-        {
+        public function testModuleNotAvailableException() {
             $this->Application->getModulePath('FAILURE');
         }
 
@@ -365,8 +344,7 @@
          * Test if a directory path can be registerd.
          * @covers Brickoo\Core\Application::registerDirectory
          */
-        public function testRegisterDirectory()
-        {
+        public function testRegisterDirectory() {
             $Registry = $this->getMock('Brickoo\Memory\Registry', array('register', 'lock'));
             $Registry->expects($this->once())
                      ->method('register')
@@ -389,8 +367,7 @@
          * @covers Brickoo\Core\Application::registerDirectory
          * @expectedException Brickoo\Core\Exceptions\DirectoryDoesNotExistException
          */
-        public function testNotExistingDirectoryException()
-        {
+        public function testNotExistingDirectoryException() {
             $this->Application->registerDirectory('fail', '/path/does/not/exist');
         }
 
@@ -398,8 +375,7 @@
          * Test if the public directory can be registered.
          * @covers Brickoo\Core\Application::registerPublicDirectory
          */
-        public function testRegisterPublicDirectory()
-        {
+        public function testRegisterPublicDirectory() {
             $publicDirectory = '/path/to/public/directory';
             $expected = $publicDirectory . '/';
 
@@ -422,8 +398,7 @@
          * Test if the  public directory is recognized as available.
          * @covers Brickoo\Core\Application::hasPublicDirectory
          */
-        public function testHasPublicDirectory()
-        {
+        public function testHasPublicDirectory() {
             $Registry = $this->getMock('Brickoo\Memory\Registry', array('isRegistered'));
             $Registry->expects($this->once())
                      ->method('isRegistered')
@@ -440,8 +415,7 @@
          * @covers Brickoo\Core\Application::has
          * @covers Brickoo\Core\Application::__isset
          */
-        public function testHas()
-        {
+        public function testHas() {
             $Registry = $this->getMock('Brickoo\Memory\Registry', array('isRegistered'));
             $Registry->expects($this->exactly(2))
                      ->method('isRegistered')
@@ -459,8 +433,7 @@
          * @covers Brickoo\Core\Application::get
          * @covers Brickoo\Core\Application::__get
          */
-        public function testGet()
-        {
+        public function testGet() {
             $expected = array('SampleModule', '/sample/path/');
 
             $Registry = $this->getMock('Brickoo\Memory\Registry', array('isRegistered', 'get'));
@@ -483,8 +456,7 @@
          * Test if a Registry value does not exist null is returned.
          * @covers Brickoo\Core\Application::get
          */
-        public function testGetNullReturnValue()
-        {
+        public function testGetNullReturnValue() {
             $Registry = $this->getMock('Brickoo\Memory\Registry', array('isRegistered', 'get'));
             $Registry->expects($this->once())
                      ->method('isRegistered')
@@ -501,8 +473,7 @@
          * @covers Brickoo\Core\Application::set
          * @covers Brickoo\Core\Application::__set
          */
-        public function testSet()
-        {
+        public function testSet() {
             $expected = 'testValue';
 
             $Registry = $this->getMock('Brickoo\Memory\Registry', array('register', 'lock'));
@@ -531,8 +502,7 @@
          * @covers Brickoo\Core\Application::askForResponse
          * @covers Brickoo\Core\Application::notifyResponseCache
          */
-        public function TODOtestRunWithResponse()
-        {
+        public function TODOtestRunWithResponse() {
             $modules = array('moduleTest' => '/some/location'.DIRECTORY_SEPARATOR);
 
             $EventManager = $this->getMock('Brickoo\Event\Manager');
@@ -545,7 +515,7 @@
             $MainApplication->expects($this->once())
                             ->method('aggregateListeners')
                             ->with($this->equalTo($EventManager));
-                            // ->with($this->isInstanceOf('Brickoo\Event\Interfaces\ManagerInterface'));
+                            // ->with($this->isInstanceOf('Brickoo\Event\Interfaces\Manager'));
 
             $SessionManager = $this->getMock(
                 'Brickoo\Http\Session\Manager',

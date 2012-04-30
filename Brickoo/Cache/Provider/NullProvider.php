@@ -40,7 +40,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class NullProvider implements Interfaces\ProviderInterface {
+    class NullProvider implements Interfaces\Provider {
 
         /**
         * Returns boolean false like the content is not available.

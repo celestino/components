@@ -42,7 +42,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Headers extends Memory\Container implements Interfaces\HeadersInterface {
+    class Headers extends Memory\Container implements Interfaces\Headers {
 
         /**
          * Holds the accept types supported.

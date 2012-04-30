@@ -42,7 +42,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class SyslogNGHandler implements Interfaces\LogHandlerInterface {
+    class SyslogNGHandler implements Interfaces\LogHandler {
 
         /**
          * Declaration oo facility constants.
@@ -269,10 +269,10 @@
         /**
          * Class constructor.
          * Initializes the class properties.
-         * @param Brickoo\System\Interfaces\SocketObjectInterface $SocketObject
+         * @param Brickoo\System\Interfaces\SocketObject $SocketObject
          * @return void
          */
-        public function __construct(\Brickoo\System\Interfaces\SocketObjectInterface $SocketObject) {
+        public function __construct(\Brickoo\System\Interfaces\SocketObject $SocketObject) {
             $this->_SocketObject   = $SocketObject;
         }
 

@@ -42,7 +42,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Url implements Interfaces\UrlInterface {
+    class Url implements Interfaces\Url {
 
         /**
          * Holds the class dependencies.
@@ -71,13 +71,13 @@
 
         /**
          * Lazy initialization of the Http\Request instance.
-         * @param \Brickoo\Http\Interfaces\RequestInterface $Request the Http\Request instance
-         * @return \Brickoo\Http\Interfaces\RequestInterface
+         * @param \Brickoo\Http\Interfaces\Request $Request the Http\Request instance
+         * @return \Brickoo\Http\Interfaces\Request
          */
-        public function Request(\Brickoo\Http\Interfaces\RequestInterface $Request = null) {
+        public function Request(\Brickoo\Http\Interfaces\Request $Request = null) {
             return $this->getDependency(
                 'Request',
-                '\Brickoo\Http\Interfaces\RequestInterface',
+                '\Brickoo\Http\Interfaces\Request',
                 function(){return new Http\Request();},
                 $Request
             );

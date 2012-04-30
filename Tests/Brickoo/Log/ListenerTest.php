@@ -51,7 +51,7 @@
          * @covers Brickoo\Log\Listener::__construct
          */
         public function testConstruct() {
-            $Logger = $this->getMock('Brickoo\Log\Interfaces\LoggerInterface');
+            $Logger = $this->getMock('Brickoo\Log\Interfaces\Logger');
             $Listener = new Listener($Logger, 5);
             $this->assertAttributeSame($Logger, 'Logger', $Listener);
             $this->assertAttributeEquals(5, 'listenerPriority', $Listener);
@@ -63,7 +63,7 @@
          * @expectedException InvalidArgumentException
          */
         public function testConstructArgumentException() {
-            $Logger = $this->getMock('Brickoo\Log\Interfaces\LoggerInterface');
+            $Logger = $this->getMock('Brickoo\Log\Interfaces\Logger');
             $Listener = new Listener($Logger, 'wrongType');
         }
 
@@ -74,7 +74,7 @@
          */
         public function testAggregateListeners() {
             $priority = 10;
-            $Logger = $this->getMock('Brickoo\Log\Interfaces\LoggerInterface');
+            $Logger = $this->getMock('Brickoo\Log\Interfaces\Logger');
 
             $EventManager = $this->getMock('Brickoo\Event\Manager', array('attachListener'));
             $EventManager->expects($this->once())

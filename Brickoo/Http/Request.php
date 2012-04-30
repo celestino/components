@@ -42,7 +42,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Request implements Interfaces\RequestInterface {
+    class Request implements Interfaces\Request {
 
         /**
          * Holds the class dependencies.
@@ -71,13 +71,13 @@
 
         /**
          * Lazy initialization of the Url dependency
-         * @param \Brickoo\Http\Component\Interfaces\UrlInterface $Url the Url dependency to inject
-         * @return \Brickoo\Http\Interfaces\UrlInterface
+         * @param \Brickoo\Http\Component\Interfaces\Url $Url the Url dependency to inject
+         * @return \Brickoo\Http\Interfaces\Url
          */
-        public function Url(\Brickoo\Http\Component\Interfaces\UrlInterface $Url = null) {
+        public function Url(\Brickoo\Http\Component\Interfaces\Url $Url = null) {
             return $this->getDependency(
                 'Url',
-                '\Brickoo\Http\Component\Interfaces\UrlInterface',
+                '\Brickoo\Http\Component\Interfaces\Url',
                 function($Request) {
                     $Url = new Component\Url();
                     $Url->Request($Request);
@@ -89,13 +89,13 @@
 
         /**
          * Lazy initialization of the Headers dependency.
-         * @param \Brickoo\Http\Component\Interfaces\HeadersInterface $Headers the Headers dependency to inject
-         * @return \Brickoo\Http\Component\Interfaces\HeadersInterface
+         * @param \Brickoo\Http\Component\Interfaces\Headers $Headers the Headers dependency to inject
+         * @return \Brickoo\Http\Component\Interfaces\Headers
          */
-        public function Headers(\Brickoo\Http\Component\Interfaces\HeadersInterface $Headers = null) {
+        public function Headers(\Brickoo\Http\Component\Interfaces\Headers $Headers = null) {
             return $this->getDependency(
                 'Headers',
-                '\Brickoo\Http\Component\Interfaces\HeadersInterface',
+                '\Brickoo\Http\Component\Interfaces\Headers',
                 function() {return new Component\Headers();},
                 $Headers
             );
@@ -103,13 +103,13 @@
 
         /**
          * Lazy initialization of the Query dependency.
-         * @param \Brickoo\Http\Component\Interfaces\QueryInterface $Query the Query dependency to inject
-         * @return \Brickoo\Http\Component\Interfaces\QueryInterface
+         * @param \Brickoo\Http\Component\Interfaces\Query $Query the Query dependency to inject
+         * @return \Brickoo\Http\Component\Interfaces\Query
         */
-        public function Query(\Brickoo\Http\Component\Interfaces\QueryInterface $Query = null) {
+        public function Query(\Brickoo\Http\Component\Interfaces\Query $Query = null) {
             return $this->getDependency(
                 'Query',
-                '\Brickoo\Http\Component\Interfaces\QueryInterface',
+                '\Brickoo\Http\Component\Interfaces\Query',
                 function() {return new Component\Query();},
                 $Query
             );
@@ -117,13 +117,13 @@
 
         /**
          * Lazy initialization of the Post dependency.
-         * @param \Brickoo\Memory\Interfaces\ContainerInterface $Post the Post dependency to inject
-         * @return \Brickoo\Memory\Interfaces\ContainerInterface
+         * @param \Brickoo\Memory\Interfaces\Container $Post the Post dependency to inject
+         * @return \Brickoo\Memory\Interfaces\Container
          */
-        public function Post(\Brickoo\Memory\Interfaces\ContainerInterface $Post = null) {
+        public function Post(\Brickoo\Memory\Interfaces\Container $Post = null) {
             return $this->getDependency(
                 'Post',
-                '\Brickoo\Memory\Interfaces\ContainerInterface',
+                '\Brickoo\Memory\Interfaces\Container',
                 function(){return new Memory\Container();},
                 $Post
             );
@@ -131,13 +131,13 @@
 
         /**
          * Lazy initialization of the Files dependency.
-         * @param \Brickoo\Memory\Interfaces\ContainerInterface $Files the Files dependency to inject
-         * @return \Brickoo\Memory\Interfaces\ContainerInterface
+         * @param \Brickoo\Memory\Interfaces\Container $Files the Files dependency to inject
+         * @return \Brickoo\Memory\Interfaces\Container
          */
-        public function Files(\Brickoo\Memory\Interfaces\ContainerInterface $Files = null) {
+        public function Files(\Brickoo\Memory\Interfaces\Container $Files = null) {
             return $this->getDependency(
                 'Files',
-                '\Brickoo\Memory\Interfaces\ContainerInterface',
+                '\Brickoo\Memory\Interfaces\Container',
                 function(){return new Memory\Container();},
                 $Files
             );

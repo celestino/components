@@ -43,7 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Application implements Event\Interfaces\ListenerAggregateInterface {
+    class Application implements Event\Interfaces\ListenerAggregate {
 
         /**
         * Holds the class dependencies.
@@ -72,13 +72,13 @@
 
         /**
          * Lazy initialization of the Response dependency.
-         * @param \Brickoo\Core\Interfaces\ResponseInterface $Response the Response dependency to inject
-         * @return \Brickoo\Core\Interfaces\ResponseInterface
+         * @param \Brickoo\Core\Interfaces\Response $Response the Response dependency to inject
+         * @return \Brickoo\Core\Interfaces\Response
          */
-        public function Response(\Brickoo\Core\Interfaces\ResponseInterface $Response = null) {
+        public function Response(\Brickoo\Core\Interfaces\Response $Response = null) {
             return $this->getDependency(
                 'Response',
-                '\Brickoo\Core\Interfaces\ResponseInterface',
+                '\Brickoo\Core\Interfaces\Response',
                 function() {return new Response();},
                 $Response
             );
@@ -93,19 +93,19 @@
         /**
          * Registers the listeners to the EventManager.
          * This method is automaticly called by Brickoo\Core\Application::run if injected
-         * since this application implements the ListenerAggreagteInterface.
-         * @param \Brickoo\Event\Interfaces\ManagerInterface $EventManager
+         * since this application implements the ListenerAggreagte.
+         * @param \Brickoo\Event\Interfaces\Manager $EventManager
          * @return void
          */
-        public function aggregateListeners(\Brickoo\Event\Interfaces\ManagerInterface $EventManager) {
+        public function aggregateListeners(\Brickoo\Event\Interfaces\Manager $EventManager) {
             if ($this->listenerAggregated !== true) {
                 $EventManager->attachListener(
                     Core\Events::EVENT_RESPONSE_GET, array($this, 'run'), 0, null,
-                        function($Event){return ($Event->getParam('Route') instanceof \Brickoo\Routing\Interfaces\RequestRouteInterface);}
+                        function($Event){return ($Event->getParam('Route') instanceof \Brickoo\Routing\Interfaces\RequestRoute);}
                 );
                 $EventManager->attachListener(
                     Core\Events::EVENT_RESPONSE_SEND, array($this, 'sendResponse'), 0, array('Response'),
-                    function($Event){return ($Event->getParam('Response') instanceof \Brickoo\Core\Interfaces\ResponseInterface);}
+                    function($Event){return ($Event->getParam('Response') instanceof \Brickoo\Core\Interfaces\Response);}
 
                 );
                 $EventManager->attachListener(
@@ -174,10 +174,10 @@
         /**
          * Returns always a fresh response.
          * Notifies the module boot event listeners.
-         * @param \Brickoo\Event\Interfaces\EventInterface $Event the application event asking
-         * @return \Brickoo\Core\Interfaces\ResponseInterface
+         * @param \Brickoo\Event\Interfaces\Event $Event the application event asking
+         * @return \Brickoo\Core\Interfaces\Response
          */
-        public function run(\Brickoo\Event\Interfaces\EventInterface $Event) {
+        public function run(\Brickoo\Event\Interfaces\Event $Event) {
             $RequestRoute = $Event->getParam('Route');
             $Response = null;
 
@@ -215,10 +215,10 @@
 
         /**
          * Sends the Response headers and content.
-         * @param \Brickoo\Core\Interfaces\ResponseInterface $Response the request response
+         * @param \Brickoo\Core\Interfaces\Response $Response the request response
          * @return \Brickoo\Core\Application
          */
-        public function sendResponse(\Brickoo\Core\Interfaces\ResponseInterface $Response) {
+        public function sendResponse(\Brickoo\Core\Interfaces\Response $Response) {
             $Response->send();
 
             return $this;

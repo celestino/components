@@ -71,7 +71,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class FileObject implements Interfaces\FileObjectInterface {
+    class FileObject implements Interfaces\FileObject {
 
         /**
          * Holds the location to open.

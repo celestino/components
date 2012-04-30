@@ -68,13 +68,13 @@
         }
 
         /**
-         * Test if the constructor implements the SocketObjectInterface.
+         * Test if the constructor implements the SocketObject.
          * @covers Brickoo\System\SocketObject::__construct
          */
         public function testConstruct() {
             $this->assertInstanceOf
             (
-                'Brickoo\System\Interfaces\SocketObjectInterface',
+                'Brickoo\System\Interfaces\SocketObject',
                 new SocketObject()
             );
         }

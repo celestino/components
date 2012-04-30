@@ -43,7 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class FileProvider implements Interfaces\ProviderInterface {
+    class FileProvider implements Interfaces\Provider {
 
         /**
          * Holds the lifetime format used for storing the expiration.
@@ -85,13 +85,13 @@
 
         /**
          * Lazy initialization of the FileObject.
-         * @param \Brickoo\System\Interfaces\FileObjectInterface $FileObject the FileObject to inject
-         * @return \Brickoo\System\Interface\FileObjectInterface
+         * @param \Brickoo\System\Interfaces\FileObject $FileObject the FileObject to inject
+         * @return \Brickoo\System\Interface\FileObject
          */
-        public function FileObject(\Brickoo\System\Interfaces\FileObjectInterface $FileObject = null) {
+        public function FileObject(\Brickoo\System\Interfaces\FileObject $FileObject = null) {
             return $this->getDependency(
                 'FileObject',
-                '\Brickoo\System\Interfaces\FileObjectInterface',
+                '\Brickoo\System\Interfaces\FileObject',
                 function(){return new System\FileObject();},
                 $FileObject
             );

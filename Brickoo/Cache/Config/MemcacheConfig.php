@@ -41,7 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class MemcacheConfig implements Interfaces\MemcacheConfigInterface {
+    class MemcacheConfig implements Interfaces\MemcacheConfig {
 
         /**
          * Holds the servers list with configurations for a Memcache object.

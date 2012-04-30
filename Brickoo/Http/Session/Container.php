@@ -41,7 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Container implements Interfaces\ContainerInterface {
+    class Container implements Interfaces\Container {
 
         /**
          * Holds the session namespace using.

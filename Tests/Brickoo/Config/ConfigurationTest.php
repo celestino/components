@@ -44,12 +44,12 @@
     class ConfigurationTest extends \PHPUnit_Framework_TestCase {
 
         /**
-         * Test if the COnfiguration class implements the ConfigurationInterface.
+         * Test if the COnfiguration class implements the Configuration.
          * @covers Brickoo\Config\Configuration::__construct
          */
         public function testConstruct() {
-            $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\ProviderInterface');
-            $this->assertInstanceOf('Brickoo\Config\Interfaces\ConfigurationInterface',
+            $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\Provider');
+            $this->assertInstanceOf('Brickoo\Config\Interfaces\Configuration',
                 ($Configuration = new Configuration($Provider))
             );
             $this->assertAttributeSame($Provider, '_Provider', $Configuration);
@@ -60,7 +60,7 @@
          * @covers Brickoo\Config\Configuration::Provider
          */
         public function testProvider() {
-            $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\ProviderInterface');
+            $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\Provider');
             $Configuration = new Configuration($Provider);
             $this->assertSame($Provider, $Configuration->Provider());
         }
@@ -72,7 +72,7 @@
         public function testLoad() {
             $expectedResult = array('Key' => 'Value');
 
-            $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\ProviderInterface');
+            $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\Provider');
             $Provider->expects($this->once())
                      ->method('load')
                      ->will($this->returnValue($expectedResult));
@@ -87,7 +87,7 @@
          * @covers Brickoo\Config\Configuration::save
          */
         public function testSave() {
-            $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\ProviderInterface');
+            $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\Provider');
             $Provider->expects($this->once())
                      ->method('save')
                      ->with(array('key' => 'value'))
@@ -106,7 +106,7 @@
             $config = array(
                 'SECTION1' => array('key1' => 'value1')
             );
-            $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\ProviderInterface');
+            $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\Provider');
             $Configuration = new Configuration($Provider);
             $Configuration->fromArray($config)
                           ->convertSectionToConstants('SECTION1');
@@ -120,7 +120,7 @@
          * @expectedException UnexpectedValueException
          */
         public function testConvertionWithNoktAvailableSectionException() {
-            $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\ProviderInterface');
+            $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\Provider');
             $Configuration = new Configuration($Provider);
             $Configuration->convertSectionToConstants('FAIL');
         }
@@ -134,7 +134,7 @@
             $config = array(
                 'SECTION1' => array('key1' => array('wrongValueType'))
             );
-            $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\ProviderInterface');
+            $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\Provider');
             $Configuration = new Configuration($Provider);
             $Configuration->fromArray($config);
             $Configuration->convertSectionToConstants('SECTION1');

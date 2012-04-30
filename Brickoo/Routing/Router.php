@@ -44,17 +44,17 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Router implements Interfaces\RouterInterface {
+    class Router implements Interfaces\Router {
 
         /**
          * Holds an instance of the Request class.
-         * @var \Brickoo\Core\Interfaces\RequestInterface
+         * @var \Brickoo\Core\Interfaces\Request
          */
         protected $Request;
 
         /**
-         * Returns the Request instance implementing the RequestInterface.
-         * @return \Brickoo\Core\Interfaces\RequestInterface
+         * Returns the Request instance implementing the Request.
+         * @return \Brickoo\Core\Interfaces\Request
          */
         public function getRequest() {
             return $this->Request;
@@ -87,13 +87,13 @@
 
         /**
          * Lazy initialization of the RouteCollection dependecy.
-         * @param \Brickoo\Routing\Interfaces\RouteCollectionInterface $RouteCollection the collection of routes
-         * @return \Brickoo\Routing\Interfaces\RouterCollectionInterface
+         * @param \Brickoo\Routing\Interfaces\RouteCollection $RouteCollection the collection of routes
+         * @return \Brickoo\Routing\Interfaces\RouterCollection
          */
-        public function RouteCollection(\Brickoo\Routing\Interfaces\RouteCollectionInterface $RouteCollection = null) {
+        public function RouteCollection(\Brickoo\Routing\Interfaces\RouteCollection $RouteCollection = null) {
             return $this->getDependency(
                 'RouteCollection',
-                '\Brickoo\Routing\Interfaces\RouteCollectionInterface',
+                '\Brickoo\Routing\Interfaces\RouteCollection',
                 function(){return new RouteCollection();},
                 $RouteCollection
             );
@@ -101,13 +101,13 @@
 
         /**
          * Lazy initialization of the RouteFinder dependecy.
-         * @param \Brickoo\Routing\Interfaces\RouteFinderInterface $RouteFinder the RouteFinder dependency
-         * @return \Brickoo\Routing\Interfaces\RouteFinderInterface
+         * @param \Brickoo\Routing\Interfaces\RouteFinder $RouteFinder the RouteFinder dependency
+         * @return \Brickoo\Routing\Interfaces\RouteFinder
          */
-        public function RouteFinder(\Brickoo\Routing\Interfaces\RouteFinderInterface $RouteFinder = null) {
+        public function RouteFinder(\Brickoo\Routing\Interfaces\RouteFinder $RouteFinder = null) {
             return $this->getDependency(
                 'RouteFinder',
-                '\Brickoo\Routing\Interfaces\RouteFinderInterface',
+                '\Brickoo\Routing\Interfaces\RouteFinder',
                 function($Router){
                     return new RouteFinder(
                         $Router->RouteCollection(), $Router->getRequest(), $Router->Aliases()
@@ -119,13 +119,13 @@
 
         /**
          * Lazy initialization of the Aliases dependecy.
-         * @param \Brickoo\Memory\Interfaces\ContainerInterface $Aliases the Container dependency
-         * @return \Brickoo\Memory\Interfaces\ContainerInterface
+         * @param \Brickoo\Memory\Interfaces\Container $Aliases the Container dependency
+         * @return \Brickoo\Memory\Interfaces\Container
          */
-        public function Aliases(\Brickoo\Memory\Interfaces\ContainerInterface $Aliases = null) {
+        public function Aliases(\Brickoo\Memory\Interfaces\Container $Aliases = null) {
             return $this->getDependency(
                 'Aliases',
-                '\Brickoo\Memory\Interfaces\ContainerInterface',
+                '\Brickoo\Memory\Interfaces\Container',
                 function(){return new \Brickoo\Memory\Container();},
                 $Aliases
             );
@@ -133,13 +133,13 @@
 
         /**
          * Lazy initialization of the EventManager dependecy.
-         * @param \Brickoo\Event\Interfaces\ManagerInterface $EventManager the EventManager dependency
-         * @return \Brickoo\Event\Interfaces\ManagerInterface
+         * @param \Brickoo\Event\Interfaces\Manager $EventManager the EventManager dependency
+         * @return \Brickoo\Event\Interfaces\Manager
          */
-        public function EventManager(\Brickoo\Event\Interfaces\ManagerInterface $EventManager = null) {
+        public function EventManager(\Brickoo\Event\Interfaces\Manager $EventManager = null) {
             return $this->getDependency(
                 'EventManager',
-                '\Brickoo\Event\Interfaces\ManagerInterface',
+                '\Brickoo\Event\Interfaces\Manager',
                 function(){return new \Brickoo\Event\Manager();},
                 $EventManager
             );
@@ -213,17 +213,17 @@
 
         /**
          * Holds the requeste Route instance.
-         * @var Brickoo\Routing\Interfaces\RequestRouteInterface
+         * @var Brickoo\Routing\Interfaces\RequestRoute
          */
         protected $RequestRoute;
 
         /**
          * Sets the requested Route for further routing.
-         * @param \Brickoo\Routing\Interfaces\RequestRouteInterface $RequestRoute the route matched the request
+         * @param \Brickoo\Routing\Interfaces\RequestRoute $RequestRoute the route matched the request
          * @throws \Brickoo\Core\Exceptions\ValueOverwriteException if trying to overwrite the request route
          * @return \Brickoo\Routing\Router
          */
-        public function setRequestRoute(\Brickoo\Routing\Interfaces\RequestRouteInterface $RequestRoute) {
+        public function setRequestRoute(\Brickoo\Routing\Interfaces\RequestRoute $RequestRoute) {
             if ($this->RequestRoute !== null) {
                 throw new Core\Exceptions\ValueOverwriteException('Router::RequestRoute');
             }
@@ -238,7 +238,7 @@
          * @return boolean check result
          */
         public function hasRequestRoute() {
-            return ($this->RequestRoute instanceof Interfaces\RequestRouteInterface);
+            return ($this->RequestRoute instanceof Interfaces\RequestRoute);
         }
 
         /**
@@ -273,11 +273,11 @@
 
         /**
         * Class constructor.
-        * Injects a Request dependency implementing the Core}Interfaces\RequestInterface
+        * Injects a Request dependency implementing the Core}Interfaces\Request
         * Initializes the class properties.
         * @return void
         */
-        public function __construct(\Brickoo\Core\Interfaces\RequestInterface $Request) {
+        public function __construct(\Brickoo\Core\Interfaces\Request $Request) {
             $this->Request            = $Request;
             $this->RequestRoute       = null;
             $this->dependencies       = array();
@@ -292,7 +292,7 @@
          */
         public function loadModulesRoutes() {
             if (($RouteCollection = $this->EventManager()->ask(new Event\Event(RouterEvents::EVENT_LOAD, $this))) &&
-                ($RouteCollection instanceof Interfaces\RouteCollectionInterface)
+                ($RouteCollection instanceof Interfaces\RouteCollection)
             ){
                 $this->RouteCollection($RouteCollection);
             }
@@ -326,7 +326,7 @@
                 foreach($modules as $modulePath) {
                     if (file_exists(($routingFilename = $modulePath . $this->getRoutesFilename()))&&
                         ($ModuleRouteCollection = (require ($routingFilename))) &&
-                        ($ModuleRouteCollection instanceof Interfaces\RouteCollectionInterface) &&
+                        ($ModuleRouteCollection instanceof Interfaces\RouteCollection) &&
                         $ModuleRouteCollection->hasRoutes()
                     ){
                         $this->RouteCollection()->addRoutes($ModuleRouteCollection->getRoutes());

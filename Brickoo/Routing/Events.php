@@ -43,7 +43,7 @@
 
         /**
          * Asks for loaded routes and returned as an RouteCollection object.
-         * @see Brickoo\Routing\Interfaces\RouteCollectionInterface
+         * @see Brickoo\Routing\Interfaces\RouteCollection
          * @var string
          */
         const EVENT_LOAD    = 'routes.load';

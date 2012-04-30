@@ -60,7 +60,7 @@
         }
 
         /**
-         * Test if the Container implements the ContainerInterface and the
+         * Test if the Container implements the Container and the
          * container property is defined.
          * @covers Brickoo\Memory\Container::__construct
          */

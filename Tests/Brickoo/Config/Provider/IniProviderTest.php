@@ -63,7 +63,7 @@
          */
         public function testConstructor() {
             $Provider = new IniProvider('test.ini');
-            $this->assertInstanceOf('Brickoo\Config\Provider\Interfaces\ProviderInterface', $Provider);
+            $this->assertInstanceOf('Brickoo\Config\Provider\Interfaces\Provider', $Provider);
             $this->assertAttributeEquals('test.ini', 'filename', $Provider);
         }
 

@@ -41,7 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class MemcacheProvider implements Interfaces\ProviderInterface {
+    class MemcacheProvider implements Interfaces\Provider {
 
         /**
          * Holds an instance of the Memcache class.

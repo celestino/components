@@ -39,7 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class IniProvider implements Interfaces\ProviderInterface {
+    class IniProvider implements Interfaces\Provider {
 
         /**
          * Holds the ini file name to load or save configuration.

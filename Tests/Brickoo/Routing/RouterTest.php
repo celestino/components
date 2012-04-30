@@ -48,12 +48,12 @@
 
         /**
          * Returns a Request stub .
-         * @return \Brickoo\Core\Interfaces\DynamicInterface
+         * @return \Brickoo\Core\Interfaces\Dynamic
          */
         public function getRequestStub() {
             return $this->getMock
             (
-                'Brickoo\Core\Interfaces\RequestInterface',
+                'Brickoo\Core\Interfaces\Request',
                 array('getPath', 'getMethod', 'getHost', 'getProtocol', 'getFormat')
             );
         }
@@ -71,7 +71,7 @@
 
         /**
          * Returns an Aliases stub.
-         * @return \Brickoo\Memory\Interfaces\ContainerInterface
+         * @return \Brickoo\Memory\Interfaces\Container
          */
         public function getAliasesStub() {
             return $this->getMock(
@@ -82,10 +82,10 @@
 
         /**
         * Returns a Route stub .
-        * @return \Brickoo\Routing\Interfaces\RouteInterface
+        * @return \Brickoo\Routing\Interfaces\Route
         */
         public function getRouteStub() {
-            return $this->getMock('Brickoo\Routing\Interfaces\RouteInterface');
+            return $this->getMock('Brickoo\Routing\Interfaces\Route');
         }
 
         /**
@@ -116,7 +116,7 @@
          * @covers Brickoo\Routing\Events
          */
         public function testConstruct() {
-            $this->assertInstanceOf('Brickoo\Routing\Interfaces\RouterInterface', $this->Router);
+            $this->assertInstanceOf('Brickoo\Routing\Interfaces\Router', $this->Router);
         }
 
         /**
@@ -161,7 +161,7 @@
          */
         public function testEventManagerLazyInitialization() {
             $this->assertInstanceOf(
-                'Brickoo\Event\Interfaces\ManagerInterface',
+                'Brickoo\Event\Interfaces\Manager',
                 ($EventManager = $this->Router->EventManager())
             );
 
@@ -190,7 +190,7 @@
          */
         public function testRouteFinderLazyInitialization() {
             $this->assertInstanceOf(
-                'Brickoo\Routing\Interfaces\RouteFinderInterface',
+                'Brickoo\Routing\Interfaces\RouteFinder',
                 ($RouteFinder = $this->Router->RouteFinder())
             );
 
@@ -277,7 +277,7 @@
         public function testGetRouteCollection() {
             $this->assertInstanceOf
             (
-                'Brickoo\Routing\Interfaces\RouteCollectionInterface',
+                'Brickoo\Routing\Interfaces\RouteCollection',
                 ($RouteCollection = $this->Router->RouteCollection())
             );
             $this->assertAttributeContains($RouteCollection, 'dependencies', $this->Router);
@@ -291,7 +291,7 @@
         public function testLazyGetRouteCollection() {
             $this->assertInstanceOf
             (
-                'Brickoo\Routing\Interfaces\RouteCollectionInterface',
+                'Brickoo\Routing\Interfaces\RouteCollection',
                 $this->Router->RouteCollection()
             );
         }
@@ -301,10 +301,10 @@
          * @covers Brickoo\Routing\Router::setRequestRoute
          */
         public function testSetRequestRoute() {
-            $RequestRoute = $this->getMock('Brickoo\Routing\Interfaces\RequestRouteInterface');
+            $RequestRoute = $this->getMock('Brickoo\Routing\Interfaces\RequestRoute');
             $this->assertSame($this->Router, $this->Router->setRequestRoute($RequestRoute));
             $this->assertAttributeInstanceOf(
-                'Brickoo\Routing\Interfaces\RequestRouteInterface',
+                'Brickoo\Routing\Interfaces\RequestRoute',
                 'RequestRoute',
                 $this->Router
             );
@@ -319,7 +319,7 @@
          * @expectedException Brickoo\Core\Exceptions\ValueOverwriteException
          */
         public function testSetRequestRouteOverwriteException() {
-            $RequestRoute = $this->getMock('Brickoo\Routing\Interfaces\RequestRouteInterface');
+            $RequestRoute = $this->getMock('Brickoo\Routing\Interfaces\RequestRoute');
             $this->Router->setRequestRoute($RequestRoute);
             $this->Router->setRequestRoute($RequestRoute);
         }
@@ -331,7 +331,7 @@
         public function testHasRequestRoute() {
             $this->assertFalse($this->Router->hasRequestRoute());
 
-            $RequestRoute = $this->getMock('Brickoo\Routing\Interfaces\RequestRouteInterface');
+            $RequestRoute = $this->getMock('Brickoo\Routing\Interfaces\RequestRoute');
             $this->Router->setRequestRoute($RequestRoute);
 
             $this->assertTrue($this->Router->hasRequestRoute());
@@ -342,7 +342,7 @@
          * @covers Brickoo\Routing\Router::getRequestRoute
          */
         public function testGetRequestRoutePreset() {
-            $RequestRoute = $this->getMock('Brickoo\Routing\Interfaces\RequestRouteInterface');
+            $RequestRoute = $this->getMock('Brickoo\Routing\Interfaces\RequestRoute');
             $this->Router->setRequestRoute($RequestRoute);
 
             $this->assertSame($RequestRoute, $this->Router->getRequestRoute());
@@ -370,9 +370,9 @@
                          ->will($this->returnValue($RouteCollectionStub));
             $this->Router->EventManager($EventManager);
 
-            $RequestRoute = $this->getMock('Brickoo\Routing\Interfaces\RequestRouteInterface');
+            $RequestRoute = $this->getMock('Brickoo\Routing\Interfaces\RequestRoute');
 
-            $RouteFinder = $this->getMock('Brickoo\Routing\Interfaces\RouteFinderInterface', array('find'));
+            $RouteFinder = $this->getMock('Brickoo\Routing\Interfaces\RouteFinder', array('find'));
             $RouteFinder->expects($this->once())
                         ->method('find')
                         ->will($this->returnValue($RequestRoute));

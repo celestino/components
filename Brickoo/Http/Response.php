@@ -42,7 +42,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Response implements Interfaces\ResponseInterface {
+    class Response implements Interfaces\Response {
 
         /**
          * Holds the corresponding status code phrases.
@@ -124,14 +124,14 @@
 
         /**
          * Injects a response template dependency.
-         * @param \Brickoo\Template\Interfaces\TemplateInterface $Template the Template to inject
+         * @param \Brickoo\Template\Interfaces\Template $Template the Template to inject
          * @throws Exceptions\ResponseTemplateNotAvailableException if trying to retrieve the not injected dependency
-         * @return \Brickoo\Template\Interfaces\TemplateInterface
+         * @return \Brickoo\Template\Interfaces\Template
          */
-        public function Template(\Brickoo\Template\Interfaces\TemplateInterface $Template = null) {
+        public function Template(\Brickoo\Template\Interfaces\Template $Template = null) {
             return $this->getDependency(
                 'Template',
-                '\Brickoo\Template\Interfaces\TemplateInterface',
+                '\Brickoo\Template\Interfaces\Template',
                 function() {throw new Exceptions\ResponseTemplateNotAvailableException();},
                 $Template
             );
@@ -144,19 +144,19 @@
         public function hasTemplate() {
             return (
                 (isset($this->dependencies['Template'])) &&
-                ($this->dependencies['Template'] instanceof Template\Interfaces\TemplateInterface)
+                ($this->dependencies['Template'] instanceof Template\Interfaces\Template)
             );
         }
 
         /**
          * Lazy initialization of the Headers dependency
-         * @param \Brickoo\Http\Component\Interfaces\HeadersInterface $Headers the Headers dependency to inject
-         * @return \Brickoo\Http\Component\Interfaces\HeadersInterface
+         * @param \Brickoo\Http\Component\Interfaces\Headers $Headers the Headers dependency to inject
+         * @return \Brickoo\Http\Component\Interfaces\Headers
          */
-        public function Headers(\Brickoo\Http\Component\Interfaces\HeadersInterface $Headers = null) {
+        public function Headers(\Brickoo\Http\Component\Interfaces\Headers $Headers = null) {
             return $this->getDependency(
                 'Headers',
-                '\Brickoo\Http\Component\Interfaces\HeadersInterface',
+                '\Brickoo\Http\Component\Interfaces\Headers',
                 function() {return new Component\Headers();},
                 $Headers
             );

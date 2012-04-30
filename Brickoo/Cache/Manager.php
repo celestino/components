@@ -41,17 +41,17 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Manager implements Interfaces\ManagerInterface {
+    class Manager implements Interfaces\Manager {
 
         /**
-         * Holds the cache provider implementing the Cache\Interfaces\ProviderInterface.
-         * @var \Brickoo\Cache\Provider\Interfaces\ProviderInterface
+         * Holds the cache provider implementing the Cache\Interfaces\Provider.
+         * @var \Brickoo\Cache\Provider\Interfaces\Provider
          */
         protected $_CacheProvider;
 
         /**
          * Returns the CacheProvider dependency.
-         * @return \Brickoo\Cache\Provider\Interfaces\ProviderInterface
+         * @return \Brickoo\Cache\Provider\Interfaces\Provider
          */
         public function CacheProvider() {
             return $this->_CacheProvider;
@@ -84,13 +84,13 @@
 
         /**
          * Lazy initialization of the LocalCache.
-         * @param \Brickoo\Cache\Interfaces\LocalCacheInterface $LocalCache the LocalCache dependecy to inject
-         * @return \Brickoo\Cache\Interfaces\LocalCacheInterface
+         * @param \Brickoo\Cache\Interfaces\LocalCache $LocalCache the LocalCache dependecy to inject
+         * @return \Brickoo\Cache\Interfaces\LocalCache
          */
-        public function LocalCache(\Brickoo\Cache\Interfaces\LocalCacheInterface $LocalCache = null) {
+        public function LocalCache(\Brickoo\Cache\Interfaces\LocalCache $LocalCache = null) {
             return $this->getDependency(
                 'LocalCache',
-                '\Brickoo\Cache\Interfaces\LocalCacheInterface',
+                '\Brickoo\Cache\Interfaces\LocalCache',
                 function(){return new LocalCache();},
                 $LocalCache
             );
@@ -146,10 +146,10 @@
         /**
          * Injects the CacheProvide dependency.
          * Enables the local cache for duplicate get calls to the same identifier.
-         * @param \Brickoo\Cache\Provider\Interfaces\ProviderInterface $CacheProvider the CacheProvider dependency
+         * @param \Brickoo\Cache\Provider\Interfaces\Provider $CacheProvider the CacheProvider dependency
          * @return void
          */
-        public function __construct(\Brickoo\Cache\Provider\Interfaces\ProviderInterface $CacheProvider) {
+        public function __construct(\Brickoo\Cache\Provider\Interfaces\Provider $CacheProvider) {
             $this->_CacheProvider      = $CacheProvider;
             $this->enableLocalCache    = true;
             $this->dependencies        = array();

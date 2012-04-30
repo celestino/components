@@ -61,7 +61,7 @@
         }
 
         /**
-         * Test if the RouteCOllection implements  the RouteCollectionInterface.
+         * Test if the RouteCOllection implements  the RouteCollection.
          * @covers Brickoo\Routing\RouteCollection::__construct
          */
         public function testConstruct() {
@@ -75,7 +75,7 @@
         public function testCreateRoute() {
             $this->assertInstanceOf
             (
-                'Brickoo\Routing\Interfaces\RouteInterface',
+                'Brickoo\Routing\Interfaces\Route',
                 ($Route = $this->RouteCollection->createRoute('routeName'))
             );
             $this->assertAttributeEquals(array('routeName' => $Route), 'routes', $this->RouteCollection);
@@ -138,9 +138,9 @@
         public function testAddRoutes() {
             $routes = array
             (
-                $this->getMock('Brickoo\Routing\Interfaces\RouteInterface'),
-                $this->getMock('Brickoo\Routing\Interfaces\RouteInterface'),
-                $this->getMock('Brickoo\Routing\Interfaces\RouteInterface')
+                $this->getMock('Brickoo\Routing\Interfaces\Route'),
+                $this->getMock('Brickoo\Routing\Interfaces\Route'),
+                $this->getMock('Brickoo\Routing\Interfaces\Route')
             );
             $this->assertSame($this->RouteCollection, $this->RouteCollection->addRoutes($routes));
             $this->assertAttributeEquals($routes, 'routes', $this->RouteCollection);

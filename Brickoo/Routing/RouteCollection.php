@@ -41,7 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class RouteCollection implements Interfaces\RouteCollectionInterface {
+    class RouteCollection implements Interfaces\RouteCollection {
 
         /**
          * Holds the routes collected.
@@ -60,7 +60,7 @@
         /**
          * Adds a collection of routes.
          * @param array $routes the routes to add
-         * @return Brickoo\Routing\Interfaces\RouteCollectionInterface
+         * @return Brickoo\Routing\Interfaces\RouteCollection
          */
         public function addRoutes(array $routes) {
             $this->routes = array_merge($this->routes, $routes);
@@ -80,7 +80,7 @@
          * Lazy Route initialization which is returned for configuration.
          * @param string $name the unique route name
          * @throws DuplicateRouteException if the route name is already used
-         * @return Brickoo\Routing\Interfaces\RouteInterface
+         * @return Brickoo\Routing\Interfaces\Route
          */
         public function createRoute($name) {
             TypeValidator::IsString($name);
@@ -98,7 +98,7 @@
          * Returns the route matching the unique name.
          * @param string $name the route to return
          * @throws RouteNotFoundException if the route is not available
-         * @return \Bricko\Routing\Interfaces\RouteInterface
+         * @return \Bricko\Routing\Interfaces\Route
          */
         public function getRoute($name) {
             TypeValidator::IsString($name);

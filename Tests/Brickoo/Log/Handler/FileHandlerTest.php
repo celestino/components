@@ -73,27 +73,27 @@
         }
 
         /**
-        * Test if the class can be created and implementens the LogHandlerInterface.
+        * Test if the class can be created and implementens the LogHandler.
         * @covers Brickoo\Log\handler\FileHandler::__construct
         */
         public function testConstructor() {
             $FileObject = $this->getFileObjectStub();
             $this->assertInstanceOf
             (
-                '\Brickoo\Log\Handler\Interfaces\LogHandlerInterface',
+                '\Brickoo\Log\Handler\Interfaces\LogHandler',
                 ($FileHandler = new FileHandler($FileObject))
             );
             $this->assertAttributeSame($FileObject, '_FileObject', $FileHandler);
         }
 
         /**
-         * Test if the FileObject can be retrieved and implements te FileObjectInterface.
+         * Test if the FileObject can be retrieved and implements te FileObject.
          * @covers Brickoo\Log\Handler\FileHandler::FileObject
          */
         public function testGetFileObject() {
             $this->assertInstanceOf
             (
-                '\Brickoo\System\Interfaces\FileObjectInterface',
+                '\Brickoo\System\Interfaces\FileObject',
                 $this->FileHandler->FileObject()
             );
         }

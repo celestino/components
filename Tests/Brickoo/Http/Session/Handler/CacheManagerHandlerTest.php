@@ -46,7 +46,7 @@
     class CacheHandlerTest extends PHPUnit_Framework_TestCase {
 
         /**
-         * Returns a Manager stub implementig the Cache\Interfaces\ManagerInterface.
+         * Returns a Manager stub implementig the Cache\Interfaces\Manager.
          * @param array $methods the methods to mock
          * @return object
          */

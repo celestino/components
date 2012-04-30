@@ -41,7 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Description implements Interfaces\DescriptionInterface {
+    class Description implements Interfaces\Description {
 
         /**
          * Holds the available status keys.

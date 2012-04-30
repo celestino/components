@@ -59,13 +59,13 @@
         }
 
         /**
-         * Test if the MemcacheConfig implements the Cache\Interface\MemcacheConfigInterface.
+         * Test if the MemcacheConfig implements the Cache\Interface\MemcacheConfig.
          * @covers Brickoo\Cache\Config\MemcacheConfig::__construct
          */
         public function testConstruct() {
             $this->assertInstanceOf
             (
-                'Brickoo\Cache\Config\Interfaces\MemcacheConfigInterface',
+                'Brickoo\Cache\Config\Interfaces\MemcacheConfig',
                 $this->MemcacheConfig
             );
         }

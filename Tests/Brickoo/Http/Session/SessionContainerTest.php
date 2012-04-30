@@ -47,7 +47,7 @@
     class SessionContainerTest extends PHPUnit_Framework_TestCase {
 
         /**
-         * Holds an instance of the Container implementing the Session\Interfaces\ContainerInterface.
+         * Holds an instance of the Container implementing the Session\Interfaces\Container.
          * @var object
          */
         protected $Container;
@@ -63,13 +63,13 @@
         }
 
         /**
-         * Test if a Container instance can be created and implements the Session\Interfaces\ContainerInterface.
+         * Test if a Container instance can be created and implements the Session\Interfaces\Container.
          * @covers Brickoo\Http\Session\Container::__construct
          */
         public function testConstruct() {
             $this->assertInstanceOf
             (
-                'Brickoo\Http\Session\Interfaces\ContainerInterface',
+                'Brickoo\Http\Session\Interfaces\Container',
                 $Container = new Container('some_namespace')
             );
         }

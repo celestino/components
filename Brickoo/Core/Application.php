@@ -86,13 +86,13 @@
 
         /**
          * Lazy intialization of the Registry dependency.
-         * @param \Brickoo\Memory\Interfaces\RegistryInterface $Registry the Registy dependency to inject
-         * @return \Brickoo\Memory\Interfaces\RegistryInterface
+         * @param \Brickoo\Memory\Interfaces\Registry $Registry the Registy dependency to inject
+         * @return \Brickoo\Memory\Interfaces\Registry
          */
-        public function Registry(\Brickoo\Memory\Interfaces\RegistryInterface $Registry = null) {
+        public function Registry(\Brickoo\Memory\Interfaces\Registry $Registry = null) {
             return $this->getDependency(
                 'Registry',
-                '\Brickoo\Memory\Interfaces\RegistryInterface',
+                '\Brickoo\Memory\Interfaces\Registry',
                 function (){return new \Brickoo\Memory\Registry();},
                 $Registry
             );
@@ -100,13 +100,13 @@
 
         /**
         * Lazy initialization of the Request dependency.
-        * @param \Brickoo\Core\Interfaces\RequestInterface $Request the Request dependency to inject
-        * @return \Brickoo\Core\Interfaces\RequestInterface
+        * @param \Brickoo\Core\Interfaces\Request $Request the Request dependency to inject
+        * @return \Brickoo\Core\Interfaces\Request
         */
-        public function Request(\Brickoo\Core\Interfaces\RequestInterface $Request = null) {
+        public function Request(\Brickoo\Core\Interfaces\Request $Request = null) {
             return $this->getDependency(
                 'Request',
-                '\Brickoo\Core\Interfaces\RequestInterface',
+                '\Brickoo\Core\Interfaces\Request',
                 function (){
                     $Request = new \Brickoo\Http\Request();
                     $Request->importFromGlobals();
@@ -118,13 +118,13 @@
 
         /**
          * Lazy initializiation of the Router dependency.
-         * @param \Brickoo\Routing\Interfaces\RouterInterface $Router
-         * @return \Brickoo\Routing\Interfaces\RouterInterface
+         * @param \Brickoo\Routing\Interfaces\Router $Router
+         * @return \Brickoo\Routing\Interfaces\Router
          */
-        public function Router(\Brickoo\Routing\Interfaces\RouterInterface $Router = null) {
+        public function Router(\Brickoo\Routing\Interfaces\Router $Router = null) {
             return $this->getDependency(
                 'Router',
-                '\Brickoo\Routing\Interfaces\RouterInterface',
+                '\Brickoo\Routing\Interfaces\Router',
                 function ($Application){
                     $Router = new \Brickoo\Routing\Router($Application->Request());
                     $Router->EventManager($Application->EventManager());
@@ -136,27 +136,27 @@
 
         /**
          * Holds an instance of the request Route.
-         * @param \Brickoo\Routing\Interfaces\RequestRouteInterface $Route
-         * @return \Brickoo\Routing\Interfaces\RequestRouteInterface
+         * @param \Brickoo\Routing\Interfaces\RequestRoute $Route
+         * @return \Brickoo\Routing\Interfaces\RequestRoute
          */
-        public function Route(\Brickoo\Routing\Interfaces\RequestRouteInterface $Route = null) {
+        public function Route(\Brickoo\Routing\Interfaces\RequestRoute $Route = null) {
             return $this->getDependency(
                 'Route',
-                '\Brickoo\Routing\Interfaces\RequestRouteInterface',
-                function (){throw new \Brickoo\Core\Exceptions\DependencyNotAvailableException('RequestRouteInterface');},
+                '\Brickoo\Routing\Interfaces\RequestRoute',
+                function (){throw new \Brickoo\Core\Exceptions\DependencyNotAvailableException('RequestRoute');},
                 $Route
             );
         }
 
         /**
          * Lazy intialization of the static EventManager dependency.
-         * @param \Brickoo\Event\Interfaces\ManagerInterface $EventManager
-         * @return \Brickoo\Event\Interfaces\ManagerInterface
+         * @param \Brickoo\Event\Interfaces\Manager $EventManager
+         * @return \Brickoo\Event\Interfaces\Manager
          */
-        public function EventManager(\Brickoo\Event\Interfaces\ManagerInterface $EventManager = null) {
+        public function EventManager(\Brickoo\Event\Interfaces\Manager $EventManager = null) {
             return $this->getDependency(
                 'EventManager',
-                '\Brickoo\Event\Interfaces\ManagerInterface',
+                '\Brickoo\Event\Interfaces\Manager',
                 function() {return \Brickoo\Event\Manager::Instance();},
                 $EventManager
             );
@@ -164,13 +164,13 @@
 
         /**
          * Lazy intialization of the SessionManager dependency.
-         * @param \Brickoo\Http\Session\Interfaces\ManagerInterface $Manager
-         * @return \Brickoo\Http\Session\Interfaces\ManagerInterface
+         * @param \Brickoo\Http\Session\Interfaces\Manager $Manager
+         * @return \Brickoo\Http\Session\Interfaces\Manager
          */
-        public function SessionManager(\Brickoo\Http\Session\Interfaces\ManagerInterface $SessionManager = null) {
+        public function SessionManager(\Brickoo\Http\Session\Interfaces\Manager $SessionManager = null) {
             return $this->getDependency(
                 'SessionManager',
-                '\Brickoo\Http\Session\Interfaces\ManagerInterface',
+                '\Brickoo\Http\Session\Interfaces\Manager',
                 function() {
                     return new \Brickoo\Http\Session\Manager(
                         new \Brickoo\Http\Session\Handler\CacheHandler()
@@ -182,13 +182,13 @@
 
         /**
          * Lazy initialization of the Runner dependencyy.
-         * @param \Brickoo\Core\Interfaces\RunnerInterface $Runner
-         * @return \Brickoo\Core\Interfaces\RunnerInterface
+         * @param \Brickoo\Core\Interfaces\Runner $Runner
+         * @return \Brickoo\Core\Interfaces\Runner
          */
-        public function Runner(\Brickoo\Core\Interfaces\RunnerInterface $Runner = null) {
+        public function Runner(\Brickoo\Core\Interfaces\Runner $Runner = null) {
             return $this->getDependency(
                 'Runner',
-                '\Brickoo\Core\Interfaces\RunnerInterface',
+                '\Brickoo\Core\Interfaces\Runner',
                 function($Application) {return new \Brickoo\Core\Runner($Application);},
                 $Runner
             );
@@ -213,10 +213,10 @@
 
         /**
          * Registers the autoloader instance to the Registry.
-         * @param \Brickoo\Core\Interfaces\AutoloaderInterface $Autoloader
+         * @param \Brickoo\Core\Interfaces\Autoloader $Autoloader
          * @return \Brickoo\Core\Application
          */
-        public function registerAutoloader(\Brickoo\Core\Interfaces\AutoloaderInterface $Autoloader) {
+        public function registerAutoloader(\Brickoo\Core\Interfaces\Autoloader $Autoloader) {
             $this->set($this->reservedIdentifiers['autoloader'], $Autoloader);
 
             return $this;
@@ -401,23 +401,29 @@
          * @param object $MainApplication
          * @return \Brickoo\Core\Application
          */
-        public function run($MainApplication = null, \Brickoo\Core\Interfaces\RunnerInterface $Runner = null) {
+        public function run($MainApplication = null) {
             $EventManager = $this->EventManager();
 
             if ($MainApplication !== null) {
                 $this->set('application', $MainApplication);
-                if ($MainApplication instanceof \Brickoo\Event\Interfaces\ListenerAggregateInterface) {
+                if ($MainApplication instanceof \Brickoo\Event\Interfaces\ListenerAggregate) {
                     $MainApplication->aggregateListeners($EventManager);
                 }
+            }
+
+            if (($Runner = $this->Runner()) instanceof \Brickoo\Event\Interfaces\ListenerAggregate) {
+                $Runner->aggregateListeners($EventManager);
             }
 
             try {
                 $EventManager->notify(new Event(Events::EVENT_BOOT, $this));
 
-               // TODO: change all calls to events (by default the Runner will handle them)
+                $Response = $EventManager->notify(new Event(Events::EVENT_RESPONSE_GET, $this));
 
-                if ($Response instanceof Interfaces\ResponseInterface) {
-                    $this->notifyResponseCache($Response);
+                if ($Response instanceof Interfaces\Response) {
+                    $EventManager->notifyOnce(
+                        new Event(Events::EVENT_RESPONSE_CACHE, $this, array('Response' => $Response))
+                    );
                     $EventManager->notifyOnce(
                         new Event(Events::EVENT_RESPONSE_SEND, $this, array('Response' => $Response))
                     );

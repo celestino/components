@@ -44,7 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class CacheHandler implements Interfaces\SessionHandlerInterface {
+    class CacheHandler implements Interfaces\SessionHandler {
 
         /**
          * Holds the cache prefix for the session.
@@ -79,13 +79,13 @@
 
         /**
          * Lazy initialization of the Manager dependency with the default FileProvider.
-         * @param \Brickoo\Cache\Interfaces\ManagerInterface $Manager the Manager depedency
-         * @return \Brickoo\Cache\Interfaces\ManagerInterface
+         * @param \Brickoo\Cache\Interfaces\Manager $Manager the Manager depedency
+         * @return \Brickoo\Cache\Interfaces\Manager
          */
-        public function Manager(\Brickoo\Cache\Interfaces\ManagerInterface $Manager = null) {
+        public function Manager(\Brickoo\Cache\Interfaces\Manager $Manager = null) {
             return $this->getDependency(
                 'Manager',
-                '\Brickoo\Cache\Interfaces\ManagerInterface',
+                '\Brickoo\Cache\Interfaces\Manager',
                 function(){return new Cache\Manager(new Cache\Provider\FileProvider());},
                 $Manager
             );

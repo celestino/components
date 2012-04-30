@@ -46,13 +46,13 @@
          * Calls the parent Exception constructor.
          * @return void
          */
-        public function __construct($instanceInterfaceName) {
+        public function __construct($instanceName) {
             parent::__construct
             (
             sprintf
             (
                 'The dependency implementing the `%s` is not available.',
-                $instanceInterfaceName
+                $instanceName
             )
             );
         }

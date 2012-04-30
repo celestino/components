@@ -57,19 +57,19 @@
          */
         protected function setUp() {
             $this->RequestRoute = new RequestRoute(
-                $this->getMock('Brickoo\Routing\Interfaces\RouteInterface')
+                $this->getMock('Brickoo\Routing\Interfaces\Route')
             );
         }
 
         /**
-         * Test if the ResquestRoute implements the requestRouteInterface.
+         * Test if the ResquestRoute implements the requestRoute.
          * Test if the module route is assigned to the ModuleRoute property.
          * @covers Brickoo\Routing\RequestRoute::__construct
          */
         public function testConstructor() {
-            $this->assertInstanceOf('Brickoo\Routing\Interfaces\RequestRouteInterface', $this->RequestRoute);
+            $this->assertInstanceOf('Brickoo\Routing\Interfaces\RequestRoute', $this->RequestRoute);
             $this->assertAttributeInstanceOf(
-                'Brickoo\Routing\Interfaces\RouteInterface',
+                'Brickoo\Routing\Interfaces\Route',
                 'ModuleRoute',
                 $this->RequestRoute
             );
@@ -80,7 +80,7 @@
          * @covers Brickoo\Routing\RequestRoute::getModuleRoute
          */
         public function testGetModuleRoute() {
-            $Route = $this->getMock('Brickoo\Routing\Interfaces\RouteInterface');
+            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
             $RequestRoute = new RequestRoute($Route);
             $this->assertAttributeSame($Route, 'ModuleRoute', $RequestRoute);
             $this->assertSame($Route, $RequestRoute->getModuleRoute());
@@ -92,7 +92,7 @@
          * @covers Brickoo\Routing\RequestRoute::getDependency
          */
         public function testInjectParams() {
-            $Container = $this->getMock('Brickoo\Memory\Interfaces\ContainerInterface');
+            $Container = $this->getMock('Brickoo\Memory\Interfaces\Container');
             $this->assertSame($this->RequestRoute, $this->RequestRoute->Params($Container));
             $this->assertAttributeContains($Container, 'dependencies', $this->RequestRoute);
             $this->assertSame($Container, $this->RequestRoute->Params());
@@ -105,7 +105,7 @@
          */
         public function testParamsLazyInitialization() {
             $this->assertInstanceOf(
-                'Brickoo\Memory\Interfaces\ContainerInterface',
+                'Brickoo\Memory\Interfaces\Container',
                 ($Container = $this->RequestRoute->Params())
             );
             $this->assertAttributeContains($Container, 'dependencies', $this->RequestRoute);

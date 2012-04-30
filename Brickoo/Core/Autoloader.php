@@ -32,7 +32,7 @@
 
     namespace Brickoo\Core;
 
-    require_once 'Interfaces\AutoloaderInterface.php';
+    require_once 'Interfaces\Autoloader.php';
 
     /**
      * Autoloader
@@ -41,7 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Autoloader implements Interfaces\AutoloaderInterface {
+    class Autoloader implements Interfaces\Autoloader {
 
         /**
          * Holds the status of registration to php autoloader.

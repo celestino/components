@@ -40,7 +40,7 @@
      * ErrorHandler
      *
      * Handles user defined and system errors.
-     * Errors can be logged using an instance implementing the LogHandlerInterface.
+     * Errors can be logged using an instance implementing the LogHandler.
      * Otherwise throws an exception if the error level is expected.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */

@@ -50,7 +50,7 @@
          * @covers Brickoo\Cache\Listener::__construct
          */
         public function testConstruct() {
-            $Manager = $this->getMock('Brickoo\Cache\Interfaces\ManagerInterface');
+            $Manager = $this->getMock('Brickoo\Cache\Interfaces\Manager');
             $Listener = new Listener($Manager, 222);
             $this->assertAttributeSame($Manager, 'Manager', $Listener);
             $this->assertAttributeEquals(222, 'listenerPriority', $Listener);
@@ -66,7 +66,7 @@
             $EventManager->expects($this->exactly(5))
                          ->method('attachListener');
 
-            $Manager = $this->getMock('Brickoo\Cache\Interfaces\ManagerInterface');
+            $Manager = $this->getMock('Brickoo\Cache\Interfaces\Manager');
 
             $Listener = new Listener($Manager, 111);
             $this->assertAttributeSame($Manager, 'Manager', $Listener);

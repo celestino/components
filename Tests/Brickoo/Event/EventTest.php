@@ -61,7 +61,7 @@
         }
 
         /**
-         * Test if the Event calss implements the EventInterface.
+         * Test if the Event calss implements the Event.
          * Test if the constructor arguments are properly assigned.
          * @covers Brickoo\Event\Event::__construct
          */
@@ -79,7 +79,7 @@
          * @covers Brickoo\Event\Event::getDependency
          */
         public function testEventManagerLazyInitialization() {
-            $this->assertInstanceOf('Brickoo\Event\Interfaces\ManagerInterface', ($EM = $this->Event->EventManager()));
+            $this->assertInstanceOf('Brickoo\Event\Interfaces\Manager', ($EM = $this->Event->EventManager()));
             $this->assertAttributeContains($EM, 'dependencies', $this->Event);
         }
 

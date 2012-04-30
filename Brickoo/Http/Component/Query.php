@@ -42,7 +42,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Query extends Memory\Container implements Interfaces\QueryInterface {
+    class Query extends Memory\Container implements Interfaces\Query {
 
         /**
          * Importst the request query parameter.

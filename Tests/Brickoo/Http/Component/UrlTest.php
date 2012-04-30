@@ -78,7 +78,7 @@
         public function testRequestLazyInitialization() {
             $this->assertInstanceOf
             (
-                'Brickoo\Http\Interfaces\RequestInterface',
+                'Brickoo\Http\Interfaces\Request',
                 $this->Url->Request()
             );
             $this->assertAttributeContains($this->Url->Request(), 'dependencies', $this->Url);

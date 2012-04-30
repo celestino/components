@@ -41,7 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class LocalCache implements Interfaces\LocalCacheInterface {
+    class LocalCache implements Interfaces\LocalCache {
 
         /**
          * Holds the cached values.

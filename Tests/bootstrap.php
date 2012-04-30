@@ -42,7 +42,7 @@
     // set the default timezone
     date_default_timezone_set('UTC');
 
-    // require the default autoloader must implement the AutoloaderInterface
+    // require the default autoloader must implement the Autoloader interface
     require_once ('/../Brickoo/Core/Autoloader.php');
 
     // create the class autoloader instance

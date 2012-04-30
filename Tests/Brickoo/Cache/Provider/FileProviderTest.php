@@ -74,14 +74,14 @@
         }
 
         /**
-         * Test if the FileProvider implements the ProviderInterface.
+         * Test if the FileProvider implements the Provider.
          * Test if the properties are set.
          * @covers Brickoo\Cache\Provider\FileProvider::__construct
          */
         public function testConstruct() {
             $this->assertInstanceOf
             (
-                'Brickoo\Cache\Provider\Interfaces\ProviderInterface',
+                'Brickoo\Cache\Provider\Interfaces\Provider',
                 ($Provider = new FileProvider(getcwd(), 'test_prefix'))
             );
             $this->assertAttributeEquals(getcwd().DIRECTORY_SEPARATOR, 'directory', $Provider);
@@ -109,7 +109,7 @@
         public function testGetFileObjectLazyInitalization() {
             $this->assertInstanceOf
             (
-                'Brickoo\System\Interfaces\FileObjectInterface',
+                'Brickoo\System\Interfaces\FileObject',
                 ($FileObject = $this->FileProvider->FileObject())
             );
             $this->assertAttributeContains($FileObject, 'dependencies', $this->FileProvider);

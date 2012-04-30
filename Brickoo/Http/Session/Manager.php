@@ -41,7 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Manager implements Interfaces\ManagerInterface {
+    class Manager implements Interfaces\Manager {
 
         /**
          * Holds a flag for the session started status.
@@ -58,17 +58,17 @@
         }
 
         /**
-         * Holds an instance of the session handler implementing the Cache\Interfaces\SessionHandlerInterface.
+         * Holds an instance of the session handler implementing the Cache\Interfaces\SessionHandler.
          * @var object
          */
         protected $SessionHandler;
 
         /**
          * Registers the session handler.
-         * @param \Brickoo\Http\Session\Handler\Interfaces\SessionHandlerInterface $SessionHandler the session hadnler to register
+         * @param \Brickoo\Http\Session\Handler\Interfaces\SessionHandler $SessionHandler the session hadnler to register
          * @return boolean success
          */
-        protected function registerSessionHandler(\Brickoo\Http\Session\Handler\Interfaces\SessionHandlerInterface $SessionHandler) {
+        protected function registerSessionHandler(\Brickoo\Http\Session\Handler\Interfaces\SessionHandler $SessionHandler) {
             $this->SessionHandler = $SessionHandler;
 
             return session_set_save_handler(
@@ -126,12 +126,12 @@
          * Registers the session handler.
          * Sets the default session lifetime to the session handler.
          * Sets the default session configuration used.
-         * @param \Brickoo\Http\Session\Handler\Interfaces\SessionHandlerInterface $SessionHandler the SessionHandler to inject
+         * @param \Brickoo\Http\Session\Handler\Interfaces\SessionHandler $SessionHandler the SessionHandler to inject
          * @param array $cookieParams the cookie parameters to overwritte
          * @return void
          */
         public function __construct(
-            \Brickoo\Http\Session\Handler\Interfaces\SessionHandlerInterface $SessionHandler,
+            \Brickoo\Http\Session\Handler\Interfaces\SessionHandler $SessionHandler,
             array $cookieParams = array()
         ) {
             if (! $this->hasSessionStarted()) {

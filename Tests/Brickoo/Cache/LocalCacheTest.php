@@ -60,12 +60,12 @@
         }
 
         /**
-         * Test if the LocaclCache does implement the Cache\Interfaces\LocalCacheInterface.
+         * Test if the LocaclCache does implement the Cache\Interfaces\LocalCache.
          * @covers Brickoo\Cache\LocalCache::__construct
          */
         public function testConstruct() {
             $LocalCache = new LocalCache();
-            $this->assertInstanceOf('Brickoo\Cache\Interfaces\LocalCacheInterface', $LocalCache);
+            $this->assertInstanceOf('Brickoo\Cache\Interfaces\LocalCache', $LocalCache);
         }
 
         /**

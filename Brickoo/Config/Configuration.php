@@ -44,17 +44,17 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Configuration extends Memory\Container implements Interfaces\ConfigurationInterface {
+    class Configuration extends Memory\Container implements Interfaces\Configuration {
 
         /**
          * Holds an instance implementing the Provider interface.
-         * @var \Brickoo\Config\Provider\Interfaces\ProviderInterface
+         * @var \Brickoo\Config\Provider\Interfaces\Provider
          */
         protected $_Provider;
 
         /**
          * Returns the configuration Provider.
-         * @return \Brickoo\Config\Provider\Interfaces\ProviderInterface
+         * @return \Brickoo\Config\Provider\Interfaces\Provider
          */
         public function Provider() {
             return $this->_Provider;
@@ -64,10 +64,10 @@
          * Class constructor.
          * Initializes the class properties.
          * Injects the Provider used for load and save operations.
-         * @param \Brickoo\Config\Provider\Interfaces\ProviderInterface $Provider
+         * @param \Brickoo\Config\Provider\Interfaces\Provider $Provider
          * @return void
          */
-        public function __construct(\Brickoo\Config\Provider\Interfaces\ProviderInterface $Provider) {
+        public function __construct(\Brickoo\Config\Provider\Interfaces\Provider $Provider) {
             parent::__construct();
             $this->_Provider = $Provider;
         }

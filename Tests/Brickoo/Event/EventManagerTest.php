@@ -60,11 +60,11 @@
         }
 
         /**
-         * Test if the EventManager implements the EventManagerInterface.
+         * Test if the EventManager implements the EventManager.
          * @covers Brickoo\Event\Manager::__construct
          */
         public function testConstruct() {
-            $this->assertInstanceOf('Brickoo\Event\Interfaces\ManagerInterface', $this->EventManager);
+            $this->assertInstanceOf('Brickoo\Event\Interfaces\Manager', $this->EventManager);
         }
 
         /**
@@ -93,7 +93,7 @@
             $EventManager = new EventManagerFixture();
             $EventManager->resetInstance();
 
-            $this->assertInstanceOf('Brickoo\Event\Interfaces\ManagerInterface', Manager::Instance());
+            $this->assertInstanceOf('Brickoo\Event\Interfaces\Manager', Manager::Instance());
 
             $EventManager->resetInstance();
         }
@@ -103,7 +103,7 @@
          * @covers Brickoo\Event\Manager::attachAggregatedListeners
          */
         public function testAttachAggregatedListeners() {
-            $Listener = $this->getMock('\Brickoo\Event\Interfaces\ListenerAggregateInterface', array('aggregateListeners'));
+            $Listener = $this->getMock('\Brickoo\Event\Interfaces\ListenerAggregate', array('aggregateListeners'));
             $Listener->expects($this->once())
                      ->method('aggregateListeners')
                      ->with($this->EventManager)

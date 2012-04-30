@@ -78,7 +78,7 @@
          * @covers Brickoo\Http\Application::getDependency
          */
         public function testResponseLazyInitialization() {
-            $this->assertInstanceOf('Brickoo\Core\Interfaces\ResponseInterface', $this->Application->Response());
+            $this->assertInstanceOf('Brickoo\Core\Interfaces\Response', $this->Application->Response());
         }
 
         /**

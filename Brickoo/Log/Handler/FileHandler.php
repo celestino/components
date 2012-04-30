@@ -42,7 +42,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class FileHandler implements Interfaces\LogHandlerInterface {
+    class FileHandler implements Interfaces\LogHandler {
 
         /**
          * Mapping of the severity level description.
@@ -52,13 +52,13 @@
 
         /**
          * Holds an instance of the FileObject class.
-         * @var \Brickoo\System\Interfaces\FileObjectInterface
+         * @var \Brickoo\System\Interfaces\FileObject
          */
         protected $_FileObject;
 
         /**
          * Returns the FileObject dependency.
-         * @return Brickoo\System\Interfaces\FileObjectInterface
+         * @return Brickoo\System\Interfaces\FileObject
          */
         public function FileObject() {
             return $this->_FileObject;
@@ -128,7 +128,7 @@
         * Initializes the class properties.
         * @return void
         */
-        public function __construct(\Brickoo\System\Interfaces\FileObjectInterface $FileObject) {
+        public function __construct(\Brickoo\System\Interfaces\FileObject $FileObject) {
             $this->_FileObject    = $FileObject;
             $this->filePrefix      = 'log_';
 

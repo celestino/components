@@ -40,7 +40,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Event implements Interfaces\EventInterface {
+    class Event implements Interfaces\Event {
 
         /**
         * Holds the class dependencies.
@@ -69,13 +69,13 @@
 
         /**
          * Lazy initialization of the EventManager dependency
-         * @param \Brickoo\Event\Interfaces\ManagerInterface $EventManager the EventManager dependency to inject
-         * @return \Brickoo\Event\Interfaces\ManagerInterface
+         * @param \Brickoo\Event\Interfaces\Manager $EventManager the EventManager dependency to inject
+         * @return \Brickoo\Event\Interfaces\Manager
          */
-        public function EventManager(\Brickoo\Event\Interfaces\ManagerInterface $EventManager = null) {
+        public function EventManager(\Brickoo\Event\Interfaces\Manager $EventManager = null) {
             return $this->getDependency(
                 'EventManager',
-                '\Brickoo\Event\Interfaces\ManagerInterface',
+                '\Brickoo\Event\Interfaces\Manager',
                 function() {return new Manager();},
                 $EventManager
             );

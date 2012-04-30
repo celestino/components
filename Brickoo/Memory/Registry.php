@@ -44,7 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Registry extends Locker implements Interfaces\RegistryInterface {
+    class Registry extends Locker implements Interfaces\Registry {
 
         /**
          * Holds the registered identifier-value pairs.

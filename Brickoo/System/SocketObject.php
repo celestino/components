@@ -66,7 +66,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class SocketObject implements Interfaces\SocketObjectInterface {
+    class SocketObject implements Interfaces\SocketObject {
 
         /**
          * Holds the protocol using.

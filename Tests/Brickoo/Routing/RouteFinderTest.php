@@ -50,9 +50,9 @@
          * @return \Brickoo\Routing\RouteFinder
          */
         protected function getRouteFinder() {
-            $RouteCollection = $this->getMock('Brickoo\Routing\Interfaces\RouteCollectionInterface');
-            $Request = $this->getMock('Brickoo\Core\Interfaces\RequestInterface');
-            $Aliases = $this->getMock('Brickoo\Memory\Interfaces\ContainerInterface');
+            $RouteCollection = $this->getMock('Brickoo\Routing\Interfaces\RouteCollection');
+            $Request = $this->getMock('Brickoo\Core\Interfaces\Request');
+            $Aliases = $this->getMock('Brickoo\Memory\Interfaces\Container');
 
             return new RouteFinder($RouteCollection, $Request, $Aliases);
         }
@@ -62,12 +62,12 @@
          * @covers Brickoo\Routing\RouteFinder::__construct
          */
         public function testConstruct() {
-            $RouteCollection = $this->getMock('Brickoo\Routing\Interfaces\RouteCollectionInterface');
-            $Request = $this->getMock('Brickoo\Core\Interfaces\RequestInterface');
-            $Aliases = $this->getMock('Brickoo\Memory\Interfaces\ContainerInterface');
+            $RouteCollection = $this->getMock('Brickoo\Routing\Interfaces\RouteCollection');
+            $Request = $this->getMock('Brickoo\Core\Interfaces\Request');
+            $Aliases = $this->getMock('Brickoo\Memory\Interfaces\Container');
 
             $this->assertInstanceOf(
-                'Brickoo\Routing\Interfaces\RouteFinderInterface',
+                'Brickoo\Routing\Interfaces\RouteFinder',
                 ($RouteFinder = new RouteFinder($RouteCollection, $Request, $Aliases))
             );
             $this->assertAttributeEquals($RouteCollection, 'RouteCollection', $RouteFinder);
@@ -93,7 +93,7 @@
                             ->method('getRoutes')
                             ->will($this->returnValue(array($Route)));
 
-            $Request = $this->getMock('Brickoo\Core\Interfaces\RequestInterface',
+            $Request = $this->getMock('Brickoo\Core\Interfaces\Request',
                 array('getPath', 'getMethod', 'getFormat','getHost', 'getProtocol')
             );
             $Request->expects($this->any())
@@ -109,7 +109,7 @@
                     ->will($this->returnValue(true));
 
             $RouteFinder = new RouteFinder($RouteCollection, $Request, $Aliases);
-            $this->assertInstanceOf('Brickoo\Routing\Interfaces\RequestRouteInterface', $RouteFinder->find());
+            $this->assertInstanceOf('Brickoo\Routing\Interfaces\RequestRoute', $RouteFinder->find());
         }
 
         /**
@@ -124,8 +124,8 @@
                             ->method('getRoutes')
                             ->will($this->returnValue(array()));
 
-            $Request = $this->getMock('Brickoo\Core\Interfaces\RequestInterface');
-            $Aliases = $this->getMock('Brickoo\Memory\Interfaces\ContainerInterface');
+            $Request = $this->getMock('Brickoo\Core\Interfaces\Request');
+            $Aliases = $this->getMock('Brickoo\Memory\Interfaces\Container');
 
             $RouteFinder = new RouteFinder($RouteCollection, $Request, $Aliases);
             $RouteFinder->find();
@@ -151,7 +151,7 @@
                             ->method('getRoutes')
                             ->will($this->returnValue(array()));
 
-            $Request = $this->getMock('Brickoo\Core\Interfaces\RequestInterface',
+            $Request = $this->getMock('Brickoo\Core\Interfaces\Request',
                 array('getPath', 'getMethod', 'getFormat','getHost', 'getProtocol')
             );
             $Request->expects($this->any())
@@ -161,7 +161,7 @@
                     ->method('getMethod')
                     ->will($this->returnValue('GET'));
 
-            $Aliases = $this->getMock('Brickoo\Memory\Interfaces\ContainerInterface');
+            $Aliases = $this->getMock('Brickoo\Memory\Interfaces\Container');
 
             $RouteFinder = new RouteFinder($RouteCollection, $Request, $Aliases);
             $RouteFinder->find();
@@ -232,7 +232,7 @@
 
             $RouteFinder = $this->getRouteFinder();
             $this->assertInstanceOf(
-                'Brickoo\Routing\Interfaces\RequestRouteInterface',
+                'Brickoo\Routing\Interfaces\RequestRoute',
                 ($RequestRoute = $RouteFinder->createRequestRoute($Route, $pathMatches))
             );
             $this->assertEquals(array('format' => 'json'), $RequestRoute->Params()->toArray());
@@ -255,15 +255,15 @@
                   ->method('getHostname')
                   ->will($this->returnValue('localhost'));
 
-            $RouteCollection = $this->getMock('Brickoo\Routing\Interfaces\RouteCollectionInterface');
-            $Request = $this->getMock('Brickoo\Core\Interfaces\RequestInterface');
+            $RouteCollection = $this->getMock('Brickoo\Routing\Interfaces\RouteCollection');
+            $Request = $this->getMock('Brickoo\Core\Interfaces\Request');
             $Request->expects($this->exactly(2))
                     ->method('getMethod')
                     ->will($this->onConsecutiveCalls('GET', 'POST'));
             $Request->expects($this->once())
                     ->method('getHost')
                     ->will($this->returnValue('localhost'));
-            $Aliases = $this->getMock('Brickoo\Memory\Interfaces\ContainerInterface');
+            $Aliases = $this->getMock('Brickoo\Memory\Interfaces\Container');
 
             $RouteFinder = new RouteFinder($RouteCollection, $Request, $Aliases);
 
@@ -290,9 +290,9 @@
          * @covers Brickoo\Routing\RouteFinder::getRouteAliasesPath
          */
         public function testGetRouteAliasesPath() {
-            $RouteCollection = $this->getMock('Brickoo\Routing\Interfaces\RouteCollectionInterface');
-            $Request = $this->getMock('Brickoo\Core\Interfaces\RequestInterface');
-            $Aliases = $this->getMock('Brickoo\Memory\Interfaces\ContainerInterface');
+            $RouteCollection = $this->getMock('Brickoo\Routing\Interfaces\RouteCollection');
+            $Request = $this->getMock('Brickoo\Core\Interfaces\Request');
+            $Aliases = $this->getMock('Brickoo\Memory\Interfaces\Container');
             $Aliases->expects($this->once())
                     ->method('isEmpty')
                     ->will($this->returnValue(false));
@@ -324,9 +324,9 @@
          * @covers Brickoo\Routing\RouteFinder::getRegexFromRoutePath
          */
         public function testGetRegexFromRoutePath() {
-            $RouteCollection = $this->getMock('Brickoo\Routing\Interfaces\RouteCollectionInterface');
-            $Request = $this->getMock('Brickoo\Core\Interfaces\RequestInterface');
-            $Aliases = $this->getMock('Brickoo\Memory\Interfaces\ContainerInterface');
+            $RouteCollection = $this->getMock('Brickoo\Routing\Interfaces\RouteCollection');
+            $Request = $this->getMock('Brickoo\Core\Interfaces\Request');
+            $Aliases = $this->getMock('Brickoo\Memory\Interfaces\Container');
             $Aliases->expects($this->once())
                     ->method('isEmpty')
                     ->will($this->returnValue(true));

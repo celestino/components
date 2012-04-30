@@ -69,7 +69,7 @@
         }
 
         /**
-         * Test if the Headers class implements the HeadersInterface and the properties are initialized.
+         * Test if the Headers class implements the Headers and the properties are initialized.
          * @covers Brickoo\Http\Component\Headers::__construct
          */
         public function testConstruct() {

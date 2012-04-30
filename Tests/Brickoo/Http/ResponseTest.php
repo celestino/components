@@ -59,11 +59,11 @@
         }
 
         /**
-         * Test if the Response implements the ResponseInterface.
+         * Test if the Response implements the Response.
          * @covers Brickoo\Http\Response::__construct
          */
         public function testConstruct() {
-            $this->assertInstanceOf('Brickoo\Http\Interfaces\ResponseInterface', $this->Response);
+            $this->assertInstanceOf('Brickoo\Http\Interfaces\Response', $this->Response);
         }
 
         /**
@@ -72,7 +72,7 @@
          * @covers Brickoo\Http\Response::getDependency
          */
         public function testTemplate() {
-            $TemplateStub = $this->getMock('Brickoo\Template\Interfaces\TemplateInterface');
+            $TemplateStub = $this->getMock('Brickoo\Template\Interfaces\Template');
             $this->assertSame($this->Response, $this->Response->Template($TemplateStub));
             $this->assertSame($TemplateStub, $this->Response->Template());
             $this->assertAttributeContains($TemplateStub, 'dependencies', $this->Response);
@@ -94,7 +94,7 @@
          * @covers Brickoo\Http\Response::hasTemplate
          */
         public function testHasTemplate() {
-            $TemplateStub = $this->getMock('Brickoo\Template\Interfaces\TemplateInterface');
+            $TemplateStub = $this->getMock('Brickoo\Template\Interfaces\Template');
             $this->assertFalse($this->Response->hasTemplate());
             $this->assertSame($this->Response, $this->Response->Template($TemplateStub));
             $this->assertTrue($this->Response->hasTemplate());
@@ -107,7 +107,7 @@
          */
         public function testHeadersLazyInitialization() {
             $this->assertInstanceOf(
-                'Brickoo\Http\Component\Interfaces\HeadersInterface',
+                'Brickoo\Http\Component\Interfaces\Headers',
                 ($Headers = $this->Response->Headers())
             );
 
@@ -120,7 +120,7 @@
          * @covers Brickoo\Http\Response::getDependency
          */
         public function testHeadersInjection() {
-            $HeadersStub = $this->getMock('Brickoo\Http\Component\Interfaces\HeadersInterface');
+            $HeadersStub = $this->getMock('Brickoo\Http\Component\Interfaces\Headers');
             $this->assertSame($this->Response, $this->Response->Headers($HeadersStub));
             $this->assertAttributeContains($HeadersStub, 'dependencies', $this->Response);
         }
@@ -270,7 +270,7 @@
         public function testGetContentFromTemplate() {
             $expectedOutput = 'some content from template';
 
-            $TemplateStub = $this->getMock('Brickoo\Template\Interfaces\TemplateInterface', array('render'));
+            $TemplateStub = $this->getMock('Brickoo\Template\Interfaces\Template', array('render'));
             $TemplateStub->expects($this->once())
                          ->method('render')
                          ->will($this->returnValue($expectedOutput));

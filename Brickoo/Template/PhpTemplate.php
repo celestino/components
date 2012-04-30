@@ -41,7 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class PhpTemplate implements Interfaces\TemplateInterface {
+    class PhpTemplate implements Interfaces\Template {
 
         /**
          * Holds the full path of the used template file.
@@ -155,7 +155,7 @@
 
         /**
          * Renders the template with the assigned variables.
-         * @see Brickoo\Http\Interfaces.ResponseInterface::render()
+         * @see Brickoo\Http\Interfaces.Response::render()
          * @throws \UnexpectedValueException if the template file is not set
          * @return string the rendered content
          */

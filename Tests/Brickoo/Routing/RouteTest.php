@@ -60,12 +60,12 @@
         }
 
         /**
-         * Test if the Route instance is implemnting the ROuteInterface.
+         * Test if the Route instance is implemnting the ROute.
          * @covers Brickoo\Routing\Route::__construct
          */
         public function testConstruct() {
             $Route = new Route('testConstructor');
-            $this->assertInstanceof('Brickoo\Routing\Interfaces\RouteInterface', $Route);
+            $this->assertInstanceof('Brickoo\Routing\Interfaces\Route', $Route);
             $this->assertAttributeEquals('testConstructor', 'name', $Route);
         }
 

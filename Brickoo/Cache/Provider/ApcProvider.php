@@ -41,7 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class APCProvider implements Interfaces\ProviderInterface {
+    class APCProvider implements Interfaces\Provider {
 
         /**
          * Returns the cached content from the matching dentifier.

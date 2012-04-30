@@ -62,7 +62,7 @@
         }
 
         /**
-         * Test if the class can be created and implements the ExceptionHandlerInterface.
+         * Test if the class can be created and implements the ExceptionHandler.
          * @covers Brickoo\Error\ExceptionHandler::__construct
          */
         public function testExceptionHandlerConstructor() {

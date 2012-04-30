@@ -60,13 +60,13 @@
         }
 
         /**
-         * Test if a Request instance can be created and implements the RequestInterface.
+         * Test if a Request instance can be created and implements the Request.
          * @covers Brickoo\Http\Request::__construct
          */
         public function testConstruct() {
             $this->assertInstanceOf
             (
-                'Brickoo\Core\Interfaces\RequestInterface',
+                'Brickoo\Core\Interfaces\Request',
                 ($Request = new Request())
             );
         }
@@ -79,7 +79,7 @@
         public function testUrlLazyInitialization() {
             $this->assertInstanceOf
             (
-                'Brickoo\Http\Component\Interfaces\UrlInterface',
+                'Brickoo\Http\Component\Interfaces\Url',
                 $this->Request->Url()
             );
             $this->assertAttributeContains($this->Request->Url(), 'dependencies', $this->Request);
@@ -91,7 +91,7 @@
          * @covers Brickoo\Http\Request::getDependency
          */
         public function testUrlInjection() {
-            $Url = $this->getMock('\Brickoo\Http\Component\Interfaces\UrlInterface');
+            $Url = $this->getMock('\Brickoo\Http\Component\Interfaces\Url');
             $this->assertSame($this->Request, $this->Request->Url($Url));
             $this->assertAttributeContains($Url, 'dependencies', $this->Request);
         }
@@ -104,7 +104,7 @@
         public function testHeadersLazyInitialization() {
             $this->assertInstanceOf
             (
-                'Brickoo\Http\Component\Interfaces\HeadersInterface',
+                'Brickoo\Http\Component\Interfaces\Headers',
                 $this->Request->Headers()
             );
             $this->assertAttributeContains($this->Request->Headers(), 'dependencies', $this->Request);
@@ -116,7 +116,7 @@
          * @covers Brickoo\Http\Request::getDependency
          */
         public function testHeadersInjection() {
-            $Headers = $this->getMock('\Brickoo\Http\Component\Interfaces\HeadersInterface');
+            $Headers = $this->getMock('\Brickoo\Http\Component\Interfaces\Headers');
             $this->assertSame($this->Request, $this->Request->Headers($Headers));
             $this->assertAttributeContains($Headers, 'dependencies', $this->Request);
         }
@@ -129,7 +129,7 @@
         public function testQueryLazyInitialization() {
             $this->assertInstanceOf
             (
-                'Brickoo\Http\Component\Interfaces\QueryInterface',
+                'Brickoo\Http\Component\Interfaces\Query',
                 $this->Request->Query()
             );
             $this->assertAttributeContains($this->Request->Query(), 'dependencies', $this->Request);
@@ -141,7 +141,7 @@
          * @covers Brickoo\Http\Request::getDependency
          */
         public function testQueryInjection() {
-            $Query = $this->getMock('\Brickoo\Http\Component\Interfaces\QueryInterface');
+            $Query = $this->getMock('\Brickoo\Http\Component\Interfaces\Query');
             $this->assertSame($this->Request, $this->Request->Query($Query));
             $this->assertAttributeContains($Query, 'dependencies', $this->Request);
         }
@@ -154,7 +154,7 @@
         public function testPostLazyInitialization() {
             $this->assertInstanceOf
             (
-                'Brickoo\Memory\Interfaces\ContainerInterface',
+                'Brickoo\Memory\Interfaces\Container',
                 $this->Request->Post()
             );
             $this->assertAttributeContains($this->Request->Post(), 'dependencies', $this->Request);
@@ -166,7 +166,7 @@
          * @covers Brickoo\Http\Request::getDependency
          */
         public function testPostInjection() {
-            $Post = $this->getMock('\Brickoo\Memory\Interfaces\ContainerInterface');
+            $Post = $this->getMock('\Brickoo\Memory\Interfaces\Container');
             $this->assertSame($this->Request, $this->Request->Post($Post));
             $this->assertAttributeContains($Post, 'dependencies', $this->Request);
         }
@@ -179,7 +179,7 @@
         public function testFilesLazyInitialization() {
             $this->assertInstanceOf
             (
-                'Brickoo\Memory\Interfaces\ContainerInterface',
+                'Brickoo\Memory\Interfaces\Container',
                 $this->Request->Files()
             );
             $this->assertAttributeContains($this->Request->Files(), 'dependencies', $this->Request);
@@ -191,7 +191,7 @@
          * @covers Brickoo\Http\Request::getDependency
          */
         public function testFilesInjection() {
-            $Files = $this->getMock('\Brickoo\Memory\Interfaces\ContainerInterface');
+            $Files = $this->getMock('\Brickoo\Memory\Interfaces\Container');
             $this->assertSame($this->Request, $this->Request->Files($Files));
             $this->assertAttributeContains($Files, 'dependencies', $this->Request);
         }

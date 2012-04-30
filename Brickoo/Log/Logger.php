@@ -41,7 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Logger implements Interfaces\LoggerInterface {
+    class Logger implements Interfaces\Logger {
 
         /**
         * Holds the severity levels since Windows does have issues.
@@ -58,14 +58,14 @@
 
         /**
          * Holds the log handler which implements
-         * the LogHandlerInterface used for logging.
-         * @var \Brickoo\Log\Handler\Interfaces\LogHandlerInterface
+         * the LogHandler used for logging.
+         * @var \Brickoo\Log\Handler\Interfaces\LogHandler
          */
         protected $_LogHandler;
 
         /**
          * Retrieve the log handler dependency.
-         * @return \Brickoo\Log\Handler\Interface\LogHandlerInterface
+         * @return \Brickoo\Log\Handler\Interface\LogHandler
          */
         public function LogHandler() {
             return $this->_LogHandler;
@@ -103,10 +103,10 @@
         * Class constructor.
         * Injection of the LogHandler dependency.
         * Initializes the class properties.
-        * @param \Brickoo\Log\Handler\Interfaces\LogHandlerInterface $LogHandler the LogHandler dependency
+        * @param \Brickoo\Log\Handler\Interfaces\LogHandler $LogHandler the LogHandler dependency
         * @return void
         */
-        public function __construct(\Brickoo\Log\Handler\Interfaces\LogHandlerInterface $LogHandler) {
+        public function __construct(\Brickoo\Log\Handler\Interfaces\LogHandler $LogHandler) {
             $this->_LogHandler           = $LogHandler;
             $this->defaultSeverity       = self::SEVERITY_INFO;
         }
@@ -135,10 +135,10 @@
 
         /**
          * Logs the messages of an Event.
-         * @param \Brickoo\Event\Interfaces\EventInterface $Event the event executed
+         * @param \Brickoo\Event\Interfaces\Event $Event the event executed
          * @return void
          */
-        public function logEvent(\Brickoo\Event\Interfaces\EventInterface $Event) {
+        public function logEvent(\Brickoo\Event\Interfaces\Event $Event) {
             if (($messages = $Event->getParam('messages')) === null) {
                 return null;
             }

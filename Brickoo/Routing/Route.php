@@ -45,7 +45,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Route implements Interfaces\RouteInterface {
+    class Route implements Interfaces\Route {
 
         /**
          * Holds the unique route name.

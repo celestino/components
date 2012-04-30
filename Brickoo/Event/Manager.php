@@ -41,20 +41,20 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Manager implements Interfaces\ManagerInterface {
+    class Manager implements Interfaces\Manager {
 
         /**
          * Holds an sttic instance of the EventManager class.
-         * @var \Brickoo\Event\Interfaces\ManagerInterface
+         * @var \Brickoo\Event\Interfaces\Manager
          */
         protected static $staticManager;
 
         /**
          * Returns the static EventManager instance.
          * @param \Brickoo\Event\Manager $Manager the Manager to inject
-         * @return \Brickoo\Event\Interfaces\ManagerInterface
+         * @return \Brickoo\Event\Interfaces\Manager
          */
-        public static function Instance(\Brickoo\Event\Interfaces\ManagerInterface $Manager = null) {
+        public static function Instance(\Brickoo\Event\Interfaces\Manager $Manager = null) {
             if (static::$staticManager === null) {
                 if ($Manager !== null) {
                     static::$staticManager = $Manager;
@@ -234,10 +234,10 @@
 
         /**
          * Calls the listener to attach the aggregates event listeners.
-         * @param \Brickoo\Event\Interfaces\ListenerAggregateInterface $Listener
+         * @param \Brickoo\Event\Interfaces\ListenerAggregate $Listener
          * @return \Brickoo\Event\Manager
          */
-        public function attachAggregatedListeners(\Brickoo\Event\Interfaces\ListenerAggregateInterface $Listener) {
+        public function attachAggregatedListeners(\Brickoo\Event\Interfaces\ListenerAggregate $Listener) {
             $Listener->aggregateListeners($this);
 
             return $this;
@@ -245,19 +245,19 @@
 
         /**
          * Notifies all event listeners.
-         * @param \Brickoo\Event\Interfaces\EventInterface $Event the executed event
+         * @param \Brickoo\Event\Interfaces\Event $Event the executed event
          * @return void
          */
-        public function notify(\Brickoo\Event\Interfaces\EventInterface $Event) {
+        public function notify(\Brickoo\Event\Interfaces\Event $Event) {
             $this->processEvent($Event);
         }
 
         /**
          * Asks all event listeners until one listener returns a response.
-         * @param \Brickoo\Event\Interfaces\EventInterface $Event the executed event
+         * @param \Brickoo\Event\Interfaces\Event $Event the executed event
          * @return mixed the event listener response or null if no response has been returned
          */
-        public function ask(\Brickoo\Event\Interfaces\EventInterface $Event) {
+        public function ask(\Brickoo\Event\Interfaces\Event $Event) {
             return $this->processEvent($Event, true);
         }
 
@@ -272,13 +272,13 @@
 
         /**
          * Process the Event and returns the response if needed.
-         * @param \Brickoo\Event\Interfaces\EventInterface $Event the executed event
+         * @param \Brickoo\Event\Interfaces\Event $Event the executed event
          * @param boolean $responseNeeded flag to break the queue and return the response
          * @param boolean $once flag if just the listener with the highest priority should be notified
          * @throws Exceptions\InfiniteEventLoopException throwed if an infinite lopp is detected
          * @return mixed the event listener response
          */
-        protected function processEvent(\Brickoo\Event\Interfaces\EventInterface $Event, $responseNeeded = false, $once = false) {
+        protected function processEvent(\Brickoo\Event\Interfaces\Event $Event, $responseNeeded = false, $once = false) {
             $response    = null;
             $eventName   = $this->getUniformEventName($Event->getName());
 
@@ -306,10 +306,10 @@
         /**
          * Calls the event listener.
          * @param string $listenerUID the unique identiier of the listener
-         * @param \Brickoo\Event\Interfaces\EventInterface $Event the event
+         * @param \Brickoo\Event\Interfaces\Event $Event the event
          * @return mixed the listener response or null if the event does not contain expected params
          */
-        public function call($listenerUID, \Brickoo\Event\Interfaces\EventInterface $Event) {
+        public function call($listenerUID, \Brickoo\Event\Interfaces\Event $Event) {
             if (! $this->isListener($listenerUID)) {
                 return null;
             }
@@ -330,10 +330,10 @@
         /**
          * Returns the callback arguments.
          * @param array|null $expectedParams the listener expected parameters
-         * @param \Brickoo\Event\Interfaces\EventInterface $Event the Event executed
+         * @param \Brickoo\Event\Interfaces\Event $Event the Event executed
          * @return array the callback arguments or null if the requires arguments are not available
          */
-        protected function getCallbackArguments($expectedParams, \Brickoo\Event\Interfaces\EventInterface $Event) {
+        protected function getCallbackArguments($expectedParams, \Brickoo\Event\Interfaces\Event $Event) {
             if (is_array($expectedParams) &&
                 array_diff($expectedParams, array_keys($Event->getParams())) !== array()
             ){

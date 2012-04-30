@@ -48,12 +48,12 @@
 
         /**
          * Returns an LogHandler Stub for testing the logging of messages.
-         * @return \Brickoo\Log\Handler\Interfaces\LogHandlerInterface
+         * @return \Brickoo\Log\Handler\Interfaces\LogHandler
          */
         protected function getLogHandlerStub() {
             return $this->getMock
             (
-                'Brickoo\Log\Handler\Interfaces\LogHandlerInterface',
+                'Brickoo\Log\Handler\Interfaces\LogHandler',
                 array('log')
             );
         }
@@ -78,7 +78,7 @@
          * @covers Brickoo\Log\Logger::__construct
          */
         public function testLoggerConstructor() {
-            $this->assertInstanceOf('Brickoo\Log\Interfaces\LoggerInterface', $this->Logger);
+            $this->assertInstanceOf('Brickoo\Log\Interfaces\Logger', $this->Logger);
         }
 
         /**

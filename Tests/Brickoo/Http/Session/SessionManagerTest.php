@@ -47,14 +47,14 @@
     class SessionManagerTest extends PHPUnit_Framework_TestCase {
 
         /**
-         * Returns a SessionHandler stub implementig the Session\Interfaces\SessionHandlerInterface.
+         * Returns a SessionHandler stub implementig the Session\Interfaces\SessionHandler.
          * @param array $methods the methods to mock
          * @return object
          */
         public function getSessionHandlerStub() {
             return $this->getMock
             (
-                'Brickoo\Http\Session\Handler\Interfaces\SessionHandlerInterface',
+                'Brickoo\Http\Session\Handler\Interfaces\SessionHandler',
                 array('setLifetime', 'open', 'read', 'write', 'destroy', 'close', 'gc')
             );
         }
@@ -69,7 +69,7 @@
         }
 
         /**
-         * Test if the Manager can be created and implements the ManagerInterface.
+         * Test if the Manager can be created and implements the Manager.
          * @covers Brickoo\Http\Session\Manager::__construct
          * @covers Brickoo\Http\Session\Manager::registerSessionHandler
          */
@@ -79,7 +79,7 @@
                                ->method('setLifetime')
                                ->will($this->returnSelf());
 
-            $this->assertInstanceOf('Brickoo\Http\Session\Interfaces\ManagerInterface',
+            $this->assertInstanceOf('Brickoo\Http\Session\Interfaces\Manager',
                 new Manager($SessionHandlerStub)
             );
         }

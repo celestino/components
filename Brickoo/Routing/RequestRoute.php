@@ -42,17 +42,17 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class RequestRoute implements Interfaces\RequestRouteInterface {
+    class RequestRoute implements Interfaces\RequestRoute {
 
         /**
          * Holds an instance of the matched request module route.
-         * @var \Brickoo\Routing\Interfaces\RouteInterface
+         * @var \Brickoo\Routing\Interfaces\Route
          */
         protected $ModuleRoute;
 
         /**
          * Returns the request module route.
-         * @return \Brickoo\Routing\Interfaces\RouteInterface
+         * @return \Brickoo\Routing\Interfaces\Route
          */
         public function getModuleRoute() {
             return $this->ModuleRoute;
@@ -85,13 +85,13 @@
 
         /**
          * Lazy initialization of the Container dependecy.
-         * @param \Brickoo\Memory\Interfaces\ContainerInterface $Container the route parasm container
-         * @return \Brickoo\Memory\Interfaces\ContainerInterface
+         * @param \Brickoo\Memory\Interfaces\Container $Container the route parasm container
+         * @return \Brickoo\Memory\Interfaces\Container
          */
-        public function Params(\Brickoo\Memory\Interfaces\ContainerInterface $Container = null) {
+        public function Params(\Brickoo\Memory\Interfaces\Container $Container = null) {
             return $this->getDependency(
                 'Params',
-                '\Brickoo\Memory\Interfaces\ContainerInterface',
+                '\Brickoo\Memory\Interfaces\Container',
                 function(){return new Memory\Container();},
                 $Container
             );
@@ -100,10 +100,10 @@
         /**
          * Class constructor.
          * Initializes the class properties.
-         * @param \Brickoo\Routing\Interfaces\RouteInterface $Routehte request module route
+         * @param \Brickoo\Routing\Interfaces\Route $Routehte request module route
          * @return void
          */
-        public function __construct(\Brickoo\Routing\Interfaces\RouteInterface $Route) {
+        public function __construct(\Brickoo\Routing\Interfaces\Route $Route) {
             $this->ModuleRoute     = $Route;
             $this->dependencies    = array();
         }

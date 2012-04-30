@@ -59,13 +59,13 @@
         }
 
         /**
-        * Creates and returns a stub of the CacheHandleInterface.
-        * @return object ProviderInterface stub
+        * Creates and returns a stub of the CacheHandle.
+        * @return object Provider stub
         */
         public function getCacheProviderStub() {
             return $this->getMock
             (
-                'Brickoo\Cache\Provider\Interfaces\ProviderInterface',
+                'Brickoo\Cache\Provider\Interfaces\Provider',
                 array('get', 'set', 'delete', 'flush')
             );
         }
@@ -92,7 +92,7 @@
             $CacheProviderStub = $this->getCacheProviderStub();
             $this->assertInstanceOf
             (
-                'Brickoo\Cache\Interfaces\ManagerInterface',
+                'Brickoo\Cache\Interfaces\Manager',
                 ($Manager = new Manager($CacheProviderStub))
             );
             $this->assertAttributeSame($CacheProviderStub, '_CacheProvider', $Manager);
@@ -105,7 +105,7 @@
         public function testGetCacheProvider() {
             $this->assertInstanceOf
             (
-                'Brickoo\Cache\Provider\Interfaces\ProviderInterface',
+                'Brickoo\Cache\Provider\Interfaces\Provider',
                 $this->Manager->CacheProvider()
             );
         }
@@ -129,7 +129,7 @@
         public function testGetLocalCacheLazyInitialization() {
             $this->assertInstanceOf
             (
-                'Brickoo\Cache\Interfaces\LocalCacheInterface',
+                'Brickoo\Cache\Interfaces\LocalCache',
                 ($LocalCache = $this->Manager->LocalCache())
             );
             $this->assertAttributeContains($LocalCache, 'dependencies', $this->Manager);

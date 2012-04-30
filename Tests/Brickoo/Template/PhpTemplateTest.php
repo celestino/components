@@ -66,12 +66,12 @@
         }
 
         /**
-         * Test if the PhpTemplate implements the TemplateInterface.
+         * Test if the PhpTemplate implements the Template.
          * @covers Brickoo\Template\PhpTemplate::__construct
          */
         public function testConstruct() {
             $Template = new PhpTemplate($this->templateFile);
-            $this->assertInstanceOf('Brickoo\Template\Interfaces\TemplateInterface', $Template);
+            $this->assertInstanceOf('Brickoo\Template\Interfaces\Template', $Template);
         }
 
         /**
