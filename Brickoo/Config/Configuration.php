@@ -40,6 +40,7 @@
      *
      * Implements methods to store and retrieve configuration values.
      * Uses the Memory\Container for configuration storage.
+     * @see \Brickoo\Memory\Container
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -47,7 +48,7 @@
     {
 
         /**
-         * Holds an instance implementing the ProviderInterface.
+         * Holds an instance implementing the Provider interface.
          * @var \Brickoo\Config\Provider\Interfaces\ProviderInterface
          */
         protected $_Provider;
@@ -76,7 +77,6 @@
 
         /**
          * Loads the configuration through the Provider.
-         * @throws Exceptions\ProviderNotAvailableException if no Provider has been set
          * @return \Brickoo\Config\Configuration
          */
         public function load()
@@ -88,7 +88,6 @@
 
         /**
          * Saves the current configuration through the Provider.
-         * @throws Exceptions\ProviderNotAvailableException if no Provider has been set
          * @return \Brickoo\Config\Configuration
          */
         public function save()
@@ -102,6 +101,7 @@
          * Converts a configuration section settings to constants.
          * @param string $section the configuration 1st level section
          * @throws \UnexpectedValueException if the section does not exist
+         * @throws \UnexpectedValueException if the value is not scalar
          * @return \Brickoo\Config\Configuration
          */
         public function convertSectionToConstants($section)

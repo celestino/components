@@ -140,7 +140,7 @@
         }
 
         /**
-         * Converts the array configuration to an ini string.
+         * Converts the configuration to an ini string.
          * @param array $configuration the configuration to convert
          * @return string the configuration as an ini format
          */
