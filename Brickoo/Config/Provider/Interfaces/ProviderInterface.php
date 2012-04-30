@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface ProviderInterface
-    {
+    interface ProviderInterface {
 
         /**
          * Loads the configuration from a resource.

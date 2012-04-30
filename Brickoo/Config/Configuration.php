@@ -44,8 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Configuration extends Memory\Container implements Interfaces\ConfigurationInterface
-    {
+    class Configuration extends Memory\Container implements Interfaces\ConfigurationInterface {
 
         /**
          * Holds an instance implementing the Provider interface.
@@ -57,8 +56,7 @@
          * Returns the configuration Provider.
          * @return \Brickoo\Config\Provider\Interfaces\ProviderInterface
          */
-        public function Provider()
-        {
+        public function Provider() {
             return $this->_Provider;
         }
 
@@ -69,8 +67,7 @@
          * @param \Brickoo\Config\Provider\Interfaces\ProviderInterface $Provider
          * @return void
          */
-        public function __construct(\Brickoo\Config\Provider\Interfaces\ProviderInterface $Provider)
-        {
+        public function __construct(\Brickoo\Config\Provider\Interfaces\ProviderInterface $Provider) {
             parent::__construct();
             $this->_Provider = $Provider;
         }
@@ -79,8 +76,7 @@
          * Loads the configuration through the Provider.
          * @return \Brickoo\Config\Configuration
          */
-        public function load()
-        {
+        public function load() {
             $this->fromArray($this->Provider()->load());
 
             return $this;
@@ -90,8 +86,7 @@
          * Saves the current configuration through the Provider.
          * @return \Brickoo\Config\Configuration
          */
-        public function save()
-        {
+        public function save() {
             $this->Provider()->save($this->toArray());
 
             return $this;
@@ -104,8 +99,7 @@
          * @throws \UnexpectedValueException if the value is not scalar
          * @return \Brickoo\Config\Configuration
          */
-        public function convertSectionToConstants($section)
-        {
+        public function convertSectionToConstants($section) {
             TypeValidator::IsString($section);
 
             if (($settings = $this->get($section)) === null) {

@@ -44,8 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class EventListenerQueueTest extends \PHPUnit_Framework_TestCase
-    {
+    class EventListenerQueueTest extends \PHPUnit_Framework_TestCase {
         /**
          * Holds an instance of the EventListenerQueue class.
          * @var \Brickoo\Event\ListenerQueue
@@ -56,8 +55,7 @@
          * Sets up the the used EventListenerQueue instance.
          * @return void
          */
-        protected function setUp()
-        {
+        protected function setUp() {
             $this->EventListenerQueue = new ListenerQueue();
         }
 
@@ -65,8 +63,7 @@
          * Test if the serial property is initialized.
          * @covers Brickoo\Event\ListenerQueue::__construct
          */
-        public function testConstruct()
-        {
+        public function testConstruct() {
             $this->assertAttributeEquals(PHP_INT_MAX, 'serial', $this->EventListenerQueue);
         }
 
@@ -74,8 +71,7 @@
          * Test if a value can be inserted to the queue and the priority is respected.
          * @covers Brickoo\Event\ListenerQueue::insert
          */
-        public function testInsert()
-        {
+        public function testInsert() {
             $this->EventListenerQueue->insert('A', 100);
             $this->EventListenerQueue->insert('B', 100);
             $this->EventListenerQueue->insert('C', 200);

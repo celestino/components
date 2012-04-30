@@ -42,8 +42,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class DescriptionTest extends \PHPUnit_Framework_TestCase
-    {
+    class DescriptionTest extends \PHPUnit_Framework_TestCase {
         /**
          * @var Description
          */
@@ -53,8 +52,7 @@
          * Sets up the Description instance used for hte tests.
          * @return void
          */
-        protected function setUp()
-        {
+        protected function setUp() {
             $this->Description = new Description();
         }
 
@@ -63,8 +61,7 @@
          * Test if the status are available in the class property.
          * @covers Brickoo\Module\description::__construct
          */
-        public function testConstructor()
-        {
+        public function testConstructor() {
             $this->assertInstanceOf('Brickoo\Module\Interfaces\DescriptionInterface', $this->Description);
             $this->assertAttributeInternalType('array', 'availableStatus', $this->Description);
         }
@@ -74,8 +71,7 @@
          * @covers Brickoo\Module\Description::getName
          * @covers Brickoo\Module\Description::setName
          */
-        public function testGetSetName()
-        {
+        public function testGetSetName() {
             $this->assertSame($this->Description, $this->Description->setName('phpunit.test'));
             $this->assertAttributeEquals('phpunit.test', 'name', $this->Description);
             $this->assertEquals('phpunit.test', $this->Description->getName());
@@ -86,8 +82,7 @@
          * @covers Brickoo\Module\Description::getName
          * @expectedException UnexpectedValueException
          */
-        public function testGetNameValueExcpetion()
-        {
+        public function testGetNameValueExcpetion() {
             $this->Description->getName();
         }
 
@@ -96,8 +91,7 @@
          * @covers Brickoo\Module\Description::getVendor
          * @covers Brickoo\Module\Description::setVendor
          */
-        public function testGetSetVendor()
-        {
+        public function testGetSetVendor() {
             $this->assertSame($this->Description, $this->Description->setVendor('brickoo'));
             $this->assertAttributeEquals('brickoo', 'vendor', $this->Description);
             $this->assertEquals('brickoo', $this->Description->getVendor());
@@ -108,8 +102,7 @@
          * @covers Brickoo\Module\Description::getVendor
          * @expectedException UnexpectedValueException
          */
-        public function testGetVendorValueException()
-        {
+        public function testGetVendorValueException() {
             $this->Description->getVendor();
         }
 
@@ -118,8 +111,7 @@
          * @covers Brickoo\Module\Description::getWebsite
          * @covers Brickoo\Module\Description::setWebsite
          */
-        public function testGetSetWebsite()
-        {
+        public function testGetSetWebsite() {
             $this->assertSame($this->Description, $this->Description->setWebsite('http://brickoo.home'));
             $this->assertAttributeEquals('http://brickoo.home', 'website', $this->Description);
             $this->assertEquals('http://brickoo.home', $this->Description->getWebsite());
@@ -130,8 +122,7 @@
          * @covers Brickoo\Module\Description::GetWebsite
          * @expectedException UnexpectedValueException
          */
-        public function testGetWebsiteValueException()
-        {
+        public function testGetWebsiteValueException() {
             $this->Description->getWebsite();
         }
 
@@ -140,8 +131,7 @@
          * @covers Brickoo\Module\Description::setWebsite
          * @expectedException InvalidArgumentException
          */
-        public function testSetWebsiteArgumentException()
-        {
+        public function testSetWebsiteArgumentException() {
             $this->Description->setWebsite('fail');
         }
 
@@ -150,8 +140,7 @@
          * @covers Brickoo\Module\Description::getContact
          * @covers Brickoo\Module\Description::setContact
          */
-        public function testGetSetContact()
-        {
+        public function testGetSetContact() {
             $this->assertSame($this->Description, $this->Description->setContact('contact@brickoo'));
             $this->assertAttributeEquals('contact@brickoo', 'contact', $this->Description);
             $this->assertEquals('contact@brickoo', $this->Description->getContact());
@@ -162,8 +151,7 @@
          * @covers Brickoo\Module\Description::getContact
          * @expectedException UnexpectedValueException
          */
-        public function testGetContactValueException()
-        {
+        public function testGetContactValueException() {
             $this->Description->getContact();
         }
 
@@ -172,8 +160,7 @@
          * @covers Brickoo\Module\Description::getStatus
          * @covers Brickoo\Module\Description::setStatus
          */
-        public function testGetSetStatus()
-        {
+        public function testGetSetStatus() {
             $this->assertSame($this->Description, $this->Description->setStatus('stable'));
             $this->assertAttributeEquals('stable', 'status', $this->Description);
             $this->assertEquals('stable', $this->Description->getStatus());
@@ -184,8 +171,7 @@
          * @covers Brickoo\Module\Description::setStatus
          * @expectedException InvalidArgumentException
          */
-        public function testSetStatusArgumentException()
-        {
+        public function testSetStatusArgumentException() {
             $this->Description->setStatus('undefined');
         }
 
@@ -194,8 +180,7 @@
          * @covers Brickoo\Module\Description::getVersion
          * @covers Brickoo\Module\Description::setVersion
          */
-        public function testGetSetVersion()
-        {
+        public function testGetSetVersion() {
             $this->assertSame($this->Description, $this->Description->setVersion('v3.0'));
             $this->assertAttributeEquals('v3.0', 'version', $this->Description);
             $this->assertEquals('v3.0', $this->Description->getVersion());
@@ -206,8 +191,7 @@
          * @covers Brickoo\Module\Description::getDescription
          * @covers Brickoo\Module\Description::setDescription
          */
-        public function testGetSetDescription()
-        {
+        public function testGetSetDescription() {
             $this->assertSame($this->Description, $this->Description->setDescription('some description'));
             $this->assertAttributeEquals('some description', 'description', $this->Description);
             $this->assertEquals('some description', $this->Description->getDescription());
@@ -218,8 +202,7 @@
          * @covers Brickoo\Module\Description::getDependencies
          * @covers Brickoo\Module\Description::setDependencies
          */
-        public function testGetSetDependencies()
-        {
+        public function testGetSetDependencies() {
             $this->assertSame($this->Description, $this->Description->setDependencies(array('Test/Module')));
             $this->assertAttributeEquals(array('Test/Module'), 'dependencies', $this->Description);
             $this->assertEquals(array('Test/Module'), $this->Description->getDependencies());
@@ -230,8 +213,7 @@
          * @covers Brickoo\Module\description::toString
          * @covers Brickoo\Module\description::__toString
          */
-        public function testDescriptionToString()
-        {
+        public function testDescriptionToString() {
             $expected = '';
             $expected .= "Name: Brickoo Test Module\n";
             $expected .= "Vendor: Brickoo\n";

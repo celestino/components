@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ListenerQueue extends \SplPriorityQueue
-    {
+    class ListenerQueue extends \SplPriorityQueue {
 
         /**
          * Holds the priority extra serial to keep the
@@ -64,8 +63,7 @@
          * Sets the extract flag to return only the data value.
          * @return void
          */
-        public function __construct()
-        {
+        public function __construct() {
             $this->serial = PHP_INT_MAX;
             $this->setExtractFlags(static::EXTR_DATA);
         }

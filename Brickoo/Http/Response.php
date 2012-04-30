@@ -42,8 +42,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Response implements Interfaces\ResponseInterface
-    {
+    class Response implements Interfaces\ResponseInterface {
 
         /**
          * Holds the corresponding status code phrases.
@@ -112,8 +111,7 @@
          * @param object $Dependency the dependecy to inject
          * @return object Request if overwritten otherwise the dependency
          */
-        protected function getDependency($name, $interface, $callback, $Dependency = null)
-        {
+        protected function getDependency($name, $interface, $callback, $Dependency = null) {
             if ($Dependency instanceof $interface) {
                 $this->dependencies[$name] = $Dependency;
                 return $this;
@@ -130,8 +128,7 @@
          * @throws Exceptions\ResponseTemplateNotAvailableException if trying to retrieve the not injected dependency
          * @return \Brickoo\Template\Interfaces\TemplateInterface
          */
-        public function Template(\Brickoo\Template\Interfaces\TemplateInterface $Template = null)
-        {
+        public function Template(\Brickoo\Template\Interfaces\TemplateInterface $Template = null) {
             return $this->getDependency(
                 'Template',
                 '\Brickoo\Template\Interfaces\TemplateInterface',
@@ -144,8 +141,7 @@
          * Checks if the Response has a template dependency injected.
          * @return boolean check result
          */
-        public function hasTemplate()
-        {
+        public function hasTemplate() {
             return (
                 (isset($this->dependencies['Template'])) &&
                 ($this->dependencies['Template'] instanceof Template\Interfaces\TemplateInterface)
@@ -157,8 +153,7 @@
          * @param \Brickoo\Http\Component\Interfaces\HeadersInterface $Headers the Headers dependency to inject
          * @return \Brickoo\Http\Component\Interfaces\HeadersInterface
          */
-        public function Headers(\Brickoo\Http\Component\Interfaces\HeadersInterface $Headers = null)
-        {
+        public function Headers(\Brickoo\Http\Component\Interfaces\HeadersInterface $Headers = null) {
             return $this->getDependency(
                 'Headers',
                 '\Brickoo\Http\Component\Interfaces\HeadersInterface',
@@ -172,8 +167,7 @@
          * @param string $headerName the header name to check
          * @return boolean check result
          */
-        public function hasHeader($headerName)
-        {
+        public function hasHeader($headerName) {
             TypeValidator::IsString($headerName);
 
             return $this->Headers()->has($headerName);
@@ -184,8 +178,7 @@
          * @param callable $callback this argument should be only used for test purposes
          * @return \Brickoo\Http\Response
          */
-        public function sendHeaders($callback = null)
-        {
+        public function sendHeaders($callback = null) {
             $function = (is_callable($callback) ? $callback : 'header');
 
             call_user_func(
@@ -212,8 +205,7 @@
          * Returns then response protocol.
          * @return string the response protocol
          */
-        public function getProtocol()
-        {
+        public function getProtocol() {
             return $this->protocol;
         }
 
@@ -222,8 +214,7 @@
          * @param string $protocol the response protocol
          * @return \Brickoo\Http\Response
          */
-        public function setProtocol($protocol)
-        {
+        public function setProtocol($protocol) {
             TypeValidator::IsString($protocol);
             TypeValidator::MatchesRegex('~^HTTP\/1\.[0|1]$~', $protocol);
 
@@ -242,8 +233,7 @@
          * Returns the status code of te response.
          * @return integer the status code
          */
-        public function getStatusCode()
-        {
+        public function getStatusCode() {
             return $this->statusCode;
         }
 
@@ -252,8 +242,7 @@
          * @param integer $statusCode the status code
          * @return \Brickoo\Http\Response
          */
-        public function setStatusCode($statusCode)
-        {
+        public function setStatusCode($statusCode) {
             TypeValidator::IsInteger($statusCode);
 
             $this->statusCode = $statusCode;
@@ -267,8 +256,7 @@
          * @param integer|array $statusCode the status code to check
          * @return boolean check result
          */
-        public function hasStatusCode($statusCode)
-        {
+        public function hasStatusCode($statusCode) {
             if (is_array($statusCode)) {
                 return in_array($this->getStatusCode(), $statusCode);
             }
@@ -284,8 +272,7 @@
          * @throws Exceptions\StatusCodeUnknownException if the status code is unknowed
          * @return string the status code phrase
          */
-        public function getStatusPhrase($statusCode = null)
-        {
+        public function getStatusPhrase($statusCode = null) {
             if ($statusCode === null) {
                 $statusCode = $this->getStatusCode();
             }
@@ -303,8 +290,7 @@
          * @param string $statusPhrase the phrase to bind to the status code
          * @return \Brickoo\Http\Response
          */
-        public function setStatusPhrase($statusCode, $statusPhrase)
-        {
+        public function setStatusPhrase($statusCode, $statusPhrase) {
             TypeValidator::IsInteger($statusCode);
             TypeValidator::IsString($statusPhrase);
 
@@ -323,8 +309,7 @@
          * Returns the assigned response content.
          * @return string the response content
          */
-        public function getContent()
-        {
+        public function getContent() {
             if ($this->content === null && $this->hasTemplate()) {
                 $this->content = $this->Template()->render();
             }
@@ -336,8 +321,7 @@
          * @param string $content the response content
          * @return \Brickoo\Http\Response
          */
-        public function setContent($content)
-        {
+        public function setContent($content) {
             TypeValidator::IsString($content);
 
             $this->content = $content;
@@ -349,8 +333,7 @@
          * Sends the response content to the output buffer.
          * @return \Brickoo\Http\Response
          */
-        public function sendContent()
-        {
+        public function sendContent() {
             echo (ltrim($this->getContent(), "\r\n"));
 
             return $this;
@@ -361,8 +344,7 @@
          * Initializes the class properties.
          * @return void
          */
-        public function __construct()
-        {
+        public function __construct() {
             $this->protocol      = 'HTTP/1.1';
             $this->statusCode    = 200;
         }
@@ -372,8 +354,7 @@
          * @param callable $headersCallback this argument should be only used for test purposes
          * @return void
          */
-        public function send($headersCallback = null)
-        {
+        public function send($headersCallback = null) {
             $this->sendHeaders($headersCallback);
             $this->sendContent();
 
@@ -384,8 +365,7 @@
          * Returns the converted response as a string.
          * @return string the converted response
          */
-        public function toString()
-        {
+        public function toString() {
             $response  = sprintf("%s %d %s\r\n", $this->getProtocol(), $this->getStatusCode(), $this->getStatusPhrase());
             $response .= rtrim($this->Headers()->toString(), "\r\n");
             $response .= "\r\n\r\n" . $this->getContent();
@@ -397,8 +377,7 @@
          * Converts the reponse to a string.
          * @return string the converted response
          */
-        public function __toString()
-        {
+        public function __toString() {
             return $this->toString();
         }
 

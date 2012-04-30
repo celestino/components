@@ -41,8 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Manager implements Interfaces\ManagerInterface
-    {
+    class Manager implements Interfaces\ManagerInterface {
 
         /**
          * Holds a flag for the session started status.
@@ -54,8 +53,7 @@
          * Checks if the session has been started.
          * @return boolean check result
          */
-        public function hasSessionStarted()
-        {
+        public function hasSessionStarted() {
             return (self::$SessionStarted === true);
         }
 
@@ -70,8 +68,7 @@
          * @param \Brickoo\Http\Session\Handler\Interfaces\SessionHandlerInterface $SessionHandler the session hadnler to register
          * @return boolean success
          */
-        protected function registerSessionHandler(\Brickoo\Http\Session\Handler\Interfaces\SessionHandlerInterface $SessionHandler)
-        {
+        protected function registerSessionHandler(\Brickoo\Http\Session\Handler\Interfaces\SessionHandlerInterface $SessionHandler) {
             $this->SessionHandler = $SessionHandler;
 
             return session_set_save_handler(
@@ -89,8 +86,7 @@
          * @param array $cookieParameters the cookie parameters to overwrite
          * @return array the cookie parameters set
          */
-        public function setCookieParameters(array $cookieParameters)
-        {
+        public function setCookieParameters(array $cookieParameters) {
             $cookieParameters = array_merge(session_get_cookie_params(), $cookieParameters);
 
             session_set_cookie_params(
@@ -113,8 +109,7 @@
          * @param string $sessionLimiter the session limiter to set
          * @return \Brickoo\Http\Session\Manager
          */
-        public function configureSession($sessionName, $sessionLimiter = null)
-        {
+        public function configureSession($sessionName, $sessionLimiter = null) {
             TypeValidator::IsString($sessionName);
 
             session_name($sessionName);
@@ -138,8 +133,7 @@
         public function __construct(
             \Brickoo\Http\Session\Handler\Interfaces\SessionHandlerInterface $SessionHandler,
             array $cookieParams = array()
-        )
-        {
+        ) {
             if (! $this->hasSessionStarted()) {
                 $this->registerSessionHandler($SessionHandler);
                 $this->setCookieParameters($cookieParams);
@@ -151,8 +145,7 @@
          * Starts the Session.
          * @return \Brickoo\Http\Session\Manager
          */
-        public function start()
-        {
+        public function start() {
             if (! $this->hasSessionStarted()) {
                 session_start();
                 self::$SessionStarted = true;
@@ -165,8 +158,7 @@
          * Stops the session and calls for writing and close.
          * @return \Brickoo\Http\Session\Manager
          */
-        public function stop()
-        {
+        public function stop() {
             if ($this->hasSessionStarted()) {
                 session_write_close();
                 self::$SessionStarted = false;

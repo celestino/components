@@ -41,8 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class IniProviderTest extends \PHPUnit_Framework_TestCase
-    {
+    class IniProviderTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance  of the IniProvider class.
@@ -54,8 +53,7 @@
          * Set up the Provider instance used.
          * @return void
          */
-        public function setUp()
-        {
+        public function setUp() {
             $this->Provider = new IniProvider();
         }
 
@@ -63,8 +61,7 @@
          * Test if the filename properties is set.
          * @covers Brickoo\Config\Provider\IniProvider::__construct
          */
-        public function testConstructor()
-        {
+        public function testConstructor() {
             $Provider = new IniProvider('test.ini');
             $this->assertInstanceOf('Brickoo\Config\Provider\Interfaces\ProviderInterface', $Provider);
             $this->assertAttributeEquals('test.ini', 'filename', $Provider);
@@ -75,8 +72,7 @@
          * @covers Brickoo\Config\Provider\IniProvider::getFilename
          * @covers Brickoo\Config\Provider\IniProvider::SetFilename
          */
-        public function testGetSetFilename()
-        {
+        public function testGetSetFilename() {
             $expectedFilename = 'test.ini';
             $this->assertSame($this->Provider, $this->Provider->setFilename($expectedFilename));
             $this->assertAttributeEquals($expectedFilename, 'filename', $this->Provider);
@@ -88,8 +84,7 @@
          * @covers Brickoo\Config\Provider\IniProvider::getFilename
          * @expectedException UnexpectedValueException
          */
-        public function testGetFilenameValueException()
-        {
+        public function testGetFilenameValueException() {
             $this->Provider->getFilename();
         }
 
@@ -97,8 +92,7 @@
          * Test if an ini configuration can be loaded.
          * @covers Brickoo\Config\Provider\IniProvider::load
          */
-        public function testLoad()
-        {
+        public function testLoad() {
             $expected = array(
                 'SECTION' => array(
                     'key1'    => 'value1',
@@ -116,8 +110,7 @@
          * @covers Brickoo\Config\Provider\Exceptions\UnableToLoadConfigurationException
          * @expectedException Brickoo\Config\Provider\Exceptions\UnableToLoadConfigurationException
          */
-        public function testLoadFileException()
-        {
+        public function testLoadFileException() {
             $this->Provider->setFilename('fail');
             $this->Provider->load();
         }
@@ -126,8 +119,7 @@
          * Test if the configuration can be saved to an ini file.
          * @covers Brickoo\Config\Provider\IniProvider::save
          */
-        public function testSave()
-        {
+        public function testSave() {
             $config = array(
                 'SECTION' => array(
                     'key1'    => 'value1',
@@ -146,8 +138,7 @@
          * @covers Brickoo\Config\Provider\Exceptions\UnableToSaveConfigurationException
          * @expectedException Brickoo\Config\Provider\Exceptions\UnableToSaveConfigurationException
          */
-        public function testSaveFileException()
-        {
+        public function testSaveFileException() {
             $this->Provider->setFilename('/path/does/not/exist');
             $this->Provider->save(array('fails'));
         }
@@ -156,8 +147,7 @@
          * Test if the configuration can be loaded from an ini formated string.
          * @covers Brickoo\Config\Provider\IniProvider::fromString
          */
-        public function testFromString()
-        {
+        public function testFromString() {
             $expected = array(
                 'SECTION' => array(
                     'key1'    => 'value1',
@@ -180,8 +170,7 @@
          * Test if the configuration can be converted to an ini string.
          * @covers Brickoo\Config\Provider\IniProvider::toString
          */
-        public function testToString()
-        {
+        public function testToString() {
            $config = array(
                 'SECTION' => array(
                     'key1'    => 'value1',
@@ -204,8 +193,7 @@
          * Test if a section string can be created.
          * @covers Brickoo\Config\Provider\IniProvider::getSectionString
          */
-        public function testGetSectionString()
-        {
+        public function testGetSectionString() {
             $section = array(
                 'key1'    => 'value1',
                 'key2'    => 'value 2',
@@ -226,8 +214,7 @@
          * Test if a section array can be converted to string.
          * @covers Brickoo\Config\Provider\IniProvider::getSectionArrayString
          */
-        public function testGetSectionArrayString()
-        {
+        public function testGetSectionArrayString() {
             $values = array(1, 2, 3);
 
             $expected = "key3[] = 1\r\n".

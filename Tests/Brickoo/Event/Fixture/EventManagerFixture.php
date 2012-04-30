@@ -37,14 +37,12 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class EventManagerFixture extends Event\Manager
-    {
+    class EventManagerFixture extends Event\Manager {
         /**
          * Resets the static holded Manager instance.
          * @return void
          */
-        public function resetInstance()
-        {
+        public function resetInstance() {
             static::$staticManager = null;
         }
 

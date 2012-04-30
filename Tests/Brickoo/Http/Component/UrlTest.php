@@ -43,8 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class UrlTest extends PHPUnit_Framework_TestCase
-    {
+    class UrlTest extends PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance if the Url class.
@@ -56,8 +55,7 @@
          * Set up the Url instance used.
          * @return void
          */
-        protected function setUp()
-        {
+        protected function setUp() {
             $this->Url = new Url();
         }
 
@@ -66,8 +64,7 @@
          * @covers Brickoo\Http\Component\Url::Request
          * @covers Brickoo\Http\Component\Url::getDependency
          */
-        public function testRequestInjection()
-        {
+        public function testRequestInjection() {
             $Request = $this->getMock('Brickoo\Http\Request');
             $this->assertSame($this->Url, $this->Url->Request($Request));
             $this->assertAttributeContains($Request, 'dependencies', $this->Url);
@@ -78,8 +75,7 @@
          * @covers Brickoo\Http\Component\Url::Request
          * @covers Brickoo\Http\Component\Url::getDependency
          */
-        public function testRequestLazyInitialization()
-        {
+        public function testRequestLazyInitialization() {
             $this->assertInstanceOf
             (
                 'Brickoo\Http\Interfaces\RequestInterface',
@@ -93,8 +89,7 @@
          * @covers Brickoo\Http\Component\Url::setScheme
          * @covers Brickoo\Http\Component\Url::getScheme
          */
-        public function testGetSetScheme()
-        {
+        public function testGetSetScheme() {
             $this->assertSame($this->Url, $this->Url->setScheme('http'));
             $this->assertAttributeEquals('http', 'scheme', $this->Url);
             $this->assertEquals('http', $this->Url->getScheme());
@@ -105,8 +100,7 @@
          * @covers Brickoo\Http\Component\Url::getScheme
          * @expectedException UnexpectedValueException
          */
-        public function testGetSchemeValueException()
-        {
+        public function testGetSchemeValueException() {
             $this->Url->getScheme();
         }
 
@@ -115,8 +109,7 @@
          * @covers Brickoo\Http\Component\Url::setHost
          * @expectedException InvalidArgumentException
          */
-        public function testSetSchemeArgumentException()
-        {
+        public function testSetSchemeArgumentException() {
             $this->Url->setScheme(array('wrongType'));
         }
 
@@ -125,8 +118,7 @@
          * @covers Brickoo\Http\Component\Url::setHost
          * @covers Brickoo\Http\Component\Url::getHost
          */
-        public function testGetSetHost()
-        {
+        public function testGetSetHost() {
             $this->assertSame($this->Url, $this->Url->setHost('localhost'));
             $this->assertAttributeEquals('localhost', 'host', $this->Url);
             $this->assertEquals('localhost', $this->Url->getHost());
@@ -137,8 +129,7 @@
          * @covers Brickoo\Http\Component\Url::getHost
          * @expectedException UnexpectedValueException
          */
-        public function testGetHostValueException()
-        {
+        public function testGetHostValueException() {
             $this->Url->getHost();
         }
 
@@ -147,8 +138,7 @@
          * @covers Brickoo\Http\Component\Url::setHost
          * @expectedException InvalidArgumentException
          */
-        public function testSetHostArgumentException()
-        {
+        public function testSetHostArgumentException() {
             $this->Url->setHost(array('wrongType'));
         }
 
@@ -157,8 +147,7 @@
          * @covers Brickoo\Http\Component\Url::setPort
          * @covers Brickoo\Http\Component\Url::getPort
          */
-        public function testGetSetPort()
-        {
+        public function testGetSetPort() {
             $this->assertSame($this->Url, $this->Url->setPort('8080'));
             $this->assertAttributeEquals(8080, 'port', $this->Url);
             $this->assertEquals(8080, $this->Url->getPort());
@@ -169,8 +158,7 @@
          * @covers Brickoo\Http\Component\Url::setPort
          * @expectedException InvalidArgumentException
          */
-        public function testSetPortArgumentException()
-        {
+        public function testSetPortArgumentException() {
             $this->Url->setPort(array('wrongType'));
         }
 
@@ -179,8 +167,7 @@
          * @covers Brickoo\Http\Component\Url::setQuery
          * @covers Brickoo\Http\Component\Url::getQuery
          */
-        public function testGetSetQuery()
-        {
+        public function testGetSetQuery() {
             $this->assertSame($this->Url, $this->Url->setQuery('test=value'));
             $this->assertAttributeEquals('test=value', 'query', $this->Url);
             $this->assertEquals('test=value', $this->Url->getQuery());
@@ -191,8 +178,7 @@
          * @covers Brickoo\Http\Component\Url::setQuery
          * @expectedException InvalidArgumentException
          */
-        public function testSetQueryArgumentException()
-        {
+        public function testSetQueryArgumentException() {
             $this->Url->setQuery(array('wrongType'));
         }
 
@@ -201,8 +187,7 @@
          * @covers Brickoo\Http\Component\Url::setPath
          * @covers Brickoo\Http\Component\Url::getPath
          */
-        public function testGetSetPath()
-        {
+        public function testGetSetPath() {
             $this->assertSame($this->Url, $this->Url->setPath('/path/to/somewhere/'));
             $this->assertAttributeEquals('/path/to/somewhere', 'path', $this->Url);
             $this->assertEquals('/path/to/somewhere', $this->Url->getPath());
@@ -213,8 +198,7 @@
          * @covers Brickoo\Http\Component\Url::getPath
          * @expectedException UnexpectedValueException
          */
-        public function testGetPathValueException()
-        {
+        public function testGetPathValueException() {
             $this->Url->getPath();
         }
 
@@ -223,8 +207,7 @@
          * @covers Brickoo\Http\Component\Url::setPath
          * @expectedException InvalidArgumentException
          */
-        public function testSetPathArgumentException()
-        {
+        public function testSetPathArgumentException() {
             $this->Url->setPath(array('wrongType'));
         }
 
@@ -233,8 +216,7 @@
          * @covers Brickoo\Http\Component\Url::setFormat
          * @covers Brickoo\Http\Component\Url::getFormat
          */
-        public function testGetSetFormat()
-        {
+        public function testGetSetFormat() {
             $this->assertNull($this->Url->getFormat());
             $this->assertSame($this->Url, $this->Url->setFormat('json'));
             $this->assertAttributeEquals('json', 'format', $this->Url);
@@ -246,8 +228,7 @@
          * @covers Brickoo\Http\Component\Url::setFormat
          * @expectedException InvalidArgumentException
          */
-        public function testSetFormatArgumentException()
-        {
+        public function testSetFormatArgumentException() {
             $this->Url->setFormat(array('wrongType'));
         }
 
@@ -255,8 +236,7 @@
          * Test if an url can be imported from string.
          * @covers Brickoo\Http\Component\Url::importFromString
          */
-        public function testImportFromString()
-        {
+        public function testImportFromString() {
             $url = 'http://username:password@hostname:8080/path/to/somewhere?argument=value#anker';
 
             $this->assertSame($this->Url, $this->Url->importFromString($url));
@@ -272,8 +252,7 @@
          * @covers Brickoo\Http\Component\Url::importFromString
          * @expectedException InvalidArgumentException
          */
-        public function testImportFromStringArgumentException()
-        {
+        public function testImportFromStringArgumentException() {
             $this->Url->importFromString('http://');
         }
 
@@ -281,8 +260,7 @@
          * Test if the configuration is imported by the given methods and the Url reference is returned.
          * @covers Brickoo\Http\Component\Url::importFromGlobals
          */
-        public function testImportFromGlobals()
-        {
+        public function testImportFromGlobals() {
             $Request = $this->getMock('Brickoo\Http\Request', array('isSecureConnection'));
             $Request->expects($this->once())
                     ->method('isSecureConnection')
@@ -317,8 +295,7 @@
          * Test if the host can be returned from the server adress.
          * @covers Brickoo\Http\Component\Url::getRequestHost
          */
-        public function testGetRequestHostByServerAdress()
-        {
+        public function testGetRequestHostByServerAdress() {
             $valueMap = array
             (
                 array('SERVER_NAME', null, null),
@@ -346,8 +323,7 @@
          * Test if the host can be returned from the server name.
          * @covers Brickoo\Http\Component\Url::getRequestHost
          */
-        public function testGetRequestHostByServerName()
-        {
+        public function testGetRequestHostByServerName() {
             $Headers = $this->getMock('Brickoo\http\Component\Headers', array('get'));
             $Headers->expects($this->once())
                     ->method('get')
@@ -369,8 +345,7 @@
          * Test if the host can be returned from the host header.
          * @covers Brickoo\Http\Component\Url::getRequestHost
          */
-        public function testGetRequestHostByHost()
-        {
+        public function testGetRequestHostByHost() {
             $Headers = $this->getMock('Brickoo\http\Component\Headers', array('get'));
             $Headers->expects($this->once())
                     ->method('get')
@@ -389,8 +364,7 @@
          * Test of the port can be retrieved from the server port.
          * @covers Brickoo\Http\Component\Url::getRequestPort
          */
-        public function testGetRequestPortByServerPort()
-        {
+        public function testGetRequestPortByServerPort() {
             $Headers = $this->getMock('Brickoo\http\Component\Headers', array('get'));
             $Headers->expects($this->once())
                     ->method('get')
@@ -413,8 +387,7 @@
          * Test of the port can be retrieved from the forwarded port header.
          * @covers Brickoo\Http\Component\Url::getRequestPort
          */
-        public function testGetRequestPortByForwardedPort()
-        {
+        public function testGetRequestPortByForwardedPort() {
             $Headers = $this->getMock('Brickoo\http\Component\Headers', array('get'));
             $Headers->expects($this->once())
                     ->method('get')
@@ -433,8 +406,7 @@
          * Test if the request query can be retrieved from the $_GET global.
          * @covers Brickoo\Http\Component\Url::getRequestQuery
          */
-        public function testGetRequestQueryFromGlobal()
-        {
+        public function testGetRequestQueryFromGlobal() {
             $_GET = array('test' => 'value');
             $Request = $this->getMock('Brickoo\Http\Request', array('getServerVar'));
             $Request->expects($this->once())
@@ -450,8 +422,7 @@
          * Test if the request query can be retrieved from the server query.
          * @covers Brickoo\Http\Component\Url::getRequestQuery
          */
-        public function testGetRequestQueryFromServerQuery()
-        {
+        public function testGetRequestQueryFromServerQuery() {
             $Request = $this->getMock('Brickoo\Http\Request', array('getServerVar'));
             $Request->expects($this->once())
                     ->method('getServerVar')
@@ -465,8 +436,7 @@
          * Test if the request path can be retrieved from the server uri.
          * @covers Brickoo\Http\Component\Url::getRequestPath
          */
-        public function testGetRequestPath()
-        {
+        public function testGetRequestPath() {
             $valueMap = array
             (
                 array('X-Original-Url', null, null),
@@ -494,8 +464,7 @@
          * Test if the request format can be retrieved from the server path.
          * @covers Brickoo\Http\Component\Url::getRequestFormat
          */
-        public function testGetRequestFormat()
-        {
+        public function testGetRequestFormat() {
             $this->Url->setPath('/some/path/to/index.json');
             $this->assertEquals('json', $this->Url->getRequestFormat());
         }
@@ -505,8 +474,7 @@
          * @covers Brickoo\Http\Component\Url::getRequestPath
          * @covers Brickoo\Http\Component\Url::getIISRequestUrl
          */
-        public function testGetIISRequestPathFromOriginalUrlHeader()
-        {
+        public function testGetIISRequestPathFromOriginalUrlHeader() {
             $Headers = $this->getMock('Brickoo\http\Component\Headers', array('get'));
             $Headers->expects($this->once())
                     ->method('get')
@@ -526,8 +494,7 @@
          * @covers Brickoo\Http\Component\Url::getRequestPath
          * @covers Brickoo\Http\Component\Url::getIISRequestUrl
          */
-        public function testGetIISRequestPathFromRewriteUrlHeader()
-        {
+        public function testGetIISRequestPathFromRewriteUrlHeader() {
             $valueMap = array
             (
                 array('X-Original-Url', null, null),
@@ -552,8 +519,7 @@
          * @covers Brickoo\Http\Component\Url::toString
          * @covers Brickoo\Http\Component\Url::__toString
          */
-        public function testToString()
-        {
+        public function testToString() {
             $this->Url->setScheme('http')
                       ->setHost('localhost')
                       ->setPort(8080)

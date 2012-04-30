@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface RouteInterface
-    {
+    interface RouteInterface {
 
         /**
          * Returns the unique name of the route.

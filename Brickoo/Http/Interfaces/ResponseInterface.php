@@ -41,8 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    Interface ResponseInterface extends Core\Interfaces\ResponseInterface
-    {
+    Interface ResponseInterface extends Core\Interfaces\ResponseInterface {
 
         /**
          * Injects a response template dependency.

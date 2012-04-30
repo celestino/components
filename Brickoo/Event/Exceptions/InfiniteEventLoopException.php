@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class InfiniteEventLoopException extends \Exception
-    {
+    class InfiniteEventLoopException extends \Exception {
 
         /**
          * Class constructor.
@@ -48,8 +47,7 @@
          * @param string $eventName the event which has an infinite loop
          * @return void
          */
-        public function __construct($eventName)
-        {
+        public function __construct($eventName) {
             parent::__construct(sprintf('The event `%s` has an infinite loop.', $eventName));
         }
 

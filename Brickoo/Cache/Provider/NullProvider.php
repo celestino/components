@@ -40,16 +40,14 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class NullProvider implements Interfaces\CacheProviderInterface
-    {
+    class NullProvider implements Interfaces\ProviderInterface {
 
         /**
         * Returns boolean false like the content is not available.
         * @param string $identifier the identifier to retrieve the content from
         * @return boolean false
         */
-        public function get($identifier)
-        {
+        public function get($identifier) {
             return false;
         }
 
@@ -60,8 +58,7 @@
          * @param integer $lifetime the lifetime in seconds of the cached content
          * @return boolean true
          */
-        public function set($identifier, $content, $lifetime)
-        {
+        public function set($identifier, $content, $lifetime) {
             return true;
         }
 
@@ -70,8 +67,7 @@
          * @param string $identifier the identifer to remove
          * @return boolean true
          */
-        public function delete($identifier)
-        {
+        public function delete($identifier) {
             return true;
         }
 
@@ -79,8 +75,7 @@
          * Returns boolean true like the cache content did be flushed.
          * @return boolean true
          */
-        public function flush()
-        {
+        public function flush() {
             return true;
         }
 

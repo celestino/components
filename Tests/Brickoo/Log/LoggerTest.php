@@ -44,15 +44,13 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class LoggerTest extends PHPUnit_Framework_TestCase
-    {
+    class LoggerTest extends PHPUnit_Framework_TestCase {
 
         /**
          * Returns an LogHandler Stub for testing the logging of messages.
          * @return \Brickoo\Log\Handler\Interfaces\LogHandlerInterface
          */
-        protected function getLogHandlerStub()
-        {
+        protected function getLogHandlerStub() {
             return $this->getMock
             (
                 'Brickoo\Log\Handler\Interfaces\LogHandlerInterface',
@@ -71,8 +69,7 @@
          * @see PHPUnit_Framework_TestCase::setUp()
          * @return void
          */
-        public function setUp()
-        {
+        public function setUp() {
             $this->Logger = new Logger($this->getLogHandlerStub());
         }
 
@@ -80,8 +77,7 @@
          * Test the constructor of the Logger class.
          * @covers Brickoo\Log\Logger::__construct
          */
-        public function testLoggerConstructor()
-        {
+        public function testLoggerConstructor() {
             $this->assertInstanceOf('Brickoo\Log\Interfaces\LoggerInterface', $this->Logger);
         }
 
@@ -89,8 +85,7 @@
          * Test if the default severity is returned.
          * @covers Brickoo\Log\Logger::getDefaultSeverity
          */
-        public function testGetDefaultSeverity()
-        {
+        public function testGetDefaultSeverity() {
             $this->assertEquals(Logger::SEVERITY_INFO, $this->Logger->getDefaultSeverity());
         }
 
@@ -99,8 +94,7 @@
          * @covers Brickoo\Log\Logger::setDefaultSeverity
          * @covers Brickoo\Log\Logger::getDefaultSeverity
          */
-        public function testSetDefaultSeverity()
-        {
+        public function testSetDefaultSeverity() {
             $this->assertSame($this->Logger, $this->Logger->setDefaultSeverity(Logger::SEVERITY_ERROR));
             $this->assertEquals(Logger::SEVERITY_ERROR, $this->Logger->getDefaultSeverity());
         }
@@ -110,8 +104,7 @@
          * @covers Brickoo\Log\Logger::setDefaultSeverity
          * @expectedException InvalidArgumentException
          */
-        public function testSetDefaultSeverityArgumentException()
-        {
+        public function testSetDefaultSeverityArgumentException() {
             $this->Logger->setDefaultSeverity('wrongType');
         }
 
@@ -119,8 +112,7 @@
          * Test if the LogHandler dependency can be retrieved.
          * @covers Brickoo\Log\Logger::LogHandler
          */
-        public function testGetLogHandler()
-        {
+        public function testGetLogHandler() {
             $LogHandler = $this->getLogHandlerStub();
             $Logger = new Logger($LogHandler);
 
@@ -132,8 +124,7 @@
         * Test if a string can be logged.
         * @covers Brickoo\Log\Logger::log
         */
-        public function testLogOfString()
-        {
+        public function testLogOfString() {
             $LogHandler = $this->Logger->LogHandler();
             $LogHandler->expects($this->once())
                        ->method('log');
@@ -145,8 +136,7 @@
         * Test if an array can be logged with severity.
         * @covers Brickoo\Log\Logger::log
         */
-        public function testLogOfArrayWithSeverity()
-        {
+        public function testLogOfArrayWithSeverity() {
             $LogHandler = $this->Logger->LogHandler();
             $LogHandler->expects($this->once())
                        ->method('log');
@@ -158,8 +148,7 @@
          * Test if a string can be logged through the Event method.
          * @covers Brickoo\Log\Logger::logEvent
          */
-        public function testLogEvent()
-        {
+        public function testLogEvent() {
             $valueMap = array(
                 array('messages', 'log message'),
                 array('severity', 3)
@@ -182,8 +171,7 @@
          * Test if the event does not have messages the logging is canceled.
          * @covers Brickoo\Log\Logger::logEvent
          */
-        public function testLogEventNullMessages()
-        {
+        public function testLogEventNullMessages() {
             $Event = $this->getMock('Brickoo\Event\Event', array('getParam'), array('log.event'));
             $Event->expects($this->once())
                   ->method('getParam')
@@ -197,8 +185,7 @@
          * Test if the severity is not available as event parameters the Logger default is taken.
          * @covers Brickoo\Log\Logger::logEvent
          */
-        public function testLogEventNullSeverity()
-        {
+        public function testLogEventNullSeverity() {
             $valueMap = array(
                 array('messages', 'log message'),
                 array('severity', null)
@@ -222,8 +209,7 @@
         * @covers Brickoo\Log\Logger::log
         * @expectedException InvalidArgumentException
         */
-        public function testSeverityArgumentException()
-        {
+        public function testSeverityArgumentException() {
             $this->Logger->Log('mesage', 'wrongType');
         }
 

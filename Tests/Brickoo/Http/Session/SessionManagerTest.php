@@ -44,16 +44,14 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class SessionManagerTest extends PHPUnit_Framework_TestCase
-    {
+    class SessionManagerTest extends PHPUnit_Framework_TestCase {
 
         /**
          * Returns a SessionHandler stub implementig the Session\Interfaces\SessionHandlerInterface.
          * @param array $methods the methods to mock
          * @return object
          */
-        public function getSessionHandlerStub()
-        {
+        public function getSessionHandlerStub() {
             return $this->getMock
             (
                 'Brickoo\Http\Session\Handler\Interfaces\SessionHandlerInterface',
@@ -66,8 +64,7 @@
          * an error with the PHPUnit previous output made.
          * @return void
          */
-        public function setUp()
-        {
+        public function setUp() {
             ini_set('session.use_cookies', false);
         }
 
@@ -76,8 +73,7 @@
          * @covers Brickoo\Http\Session\Manager::__construct
          * @covers Brickoo\Http\Session\Manager::registerSessionHandler
          */
-        public function testConstruct()
-        {
+        public function testConstruct() {
             $SessionHandlerStub = $this->getSessionHandlerStub();
             $SessionHandlerStub->expects($this->once())
                                ->method('setLifetime')
@@ -93,8 +89,7 @@
          * Enable session cookies to test if the parameters did be overwriten.
          * @covers Brickoo\Http\Session\Manager::setCookieParameters
          */
-        public function testSetCookieParameters()
-        {
+        public function testSetCookieParameters() {
             ini_set('session.use_cookies', true);
 
             $cookieParameters = array
@@ -121,8 +116,7 @@
          * Test if the session configuration can be overwriten an the Manager reference is returned.
          * @covers Brickoo\Http\Session\Manager::configureSession
          */
-        public function testConfigureSession()
-        {
+        public function testConfigureSession() {
             $configuration = array
             (
                 'name'        => 'session_name',
@@ -144,8 +138,7 @@
          * @covers Brickoo\Http\Session\Manager::stop
          * @covers Brickoo\Http\Session\Manager::hasSessionStarted
          */
-        public function testStartAndStop()
-        {
+        public function testStartAndStop() {
             $SessionHandlerStub = $this->getSessionHandlerStub();
             $SessionHandlerStub->expects($this->once())
                                ->method('setLifetime')

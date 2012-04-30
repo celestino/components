@@ -44,8 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Registry extends Locker implements Interfaces\RegistryInterface, \Countable
-    {
+    class Registry extends Locker implements Interfaces\RegistryInterface {
 
         /**
          * Holds the registered identifier-value pairs.
@@ -57,8 +56,7 @@
          * Returns all assigned registrations.
          * @return array the assigned registrations
          */
-        public function getAll()
-        {
+        public function getAll() {
             return $this->registrations;
         }
 
@@ -67,8 +65,7 @@
          * @param array $registrations the registrations to add
          * @return \Brickoo\Memory\Registry
          */
-        public function add(array $registrations)
-        {
+        public function add(array $registrations) {
             foreach($registrations as $identifier => $value) {
                 $this->register($identifier, $value);
             }
@@ -83,8 +80,7 @@
          * @throws IdentifierNotRegisteredException if the identifier is not registered
          * @return mixed the value of the registered identifier
          */
-        public function get($identifier)
-        {
+        public function get($identifier) {
             TypeValidator::IsStringOrInteger($identifier);
 
             if (! $this->isRegistered($identifier)) {
@@ -104,8 +100,7 @@
          * @throws ReadonlyModeException if the mode is currently read only
          * @return \Brickoo\Memory\Registry
          */
-        public function register($identifier, $value)
-        {
+        public function register($identifier, $value) {
             TypeValidator::IsStringOrInteger($identifier);
 
             if ($this->isReadOnly()) {
@@ -130,8 +125,7 @@
          * @throws IdentifierLockedException if the identifier is locked
          * @return \Brickoo\Memory\Registry
          */
-        public function override($identifier, $value)
-        {
+        public function override($identifier, $value) {
             TypeValidator::IsStringOrInteger($identifier);
 
             if ($this->isReadOnly()) {
@@ -155,8 +149,7 @@
          * @throws IdentifierNotRegisteredException if the identifier is not registered
          * @return \Brickoo\Memory\Registry
          */
-        public function unregister($identifier)
-        {
+        public function unregister($identifier) {
             TypeValidator::IsStringOrInteger($identifier);
 
             if ($this->isReadOnly()) {
@@ -183,8 +176,7 @@
          * @return boolean check result
          * @see Brickoo\Memory\Locker::isIdentifierAvailable()
          */
-        public function isIdentifierAvailable($identifier)
-        {
+        public function isIdentifierAvailable($identifier) {
             return $this->isRegistered($identifier);
         }
 
@@ -193,8 +185,7 @@
          * @param string|integer $identifier the identifier to check
          * @return boolean check result
          */
-        public function isRegistered($identifier)
-        {
+        public function isRegistered($identifier) {
             TypeValidator::IsStringOrInteger($identifier);
 
             return array_key_exists($identifier, $this->registrations);
@@ -214,8 +205,7 @@
          * @param boolean $mode the mode to set
          * @return \Brickoo\Memory\Registry
          */
-        public function setReadOnly($mode = true)
-        {
+        public function setReadOnly($mode = true) {
             TypeValidator::IsBoolean($mode);
 
             $this->readOnly = $mode;
@@ -227,8 +217,7 @@
          * Check if the mode is currently set to read only.
          * @return boolean read only mode
          */
-        public function isReadOnly()
-        {
+        public function isReadOnly() {
             return $this->readOnly;
         }
 
@@ -237,8 +226,7 @@
          * Initializes the class properties.
          * @return void
          */
-        public function __construct()
-        {
+        public function __construct() {
             $this->registrations    = array();
             $this->readOnly         = false;
 
@@ -251,8 +239,7 @@
          * @see Countable::count()
          * @return integer the number of registrations
          */
-        public function count()
-        {
+        public function count() {
             return count($this->registrations);
         }
 
@@ -260,8 +247,7 @@
          * Returns the number of locked identifiers.
          * @return integer the number of locked identifiers
          */
-        public function countLocked()
-        {
+        public function countLocked() {
             return count($this->locked);
         }
 
@@ -270,8 +256,7 @@
          * @param string|integer $identifier the identifer to retrieve the value from
          * @return mixed the corresponding identifer value
          */
-        public function __get($identifier)
-        {
+        public function __get($identifier) {
             return $this->get($identifier);
         }
 
@@ -281,8 +266,7 @@
          * @param mixed $value the value of the identifier
          * @return void
          */
-        public function __set($identifier, $value)
-        {
+        public function __set($identifier, $value) {
             $this->register($identifier, $value);
         }
 
@@ -291,8 +275,7 @@
          * @param string|integer $identifier the indentifier to check
          * @return boolean check result
          */
-        public function __isset($identifier)
-        {
+        public function __isset($identifier) {
             return $this->isRegistered($identifier);
         }
 
@@ -301,8 +284,7 @@
          * @param string|integer $identifier the identifier to unregister
          * @return void
          */
-        public function __unset($identifier)
-        {
+        public function __unset($identifier) {
             $this->unregister($identifier);
         }
 

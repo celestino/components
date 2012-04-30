@@ -41,8 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Description implements Interfaces\DescriptionInterface
-    {
+    class Description implements Interfaces\DescriptionInterface {
 
         /**
          * Holds the available status keys.
@@ -61,8 +60,7 @@
          * @throws \UnexpectedValueException if the module name is not set
          * @return string the module name
          */
-        public function getName()
-        {
+        public function getName() {
             if ($this->name === null) {
                 throw new \UnexpectedValueException('The module name is `null`.');
             }
@@ -75,8 +73,7 @@
          * @param string $name the module name to set
          * @return \Brickoo\Module\Description
          */
-        public function setName($name)
-        {
+        public function setName($name) {
             TypeValidator::IsString($name);
 
             $this->name = $name;
@@ -95,8 +92,7 @@
          * @throws \UnexpectedValueException if the vendor name is not set
          * @return string the vendor name
          */
-        public function getVendor()
-        {
+        public function getVendor() {
             if ($this->vendor === null) {
                 throw new \UnexpectedValueException('The vendor name is `null`.');
             }
@@ -109,8 +105,7 @@
          * @param string $vendor the vendor name to set
          * @return \Brickoo\Module\Description
          */
-        public function setVendor($vendor)
-        {
+        public function setVendor($vendor) {
             TypeValidator::IsString($vendor);
 
             $this->vendor = $vendor;
@@ -129,8 +124,7 @@
          * @throws \UnexpectedValueException if the website url is not set
          * @return string the website url
          */
-        public function getWebsite()
-        {
+        public function getWebsite() {
             if ($this->website === null) {
                 throw new \UnexpectedValueException('The website url is `null`.');
             }
@@ -143,8 +137,7 @@
          * @param string $website the website url to set
          * @return \Brickoo\Module\Description
          */
-        public function setWebsite($website)
-        {
+        public function setWebsite($website) {
             TypeValidator::MatchesRegex('~^[^:/?#]+://[^/?#]+(\?[^#]*)?(#.*)?~', $website);
 
             $this->website = $website;
@@ -163,8 +156,7 @@
          * @throws \UnexpectedValueException if the contact adress is not set
          * @return string the contact adress
          */
-        public function getContact()
-        {
+        public function getContact() {
             if ($this->contact === null) {
                 throw new \UnexpectedValueException('The contact adress is `null`.');
             }
@@ -177,8 +169,7 @@
          * @param string $contact the contact adress to set
          * @return \Brickoo\Module\Description
          */
-        public function setContact($contact)
-        {
+        public function setContact($contact) {
             TypeValidator::IsString($contact);
 
             $this->contact = $contact;
@@ -196,8 +187,7 @@
          * Returns the module status.
          * @return string the module status
          */
-        public function getStatus()
-        {
+        public function getStatus() {
             return $this->status;
         }
 
@@ -207,8 +197,7 @@
          * @throws \InvalidArgumentException if the status in unknowed
          * @return \Brickoo\Module\Description
          */
-        public function setStatus($status)
-        {
+        public function setStatus($status) {
             TypeValidator::IsString($status);
 
             if (! in_array(strtolower($status), $this->availableStatus)) {
@@ -230,8 +219,7 @@
          * Returns the module version.
          * @return string the module version
          */
-        public function getVersion()
-        {
+        public function getVersion() {
             return $this->version;
         }
 
@@ -240,8 +228,7 @@
          * @param string $version the version to set
          * @return \Brickoo\Module\Description
          */
-        public function setVersion($version)
-        {
+        public function setVersion($version) {
             TypeValidator::IsString($version);
 
             $this->version = $version;
@@ -259,8 +246,7 @@
          * Returns the module description.
          * @return string the module description
          */
-        public function getDescription()
-        {
+        public function getDescription() {
             return $this->description;
         }
 
@@ -269,8 +255,7 @@
          * @param string $description the description to set
          * @return \Brickoo\Module\Description
          */
-        public function setDescription($description)
-        {
+        public function setDescription($description) {
             TypeValidator::IsString($description);
 
             $this->description = $description;
@@ -288,8 +273,7 @@
          * Returns the module dependencies.
          * @return array
          */
-        public function getDependencies()
-        {
+        public function getDependencies() {
             return $this->dependencies;
         }
 
@@ -298,8 +282,7 @@
          * @param array $dependencies the module dependencies
          * @return \Brickoo\Module\Description
          */
-        public function setDependencies(array $dependencies)
-        {
+        public function setDependencies(array $dependencies) {
             $this->dependencies = $dependencies;
 
             return $this;
@@ -310,8 +293,7 @@
          * Initializes the class properties.
          * @return void
          */
-        public function __construct()
-        {
+        public function __construct() {
             $this->availableStatus = array('stable', 'dev', 'beta', 'alpha', 'rc');
         }
 
@@ -319,8 +301,7 @@
          * Returns the module description as string.
          * @return string the module description
          */
-        public function toString()
-        {
+        public function toString() {
             $result = '';
 
             $result .= "Name: " . $this->getName() . "\n";
@@ -351,8 +332,7 @@
          * Returns the module description as string.
          * @return string the module description
          */
-        public function __toString()
-        {
+        public function __toString() {
             return $this->toString();
         }
 

@@ -40,8 +40,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ErrorHandlerException extends \Exception
-    {
+    class ErrorHandlerException extends \Exception {
 
         /**
          * Class constructor.
@@ -49,8 +48,7 @@
          * @param string $errorMessage the message passed by the error handler
          * @return void
          */
-        public function __construct($errorMessage)
-        {
+        public function __construct($errorMessage) {
             parent::__construct($errorMessage);
         }
 

@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    Interface RequestInterface
-    {
+    Interface RequestInterface {
 
         /**
          * Returns the request protocol.

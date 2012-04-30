@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface ContainerInterface extends \ArrayAccess, \Iterator, \Countable
-    {
+    interface ContainerInterface extends \ArrayAccess, \Iterator, \Countable {
 
         /**
         * Returns the value of the given offset.
@@ -77,5 +76,18 @@
          * @return boolean check result
          */
         public function isEmpty();
+
+        /**
+         * Imports the container values from an array.
+         * @param array $container the container to import
+         * @return \Brickoo\Memory\Container
+         */
+        public function fromArray(array $container);
+
+        /**
+         * Returns the holded hey/value pairs as an array.
+         * @return array the holded key/value pairs
+         */
+        public function toArray();
 
     }

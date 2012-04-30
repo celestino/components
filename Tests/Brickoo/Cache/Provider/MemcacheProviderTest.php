@@ -43,15 +43,13 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class MemcacheProviderTest extends \PHPUnit_Framework_TestCase
-    {
+    class MemcacheProviderTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Creates and returns a Memcache stub.
          * @return object memcache stub
          */
-        public function getMemcacheStub()
-        {
+        public function getMemcacheStub() {
             return $this->getMock('Memcache', array('get', 'set', 'delete', 'flush', 'add'));
         }
 
@@ -65,10 +63,8 @@
          * Set up the MemcacheProvider object used.
          * @return void
          */
-        protected function setUp()
-        {
-            if (! defined('MEMCACHE_COMPRESSED'))
-            {
+        protected function setUp() {
+            if (! defined('MEMCACHE_COMPRESSED')) {
                 define('MEMCACHE_COMPRESSED', 2);
             }
 
@@ -79,8 +75,7 @@
          * Test if the Memcache dependency has been be injected.
          * @covers Brickoo\Cache\Provider\MemcacheProvider::__construct
          */
-        public function testConstruct()
-        {
+        public function testConstruct() {
             $MemcacheStub = $this->getMemcacheStub();
             $MemcacheProvider = new MemcacheProvider($MemcacheStub);
             $this->assertAttributeSame($MemcacheStub, '_Memcache', $MemcacheProvider);
@@ -90,8 +85,7 @@
          * Test if the Memcache dependency can be retrieved.
          * @covers Brickoo\Cache\Provider\MemcacheProvider::Memcache
          */
-        public function testGetMemcache()
-        {
+        public function testGetMemcache() {
             $this->assertInstanceOf('Memcache', $this->MemcacheProvider->Memcache());
         }
 
@@ -99,8 +93,7 @@
          * Test if the compression can be enabled and the MemcacheProvider reference is returned.
          * @covers Brickoo\Cache\Provider\MemcacheProvider::enableCompression
          */
-        public function testEnableCompression()
-        {
+        public function testEnableCompression() {
             $this->assertAttributeEquals(false, 'compression', $this->MemcacheProvider);
             $this->assertSame($this->MemcacheProvider, $this->MemcacheProvider->enableCompression());
             $this->assertAttributeEquals(MEMCACHE_COMPRESSED, 'compression', $this->MemcacheProvider);
@@ -113,8 +106,7 @@
          * @covers Brickoo\Cache\Provider\MemcacheProvider::disableCompression
          * @depends testEnableCompression
          */
-        public function testDisableCompression($MemcacheProvider)
-        {
+        public function testDisableCompression($MemcacheProvider) {
             $this->assertAttributeEquals(MEMCACHE_COMPRESSED, 'compression', $MemcacheProvider);
             $this->assertSame($MemcacheProvider, $MemcacheProvider->disableCompression());
             $this->assertAttributeEquals(false, 'compression', $this->MemcacheProvider);
@@ -124,8 +116,7 @@
          * Test if a content can be retrieved from the Memcache.
          * @covers Brickoo\Cache\Provider\MemcacheProvider::get
          */
-        public function testGet()
-        {
+        public function testGet() {
             $MemcacheStub = $this->MemcacheProvider->Memcache();
             $MemcacheStub->expects($this->once())
                          ->method('get')
@@ -139,8 +130,7 @@
          * @covers Brickoo\Cache\Provider\MemcacheProvider::get
          * @expectedException InvalidArgumentException
          */
-        public function testGetArgumentException()
-        {
+        public function testGetArgumentException() {
             $this->MemcacheProvider->get(array('wrongType'));
         }
 
@@ -148,8 +138,7 @@
          * Test if a content can be set to the Memcache and the result is returned.
          * @covers Brickoo\Cache\Provider\MemcacheProvider::set
          */
-        public function testSet()
-        {
+        public function testSet() {
             $MemcacheStub = $this->MemcacheProvider->Memcache();
             $MemcacheStub->expects($this->once())
                          ->method('set')
@@ -163,8 +152,7 @@
          * @covers Brickoo\Cache\Provider\MemcacheProvider::set
          * @expectedException InvalidArgumentException
          */
-        public function testSetArgumentException()
-        {
+        public function testSetArgumentException() {
             $this->MemcacheProvider->set(array('wrongType'), 'whatever', array('wrongType'));
         }
 
@@ -172,8 +160,7 @@
          * Test if a cached content can be delete by its identifier and the result is returned.
          * @covers Brickoo\Cache\Provider\MemcacheProvider::delete
          */
-        public function testDelete()
-        {
+        public function testDelete() {
             $MemcacheStub= $this->MemcacheProvider->Memcache();
             $MemcacheStub->expects($this->once())
                          ->method('delete')
@@ -187,8 +174,7 @@
          * @covers Brickoo\Cache\Provider\MemcacheProvider::delete
          * @expectedException InvalidArgumentException
          */
-        public function testDeleteArgumentException()
-        {
+        public function testDeleteArgumentException() {
             $this->MemcacheProvider->delete(array('wrongType'));
         }
 
@@ -196,8 +182,7 @@
          * Test if a cached content can be flushed and the result is returned.
          * @covers Brickoo\Cache\Provider\MemcacheProvider::flush
          */
-        public function testFlush()
-        {
+        public function testFlush() {
             $MemcacheStub= $this->MemcacheProvider->Memcache();
             $MemcacheStub->expects($this->once())
                          ->method('flush')
@@ -210,8 +195,7 @@
          * Test if a Memcache method not implemented can be called and the result is returned.
          * @covers Brickoo\Cache\Provider\MemcacheProvider::__call
          */
-        public function test__call()
-        {
+        public function test__call() {
             $MemcacheStub= $this->MemcacheProvider->Memcache();
             $MemcacheStub->expects($this->once())
                          ->method('add')
@@ -225,8 +209,7 @@
          * @covers Brickoo\Cache\Provider\MemcacheProvider::__call
          * @expectedException BadMethodCallException
          */
-        public function test__callBadMethodCallException()
-        {
+        public function test__callBadMethodCallException() {
             $this->MemcacheProvider->whatever();
         }
 

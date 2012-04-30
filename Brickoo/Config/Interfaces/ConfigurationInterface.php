@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface ConfigurationInterface
-    {
+    interface ConfigurationInterface {
 
         /**
         * Returns the configuration Provider dependency.

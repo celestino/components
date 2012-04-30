@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface LogHandlerInterface
-    {
+    interface LogHandlerInterface {
 
         /**
          * Logs the passed messages to the location.

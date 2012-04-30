@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class DirectoryDoesNotExistException extends \Exception
-    {
+    class DirectoryDoesNotExistException extends \Exception {
 
         /**
          * Class constructor.
@@ -48,8 +47,7 @@
          * @param string $directory the directory which does not exists
          * @return void
          */
-        public function __construct($directory)
-        {
+        public function __construct($directory) {
             parent::__construct(sprintf('Directory `%s` does not exists or is not readable.', $directory));
         }
 

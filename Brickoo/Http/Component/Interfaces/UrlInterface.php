@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    Interface UrlInterface
-    {
+    Interface UrlInterface {
 
         /**
          * Returns the request scheme.

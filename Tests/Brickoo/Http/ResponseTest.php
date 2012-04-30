@@ -43,8 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ResponseTest extends \PHPUnit_Framework_TestCase
-    {
+    class ResponseTest extends \PHPUnit_Framework_TestCase {
         /**
          * Holds an instance of the Response class.
          * @var \Brickoo\Http\Response
@@ -55,8 +54,7 @@
          * Sets up Response instance used.
          * @return void
          */
-        protected function setUp()
-        {
+        protected function setUp() {
             $this->Response = new Response();
         }
 
@@ -64,8 +62,7 @@
          * Test if the Response implements the ResponseInterface.
          * @covers Brickoo\Http\Response::__construct
          */
-        public function testConstruct()
-        {
+        public function testConstruct() {
             $this->assertInstanceOf('Brickoo\Http\Interfaces\ResponseInterface', $this->Response);
         }
 
@@ -74,8 +71,7 @@
          * @covers Brickoo\Http\Response::Template
          * @covers Brickoo\Http\Response::getDependency
          */
-        public function testTemplate()
-        {
+        public function testTemplate() {
             $TemplateStub = $this->getMock('Brickoo\Template\Interfaces\TemplateInterface');
             $this->assertSame($this->Response, $this->Response->Template($TemplateStub));
             $this->assertSame($TemplateStub, $this->Response->Template());
@@ -89,8 +85,7 @@
          * @covers Brickoo\Http\Exceptions\ResponseTemplateNotAvailableException::__construct
          * @expectedException Brickoo\Http\Exceptions\ResponseTemplateNotAvailableException
          */
-        public function testTemplateDependencyException()
-        {
+        public function testTemplateDependencyException() {
             $this->Response->Template();
         }
 
@@ -98,8 +93,7 @@
          * Test if the avaibility of the Template dependency is recognized.
          * @covers Brickoo\Http\Response::hasTemplate
          */
-        public function testHasTemplate()
-        {
+        public function testHasTemplate() {
             $TemplateStub = $this->getMock('Brickoo\Template\Interfaces\TemplateInterface');
             $this->assertFalse($this->Response->hasTemplate());
             $this->assertSame($this->Response, $this->Response->Template($TemplateStub));
@@ -111,8 +105,7 @@
          * @covers Brickoo\Http\Response::Headers
          * @covers Brickoo\Http\Response::getDependency
          */
-        public function testHeadersLazyInitialization()
-        {
+        public function testHeadersLazyInitialization() {
             $this->assertInstanceOf(
                 'Brickoo\Http\Component\Interfaces\HeadersInterface',
                 ($Headers = $this->Response->Headers())
@@ -126,8 +119,7 @@
          * @covers Brickoo\Http\Response::Headers
          * @covers Brickoo\Http\Response::getDependency
          */
-        public function testHeadersInjection()
-        {
+        public function testHeadersInjection() {
             $HeadersStub = $this->getMock('Brickoo\Http\Component\Interfaces\HeadersInterface');
             $this->assertSame($this->Response, $this->Response->Headers($HeadersStub));
             $this->assertAttributeContains($HeadersStub, 'dependencies', $this->Response);
@@ -137,8 +129,7 @@
          * Test if the a available header is recognized.
          * @covers Brickoo\Http\Response::hasHeader
          */
-        public function testHasHeader()
-        {
+        public function testHasHeader() {
             $HeadersStub = $this->getMock('Brickoo\Http\Component\Headers', array('has'));
             $HeadersStub->expects($this->once())
                         ->method('has')
@@ -153,8 +144,7 @@
          * @covers Brickoo\Http\Response::hasHeader
          * @expectedException InvalidArgumentException
          */
-        public function testHasHeaderArgumentException()
-        {
+        public function testHasHeaderArgumentException() {
             $this->Response->hasHeader(array('wrongType'));
         }
 
@@ -162,8 +152,7 @@
          * Test if the headers would be sent to the output buffer.
          * @covers Brickoo\Http\Response::sendHeaders
          */
-        public function testSendHeaders()
-        {
+        public function testSendHeaders() {
             $expectedOutput  = "HTTP/1.1 200 OK\r\n";
             $expectedOutput .= "Unit: TEST\r\n";
 
@@ -185,8 +174,7 @@
          * @covers Brickoo\Http\Response::getProtocol
          * @covers Brickoo\Http\Response::setProtocol
          */
-        public function testGetSetProtocol()
-        {
+        public function testGetSetProtocol() {
             $this->assertSame($this->Response, $this->Response->setProtocol('HTTP/1.0'));
             $this->assertAttributeEquals('HTTP/1.0', 'protocol', $this->Response);
             $this->assertEquals('HTTP/1.0', $this->Response->getProtocol());
@@ -197,8 +185,7 @@
          * @covers Brickoo\Http\Response::setProtocol
          * @expectedException InvalidArgumentException
          */
-        public function testSetProcolArgumentException()
-        {
+        public function testSetProcolArgumentException() {
             $this->Response->setProtocol('TEST/2.0');
         }
 
@@ -207,8 +194,7 @@
          * @covers Brickoo\Http\Response::getStatusCode
          * @covers Brickoo\Http\Response::setStatusCode
          */
-        public function testGetSetStatusCode()
-        {
+        public function testGetSetStatusCode() {
             $this->assertSame($this->Response, $this->Response->setStatusCode(200));
             $this->assertAttributeEquals(200, 'statusCode', $this->Response);
             $this->assertEquals(200, $this->Response->getStatusCode());
@@ -219,8 +205,7 @@
          * @covers Brickoo\Http\Response::setStatusCode
          * @expectedException InvalidArgumentException
          */
-        public function testSetStatusCodeArgumentException()
-        {
+        public function testSetStatusCodeArgumentException() {
             $this->Response->setStatusCode('wrongType');
         }
 
@@ -228,8 +213,7 @@
          * Test if the status code assigned can be recognized.
          * @covers Brickoo\Http\Response::hasStatusCode
          */
-        public function testHasStatusCode()
-        {
+        public function testHasStatusCode() {
             $this->Response->setStatusCode(404);
             $this->assertAttributeEquals(404, 'statusCode', $this->Response);
             $this->assertTrue($this->Response->hasStatusCode(404));
@@ -242,8 +226,7 @@
          * @covers Brickoo\Http\Response::getStatusPhrase
          * @covers Brickoo\Http\Response::setStatusPhrase
          */
-        public function testGetSetStatusPhrase()
-        {
+        public function testGetSetStatusPhrase() {
             $this->assertSame($this->Response, $this->Response->setStatusPhrase(600, 'Unit Test'));
             $this->assertAttributeContains('Unit Test', 'statusPhrases', $this->Response);
             $this->assertEquals('Unit Test', $this->Response->getStatusPhrase(600));
@@ -253,8 +236,7 @@
          * Test if the status phrase from status code set.
          * @covers Brickoo\Http\Response::getStatusPhrase
          */
-        public function testGetStatusPhrase()
-        {
+        public function testGetStatusPhrase() {
             $this->Response->setStatusCode(200);
             $this->assertEquals('OK', $this->Response->getStatusPhrase());
         }
@@ -265,8 +247,7 @@
          * @covers Brickoo\Http\Exceptions\StatusCodeUnknownException::__construct
          * @expectedException Brickoo\Http\Exceptions\StatusCodeUnknownException
          */
-        public function testGetStatusPhraseUnknownException()
-        {
+        public function testGetStatusPhraseUnknownException() {
             $this->Response->setStatusCode(900);
             $this->Response->getStatusPhrase();
         }
@@ -276,8 +257,7 @@
          * @covers Brickoo\Http\Response::getContent
          * @covers Brickoo\Http\Response::setContent
          */
-        public function testGetSetContent()
-        {
+        public function testGetSetContent() {
             $this->assertSame($this->Response, $this->Response->setContent('some content'));
             $this->assertAttributeEquals('some content', 'content', $this->Response);
             $this->assertEquals('some content', $this->Response->getContent());
@@ -287,8 +267,7 @@
          * Test if the content can be retrieved from the template dependency.
          * @covers Brickoo\Http\Response::getContent
          */
-        public function testGetContentFromTemplate()
-        {
+        public function testGetContentFromTemplate() {
             $expectedOutput = 'some content from template';
 
             $TemplateStub = $this->getMock('Brickoo\Template\Interfaces\TemplateInterface', array('render'));
@@ -304,8 +283,7 @@
          * @covers Brickoo\Http\Response::setContent
          * @expectedException InvalidArgumentException
          */
-        public function testSetContentArgumentException()
-        {
+        public function testSetContentArgumentException() {
             $this->Response->setContent(array('wrongType'));
         }
 
@@ -313,8 +291,7 @@
          * Test if the content would be sent to the output buffer.
          * @covers Brickoo\Http\Response::sendContent
          */
-        public function testSendContent()
-        {
+        public function testSendContent() {
             $expectedOutput = "some content to sent.";
             $this->Response->setContent('some content to sent.');
             ob_start();
@@ -327,8 +304,7 @@
          * Test if the response including headers and content would be sent.
          * @covers Brickoo\Http\Response::send
          */
-        public function testSend()
-        {
+        public function testSend() {
             $expectedOutput  = "HTTP/1.1 200 OK\r\n";
             $expectedOutput .= "Unit: TEST\r\n";
             $expectedOutput .= "some content sent.";
@@ -355,8 +331,7 @@
          * @covers Brickoo\Http\Response::toString
          * @covers Brickoo\Http\Response::__toString
          */
-        public function testToString()
-        {
+        public function testToString() {
             $expectedOutput  = "HTTP/1.1 200 OK\r\n";
             $expectedOutput .= "Unit: TEST\r\n\r\n";
             $expectedOutput .= "some content sent.";

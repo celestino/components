@@ -43,8 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-     class RepositoryTest extends PHPUnit_Framework_TestCase
-     {
+     class RepositoryTest extends PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance of the Repository class.
@@ -56,8 +55,7 @@
          * Set up the LockerFixture object used.
          * @return void
          */
-        public function setUp()
-        {
+        public function setUp() {
             $this->Repository = new Repository();
         }
 
@@ -66,8 +64,7 @@
          * @covers Brickoo\Memory\Repository::__construct
          * @covers Brickoo\Memory\Repository::resetRepository
          */
-        public function testRepositoryConstructor()
-        {
+        public function testRepositoryConstructor() {
             $this->assertInstanceOf
             (
                 '\Brickoo\Memory\Repository',
@@ -79,8 +76,7 @@
          * Test if the respository is an array.
          * @covers Brickoo\Memory\Repository::getRepository
          */
-        public function testGetRepository()
-        {
+        public function testGetRepository() {
             $this->Repository->commit('someValue');
             $this->Repository->commit('someValue');
             $this->Repository->commit('someValue');
@@ -92,8 +88,7 @@
         * Test if the respository versions did be increased.
         * @covers Brickoo\Memory\Repository::getRepositoryVersions
         */
-        public function testGetRepositoryVersions()
-        {
+        public function testGetRepositoryVersions() {
             $this->Repository->commit('someValue');
             $this->Repository->commit('someValue');
             $this->Repository->commit('someValue');
@@ -106,8 +101,7 @@
          * Test if the respository version is available and knowed.
          * @covers Brickoo\Memory\Repository::isVersionAvailable
          */
-        public function testIsVersionAvailable()
-        {
+        public function testIsVersionAvailable() {
             $this->Repository->commit('someValue');
             $this->assertTrue($this->Repository->isVersionAvailable(1));
         }
@@ -117,8 +111,7 @@
          * @covers Brickoo\Memory\Repository::isVersionAvailable
          * @expectedException InvalidArgumentException
          */
-        public function testIsVersionAvailableException()
-        {
+        public function testIsVersionAvailableException() {
             $this->Repository->isVersionAvailable(array('wrongType'));
         }
 
@@ -128,8 +121,7 @@
          * @covers Brickoo\Memory\Repository::setCurrentVersion
          * @covers Brickoo\Memory\Repository::getCurrentVersion
          */
-        public function testUseLastVersion()
-        {
+        public function testUseLastVersion() {
             $this->Repository->commit('someValue');
             $this->assertSame($this->Repository,$this->Repository->useLastVersion());
             $this->assertEquals(1, $this->Repository->getCurrentVersion());
@@ -144,8 +136,7 @@
          * Test if the current version has integer type.
          * @covers Brickoo\Memory\Repository::getCurrentVersion
          */
-        public function testGetCurrentVersion()
-        {
+        public function testGetCurrentVersion() {
             $this->Repository->commit('someValue');
             $this->assertInternalType('int', $this->Repository->getCurrentVersion());
             $this->assertEquals(1, $this->Repository->getCurrentVersion());
@@ -158,8 +149,7 @@
          * @covers Brickoo\Memory\Repository::lock
          * @covers Brickoo\Memory\Repository::unlock
          */
-        public function testIsLocked()
-        {
+        public function testIsLocked() {
             $this->assertInternalType('bool', $this->Repository->isLocked());
             $this->assertFalse($this->Repository->isLocked());
 
@@ -174,8 +164,7 @@
          * Test the amount of versions available.
          * @covers Brickoo\Memory\Repository::count
          */
-        public function testMagicFunctionCount()
-        {
+        public function testMagicFunctionCount() {
             $this->assertEquals(1, count($this->Repository));
             $this->Repository->commit('someValue');
             $this->assertEquals(2, count($this->Repository));
@@ -185,8 +174,7 @@
          * Test if the checkout has the specific format.
          * @covers Brickoo\Memory\Repository::checkout
          */
-        public function testCheckout()
-        {
+        public function testCheckout() {
             $this->assertArrayHasKey('version', $this->Repository->checkout());
             $this->assertArrayHasKey('content', $this->Repository->checkout());
         }
@@ -196,8 +184,7 @@
          * @covers Brickoo\Memory\Repository::checkout
          * @expectedException InvalidArgumentException
          */
-        public function testCheckoutArgumentException()
-        {
+        public function testCheckoutArgumentException() {
             $this->Repository->checkout('wrongVersionType');
         }
 
@@ -207,8 +194,7 @@
          * @covers Brickoo\Memory\Exceptions\VersionNotAvailableException
          * @expectedException Brickoo\Memory\Exceptions\VersionNotAvailableException
          */
-        public function testCheckoutVersionException()
-        {
+        public function testCheckoutVersionException() {
             $this->Repository->checkout(999);
         }
 
@@ -217,8 +203,7 @@
          * @covers Brickoo\Memory\Repository::commit
          * @covers Brickoo\Memory\Repository::getRecursiveCommit
          */
-        public function testCommit()
-        {
+        public function testCommit() {
             $this->assertSame($this->Repository, $this->Repository->commit(array(array('name' => 'brickoo', array(), new stdClass()))));
             $this->assertSame($this->Repository, $this->Repository->commit(array('name' => 'brickoo')));
             $this->assertSame($this->Repository, $this->Repository->commit('brickoo'));
@@ -232,8 +217,7 @@
          * @covers Brickoo\Memory\Exceptions\RepositoryLockedException
          * @expectedException Brickoo\Memory\Exceptions\RepositoryLockedException
          */
-        public function testCommitLockedException()
-        {
+        public function testCommitLockedException() {
             $this->Repository->lock();
             $this->Repository->commit('fail');
         }
@@ -242,8 +226,7 @@
          * Test the restoring of a old version back on stack.
          * @covers Brickoo\Memory\Repository::restore
          */
-        public function testRestore()
-        {
+        public function testRestore() {
             $this->Repository->commit('someValue');
             $this->assertEquals(1, $this->Repository->getCurrentVersion());
             $this->assertSame($this->Repository, $this->Repository->restore(0));
@@ -257,8 +240,7 @@
          * @covers Brickoo\Memory\Repository::restore
          * @expectedException InvalidArgumentException
          */
-        public function testRestoreArgumentException()
-        {
+        public function testRestoreArgumentException() {
             $this->Repository->restore('wrongVersionType');
         }
 
@@ -268,8 +250,7 @@
          * @covers Brickoo\Memory\Exceptions\RepositoryLockedException
          * @expectedException Brickoo\Memory\Exceptions\RepositoryLockedException
          */
-        public function testRestoreLockedException()
-        {
+        public function testRestoreLockedException() {
             $this->Repository->lock();
             $this->Repository->restore(2);
         }
@@ -280,8 +261,7 @@
          * @covers Brickoo\Memory\Exceptions\VersionNotAvailableException
          * @expectedException Brickoo\Memory\Exceptions\VersionNotAvailableException
          */
-        public function testRestoreVersionException()
-        {
+        public function testRestoreVersionException() {
             $this->Repository->restore(999);
         }
 
@@ -290,8 +270,7 @@
          * @covers Brickoo\Memory\Repository::remove
          * @covers Brickoo\Memory\Repository::getCurrentVersion
          */
-        public function testRemove()
-        {
+        public function testRemove() {
             $this->Repository->commit('someValue');
             $this->assertEquals(1, $this->Repository->getCurrentVersion());
             $this->assertSame($this->Repository,$this->Repository->remove(1));
@@ -303,8 +282,7 @@
          * @covers Brickoo\Memory\Repository::remove
          * @expectedException InvalidArgumentException
          */
-        public function testRemoveArgumentException()
-        {
+        public function testRemoveArgumentException() {
             $this->Repository->remove('wrongVersionType');
         }
 
@@ -314,8 +292,7 @@
          * @covers Brickoo\Memory\Exceptions\RepositoryLockedException
          * @expectedException Brickoo\Memory\Exceptions\RepositoryLockedException
          */
-        public function testRemoveLockedException()
-        {
+        public function testRemoveLockedException() {
             $this->Repository->commit('someValue');
             $this->Repository->lock();
             $this->Repository->remove(1);
@@ -327,8 +304,7 @@
          * @covers Brickoo\Memory\Exceptions\VersionNotAvailableException
          * @expectedException Brickoo\Memory\Exceptions\VersionNotAvailableException
          */
-        public function testRemoveVersionException()
-        {
+        public function testRemoveVersionException() {
             $this->Repository->remove(999);
         }
 
@@ -338,8 +314,7 @@
          * @covers Brickoo\Memory\Repository::setRepository
          * @covers Brickoo\Memory\Repository::checkImportVersions
          */
-        public function testImport()
-        {
+        public function testImport() {
             $data = array(1 => 'commit_1', 2 => 'commit_2', 3 => 'commit_3', 99 => 'commit_99');
             $this->assertSame($this->Repository, $this->Repository->import($data));
             $this->assertEquals(99, $this->Repository->getCurrentVersion());
@@ -351,8 +326,7 @@
          * @covers Brickoo\Memory\Repository::import
          * @expectedException InvalidArgumentException
          */
-        public function testImportArgumentException()
-        {
+        public function testImportArgumentException() {
             $this->Repository->import(array());
         }
 
@@ -362,8 +336,7 @@
          * @covers Brickoo\Memory\Exceptions\RepositoryLockedException
          * @expectedException Brickoo\Memory\Exceptions\RepositoryLockedException
          */
-        public function testImportLockedException()
-        {
+        public function testImportLockedException() {
             $data = array(1 => 'commit_1', 2 => 'commit_2', 3 => 'commit_3');
             $this->Repository->lock();
             $this->Repository->import($data);
@@ -377,8 +350,7 @@
          * @covers Brickoo\Memory\Exceptions\InvalidRepositoryStructureException
          * @expectedException Brickoo\Memory\Exceptions\InvalidRepositoryStructureException
          */
-        public function testImportOrderException()
-        {
+        public function testImportOrderException() {
             $data = array(1 => 'commit_1', 3 => 'commit_3', 2 => 'commit_2');
             $this->Repository->import($data);
         }
@@ -388,8 +360,7 @@
          * or the latest version commited.
          * @covers Brickoo\Memory\Repository::export
          */
-        public function testExport()
-        {
+        public function testExport() {
             $this->assertEquals('initialized', $this->Repository->export(0));
             $this->Repository->commit('someValue');
             $this->assertEquals('someValue', $this->Repository->export());
@@ -400,8 +371,7 @@
          * @covers Brickoo\Memory\Repository::export
          * @expectedException InvalidArgumentException
          */
-        public function testExportArgumentException()
-        {
+        public function testExportArgumentException() {
             $this->Repository->export('wrongVersionType');
         }
 
@@ -411,8 +381,7 @@
          * @covers Brickoo\Memory\Exceptions\VersionNotAvailableException
          * @expectedException Brickoo\Memory\Exceptions\VersionNotAvailableException
          */
-        public function testExportVersionException()
-        {
+        public function testExportVersionException() {
             $this->Repository->export(999);
         }
 

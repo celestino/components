@@ -42,15 +42,13 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class TypeValidatorTest extends PHPUnit_Framework_TestCase
-    {
+    class TypeValidatorTest extends PHPUnit_Framework_TestCase {
 
         /**
          * Test if validation of the isString method works without flags.
          * @covers Brickoo\Validator\TypeValidator::IsString
          */
-        public function testIsString()
-        {
+        public function testIsString() {
             $this->assertTrue(TypeValidator::IsString('john'));
         }
 
@@ -60,8 +58,7 @@
          * @covers Brickoo\Validator\TypeValidator::ThrowInvalidArgumentException
          * @expectedException InvalidArgumentException
          */
-        public function testIsStringArgumentException()
-        {
+        public function testIsStringArgumentException() {
             TypeValidator::IsString(new stdClass());
         }
 
@@ -69,8 +66,7 @@
          * Test if validation of the isString method works with empty flag and empty value.
          * @covers Brickoo\Validator\TypeValidator::IsString
          */
-        public function testIsStringWithoutEmpty()
-        {
+        public function testIsStringWithoutEmpty() {
             $this->assertTrue(TypeValidator::IsString('     ', TypeValidator::FLAG_STRING_CAN_BE_EMPTY));
         }
 
@@ -78,8 +74,7 @@
          * Test if validation of the isInteger method works without flags and accepts zero.
          * @covers Brickoo\Validator\TypeValidator::IsInteger
          */
-        public function testIsInteger()
-        {
+        public function testIsInteger() {
             $this->assertTrue(TypeValidator::IsInteger(1234));
             $this->assertTrue(TypeValidator::IsInteger(0));
         }
@@ -90,8 +85,7 @@
          * @covers Brickoo\Validator\TypeValidator::ThrowInvalidArgumentException
          * @expectedException InvalidArgumentException
          */
-        public function testIsIntegerWithoutZero()
-        {
+        public function testIsIntegerWithoutZero() {
             TypeValidator::IsInteger(0, TypeValidator::FLAG_INTEGER_CAN_NOT_BE_ZERO);
         }
 
@@ -99,8 +93,7 @@
          * Test if validation of an object works.
          * @covers Brickoo\Validator\TypeValidator::IsObject
          */
-        public function testIsObject()
-        {
+        public function testIsObject() {
             $this->assertTrue(TypeValidator::IsObject(new stdClass()));
         }
 
@@ -110,8 +103,7 @@
          * @covers Brickoo\Validator\TypeValidator::ThrowInvalidArgumentException
          * @expectedException InvalidArgumentException
          */
-        public function testIsObjectArgumentException()
-        {
+        public function testIsObjectArgumentException() {
             TypeValidator::IsObject('wrongType');
         }
 
@@ -119,8 +111,7 @@
          * Test if validation of the isArray method works without flags and different arguments.
          * @covers Brickoo\Validator\TypeValidator::IsArray
          */
-        public function testIsArray()
-        {
+        public function testIsArray() {
             $this->assertTrue(TypeValidator::IsArray(array('ok')));
         }
 
@@ -130,8 +121,7 @@
          * @covers Brickoo\Validator\TypeValidator::ThrowInvalidArgumentException
          * @expectedException InvalidArgumentException
          */
-        public function testIsArrayArgumentException()
-        {
+        public function testIsArrayArgumentException() {
             TypeValidator::IsArray(array());
         }
 
@@ -139,8 +129,7 @@
          * Test if validation of the isArray method works with flags and empty values.
          * @covers Brickoo\Validator\TypeValidator::IsArray
          */
-        public function testIsArrayWithoutEmpty()
-        {
+        public function testIsArrayWithoutEmpty() {
             $this->assertTrue(TypeValidator::IsArray(array(), TypeValidator::FLAG_ARRAY_CAN_BE_EMPTY));
         }
 
@@ -148,8 +137,7 @@
          * Test if validation of the arrayContainsString method works.
          * @covers Brickoo\Validator\TypeValidator::ArrayContainsStrings
          */
-        public function testArrayContainsStrings()
-        {
+        public function testArrayContainsStrings() {
             $this->assertTrue(TypeValidator::ArrayContainsStrings(array('ok', 'ok')));
         }
 
@@ -159,8 +147,7 @@
          * @covers Brickoo\Validator\TypeValidator::ThrowInvalidArgumentException
          * @expectedException InvalidArgumentException
          */
-        public function testArrayContainsStringsArgumentException()
-        {
+        public function testArrayContainsStringsArgumentException() {
             TypeValidator::ArrayContainsStrings(array('fail', 1));
         }
 
@@ -168,8 +155,7 @@
          * Test if validation of the arrayContainsString method works.
          * @covers Brickoo\Validator\TypeValidator::ArrayContainsIntegers
          */
-        public function testArrayContainsIntegers()
-        {
+        public function testArrayContainsIntegers() {
             $this->assertTrue(TypeValidator::ArrayContainsIntegers(array(1, 2, 3)));
         }
 
@@ -179,8 +165,7 @@
          * @covers Brickoo\Validator\TypeValidator::ThrowInvalidArgumentException
          * @expectedException InvalidArgumentException
          */
-        public function testArrayContainsIntegersArgumentException()
-        {
+        public function testArrayContainsIntegersArgumentException() {
             TypeValidator::ArrayContainsIntegers(array(1, 'throws', 'exception'));
         }
 
@@ -188,8 +173,7 @@
          * Test if validation of the ArrayContainsKeys method works.
          * @covers Brickoo\Validator\TypeValidator::ArrayContainsKeys
          */
-        public function testArrayContainsKeys()
-        {
+        public function testArrayContainsKeys() {
             $this->assertTrue
             (
                 TypeValidator::ArrayContainsKeys
@@ -206,8 +190,7 @@
          * @covers Brickoo\Validator\TypeValidator::ThrowInvalidArgumentException
          * @expectedException InvalidArgumentException
          */
-        public function testArrayContainsKeysArgumentException()
-        {
+        public function testArrayContainsKeysArgumentException() {
             TypeValidator::ArrayContainsKeys(array('name'), array('counter' => 0));
         }
 
@@ -215,8 +198,7 @@
          * Test if validation of the isBoolean method.
          * @covers Brickoo\Validator\TypeValidator::IsBoolean
          */
-        public function testIsBoolean()
-        {
+        public function testIsBoolean() {
             $this->assertTrue(TypeValidator::IsBoolean(true));
             $this->assertTrue(TypeValidator::IsBoolean(false));
         }
@@ -227,8 +209,7 @@
          * @covers Brickoo\Validator\TypeValidator::ThrowInvalidArgumentException
          * @expectedException InvalidArgumentException
          */
-        public function testIsBooleanException()
-        {
+        public function testIsBooleanException() {
             TypeValidator::IsBoolean(null);
         }
 
@@ -236,8 +217,7 @@
          * Test if validation of the isFloat method works without flags.
          * @covers Brickoo\Validator\TypeValidator::IsFloat
          */
-        public function testIsFloat()
-        {
+        public function testIsFloat() {
             $this->assertTrue(TypeValidator::IsFloat(1.234));
         }
 
@@ -247,8 +227,7 @@
          * @covers Brickoo\Validator\TypeValidator::ThrowInvalidArgumentException
          * @expectedException InvalidArgumentException
          */
-        public function testIsFloatException()
-        {
+        public function testIsFloatException() {
             TypeValidator::IsFloat(1);
         }
 
@@ -256,8 +235,7 @@
          * Test if validation of the isNotEmpty method.
          * @covers Brickoo\Validator\TypeValidator::IsNotEmpty
          */
-        public function testIsNotEmpty()
-        {
+        public function testIsNotEmpty() {
             $this->assertTrue(TypeValidator::IsNotEmpty(true));
             $this->assertTrue(TypeValidator::IsNotEmpty(1));
             $this->assertTrue(TypeValidator::IsNotEmpty('john'));
@@ -270,8 +248,7 @@
          * @covers Brickoo\Validator\TypeValidator::ThrowInvalidArgumentException
          * @expectedException InvalidArgumentException
          */
-        public function testIsNotEmptyException()
-        {
+        public function testIsNotEmptyException() {
             TypeValidator::IsNotEmpty(false);
         }
 
@@ -279,8 +256,7 @@
          * Test if validation of the isStringOrInteger method.
          * @covers Brickoo\Validator\TypeValidator::IsStringOrInteger
          */
-        public function testIsStringOrInteger()
-        {
+        public function testIsStringOrInteger() {
             $this->assertTrue(TypeValidator::IsStringOrInteger('john', TypeValidator::FLAG_INTEGER_CAN_NOT_BE_ZERO));
             $this->assertTrue(TypeValidator::IsStringOrInteger(1, TypeValidator::FLAG_STRING_CAN_BE_EMPTY));
             $this->assertTrue(TypeValidator::IsStringOrInteger(0));
@@ -300,8 +276,7 @@
          * @covers Brickoo\Validator\TypeValidator::ThrowInvalidArgumentException
          * @expectedException InvalidArgumentException
          */
-        public function testIsStringOrIntegerWithEmptyException()
-        {
+        public function testIsStringOrIntegerWithEmptyException() {
             TypeValidator::IsStringOrInteger('0');
         }
 
@@ -310,8 +285,7 @@
          * @covers Brickoo\Validator\TypeValidator::IsStringOrInteger
          * @expectedException InvalidArgumentException
          */
-        public function testIsStringOrIntegerWithoutZeroException()
-        {
+        public function testIsStringOrIntegerWithoutZeroException() {
             TypeValidator::IsStringOrInteger(0, TypeValidator::FLAG_INTEGER_CAN_NOT_BE_ZERO);
         }
 
@@ -319,8 +293,7 @@
          * Test if validation of the isRegex method method.
          * @covers Brickoo\Validator\TypeValidator::MatchesRegex
          */
-        public function testMatchesRegex()
-        {
+        public function testMatchesRegex() {
             $this->assertTrue(TypeValidator::MatchesRegex('~^[a-z0-9]{4}$~', 'ya12'));
             $this->assertTrue(TypeValidator::MatchesRegex('~^[a-z0-9]{1}$~', 'ya12', TypeValidator::FLAG_REGEX_NEGATIVE_CHECK));
         }
@@ -331,8 +304,7 @@
          * @covers Brickoo\Validator\TypeValidator::ThrowInvalidArgumentException
          * @expectedException InvalidArgumentException
          */
-        public function testMatchesRegexException()
-        {
+        public function testMatchesRegexException() {
             TypeValidator::MatchesRegex('~^[0-9]+$~', 'someValue');
         }
 

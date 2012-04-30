@@ -43,8 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class RouteCollectionTest extends \PHPUnit_Framework_TestCase
-    {
+    class RouteCollectionTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance of the RouteCollection class.
@@ -57,8 +56,7 @@
          * @see PHPUnit_Framework_TestCase::setUp()
          * @return void
          */
-        protected function setUp()
-        {
+        protected function setUp() {
             $this->RouteCollection = new RouteCollection();
         }
 
@@ -66,8 +64,7 @@
          * Test if the RouteCOllection implements  the RouteCollectionInterface.
          * @covers Brickoo\Routing\RouteCollection::__construct
          */
-        public function testConstruct()
-        {
+        public function testConstruct() {
             $this->assertInstanceOf('Brickoo\Routing\RouteCollection', $this->RouteCollection);
         }
 
@@ -75,8 +72,7 @@
          * Test if a Route instance can be lazy created and the Route reference is returned.
          * @covers Brickoo\Routing\RouteCollection::createRoute
          */
-        public function testCreateRoute()
-        {
+        public function testCreateRoute() {
             $this->assertInstanceOf
             (
                 'Brickoo\Routing\Interfaces\RouteInterface',
@@ -93,8 +89,7 @@
          * @covers Brickoo\Routing\Exceptions\DuplicateRouteException::__construct
          * @expectedException Brickoo\Routing\Exceptions\DuplicateRouteException
          */
-        public function testCreateRouteDuplicateException()
-        {
+        public function testCreateRouteDuplicateException() {
             $this->RouteCollection->createRoute('test');
             $this->RouteCollection->createRoute('test');
         }
@@ -103,8 +98,7 @@
          * Test if a route can be retrieved by its name.
          * @covers Brickoo\Routing\RouteCollection::getRoute
          */
-        public function testGetRoute()
-        {
+        public function testGetRoute() {
             $Route = $this->RouteCollection->createRoute('test');
             $this->assertSame($Route, $this->RouteCollection->getRoute('test'));
         }
@@ -115,8 +109,7 @@
          * @covers Brickoo\Routing\Exceptions\RouteNotFoundException::__construct
          * @expectedException Brickoo\Routing\Exceptions\RouteNotFoundException
          */
-        public function testGetRouteNotFoundException()
-        {
+        public function testGetRouteNotFoundException() {
             $this->RouteCollection->getRoute('test');
         }
 
@@ -124,8 +117,7 @@
          * Test if a route can be recognized.
          * @covers Brickoo\Routing\RouteCollection::hasRoute
          */
-        public function testHasRoute()
-        {
+        public function testHasRoute() {
             $this->assertFalse($this->RouteCollection->hasRoute('test'));
             $this->RouteCollection->createRoute('test');
             $this->assertTrue($this->RouteCollection->hasRoute('test'));
@@ -135,8 +127,7 @@
          * Test if the routes can be retrieved from the collection as an array.
          * @covers Brickoo\Routing\RouteCollection::getRoutes
          */
-        public function testGetRoutes()
-        {
+        public function testGetRoutes() {
             $this->assertInternalType('array', $this->RouteCollection->getRoutes());
         }
 
@@ -144,8 +135,7 @@
          * Test if routes can be added as container.
          * @covers Brickoo\Routing\RouteCollection::addRoutes
          */
-        public function testAddRoutes()
-        {
+        public function testAddRoutes() {
             $routes = array
             (
                 $this->getMock('Brickoo\Routing\Interfaces\RouteInterface'),
@@ -160,8 +150,7 @@
          * Test if the availability of routes can be recognized.
          * @covers Brickoo\Routing\RouteCollection::hasRoutes
          */
-        public function testHasRoutes()
-        {
+        public function testHasRoutes() {
             $this->assertFalse($this->RouteCollection->hasRoutes());
             $this->RouteCollection->createRoute('test');
             $this->assertTrue($this->RouteCollection->hasRoutes());

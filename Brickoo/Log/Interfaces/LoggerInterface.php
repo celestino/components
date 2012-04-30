@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface LoggerInterface
-    {
+    interface LoggerInterface {
 
         /**
          * Sends the log messages using log handler assigned.

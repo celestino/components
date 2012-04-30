@@ -40,16 +40,14 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class InvalidRepositoryStructureException extends \Exception
-    {
+    class InvalidRepositoryStructureException extends \Exception {
 
         /**
          * Class constructor.
          * Calls the parent Exception constructor.
          * @return void
          */
-        public function __construct()
-        {
+        public function __construct() {
             parent::__construct('Repository structure is not valid.');
         }
 

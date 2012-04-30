@@ -66,8 +66,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class SocketObject implements Interfaces\SocketObjectInterface
-    {
+    class SocketObject implements Interfaces\SocketObjectInterface {
 
         /**
          * Holds the protocol using.
@@ -79,8 +78,7 @@
          * Returns the current protocol used.
          * @return string the current protocol or empty string
          */
-        public function getProtocol()
-        {
+        public function getProtocol() {
             if ($this->protocol === null) {
                 return '';
             }
@@ -94,8 +92,7 @@
          * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
          * @return \Brickoo\System\SocketObject
          */
-        public function setProtocol($protocol)
-        {
+        public function setProtocol($protocol) {
             TypeValidator::IsString($protocol);
 
             if ($this->hasHandle()) {
@@ -118,8 +115,7 @@
          * @throws \UnexpectedValueException if server adress is not set
          * @return string the server adress
          */
-        public function getServerAdress()
-        {
+        public function getServerAdress() {
             if ($this->serverAdress === null) {
                 throw new \UnexpectedValueException('The server adress is `null`.');
             }
@@ -132,8 +128,7 @@
          * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
          * @return \Brickoo\System\SocketObject
          */
-        public function setServerAdress($serverAdress)
-        {
+        public function setServerAdress($serverAdress) {
             TypeValidator::IsString($serverAdress);
 
             if ($this->hasHandle()) {
@@ -156,8 +151,7 @@
          * @throws \UnexpectedValueException if the server port is not set
          * @return integer the server port number
          */
-        public function getServerPort()
-        {
+        public function getServerPort() {
             if ($this->serverPort === null) {
                 throw new \UnexpectedValueException('The server port is `null`.');
             }
@@ -171,8 +165,7 @@
          * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
          * @return \Brickoo\System\SocketObject
          */
-        public function setServerPort($serverPort)
-        {
+        public function setServerPort($serverPort) {
             TypeValidator::IsInteger($serverPort);
 
             if ($this->hasHandle()) {
@@ -195,8 +188,7 @@
          * @throws \UnexpectedValueException if the timeout is not set
          * @return integer the connection timeout in seconds
          */
-        public function getTimeout()
-        {
+        public function getTimeout() {
             if ($this->timeout === null) {
                 throw new \UnexpectedValueException('The timeout is `null`.');
             }
@@ -210,8 +202,7 @@
          * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
          * @return \Brickoo\System\SocketObject
          */
-        public function setTimeout($timeout)
-        {
+        public function setTimeout($timeout) {
             TypeValidator::IsInteger($timeout);
 
             if ($this->hasHandle()) {
@@ -235,8 +226,7 @@
          * @throws Exceptions\UnableToCreateHandleException if the handle can not be opened
          * @return reource the file handle handle
          */
-        public function open()
-        {
+        public function open() {
             if ($this->hasHandle()) {
                 throw new Exceptions\HandleAlreadyExistsException();
             }
@@ -259,8 +249,7 @@
          * Returns the current used handle.
          * @return handle the handle handle
          */
-        public function getHandle()
-        {
+        public function getHandle() {
             if (! $this->hasHandle()) {
                 $this->open();
             }
@@ -272,8 +261,7 @@
          * Checks if a handle has been created.
          * @return boolean check result
          */
-        public function hasHandle()
-        {
+        public function hasHandle() {
             return is_resource($this->handle);
         }
 
@@ -282,8 +270,7 @@
          * This method does not throw an exception like the explicit FileObject::close does.
          * @return \Brickoo\System\SocketObject
          */
-        public function removeHandle()
-        {
+        public function removeHandle() {
             if ($this->hasHandle()) {
                 $this->close();
             }
@@ -298,8 +285,7 @@
         * Initializes the class properties.
         * @return void
         */
-        public function __construct()
-        {
+        public function __construct() {
             $this->protocol        = null;
             $this->serverAdress    = null;
             $this->serverPort      = null;
@@ -311,8 +297,7 @@
          * Removes the handle handle if available.
          * @return void
          */
-        public function __destruct()
-        {
+        public function __destruct() {
             $this->removeHandle();
         }
 
@@ -321,8 +306,7 @@
          * @throws Exceptions\HandleNotAvailableException if the handle is not initialized
          * @return \Brickoo\System\SocketObject
          */
-        public function close()
-        {
+        public function close() {
             if (! $this->hasHandle()) {
                 throw new Exceptions\HandleNotAvailableException();
             }
@@ -341,8 +325,7 @@
          * @throws BadMethodCallException if the trying to call fopen() or fclose()
          * @return mixed the calles function return value
          */
-        public function __call($function, array $arguments)
-        {
+        public function __call($function, array $arguments) {
             if (($function == 'fsockopen') || ($function == 'fclose')) {
                 throw new \BadMethodCallException(
                     sprintf('The method `%s`is not allowed to be called.', $function)

@@ -42,8 +42,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Request implements Interfaces\RequestInterface
-    {
+    class Request implements Interfaces\RequestInterface {
 
         /**
          * Holds the class dependencies.
@@ -59,8 +58,7 @@
          * @param object $Dependency the dependecy to inject
          * @return object Request if overwritten otherwise the dependency
          */
-        protected function getDependency($name, $interface, $callback, $Dependency = null)
-        {
+        protected function getDependency($name, $interface, $callback, $Dependency = null) {
             if ($Dependency instanceof $interface) {
                 $this->dependencies[$name] = $Dependency;
                 return $this;
@@ -76,8 +74,7 @@
          * @param \Brickoo\Http\Component\Interfaces\UrlInterface $Url the Url dependency to inject
          * @return \Brickoo\Http\Interfaces\UrlInterface
          */
-        public function Url(\Brickoo\Http\Component\Interfaces\UrlInterface $Url = null)
-        {
+        public function Url(\Brickoo\Http\Component\Interfaces\UrlInterface $Url = null) {
             return $this->getDependency(
                 'Url',
                 '\Brickoo\Http\Component\Interfaces\UrlInterface',
@@ -95,8 +92,7 @@
          * @param \Brickoo\Http\Component\Interfaces\HeadersInterface $Headers the Headers dependency to inject
          * @return \Brickoo\Http\Component\Interfaces\HeadersInterface
          */
-        public function Headers(\Brickoo\Http\Component\Interfaces\HeadersInterface $Headers = null)
-        {
+        public function Headers(\Brickoo\Http\Component\Interfaces\HeadersInterface $Headers = null) {
             return $this->getDependency(
                 'Headers',
                 '\Brickoo\Http\Component\Interfaces\HeadersInterface',
@@ -110,8 +106,7 @@
          * @param \Brickoo\Http\Component\Interfaces\QueryInterface $Query the Query dependency to inject
          * @return \Brickoo\Http\Component\Interfaces\QueryInterface
         */
-        public function Query(\Brickoo\Http\Component\Interfaces\QueryInterface $Query = null)
-        {
+        public function Query(\Brickoo\Http\Component\Interfaces\QueryInterface $Query = null) {
             return $this->getDependency(
                 'Query',
                 '\Brickoo\Http\Component\Interfaces\QueryInterface',
@@ -125,8 +120,7 @@
          * @param \Brickoo\Memory\Interfaces\ContainerInterface $Post the Post dependency to inject
          * @return \Brickoo\Memory\Interfaces\ContainerInterface
          */
-        public function Post(\Brickoo\Memory\Interfaces\ContainerInterface $Post = null)
-        {
+        public function Post(\Brickoo\Memory\Interfaces\ContainerInterface $Post = null) {
             return $this->getDependency(
                 'Post',
                 '\Brickoo\Memory\Interfaces\ContainerInterface',
@@ -140,8 +134,7 @@
          * @param \Brickoo\Memory\Interfaces\ContainerInterface $Files the Files dependency to inject
          * @return \Brickoo\Memory\Interfaces\ContainerInterface
          */
-        public function Files(\Brickoo\Memory\Interfaces\ContainerInterface $Files = null)
-        {
+        public function Files(\Brickoo\Memory\Interfaces\ContainerInterface $Files = null) {
             return $this->getDependency(
                 'Files',
                 '\Brickoo\Memory\Interfaces\ContainerInterface',
@@ -161,8 +154,7 @@
          * Lazy value set if the protocol is not set.
          * @return string the request protocol
          */
-        public function getProtocol()
-        {
+        public function getProtocol() {
             if ($this->protocol === null) {
                 $this->protocol = $this->getServerVar('SERVER_PROTOCOL');
             }
@@ -175,8 +167,7 @@
          * @param string $protocol the protocol to set.
          * @return \Brickoo\Http\Request
          */
-        public function setProtocol($protocol)
-        {
+        public function setProtocol($protocol) {
             TypeValidator::IsString($protocol);
             TypeValidator::MatchesRegex('~^HTTP/1\.[0|1]$~', $protocol);
 
@@ -196,8 +187,7 @@
          * Fallback if the method is not supported to standard GET.
          * @return string the http request method
          */
-        public function getMethod()
-        {
+        public function getMethod() {
             if ($this->method === null) {
                 $this->setMethod($this->getServerVar('REQUEST_METHOD', 'GET'));
             }
@@ -211,8 +201,7 @@
          * @throws Exceptions\MethodNotSupported if the method is not supported
          * @return \Brickoo\Http\Request
          */
-        public function setMethod($method)
-        {
+        public function setMethod($method) {
             TypeValidator::IsString($method);
 
             $this->method = strtoupper($method);
@@ -224,8 +213,7 @@
          * Returns the server hostname.
          * @return the server hostname
          */
-        public function getHost()
-        {
+        public function getHost() {
             return $this->Url()->getHost();
         }
 
@@ -233,8 +221,7 @@
          * Returns the request path.
          * @return string the request path
          */
-        public function getPath()
-        {
+        public function getPath() {
             return $this->Url()->getPath();
         }
 
@@ -242,8 +229,7 @@
          * Returns the request format.
          * @return string the request format or null if not set
          */
-        public function getFormat()
-        {
+        public function getFormat() {
             return $this->Url()->getFormat();
         }
 
@@ -252,8 +238,7 @@
          * Initializes class properties.
          * @return void
          */
-        public function __construct()
-        {
+        public function __construct() {
             $this->method              = null;
             $this->dependencies        = array();
         }
@@ -262,8 +247,7 @@
          * Imports the global request variables.
          * @return \Brickoo\Http\Request
          */
-        public function importFromGlobals()
-        {
+        public function importFromGlobals() {
             $this->Url()->importFromGlobals();
             $this->Query()->importFromGlobals();
             $this->Headers()->importFromGlobals();
@@ -279,8 +263,7 @@
          * @param mixed $defaultValue the default value to return
          * @return string the value of the server variable otherwise mixed the default value
          */
-        public function getServerVar($name, $defaultValue = null)
-        {
+        public function getServerVar($name, $defaultValue = null) {
             TypeValidator::IsString($name);
 
             if (isset($_SERVER[$name])) {
@@ -294,8 +277,7 @@
          * Checks if the connection is https.
          * @return boolean check result
          */
-        public function isSecureConnection()
-        {
+        public function isSecureConnection() {
             if ($httpsForwarded = $this->Headers()->get('X-Forwarded-Proto')) {
                 return (strtolower($httpsForwarded) == 'https');
             }
@@ -312,8 +294,7 @@
          * This is not standard and is currently just supported by few javascript frameworks.
          * @return boolean check result
          */
-        public function isAjaxRequest()
-        {
+        public function isAjaxRequest() {
             return ($this->getServerVar('X-Requested-With') == 'XMLHttpRequest');
         }
 
@@ -321,8 +302,7 @@
          * Returns the raw input of the request.
          * @return string the raw input
          */
-        public function getRawInput()
-        {
+        public function getRawInput() {
             return file_get_contents('php://input');
         }
 
@@ -330,8 +310,7 @@
          * Returns the http request headers.
          * @retrun string http request headers
          */
-        public function toString()
-        {
+        public function toString() {
             $headers  = sprintf("%s %s %s\r\n", $this->getMethod(), $this->Url()->toString(false), $this->getProtocol());
             $headers .= $this->Headers()->toString();
 
@@ -342,8 +321,7 @@
          * Supporting casting to string.
          * @return string the http request headers
          */
-        public function __toString()
-        {
+        public function __toString() {
             return $this->toString();
         }
 

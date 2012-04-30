@@ -41,16 +41,14 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class APCProvider implements Interfaces\CacheProviderInterface
-    {
+    class APCProvider implements Interfaces\ProviderInterface {
 
         /**
          * Returns the cached content from the matching dentifier.
          * @param string $identifier the identifier to retrieve the content from
          * @return mixed the cached content
          */
-        public function get($identifier)
-        {
+        public function get($identifier) {
             TypeValidator::IsString($identifier);
 
             return apc_fetch($identifier);
@@ -65,8 +63,7 @@
          * @param integer $lifetime the lifetime in seconds of the cached content
          * @return mixed the cache provider result
          */
-        public function set($identifier, $content, $lifetime = 60)
-        {
+        public function set($identifier, $content, $lifetime = 60) {
             TypeValidator::IsString($identifier);
             TypeValidator::IsInteger($lifetime);
 
@@ -78,8 +75,7 @@
          * @param string $identifier the identifer to remove
          * @return mixed the cache provider result
          */
-        public function delete($identifier)
-        {
+        public function delete($identifier) {
             TypeValidator::IsString($identifier);
 
             return apc_delete($identifier);
@@ -89,8 +85,7 @@
          * Flushes the cached values by removing (or flag as removed) any content holded.
          * @return mixed the cache provider result
          */
-        public function flush()
-        {
+        public function flush() {
             return apc_clear_cache('user');
         }
 
@@ -101,8 +96,7 @@
          * @throws BadMethodCallException if the method is not defined
          * @return mixed APC method result
          */
-        public function __call($method, array $arguments)
-        {
+        public function __call($method, array $arguments) {
             if ((substr($method, 0, 4) != 'apc_') || (! function_exists($method))) {
                 throw new \BadMethodCallException(sprintf('The APC method `%s` is not defined.', $method));
             }

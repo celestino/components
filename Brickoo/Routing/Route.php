@@ -45,8 +45,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Route implements Interfaces\RouteInterface
-    {
+    class Route implements Interfaces\RouteInterface {
 
         /**
          * Holds the unique route name.
@@ -58,8 +57,7 @@
         * Returns the unique name of the route.
         * @return string the unique route name
         */
-        public function getName()
-        {
+        public function getName() {
             return $this->name;
         }
 
@@ -74,8 +72,7 @@
          * @throws UnexpectedValueException if the path is null
          * @return string the route path listening to
          */
-        public function getPath()
-        {
+        public function getPath() {
             if ($this->path === null) {
                 throw new \UnexpectedValueException('The route path is `null`.');
             }
@@ -88,8 +85,7 @@
          * @param string $path the path to liste to
          * @return \Brickoo\Routing\Route
          */
-        public function setPath($path)
-        {
+        public function setPath($path) {
             TypeValidator::IsString($path);
 
             $this->path = $path;
@@ -108,8 +104,7 @@
          * @throws UnexpectedValueException if the controller is null
          * @return array the controller configuration
          */
-        public function getController()
-        {
+        public function getController() {
             if ($this->controller === null) {
                 throw new \UnexpectedValueException('The route controller is `null`.');
             }
@@ -126,8 +121,7 @@
          * @param boolean $static flag to mark the call as static
          * @return \Brickoo\Routing\Route
          */
-        public function setController($controller, $method, $static = false)
-        {
+        public function setController($controller, $method, $static = false) {
             TypeValidator::IsString($controller);
             TypeValidator::IsString($method);
             TypeValidator::IsBoolean($static);
@@ -153,8 +147,7 @@
          * @throws UnexpectedValueException if the method is null
          * @return string the request method listening
          */
-        public function getMethod()
-        {
+        public function getMethod() {
             if ($this->method === null) {
                 throw new \UnexpectedValueException('The route method is `null`.');
             }
@@ -168,8 +161,7 @@
          * @param string $method the request method to listen
          * @return \Brickoo\Routing\Route
          */
-        public function setMethod($method)
-        {
+        public function setMethod($method) {
             TypeValidator::IsString($method);
 
             $this->method = $method;
@@ -188,8 +180,7 @@
          * Returns the hostname listening to.
          * @return string if the hostname is set otherwise null
          */
-        public function getHostname()
-        {
+        public function getHostname() {
             return $this->hostname;
         }
 
@@ -199,8 +190,7 @@
          * @param string $method the request method to listen
          * @return \Brickoo\Routing\Route
          */
-        public function setHostname($hostname)
-        {
+        public function setHostname($hostname) {
             TypeValidator::IsString($hostname);
 
             $this->hostname = $hostname;
@@ -218,8 +208,7 @@
          * Returns the accepted request formats.
          * @return string the accepted format or null if accepting all
          */
-        public function getFormat()
-        {
+        public function getFormat() {
             return $this->format;
         }
 
@@ -233,8 +222,7 @@
          * Returns the default format.
          * @return string the default format or null if none set.
          */
-        public function getDefaultFormat()
-        {
+        public function getDefaultFormat() {
             return $this->defaultFormat;
         }
 
@@ -244,8 +232,7 @@
          * @param string $defaultFormat the default format to use
          * @return \Brickoo\Routing\Route
          */
-        public function setFormat($format, $defaultFormat = null)
-        {
+        public function setFormat($format, $defaultFormat = null) {
             TypeValidator::IsString($format);
 
             if ($defaultFormat !== null) {
@@ -268,8 +255,7 @@
          * Checks if the session is required.
          * @return boolean check result
          */
-        public function isSessionRequired()
-        {
+        public function isSessionRequired() {
             return $this->sessionRequired;
         }
 
@@ -277,8 +263,7 @@
          * Enables or the session usage.
          * @return \Brickoo\Routing\Route
          */
-        public function requireSession()
-        {
+        public function requireSession() {
             $this->sessionRequired = true;
 
             return $this;
@@ -294,8 +279,7 @@
          * Checks if the response is cacheable.
          * @return boolean check result
          */
-        public function isCacheable()
-        {
+        public function isCacheable() {
             return $this->cacheable;
         }
 
@@ -303,8 +287,7 @@
          * Enables or disables the response cache.
          * @return \Brickoo\Routing\Route
          */
-        public function enableCache()
-        {
+        public function enableCache() {
             $this->cacheable = true;
 
             return $this;
@@ -320,8 +303,7 @@
          * Returns all the default values available.
          * @return array the default key-values if any
          */
-        public function getDefaultValues()
-        {
+        public function getDefaultValues() {
             return $this->defaultValues;
         }
 
@@ -331,8 +313,7 @@
          * @throws UnexpectedValueException if the parameter has not an default value
          * @return mixed the default value for the passed parameter name
          */
-        public function getDefaultValue($parameterName)
-        {
+        public function getDefaultValue($parameterName) {
             TypeValidator::IsString($parameterName);
 
             if (! $this->hasDefaultValue($parameterName)) {
@@ -349,8 +330,7 @@
          * @param string $parameterName the parameter to check
          * @return boolean check result
          */
-        public function hasDefaultValue($parameterName)
-        {
+        public function hasDefaultValue($parameterName) {
             TypeValidator::IsString($parameterName);
 
             return array_key_exists($parameterName, $this->defaultValues);
@@ -363,8 +343,7 @@
          * @param mixed $defaultValue the default value to add
          * @return \Brickoo\Routing\Route
          */
-        public function addDefaultValue($parameterName, $defaultValue)
-        {
+        public function addDefaultValue($parameterName, $defaultValue) {
             TypeValidator::IsString($parameterName);
 
             $this->defaultValues[$parameterName] = $defaultValue;
@@ -382,8 +361,7 @@
          * Returns all the regular expression rules available.
          * @return array the regular expression rules if any
          */
-        public function getRules()
-        {
+        public function getRules() {
             return $this->rules;
         }
 
@@ -391,8 +369,7 @@
          * Checks if the route has rules.
          * @return boolean check result
          */
-        public function hasRules()
-        {
+        public function hasRules() {
             return (! empty($this->rules));
         }
 
@@ -402,8 +379,7 @@
          * @throws UnexpectedValueException if the parameter name has not an defualt value
          * @return string the rule assigned to the parameter name
          */
-        public function getRule($parameterName)
-        {
+        public function getRule($parameterName) {
             TypeValidator::IsString($parameterName);
 
             if (! $this->hasRule($parameterName)) {
@@ -422,8 +398,7 @@
          * @param string $defaultValue optional default rule default value
          * @return \Brickoo\Routing\Route
          */
-        public function addRule($parameterName, $rule, $defaultValue = null)
-        {
+        public function addRule($parameterName, $rule, $defaultValue = null) {
             TypeValidator::IsString($parameterName);
             TypeValidator::isString($rule);
 
@@ -441,8 +416,7 @@
          * @param string $parameterName the parameter name to check
          * @return boolean check result
          */
-        public function hasRule($parameterName)
-        {
+        public function hasRule($parameterName) {
             TypeValidator::IsString($parameterName);
 
             return array_key_exists($parameterName, $this->rules);
@@ -454,8 +428,7 @@
         * @param string $name the unique route name.
         * @return void
         */
-        public function __construct($name)
-        {
+        public function __construct($name) {
             TypeValidator::IsString($name);
 
             $this->name                    = $name;

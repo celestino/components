@@ -33,14 +33,13 @@
     namespace Brickoo\Cache\Provider\Interfaces;
 
     /**
-     * CacheProviderInterface
+     * ProviderInterface
      *
      * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    Interface CacheProviderInterface
-    {
+    Interface ProviderInterface {
 
         /**
         * Returns the cached content from the matching dentifier.

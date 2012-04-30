@@ -43,15 +43,13 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ListenerTest extends \PHPUnit_Framework_TestCase
-    {
+    class ListenerTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Test if the constructor intializes the class properties.
          * @covers Brickoo\Cache\Listener::__construct
          */
-        public function testConstruct()
-        {
+        public function testConstruct() {
             $Manager = $this->getMock('Brickoo\Cache\Interfaces\ManagerInterface');
             $Listener = new Listener($Manager, 222);
             $this->assertAttributeSame($Manager, 'Manager', $Listener);
@@ -63,8 +61,7 @@
          * @covers Brickoo\Cache\Listener::aggregateListeners
          * @covers Brickoo\Cache\Events
          */
-        public function testAggregateListeners()
-        {
+        public function testAggregateListeners() {
             $EventManager = $this->getMock('Brickoo\Event\Manager');
             $EventManager->expects($this->exactly(5))
                          ->method('attachListener');

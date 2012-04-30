@@ -71,8 +71,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class FileObject implements Interfaces\FileObjectInterface
-    {
+    class FileObject implements Interfaces\FileObjectInterface {
 
         /**
          * Holds the location to open.
@@ -85,8 +84,7 @@
          * @throws \UnexpectedValueException if no location has been assigned
          * @return string the current location
          */
-        public function getLocation()
-        {
+        public function getLocation() {
             if ($this->location === null) {
                 throw new \UnexpectedValueException('The file location is `null`.');
             }
@@ -100,8 +98,7 @@
          * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
          * @return \Brickoo\System\FileObject
          */
-        public function setLocation($location)
-        {
+        public function setLocation($location) {
             TypeValidator::IsString($location);
 
             if ($this->hasHandle()) {
@@ -124,8 +121,7 @@
          * @throws \UnexpectedValueException if no mode has been assigned
          * @return string the current mode
          */
-        public function getMode()
-        {
+        public function getMode() {
             if ($this->mode === null) {
                 throw new \UnexpectedValueException('The file mode is `null`.');
             }
@@ -138,8 +134,7 @@
          * @throws Exceptions\HandleAlreadyExistsException if the handle already exists
          * @return \Brickoo\System\FileObject
          */
-        public function setMode($mode)
-        {
+        public function setMode($mode) {
             TypeValidator::MatchesRegex('~^[acwrx]([\+])?$~', $mode);
 
             if ($this->hasHandle()) {
@@ -162,8 +157,7 @@
          * Returns the current used handle.
          * @return handle the resoruce handle
          */
-        public function getHandle()
-        {
+        public function getHandle() {
             if (! $this->hasHandle()) {
                 $this->open($this->getLocation(), $this->getMode());
             }
@@ -175,8 +169,7 @@
          * Checks if a handle has been created.
          * @return boolean check result
          */
-        public function hasHandle()
-        {
+        public function hasHandle() {
             return is_resource($this->handle);
         }
 
@@ -185,8 +178,7 @@
          * This method does not throw an exception like the explicit FileObject::close does.
          * @return \Brickoo\System\FileObject
          */
-        public function removeHandle()
-        {
+        public function removeHandle() {
             if ($this->hasHandle()) {
                 $this->close();
             }
@@ -201,8 +193,7 @@
         * Initializes the class properties.
         * @return void
         */
-        public function __construct()
-        {
+        public function __construct() {
             $this->location    = null;
             $this->filename    = null;
             $this->mode        = null;
@@ -213,8 +204,7 @@
          * Removes the handle handle if available.
          * @return void
          */
-        public function __destruct()
-        {
+        public function __destruct() {
             $this->removeHandle();
         }
 
@@ -224,8 +214,7 @@
          * @throws Exceptions\UnableToCreateHandleException if the handle can not be opened
          * @return reource the resource handle
          */
-        public function open()
-        {
+        public function open() {
             if ($this->hasHandle()) {
                 throw new Exceptions\HandleAlreadyExistsException();
             }
@@ -243,8 +232,7 @@
          * @param integer|string $data the data to write
          * @return \Brickoo\System\FileObject;
          */
-        public function write($data)
-        {
+        public function write($data) {
             if (($mode = $this->getMode()) == 'r') {
                 throw new Exceptions\InvalidModeOperationException($mode);
             }
@@ -261,8 +249,7 @@
          * @param integer the amount of bytes to read from
          * @return string the readed content bytes
          */
-        public function read($bytes = 1024)
-        {
+        public function read($bytes = 1024) {
             TypeValidator::IsInteger($bytes, TypeValidator::FLAG_INTEGER_CAN_NOT_BE_ZERO);
 
             if (preg_match('~^[waxc]$~', ($mode = $this->getMode()))) {
@@ -277,8 +264,7 @@
          * @throws Exceptions\HandleNotAvailableException if the handle is not initialized
          * @return \Brickoo\System\FileObject
          */
-        public function close()
-        {
+        public function close() {
             if (! $this->hasHandle()) {
                 throw new Exceptions\HandleNotAvailableException();
             }
@@ -297,8 +283,7 @@
          * @throws BadMethodCallException if the trying to call fopen() or fclose()
          * @return mixed the called function return value
          */
-        public function __call($function, array $arguments)
-        {
+        public function __call($function, array $arguments) {
             if (($function == 'fopen') || ($function == 'fclose')) {
                 throw new \BadMethodCallException(
                     sprintf('The method `%s` is not allowed to be called.', $function)

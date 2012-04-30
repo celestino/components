@@ -41,8 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class LocalCache implements Interfaces\LocalCacheInterface
-    {
+    class LocalCache implements Interfaces\LocalCacheInterface {
 
         /**
          * Holds the cached values.
@@ -58,8 +57,7 @@
          * @throws IdentifierNotAvailableException if the identifier is not available
          * @return mixed the cached content
          */
-        public function get($identifier)
-        {
+        public function get($identifier) {
             TypeValidator::IsString($identifier);
 
             if (! array_key_exists($identifier, $this->cacheValues)) {
@@ -75,8 +73,7 @@
          * @param mixed $content the content which should be cached
          * @return \Brickoo\Cache\LocalCache
          */
-        public function set($identifier, $content)
-        {
+        public function set($identifier, $content) {
             TypeValidator::IsString($identifier);
 
             $this->cacheValues[$identifier] = $content;
@@ -91,8 +88,7 @@
          * @param string $identifier the identifer to remove
          * @return \Brickoo\Cache\LocalCache
          */
-        public function remove($identifier)
-        {
+        public function remove($identifier) {
             TypeValidator::IsString($identifier);
 
             if (! array_key_exists($identifier, $this->cacheValues)) {
@@ -109,8 +105,7 @@
          * @param string $identifier the identifier to check for availability
          * @return boolean check result
          */
-        public function has($identifier)
-        {
+        public function has($identifier) {
             return array_key_exists($identifier, $this->cacheValues);
         }
 
@@ -119,8 +114,7 @@
          * Initializes the class properties.
          * @return void
          */
-        public function __construct()
-        {
+        public function __construct() {
             $this->flush();
         }
 
@@ -128,8 +122,7 @@
          * Flushes the cached values by removing any content holded.
          * @return \Brickoo\Cache\LocalCache
          */
-        public function flush()
-        {
+        public function flush() {
             $this->cacheValues = array();
 
             return $this;

@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Events
-    {
+    class Events {
 
         /**
          * Asks for a cached content.

@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface SocketObjectInterface
-    {
+    interface SocketObjectInterface {
 
         /**
         * Returns the current protocol used.
@@ -130,32 +129,10 @@
         public function removeHandle();
 
         /**
-         * Class constructor.
-         * Initializes the class properties.
-         * @return void
-         */
-        public function __construct();
-
-        /**
-         * Removes the handle handle if available.
-         * @return void
-         */
-        public function __destruct();
-
-        /**
          * Closes the data handle and frees the holded ressource.
          * @throws Exceptions\HandleNotAvailableException if the handle is not initialized
          * @return \Brickoo\System\Interfaces\SocketObjectInterface
          */
         public function close();
-
-        /**
-         * Provides the posibility to call not implemented file functions.
-         * @param string $function the function name to call
-         * @param array $arguments the arguments to pass
-         * @throws BadMethodCallException if the trying to call fopen() or fclose()
-         * @return mixed the calles function return value
-         */
-        public function __call($function, array $arguments);
 
     }

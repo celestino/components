@@ -41,15 +41,13 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ConfigurationTest extends \PHPUnit_Framework_TestCase
-    {
+    class ConfigurationTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Test if the COnfiguration class implements the ConfigurationInterface.
          * @covers Brickoo\Config\Configuration::__construct
          */
-        public function testConstruct()
-        {
+        public function testConstruct() {
             $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\ProviderInterface');
             $this->assertInstanceOf('Brickoo\Config\Interfaces\ConfigurationInterface',
                 ($Configuration = new Configuration($Provider))
@@ -61,8 +59,7 @@
          * Test if the injected Provider can be retrived.
          * @covers Brickoo\Config\Configuration::Provider
          */
-        public function testProvider()
-        {
+        public function testProvider() {
             $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\ProviderInterface');
             $Configuration = new Configuration($Provider);
             $this->assertSame($Provider, $Configuration->Provider());
@@ -72,8 +69,7 @@
          * Test if the configuration data would be loaded through the Provider.
          * @covers Brickoo\Config\Configuration::load
          */
-        public function testLoad()
-        {
+        public function testLoad() {
             $expectedResult = array('Key' => 'Value');
 
             $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\ProviderInterface');
@@ -90,8 +86,7 @@
          * Test if the configuration could be saved.
          * @covers Brickoo\Config\Configuration::save
          */
-        public function testSave()
-        {
+        public function testSave() {
             $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\ProviderInterface');
             $Provider->expects($this->once())
                      ->method('save')
@@ -107,8 +102,7 @@
          * Test if the configuration sections can be converted to constants.
          * @covers Brickoo\Config\Configuration::convertSectionToConstants
          */
-        public function testConvertSectionToConstants()
-        {
+        public function testConvertSectionToConstants() {
             $config = array(
                 'SECTION1' => array('key1' => 'value1')
             );
@@ -125,8 +119,7 @@
          * @covers Brickoo\Config\Configuration::convertSectionToConstants
          * @expectedException UnexpectedValueException
          */
-        public function testConvertionWithNoktAvailableSectionException()
-        {
+        public function testConvertionWithNoktAvailableSectionException() {
             $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\ProviderInterface');
             $Configuration = new Configuration($Provider);
             $Configuration->convertSectionToConstants('FAIL');
@@ -137,8 +130,7 @@
          * @covers Brickoo\Config\Configuration::convertSectionToConstants
          * @expectedException UnexpectedValueException
          */
-        public function testConvertionNotScalarException()
-        {
+        public function testConvertionNotScalarException() {
             $config = array(
                 'SECTION1' => array('key1' => array('wrongValueType'))
             );

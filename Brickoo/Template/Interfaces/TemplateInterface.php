@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface TemplateInterface
-    {
+    interface TemplateInterface {
 
         /**
          * Renders the template with the assigned variables.

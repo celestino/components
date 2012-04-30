@@ -41,8 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    Interface RequestInterface extends Core\Interfaces\RequestInterface
-    {
+    Interface RequestInterface extends Core\Interfaces\RequestInterface {
 
         /**
          * Lazy initialization of the Url dependency.

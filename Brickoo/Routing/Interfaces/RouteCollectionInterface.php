@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface RouteCollectionInterface
-    {
+    interface RouteCollectionInterface {
 
         /**
         * Returns the collected routes.

@@ -40,8 +40,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class AutoloadFileDoesNotExistException extends \Exception
-    {
+    class AutoloadFileDoesNotExistException extends \Exception {
 
         /**
          * Class constructor.
@@ -49,8 +48,7 @@
          * @param string $filepath the filepath which does not exists
          * @return void
          */
-        public function __construct($filepath)
-        {
+        public function __construct($filepath) {
             parent::__construct(sprintf('File does not exists `%s`.', $filepath));
         }
 

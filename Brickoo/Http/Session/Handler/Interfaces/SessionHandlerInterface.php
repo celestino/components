@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface SessionHandlerInterface
-    {
+    interface SessionHandlerInterface {
 
         /**
         * Sets the session lifetime in seconds.

@@ -43,8 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class FileProvider implements Interfaces\CacheProviderInterface
-    {
+    class FileProvider implements Interfaces\ProviderInterface {
 
         /**
          * Holds the lifetime format used for storing the expiration.
@@ -72,8 +71,7 @@
          * @param object $Dependency the dependecy to inject
          * @return object FileProvider if overwritten otherwise the dependency
          */
-        protected function getDependency($name, $interface, $callback, $Dependency = null)
-        {
+        protected function getDependency($name, $interface, $callback, $Dependency = null) {
             if ($Dependency instanceof $interface) {
                 $this->dependencies[$name] = $Dependency;
                 return $this;
@@ -90,8 +88,7 @@
          * @param \Brickoo\System\Interfaces\FileObjectInterface $FileObject the FileObject to inject
          * @return \Brickoo\System\Interface\FileObjectInterface
          */
-        public function FileObject(\Brickoo\System\Interfaces\FileObjectInterface $FileObject = null)
-        {
+        public function FileObject(\Brickoo\System\Interfaces\FileObjectInterface $FileObject = null) {
             return $this->getDependency(
                 'FileObject',
                 '\Brickoo\System\Interfaces\FileObjectInterface',
@@ -110,8 +107,7 @@
          * Returns the file prefix used.
          * @return string the file prefix used
          */
-        public function getFilePrefix()
-        {
+        public function getFilePrefix() {
             return $this->filePrefix;
         }
 
@@ -121,8 +117,7 @@
          * @throws UnexpectedValueException if the file prefix does not match the regular expression
          * @return \Brickoo\Cache\Provider\FileProvider
          */
-        public function setFilePrefix($filePrefix)
-        {
+        public function setFilePrefix($filePrefix) {
             TypeValidator::IsString($filePrefix);
 
             if (! preg_match('~^[\w]+$~', $filePrefix)) {
@@ -145,8 +140,7 @@
          * If the the directory has not been defined, the PHP temporary directory will be used
          * @return string the cache Directory
          */
-        public function getDirectory()
-        {
+        public function getDirectory() {
             if ($this->directory === null) {
                 $this->setDirectory(sys_get_temp_dir());
             }
@@ -159,8 +153,7 @@
          * @param strig $directory the directory to use for caching
          * @return \Brickoo\Cache\Provider\FileProvider
          */
-        public function setDirectory($directory)
-        {
+        public function setDirectory($directory) {
             TypeValidator::IsString($directory);
 
             $this->directory = rtrim(realpath($directory), '\\/') . DIRECTORY_SEPARATOR;
@@ -173,8 +166,7 @@
          * Initializes the class properties.
          * @return void
          */
-        public function __construct($directory = null, $filePrefix = 'cache_')
-        {
+        public function __construct($directory = null, $filePrefix = 'cache_') {
             if ($directory !== null) {
                 $this->setDirectory($directory);
             }
@@ -186,8 +178,7 @@
          * @param string $identifier the identifier used
          * @return string the pull file path
          */
-        public function getFileName($identifier)
-        {
+        public function getFileName($identifier) {
             TypeValidator::IsString($identifier);
 
             return $this->getDirectory() . $this->getFilePrefix() . str_replace(' ', '_', $identifier);
@@ -199,8 +190,7 @@
          * @param string $identifier the identifier to retrieve the content from
          * @return mixed the cached content or false if the content is not available or has expired
          */
-        public function get($identifier)
-        {
+        public function get($identifier) {
             TypeValidator::IsString($identifier);
 
             if (! file_exists(($fileName = $this->getFileName($identifier)))) {
@@ -233,8 +223,7 @@
          * @param integer $lifetime the lifetime in seconds of the cached content
          * @return boolean true if the content could be saved
          */
-        public function set($identifier, $content, $lifetime = 60)
-        {
+        public function set($identifier, $content, $lifetime = 60) {
             TypeValidator::IsString($identifier);
             TypeValidator::IsInteger($lifetime);
 
@@ -255,8 +244,7 @@
          * @param string $identifier the identifer to remove
          * @return boolean true if the file did be deleted otherwise false
          */
-        public function delete($identifier)
-        {
+        public function delete($identifier) {
             TypeValidator::IsString($identifier);
 
             if (file_exists(($fileName = $this->getFileName($identifier)))) {
@@ -270,8 +258,7 @@
          * Flushes the cached values by unlinking any file which has the file prefix.
          * @return integer the number of files which have been unlinked
          */
-        public function flush()
-        {
+        public function flush() {
             $filePrefix = $this->getFilePrefix();
 
             $DirectoryIerator = new \DirectoryIterator(($directory = $this->getDirectory()));

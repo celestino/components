@@ -41,8 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ArrayProviderTest extends \PHPUnit_Framework_TestCase
-    {
+    class ArrayProviderTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance  of the ArrayProvider class.
@@ -54,8 +53,7 @@
          * Set up the Provider instance used.
          * @return void
          */
-        public function setUp()
-        {
+        public function setUp() {
             $this->Provider = new ArrayProvider();
         }
 
@@ -63,8 +61,7 @@
          * Test if the filename properties is set.
          * @covers Brickoo\Config\Provider\ArrayProvider::__construct
          */
-        public function testConstructor()
-        {
+        public function testConstructor() {
             $Provider = new ArrayProvider('test.array.php');
             $this->assertInstanceOf('Brickoo\Config\Provider\Interfaces\ProviderInterface', $Provider);
             $this->assertAttributeEquals('test.array.php', 'filename', $Provider);
@@ -75,8 +72,7 @@
          * @covers Brickoo\Config\Provider\ArrayProvider::getFilename
          * @covers Brickoo\Config\Provider\ArrayProvider::SetFilename
          */
-        public function testGetSetFilename()
-        {
+        public function testGetSetFilename() {
             $expectedFilename = 'test.array.php';
             $this->assertSame($this->Provider, $this->Provider->setFilename($expectedFilename));
             $this->assertAttributeEquals($expectedFilename, 'filename', $this->Provider);
@@ -88,8 +84,7 @@
          * @covers Brickoo\Config\Provider\ArrayProvider::getFilename
          * @expectedException UnexpectedValueException
          */
-        public function testGetFilenameValueException()
-        {
+        public function testGetFilenameValueException() {
             $this->Provider->getFilename();
         }
 
@@ -97,8 +92,7 @@
          * Test if an ini configuration can be loaded.
          * @covers Brickoo\Config\Provider\ArrayProvider::load
          */
-        public function testLoad()
-        {
+        public function testLoad() {
             $expected = array(
                 'SECTION' => array(
                     'key1'    => 'value1',
@@ -116,8 +110,7 @@
          * @covers Brickoo\Config\Provider\Exceptions\UnableToLoadConfigurationException
          * @expectedException Brickoo\Config\Provider\Exceptions\UnableToLoadConfigurationException
          */
-        public function testLoadFileException()
-        {
+        public function testLoadFileException() {
             $this->Provider->setFilename('fail');
             $this->Provider->load();
         }
@@ -127,8 +120,7 @@
          * @covers Brickoo\Config\Provider\ArrayProvider::load
          * @expectedException UnexpectedValueException
          */
-        public function testLoadValueException()
-        {
+        public function testLoadValueException() {
             $this->Provider->setFilename(dirname(__FILE__) .'/assets/test.empty.php');
             $this->Provider->load();
         }
@@ -137,8 +129,7 @@
          * Test if the configuration can be saved to an ini file.
          * @covers Brickoo\Config\Provider\ArrayProvider::save
          */
-        public function testSave()
-        {
+        public function testSave() {
             $config = array(
                 'SECTION' => array(
                     'key1'    => 'value1',
@@ -157,8 +148,7 @@
          * @covers Brickoo\Config\Provider\Exceptions\UnableToSaveConfigurationException
          * @expectedException Brickoo\Config\Provider\Exceptions\UnableToSaveConfigurationException
          */
-        public function testSaveFileException()
-        {
+        public function testSaveFileException() {
             $this->Provider->setFilename('/path/does/not/exist');
             $this->Provider->save(array('fails'));
         }
@@ -167,8 +157,7 @@
          * Test if the configuration can be converted to an ini string.
          * @covers Brickoo\Config\Provider\ArrayProvider::toString
          */
-        public function testToString()
-        {
+        public function testToString() {
            $config = array(
                 'SECTION' => array(
                     'key1'    => 'value1',

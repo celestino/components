@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class DuplicateRegistrationException extends \Exception
-    {
+    class DuplicateRegistrationException extends \Exception {
 
         /**
          * Class constructor.
@@ -48,8 +47,7 @@
          * @param string $identifier the idetifier which is registered.
          * @return void
          */
-        public function __construct($identifier)
-        {
+        public function __construct($identifier) {
             parent::__construct(sprintf('The identifier `%s` is already registered.', $identifier));
         }
 

@@ -42,15 +42,13 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Query extends Memory\Container implements Interfaces\QueryInterface
-    {
+    class Query extends Memory\Container implements Interfaces\QueryInterface {
 
         /**
          * Importst the request query parameter.
          * @return \Brickoo\Http\Component\Query
          */
-        public function importFromGlobals()
-        {
+        public function importFromGlobals() {
             $this->merge($_GET);
 
             return $this;
@@ -61,8 +59,7 @@
          * @param string $query the query string to import from
          * @return \Brickoo\Http\Component\Query
          */
-        public function importFromString($query)
-        {
+        public function importFromString($query) {
             TypeValidator::IsString($query);
 
             if (($position = strpos($query, '?')) !== false) {
@@ -82,8 +79,7 @@
          * @link http://www.faqs.org/rfcs/rfc1738.html
          * @return string the query string
          */
-        public function toString()
-        {
+        public function toString() {
             $query = array();
 
             $this->rewind();
@@ -99,8 +95,7 @@
          * Supporting casting to string.
          * @return string the collected headers
          */
-        public function __toString()
-        {
+        public function __toString() {
             return $this->toString();
         }
 

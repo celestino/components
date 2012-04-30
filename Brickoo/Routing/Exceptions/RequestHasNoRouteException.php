@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class RequestHasNoRouteException extends \Exception
-    {
+    class RequestHasNoRouteException extends \Exception {
 
         /**
          * Class constructor.
@@ -48,8 +47,7 @@
          * @param string $requestPath the request path which does not have a route
          * @return void
          */
-        public function __construct($requestPath)
-        {
+        public function __construct($requestPath) {
             parent::__construct(sprintf('The request path `%s` does not have a matching route.', $requestPath));
         }
 

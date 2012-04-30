@@ -44,8 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ErrorHandlerTest extends PHPUnit_Framework_TestCase
-    {
+    class ErrorHandlerTest extends PHPUnit_Framework_TestCase {
 
         /**
          * Holds the ErrorHandler instance for the tests.
@@ -58,8 +57,7 @@
          * @see PHPUnit_Framework_TestCase::setUp()
          * @return void
          */
-        public function setUp()
-        {
+        public function setUp() {
             $this->ErrorHandler = new ErrorHandler();
         }
 
@@ -67,8 +65,7 @@
          * Test if the class can be created.
          * @covers Brickoo\Error\ErrorHandler::__construct
          */
-        public function testErrorHandlerConstructor()
-        {
+        public function testErrorHandlerConstructor() {
             $this->assertInstanceOf
             (
                 '\Brickoo\Error\ErrorHandler',
@@ -80,8 +77,7 @@
          * Test if the error level can be retrieved.
          * @covers Brickoo\Error\ErrorHandler::getErrorLevel
          */
-        public function testGetErrorLevel()
-        {
+        public function testGetErrorLevel() {
             $this->assertEquals(0, $this->ErrorHandler->getErrorLevel());
         }
 
@@ -90,8 +86,7 @@
          * @covers Brickoo\Error\ErrorHandler::setErrorLevel
          * @covers Brickoo\Error\ErrorHandler::getErrorLevel
          */
-        public function testSetErrorLevel()
-        {
+        public function testSetErrorLevel() {
             $this->assertSame($this->ErrorHandler, $this->ErrorHandler->setErrorLevel(1));
             $this->assertEquals(1, $this->ErrorHandler->getErrorLevel());
         }
@@ -101,8 +96,7 @@
          * @covers Brickoo\Error\ErrorHandler::setErrorLevel
          * @expectedException InvalidArgumentException
          */
-        public function testSetErrorLevelArgumentException()
-        {
+        public function testSetErrorLevelArgumentException() {
             $this->ErrorHandler->setErrorLevel('wrongType');
         }
 
@@ -111,8 +105,7 @@
          * @covers Brickoo\Error\ErrorHandler::register
          * @covers Brickoo\Error\ErrorHandler::unregister
          */
-        public function testUnRegisterProcess()
-        {
+        public function testUnRegisterProcess() {
             $this->assertSame($this->ErrorHandler, $this->ErrorHandler->register());
             $this->assertSame($this->ErrorHandler, $this->ErrorHandler->unregister());
         }
@@ -123,8 +116,7 @@
          * @covers Brickoo\Error\Exceptions\DuplicateHandlerRegistrationException
          * @expectedException Brickoo\Error\Exceptions\DuplicateHandlerRegistrationException
          */
-        public function testRegisterDuplicateRegistrationException()
-        {
+        public function testRegisterDuplicateRegistrationException() {
             $this->ErrorHandler->register();
             $this->ErrorHandler->register();
         }
@@ -135,8 +127,7 @@
          * @covers Brickoo\Error\Exceptions\HandlerNotRegisteredException
          * @expectedException Brickoo\Error\Exceptions\HandlerNotRegisteredException
          */
-        public function testUnregisterNotregisteredException()
-        {
+        public function testUnregisterNotregisteredException() {
             $this->ErrorHandler->unregister();
         }
 
@@ -144,8 +135,7 @@
          * Test if the error handler return the registered status.
          * @covers Brickoo\Error\ErrorHandler::isRegistered
          */
-        public function testIsRegistered()
-        {
+        public function testIsRegistered() {
             $this->assertFalse($this->ErrorHandler->isRegistered());
             $this->ErrorHandler->register();
             $this->assertTrue($this->ErrorHandler->isRegistered());
@@ -158,8 +148,7 @@
          * @covers Brickoo\Error\ErrorHandler::handleError
          * @covers Brickoo\Log\Events
          */
-        public function testHandleError()
-        {
+        public function testHandleError() {
             $this->assertTrue($this->ErrorHandler->handleError(777, 'does nothing', 'noFileNeeded', 0));
         }
 
@@ -169,8 +158,7 @@
          * @covers Brickoo\Error\Exceptions\ErrorHandlerException
          * @expectedException Brickoo\Error\Exceptions\ErrorHandlerException
          */
-        public function testHandleErrorException()
-        {
+        public function testHandleErrorException() {
             $this->ErrorHandler->setErrorLevel(777);
             $this->ErrorHandler->handleError(777, 'message', 'file', 0);
         }

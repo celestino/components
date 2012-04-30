@@ -44,15 +44,13 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class LogListenerTest extends PHPUnit_Framework_TestCase
-    {
+    class LogListenerTest extends PHPUnit_Framework_TestCase {
 
         /**
          * Test if the class properties are set.
          * @covers Brickoo\Log\Listener::__construct
          */
-        public function testConstruct()
-        {
+        public function testConstruct() {
             $Logger = $this->getMock('Brickoo\Log\Interfaces\LoggerInterface');
             $Listener = new Listener($Logger, 5);
             $this->assertAttributeSame($Logger, 'Logger', $Listener);
@@ -64,8 +62,7 @@
          * @covers Brickoo\Log\Listener::__construct
          * @expectedException InvalidArgumentException
          */
-        public function testConstructArgumentException()
-        {
+        public function testConstructArgumentException() {
             $Logger = $this->getMock('Brickoo\Log\Interfaces\LoggerInterface');
             $Listener = new Listener($Logger, 'wrongType');
         }
@@ -75,8 +72,7 @@
          * @covers Brickoo\Log\Listener::aggregateListeners
          * @covers Brickoo\Log\Events
          */
-        public function testAggregateListeners()
-        {
+        public function testAggregateListeners() {
             $priority = 10;
             $Logger = $this->getMock('Brickoo\Log\Interfaces\LoggerInterface');
 

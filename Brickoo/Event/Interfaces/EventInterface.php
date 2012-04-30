@@ -39,8 +39,15 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface EventInterface
-    {
+    interface EventInterface {
+
+
+
+        /**
+         * Returns the sender object reference.
+         * @return object the sender object reference or null if not set
+         */
+        public function Sender();
 
         /**
         * Lazy initialization of the EventManager dependency
@@ -92,11 +99,5 @@
          * @return boolean check result
          */
         public function hasParam($identifier);
-
-        /**
-         * Returns the sender object reference.
-         * @return object the sender object reference or null if not set
-         */
-        public function Sender();
 
     }

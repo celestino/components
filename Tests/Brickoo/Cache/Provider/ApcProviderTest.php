@@ -43,8 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ApcProviderTest extends \PHPUnit_Framework_TestCase
-    {
+    class ApcProviderTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance of the ApcProvider class.
@@ -56,14 +55,12 @@
          * Set up the ApcProvider object used.
          * @return void
          */
-        protected function setUp()
-        {
+        protected function setUp() {
             if
             (
                 (! extension_loaded('apc')) ||
                 (! ini_get('apc.enable_cli'))
-            )
-            {
+            ) {
                 $this->markTestSkipped('The apc extension is not available.');
             }
 
@@ -74,8 +71,7 @@
          * Test if a content can be set to the Apc and the result is returned.
          * @covers Brickoo\Cache\Provider\ApcProvider::set
          */
-        public function testSet()
-        {
+        public function testSet() {
             $this->assertTrue($this->ApcProvider->set('some_identifier', 'some cached content', 3600));
         }
 
@@ -84,8 +80,7 @@
          * @covers Brickoo\Cache\Provider\ApcProvider::set
          * @expectedException InvalidArgumentException
          */
-        public function testSetArgumentException()
-        {
+        public function testSetArgumentException() {
             $this->ApcProvider->set(array('wrongType'), 'whatever', array('wrongType'));
         }
 
@@ -94,8 +89,7 @@
          * @covers Brickoo\Cache\Provider\ApcProvider::get
          * @depends testSet
          */
-        public function testGet()
-        {
+        public function testGet() {
             $this->assertEquals('some cached content', $this->ApcProvider->get('some_identifier'));
         }
 
@@ -104,8 +98,7 @@
          * @covers Brickoo\Cache\Provider\ApcProvider::get
          * @expectedException InvalidArgumentException
          */
-        public function testGetArgumentException()
-        {
+        public function testGetArgumentException() {
             $this->ApcProvider->get(array('wrongType'));
         }
 
@@ -114,8 +107,7 @@
          * @covers Brickoo\Cache\Provider\ApcProvider::delete
          * @depends testSet
          */
-        public function testDelete()
-        {
+        public function testDelete() {
             $this->assertTrue($this->ApcProvider->delete('some_identifier'));
         }
 
@@ -124,8 +116,7 @@
          * @covers Brickoo\Cache\Provider\ApcProvider::delete
          * @expectedException InvalidArgumentException
          */
-        public function testDeleteArgumentException()
-        {
+        public function testDeleteArgumentException() {
             $this->ApcProvider->delete(array('wrongType'));
         }
 
@@ -133,8 +124,7 @@
          * Test if a cached content can be flushed and the result is returned.
          * @covers Brickoo\Cache\Provider\ApcProvider::flush
          */
-        public function testFlush()
-        {
+        public function testFlush() {
             $this->assertTrue($this->ApcProvider->flush());
         }
 
@@ -142,8 +132,7 @@
          * Test if a APC method not implemented can be called and the result is returned.
          * @covers Brickoo\Cache\Provider\ApcProvider::__call
          */
-        public function test__call()
-        {
+        public function test__call() {
             $this->assertTrue($this->ApcProvider->apc_add('some_identifier', 'some other content', 3600));
             $this->assertEquals('some other content', $this->ApcProvider->get('some_identifier'));
         }
@@ -153,8 +142,7 @@
          * @covers Brickoo\Cache\Provider\ApcProvider::__call
          * @expectedException BadMethodCallException
          */
-        public function test__callBadMethodCallException()
-        {
+        public function test__callBadMethodCallException() {
             $this->ApcProvider->whatever();
         }
 

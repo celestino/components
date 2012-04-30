@@ -40,8 +40,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ModuleNotAvailableException extends \Exception
-    {
+    class ModuleNotAvailableException extends \Exception {
 
         /**
          * Class constructor.
@@ -49,8 +48,7 @@
          * @param string $moduleName the module name which does not exists
          * @return void
          */
-        public function __construct($moduleName)
-        {
+        public function __construct($moduleName) {
             parent::__construct(sprintf('The module `%s` does not exists.', $moduleName));
         }
 

@@ -43,8 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class LockerTest extends PHPUnit_Framework_TestCase
-    {
+    class LockerTest extends PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance of the LockerTestable class.
@@ -56,8 +55,7 @@
          * Set up the LockerTestable object used.
          * @return void
          */
-        public function setUp()
-        {
+        public function setUp() {
             $this->LockerTestable = new LockerTestable();
         }
 
@@ -65,8 +63,7 @@
          * Test if the class can be created.
          * @covers Brickoo\Memory\Locker::__construct
          */
-        public function testLockerConstructor()
-        {
+        public function testLockerConstructor() {
             $this->assertInstanceOf('\Brickoo\Memory\Locker', ($Locker = new LockerTestable()));
         }
 
@@ -77,8 +74,7 @@
          * @covers Brickoo\Memory\Locker::unlock
          * @covers Brickoo\Memory\Locker::isLocked
          */
-        public function testLockAndUnlockRoutine()
-        {
+        public function testLockAndUnlockRoutine() {
             $this->assertInternalType('string', ($unlockKey = $this->LockerTestable->lock('name')));
             $this->assertTrue($this->LockerTestable->isLocked('name'));
             $this->assertSame($this->LockerTestable, $this->LockerTestable->unlock('name', $unlockKey));
@@ -90,8 +86,7 @@
          * @covers Brickoo\Memory\Locker::lock
          * @expectedException InvalidArgumentException
          */
-        public function testLockArgumentException()
-        {
+        public function testLockArgumentException() {
             $this->LockerTestable->lock(array('wrongType'));
         }
 
@@ -101,8 +96,7 @@
          * @covers Brickoo\Memory\Exceptions\LockFailedException::__construct
          * @expectedException  Brickoo\Memory\Exceptions\LockFailedException
          */
-        public function testLockFailedException()
-        {
+        public function testLockFailedException() {
             $this->LockerTestable->lock('name');
             $this->LockerTestable->lock('name');
         }
@@ -113,8 +107,7 @@
          * @covers Brickoo\Memory\Exceptions\UnlockFailedException::__construct
          * @expectedException Brickoo\Memory\Exceptions\UnlockFailedException
          */
-        public function testUnLockWrongUnlockKeyException()
-        {
+        public function testUnLockWrongUnlockKeyException() {
             $this->LockerTestable->lock('name');
             $this->LockerTestable->unlock('name', 'invalidKey');
         }
@@ -124,8 +117,7 @@
          * @covers Brickoo\Memory\Locker::unlock
          * @expectedException  InvalidArgumentException
          */
-        public function testUnlockInvalidArgumentException()
-        {
+        public function testUnlockInvalidArgumentException() {
             $this->LockerTestable->unlock(array('wrongType'), 'invalidKey');
         }
 
@@ -135,8 +127,7 @@
          * @covers Brickoo\Memory\Exceptions\UnlockFailedException
          * @expectedException Brickoo\Memory\Exceptions\UnlockFailedException
          */
-        public function testUnlockFailedException()
-        {
+        public function testUnlockFailedException() {
             $this->LockerTestable->unlock('notLocked', 'invalidKey');
         }
 
@@ -145,8 +136,7 @@
          * @covers Brickoo\Memory\Locker::isLocked
          * @expectedException InvalidArgumentException
          */
-        public function testIsLockedArgumentException()
-        {
+        public function testIsLockedArgumentException() {
             $this->LockerTestable->isLocked(array('wrongType'));
         }
 
@@ -154,8 +144,7 @@
          * Test for the magic count method implemented by the \Countable interface.
          * @covers Brickoo\Memory\Locker::count
          */
-        public function testCount()
-        {
+        public function testCount() {
             $this->LockerTestable->lock('name');
             $this->LockerTestable->lock('town');
             $this->LockerTestable->lock('country');
@@ -164,16 +153,14 @@
 
     }
 
-    class LockerTestable extends Locker
-    {
+    class LockerTestable extends Locker {
         /**
          * Abstract method to check if the main class has the identifier.
          * @param string|integer $identifier the identifier to check
          * @see Brickoo\Memory\Locker::isIdentifierAvailable()
          * @return boolean true
          */
-        public function isIdentifierAvailable($identifier)
-        {
+        public function isIdentifierAvailable($identifier) {
             return true;
         }
 

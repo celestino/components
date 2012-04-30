@@ -39,16 +39,14 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class HandleNotAvailableException extends \Exception
-    {
+    class HandleNotAvailableException extends \Exception {
 
         /**
          * Class constructor.
          * Calls the parent Exception constructor.
          * @return void
          */
-        public function __construct()
-        {
+        public function __construct() {
             parent::__construct('The resource handle is not available.');
         }
 

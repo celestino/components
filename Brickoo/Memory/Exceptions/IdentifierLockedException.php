@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class IdentifierLockedException extends \Exception
-    {
+    class IdentifierLockedException extends \Exception {
 
         /**
          * Class constructor.
@@ -48,8 +47,7 @@
          * @param string $identifier the identifier which is locked
          * @return void
          */
-        public function __construct($identifier)
-        {
+        public function __construct($identifier) {
             parent::__construct(sprintf('The identifier `%s` is locked and can not be modified.', $identifier));
         }
 

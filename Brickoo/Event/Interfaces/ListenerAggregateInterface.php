@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface ListenerAggregateInterface
-    {
+    interface ListenerAggregateInterface {
 
         /**
          * Registers the contained listeners to the EventManager.

@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    Interface RegistryInterface
-    {
+    Interface RegistryInterface extends \Countable {
 
         /**
          * Returns all assigned registrations.
@@ -49,7 +48,7 @@
         public function getAll();
 
         /**
-         * Adds the list of registrations to the registry.
+         * Adds a list of registrations to the registry.
          * @param array $registrations the registrations to add
          * @throws InvalidArgumentException if passed registrations is empty
          * @return \Brickoo\Memory\Interfaces\RegistryInterface
@@ -78,7 +77,7 @@
         public function register($identifier, $value);
 
         /**
-         * Overrides an existing identifier with given value (!).
+         * Overrides an existing identifier with the new value (!).
          * If the identifer ist not registered it will be registered.
          * @param string|integer $identifier the identifier to register
          * @param mixed $value the identifier value to register
@@ -121,13 +120,5 @@
          * @return boolean read only mode
          */
         public function isReadOnly();
-
-        /**
-         * Countable interface function.
-         * Returns the number of registrations.
-         * @see Countable::count()
-         * @return integer the number of registrations
-         */
-        public function count();
 
     }

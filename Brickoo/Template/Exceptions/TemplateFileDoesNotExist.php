@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class TemplateFileDoesNotExist extends \Exception
-    {
+    class TemplateFileDoesNotExist extends \Exception {
 
         /**
          * Class constructor.
@@ -48,8 +47,7 @@
          * @param string $templateFilename the template file name which does not exist
          * @return void
          */
-        public function __construct($templateFilename)
-        {
+        public function __construct($templateFilename) {
             parent::__construct(sprintf('The template file `%s` does not exist.', $templateFilename));
         }
 

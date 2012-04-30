@@ -43,8 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class RequestRouteTest extends \PHPUnit_Framework_TestCase
-    {
+    class RequestRouteTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance of the RequestRoute class.
@@ -56,8 +55,7 @@
          * Sets up the RequestRoute instance ised.
          * @return void
          */
-        protected function setUp()
-        {
+        protected function setUp() {
             $this->RequestRoute = new RequestRoute(
                 $this->getMock('Brickoo\Routing\Interfaces\RouteInterface')
             );
@@ -68,8 +66,7 @@
          * Test if the module route is assigned to the ModuleRoute property.
          * @covers Brickoo\Routing\RequestRoute::__construct
          */
-        public function testConstructor()
-        {
+        public function testConstructor() {
             $this->assertInstanceOf('Brickoo\Routing\Interfaces\RequestRouteInterface', $this->RequestRoute);
             $this->assertAttributeInstanceOf(
                 'Brickoo\Routing\Interfaces\RouteInterface',
@@ -82,8 +79,7 @@
          * Test if the module route can be retrieved.
          * @covers Brickoo\Routing\RequestRoute::getModuleRoute
          */
-        public function testGetModuleRoute()
-        {
+        public function testGetModuleRoute() {
             $Route = $this->getMock('Brickoo\Routing\Interfaces\RouteInterface');
             $RequestRoute = new RequestRoute($Route);
             $this->assertAttributeSame($Route, 'ModuleRoute', $RequestRoute);
@@ -95,8 +91,7 @@
          * @covers Brickoo\Routing\RequestRoute::Params
          * @covers Brickoo\Routing\RequestRoute::getDependency
          */
-        public function testInjectParams()
-        {
+        public function testInjectParams() {
             $Container = $this->getMock('Brickoo\Memory\Interfaces\ContainerInterface');
             $this->assertSame($this->RequestRoute, $this->RequestRoute->Params($Container));
             $this->assertAttributeContains($Container, 'dependencies', $this->RequestRoute);
@@ -108,8 +103,7 @@
          * @covers Brickoo\Routing\RequestRoute::Params
          * @covers Brickoo\Routing\RequestRoute::getDependency
          */
-        public function testParamsLazyInitialization()
-        {
+        public function testParamsLazyInitialization() {
             $this->assertInstanceOf(
                 'Brickoo\Memory\Interfaces\ContainerInterface',
                 ($Container = $this->RequestRoute->Params())
@@ -121,8 +115,7 @@
          * test if the method are forwarded to the Route.
          * @covers Brickoo\Routing\RequestRoute::__call
          */
-        public function testMagicCall()
-        {
+        public function testMagicCall() {
             $Route = $this->getMock('Brickoo\Routing\Route', array('setPath'), array('routeName'));
             $Route->expects($this->once())
                   ->method('setPath')
@@ -138,8 +131,7 @@
          * @covers Brickoo\Routing\RequestRoute::__call
          * @expectedException BadMethodCallException
          */
-        public function testMagicCallBadMethodException()
-        {
+        public function testMagicCallBadMethodException() {
             $this->RequestRoute->unknowed('test');
         }
 

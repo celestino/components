@@ -44,8 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ExceptionHandler
-    {
+    class ExceptionHandler {
 
         /**
          * Hold the setting for displaying exceptions.
@@ -63,8 +62,7 @@
          * Checks if the instance is registered as an exception handler.
          * @return boolean check result
          */
-        public function isRegistered()
-        {
+        public function isRegistered() {
             return ($this->isRegistered === true);
         }
 
@@ -73,8 +71,7 @@
          * @throws DuplicateHandlerRegistrationException if the instance is already registred
          * @return \Brickoo\Error\ExceptionHandler
          */
-        public function register()
-        {
+        public function register() {
             if ($this->isRegistered()) {
                 throw new Exceptions\DuplicateHandlerRegistrationException('ExceptionHandler');
             }
@@ -90,8 +87,7 @@
          * @throws HandlerNotRegisteredException if the instance is not registred as handler
          * @return \Brickoo\Error\ExceptionHandler
          */
-        public function unregister()
-        {
+        public function unregister() {
             if (! $this->isRegistered()) {
                 throw new Exceptions\HandlerNotRegisteredException('ExceptionHandler');
             }
@@ -107,8 +103,7 @@
          * Initializes the class properties.
          * @return void
          */
-        public function __construct()
-        {
+        public function __construct() {
             $this->displayExceptions    = false;
             $this->isRegistered         = false;
         }
@@ -118,8 +113,7 @@
          * @param Exception $Exception the Exception throwed
          * @return string the exception message
          */
-        protected function getExceptionMessage(\Exception $Exception)
-        {
+        protected function getExceptionMessage(\Exception $Exception) {
             $message     = '[' . $Exception->getCode() . ']: ';
             $message    .= $Exception->getMessage();
 
@@ -137,8 +131,7 @@
          * @param integer $errorCode the error code number
          * @return string the exception message
          */
-        public function handleException(\Exception $Exception)
-        {
+        public function handleException(\Exception $Exception) {
             $message = $this->getExceptionMessage($Exception);
 
             Event\Manager::Instance()->notify(new Event\Event(Log\Events::EVENT_LOG, $this, array(

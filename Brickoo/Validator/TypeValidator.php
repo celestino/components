@@ -41,8 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class TypeValidator
-    {
+    class TypeValidator {
 
         /**
          * Exception message with placeholders.
@@ -59,8 +58,7 @@
         const FLAG_ARRAY_CAN_BE_EMPTY         = 4;
         const FLAG_REGEX_NEGATIVE_CHECK       = 8;
 
-        public static function ThrowInvalidArgumentException($argument, $flag, $method)
-        {
+        public static function ThrowInvalidArgumentException($argument, $flag, $method) {
             switch (gettype($argument)) {
                 case "boolean":
                     $argument = ($argument ? 'true' : 'false');
@@ -90,8 +88,7 @@
          * @throws \InvalidArgumentException if the valiadtion fails
          * @return boolean check result
          */
-        public static function IsString($argument, $flag = null)
-        {
+        public static function IsString($argument, $flag = null) {
            if
            (!
                (
@@ -111,8 +108,7 @@
                         is_string($argument)
                     )
                 )
-            )
-            {
+            ) {
                 return self::ThrowInvalidArgumentException($argument, $flag, __METHOD__);
             }
 
@@ -126,8 +122,7 @@
          * @throws \InvalidArgumentException if the valiadtion fails
          * @return boolean check result
          */
-        public static function IsInteger($argument, $flag = null)
-        {
+        public static function IsInteger($argument, $flag = null) {
             if
             (!
                 (
@@ -161,8 +156,7 @@
          * @throws \InvalidArgumentException if the valiadtion fails
          * @return boolean check result
          */
-        public static function IsFloat($argument, $flag = null)
-        {
+        public static function IsFloat($argument, $flag = null) {
             if (! is_float($argument)) {
                 return self::ThrowInvalidArgumentException($argument, $flag, __METHOD__);
             }
@@ -177,8 +171,7 @@
          * @throws \InvalidArgumentException if the valiadtion fails
          * @return boolean check result
          */
-        public static function IsArray($argument, $flag = null)
-        {
+        public static function IsArray($argument, $flag = null) {
             if
             (!
                 (
@@ -209,8 +202,7 @@
          * @throws \InvalidArgumentException if the valiadtion fails
          * @return boolean check result
          */
-        public static function ArrayContainsStrings($argument, $flag = null)
-        {
+        public static function ArrayContainsStrings($argument, $flag = null) {
             if
             (!
                 (
@@ -234,8 +226,7 @@
          * @throws \InvalidArgumentException if the valiadtion fails
          * @return boolean check result
          */
-        public static function ArrayContainsIntegers($argument, $flag = null)
-        {
+        public static function ArrayContainsIntegers($argument, $flag = null) {
             if
             (!
                 (
@@ -260,8 +251,7 @@
          * @throws \InvalidArgumentException if the valiadtion fails
          * @return boolean check result
          */
-        public static function ArrayContainsKeys(array $keys, array $argument, $flag = null)
-        {
+        public static function ArrayContainsKeys(array $keys, array $argument, $flag = null) {
             if
             (
                 ! is_array($keys) ||
@@ -285,8 +275,7 @@
          * @throws \InvalidArgumentException if the valiadtion fails
          * @return boolean check result
          */
-        public static function IsBoolean($argument, $flag = null)
-        {
+        public static function IsBoolean($argument, $flag = null) {
             if (! is_bool($argument)) {
                 return self::ThrowInvalidArgumentException($argument, $flag, __METHOD__);
             }
@@ -299,8 +288,7 @@
          * @param object $argument the argument to validate
          * @return boolean check result
          */
-        public static function IsObject($argument)
-        {
+        public static function IsObject($argument) {
             if (! is_object($argument)) {
                 return self::ThrowInvalidArgumentException($argument, null, __METHOD__);
             }
@@ -315,8 +303,7 @@
          * @throws \InvalidArgumentException if the valiadtion fails
          * @return boolean check result
          */
-        public static function IsNotEmpty($argument, $flag = null)
-        {
+        public static function IsNotEmpty($argument, $flag = null) {
             if (empty($argument)) {
                 return self::ThrowInvalidArgumentException($argument, $flag, __METHOD__);
             }
@@ -331,8 +318,7 @@
          * @throws \InvalidArgumentException if the valiadtion fails
          * @return boolean check result
          */
-        public static function IsStringOrInteger($argument, $flag  = null)
-        {
+        public static function IsStringOrInteger($argument, $flag  = null) {
             if
             (!
                 (
@@ -385,8 +371,7 @@
          * @throws \InvalidArgumentException if the valiadtion fails
          * @return boolean check result
          */
-        public static function MatchesRegex($regex, $argument, $flag = null)
-        {
+        public static function MatchesRegex($regex, $argument, $flag = null) {
             self::IsString($regex);
             self::IsString($argument);
 

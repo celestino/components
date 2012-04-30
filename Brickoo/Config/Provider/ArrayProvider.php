@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ArrayProvider implements Interfaces\ProviderInterface
-    {
+    class ArrayProvider implements Interfaces\ProviderInterface {
 
         /**
          * Holds the ini file name to load or save configuration.
@@ -53,8 +52,7 @@
          * @throws UnexpectedValueException if the filename is not set
          * @return string the array configuration filename
          */
-        public function getFilename()
-        {
+        public function getFilename() {
             if ($this->filename === null) {
                 throw new \UnexpectedValueException('The filename is `null`.');
             }
@@ -67,8 +65,7 @@
          * @param string $filename the ini filename
          * @return \Brickoo\Config\Provider\ArrayProvider
          */
-        public function setFilename($filename)
-        {
+        public function setFilename($filename) {
             TypeValidator::IsString($filename);
 
             $this->filename = $filename;
@@ -83,8 +80,7 @@
          * @param string $filename the array filename
          * @return void
          */
-        public function __construct($filename = null)
-        {
+        public function __construct($filename = null) {
             if ($filename !== null) {
                 $this->setFilename($filename);
             }
@@ -96,8 +92,7 @@
          * @throws Exceptions\UnableToLoadConfigurationException if the file does not exist
          * @return array the loaded configuration
          */
-        public function load()
-        {
+        public function load() {
             $filename = $this->getFilename();
 
             if (! is_readable($filename)) {
@@ -119,8 +114,7 @@
          * @throws Exceptions\UnableToSaveConfigurationException if the configuration could not be saved
          * @return \Brickoo\Config\Provider\IniProvider
          */
-        public function save(array $configuration)
-        {
+        public function save(array $configuration) {
             $filename    = $this->getFilename();
             $iniData     = $this->toString($configuration);
 
@@ -136,8 +130,7 @@
          * @param array $configuration
          * @return string the configuration file content
          */
-        public function toString(array $configuration)
-        {
+        public function toString(array $configuration) {
             return "<?php \r\nreturn ". var_export($configuration, true) .";";
         }
 

@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface ManagerInterface
-    {
+    interface ManagerInterface {
 
         /**
         * Checks if the session has been started.

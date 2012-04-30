@@ -41,8 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface HeadersInterface extends Memory\Interfaces\ContainerInterface
-    {
+    interface HeadersInterface extends Memory\Interfaces\ContainerInterface {
 
         /**
          * Imports the request http headers.

@@ -43,8 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class HttpApplicationTest extends \PHPUnit_Framework_TestCase
-    {
+    class HttpApplicationTest extends \PHPUnit_Framework_TestCase {
         /**
          * Holds an instance of the Application class.
          * @var \Brickoo\Http\Application
@@ -55,8 +54,7 @@
          * Sets up the Application instance used.
          * @return void
          */
-        protected function setUp()
-        {
+        protected function setUp() {
             $this->Application = new Application();
         }
 
@@ -66,8 +64,7 @@
          * @covers Brickoo\Core\Events
          * @covers Brickoo\Module\Events
          */
-        public function testAggregateListeners()
-        {
+        public function testAggregateListeners() {
             $EventManager = $this->getMock('Brickoo\Event\Manager', array('addListener'));
             $this->assertAttributeEquals(false, 'listenerAggregated', $this->Application);
             $this->assertNull($this->Application->aggregateListeners($EventManager));
@@ -80,8 +77,7 @@
          * @covers Brickoo\Http\Application::Response
          * @covers Brickoo\Http\Application::getDependency
          */
-        public function testResponseLazyInitialization()
-        {
+        public function testResponseLazyInitialization() {
             $this->assertInstanceOf('Brickoo\Core\Interfaces\ResponseInterface', $this->Application->Response());
         }
 
@@ -91,8 +87,7 @@
          * @covers Brickoo\Http\Application::Response
          * @covers Brickoo\Http\Application::getDependency
          */
-        public function testDisplayError()
-        {
+        public function testDisplayError() {
             $Exception = new \Exception();
 
             $Response = $this->getMock('Brickoo\Http\Response', array('setContent', 'send'));
@@ -110,8 +105,7 @@
          * Test if the module error could be trasformed into a http response.
          * @covers Brickoo\Http\Application::displayModuleError
          */
-        public function testDisplayModuleError()
-        {
+        public function testDisplayModuleError() {
             $Exception = new \Exception();
 
             $Response = $this->getMock('Brickoo\Http\Response', array('setContent'));
@@ -128,8 +122,7 @@
          * @covers Brickoo\Http\Application::Response
          * @covers Brickoo\Http\Application::getDependency
          */
-        public function testDisplayResponseError()
-        {
+        public function testDisplayResponseError() {
             $Event = $this->getMock('Brickoo\Event\Event', null, array('test.event'));
 
             $Response = $this->getMock('Brickoo\Http\Response', array('setContent', 'send'));
@@ -148,8 +141,7 @@
          * @covers Brickoo\Http\Application::run
          * @covers Brickoo\Module\Events
          */
-        public function testRun()
-        {
+        public function testRun() {
             include (dirname(__FILE__) .'/Assets/TestController.php');
 
             $EventManager = $this->getMock('Brickoo\Event\Manager', array('notify'));
@@ -187,8 +179,7 @@
          * @covers Brickoo\Http\Application::run
          * @covers Brickoo\Module\Events
          */
-        public function testRunStaticController()
-        {
+        public function testRunStaticController() {
             include (dirname(__FILE__) .'/Assets/TestStaticController.php');
 
             $EventManager = $this->getMock('Brickoo\Event\Manager', array('notify'));
@@ -225,8 +216,7 @@
         * Test if the an error occured an excetion is throwed.
         * @covers Brickoo\Http\Application::run
         */
-        public function testControllerException()
-        {
+        public function testControllerException() {
             $Route = $this->getMock('Brickoo\Routing\Route', array('getController'), array('test.route'));
             $Route->expects($this->once())
                   ->method('getController')
@@ -254,8 +244,7 @@
          * Test if the response would be sent.
          * @covers Brickoo\Http\Application::sendResponse
          */
-        public function testSendResponse()
-        {
+        public function testSendResponse() {
             $Response = $this->getMock('Brickoo\Http\Response', array('send'));
             $Response->expects($this->once())
                      ->method('send');

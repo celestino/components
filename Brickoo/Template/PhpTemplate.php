@@ -41,8 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class PhpTemplate implements Interfaces\TemplateInterface
-    {
+    class PhpTemplate implements Interfaces\TemplateInterface {
 
         /**
          * Holds the full path of the used template file.
@@ -54,8 +53,7 @@
          * Returns the template file holded.
          * @return string the full path to the template file
          */
-        public function getTemplateFile()
-        {
+        public function getTemplateFile() {
             return $this->templateFile;
         }
 
@@ -65,8 +63,7 @@
          * @throws Exceptions\TemplateFileDoesNotExist if the template is not available
          * @return \Brickoo\Template\PhpTemplate
          */
-        public function setTemplateFile($templateFile)
-        {
+        public function setTemplateFile($templateFile) {
             TypeValidator::IsString($templateFile);
 
             if (! file_exists($templateFile)) {
@@ -82,8 +79,7 @@
          * Cehcks if the template file is set.
          * @return boolean check result
          */
-        public function hasTemplateFile()
-        {
+        public function hasTemplateFile() {
             return ($this->templateFile !== null);
         }
 
@@ -98,8 +94,7 @@
          * @param array $variables the variables used in the template
          * @return \Brickoo\Template\PhpTemplate
          */
-        public function addTemplateVars(array $variables)
-        {
+        public function addTemplateVars(array $variables) {
             TypeValidator::IsArray($variables);
 
             $this->templateVars = array_merge($this->templateVars, $variables);
@@ -114,8 +109,7 @@
          * @throws \UnexpectedValueException if the variable is not set
          * @return mixed array the template variables or the template variable value
          */
-        public function getTemplateVar($variable = null)
-        {
+        public function getTemplateVar($variable = null) {
             if ($variable === null) {
                 return $this->templateVars;
             }
@@ -135,8 +129,7 @@
          * @param string||null $variable the variable to check the avaibility
          * @return boolean check result
          */
-        public function hasTemplateVar($variable = null)
-        {
+        public function hasTemplateVar($variable = null) {
             if ($variable === null) {
                 return (! empty($this->templateVars));
             }
@@ -153,8 +146,7 @@
          * @param array $templateVars the template variables to assign
          * @return void
          */
-        public function __construct($templateFile = null, array $templateVars = array())
-        {
+        public function __construct($templateFile = null, array $templateVars = array()) {
             if ($templateFile !== null) {
                 $this->setTemplateFile($templateFile);
             }
@@ -167,8 +159,7 @@
          * @throws \UnexpectedValueException if the template file is not set
          * @return string the rendered content
          */
-        public function render()
-        {
+        public function render() {
             if (! $this->hasTemplateFile()) {
                 throw new \UnexpectedValueException('The php template file is not set.');
             }
@@ -189,8 +180,7 @@
          * @param string $variable the varaiable to retrieve the value from
          * @return mixed the template variable value
          */
-        public function __get($variable)
-        {
+        public function __get($variable) {
             return $this->getTemplateVar($variable);
         }
 
@@ -201,8 +191,7 @@
          * @param mixed $value the value of the variable
          * @return void
          */
-        public function __set($variable, $value)
-        {
+        public function __set($variable, $value) {
             TypeValidator::IsString($variable);
 
             $this->templateVars[$variable] = $value;

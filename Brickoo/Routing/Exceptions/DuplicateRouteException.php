@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class DuplicateRouteException extends \Exception
-    {
+    class DuplicateRouteException extends \Exception {
 
         /**
          * Class constructor.
@@ -48,8 +47,7 @@
          * @param string $name the route name used
          * @return void
          */
-        public function __construct($name)
-        {
+        public function __construct($name) {
             parent::__construct(sprintf('The route `%s` does already exist.', $name));
         }
 

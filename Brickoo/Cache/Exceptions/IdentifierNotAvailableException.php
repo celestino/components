@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class IdentifierNotAvailableException extends \Exception
-    {
+    class IdentifierNotAvailableException extends \Exception {
 
         /**
          * Class constructor.
@@ -48,8 +47,7 @@
          * @param string $identifier the identifier which is not available.
          * @return void
          */
-        public function __construct($identifier)
-        {
+        public function __construct($identifier) {
             parent::__construct(sprintf('The identifier `%s` is not available.', $identifier));
         }
 

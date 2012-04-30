@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface FileObjectInterface
-    {
+    interface FileObjectInterface {
 
         /**
         * Returns the current location used.
@@ -118,14 +117,5 @@
          * @return \Brickoo\System\Interfaces\FileObjectInterface
          */
         public function close();
-
-        /**
-        * Provides the posibility to call not implemented file operations.
-        * @param string $function the function name to call
-        * @param array $arguments the arguments to pass
-        * @throws BadMethodCallException if trying to call fopen() or fclose()
-        * @return mixed the calles function return value
-        */
-        public function __call($function, array $arguments);
 
     }

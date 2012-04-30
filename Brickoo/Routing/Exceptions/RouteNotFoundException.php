@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class RouteNotFoundException extends \Exception
-    {
+    class RouteNotFoundException extends \Exception {
 
         /**
          * Class constructor.
@@ -48,8 +47,7 @@
          * @param string $name the route which could not be found.
          * @return void
          */
-        public function __construct($name)
-        {
+        public function __construct($name) {
             parent::__construct(sprintf('The route `%s` could not be found.', $name));
         }
 

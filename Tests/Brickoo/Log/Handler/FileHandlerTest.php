@@ -44,8 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class FileHandlerTest extends PHPUnit_Framework_TestCase
-    {
+    class FileHandlerTest extends PHPUnit_Framework_TestCase {
 
         /**
         * Holds an instance of the FileHandler object.
@@ -56,8 +55,7 @@
         /**
          * Set up the FileHandler object used.
          */
-        public function setUp()
-        {
+        public function setUp() {
             $this->FileHandler = new FileHandler($this->getFileObjectStub());
         }
 
@@ -66,8 +64,7 @@
          * @param array $methods the methods to mock
          * @return object FileObject Stub
          */
-        public function getFileObjectStub(array $methods = null)
-        {
+        public function getFileObjectStub(array $methods = null) {
             return $this->getMock
             (
                 'Brickoo\System\FileObject',
@@ -79,8 +76,7 @@
         * Test if the class can be created and implementens the LogHandlerInterface.
         * @covers Brickoo\Log\handler\FileHandler::__construct
         */
-        public function testConstructor()
-        {
+        public function testConstructor() {
             $FileObject = $this->getFileObjectStub();
             $this->assertInstanceOf
             (
@@ -94,8 +90,7 @@
          * Test if the FileObject can be retrieved and implements te FileObjectInterface.
          * @covers Brickoo\Log\Handler\FileHandler::FileObject
          */
-        public function testGetFileObject()
-        {
+        public function testGetFileObject() {
             $this->assertInstanceOf
             (
                 '\Brickoo\System\Interfaces\FileObjectInterface',
@@ -107,8 +102,7 @@
          * Test if the directory can be set and returns the FileHandler reference.
          * @covers Brickoo\Log\Handler\FileHandler::setDirectory
          */
-        public function testSetDirectory()
-        {
+        public function testSetDirectory() {
             $this->assertSame($this->FileHandler, $this->FileHandler->setDirectory('/var/www/log/'));
         }
 
@@ -117,8 +111,7 @@
          * @covers Brickoo\Log\Handler\FileHandler::setDirectory
          * @expectedException InvalidArgumentException
          */
-        public function testSetDirectoryArgumentException()
-        {
+        public function testSetDirectoryArgumentException() {
             $this->assertSame($this->FileHandler, $this->FileHandler->setDirectory(array('wrongTyoe')));
         }
 
@@ -126,8 +119,7 @@
          * Test if the directory can be retrieved and the last backslash/slash is removed.
          * @covers Brickoo\Log\Handler\FileHandler::getDirectory
          */
-        public function testGetDirectory()
-        {
+        public function testGetDirectory() {
             $this->FileHandler->setDirectory('/var/log/');
             $this->assertEquals('/var/log' . DIRECTORY_SEPARATOR, $this->FileHandler->getDirectory());
         }
@@ -137,8 +129,7 @@
          * @covers Brickoo\Log\Handler\FileHandler::getDirectory
          * @expectedException UnexpectedValueException
          */
-        public function testGetDirectoryUnexpectedValueException()
-        {
+        public function testGetDirectoryUnexpectedValueException() {
            $this->FileHandler->getDirectory();
         }
 
@@ -146,8 +137,7 @@
          * Test if the FilePrefix can be set and the FileHandler reference is returned.
          * @covers \Brickoo\Log\Handler\FileHandler::setFilePrefix
          */
-        public function testSetFilePrefix()
-        {
+        public function testSetFilePrefix() {
             $this->assertSame($this->FileHandler, $this->FileHandler->setFilePrefix('test_'));
         }
 
@@ -156,8 +146,7 @@
          * @covers \Brickoo\Log\Handler\FileHandler::setFilePrefix
          * @expectedException InvalidArgumentException
          */
-        public function testSetFilePrefixArgumentException()
-        {
+        public function testSetFilePrefixArgumentException() {
             $this->FileHandler->setFilePrefix(array('wrongType'));
         }
 
@@ -165,8 +154,7 @@
          * Test if the FilePrefix can be retrived.
          * @covers \Brickoo\Log\Handler\FileHandler::getFilePrefix
          */
-        public function testGetFilePrefix()
-        {
+        public function testGetFilePrefix() {
             $this->assertEquals('log_', $this->FileHandler->getFilePrefix());
             $this->FileHandler->setFilePrefix('test_');
             $this->assertEquals('test_', $this->FileHandler->getFilePrefix());
@@ -177,8 +165,7 @@
          * Test if the default severiy `Debug`is used if the severity is unknowed.
          * @covers \Brickoo\Log\Handler\FileHandler::convertToLogMessage
          */
-        public function testConvertToLogMessage()
-        {
+        public function testConvertToLogMessage() {
             $messages = array('message 1', 'message 2');
             $severity = 6;
 
@@ -196,8 +183,7 @@
          * @covers \Brickoo\Log\Handler\FileHandler::convertToLogMessage
          * @expectedException InvalidArgumentException
          */
-        public function testConvertToLogMessageArgumentMessageException()
-        {
+        public function testConvertToLogMessageArgumentMessageException() {
             $this->FileHandler->convertToLogMessage(array(), 7);
         }
 
@@ -206,8 +192,7 @@
          * @covers \Brickoo\Log\Handler\FileHandler::convertToLogMessage
          * @expectedException InvalidArgumentException
          */
-        public function testConvertToLogMessageArgumentSeverityException()
-        {
+        public function testConvertToLogMessageArgumentSeverityException() {
             $this->FileHandler->convertToLogMessage(array('message'), 'wrongType');
         }
 
@@ -215,8 +200,7 @@
         * Test if messages could be logged.
         * @covers \Brickoo\Log\Handler\FileHandler::log
         */
-        public function testlog()
-        {
+        public function testlog() {
             date_default_timezone_set('UTC');
 
             $FileObject = $this->getFileObjectStub(array('setMode', 'setLocation', 'write', 'close'));
@@ -244,8 +228,7 @@
         * @covers \Brickoo\Log\Handler\FileHandler::log
         * @expectedException InvalidArgumentException
         */
-        public function testlogArgumentException()
-        {
+        public function testlogArgumentException() {
             $this->FileHandler->log('message', 'wrongType');
         }
 

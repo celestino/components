@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ValueOverwriteException extends \Exception
-    {
+    class ValueOverwriteException extends \Exception {
 
         /**
          * Class constructor.
@@ -48,8 +47,7 @@
          * @param string $valueName the name of the value which has been tried to overwrite
          * @return void
          */
-        public function __construct($valueName)
-        {
+        public function __construct($valueName) {
             parent::__construct(sprintf('The value `%s` can not be overwritten.', $valueName));
         }
 

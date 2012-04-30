@@ -41,8 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class UnlockFailedException extends \Exception
-    {
+    class UnlockFailedException extends \Exception {
 
         /**
          * Class constructor.
@@ -50,8 +49,7 @@
          * @parma string $identifier the identifier which are not locked
          * @return void
          */
-        public function __construct($identifier)
-        {
+        public function __construct($identifier) {
             parent::__construct(sprintf('Unable to unlock `%s`, this identifier is not locked.', $identifier));
         }
 

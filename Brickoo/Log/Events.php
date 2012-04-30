@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Events
-    {
+    class Events {
 
         /**
          * Notifies that the event listener should log some data.

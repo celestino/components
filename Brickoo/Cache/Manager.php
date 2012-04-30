@@ -41,21 +41,19 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Manager implements Interfaces\ManagerInterface
-    {
+    class Manager implements Interfaces\ManagerInterface {
 
         /**
-         * Holds the cache provider implementing the Cache\Interfaces\CacheProviderInterface.
-         * @var \Brickoo\Cache\Provider\Interfaces\CacheProviderInterface
+         * Holds the cache provider implementing the Cache\Interfaces\ProviderInterface.
+         * @var \Brickoo\Cache\Provider\Interfaces\ProviderInterface
          */
         protected $_CacheProvider;
 
         /**
          * Returns the CacheProvider dependency.
-         * @return \Brickoo\Cache\Provider\Interfaces\CacheProviderInterface
+         * @return \Brickoo\Cache\Provider\Interfaces\ProviderInterface
          */
-        public function CacheProvider()
-        {
+        public function CacheProvider() {
             return $this->_CacheProvider;
         }
 
@@ -73,8 +71,7 @@
          * @param object $Dependency the dependecy to inject
          * @return object Manager if overwritten otherwise the dependency
          */
-        protected function getDependency($name, $interface, $callback, $Dependency = null)
-        {
+        protected function getDependency($name, $interface, $callback, $Dependency = null) {
             if ($Dependency instanceof $interface) {
                 $this->dependencies[$name] = $Dependency;
                 return $this;
@@ -90,8 +87,7 @@
          * @param \Brickoo\Cache\Interfaces\LocalCacheInterface $LocalCache the LocalCache dependecy to inject
          * @return \Brickoo\Cache\Interfaces\LocalCacheInterface
          */
-        public function LocalCache(\Brickoo\Cache\Interfaces\LocalCacheInterface $LocalCache = null)
-        {
+        public function LocalCache(\Brickoo\Cache\Interfaces\LocalCacheInterface $LocalCache = null) {
             return $this->getDependency(
                 'LocalCache',
                 '\Brickoo\Cache\Interfaces\LocalCacheInterface',
@@ -106,8 +102,7 @@
          * to make sure the local cache can be cleaned up after disabling it.
          * @return void
          */
-        public function flushLocalCache()
-        {
+        public function flushLocalCache() {
             $this->LocalCache()->flush();
         }
 
@@ -122,8 +117,7 @@
          * This provides less call to the cache provider for indentifiers already loaded.
          * @return \Brickoo\Cache\Manager
          */
-        public function enableLocalCache()
-        {
+        public function enableLocalCache() {
             $this->enableLocalCache = true;
 
             return $this;
@@ -135,8 +129,7 @@
          * through the cache provider. This could be a performance decreasement.
          * @return \Brickoo\Cache\Manager
          */
-        public function disableLocalCache()
-        {
+        public function disableLocalCache() {
             $this->enableLocalCache = false;
 
             return $this;
@@ -146,19 +139,17 @@
          * Checks if the local cache is enabled.
          * @return boolean check result
          */
-        public function isLocalCacheEnabled()
-        {
+        public function isLocalCacheEnabled() {
             return $this->enableLocalCache;
         }
 
         /**
          * Injects the CacheProvide dependency.
          * Enables the local cache for duplicate get calls to the same identifier.
-         * @param \Brickoo\Cache\Provider\Interfaces\CacheProviderInterface $CacheProvider the CacheProvider dependency
+         * @param \Brickoo\Cache\Provider\Interfaces\ProviderInterface $CacheProvider the CacheProvider dependency
          * @return void
          */
-        public function __construct(\Brickoo\Cache\Provider\Interfaces\CacheProviderInterface $CacheProvider)
-        {
+        public function __construct(\Brickoo\Cache\Provider\Interfaces\ProviderInterface $CacheProvider) {
             $this->_CacheProvider      = $CacheProvider;
             $this->enableLocalCache    = true;
             $this->dependencies        = array();
@@ -174,8 +165,7 @@
          * @param array $arguments the arguments to pass to the callback
          * @param integer $lifetime the lifetime in seconds for the cached content to set
          */
-        public function getByCallback($identifier, $callback, array $arguments, $lifetime)
-        {
+        public function getByCallback($identifier, $callback, array $arguments, $lifetime) {
             TypeValidator::IsString($identifier);
             TypeValidator::IsInteger($lifetime);
 
@@ -192,8 +182,7 @@
          * @param string $identifier the identifier to retrieve the content from
          * @return mixed the cached content
          */
-        public function get($identifier)
-        {
+        public function get($identifier) {
             TypeValidator::IsString($identifier);
 
             if ($this->isLocalCacheEnabled() && $this->LocalCache()->has($identifier)) {
@@ -216,8 +205,7 @@
          * @param integer $lifetime the lifetime in seconds of the cached content
          * @return \Brickoo\Cache\Manager
          */
-        public function set($identifier, $content, $lifetime)
-        {
+        public function set($identifier, $content, $lifetime) {
             TypeValidator::IsString($identifier);
             TypeValidator::IsInteger($lifetime);
 
@@ -236,8 +224,7 @@
          * @param string $identifier the identifier which holds the content
          * @return \Brickoo\Cache\Manager
          */
-        public function delete($identifier)
-        {
+        public function delete($identifier) {
             TypeValidator::IsString($identifier);
 
             if ($this->isLocalCacheEnabled() && $this->LocalCache()->has($identifier)) {
@@ -254,8 +241,7 @@
          * Flushes the local cache.
          * @return \Brickoo\Cache\Manager
          */
-        public function flush()
-        {
+        public function flush() {
             if ($this->isLocalCacheEnabled()) {
                 $this->LocalCache()->flush();
             }

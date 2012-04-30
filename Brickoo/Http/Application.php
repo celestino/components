@@ -43,8 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Application implements Event\Interfaces\ListenerAggregateInterface
-    {
+    class Application implements Event\Interfaces\ListenerAggregateInterface {
 
         /**
         * Holds the class dependencies.
@@ -60,8 +59,7 @@
          * @param object $Dependency the dependecy to inject
          * @return object Application if overwritten otherwise the dependency
          */
-        protected function getDependency($name, $interface, $callback, $Dependency = null)
-        {
+        protected function getDependency($name, $interface, $callback, $Dependency = null) {
             if ($Dependency instanceof $interface) {
                 $this->dependencies[$name] = $Dependency;
                 return $this;
@@ -77,8 +75,7 @@
          * @param \Brickoo\Core\Interfaces\ResponseInterface $Response the Response dependency to inject
          * @return \Brickoo\Core\Interfaces\ResponseInterface
          */
-        public function Response(\Brickoo\Core\Interfaces\ResponseInterface $Response = null)
-        {
+        public function Response(\Brickoo\Core\Interfaces\ResponseInterface $Response = null) {
             return $this->getDependency(
                 'Response',
                 '\Brickoo\Core\Interfaces\ResponseInterface',
@@ -100,8 +97,7 @@
          * @param \Brickoo\Event\Interfaces\ManagerInterface $EventManager
          * @return void
          */
-        public function aggregateListeners(\Brickoo\Event\Interfaces\ManagerInterface $EventManager)
-        {
+        public function aggregateListeners(\Brickoo\Event\Interfaces\ManagerInterface $EventManager) {
             if ($this->listenerAggregated !== true) {
                 $EventManager->attachListener(
                     Core\Events::EVENT_RESPONSE_GET, array($this, 'run'), 0, null,
@@ -133,8 +129,7 @@
          * @param \Exception $Exception the Exception throwed
          * @return void
          */
-        public function displayError(\Exception $Exception)
-        {
+        public function displayError(\Exception $Exception) {
             $this->Response()->setContent("<html><head><title></title></head><body>\r\n".
                 "<h1>This is not the response you are looking for...</h1>\r\n".
                 "<div>(<b>Exception</b>: ". $Exception->getMessage() .")\r\n".
@@ -150,8 +145,7 @@
          * @param \Exception $Exception the Exception throwed
          * @return void
          */
-        public function displayModuleError(\Exception $Exception)
-        {
+        public function displayModuleError(\Exception $Exception) {
             $this->Response()->setContent("<html><head><title></title></head><body>\r\n".
                 "<h1>Something did go wrong within the module...</h1>\r\n".
                 "<div>(<b>Exception</b>: ". $Exception->getMessage() .")\r\n".
@@ -167,8 +161,7 @@
          * @param \Exception $Exception the Exception throwed
          * @return void
          */
-        public function displayResponseError(\Brickoo\Event\Event $Event)
-        {
+        public function displayResponseError(\Brickoo\Event\Event $Event) {
             $this->Response()->setContent("<html><head><title></title></head><body>\r\n".
                 "<h1>Who likes to get a beer?</h1>\r\n".
                 "<div>(<b>Exception</b>: Controller did not return a response.)\r\n".
@@ -184,8 +177,7 @@
          * @param \Brickoo\Event\Interfaces\EventInterface $Event the application event asking
          * @return \Brickoo\Core\Interfaces\ResponseInterface
          */
-        public function run(\Brickoo\Event\Interfaces\EventInterface $Event)
-        {
+        public function run(\Brickoo\Event\Interfaces\EventInterface $Event) {
             $RequestRoute = $Event->getParam('Route');
             $Response = null;
 
@@ -226,8 +218,7 @@
          * @param \Brickoo\Core\Interfaces\ResponseInterface $Response the request response
          * @return \Brickoo\Core\Application
          */
-        public function sendResponse(\Brickoo\Core\Interfaces\ResponseInterface $Response)
-        {
+        public function sendResponse(\Brickoo\Core\Interfaces\ResponseInterface $Response) {
             $Response->send();
 
             return $this;

@@ -41,8 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Autoloader implements Interfaces\AutoloaderInterface
-    {
+    class Autoloader implements Interfaces\AutoloaderInterface {
 
         /**
          * Holds the status of registration to php autoloader.
@@ -65,8 +64,7 @@
          * @throws DuplicateNamespaceRegistrationException if the namespace is already registered
          * @return \Brickoo\Core\Autoloader
          */
-        public function registerNamespace($namespace, $includePath)
-        {
+        public function registerNamespace($namespace, $includePath) {
             if
             (
                 (! is_string($namespace)) ||
@@ -97,8 +95,7 @@
          * @throws NamspaceNotRegisteredException if the namespace is not registered
          * @return \Brickoo\Core\Autoloader
          */
-        public function unregisterNamespace($namespace)
-        {
+        public function unregisterNamespace($namespace) {
             if (! $this->isNamespaceRegistered($namespace)) {
                 require_once 'Exceptions/NamespaceNotRegisteredException.php';
                 throw new Exceptions\NamespaceNotRegisteredException($namespace);
@@ -115,8 +112,7 @@
          * @throws InvalidArgumentException if passed argument is not valid
          * @return boolean check result
          */
-        public function isNamespaceRegistered($namespace)
-        {
+        public function isNamespaceRegistered($namespace) {
             if ((! is_string($namespace)) || (! $namespace = trim($namespace))) {
                 throw new \InvalidArgumentException('Invalid arguments used.');
             }
@@ -128,8 +124,7 @@
          * Returns the available namespaces.
          * @return array the available namespaces
          */
-        public function getAvailableNamespaces()
-        {
+        public function getAvailableNamespaces() {
             return array_keys($this->namespaces);
         }
 
@@ -139,8 +134,7 @@
          * @throws InvalidArgumentException if the passed namespace is not a string
          * @return string the namespace path or false if the namespace is not registered
          */
-        public function getIncludePath($classNamespace)
-        {
+        public function getIncludePath($classNamespace) {
             if (! is_string($classNamespace)) {
                 throw new \InvalidArgumentException('Invalid namespace argument used.');
             }
@@ -162,8 +156,7 @@
          * Intializes the class properties.
          * @return void
          */
-        public function __construct()
-        {
+        public function __construct() {
             $this->isRegistered    = false;
             $this->namespaces      = array();
         }
@@ -174,8 +167,7 @@
          * @throws InvalidArgumentException if the class name is not a string
          * @return string the absolute file path or false if the namespace is not registered
          */
-        public function getAbsolutePath($className)
-        {
+        public function getAbsolutePath($className) {
             if ((! is_string($className)) || (! $className = trim($className, '\\'))) {
                 throw new \InvalidArgumentException('Invalid class argument used.');
             }
@@ -193,8 +185,7 @@
          * @throws AutoloadFileDoesNotExistException throws an exception if the file does not exists
          * @return boolean success
          */
-        public function loadClass($className)
-        {
+        public function loadClass($className) {
             if(! $absolutePath = $this->getAbsolutePath($className)) {
                 return false;
             }
@@ -214,8 +205,7 @@
          * @throws DuplicateAutoloaderRegistrationException if the autoloader is already registered
          * @return \Brickoo\Core\Autoloader
          */
-        public function register()
-        {
+        public function register() {
             if ($this->isRegistered) {
                 require_once 'Exceptions/DuplicateAutoloaderRegistrationException.php';
                 throw new Exceptions\DuplicateAutoloaderRegistrationException();
@@ -232,8 +222,7 @@
          * @throws AutoloaderNotRegisteredExeption if the autoloader did not be registered
          * @return \Brickoo\Core\Autoloader
          */
-        public function unregister()
-        {
+        public function unregister() {
             if (! $this->isRegistered) {
                 require_once 'Exceptions/AutoloaderNotRegisteredExeption.php';
                 throw new Exceptions\AutoloaderNotRegisteredExeption();

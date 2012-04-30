@@ -40,16 +40,14 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class DuplicateAutoloaderRegistrationException extends \Exception
-    {
+    class DuplicateAutoloaderRegistrationException extends \Exception {
 
         /**
          * Class constructor.
          * Calls the parent Exception constructor.
          * @return void
          */
-        public function __construct()
-        {
+        public function __construct() {
             parent::__construct('Autoloader instance already registered.');
         }
 

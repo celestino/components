@@ -39,39 +39,17 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface ManagerInterface
-    {
+    interface ManagerInterface {
 
         /**
-        * Checks if an event is currenty processing.
-        * @param string $eventName the event to check
-        * @return boolean check result
-        */
-        public function isEventProcessing($eventName);
-
-        /**
-         * Checks if the event has listeners.
-         * @param string $eventName the event to check
-         * @return boolean check result
+         * Adds a listener to an event.
+         * @param string $eventName the event to listen to
+         * @param callback $callback the callback to execute
+         * @param integer $priority the listener priority factor
+         * @param array|null $expectedParams the expected event parameters
+         * @param callback $condition the condition which has to be true
+         * @return string the listener unique identifier
          */
-        public function hasEventListeners($eventName);
-
-        /**
-         * Returns the event listener queue listening to the event.
-         * @param string $eventName the event to return the listener queue from
-         * @return \Brickoo\Event\ListenerQueue
-         */
-        public function getEventListenerQueue($eventName);
-
-        /**
-        * Adds a listener to an event.
-        * @param string $eventName the event to listen to
-        * @param callback $callback the callback to execute
-        * @param integer $priority the listener priority factor
-        * @param array|null $expectedParams the expected event parameters
-        * @param callback $condition the condition which has to be true
-        * @return string the listener unique identifier
-        */
         public function attachListener($eventName, $callback, $priority = 0, array $expectedParams = null, $condition = null);
 
         /**
@@ -82,10 +60,10 @@
         public function detachListener($listenerUID);
 
         /**
-        * Attach the aggregated event listeners.
-        * @param \Brickoo\Event\Interfaces\ListenerAggregateInterface $Listener
-        * @return \Brickoo\Event\Interfaces\ManagerInterface
-        */
+         * Attach the aggregated event listeners.
+         * @param \Brickoo\Event\Interfaces\ListenerAggregateInterface $Listener
+         * @return \Brickoo\Event\Interfaces\ManagerInterface
+         */
         public function attachAggregatedListeners(\Brickoo\Event\Interfaces\ListenerAggregateInterface $Listener);
 
         /**
@@ -110,10 +88,10 @@
         public function ask(\Brickoo\Event\Interfaces\EventInterface $Event);
 
         /**
-         * Calls the event listener.
+         * Calls the event listeners.
          * @param string $listenerUID the unique identiier of the listener
          * @param \Brickoo\Event\Interfaces\EventInterface $Event the event
-         * @return mixed the listener response
+         * @return mixed the listener response or null if no response is returned
          */
         public function call($listenerUID, \Brickoo\Event\Interfaces\EventInterface $Event);
 

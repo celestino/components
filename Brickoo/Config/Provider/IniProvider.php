@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class IniProvider implements Interfaces\ProviderInterface
-    {
+    class IniProvider implements Interfaces\ProviderInterface {
 
         /**
          * Holds the ini file name to load or save configuration.
@@ -53,8 +52,7 @@
          * @throws UnexpectedValueException if the filename is not set
          * @return string the ini filename
          */
-        public function getFilename()
-        {
+        public function getFilename() {
             if ($this->filename === null) {
                 throw new \UnexpectedValueException('The filename is `null`.');
             }
@@ -67,8 +65,7 @@
          * @param string $filename the ini filename
          * @return \Brickoo\Config\Provider\IniProvider
          */
-        public function setFilename($filename)
-        {
+        public function setFilename($filename) {
             TypeValidator::IsString($filename);
 
             $this->filename = $filename;
@@ -83,8 +80,7 @@
          * @param string $filename the array filename
          * @return void
          */
-        public function __construct($filename = null)
-        {
+        public function __construct($filename = null) {
             if ($filename !== null) {
                 $this->setFilename($filename);
             }
@@ -96,8 +92,7 @@
          * @throws Exceptions\UnableToLoadConfigurationException if the file does not exist
          * @return array the loaded configuration
          */
-        public function load()
-        {
+        public function load() {
             $filename = $this->getFilename();
 
             if (! is_readable($filename)) {
@@ -115,8 +110,7 @@
          * @throws Exceptions\UnableToSaveConfigurationException if the configuration could not be saved
          * @return \Brickoo\Config\Provider\IniProvider
          */
-        public function save(array $configuration)
-        {
+        public function save(array $configuration) {
             $filename    = $this->getFilename();
             $iniData     = $this->toString($configuration);
 
@@ -132,8 +126,7 @@
          * @param string $configuration the ini string containing the data
          * @return array the loaded configuration
          */
-        public function fromString($configuration)
-        {
+        public function fromString($configuration) {
             TypeValidator::IsString($configuration);
 
             return parse_ini_string($configuration, true);
@@ -144,8 +137,7 @@
          * @param array $configuration the configuration to convert
          * @return string the configuration as an ini format
          */
-        public function toString(array $configuration)
-        {
+        public function toString(array $configuration) {
             $iniString = '';
 
             foreach($configuration as $section => $settings) {
@@ -163,8 +155,7 @@
          * @param array $settings the section settings
          * @return string the section configuration
          */
-        public function getSectionString($section, array $settings)
-        {
+        public function getSectionString($section, array $settings) {
             TypeValidator::IsString($section);
 
             $iniString = sprintf("[%s]\r\n", $section);
@@ -187,8 +178,7 @@
          * @param array $values the values of the key
          * @return string the section array configuration
          */
-        public function getSectionArrayString($key, array $values)
-        {
+        public function getSectionArrayString($key, array $values) {
             TypeValidator::IsString($key);
 
             $iniString = '';

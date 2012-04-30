@@ -44,8 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class NullProviderTest extends \PHPUnit_Framework_TestCase
-    {
+    class NullProviderTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance of the NullProvider class.
@@ -57,8 +56,7 @@
          * Set up the NullProvider object used.
          * @return void
          */
-        protected function setUp()
-        {
+        protected function setUp() {
             $this->NullProvider = new NullProvider();
         }
 
@@ -66,8 +64,7 @@
          * Test if the NullProvider returns always false.
          * @covers Brickoo\Cache\Provider\NullProvider::get
          */
-        public function testGet()
-        {
+        public function testGet() {
             $this->assertFalse($this->NullProvider->get('whatever'));
         }
 
@@ -75,8 +72,7 @@
          * Test if the NullProvider returns always true.
          * @covers Brickoo\Cache\Provider\NullProvider::set
          */
-        public function testSet()
-        {
+        public function testSet() {
             $this->assertTrue($this->NullProvider->set('whatever', 'non cached content', 60));
         }
 
@@ -84,8 +80,7 @@
          * Test if the NullProvider returns always true.
          * @covers Brickoo\Cache\Provider\NullProvider::delete
          */
-        public function testDelete()
-        {
+        public function testDelete() {
             $this->assertTrue($this->NullProvider->delete('whatever'));
         }
 
@@ -93,8 +88,7 @@
          * Test if the NullProvider returns always true.
          * @covers Brickoo\Cache\Provider\NullProvider::flush
          */
-        public function testFlush()
-        {
+        public function testFlush() {
             $this->assertTrue($this->NullProvider->flush());
         }
 

@@ -43,16 +43,14 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class CacheHandlerTest extends PHPUnit_Framework_TestCase
-    {
+    class CacheHandlerTest extends PHPUnit_Framework_TestCase {
 
         /**
          * Returns a Manager stub implementig the Cache\Interfaces\ManagerInterface.
          * @param array $methods the methods to mock
          * @return object
          */
-        public function getManagerStub(array $methods = null)
-        {
+        public function getManagerStub(array $methods = null) {
             return $this->getMock
             (
                 'Brickoo\Cache\Manager',
@@ -71,8 +69,7 @@
          * Sets the CacheHandler instance used.
          * @return void
          */
-        protected function setUp()
-        {
+        protected function setUp() {
             $this->CacheHandler = new CacheHandler();
         }
 
@@ -81,8 +78,7 @@
          * @covers Brickoo\Http\Session\Handler\CacheHandler::Manager
          * @covers Brickoo\Http\Session\Handler\CacheHandler::getDependency
          */
-        public function testManagerLazyInitialization()
-        {
+        public function testManagerLazyInitialization() {
             $this->assertInstanceOf
             (
                 'Brickoo\Cache\Manager',
@@ -96,8 +92,7 @@
          * @covers Brickoo\Http\Session\Handler\CacheHandler::Manager
          * @covers Brickoo\Http\Session\Handler\CacheHandler::getDependency
          */
-        public function testInjectManager()
-        {
+        public function testInjectManager() {
             $ManagerStub = $this->getManagerStub();
 
             $this->assertSame($this->CacheHandler, $this->CacheHandler->Manager($ManagerStub));
@@ -108,8 +103,7 @@
          * Test if the lifetime can be set and the CacheHandler reference is returned.
          * @covers Brickoo\Http\Session\Handler\CacheHandler::setLifetime
          */
-        public function testSetLifetime()
-        {
+        public function testSetLifetime() {
             $this->assertSame($this->CacheHandler, $this->CacheHandler->setLifetime(60));
             $this->assertAttributeEquals(60, 'lifetime', $this->CacheHandler);
         }
@@ -119,8 +113,7 @@
          * @covers Brickoo\Http\Session\Handler\CacheHandler::setLifetime
          * @expectedException InvalidArgumentException
          */
-        public function testSetLifetimeArgumentException()
-        {
+        public function testSetLifetimeArgumentException() {
             $this->CacheHandler->setLifetime('wrongType');
         }
 
@@ -128,8 +121,7 @@
          * Test if calling the open method the Manager disables the local cache.
          * @covers Brickoo\Http\Session\Handler\CacheHandler::open
          */
-        public function testOpen()
-        {
+        public function testOpen() {
             $ManagerStub = $this->getManagerStub(array('disableLocalCache'));
             $ManagerStub->expects($this->once())
                              ->method('disableLocalCache')
@@ -143,8 +135,7 @@
          * Test if boolean true is always returned.
          * @covers Brickoo\Http\Session\Handler\CacheHandler::close
          */
-        public function testClose()
-        {
+        public function testClose() {
             $this->assertTrue($this->CacheHandler->close());
         }
 
@@ -152,8 +143,7 @@
          * Test if the saved session content can be retrieved through the Manager get method.
          * @covers Brickoo\Http\Session\Handler\CacheHandler::read
          */
-        public function testRead()
-        {
+        public function testRead() {
             $valueMap = array
             (
                 array(CacheHandler::SESSION_CACHE_PREFIX . 'identifier', 'session saved content')
@@ -173,8 +163,7 @@
          * Test if the sesssion content is saved through the Manager set method.
          * @covers Brickoo\Http\Session\Handler\CacheHandler::write
          */
-        public function testWrite()
-        {
+        public function testWrite() {
             $ManagerStub = $this->getManagerStub(array('set'));
             $ManagerStub->expects($this->once())
                              ->method('set')
@@ -189,8 +178,7 @@
          * Test if destrying a session the Manager delete method is called.
          * @covers Brickoo\Http\Session\Handler\CacheHandler::destroy
          */
-        public function testDestroy()
-        {
+        public function testDestroy() {
             $ManagerStub = $this->getManagerStub(array('delete'));
             $ManagerStub->expects($this->once())
                              ->method('delete')
@@ -205,8 +193,7 @@
          * test if the garbage collector returns always boolean true.
          * @covers Brickoo\Http\Session\Handler\CacheHandler::gc
          */
-        public function testGc()
-        {
+        public function testGc() {
             $this->assertTrue($this->CacheHandler->gc(60));
         }
 

@@ -41,8 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class MemcacheConfig implements Interfaces\MemcacheConfigInterface
-    {
+    class MemcacheConfig implements Interfaces\MemcacheConfigInterface {
 
         /**
          * Holds the servers list with configurations for a Memcache object.
@@ -54,8 +53,7 @@
          * Returns the available servers list.
          * @return array the avialable servers list
          */
-        public function getServers()
-        {
+        public function getServers() {
             return $this->servers;
         }
 
@@ -65,8 +63,7 @@
          * @param integer $port the port to connect to
          * @return \Brickoo\Cache\Config\MemcacheConfig
          */
-        public function addServer($host, $port = 0)
-        {
+        public function addServer($host, $port = 0) {
             TypeValidator::IsString($host);
             TypeValidator::IsInteger($port);
 
@@ -80,8 +77,7 @@
          * @param array $servers the servers to set
          * @return \Brickoo\Cache\Config\MemcacheConfig
          */
-        public function setServers(array $servers)
-        {
+        public function setServers(array $servers) {
             $this->servers = $servers;
             return $this;
         }
@@ -91,8 +87,7 @@
          * Initializes the class properties.
          * @return void
          */
-        public function __construct(array $servers = array())
-        {
+        public function __construct(array $servers = array()) {
             $this->servers = $servers;
         }
 
@@ -101,8 +96,7 @@
          * @param \Memcache $Memcache the Memcache instance to configure
          * @return \Brickoo\Cache\Config\MemcacheConfig
          */
-        public function configure(\Memcache $Memcache)
-        {
+        public function configure(\Memcache $Memcache) {
             foreach($this->getServers() as $serverConfig) {
                 $Memcache->addServer($serverConfig['host'], $serverConfig['port']);
             }

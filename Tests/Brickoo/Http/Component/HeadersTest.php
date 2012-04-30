@@ -40,8 +40,7 @@
      * @return array sample header values
      *
      */
-    function apache_request_headers()
-    {
+    function apache_request_headers() {
         return array('Apache-Header' => 'APACHE');
     }
 
@@ -53,8 +52,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class HeadersTest extends \PHPUnit_Framework_TestCase
-    {
+    class HeadersTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance if the Headers class.
@@ -66,8 +64,7 @@
          * Set up the Headers instance used.
          * @return void
          */
-        protected function setUp()
-        {
+        protected function setUp() {
             $this->Headers = new Headers();
         }
 
@@ -75,8 +72,7 @@
          * Test if the Headers class implements the HeadersInterface and the properties are initialized.
          * @covers Brickoo\Http\Component\Headers::__construct
          */
-        public function testConstruct()
-        {
+        public function testConstruct() {
             $this->assertInstanceOf('Brickoo\Http\Component\Headers', $this->Headers);
             $this->assertAttributeInternalType('array', 'acceptTypes', $this->Headers);
             $this->assertAttributeInternalType('array', 'acceptCharsets', $this->Headers);
@@ -89,8 +85,7 @@
          * @covers Brickoo\Http\Component\Headers::getAcceptTypes
          * @covers Brickoo\Http\Component\Headers::getAcceptHeaderByRegex
          */
-        public function testGetAcceptTypes()
-        {
+        public function testGetAcceptTypes() {
             $expectedTypes = array
             (
                 "*/*"                      => 0.8,
@@ -106,8 +101,7 @@
          * Test if the types can be recognized as supported.
          * @covers Brickoo\Http\Component\Headers::isTypeSupported
          */
-        public function testIsTypeSupported()
-        {
+        public function testIsTypeSupported() {
             $this->Headers->set('Accept', 'text/html,application/xml;q=0.9,*/*;q=0.8');
             $this->assertTrue($this->Headers->isTypeSupported('application/xml'));
             $this->assertTrue($this->Headers->isTypeSupported('text/html'));
@@ -119,8 +113,7 @@
          * @covers Brickoo\Http\Component\Headers::isTypeSupported
          * @expectedException InvalidArgumentException
          */
-        public function testIsTypeSupportedArgumentException()
-        {
+        public function testIsTypeSupportedArgumentException() {
             $this->Headers->isTypeSupported(null);
         }
 
@@ -129,8 +122,7 @@
          * @covers Brickoo\Http\Component\Headers::getAcceptLanguages
          * @covers Brickoo\Http\Component\Headers::getAcceptHeaderByRegex
          */
-        public function testGetAcceptLanguages()
-        {
+        public function testGetAcceptLanguages() {
             $expectedLanguages = array
             (
                 "de-DE" => 1,
@@ -146,8 +138,7 @@
          * Test if the language can be recognized as supported.
          * @covers Brickoo\Http\Component\Headers::isLanguageSupported
          */
-        public function testIsLanguageSupported()
-        {
+        public function testIsLanguageSupported() {
             $this->Headers->set('Accept-Language', 'de-DE,de;q=0.8,en-US;q=0.6,en;q=0.4');
             $this->assertTrue($this->Headers->isLanguageSupported('de-DE'));
             $this->assertTrue($this->Headers->isLanguageSupported('de'));
@@ -160,8 +151,7 @@
          * @covers Brickoo\Http\Component\Headers::isLanguageSupported
          * @expectedException InvalidArgumentException
          */
-        public function testIsLanguageSupportedArgumentException()
-        {
+        public function testIsLanguageSupportedArgumentException() {
             $this->Headers->isLanguageSupported(null);
         }
 
@@ -170,8 +160,7 @@
          * @covers Brickoo\Http\Component\Headers::getAcceptEncodings
          * @covers Brickoo\Http\Component\Headers::getAcceptHeaderByRegex
          */
-        public function testGetAcceptEncodings()
-        {
+        public function testGetAcceptEncodings() {
             $expectedEncodings = array
             (
                 "gzip"       => 1,
@@ -186,8 +175,7 @@
          * Test if the encoding can be recognized as supported.
          * @covers Brickoo\Http\Component\Headers::isEncodingSupported
          */
-        public function testIsEncodingSupported()
-        {
+        public function testIsEncodingSupported() {
             $this->Headers->set('Accept-Encoding', 'gzip,deflate,special;q=0.1');
             $this->assertTrue($this->Headers->isEncodingSupported('deflate'));
             $this->assertTrue($this->Headers->isEncodingSupported('gzip'));
@@ -199,8 +187,7 @@
          * @covers Brickoo\Http\Component\Headers::isEncodingSupported
          * @expectedException InvalidArgumentException
          */
-        public function testIsEncodingSupportedArgumentException()
-        {
+        public function testIsEncodingSupportedArgumentException() {
             $this->Headers->isEncodingSupported(null);
         }
 
@@ -209,8 +196,7 @@
          * @covers Brickoo\Http\Component\Headers::getAcceptCharsets
          * @covers Brickoo\Http\Component\Headers::getAcceptHeaderByRegex
          */
-        public function testGetAcceptCharsets()
-        {
+        public function testGetAcceptCharsets() {
             $expectedCharsets = array
             (
                 "ISO-8859-1"   => 1,
@@ -225,8 +211,7 @@
          * Test if the charset can be recognized as supported.
          * @covers Brickoo\Http\Component\Headers::isCharsetSupported
          */
-        public function testIsCharsetSupported()
-        {
+        public function testIsCharsetSupported() {
             $this->Headers->set('Accept-Charset', 'ISO-8859-1,utf-8;q=0.7,*;q=0.3');
             $this->assertTrue($this->Headers->isCharsetSupported('ISO-8859-1'));
             $this->assertTrue($this->Headers->isCharsetSupported('utf-8'));
@@ -238,8 +223,7 @@
          * @covers Brickoo\Http\Component\Headers::isCharsetSupported
          * @expectedException InvalidArgumentException
          */
-        public function testIsCharsetSupportedArgumentException()
-        {
+        public function testIsCharsetSupportedArgumentException() {
             $this->Headers->isCharsetSupported(array('wrongType'));
         }
 
@@ -247,8 +231,7 @@
          * Test if the parameters are validated.
          * @covers Brickoo\Http\Component\Headers::getAcceptHeaderByRegex
          */
-        public function testGetAcceptHeaderByRegex()
-        {
+        public function testGetAcceptHeaderByRegex() {
             $this->Headers->set('Accept-Charset', 'ISO-8859-1;q=0.3');
             $this->assertEquals
             (
@@ -267,8 +250,7 @@
          * @covers Brickoo\Http\Component\Headers::importFromGlobals
          * @covers Brickoo\Http\Component\Headers::normalizeHeaders
          */
-        public function testImportFromGlobals()
-        {
+        public function testImportFromGlobals() {
             $expectedHeaders = array
             (
                 'Unittest'        => 'yes',
@@ -285,8 +267,7 @@
          * Test if the request headers can be retrieved.
          * @covers Brickoo\Http\Component\Headers::getRequestHeaders
          */
-        public function testGetRequestHeaders()
-        {
+        public function testGetRequestHeaders() {
             $expectedHeaders = array
             (
                 'UNITTEST'        => 'yes',
@@ -302,8 +283,7 @@
          * @covers Brickoo\Http\Component\Headers::importFromString
          * @covers Brickoo\Http\Component\Headers::normalizeHeaders
          */
-        public function testImportFromString()
-        {
+        public function testImportFromString() {
             $expectedHeaders = array
             (
                 "Accept"            => "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
@@ -330,8 +310,7 @@
          * @covers Brickoo\Http\Component\Headers::__toString
          * @covers Brickoo\Http\Component\Headers::normalizeHeaders
          */
-        public function testToString()
-        {
+        public function testToString() {
             $headers = array
             (
                 "Accept"            => "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",

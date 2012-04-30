@@ -43,8 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class QueryTest extends \PHPUnit_Framework_TestCase
-    {
+    class QueryTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance of the Query class.
@@ -56,8 +55,7 @@
          * Sets up the Query instance used.
          * @return void
          */
-        protected function setUp()
-        {
+        protected function setUp() {
             $this->Query = new Query();
         }
 
@@ -65,8 +63,7 @@
          * Test if the query parameters can be imported from the globals $_GET.
          * @covers Brickoo\Http\Component\Query::importFromGlobals
          */
-        public function testImportFromGlobals()
-        {
+        public function testImportFromGlobals() {
             $_GET['some'] = 'value';
             $this->assertSame($this->Query, $this->Query->importFromGlobals());
             $this->assertAttributeEquals(array('some' => 'value'), 'container', $this->Query);
@@ -77,8 +74,7 @@
          * Test if the query parameters can be imported from string.
          * @covers Brickoo\Http\Component\Query::importFromString
          */
-        public function testImportFromString()
-        {
+        public function testImportFromString() {
             $expectedParameters = array
             (
                 'param1' => 'value1',
@@ -96,8 +92,7 @@
          * @covers Brickoo\Http\Component\Query::importFromString
          * @expectedException InvalidArgumentException
          */
-        public function testImportFromStringArgumentException()
-        {
+        public function testImportFromStringArgumentException() {
             $this->Query->importFromString(array('wrongType'));
         }
 
@@ -106,8 +101,7 @@
          * @covers Brickoo\Http\Component\Query::toString
          * @covers Brickoo\Http\Component\Query::__toString
          */
-        public function testToString()
-        {
+        public function testToString() {
             $expectedQuery = 'param1=value1&param2=value2&param3=value3';
 
             $queryParameters = array

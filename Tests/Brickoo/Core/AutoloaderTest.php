@@ -41,8 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class AutoloaderTest extends PHPUnit_Framework_TestCase
-    {
+    class AutoloaderTest extends PHPUnit_Framework_TestCase {
 
         /**
          * Holds the Autoloader  object.
@@ -53,8 +52,7 @@
         /**
          * Set up the Autoloader object used.
          */
-        public function setUp()
-        {
+        public function setUp() {
             $this->Autoloader = new Autoloader();
         }
 
@@ -62,8 +60,7 @@
          * Test if the class can be created.
          * @covers Brickoo\Core\Autoloader::__construct
          */
-        public function testAutoloaderConstructor()
-        {
+        public function testAutoloaderConstructor() {
             $this->assertInstanceOf
             (
                 '\Brickoo\Core\Autoloader',
@@ -75,8 +72,7 @@
          * Test if a namespace with its path can be registered.
          * @covers Brickoo\Core\Autoloader::registerNamespace
          */
-        public function testRegisterNamespace()
-        {
+        public function testRegisterNamespace() {
             $this->assertSame
             (
                 $this->Autoloader,
@@ -89,8 +85,7 @@
          * @covers Brickoo\Core\Autoloader::registerNamespace
          * @expectedException InvalidArgumentException
          */
-        public function testRegisterNamespaceArgumentException()
-        {
+        public function testRegisterNamespaceArgumentException() {
             $this->Autoloader->registerNamespace(array('wrongType'), null);
         }
 
@@ -100,8 +95,7 @@
          * @covers Brickoo\Core\Exceptions\DirectoryDoesNotExistException
          * @expectedException Brickoo\Core\Exceptions\DirectoryDoesNotExistException
          */
-        public function testRegisterNamespaceDirectoryException()
-        {
+        public function testRegisterNamespaceDirectoryException() {
             $this->Autoloader->registerNamespace('brickoo', 'path/does/not/exist');
         }
 
@@ -111,8 +105,7 @@
          * @covers Brickoo\Core\Exceptions\DuplicateNamespaceRegistrationException
          * @expectedException Brickoo\Core\Exceptions\DuplicateNamespaceRegistrationException
          */
-        public function testDuplicateNamespaceRegistrationException()
-        {
+        public function testDuplicateNamespaceRegistrationException() {
             $this->Autoloader->registerNamespace('TestNamespace', dirname(__FILE__));
             $this->Autoloader->registerNamespace('TestNamespace', dirname(__FILE__));
         }
@@ -121,8 +114,7 @@
          * Test if a namespace with its path has been unregistered.
          * @covers Brickoo\Core\Autoloader::unregisterNamespace
          */
-        public function testUnregisterNamespace()
-        {
+        public function testUnregisterNamespace() {
             $this->Autoloader->registerNamespace('TestNamespace', dirname(__FILE__));
             $this->assertSame($this->Autoloader, $this->Autoloader->unregisterNamespace('TestNamespace'));
         }
@@ -133,8 +125,7 @@
          * @covers Brickoo\Core\Exceptions\NamespaceNotRegisteredException
          * @expectedException Brickoo\Core\Exceptions\NamespaceNotRegisteredException
          */
-        public function testNamespaceNotRegisteredException()
-        {
+        public function testNamespaceNotRegisteredException() {
             $this->Autoloader->unregisterNamespace('NotRegisteredNamespace');
         }
 
@@ -142,8 +133,7 @@
          * Test if a namespace is returned in the namespaces container.
          * @covers Brickoo\Core\Autoloader::getAvailableNamespaces
          */
-        public function testGetAvailableNamespaces()
-        {
+        public function testGetAvailableNamespaces() {
             $this->Autoloader->registerNamespace('TestNamespace', dirname(__FILE__));
             $this->assertContains('TESTNAMESPACE', $this->Autoloader->getAvailableNamespaces());
         }
@@ -152,8 +142,7 @@
          * Test if a namespace can be registered.
          * @covers Brickoo\Core\Autoloader::isNamespaceRegistered
          */
-        public function testIsNamespaceRegistered()
-        {
+        public function testIsNamespaceRegistered() {
             $this->Autoloader->registerNamespace('TestNamespace', dirname(__FILE__));
             $this->assertTrue($this->Autoloader->isNamespaceRegistered('testnamespace'));
         }
@@ -162,8 +151,7 @@
          * Test if a not registred namespace fails.
          * @covers Brickoo\Core\Autoloader::isNamespaceRegistered
          */
-        public function testIsNamespaceRegisteredFails()
-        {
+        public function testIsNamespaceRegisteredFails() {
             $this->assertFalse($this->Autoloader->isNamespaceRegistered('fail'));
         }
 
@@ -171,8 +159,7 @@
          * @covers Brickoo\Core\Autoloader::isNamespaceRegistered
          * @expectedException InvalidArgumentException
          */
-        public function testIsNamespaceRegisteredArgumentException()
-        {
+        public function testIsNamespaceRegisteredArgumentException() {
             $this->assertFalse($this->Autoloader->isNamespaceRegistered(' '));
         }
 
@@ -180,8 +167,7 @@
          * Test if the namespace path is returned by its namespace and class name.
          * @covers Brickoo\Core\Autoloader::getAbsolutePath
          */
-        public function testGetAbsolutePath()
-        {
+        public function testGetAbsolutePath() {
             $this->Autoloader->registerNamespace('TestNamespace', dirname(__FILE__));
             $class = 'testnamespacepath\to\the\Class';
             $this->assertEquals
@@ -195,8 +181,7 @@
          * Test if an not registered namespace path fails by retrieving the absolute path..
          * @covers Brickoo\Core\Autoloader::getAbsolutePath
          */
-        public function testGetAbsolutePathFails()
-        {
+        public function testGetAbsolutePathFails() {
             $this->assertFalse($this->Autoloader->getAbsolutePath('\namespace\is\not\registered'));
         }
 
@@ -204,8 +189,7 @@
          * @covers Brickoo\Core\Autoloader::getAbsolutePath
          * @expectedException InvalidArgumentException
          */
-        public function testGetAbsolutePathArgumentException()
-        {
+        public function testGetAbsolutePathArgumentException() {
             $this->Autoloader->getAbsolutePath(null);
         }
 
@@ -213,8 +197,7 @@
          * Test if the include path can be retrieved for a registered namespace.
          * @covers Brickoo\Core\Autoloader::getIncludePath
          */
-        public function testGetIncludePath()
-        {
+        public function testGetIncludePath() {
             $this->Autoloader->registerNamespace('CompanyA', dirname(__FILE__));
             $this->assertEquals(dirname(__FILE__), $this->Autoloader->getIncludePath('CompanyA\Class'));
         }
@@ -224,8 +207,7 @@
          * @covers Brickoo\Core\Autoloader::getIncludePath
          * @expectedException InvalidArgumentException
          */
-        public function testGetIncludePathArgumentException()
-        {
+        public function testGetIncludePathArgumentException() {
             $this->Autoloader->getIncludePath(array('wrongType'));
         }
 
@@ -234,8 +216,7 @@
          * and register it after the test again for further tests.
          * @covers Brickoo\Core\Autoloader::loadClass
          */
-        public function testLoadClass()
-        {
+        public function testLoadClass() {
             $this->Autoloader->registerNamespace('assets', dirname(__FILE__));
             $this->assertTrue($this->Autoloader->loadClass('assets\LoadableClass'));
         }
@@ -244,8 +225,7 @@
          * Test if the a class can not be loaded if the namespace is unknowed.
          * @covers Brickoo\Core\Autoloader::loadClass
          */
-        public function testLoadClassFails()
-        {
+        public function testLoadClassFails() {
             $this->assertFalse($this->Autoloader->loadClass('Namespace\not\registred'));
         }
 
@@ -254,8 +234,7 @@
          * @covers Brickoo\Core\Exceptions\AutoloadFileDoesNotExistException
          * @expectedException Brickoo\Core\Exceptions\AutoloadFileDoesNotExistException
          */
-        public function testAutoloadFileDoesNotExistException()
-        {
+        public function testAutoloadFileDoesNotExistException() {
             $this->Autoloader->registerNamespace('Brickoo', dirname(__FILE__));
             $this->Autoloader->loadClass('Brickoo\Memory\DoesNotExist');
         }
@@ -264,8 +243,7 @@
          * Test if the autoloader is can be registred.
          * @covers Brickoo\Core\Autoloader::register
          */
-        public function testRegisterAutoloader()
-        {
+        public function testRegisterAutoloader() {
             $this->assertSame($this->Autoloader, $this->Autoloader->register());
         }
 
@@ -275,8 +253,7 @@
          * @covers Brickoo\Core\Exceptions\DuplicateAutoloaderRegistrationException
          * @expectedException Brickoo\Core\Exceptions\DuplicateAutoloaderRegistrationException
          */
-        public function testDuplicateAutoloaderRegistrationException()
-        {
+        public function testDuplicateAutoloaderRegistrationException() {
             $this->Autoloader->register();
             $this->Autoloader->register();
         }
@@ -285,8 +262,7 @@
          * Test if the autoloader can be unregistered.
          * @covers Brickoo\Core\Autoloader::unregister
          */
-        public function testUnregister()
-        {
+        public function testUnregister() {
             $this->Autoloader->register();
             $this->assertSame($this->Autoloader, $this->Autoloader->unregister());
         }
@@ -298,8 +274,7 @@
          * @covers Brickoo\Core\Exceptions\AutoloaderNotRegisteredExeption
          * @expectedException Brickoo\Core\Exceptions\AutoloaderNotRegisteredExeption
          */
-        public function testAutoloaderNotRegisteredExeption()
-        {
+        public function testAutoloaderNotRegisteredExeption() {
             $this->Autoloader->unregister();
         }
 

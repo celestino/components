@@ -42,8 +42,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Url implements Interfaces\UrlInterface
-    {
+    class Url implements Interfaces\UrlInterface {
 
         /**
          * Holds the class dependencies.
@@ -59,8 +58,7 @@
          * @param object $Dependency the dependecy to inject
          * @return object Url if overwritten otherwise the dependency
          */
-        protected function getDependency($name, $interface, $callback, $Dependency = null)
-        {
+        protected function getDependency($name, $interface, $callback, $Dependency = null) {
             if ($Dependency instanceof $interface) {
                 $this->dependencies[$name] = $Dependency;
                 return $this;
@@ -76,8 +74,7 @@
          * @param \Brickoo\Http\Interfaces\RequestInterface $Request the Http\Request instance
          * @return \Brickoo\Http\Interfaces\RequestInterface
          */
-        public function Request(\Brickoo\Http\Interfaces\RequestInterface $Request = null)
-        {
+        public function Request(\Brickoo\Http\Interfaces\RequestInterface $Request = null) {
             return $this->getDependency(
                 'Request',
                 '\Brickoo\Http\Interfaces\RequestInterface',
@@ -97,8 +94,7 @@
          * @throws \UnexpectedValueException if the the scheme is not set
          * @return string the url scheme
          */
-        public function getScheme()
-        {
+        public function getScheme() {
             if ($this->scheme === null) {
                 throw new \UnexpectedValueException('The scheme is not set.');
             }
@@ -111,8 +107,7 @@
          * @param string $scheme the url scheme to set
          * @return \Brickoo\Http\Component\Url
          */
-        public function setScheme($scheme)
-        {
+        public function setScheme($scheme) {
             TypeValidator::IsString($scheme);
 
             $this->scheme = $scheme;
@@ -131,8 +126,7 @@
          * @throws \UnexpectedValueException if the host is not set
          * @return string
          */
-        public function getHost()
-        {
+        public function getHost() {
             if ($this->host === null) {
                 throw new \UnexpectedValueException('The host is not set.');
             }
@@ -145,8 +139,7 @@
          * @param string $host the host to set
          * @return \Brickoo\Http\Component\Url
          */
-        public function setHost($host)
-        {
+        public function setHost($host) {
             TypeValidator::IsString($host);
 
             $this->host = $host;
@@ -164,8 +157,7 @@
          * Returns the port handling request.
          * @return string the url included port or null if not set
          */
-        public function getPort()
-        {
+        public function getPort() {
             return $this->port;
         }
 
@@ -174,8 +166,7 @@
          * @param string|integer $port the url port
          * @return \Brickoo\Http\Component\Url
          */
-        public function setPort($port)
-        {
+        public function setPort($port) {
             TypeValidator::IsStringOrInteger($port);
 
             $this->port = (int)$port;
@@ -193,8 +184,7 @@
          * Returns the url query string.
          * @return string the url query string or null if not set
          */
-        public function getQuery()
-        {
+        public function getQuery() {
             return $this->query;
         }
 
@@ -203,8 +193,7 @@
          * @param string $query the query string to set
          * @return \Brickoo\Http\Component\Url
          */
-        public function setQuery($query)
-        {
+        public function setQuery($query) {
             TypeValidator::IsString($query);
 
             $this->query = $query;
@@ -223,8 +212,7 @@
          * @throws \UnexpectedException if the path is not set
          * @return string the url path
          */
-        public function getPath()
-        {
+        public function getPath() {
             if ($this->path === null) {
                 throw new \UnexpectedValueException('The path is not set.');
             }
@@ -237,8 +225,7 @@
          * @param string $path the url path to set
          * @return \Brickoo\Http\Component\Url
          */
-        public function setPath($path)
-        {
+        public function setPath($path) {
             TypeValidator::IsString($path);
 
             $this->path = '/' . trim($path, '/');
@@ -256,8 +243,7 @@
          * Returns the url format.
          * @return string the request format or null if not set
          */
-        public function getFormat()
-        {
+        public function getFormat() {
             return $this->format;
         }
 
@@ -266,8 +252,7 @@
          * @param string $format the request format
          * @return \Brickoo\Http\Component\Url
          */
-        public function setFormat($format)
-        {
+        public function setFormat($format) {
             TypeValidator::IsString($format);
 
             $this->format = $format;
@@ -280,8 +265,7 @@
          * @param string $url the url to import from
          * @return \Brickoo\Http\Component\Url
          */
-        public function importFromString($url)
-        {
+        public function importFromString($url) {
             TypeValidator::IsString($url);
 
             if (! preg_match('~^[^:/?#]+://[^/?#]+(\?[^#]*)?(#.*)?~', $url)) {
@@ -316,8 +300,7 @@
          * Imports the request configuration.
          * @return \Brickoo\Http\Component\Url
          */
-        public function importFromGlobals()
-        {
+        public function importFromGlobals() {
             $this->scheme      = 'http' . ($this->Request()->isSecureConnection() ? 's' : '');
             $this->host        = $this->getRequestHost();
             $this->port        = $this->getRequestPort();
@@ -332,8 +315,7 @@
          * Returns the request available host name or adress.
          * @return string the request host
          */
-        public function getRequestHost()
-        {
+        public function getRequestHost() {
             if ((! $host =  $this->Request()->Headers()->get('Host')) && (! $host = $this->Request()->getServerVar('SERVER_NAME'))) {
                 $host = $this->Request()->getServerVar('SERVER_ADDR');
             }
@@ -345,8 +327,7 @@
          * Returns the request request port.
          * @return integer the request port
          */
-        public function getRequestPort()
-        {
+        public function getRequestPort() {
             if (! $port = $this->Request()->Headers()->get('X-Forwarded-Port')) {
                 $port = $this->Request()->getServerVar('SERVER_PORT');
             }
@@ -358,8 +339,7 @@
          * Returns the request request query string or one build from the $_GET paramater.
          * @return the request query string
          */
-        public function getRequestQuery()
-        {
+        public function getRequestQuery() {
             if (! $queryString = $this->Request()->getServerVar('QUERY_STRING')) {
                 $queryArray = array();
                 foreach ($_GET as $key => $value) {
@@ -375,8 +355,7 @@
          * Returns the request path.
          * @return string the request request path
          */
-        public function getRequestPath()
-        {
+        public function getRequestPath() {
             if (! $requestPath = $this->getIISRequestUrl()) {
                 $requestPath = $this->Request()->getServerVar('REQUEST_URI');
             }
@@ -392,8 +371,7 @@
          * Returns the request format.
          * @return string the request format
          */
-        public function getRequestFormat()
-        {
+        public function getRequestFormat() {
             $requestFormat = null;
 
             if (($path = $this->getPath()) && ($position = strpos($path, '.'))) {
@@ -407,8 +385,7 @@
          * Returns the IIS request url assigned if available.
          * @return string the request url
          */
-        public function getIISRequestUrl()
-        {
+        public function getIISRequestUrl() {
             if (! $requestPath = $this->Request()->Headers()->get('X-Original-Url')) {
                 $requestPath = $this->Request()->Headers()->get('X-Rewrite-Url');
             }
@@ -421,8 +398,7 @@
          * @param boolean $withHost flag to include the host
          * @return string the full url
          */
-        public function toString($withHost = true)
-        {
+        public function toString($withHost = true) {
             TypeValidator::IsBoolean($withHost);
 
             $host = '';
@@ -440,8 +416,7 @@
          * Supporting casting to string.
          * @return string the collected headers
          */
-        public function __toString()
-        {
+        public function __toString() {
             return $this->toString();
         }
 

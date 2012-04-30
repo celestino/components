@@ -150,6 +150,16 @@
         }
 
         /**
+         * Test if trying to retrieve the unset Route throws an exception.
+         * @covers \Brickoo\Core\Exceptions\DependencyNotAvailableException
+         * @expectedException \Brickoo\Core\Exceptions\DependencyNotAvailableException
+         */
+        public function testRouteLazyException()
+        {
+            $this->Application->Route();
+        }
+
+        /**
          * Test if the SessionManager can be lazy initialized and retrieved.
          * @covers Brickoo\Core\Application::SessionManager
          * @covers Brickoo\Core\Application::getDependency
@@ -343,6 +353,7 @@
         /**
          * Test if trying to retrieve a not existing path throws an exception.
          * @covers Brickoo\Core\Application::getModulePath
+         * @covers Brickoo\Core\Exceptions\ModuleNotAvailableException
          * @expectedException Brickoo\Core\Exceptions\ModuleNotAvailableException
          */
         public function testModuleNotAvailableException()
@@ -511,15 +522,90 @@
         }
 
         /**
+         * Test if the application can be run with the proper configuration.
+         * @covers Brickoo\Core\Events
          * @covers Brickoo\Core\Application::run
-         * @todo Implement testRun().
+         * @covers Brickoo\Core\Application::bootRouter
+         * @covers Brickoo\Core\Application::startSession
+         * @covers Brickoo\Core\Application::stopSession
+         * @covers Brickoo\Core\Application::askForResponse
+         * @covers Brickoo\Core\Application::notifyResponseCache
          */
-        public function testRun()
+        public function TODOtestRunWithResponse()
         {
-            // Remove the following lines when you implement this test.
-            $this->markTestIncomplete(
-              'This test has not been implemented yet.'
+            $modules = array('moduleTest' => '/some/location'.DIRECTORY_SEPARATOR);
+
+            $EventManager = $this->getMock('Brickoo\Event\Manager');
+
+            $Response = $this->getMock('Brickoo\Http\Response');
+            $Listener = function($Event) use($Response) {return $Response;};
+            $listenerUID = $EventManager->attachListener(\Brickoo\Core\Events::EVENT_RESPONSE_GET, $Listener);
+
+            $MainApplication = $this->getMock('Brickoo\Http\Application', array('aggregateListeners'));
+            $MainApplication->expects($this->once())
+                            ->method('aggregateListeners')
+                            ->with($this->equalTo($EventManager));
+                            // ->with($this->isInstanceOf('Brickoo\Event\Interfaces\ManagerInterface'));
+
+            $SessionManager = $this->getMock(
+                'Brickoo\Http\Session\Manager',
+                array('hasSessionStarted', 'start', 'stop'),
+                array(new \Brickoo\Http\Session\Handler\CacheHandler())
             );
+            $SessionManager->expects($this->exactly(2))
+                           ->method('hasSessionStarted')
+                           ->will($this->onConsecutiveCalls(false, true));
+            $SessionManager->expects($this->once())
+                           ->method('start')
+                           ->will($this->returnValue($SessionManager));
+            $SessionManager->expects($this->once())
+                           ->method('start')
+                           ->will($this->returnValue($SessionManager));
+
+            $Route = $this->getMock(
+                'Brickoo\Routing\Route',
+                array('isSessionRequired', 'isCacheable'),
+                array('testRoute')
+            );
+            $Route->expects($this->any())
+                  ->method('isSessionRequired')
+                  ->will($this->returnValue(true));
+            $Route->expects($this->any())
+                  ->method('isCacheable')
+                  ->will($this->returnValue(true));
+
+            $RequestRoute = $this->getMock(
+                '\Brickoo\Routing\RequestRoute',
+                array('getModuleRoute'),
+                array($Route)
+            );
+            $RequestRoute->expects($this->any())
+                         ->method('getModuleRoute')
+                         ->will($this->returnValue($Route));
+
+            $Router = $this->getMock(
+                '\Brickoo\Routing\Router',
+                array('hasModules', 'setModules', 'getRequestRoute'),
+                array(new \Brickoo\Http\Request())
+            );
+            $Router->expects($this->once())
+                   ->method('hasModules')
+                   ->will($this->returnValue(false));
+            $Router->expects($this->once())
+                   ->method('setModules')
+                   ->with($modules);
+            $Router->expects($this->once())
+                   ->method('getRequestRoute')
+                   ->will($this->returnValue($RequestRoute));
+
+            $this->Application->registerModules($modules);
+            $this->Application->EventManager($EventManager)
+                              ->SessionManager($SessionManager)
+                              ->Router($Router);
+
+            $this->assertSame($this->Application, $this->Application->run($MainApplication));
+            $this->assertSame($RequestRoute, $this->Application->Route());
+            $this->assertSame($EventManager, $EventManager->detachListener($listenerUID));
         }
 
     }

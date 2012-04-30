@@ -44,8 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class EventTest extends PHPUnit_Framework_TestCase
-    {
+    class EventTest extends PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance of the Event class.
@@ -57,8 +56,7 @@
          * Sets up the used Event instance.
          * @return void
          */
-        protected function setUp()
-        {
+        protected function setUp() {
             $this->Event = new Event('test', new stdClass(), array('key' => 'value'));
         }
 
@@ -67,8 +65,7 @@
          * Test if the constructor arguments are properly assigned.
          * @covers Brickoo\Event\Event::__construct
          */
-        public function testConstruct()
-        {
+        public function testConstruct() {
             $Event = new Event('unittest', ($obj = new stdClass()), array('key' => 'value'));
             $this->assertInstanceOf('Brickoo\Event\Event', $Event);
             $this->assertAttributeEquals('unittest', 'name', $Event);
@@ -81,8 +78,7 @@
          * @covers Brickoo\Event\Event::EventManager
          * @covers Brickoo\Event\Event::getDependency
          */
-        public function testEventManagerLazyInitialization()
-        {
+        public function testEventManagerLazyInitialization() {
             $this->assertInstanceOf('Brickoo\Event\Interfaces\ManagerInterface', ($EM = $this->Event->EventManager()));
             $this->assertAttributeContains($EM, 'dependencies', $this->Event);
         }
@@ -92,8 +88,7 @@
          * @covers Brickoo\Event\Event::EventManager
          * @covers Brickoo\Event\Event::getDependency
          */
-        public function testEventManagerInjection()
-        {
+        public function testEventManagerInjection() {
             $EventManager = $this->getMock('Brickoo\Event\Manager');
             $this->assertSame($this->Event, $this->Event->EventManager($EventManager));
             $this->assertAttributeContains($EventManager, 'dependencies', $this->Event);
@@ -103,8 +98,7 @@
          * Test if the EventManager avaibility is recognized.
          * @covers Brickoo\Event\Event::hasEventManager
          */
-        public function testHasEventManager()
-        {
+        public function testHasEventManager() {
             $this->assertFalse($this->Event->hasEventManager());
             $this->Event->EventManager();
             $this->assertTrue($this->Event->hasEventManager());
@@ -115,8 +109,7 @@
          * @covers Brickoo\Event\Event::isStopped
          * @covers Brickoo\Event\Event::stop
          */
-        public function testStopRoutine()
-        {
+        public function testStopRoutine() {
             $this->assertAttributeEquals(false, 'stopped', $this->Event);
             $this->assertFalse($this->Event->isStopped());
             $this->assertSame($this->Event, $this->Event->stop());
@@ -128,8 +121,7 @@
          * Test if the vent name can be retrieved.
          * @covers Brickoo\Event\Event::getName
          */
-        public function testGetName()
-        {
+        public function testGetName() {
             $this->assertEquals('test', $this->Event->getName());
         }
 
@@ -139,8 +131,7 @@
          * @covers Brickoo\Event\Event::getParam
          * @covers Brickoo\Event\Event::hasParam
          */
-        public function testParamsRoutine()
-        {
+        public function testParamsRoutine() {
             $this->assertFalse($this->Event->hasParam('none'));
             $this->assertTrue($this->Event->hasParam('key'));
             $this->assertEquals(null, $this->Event->getParam('none'));
@@ -153,8 +144,7 @@
          * @covers Brickoo\Event\Event::getParam
          * @expectedException InvalidArgumentException
          */
-        public function testGetParamArgumentException()
-        {
+        public function testGetParamArgumentException() {
             $this->Event->getParam(array('wrongType'));
         }
 
@@ -163,8 +153,7 @@
          * @covers Brickoo\Event\Event::hasParam
          * @expectedException InvalidArgumentException
          */
-        public function testHasParamArgumentException()
-        {
+        public function testHasParamArgumentException() {
             $this->Event->hasParam(array('wrongType'));
         }
 
@@ -172,8 +161,7 @@
          * Test if the Sender can be retrieved.
          * @covers Brickoo\Event\Event::Sender
          */
-        public function testSender()
-        {
+        public function testSender() {
             $this->assertInstanceOf('stdClass', $this->Event->Sender());
         }
 

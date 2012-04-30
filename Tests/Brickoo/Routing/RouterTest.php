@@ -44,15 +44,13 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class RouterTest extends \PHPUnit_Framework_TestCase
-    {
+    class RouterTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Returns a Request stub .
          * @return \Brickoo\Core\Interfaces\DynamicInterface
          */
-        public function getRequestStub()
-        {
+        public function getRequestStub() {
             return $this->getMock
             (
                 'Brickoo\Core\Interfaces\RequestInterface',
@@ -64,8 +62,7 @@
         * Returns a RouteCollection stub.
         * @return \Brickoo\Routing\RouteCollection
         */
-        public function getRouteCollectionStub()
-        {
+        public function getRouteCollectionStub() {
             return $this->getMock(
                 'Brickoo\Routing\RouteCollection',
                 array('getRoutes', 'addRoutes', 'createRoute', 'hasRoutes', 'getRoute', 'hasRoute')
@@ -76,8 +73,7 @@
          * Returns an Aliases stub.
          * @return \Brickoo\Memory\Interfaces\ContainerInterface
          */
-        public function getAliasesStub()
-        {
+        public function getAliasesStub() {
             return $this->getMock(
                 'Brickoo\Memory\Container',
                 array('valid', 'key', 'current', 'next', 'rewind', 'isEmpty')
@@ -88,8 +84,7 @@
         * Returns a Route stub .
         * @return \Brickoo\Routing\Interfaces\RouteInterface
         */
-        public function getRouteStub()
-        {
+        public function getRouteStub() {
             return $this->getMock('Brickoo\Routing\Interfaces\RouteInterface');
         }
 
@@ -97,8 +92,7 @@
         * Returns an EventManager stub .
         * @return \Brickoo\Event\Manager
         */
-        public function getEventManagerStub()
-        {
+        public function getEventManagerStub() {
             return $this->getMock('Brickoo\Event\Manager', array('notify', 'ask'));
         }
 
@@ -112,8 +106,7 @@
          * Sets up the Router instance used for testing.
          * @return void
          */
-        protected function setUp()
-        {
+        protected function setUp() {
             $this->Router = new Router($this->getRequestStub());
         }
 
@@ -122,8 +115,7 @@
          * @covers Brickoo\Routing\Router::__construct
          * @covers Brickoo\Routing\Events
          */
-        public function testConstruct()
-        {
+        public function testConstruct() {
             $this->assertInstanceOf('Brickoo\Routing\Interfaces\RouterInterface', $this->Router);
         }
 
@@ -131,8 +123,7 @@
          * Test if the Alias dependency can be injected and the Router reference is returned.
          * @covers Brickoo\Routing\Router::Aliases
          */
-        public function testInjectAliases()
-        {
+        public function testInjectAliases() {
             $Aliases = $this->getAliasesStub();
             $this->assertSame($this->Router, $this->Router->Aliases($Aliases));
             $this->assertAttributeContains($Aliases, 'dependencies', $this->Router);
@@ -143,8 +134,7 @@
          * Test if the Aliases can be lazy initialized.
          * @covers Brickoo\Routing\Router::Aliases
          */
-        public function testAliasesLazyInitialization()
-        {
+        public function testAliasesLazyInitialization() {
             $this->assertInstanceOf(
                 'Brickoo\Memory\Container',
                 ($Aliases = $this->Router->Aliases())
@@ -158,8 +148,7 @@
          * Test if the EventManager dependency can be injected and the Router reference is returned.
          * @covers Brickoo\Routing\Router::EventManager
          */
-        public function testInjectEventManager()
-        {
+        public function testInjectEventManager() {
             $EventManager = $this->getEventManagerStub();
             $this->assertSame($this->Router, $this->Router->EventManager($EventManager));
             $this->assertAttributeContains($EventManager, 'dependencies', $this->Router);
@@ -170,8 +159,7 @@
          * Test if the EventManager can be lazy initialized.
          * @covers Brickoo\Routing\Router::EventManager
          */
-        public function testEventManagerLazyInitialization()
-        {
+        public function testEventManagerLazyInitialization() {
             $this->assertInstanceOf(
                 'Brickoo\Event\Interfaces\ManagerInterface',
                 ($EventManager = $this->Router->EventManager())
@@ -185,8 +173,7 @@
          * Test if the RouteFinder dependency can be injected and the Router reference is returned.
          * @covers Brickoo\Routing\Router::RouteFinder
          */
-        public function testInjectRouteFinder()
-        {
+        public function testInjectRouteFinder() {
             $RouteFinder = new \Brickoo\Routing\RouteFinder(
                 new \Brickoo\Routing\RouteCollection(),
                 new \Brickoo\Http\Request(),
@@ -201,8 +188,7 @@
          * Test if the RouteFinder can be lazy initialized.
          * @covers Brickoo\Routing\Router::RouteFinder
          */
-        public function testRouteFinderLazyInitialization()
-        {
+        public function testRouteFinderLazyInitialization() {
             $this->assertInstanceOf(
                 'Brickoo\Routing\Interfaces\RouteFinderInterface',
                 ($RouteFinder = $this->Router->RouteFinder())
@@ -218,8 +204,7 @@
          * @covers Brickoo\Routing\Router::setModules
          * @covers Brickoo\Routing\Router::getModules
          */
-        public function testGetSetModules()
-        {
+        public function testGetSetModules() {
             $modules = array('Module' => '\Module\path');
             $this->assertSame($this->Router, $this->Router->setModules($modules));
             $this->assertAttributeEquals($modules, 'modules', $this->Router);
@@ -232,8 +217,7 @@
          * Test if the available modules are recognized.
          * @covers Brickoo\Routing\Router::hasModules
          */
-        public function testHasModules()
-        {
+        public function testHasModules() {
             $this->assertFalse($this->Router->hasModules());
             $modules = array('Module' => '\Module\path');
             $this->assertSame($this->Router, $this->Router->setModules($modules));
@@ -247,8 +231,7 @@
          * @expectedException Brickoo\Core\Exceptions\ValueOverwriteException
          * @depends testGetSetModules
          */
-        public function testSetModulesValueOverwriteException($Router)
-        {
+        public function testSetModulesValueOverwriteException($Router) {
             $Router->setModules(array('NewModule', '\NewModule\path'));
         }
 
@@ -258,8 +241,7 @@
          * @covers Brickoo\Routing\Router::getRoutesFilename
          * @covers Brickoo\Routing\Router::setRoutesFilename
          */
-        public function testGetSetRoutesFilename()
-        {
+        public function testGetSetRoutesFilename() {
             $this->assertSame($this->Router, $this->Router->setRoutesFilename('routing.php'));
             $this->assertAttributeEquals('routing.php', 'routesFilename', $this->Router);
             $this->assertEquals('routing.php', $this->Router->getRoutesFilename());
@@ -269,8 +251,7 @@
          * Test if the Request instance can be retrieved.
          * @covers Brickoo\Routing\Router::getRequest
          */
-        public function testGetRequest()
-        {
+        public function testGetRequest() {
             $RequestStub = $this->getRequestStub();
             $Router = new Router($RequestStub);
             $this->assertSame($RequestStub, $Router->getRequest());
@@ -282,8 +263,7 @@
          * @covers Brickoo\Routing\Router::RouteCollection
          * @covers Brickoo\Routing\Router::getDependency
          */
-        public function testInjectRouteCollection()
-        {
+        public function testInjectRouteCollection() {
             $RouteCollection = $this->getRouteCollectionStub();
             $this->assertSame($this->Router, $this->Router->RouteCollection($RouteCollection));
             $this->assertAttributeContains($RouteCollection, 'dependencies', $this->Router);
@@ -294,8 +274,7 @@
          * @covers Brickoo\Routing\Router::RouteCollection
          * @covers Brickoo\Routing\Router::getDependency
          */
-        public function testGetRouteCollection()
-        {
+        public function testGetRouteCollection() {
             $this->assertInstanceOf
             (
                 'Brickoo\Routing\Interfaces\RouteCollectionInterface',
@@ -309,8 +288,7 @@
          * @covers Brickoo\Routing\Router::RouteCollection
          * @covers Brickoo\Routing\Router::getDependency
          */
-        public function testLazyGetRouteCollection()
-        {
+        public function testLazyGetRouteCollection() {
             $this->assertInstanceOf
             (
                 'Brickoo\Routing\Interfaces\RouteCollectionInterface',
@@ -322,8 +300,7 @@
          * Test if the request route can be set and the Router reference is returned.
          * @covers Brickoo\Routing\Router::setRequestRoute
          */
-        public function testSetRequestRoute()
-        {
+        public function testSetRequestRoute() {
             $RequestRoute = $this->getMock('Brickoo\Routing\Interfaces\RequestRouteInterface');
             $this->assertSame($this->Router, $this->Router->setRequestRoute($RequestRoute));
             $this->assertAttributeInstanceOf(
@@ -341,8 +318,7 @@
          * @covers Brickoo\Core\Exceptions\ValueOverwriteException::__construct
          * @expectedException Brickoo\Core\Exceptions\ValueOverwriteException
          */
-        public function testSetRequestRouteOverwriteException()
-        {
+        public function testSetRequestRouteOverwriteException() {
             $RequestRoute = $this->getMock('Brickoo\Routing\Interfaces\RequestRouteInterface');
             $this->Router->setRequestRoute($RequestRoute);
             $this->Router->setRequestRoute($RequestRoute);
@@ -352,8 +328,7 @@
          * Test if the availability of the RequestRoute is recognized.
          * @covers Brickoo\Routing\Router::hasRequestRoute
          */
-        public function testHasRequestRoute()
-        {
+        public function testHasRequestRoute() {
             $this->assertFalse($this->Router->hasRequestRoute());
 
             $RequestRoute = $this->getMock('Brickoo\Routing\Interfaces\RequestRouteInterface');
@@ -366,8 +341,7 @@
          * Test if the request route is returned when it is already recognized.
          * @covers Brickoo\Routing\Router::getRequestRoute
          */
-        public function testGetRequestRoutePreset()
-        {
+        public function testGetRequestRoutePreset() {
             $RequestRoute = $this->getMock('Brickoo\Routing\Interfaces\RequestRouteInterface');
             $this->Router->setRequestRoute($RequestRoute);
 
@@ -378,8 +352,7 @@
          * Test if the route can be retrived using the routes.load event.
          * @covers Brickoo\Routing\Router::getRequestRoute
          */
-        public function testGetRequestRoute()
-        {
+        public function testGetRequestRoute() {
             $RouteStub = $this->getRouteStub();
 
             $RouteCollectionStub = $this->getRouteCollectionStub();
@@ -414,8 +387,7 @@
          * @covers Brickoo\Routing\Router::getRequestRoute
          * @expectedException \Brickoo\Routing\Exceptions\RequestHasNoRouteException
          */
-        public function testGetRequestRouteException()
-        {
+        public function testGetRequestRouteException() {
             $this->Router->getRequestRoute();
         }
 
@@ -423,8 +395,7 @@
          * Test if the modules would be loaded with an event.
          * @covers Brickoo\Routing\Router::loadModulesRoutes
          */
-        public function testLoadModulesRoutes()
-        {
+        public function testLoadModulesRoutes() {
             $RouteCollection = $this->getRouteCollectionStub();
 
             $EventManager = $this->getEventManagerStub();
@@ -441,8 +412,7 @@
          * Test if the collection would be loaded from filesystem.
          * @covers Brickoo\Routing\Router::loadModulesRoutes
          */
-        public function testLoadModulesRoutesByCollection()
-        {
+        public function testLoadModulesRoutesByCollection() {
             $expectedController = array(
                 'controller'    => '\module\lib\Controller',
                 'method'        => 'method',
@@ -462,8 +432,7 @@
          * Test if the event manager is called to notify the event.
          * @covers Brickoo\Routing\Router::saveModulesRoutes
          */
-        public function testSaveModulesRoutes()
-        {
+        public function testSaveModulesRoutes() {
             $EventManager = $this->getEventManagerStub();
             $EventManager->expects($this->once())
                          ->method('notify')
@@ -477,8 +446,7 @@
          * Test if routes can be collected from the modules available.
          * @covers Brickoo\Routing\Router::collectModulesRoutes
          */
-        public function testCollectModulesRoutes()
-        {
+        public function testCollectModulesRoutes() {
             $expectedController = array(
                 'controller'    => '\module\lib\Controller',
                 'method'        => 'method',

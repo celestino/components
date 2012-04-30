@@ -43,8 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class RouteTest extends PHPUnit_Framework_TestCase
-    {
+    class RouteTest extends PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance of the Route class.
@@ -56,8 +55,7 @@
          * Sets the Route instance used.
          * @return void
          */
-        protected function setUp()
-        {
+        protected function setUp() {
             $this->Route = new Route('test');
         }
 
@@ -65,8 +63,7 @@
          * Test if the Route instance is implemnting the ROuteInterface.
          * @covers Brickoo\Routing\Route::__construct
          */
-        public function testConstruct()
-        {
+        public function testConstruct() {
             $Route = new Route('testConstructor');
             $this->assertInstanceof('Brickoo\Routing\Interfaces\RouteInterface', $Route);
             $this->assertAttributeEquals('testConstructor', 'name', $Route);
@@ -76,8 +73,7 @@
          * Test if the route name can be retrieved.
          * @covers Brickoo\Routing\Route::getName
          */
-        public function testGetName()
-        {
+        public function testGetName() {
             $this->assertEquals('test', $this->Route->getName());
         }
 
@@ -85,8 +81,7 @@
         * Test if the path can be set and the Route reference is returned.
         * @covers Brickoo\Routing\Route::setPath
         */
-        public function testSetPath()
-        {
+        public function testSetPath() {
             $this->assertSame($this->Route, $this->Route->setPath('/path/to/resource'));
             $this->assertAttributeEquals('/path/to/resource', 'path', $this->Route);
 
@@ -98,8 +93,7 @@
          * @covers Brickoo\Routing\Route::setPath
          * @expectedException InvalidArgumentException
          */
-        public function testSetPathArgumentException()
-        {
+        public function testSetPathArgumentException() {
             $this->Route->setPath(array('wrongType'));
         }
 
@@ -108,8 +102,7 @@
          * @covers Brickoo\Routing\Route::getPath
          * @depends testSetPath
          */
-        public function testGetPath($Route)
-        {
+        public function testGetPath($Route) {
             $this->assertEquals('/path/to/resource', $Route->getPath());
         }
 
@@ -118,8 +111,7 @@
          * @covers Brickoo\Routing\Route::getPath
          * @expectedException UnexpectedValueException
          */
-        public function testGetPathValueException()
-        {
+        public function testGetPathValueException() {
             $this->Route->getPath();
         }
 
@@ -129,8 +121,7 @@
          * @covers Brickoo\Routing\Route::setController
          * @covers Brickoo\Routing\Route::getController
          */
-        public function testGetSetController()
-        {
+        public function testGetSetController() {
             $expectedController = array(
                 'controller'    => '\namespace\controller',
                 'method'        => 'test',
@@ -146,8 +137,7 @@
          * @covers Brickoo\Routing\Route::setController
          * @expectedException InvalidArgumentException
          */
-        public function testSetControllerArgumentException()
-        {
+        public function testSetControllerArgumentException() {
             $this->Route->setController(array('wrongType'), 'method');
         }
 
@@ -156,8 +146,7 @@
          * @covers Brickoo\Routing\Route::getController
          * @expectedException UnexpectedValueException
          */
-        public function testGetControllerValueException()
-        {
+        public function testGetControllerValueException() {
             $this->Route->getController();
         }
 
@@ -165,8 +154,7 @@
          * Test if the method can be set and the Route reference is returned.
          * @covers Brickoo\Routing\Route::setMethod
          */
-        public function testSetMethod()
-        {
+        public function testSetMethod() {
             $this->assertSame($this->Route, $this->Route->setMethod('POST'));
             $this->assertAttributeEquals('POST', 'method', $this->Route);
 
@@ -178,8 +166,7 @@
          * @covers Brickoo\Routing\Route::setMethod
          * @expectedException InvalidArgumentException
          */
-        public function testSetMethodArgumentException()
-        {
+        public function testSetMethodArgumentException() {
             $this->Route->setMethod(array('wrongType'));
         }
 
@@ -188,8 +175,7 @@
          * @covers Brickoo\Routing\Route::getMethod
          * @depends testSetMethod
          */
-        public function testGetMethod($Route)
-        {
+        public function testGetMethod($Route) {
             $this->assertEquals('POST', $Route->getMethod());
         }
 
@@ -197,8 +183,7 @@
          * Test if the hostname can be set and the Route reference is returned.
          * @covers Brickoo\Routing\Route::setHostname
          */
-        public function testSetHostname()
-        {
+        public function testSetHostname() {
             $this->assertSame($this->Route, $this->Route->setHostname('domain.com'));
             $this->assertAttributeEquals('domain.com', 'hostname', $this->Route);
 
@@ -210,8 +195,7 @@
          * @covers Brickoo\Routing\Route::setHostname
          * @expectedException InvalidArgumentException
          */
-        public function testSetHostnameArgumentException()
-        {
+        public function testSetHostnameArgumentException() {
             $this->Route->setHostname(array('wrongType'));
         }
 
@@ -220,8 +204,7 @@
          * @covers Brickoo\Routing\Route::getHostname
          * @depends testSetHostname
          */
-        public function testGetHostname($Route)
-        {
+        public function testGetHostname($Route) {
             $this->assertEquals('domain.com', $Route->getHostname());
         }
 
@@ -231,8 +214,7 @@
          * @covers Brickoo\Routing\Route::setFormat
          * @covers Brickoo\Routing\Route::getDefaultFormat
          */
-        public function testGetSetFormat()
-        {
+        public function testGetSetFormat() {
             $this->assertSame($this->Route, $this->Route->setFormat('json|xml', 'xml'));
             $this->assertAttributeEquals('json|xml', 'format', $this->Route);
             $this->assertAttributeEquals('xml', 'defaultFormat', $this->Route);
@@ -244,8 +226,7 @@
          * Test if the session can be enabled and the Route referende is returned.
          * @covers Brickoo\Routing\Route::requireSession
          */
-        public function testRequireSession()
-        {
+        public function testRequireSession() {
             $this->assertSame($this->Route, $this->Route->requireSession());
             $this->assertAttributeEquals(true, 'sessionRequired', $this->Route);
         }
@@ -254,8 +235,7 @@
          * Test if the status of the session can be retrieved.
          * @covers Brickoo\Routing\Route::isSessionRequired
          */
-        public function testisSessionRequired()
-        {
+        public function testisSessionRequired() {
             $this->assertFalse($this->Route->isSessionRequired());
             $this->Route->requireSession();
             $this->assertTrue($this->Route->isSessionRequired());
@@ -265,8 +245,7 @@
          * Test if the cache can be enabled and the Route reference is returned.
          * @covers Brickoo\Routing\Route::enableCache
          */
-        public function testEnableCache()
-        {
+        public function testEnableCache() {
             $this->assertSame($this->Route, $this->Route->enableCache());
             $this->assertAttributeEquals(true, 'cacheable', $this->Route);
         }
@@ -275,8 +254,7 @@
          * Test if the status of the cache can be retrieved.
          * @covers Brickoo\Routing\Route::isCacheable
          */
-        public function testIsCacheable()
-        {
+        public function testIsCacheable() {
             $this->assertFalse($this->Route->isCacheable());
             $this->Route->enableCache();
             $this->assertTrue($this->Route->isCacheable());
@@ -287,8 +265,7 @@
          * @covers Brickoo\Routing\Route::getMethod
          * @expectedException UnexpectedValueException
          */
-        public function testGetMethodValueException()
-        {
+        public function testGetMethodValueException() {
             $this->Route->getMethod();
         }
 
@@ -296,8 +273,7 @@
          * Test if a default value can be added and the  Route reference ist returned.
          * @covers Brickoo\Routing\Route::addDefaultValue
          */
-        public function testAddDefaultValue()
-        {
+        public function testAddDefaultValue() {
             $this->assertSame($this->Route, $this->Route->addDefaultValue('some', 'value'));
             $this->assertAttributeEquals(array('some' => 'value'), 'defaultValues', $this->Route);
 
@@ -309,8 +285,7 @@
          * @covers Brickoo\Routing\Route::addDefaultValue
          * @expectedException InvalidArgumentException
          */
-        public function testAddDefaultValueArgumentException()
-        {
+        public function testAddDefaultValueArgumentException() {
             $this->Route->addDefaultValue(array('wrongType'), 'someValue');
         }
 
@@ -319,8 +294,7 @@
          * @covers Brickoo\Routing\Route::getDefaultValues
          * @depends testAddDefaultValue
          */
-        public function testGetDefaultValues($Route)
-        {
+        public function testGetDefaultValues($Route) {
             $this->assertEquals(array('some' => 'value'), $Route->getDefaultValues());
         }
 
@@ -329,8 +303,7 @@
          * @covers Brickoo\Routing\Route::getDefaultValue
          * @depends testAddDefaultValue
          */
-        public function testGetDefaultValue($Route)
-        {
+        public function testGetDefaultValue($Route) {
             $this->assertEquals('value', $Route->getDefaultValue('some'));
         }
 
@@ -339,8 +312,7 @@
          * @covers Brickoo\Routing\Route::getDefaultValue
          * @expectedException InvalidArgumentException
          */
-        public function testGetDefaultValueArgumentException()
-        {
+        public function testGetDefaultValueArgumentException() {
             $this->Route->getDefaultValue(array('wrongType'));
         }
 
@@ -349,8 +321,7 @@
          * @covers Brickoo\Routing\Route::getDefaultValue
          * @expectedException UnexpectedValueException
          */
-        public function testGetDefaultValueException()
-        {
+        public function testGetDefaultValueException() {
             $this->Route->getDefaultValue('someParameter');
         }
 
@@ -359,8 +330,7 @@
          * @covers Brickoo\Routing\Route::hasDefaultValue
          * @depends testAddDefaultValue
          */
-        public function testHasDefaultValue($Route)
-        {
+        public function testHasDefaultValue($Route) {
             $this->assertTrue($Route->hasDefaultValue('some'));
         }
 
@@ -370,8 +340,7 @@
          * @covers Brickoo\Routing\Route::addRule
          * @covers Brickoo\Routing\Route::addDefaultValue
          */
-        public function testAddRule()
-        {
+        public function testAddRule() {
             $this->assertSame($this->Route, $this->Route->addRule('name', '[a-z]+', 'MyDefaultName'));
             $this->assertAttributeEquals(array('name' => '[a-z]+'), 'rules', $this->Route);
             $this->assertAttributeEquals(array('name' => 'MyDefaultName'), 'defaultValues', $this->Route);
@@ -384,8 +353,7 @@
          * @covers Brickoo\Routing\Route::addRule
          * @expectedException InvalidArgumentException
          */
-        public function testAddRuleArgumentException()
-        {
+        public function testAddRuleArgumentException() {
             $this->Route->addRule(array('wrongType'), 'regex');
         }
 
@@ -395,8 +363,7 @@
          * @covers Brickoo\Routing\Route::hasRules
          * @depends testAddRule
          */
-        public function testGetRules($Route)
-        {
+        public function testGetRules($Route) {
             $this->assertEquals(array('name' => '[a-z]+'), $Route->getRules());
             $this->assertTrue($Route->hasRules());
         }
@@ -406,8 +373,7 @@
          * @covers Brickoo\Routing\Route::getRule
          * @depends testAddRule
          */
-        public function testGetRule($Route)
-        {
+        public function testGetRule($Route) {
             $this->assertEquals('[a-z]+', $Route->getRule('name'));
         }
 
@@ -416,8 +382,7 @@
          * @covers Brickoo\Routing\Route::getRule
          * @expectedException InvalidArgumentException
          */
-        public function testGetRuleArgumentException()
-        {
+        public function testGetRuleArgumentException() {
             $this->Route->getRule(array('wrongType'));
         }
 
@@ -426,8 +391,7 @@
          * @covers Brickoo\Routing\Route::getRule
          * @expectedException UnexpectedValueException
          */
-        public function testGetRuleValueException()
-        {
+        public function testGetRuleValueException() {
             $this->Route->getRule('fail');
         }
 
@@ -436,8 +400,7 @@
          * @covers Brickoo\Routing\Route::hasRule
          * @depends testAddRule
          */
-        public function testHasRule($Route)
-        {
+        public function testHasRule($Route) {
             $this->assertTrue($Route->hasRule('name'));
         }
 

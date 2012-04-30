@@ -44,8 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class SocketObjectTest extends PHPUnit_Framework_TestCase
-    {
+    class SocketObjectTest extends PHPUnit_Framework_TestCase {
 
         /**
          * Holds the SocketObject instance.
@@ -63,8 +62,7 @@
          * Set up the SocketObject used.
          * @return void
          */
-        public function setUp()
-        {
+        public function setUp() {
             $this->SocketObject = new SocketObject();
             $this->SocketObjectFixture = new SocketObjectFixture();
         }
@@ -73,8 +71,7 @@
          * Test if the constructor implements the SocketObjectInterface.
          * @covers Brickoo\System\SocketObject::__construct
          */
-        public function testConstruct()
-        {
+        public function testConstruct() {
             $this->assertInstanceOf
             (
                 'Brickoo\System\Interfaces\SocketObjectInterface',
@@ -86,8 +83,7 @@
          * Test if the protocol can be retrieved and the default value is an empty string.
          * @covers Brickoo\System\SocketObject::getProtocol
          */
-        public function testGetProtocol()
-        {
+        public function testGetProtocol() {
             $this->assertEquals('' , $this->SocketObject->getProtocol());
             $this->SocketObject->setProtocol('upd');
             $this->assertEquals('upd://', $this->SocketObject->getProtocol());
@@ -97,8 +93,7 @@
          * Test if the protocol can be set and the object reference is returned.
          * @covers Brickoo\System\SocketObject::setProtocol
          */
-        public function testSetProtocol()
-        {
+        public function testSetProtocol() {
             $this->assertSame($this->SocketObject, $this->SocketObject->setProtocol('http'));
             $this->assertEquals('http://', $this->SocketObject->getProtocol());
         }
@@ -108,8 +103,7 @@
          * @covers Brickoo\System\SocketObject::setProtocol
          * @expectedException InvalidArgumentException
          */
-        public function testSetProtocolArgumentException()
-        {
+        public function testSetProtocolArgumentException() {
             $this->SocketObject->setProtocol(array('wrongType'));
         }
 
@@ -119,8 +113,7 @@
          * @covers Brickoo\System\Exceptions\HandleAlreadyExistsException
          * @expectedException Brickoo\System\Exceptions\HandleAlreadyExistsException
          */
-        public function testSetProtocolHandleException()
-        {
+        public function testSetProtocolHandleException() {
             $this->SocketObjectFixture->setProtocol('udp');
         }
 
@@ -128,8 +121,7 @@
          * Test if the server adress can be retrieved.
          * @covers Brickoo\System\SocketObject::getServerAdress
          */
-        public function testGetServerAdress()
-        {
+        public function testGetServerAdress() {
             $this->SocketObject->setServerAdress('someadress.com');
             $this->assertEquals('someadress.com', $this->SocketObject->getServerAdress());
         }
@@ -139,8 +131,7 @@
          * @covers Brickoo\System\SocketObject::getServerAdress
          * @expectedException UnexpectedValueException
          */
-        public function testGetServerAdressValueException()
-        {
+        public function testGetServerAdressValueException() {
             $this->SocketObject->getServerAdress();
         }
 
@@ -148,8 +139,7 @@
          * Test if the server adress can be set and the object reference is returned.
          * @covers Brickoo\System\SocketObject::setServerAdress
          */
-        public function testSetServerAdress()
-        {
+        public function testSetServerAdress() {
             $this->assertSame($this->SocketObject, $this->SocketObject->setServerAdress('someadress.com'));
             $this->assertEquals('someadress.com', $this->SocketObject->getServerAdress());
         }
@@ -159,8 +149,7 @@
          * @covers Brickoo\System\SocketObject::setServerAdress
          * @expectedException InvalidArgumentException
          */
-        public function testSetServerAdressArgumentException()
-        {
+        public function testSetServerAdressArgumentException() {
             $this->SocketObject->setServerAdress(array('wrongType'));
         }
 
@@ -170,8 +159,7 @@
          * @covers Brickoo\System\Exceptions\HandleAlreadyExistsException
          * @expectedException Brickoo\System\Exceptions\HandleAlreadyExistsException
          */
-        public function testSetServerAdressHandleException()
-        {
+        public function testSetServerAdressHandleException() {
             $this->SocketObjectFixture->setServerAdress('someadress.com');
         }
 
@@ -179,8 +167,7 @@
          * Test if the server port can be retrieved.
          * @covers Brickoo\System\SocketObject::getServerPort
          */
-        public function testGetServerPort()
-        {
+        public function testGetServerPort() {
             $this->SocketObject->setServerPort(1024);
             $this->assertEquals(1024, $this->SocketObject->getServerPort());
         }
@@ -190,8 +177,7 @@
          * @covers Brickoo\System\SocketObject::getServerPort
          * @expectedException UnexpectedValueException
          */
-        public function testGetServerPortValueException()
-        {
+        public function testGetServerPortValueException() {
             $this->SocketObject->getServerPort();
         }
 
@@ -199,8 +185,7 @@
          * Test if the server port can be set and the object reference is returned.
          * @covers Brickoo\System\SocketObject::setServerPort
          */
-        public function testSetServerPort()
-        {
+        public function testSetServerPort() {
             $this->assertSame($this->SocketObject, $this->SocketObject->setServerPort(1024));
             $this->assertEquals(1024, $this->SocketObject->getServerPort());
         }
@@ -210,8 +195,7 @@
          * @covers Brickoo\System\SocketObject::setServerPort
          * @expectedException InvalidArgumentException
          */
-        public function testSetServerPortArgumentException()
-        {
+        public function testSetServerPortArgumentException() {
             $this->SocketObject->setServerPort('wrongType');
         }
 
@@ -221,8 +205,7 @@
          * @covers Brickoo\System\Exceptions\HandleAlreadyExistsException
          * @expectedException Brickoo\System\Exceptions\HandleAlreadyExistsException
          */
-        public function testSetServerPortHandleException()
-        {
+        public function testSetServerPortHandleException() {
             $this->SocketObjectFixture->setServerPort(1024);
         }
 
@@ -230,8 +213,7 @@
          * Test if the timeout can be retrieved.
          * @covers Brickoo\System\SocketObject::getTimeout
          */
-        public function testGetTimeout()
-        {
+        public function testGetTimeout() {
             $this->SocketObject->setTimeout(35);
             $this->assertEquals(35, $this->SocketObject->getTimeout());
         }
@@ -241,8 +223,7 @@
          * @covers Brickoo\System\SocketObject::getTimeout
          * @expectedException UnexpectedValueException
          */
-        public function testGetTimeoutValueException()
-        {
+        public function testGetTimeoutValueException() {
             $this->SocketObject->getTimeout();
         }
 
@@ -250,8 +231,7 @@
          * Test if the timeout can be set and the object reference is returned.
          * @covers Brickoo\System\SocketObject::setTimeout
          */
-        public function testSetTimeout()
-        {
+        public function testSetTimeout() {
             $this->assertSame($this->SocketObject, $this->SocketObject->setTimeout(60));
             $this->assertEquals(60, $this->SocketObject->getTimeout());
         }
@@ -261,8 +241,7 @@
          * @covers Brickoo\System\SocketObject::setTimeout
          * @expectedException InvalidArgumentException
          */
-        public function testSetTimeoutArgumentException()
-        {
+        public function testSetTimeoutArgumentException() {
             $this->SocketObject->setTimeout('wrongType');
         }
 
@@ -272,8 +251,7 @@
          * @covers Brickoo\System\Exceptions\HandleAlreadyExistsException
          * @expectedException Brickoo\System\Exceptions\HandleAlreadyExistsException
          */
-        public function testSetTimeoutHandleException()
-        {
+        public function testSetTimeoutHandleException() {
             $this->SocketObjectFixture->setTimeout(1024);
         }
 
@@ -281,8 +259,7 @@
          * Test if the socket can be opened with the configuration done.
          * @covers Brickoo\System\SocketObject::open
          */
-        public function testOpen()
-        {
+        public function testOpen() {
             $this->SocketObject->setProtocol('tcp')
                                ->setServerAdress('google.com')
                                ->setServerPort(80)
@@ -301,8 +278,7 @@
          * @covers Brickoo\System\Exceptions\HandleAlreadyExistsException
          * @expectedException Brickoo\System\Exceptions\HandleAlreadyExistsException
          */
-        public function testOpenHandleExistsException()
-        {
+        public function testOpenHandleExistsException() {
             $this->SocketObject->setProtocol('tcp')
                                ->setServerAdress('google.com')
                                ->setServerPort(80)
@@ -323,8 +299,7 @@
          * @covers Brickoo\System\Exceptions\UnableToCreateHandleException
          * @expectedException Brickoo\System\Exceptions\UnableToCreateHandleException
          */
-        public function testOpenHandleException()
-        {
+        public function testOpenHandleException() {
             $this->SocketObject->setProtocol('whatever')
                                ->setServerAdress('otherplace')
                                ->setServerPort(80)
@@ -337,8 +312,7 @@
          * Test if the handle can be retrieved.
          * @covers Brickoo\System\SocketObject::getHandle
          */
-        public function testGetHandle()
-        {
+        public function testGetHandle() {
             $this->assertInternalType('resource', $this->SocketObjectFixture->getHandle());
         }
 
@@ -346,8 +320,7 @@
          * Test if the handle opened can be retrived.
          * @covers Brickoo\System\SocketObject::getHandle
          */
-        public function testGetHandleWithOpen()
-        {
+        public function testGetHandleWithOpen() {
             $this->SocketObject->setProtocol('tcp')
                                ->setServerAdress('google.com')
                                ->setServerPort(80)
@@ -363,8 +336,7 @@
          * Test if the handle is recognized.
          * @covers Brickoo\System\SocketObject::hasHandle
          */
-        public function testHasHandle()
-        {
+        public function testHasHandle() {
             $this->assertFalse($this->SocketObject->hasHandle());
             $this->assertTrue($this->SocketObjectFixture->hasHandle());
         }
@@ -373,8 +345,7 @@
          * Test if the handle can be removed.
          * @covers Brickoo\System\SocketObject::removeHandle
          */
-        public function testRemoveHandle()
-        {
+        public function testRemoveHandle() {
             $this->assertTrue($this->SocketObjectFixture->hasHandle());
             $this->assertSame($this->SocketObjectFixture, $this->SocketObjectFixture->removeHandle());
             $this->assertFalse($this->SocketObjectFixture->hasHandle());
@@ -384,8 +355,7 @@
          * Test if the handle is removed if the object is destroyed.
          * @covers Brickoo\System\SocketObject::__destruct
          */
-        public function test__destruct()
-        {
+        public function test__destruct() {
             $SocketObjectStub = $this->getMock('Brickoo\System\SocketObject', array('removeHandle'));
             $SocketObjectStub->expects($this->once())
                             ->method('removeHandle')
@@ -398,8 +368,7 @@
          * Test if the handle can be close ant he object reference is returned.
          * @covers Brickoo\System\SocketObject::close
          */
-        public function testClose()
-        {
+        public function testClose() {
             $this->assertSame($this->SocketObjectFixture, $this->SocketObjectFixture->close());
         }
 
@@ -409,8 +378,7 @@
          * @covers Brickoo\System\Exceptions\HandleNotAvailableException
          * @expectedException Brickoo\System\Exceptions\HandleNotAvailableException
          */
-        public function testCloseHandleException()
-        {
+        public function testCloseHandleException() {
             $this->SocketObject->close();
         }
 
@@ -418,8 +386,7 @@
          * Test if an magic method fwrite() can be called.
          * @covers Brickoo\System\SocketObject::__call
          */
-        public function test__call()
-        {
+        public function test__call() {
             $data = 'some test data';
             $this->assertEquals(strlen($data), $this->SocketObjectFixture->fwrite($data));
         }
@@ -429,8 +396,7 @@
          * @covers Brickoo\System\SocketObject::__call
          * @expectedException BadMethodCallException
          */
-        public function test__callFsockopenException()
-        {
+        public function test__callFsockopenException() {
             $this->SocketObject->fsockopen();
         }
 
@@ -439,8 +405,7 @@
          * @covers Brickoo\System\SocketObject::__call
          * @expectedException BadMethodCallException
          */
-        public function test__callFcloseException()
-        {
+        public function test__callFcloseException() {
             $this->SocketObject->fclose();
         }
 
@@ -449,10 +414,8 @@
     /**
      * SocketObjectFixture with the handle assigned.
      */
-    class SocketObjectFixture extends SocketObject
-    {
-        public function __construct()
-        {
+    class SocketObjectFixture extends SocketObject {
+        public function __construct() {
             $this->handle = fopen('php://memory', 'w+');
         }
     }

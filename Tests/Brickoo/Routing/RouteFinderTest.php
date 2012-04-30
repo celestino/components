@@ -43,15 +43,13 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class RouteFinderTest extends \PHPUnit_Framework_TestCase
-    {
+    class RouteFinderTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Returns a pre configured RouteFinder instance.
          * @return \Brickoo\Routing\RouteFinder
          */
-        protected function getRouteFinder()
-        {
+        protected function getRouteFinder() {
             $RouteCollection = $this->getMock('Brickoo\Routing\Interfaces\RouteCollectionInterface');
             $Request = $this->getMock('Brickoo\Core\Interfaces\RequestInterface');
             $Aliases = $this->getMock('Brickoo\Memory\Interfaces\ContainerInterface');
@@ -63,8 +61,7 @@
          * Test if the class properties are set.
          * @covers Brickoo\Routing\RouteFinder::__construct
          */
-        public function testConstruct()
-        {
+        public function testConstruct() {
             $RouteCollection = $this->getMock('Brickoo\Routing\Interfaces\RouteCollectionInterface');
             $Request = $this->getMock('Brickoo\Core\Interfaces\RequestInterface');
             $Aliases = $this->getMock('Brickoo\Memory\Interfaces\ContainerInterface');
@@ -82,8 +79,7 @@
          * Test if the matched Route can be found.
          * @covers Brickoo\Routing\RouteFinder::find
          */
-        public function testFind()
-        {
+        public function testFind() {
             $Route = $this->getMock('Brickoo\Routing\Route', array('getPath', 'getMethod'), array('test.route'));
             $Route->expects($this->any())
                   ->method('getPath')
@@ -122,8 +118,7 @@
          * @covers Brickoo\Routing\Exceptions\RequestHasNoRouteException
          * @expectedException Brickoo\Routing\Exceptions\RequestHasNoRouteException
          */
-        public function testFindRequestHasNoRouteException()
-        {
+        public function testFindRequestHasNoRouteException() {
             $RouteCollection = $this->getMock('Brickoo\Routing\RouteCollection', array('getRoutes'));
             $RouteCollection->expects($this->once())
                             ->method('getRoutes')
@@ -142,8 +137,7 @@
          * @covers Brickoo\Routing\Exceptions\RequestHasNoRouteException
          * @expectedException Brickoo\Routing\Exceptions\RequestHasNoRouteException
          */
-        public function testFindNoRoutesMatchException()
-        {
+        public function testFindNoRoutesMatchException() {
             $Route = $this->getMock('Brickoo\Routing\Route', array('getPath', 'getMethod'), array('test.route'));
             $Route->expects($this->any())
                   ->method('getPath')
@@ -177,8 +171,7 @@
          * Test if the Route parameters can be retrieved.
          * @covers Brickoo\Routing\RouteFinder::getRouteParameters
          */
-        public function testGetRouteParameters()
-        {
+        public function testGetRouteParameters() {
             $rules = array(
                 'parameter1'  => '\\w',
                 'parameter2'  => '\\w'
@@ -222,8 +215,7 @@
          * Test if a RequestRoute can be created with the parameters.
          * @covers Brickoo\Routing\RouteFinder::createRequestRoute
          */
-        public function testCreateRequestRoute()
-        {
+        public function testCreateRequestRoute() {
             $pathMatches = array();
 
             $Route = $this->getMock(
@@ -250,8 +242,7 @@
          * Test if the route can be recognized as request matching route.
          * @covers Brickoo\Routing\RouteFinder::isAllowedRoute
          */
-        public function testIsAllowedRoute()
-        {
+        public function testIsAllowedRoute() {
             $Route = $this->getMock(
                 'Brickoo\Routing\Route',
                 array('getMethod', 'getHostname'),
@@ -284,8 +275,7 @@
          * Test if the expected route format regular expression is generated.
          * @covers Brickoo\Routing\RouteFinder::getRegexRouteFormat
          */
-        public function testGetRegexRouteFormat()
-        {
+        public function testGetRegexRouteFormat() {
             $Route = $this->getMock('Brickoo\Routing\Route', array('getFormat'), array('test.route'));
             $Route->expects($this->once())
                   ->method('getFormat')
@@ -299,8 +289,7 @@
          * Test if the route alias paths regular expression is generated.
          * @covers Brickoo\Routing\RouteFinder::getRouteAliasesPath
          */
-        public function testGetRouteAliasesPath()
-        {
+        public function testGetRouteAliasesPath() {
             $RouteCollection = $this->getMock('Brickoo\Routing\Interfaces\RouteCollectionInterface');
             $Request = $this->getMock('Brickoo\Core\Interfaces\RequestInterface');
             $Aliases = $this->getMock('Brickoo\Memory\Interfaces\ContainerInterface');
@@ -334,8 +323,7 @@
          * Test if the route path regular expression is generated.
          * @covers Brickoo\Routing\RouteFinder::getRegexFromRoutePath
          */
-        public function testGetRegexFromRoutePath()
-        {
+        public function testGetRegexFromRoutePath() {
             $RouteCollection = $this->getMock('Brickoo\Routing\Interfaces\RouteCollectionInterface');
             $Request = $this->getMock('Brickoo\Core\Interfaces\RequestInterface');
             $Aliases = $this->getMock('Brickoo\Memory\Interfaces\ContainerInterface');

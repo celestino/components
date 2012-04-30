@@ -43,8 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class LocalCacheTest extends \PHPUnit_Framework_TestCase
-    {
+    class LocalCacheTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Holds the LocalCacheFixture instance used.
@@ -56,8 +55,7 @@
          * Set up the LocalCacheFixture object used.
          * @return void
          */
-        protected function setUp()
-        {
+        protected function setUp() {
             $this->LocalCache = new LocalCacheFixture();
         }
 
@@ -65,8 +63,7 @@
          * Test if the LocaclCache does implement the Cache\Interfaces\LocalCacheInterface.
          * @covers Brickoo\Cache\LocalCache::__construct
          */
-        public function testConstruct()
-        {
+        public function testConstruct() {
             $LocalCache = new LocalCache();
             $this->assertInstanceOf('Brickoo\Cache\Interfaces\LocalCacheInterface', $LocalCache);
         }
@@ -75,8 +72,7 @@
          * Test if the content can be cached under the identifier and the LocalCache reference is returned.
          * @covers Brickoo\Cache\LocalCache::set
          */
-        public function testSet()
-        {
+        public function testSet() {
             $this->assertSame($this->LocalCache, $this->LocalCache->set('unique_identifier', 'some content'));
             $this->assertAttributeEquals
             (
@@ -91,8 +87,7 @@
          * @covers Brickoo\Cache\LocalCache::set
          * @expectedException InvalidArgumentException
          */
-        public function testSetArgumentException()
-        {
+        public function testSetArgumentException() {
             $this->LocalCache->set(array('wrongTpe'), 'some content');
         }
 
@@ -101,8 +96,7 @@
          * @covers Brickoo\Cache\LocalCache::get
          * @depends testSet
          */
-        public function testGet()
-        {
+        public function testGet() {
             $this->assertEquals('some content', $this->LocalCache->get('unique_identifier'));
         }
 
@@ -111,8 +105,7 @@
          * @covers Brickoo\Cache\LocalCache::get
          * @expectedException InvalidArgumentException
          */
-        public function testGetArgumentException()
-        {
+        public function testGetArgumentException() {
             $this->LocalCache->get(array('wrongTpe'));
         }
 
@@ -122,8 +115,7 @@
          * @covers Brickoo\Cache\Exceptions\IdentifierNotAvailableException::__construct
          * @expectedException Brickoo\Cache\Exceptions\IdentifierNotAvailableException
          */
-        public function testGetIdentifierException()
-        {
+        public function testGetIdentifierException() {
             $this->LocalCache->get('fail');
         }
 
@@ -132,8 +124,7 @@
          * @covers Brickoo\Cache\LocalCache::remove
          * @depends testSet
          */
-        public function testRemove()
-        {
+        public function testRemove() {
             $this->assertSame($this->LocalCache, $this->LocalCache->remove('unique_identifier'));
             $this->assertAttributeEquals(array(), 'cacheValues', $this->LocalCache);
         }
@@ -143,8 +134,7 @@
          * @covers Brickoo\Cache\LocalCache::remove
          * @expectedException InvalidArgumentException
          */
-        public function testRemoveArgumentException()
-        {
+        public function testRemoveArgumentException() {
             $this->LocalCache->remove(array('wrongTpe'));
         }
 
@@ -154,8 +144,7 @@
          * @covers Brickoo\Cache\Exceptions\IdentifierNotAvailableException::__construct
          * @expectedException Brickoo\Cache\Exceptions\IdentifierNotAvailableException
          */
-        public function testRemoveIdentifierException()
-        {
+        public function testRemoveIdentifierException() {
             $this->LocalCache->remove('fail');
         }
 
@@ -164,8 +153,7 @@
          * @covers Brickoo\Cache\LocalCache::has
          * @depends testSet
          */
-        public function testHas()
-        {
+        public function testHas() {
             $this->assertFalse($this->LocalCache->has('not_available'));
             $this->assertTrue($this->LocalCache->has('unique_identifier'));
         }
@@ -175,8 +163,7 @@
          * @covers Brickoo\Cache\LocalCache::flush
          * @depends testSet
          */
-        public function testFlush()
-        {
+        public function testFlush() {
             $this->assertSame($this->LocalCache, $this->LocalCache->flush());
             $this->assertAttributeEquals(array(), 'cacheValues', $this->LocalCache);
         }
@@ -187,8 +174,7 @@
      * Fixture for the LocalCache which contains on cached value.
      * Overrides the constructor to prevent the flushing of the cache values.
      */
-    class LocalCacheFixture extends LocalCache
-    {
+    class LocalCacheFixture extends LocalCache {
         /**
          * Adding a default value to the cache values.
          * @var array

@@ -41,8 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Container implements Interfaces\ContainerInterface
-    {
+    class Container implements Interfaces\ContainerInterface {
 
         /**
          * Holds the assigned values.
@@ -55,8 +54,7 @@
          * @see ArrayAccess::offsetSet()
          * @return void
          */
-        public function offsetSet($offset, $value)
-        {
+        public function offsetSet($offset, $value) {
             $this->container[$offset] = $value;
         }
 
@@ -65,8 +63,7 @@
          * @see ArrayAccess::offsetExists()
          * @return boolean check result
          */
-        public function offsetExists($offset)
-        {
+        public function offsetExists($offset) {
             return isset($this->container[$offset]);
         }
 
@@ -75,8 +72,7 @@
          * @see ArrayAccess::offsetUnset()
          * @return void
          */
-        public function offsetUnset($offset)
-        {
+        public function offsetUnset($offset) {
             unset($this->container[$offset]);
         }
 
@@ -85,8 +81,7 @@
          * @see ArrayAccess::offsetGet()
          * @return mixed the offset value
          */
-        public function offsetGet($offset)
-        {
+        public function offsetGet($offset) {
             if (! isset($this->container[$offset])) {
                 return null;
             }
@@ -100,8 +95,7 @@
          * @return mixed the value of the first element or
          * boolean false if the arary is empty
          */
-        public function rewind()
-        {
+        public function rewind() {
             return reset($this->container);
         }
 
@@ -110,8 +104,7 @@
          * @see Iterator::current()
          * @return mixed the value of the current element
          */
-        public function current()
-        {
+        public function current() {
             return current($this->container);
         }
 
@@ -120,8 +113,7 @@
          * @see Iterator::key()
          * @return string|integer the current element offset
          */
-        public function key()
-        {
+        public function key() {
             return key($this->container);
         }
 
@@ -131,8 +123,7 @@
          * @return mixed the value of the next element or
          * boolean false if the end of the array has been reached
          */
-        public function next()
-        {
+        public function next() {
             return next($this->container);
         }
 
@@ -143,8 +134,7 @@
          * @see Iterator::valid()
          * @return boolean check result
          */
-        public function valid()
-        {
+        public function valid() {
             return ($this->current() !== false);
         }
 
@@ -153,8 +143,7 @@
          * @see Countable::count()
          * @return integer the number of elements available
          */
-        public function count()
-        {
+        public function count() {
             return count($this->container);
         }
 
@@ -163,8 +152,7 @@
          * Intializes the class properties.
          * @return void
          */
-        public function __construct()
-        {
+        public function __construct() {
             $this->container    = array();
         }
 
@@ -174,8 +162,7 @@
          * @param mixed $defaultValue the default value if the offset does not exist
          * @return mixed the offset contained value or the default value passed
          */
-        public function get($offset, $defaultValue = null)
-        {
+        public function get($offset, $defaultValue = null) {
             if (($value = $this->offsetGet($offset))) {
                 return $value;
             }
@@ -189,8 +176,7 @@
          * @param mixed $value the value of the offset
          * @return \Brickoo\Memory\Container
          */
-        public function set($offset, $value)
-        {
+        public function set($offset, $value) {
             TypeValidator::IsString($offset);
 
             $this->offsetSet($offset, $value);
@@ -203,8 +189,7 @@
          * @param string|integer $offset the element to check
          * @return boolean check result
          */
-        public function has($offset)
-        {
+        public function has($offset) {
             return isset($this->container[$offset]);
         }
 
@@ -213,8 +198,7 @@
          * @param array $container the container to merge
          * @return \Brickoo\Memory\Container
          */
-        public function merge(array $container)
-        {
+        public function merge(array $container) {
             $this->container = array_merge($this->container, $container);
 
             return $this;
@@ -224,8 +208,7 @@
          * Checks if any value are assigned.
          * @return boolean check result
          */
-        public function isEmpty()
-        {
+        public function isEmpty() {
             return empty($this->container);
         }
 
@@ -234,8 +217,7 @@
          * @param array $container the container to import
          * @return \Brickoo\Memory\Container
          */
-        public function fromArray(array $container)
-        {
+        public function fromArray(array $container) {
             $this->container = $container;
 
             return $this;
@@ -245,8 +227,7 @@
          * Returns the holded hey/value pairs as an array.
          * @return array the holded key/value pairs
          */
-        public function toArray()
-        {
+        public function toArray() {
             return $this->container;
         }
 
@@ -255,8 +236,7 @@
          * @param string|integer $offset the offset to retrieve the value from
          * @return mixed the offset value
          */
-        public function __get($offset)
-        {
+        public function __get($offset) {
             return $this->offsetGet($offset);
         }
 
@@ -266,8 +246,7 @@
          * @param mixed $value the value of the offset
          * @return void
          */
-        public function __set($offset, $value)
-        {
+        public function __set($offset, $value) {
             $this->offsetSet($offset, $value);
         }
 

@@ -42,8 +42,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Listener implements Event\Interfaces\ListenerAggregateInterface
-    {
+    class Listener implements Event\Interfaces\ListenerAggregateInterface {
 
         /**
          * Holds an istance of the Logger class.
@@ -64,8 +63,7 @@
          * @param integer $priority the priority level
          * @returnvoid
          */
-        public function __construct(\Brickoo\Log\Interfaces\LoggerInterface $Logger, $priority = 0)
-        {
+        public function __construct(\Brickoo\Log\Interfaces\LoggerInterface $Logger, $priority = 0) {
             TypeValidator::IsInteger($priority);
 
             $this->Logger              = $Logger;
@@ -77,8 +75,7 @@
          * @param \Brickoo\Event\Interfaces\ManagerInterface $EventManager the Manager to register to
          * @return \Brickoo\Log\Listener
          */
-        public function aggregateListeners(\Brickoo\Event\Interfaces\ManagerInterface $EventManager)
-        {
+        public function aggregateListeners(\Brickoo\Event\Interfaces\ManagerInterface $EventManager) {
             $EventManager->attachListener(Events::EVENT_LOG, array($this->Logger, 'logEvent'), $this->listenerPriority);
 
             return $this;

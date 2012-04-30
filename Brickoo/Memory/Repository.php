@@ -44,8 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Repository implements \Countable
-    {
+    class Repository implements \Countable {
 
         /**
          * Holds the repository used to store the versioned content.
@@ -60,8 +59,7 @@
          * @throws InvalidArgumentException if the passed repository is empty
          * @return \Brickoo\Memory\Repository
          */
-        protected function setRepository(array $repository)
-        {
+        protected function setRepository(array $repository) {
             TypeValidator::IsArray($repository);
 
             $this->repository = $repository;
@@ -73,8 +71,7 @@
          * Returns the full stored repository.
          * @return array the current repository
          */
-        public function getRepository()
-        {
+        public function getRepository() {
             return $this->repository;
         }
 
@@ -82,8 +79,7 @@
          * Returns the current stored revision versions.
          * @return array the stored revision versions
          */
-        public function getRepositoryVersions()
-        {
+        public function getRepositoryVersions() {
             return array_keys($this->repository);
         }
 
@@ -93,8 +89,7 @@
          * @throws InvalidArgumentException if the version passed is not a integer
          * @return boolean check result
          */
-        public function isVersionAvailable($version)
-        {
+        public function isVersionAvailable($version) {
             TypeValidator::IsInteger($version);
 
             return array_key_exists($version, $this->repository);
@@ -110,8 +105,7 @@
          * Returns the current used version.
          * @return integer the current used version
          */
-        public function getCurrentVersion()
-        {
+        public function getCurrentVersion() {
             return $this->currentVersion;
         }
 
@@ -123,8 +117,7 @@
          * @throws InvalidArgumentException if the version passed is not a integer
          * @return \Brickoo\Memory\Repository
          */
-        protected function setCurrentVersion($version)
-        {
+        protected function setCurrentVersion($version) {
             TypeValidator::IsInteger($version);
 
             $this->currentVersion = $version;
@@ -136,8 +129,7 @@
          * Sets the last version available as the one currently used.
          * @return \Brickoo\Memory\Repository
          */
-        public function useLastVersion()
-        {
+        public function useLastVersion() {
             if ($versions = $this->getRepositoryVersions()) {
                 $this->setCurrentVersion(array_pop($versions));
             }
@@ -162,8 +154,7 @@
          * Checks if the current status is locked.
          * @return boolean status
          */
-        public function isLocked()
-        {
+        public function isLocked() {
             return $this->locked;
         }
 
@@ -173,8 +164,7 @@
          * commit, restore, remove and import will be disabled.
          * @return void
          */
-        public function lock()
-        {
+        public function lock() {
             $this->locked = true;
         }
 
@@ -183,8 +173,7 @@
          * Gives full access to all methods provided.
          * @return void
          */
-        public function unlock()
-        {
+        public function unlock() {
             $this->locked = false;
         }
 
@@ -193,8 +182,7 @@
          * Intialize the class properties.
          * @return void
          */
-        public function __construct()
-        {
+        public function __construct() {
             $this->resetRepository();
         }
 
@@ -202,8 +190,7 @@
          * Resets the class properties.
          * @return \Brickoo\Memory\Repository
          */
-        public function resetRepository()
-        {
+        public function resetRepository() {
             $this->locked            = false;
             $this->repository        = array(0 => 'initialized');
             $this->currentVersion    = 0;
@@ -215,8 +202,7 @@
          * Returns the current amount of versions in the repository list.
          * @return integer the repository amount of versions
          */
-        public function count()
-        {
+        public function count() {
             return count($this->repository);
         }
 
@@ -227,8 +213,7 @@
          * @throws InvalidArgumentException if the version passed is not a integer
          * @return array the revision content
          */
-        public function checkout($version = null)
-        {
+        public function checkout($version = null) {
             if($version !== null) {
                 TypeValidator::IsInteger($version);
             }
@@ -249,8 +234,7 @@
          * @param array $content the content to check recursively
          * @return array the prepared content
          */
-        protected function getRecursiveCommit(array $content)
-        {
+        protected function getRecursiveCommit(array $content) {
             if (empty($content)) {
                 return $content;
             }
@@ -278,8 +262,7 @@
          * @throws RepositoryLockedException if the Repository is locked
          * @return \Brickoo\Memory\Repository
          */
-        public function commit($content)
-        {
+        public function commit($content) {
             if ($this->isLocked()) {
                 throw new Exceptions\RepositoryLockedException();
             }
@@ -307,8 +290,7 @@
          * @throws VersionNotAvailableException if the Repository version is passed and not available
          * @return \Brickoo\Memory\Repository
          */
-        public function restore($version)
-        {
+        public function restore($version) {
             TypeValidator::IsInteger($version);
 
             if ($this->isLocked()) {
@@ -332,8 +314,7 @@
          * @throws VersionNotAvailableException if the Repository version is passed and not available
          * @return \Brickoo\Memory\Repository
          */
-        public function remove($version)
-        {
+        public function remove($version) {
             TypeValidator::IsInteger($version);
 
             if ($this->isLocked()) {
@@ -358,8 +339,7 @@
          * @param array $repository the repository content to check
          * @return boolean check result
          */
-        protected function checkImportVersions(array $repository)
-        {
+        protected function checkImportVersions(array $repository) {
             $checkPassed = true;
             $lastVersion = 0;
 
@@ -384,8 +364,7 @@
          * @throws InvalidRepositoryStructureException if the Repository has not incremented key order
          * @return \Brickoo\Memory\Repository
          */
-        public function import(array $repository)
-        {
+        public function import(array $repository) {
             TypeValidator::IsArray($repository);
 
             if ($this->isLocked()) {
@@ -407,8 +386,7 @@
          * @param integer $version the version to export
          * @return mixed the content of the given version
          */
-        public function export($version = null)
-        {
+        public function export($version = null) {
             if ($version !== null) {
                 TypeValidator::IsInteger($version);
             }

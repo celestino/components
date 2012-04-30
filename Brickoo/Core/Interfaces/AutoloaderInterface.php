@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface AutoloaderInterface
-    {
+    interface AutoloaderInterface {
 
         /**
          * Register the namespace to the available namespaces.

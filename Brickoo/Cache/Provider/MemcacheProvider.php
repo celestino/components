@@ -41,8 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class MemcacheProvider implements Interfaces\CacheProviderInterface
-    {
+    class MemcacheProvider implements Interfaces\ProviderInterface {
 
         /**
          * Holds an instance of the Memcache class.
@@ -54,8 +53,7 @@
          * Returns the Memcache dependecy.
          * @return \Memcache
          */
-        public function Memcache()
-        {
+        public function Memcache() {
             return $this->_Memcache;
         }
 
@@ -71,8 +69,7 @@
          * Use compression only if you are storing strings .
          * @return \Brickoo\Cache\Provider\MemcacheProvider
          */
-        public function enableCompression()
-        {
+        public function enableCompression() {
             $this->compression = MEMCACHE_COMPRESSED;
 
             return $this;
@@ -82,8 +79,7 @@
          * Disables cache compression.
          * @return object refrence
          */
-        public function disableCompression()
-        {
+        public function disableCompression() {
             $this->compression = 0;
 
             return $this;
@@ -95,8 +91,7 @@
          * @param \Memcache $Memcache the Memcache dependency
          * @return void
          */
-        public function __construct(\Memcache $Memcache)
-        {
+        public function __construct(\Memcache $Memcache) {
             $this->_Memcache       = $Memcache;
             $this->compression     = 0;
         }
@@ -106,8 +101,7 @@
         * @param string $identifier the identifier to retrieve the content from
         * @return mixed the cached content
         */
-        public function get($identifier)
-        {
+        public function get($identifier) {
             TypeValidator::IsString($identifier);
 
             return $this->Memcache()->get($identifier);
@@ -122,8 +116,7 @@
          * @param integer $lifetime the lifetime in seconds of the cached content
          * @return boolean the Memcache result value, true for success false otherwise
          */
-        public function set($identifier, $content, $lifetime = 60)
-        {
+        public function set($identifier, $content, $lifetime = 60) {
             TypeValidator::IsString($identifier);
             TypeValidator::IsInteger($lifetime);
 
@@ -135,8 +128,7 @@
          * @param string $identifier the identifer to remove
          * @return boolean the Memcache result value, true for success false otherwise
          */
-        public function delete($identifier)
-        {
+        public function delete($identifier) {
             TypeValidator::IsString($identifier);
 
             return $this->Memcache()->delete($identifier);
@@ -146,8 +138,7 @@
          * Flushes the cached values by removing (or flag as removed) any content holded.
          * @return boolean the Memcache result value, true for success false otherwise
          */
-        public function flush()
-        {
+        public function flush() {
             return $this->Memcache()->flush();
         }
 
@@ -158,8 +149,7 @@
          * @throws BadMethodCallException if the method is not defined
          * @return mixed Memcache method result
          */
-        public function __call($method, array $arguments)
-        {
+        public function __call($method, array $arguments) {
             if (! method_exists($this->Memcache(), $method)) {
                 throw new \BadMethodCallException(sprintf('The Memcache method `%s` is not defined.', $method));
             }

@@ -43,8 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class RegistryTest extends PHPUnit_Framework_TestCase
-    {
+    class RegistryTest extends PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance of the Registry class.
@@ -56,8 +55,7 @@
          * Set up the Registry object used.
          * @return void
          */
-        public function setUp()
-        {
+        public function setUp() {
             $this->Registry = new Registry();
         }
 
@@ -65,8 +63,7 @@
          * Test if the class can be created.
          * @covers Brickoo\Memory\Registry::__construct
          */
-        public function testRegistryConstructor()
-        {
+        public function testRegistryConstructor() {
             $this->assertInstanceOf
             (
                 '\Brickoo\Memory\Registry',
@@ -78,8 +75,7 @@
          * Test if the identifier can be registered.
          * @covers Brickoo\Memory\Registry::getAll
          */
-        public function testGetRegistrations()
-        {
+        public function testGetRegistrations() {
             $this->assertInternalType('array', $this->Registry->getAll());
             $this->Registry->register('name', 'john');
             $this->assertArrayHasKey('name', $this->Registry->getAll());
@@ -90,8 +86,7 @@
          * @covers Brickoo\Memory\Registry::add
          * @covers Brickoo\Memory\Registry::count
          */
-        public function testAddRegistrations()
-        {
+        public function testAddRegistrations() {
             $this->assertSame
             (
                 $this->Registry,
@@ -105,8 +100,7 @@
          * @covers Brickoo\Memory\Registry::isIdentifierAvailable
          * @covers Brickoo\Memory\Registry::isRegistered
          */
-        public function testIsIdentifierAvailable()
-        {
+        public function testIsIdentifierAvailable() {
             $this->assertFalse($this->Registry->isIdentifierAvailable('name'));
             $this->Registry->register('name', 'john');
             $this->assertTrue($this->Registry->isIdentifierAvailable('name'));
@@ -117,8 +111,7 @@
          * @covers Brickoo\Memory\Registry::isIdentifierAvailable
          * @expectedException InvalidArgumentException
          */
-        public function testIsIdentifierAvailableException()
-        {
+        public function testIsIdentifierAvailableException() {
             $this->Registry->isIdentifierAvailable(array('wrongType'));
         }
 
@@ -126,8 +119,7 @@
          * Test if an key-value pair can be registered.
          * @covers Brickoo\Memory\Registry::register
          */
-        public function testRegister()
-        {
+        public function testRegister() {
             $this->assertSame($this->Registry, $this->Registry->register('town', 'bonn'));
         }
 
@@ -138,8 +130,7 @@
          * @covers Brickoo\Memory\Exceptions\ReadonlyModeException
          * @expectedException Brickoo\Memory\Exceptions\ReadonlyModeException
          */
-        public function testRegisterReadonlyException()
-        {
+        public function testRegisterReadonlyException() {
             $this->Registry->setReadOnly(true);
             $this->Registry->register('name', 'john');
         }
@@ -150,8 +141,7 @@
          * @covers Brickoo\Memory\Exceptions\DuplicateRegistrationException
          * @expectedException Brickoo\Memory\Exceptions\DuplicateRegistrationException
          */
-        public function testRegisterRegisteredException()
-        {
+        public function testRegisterRegisteredException() {
             $this->Registry->register('name', 'john');
             $this->Registry->register('name', 'wayne');
         }
@@ -160,8 +150,7 @@
          * Test if an registered key can be retrieved.
          * @covers Brickoo\Memory\Registry::get
          */
-        public function testGetRegistered()
-        {
+        public function testGetRegistered() {
             $this->Registry->register('name' ,'john');
             $this->assertEquals('john', $this->Registry->get('name'));
         }
@@ -171,8 +160,7 @@
          * @covers Brickoo\Memory\Registry::get
          * @expectedException InvalidArgumentException
          */
-        public function testGetRegisteredArgumentException()
-        {
+        public function testGetRegisteredArgumentException() {
             $this->Registry->get(array('wrongType'));
         }
 
@@ -182,8 +170,7 @@
          * @covers Brickoo\Memory\Exceptions\IdentifierNotRegisteredException
          * @expectedException Brickoo\Memory\Exceptions\IdentifierNotRegisteredException
          */
-        public function testGetRegisteredException()
-        {
+        public function testGetRegisteredException() {
             $this->Registry->get('name');
         }
 
@@ -191,8 +178,7 @@
          * Test overriding an registered key.
          * @covers Brickoo\Memory\Registry::override
          */
-        public function testOverride()
-        {
+        public function testOverride() {
             $this->assertSame($this->Registry, $this->Registry->override('name', 'framework'));
         }
 
@@ -202,8 +188,7 @@
          * @covers Brickoo\Memory\Exceptions\IdentifierLockedException
          * @expectedException Brickoo\Memory\Exceptions\IdentifierLockedException
          */
-        public function testOverrideLockException()
-        {
+        public function testOverrideLockException() {
             $this->Registry->register('name', 'john');
             $this->Registry->lock('name');
             $this->Registry->override('name', 'wayne');
@@ -215,8 +200,7 @@
          * @covers Brickoo\Memory\Exceptions\ReadonlyModeException
          * @expectedException Brickoo\Memory\Exceptions\ReadonlyModeException
          */
-        public function testOverrideReadonlyException()
-        {
+        public function testOverrideReadonlyException() {
             $this->Registry->register('name', 'john');
             $this->Registry->setReadOnly(true);
             $this->Registry->override('name', 'wayne');
@@ -226,8 +210,7 @@
          * Test if a key can be unregistered.
          * @covers Brickoo\Memory\Registry::unregister
          */
-        public function testUnregister()
-        {
+        public function testUnregister() {
             $this->Registry->register('name', 'john');
             $this->assertSame($this->Registry, $this->Registry->unregister('name'));
         }
@@ -238,8 +221,7 @@
          * @covers Brickoo\Memory\Exceptions\IdentifierNotRegisteredException
          * @expectedException Brickoo\Memory\Exceptions\IdentifierNotRegisteredException
          */
-        public function testUnregisterException()
-        {
+        public function testUnregisterException() {
             $this->Registry->unregister('name');
         }
 
@@ -249,8 +231,7 @@
          * @covers Brickoo\Memory\Exceptions\ReadonlyModeException
          * @expectedException Brickoo\Memory\Exceptions\ReadonlyModeException
          */
-        public function testUnregisterReadonlyException()
-        {
+        public function testUnregisterReadonlyException() {
             $this->Registry->register('name', 'john');
             $this->Registry->setReadOnly(true);
             $this->Registry->unregister('name');
@@ -262,8 +243,7 @@
          * @covers Brickoo\Memory\Exceptions\IdentifierLockedException
          * @expectedException Brickoo\Memory\Exceptions\IdentifierLockedException
          */
-        public function testUnregisterLockedException()
-        {
+        public function testUnregisterLockedException() {
             $this->Registry->register('name', 'john');
             $this->Registry->lock('name');
             $this->Registry->unregister('name');
@@ -273,8 +253,7 @@
          * Test counting registrations.
          * @covers Brickoo\Memory\Registry::count
          */
-        public function testCount()
-        {
+        public function testCount() {
             $this->Registry->register('name', 'john');
             $this->assertEquals(1, count($this->Registry));
         }
@@ -283,8 +262,7 @@
          * Test counting locked registration identifiers.
          * @covers Brickoo\Memory\Registry::countLocked
          */
-        public function testCountLocked()
-        {
+        public function testCountLocked() {
             $this->Registry->register('name', 'john');
             $this->Registry->lock('name');
             $this->assertEquals(1, $this->Registry->countLocked());
@@ -294,8 +272,7 @@
          * Test if a registered key can be retrieved by magic __get().
          * @covers Brickoo\Memory\Registry::__get
          */
-        public function testMagicFunctionGet()
-        {
+        public function testMagicFunctionGet() {
             $this->Registry->register('name', 'brickoo');
             $this->assertEquals('brickoo', $this->Registry->name);
         }
@@ -306,8 +283,7 @@
          * @covers Brickoo\Memory\Exceptions\IdentifierNotRegisteredException
          * @expectedException Brickoo\Memory\Exceptions\IdentifierNotRegisteredException
          */
-        public function testMagicFunctionGetException()
-        {
+        public function testMagicFunctionGetException() {
             $this->Registry->brickoo;
         }
 
@@ -315,8 +291,7 @@
          * Test if an unregistered key can be stored by magic __set().
          * @covers Brickoo\Memory\Registry::__set
          */
-        public function testMagicFunctionSet()
-        {
+        public function testMagicFunctionSet() {
             $this->assertEquals('brickoo', $this->Registry->name = 'brickoo');
         }
 
@@ -326,8 +301,7 @@
          * @covers Brickoo\Memory\Exceptions\DuplicateRegistrationException
          * @expectedException Brickoo\Memory\Exceptions\DuplicateRegistrationException
          */
-        public function testMagicFunctionSetException()
-        {
+        public function testMagicFunctionSetException() {
             $this->assertEquals('john', $this->Registry->name = 'john');
             $this->Registry->name = 'wayne';
         }
@@ -336,8 +310,7 @@
          * Test if a registerd key can be recognized by magic __isset().
          * @covers Brickoo\Memory\Registry::__isset
          */
-        public function testMagicFunctionIsset()
-        {
+        public function testMagicFunctionIsset() {
             $this->assertEquals('brickoo', $this->Registry->name = 'brickoo');
             $this->assertEquals(true, isset($this->Registry->name));
         }
@@ -346,8 +319,7 @@
          * Test if a registered key can be unset by magic __unset().
          * @covers Brickoo\Memory\Registry::__unset
          */
-        public function testMagicFunctionUnset()
-        {
+        public function testMagicFunctionUnset() {
             $this->assertEquals('brickoo', $this->Registry->name = 'brickoo');
             unset($this->Registry->name);
             $this->assertEquals(false, isset($this->Registry->name));
@@ -357,8 +329,7 @@
          * Test if read only mode disallows write and allows read permisions.
          * @covers Brickoo\Memory\Registry::isReadOnly
          */
-        public function testReadonlyMode()
-        {
+        public function testReadonlyMode() {
             $this->assertFalse($this->Registry->isReadOnly());
             $this->Registry->setReadOnly(true);
             $this->assertTrue($this->Registry->isReadOnly());
@@ -369,8 +340,7 @@
          * @covers Brickoo\Memory\Registry::setReadOnly
          * @expectedException InvalidArgumentException
          */
-        public function testSetReadOnlyException()
-        {
+        public function testSetReadOnlyException() {
             $this->Registry->setReadOnly(array('wrongType'));
         }
 

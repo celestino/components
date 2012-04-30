@@ -40,8 +40,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Event implements Interfaces\EventInterface
-    {
+    class Event implements Interfaces\EventInterface {
 
         /**
         * Holds the class dependencies.
@@ -57,8 +56,7 @@
          * @param object $Dependency the dependecy to inject
          * @return object Request if overwritten otherwise the dependency
          */
-        protected function getDependency($name, $interface, $callback, $Dependency = null)
-        {
+        protected function getDependency($name, $interface, $callback, $Dependency = null) {
             if ($Dependency instanceof $interface) {
                 $this->dependencies[$name] = $Dependency;
                 return $this;
@@ -74,8 +72,7 @@
          * @param \Brickoo\Event\Interfaces\ManagerInterface $EventManager the EventManager dependency to inject
          * @return \Brickoo\Event\Interfaces\ManagerInterface
          */
-        public function EventManager(\Brickoo\Event\Interfaces\ManagerInterface $EventManager = null)
-        {
+        public function EventManager(\Brickoo\Event\Interfaces\ManagerInterface $EventManager = null) {
             return $this->getDependency(
                 'EventManager',
                 '\Brickoo\Event\Interfaces\ManagerInterface',
@@ -88,8 +85,7 @@
          * Checks if the EventManager depndency is injected.
          * @return boolean check result
          */
-        public function hasEventManager()
-        {
+        public function hasEventManager() {
             return isset($this->dependencies['EventManager']);
         }
 
@@ -103,8 +99,7 @@
          * Stops the event of been called by other listeners.
          * @retunr \Brickooo\Event\Event
          */
-        public function stop()
-        {
+        public function stop() {
             $this->stopped = true;
             return $this;
         }
@@ -113,8 +108,7 @@
          * Checks if the event has been stopped.
          * @return boolean check result
          */
-        public function isStopped()
-        {
+        public function isStopped() {
             return ($this->stopped === true);
         }
 
@@ -128,8 +122,7 @@
          * Returns the event name.
          * @return string the event name
          */
-        public function getName()
-        {
+        public function getName() {
             return $this->name;
         }
 
@@ -143,8 +136,7 @@
          * Returns the event  parameters.
          * @return array the assigned event parameters
          */
-        public function getParams()
-        {
+        public function getParams() {
             return $this->params;
         }
 
@@ -153,8 +145,7 @@
          * @param string $identifier the identifier to return the value from
          * @return mixed the parmeter value or null if not set
          */
-        public function getParam($identifier)
-        {
+        public function getParam($identifier) {
             TypeValidator::IsString($identifier);
 
             if (! $this->hasParam($identifier)) {
@@ -169,8 +160,7 @@
          * @param string $identifier the idetifier to check
          * @return boolean check result
          */
-        public function hasParam($identifier)
-        {
+        public function hasParam($identifier) {
             TypeValidator::IsString($identifier);
             return isset($this->params[$identifier]);
         }
@@ -185,8 +175,7 @@
          * Returns the sender object reference.
          * @return object the sender object reference or null if not set
          */
-        public function Sender()
-        {
+        public function Sender() {
             return $this->Sender;
         }
 
@@ -198,8 +187,7 @@
          * @param array $parameters the parameters to add to the event
          * @return void
          */
-        public function __construct($name, $Sender = null, array $parameters = array())
-        {
+        public function __construct($name, $Sender = null, array $parameters = array()) {
             TypeValidator::IsString($name);
 
             if($Sender !== null) {

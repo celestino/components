@@ -39,16 +39,14 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class DependencyNotAvailableException extends \Exception
-    {
+    class DependencyNotAvailableException extends \Exception {
 
         /**
          * Class constructor.
          * Calls the parent Exception constructor.
          * @return void
          */
-        public function __construct($instanceInterfaceName)
-        {
+        public function __construct($instanceInterfaceName) {
             parent::__construct
             (
             sprintf

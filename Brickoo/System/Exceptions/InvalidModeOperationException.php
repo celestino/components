@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class InvalidModeOperationException extends \Exception
-    {
+    class InvalidModeOperationException extends \Exception {
 
         /**
          * Class constructor.
@@ -48,8 +47,7 @@
          * @param string $mode the mode operation not accepted
          * @return void
          */
-        public function __construct($mode)
-        {
+        public function __construct($mode) {
             parent::__construct(sprintf('The resource handle does not allow mode `%s` operations.', $mode));
         }
 

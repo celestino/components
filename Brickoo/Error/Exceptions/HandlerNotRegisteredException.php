@@ -40,8 +40,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class HandlerNotRegisteredException extends \Exception
-    {
+    class HandlerNotRegisteredException extends \Exception {
 
         /**
          * Class constructor.
@@ -49,8 +48,7 @@
          * @param string $handlerName the handler name not registered
          * @return void
          */
-        public function __construct($handlerName)
-        {
+        public function __construct($handlerName) {
             parent::__construct(sprintf('The `%s` is not registered.', $handlerName));
         }
 

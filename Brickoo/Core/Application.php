@@ -40,8 +40,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Application
-    {
+    class Application {
 
         /**
          * Defines the BrickOO Version.
@@ -74,8 +73,7 @@
          * @param object $Dependency the dependecy to inject
          * @return object the Application if overwritten otherwise the dependency
          */
-        protected function getDependency($name, $interface, $callback, $Dependency = null)
-        {
+        protected function getDependency($name, $interface, $callback, $Dependency = null) {
             if ($Dependency instanceof $interface) {
                 $this->dependencies[$name] = $Dependency;
                 return $this;
@@ -91,8 +89,7 @@
          * @param \Brickoo\Memory\Interfaces\RegistryInterface $Registry the Registy dependency to inject
          * @return \Brickoo\Memory\Interfaces\RegistryInterface
          */
-        public function Registry(\Brickoo\Memory\Interfaces\RegistryInterface $Registry = null)
-        {
+        public function Registry(\Brickoo\Memory\Interfaces\RegistryInterface $Registry = null) {
             return $this->getDependency(
                 'Registry',
                 '\Brickoo\Memory\Interfaces\RegistryInterface',
@@ -106,8 +103,7 @@
         * @param \Brickoo\Core\Interfaces\RequestInterface $Request the Request dependency to inject
         * @return \Brickoo\Core\Interfaces\RequestInterface
         */
-        public function Request(\Brickoo\Core\Interfaces\RequestInterface $Request = null)
-        {
+        public function Request(\Brickoo\Core\Interfaces\RequestInterface $Request = null) {
             return $this->getDependency(
                 'Request',
                 '\Brickoo\Core\Interfaces\RequestInterface',
@@ -125,8 +121,7 @@
          * @param \Brickoo\Routing\Interfaces\RouterInterface $Router
          * @return \Brickoo\Routing\Interfaces\RouterInterface
          */
-        public function Router(\Brickoo\Routing\Interfaces\RouterInterface $Router = null)
-        {
+        public function Router(\Brickoo\Routing\Interfaces\RouterInterface $Router = null) {
             return $this->getDependency(
                 'Router',
                 '\Brickoo\Routing\Interfaces\RouterInterface',
@@ -144,8 +139,7 @@
          * @param \Brickoo\Routing\Interfaces\RequestRouteInterface $Route
          * @return \Brickoo\Routing\Interfaces\RequestRouteInterface
          */
-        public function Route(\Brickoo\Routing\Interfaces\RequestRouteInterface $Route = null)
-        {
+        public function Route(\Brickoo\Routing\Interfaces\RequestRouteInterface $Route = null) {
             return $this->getDependency(
                 'Route',
                 '\Brickoo\Routing\Interfaces\RequestRouteInterface',
@@ -159,8 +153,7 @@
          * @param \Brickoo\Event\Interfaces\ManagerInterface $EventManager
          * @return \Brickoo\Event\Interfaces\ManagerInterface
          */
-        public function EventManager(\Brickoo\Event\Interfaces\ManagerInterface $EventManager = null)
-        {
+        public function EventManager(\Brickoo\Event\Interfaces\ManagerInterface $EventManager = null) {
             return $this->getDependency(
                 'EventManager',
                 '\Brickoo\Event\Interfaces\ManagerInterface',
@@ -174,8 +167,7 @@
          * @param \Brickoo\Http\Session\Interfaces\ManagerInterface $Manager
          * @return \Brickoo\Http\Session\Interfaces\ManagerInterface
          */
-        public function SessionManager(\Brickoo\Http\Session\Interfaces\ManagerInterface $SessionManager = null)
-        {
+        public function SessionManager(\Brickoo\Http\Session\Interfaces\ManagerInterface $SessionManager = null) {
             return $this->getDependency(
                 'SessionManager',
                 '\Brickoo\Http\Session\Interfaces\ManagerInterface',
@@ -189,11 +181,24 @@
         }
 
         /**
+         * Lazy initialization of the Runner dependencyy.
+         * @param \Brickoo\Core\Interfaces\RunnerInterface $Runner
+         * @return \Brickoo\Core\Interfaces\RunnerInterface
+         */
+        public function Runner(\Brickoo\Core\Interfaces\RunnerInterface $Runner = null) {
+            return $this->getDependency(
+                'Runner',
+                '\Brickoo\Core\Interfaces\RunnerInterface',
+                function($Application) {return new \Brickoo\Core\Runner($Application);},
+                $Runner
+            );
+        }
+
+        /**
          * Returns the full BrickOO version with prefix and suffix.
          * @return string the full BrickOO version
          */
-        public function getVersion()
-        {
+        public function getVersion() {
             return self::VERSION;
         }
 
@@ -201,8 +206,7 @@
          * Returns the BrickOO version number without prefix or suffix.
          * @return string the BrickOO version number
          */
-        public function getVersionNumber()
-        {
+        public function getVersionNumber() {
             preg_match('~(?<versionNumber>[0-9\.]+)~', self::VERSION, $matches);
             return $matches['versionNumber'];
         }
@@ -212,8 +216,7 @@
          * @param \Brickoo\Core\Interfaces\AutoloaderInterface $Autoloader
          * @return \Brickoo\Core\Application
          */
-        public function registerAutoloader(\Brickoo\Core\Interfaces\AutoloaderInterface $Autoloader)
-        {
+        public function registerAutoloader(\Brickoo\Core\Interfaces\AutoloaderInterface $Autoloader) {
             $this->set($this->reservedIdentifiers['autoloader'], $Autoloader);
 
             return $this;
@@ -224,8 +227,7 @@
          * @param array $modules the available modules to register
          * @return \Brickoo\Core\Application
          */
-        public function registerModules(array $modules)
-        {
+        public function registerModules(array $modules) {
             foreach($modules as $index => $moduleDirectory) {
                 $modules[$index] = rtrim($moduleDirectory, '/\\') . DIRECTORY_SEPARATOR;
             }
@@ -239,8 +241,7 @@
          * Returns the available modules.
          * @return array the available modules.
          */
-        public function getModules()
-        {
+        public function getModules() {
             return (is_array(($modules = $this->get('modules'))) ? $modules : array());
         }
 
@@ -249,8 +250,7 @@
          * @param string $moduleName the module name to check
          * @return boolean check result
          */
-        public function isModuleAvailable($moduleName)
-        {
+        public function isModuleAvailable($moduleName) {
             TypeValidator::IsString($moduleName);
 
             return array_key_exists($moduleName, $this->getModules());
@@ -262,8 +262,7 @@
          * @throws Exceptions\ModuleNotAvailableException if the module is not available
          * @return string the module absolute path to the root directory
          */
-        public function getModulePath($moduleName)
-        {
+        public function getModulePath($moduleName) {
             TypeValidator::IsString($moduleName);
 
             if (! $this->isModuleAvailable($moduleName)) {
@@ -282,8 +281,7 @@
          * @throws Exceptions\DirectoryDoesNotExistException if the directory does not exist
          * @return \Brickoo\Http\Application
          */
-        public function registerDirectory($identifier, $directoryPath)
-        {
+        public function registerDirectory($identifier, $directoryPath) {
             TypeValidator::IsString($identifier);
             TypeValidator::IsString($directoryPath);
 
@@ -301,8 +299,7 @@
          * @param string $publicDirectory the public directory to register
          * @return \Brickoo\Http\Application
          */
-        public function registerPublicDirectory($publicDirectory)
-        {
+        public function registerPublicDirectory($publicDirectory) {
             TypeValidator::IsString($publicDirectory);
 
             $this->set($this->reservedIdentifiers['publicdirectory'], rtrim($publicDirectory, '/\\') . '/');
@@ -314,8 +311,7 @@
          * Checks if the public directory has been set.
          * @return boolean check result
          */
-        public function hasPublicDirectory()
-        {
+        public function hasPublicDirectory() {
             return $this->has('publicDirectory');
         }
 
@@ -324,8 +320,7 @@
          * @param string $identifier the identifier to check
          * @return boolean check result
          */
-        public function has($identifier)
-        {
+        public function has($identifier) {
             TypeValidator::IsString($identifier);
 
             $reservedIdentifier = strtolower($identifier);
@@ -341,8 +336,7 @@
         * @param string $identifier the registered identifier
         * @return mixed the value of the registered identifier or null if it is not registered
         */
-        public function get($identifier)
-        {
+        public function get($identifier) {
             TypeValidator::IsString($identifier);
 
             $reservedIdentifier = strtolower($identifier);
@@ -363,8 +357,7 @@
          * @param mixed $value the value to add
          * @return \Brickoo\Core\Application
          */
-        public function set($identifier, $value)
-        {
+        public function set($identifier, $value) {
             TypeValidator::IsString($identifier);
 
             $this->Registry()->register($identifier, $value)
@@ -378,8 +371,7 @@
          * @param string $identifier the registered identifier
          * @return mixed the value of the registered identifier or null if it is not registered
          */
-        public function __get($identifier)
-        {
+        public function __get($identifier) {
             return $this->get($identifier);
         }
 
@@ -389,8 +381,7 @@
          * @param mixed $value the value to add
          * @return void
          */
-        public function __set($identifier, $value)
-        {
+        public function __set($identifier, $value) {
             $this->set($identifier, $value);
         }
 
@@ -399,8 +390,7 @@
          * @param string $identifier the identifier to check
          * @return boolean check result
          */
-        public function __isset($identifier)
-        {
+        public function __isset($identifier) {
             return $this->has($identifier);
         }
 
@@ -411,8 +401,7 @@
          * @param object $MainApplication
          * @return \Brickoo\Core\Application
          */
-        public function run($MainApplication = null)
-        {
+        public function run($MainApplication = null, \Brickoo\Core\Interfaces\RunnerInterface $Runner = null) {
             $EventManager = $this->EventManager();
 
             if ($MainApplication !== null) {
@@ -425,9 +414,7 @@
             try {
                 $EventManager->notify(new Event(Events::EVENT_BOOT, $this));
 
-                $this->bootRouter()->startSession();
-                $Response = $this->askForResponse();
-                $this->stopSession();
+               // TODO: change all calls to events (by default the Runner will handle them)
 
                 if ($Response instanceof Interfaces\ResponseInterface) {
                     $this->notifyResponseCache($Response);
@@ -445,97 +432,6 @@
                 $EventManager->notify(
                     new Event(Events::EVENT_ERROR, $this, array('Exception' => $Exception))
                 );
-            }
-
-            return $this;
-        }
-
-        /**
-         * Boot route of the Router.
-         * Sets the available modules if they are not set.
-         * Runs the route search.
-         * @return \Brickoo\Http\Application
-         */
-        protected function bootRouter()
-        {
-            if (! $this->Router()->hasModules()) {
-                $this->Router()->setModules($this->getModules());
-            }
-
-            $this->Route($this->Router()->getRequestRoute());
-
-            return $this;
-        }
-
-        /**
-         * Start the session if the route did required a session.
-         * Notifies that the session can be nofigured.
-         * @return \Brickoo\Core\Application
-         */
-        protected function startSession()
-        {
-            if ($this->Route()->getModuleRoute()->isSessionRequired() &&
-                (! $this->SessionManager()->hasSessionStarted())
-            ){
-                $this->EventManager()->notify(new Event(
-                    Events::EVENT_SESSION_CONFIGURE, $this, array('SessionManager' => $this->Manager())
-                ));
-                $this->Manager()->start();
-            }
-
-            return $this;
-        }
-
-        /**
-         * Stops the session if the route did required a session and the session has been started.
-         * @return \Brickoo\Core\Application
-         */
-        protected function stopSession()
-        {
-            if ($this->Route()->getModuleRoute()->isSessionRequired() &&
-                $this->SessionManager()->hasSessionStarted()
-            ){
-                $this->Manager()->stop();
-            }
-
-            return $this;
-        }
-
-        /**
-         * Asks the EventManger for a request response.
-         * @return \Brickoo\Core\Interfaces\ResponseInterface
-         */
-        protected function askForResponse()
-        {
-            $Response        = null;
-            $RequestRoute    = $this->Route();
-
-            if ($RequestRoute->getModuleRoute()->isCacheable()) {
-                $Response = $this->EventManager()->ask(new Event(
-                    Events::EVENT_RESPONSE_LOAD, $this, array('Route' => $RequestRoute)
-                ));
-            }
-
-            if (! $Response instanceof Interfaces\ResponseInterface) {
-                $Response = $this->EventManager()->ask(new Event(
-                    Events::EVENT_RESPONSE_GET, $this, array('Route' => $RequestRoute)
-                ));
-            }
-
-            return $Response;
-        }
-
-        /**
-         * Notifies that the request response could be cached.
-         * @param \Brickoo\Core\Interfaces\ResponseInterface $Response
-         * @return \Brickoo\Core\Application
-         */
-        protected function notifyResponseCache(\Brickoo\Core\Interfaces\ResponseInterface $Response)
-        {
-            if ($this->Route()->getModuleRoute()->isCacheable()) {
-                $this->EventManager()->notify(
-                    new Event(Events::EVENT_RESPONSE_SAVE, $this, array('Response' => $Response)
-                ));
             }
 
             return $this;

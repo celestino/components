@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class StatusCodeUnknownException extends \Exception
-    {
+    class StatusCodeUnknownException extends \Exception {
 
         /**
          * Class constructor.
@@ -48,8 +47,7 @@
          * @param string $statusCode the unknowed status code
          * @return void
          */
-        public function __construct($statusCode)
-        {
+        public function __construct($statusCode) {
             parent::__construct(sprintf('The response status code `%s` is unknowed.', $statusCode));
         }
 

@@ -41,8 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class RouteCollection implements Interfaces\RouteCollectionInterface
-    {
+    class RouteCollection implements Interfaces\RouteCollectionInterface {
 
         /**
          * Holds the routes collected.
@@ -54,8 +53,7 @@
          * Returns the collected routes.
          * @return array the collected routes
          */
-        public function getRoutes()
-        {
+        public function getRoutes() {
             return $this->routes;
         }
 
@@ -64,8 +62,7 @@
          * @param array $routes the routes to add
          * @return Brickoo\Routing\Interfaces\RouteCollectionInterface
          */
-        public function addRoutes(array $routes)
-        {
+        public function addRoutes(array $routes) {
             $this->routes = array_merge($this->routes, $routes);
 
             return $this;
@@ -75,8 +72,7 @@
          * Checks if the collection contains routes.
          * @return boolean check result
          */
-        public function hasRoutes()
-        {
+        public function hasRoutes() {
             return (! empty($this->routes));
         }
 
@@ -86,8 +82,7 @@
          * @throws DuplicateRouteException if the route name is already used
          * @return Brickoo\Routing\Interfaces\RouteInterface
          */
-        public function createRoute($name)
-        {
+        public function createRoute($name) {
             TypeValidator::IsString($name);
 
             if ($this->hasRoute($name)) {
@@ -105,8 +100,7 @@
          * @throws RouteNotFoundException if the route is not available
          * @return \Bricko\Routing\Interfaces\RouteInterface
          */
-        public function getRoute($name)
-        {
+        public function getRoute($name) {
             TypeValidator::IsString($name);
 
             if (! $this->hasRoute($name)) {
@@ -121,8 +115,7 @@
          * @param string $name the route to check
          * @return boolean check result
          */
-        public function hasRoute($name)
-        {
+        public function hasRoute($name) {
             TypeValidator::IsString($name);
 
             return isset($this->routes[$name]);
@@ -133,8 +126,7 @@
         * Initializes the class properties.
         * @return void
         */
-        public function __construct()
-        {
+        public function __construct() {
             $this->routes = array();
         }
 

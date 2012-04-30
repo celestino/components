@@ -41,8 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class NamespaceNotRegisteredException extends \Exception
-    {
+    class NamespaceNotRegisteredException extends \Exception {
 
         /**
          * Class constructor.
@@ -50,8 +49,7 @@
          * @param string $namespace the namespace tried to unregister
          * @return void
          */
-        public function __construct($namespace)
-        {
+        public function __construct($namespace) {
             parent::__construct(sprintf('The namespace `%s` is not registered.', $namespace));
         }
 

@@ -41,8 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class RouteFinder implements Interfaces\RouteFinderInterface
-    {
+    class RouteFinder implements Interfaces\RouteFinderInterface {
 
         /**
          * Holds an instance of the RouteCollection class.
@@ -110,8 +109,7 @@
          * @param array $pathMatches the path matching fields
          * @return array the request route parameters
          */
-        public function getRouteParameters(\Brickoo\Routing\Interfaces\RouteInterface $Route, array $pathMatches)
-        {
+        public function getRouteParameters(\Brickoo\Routing\Interfaces\RouteInterface $Route, array $pathMatches) {
             $routeParams = array();
 
             if ($Route->hasRules()) {
@@ -138,8 +136,7 @@
          * @param array $pathMatches the path matching fields
          * @return \Brickoo\Routing\RequestRoute
          */
-        public function createRequestRoute(\Brickoo\Routing\Interfaces\RouteInterface $Route, array $pathMatches)
-        {
+        public function createRequestRoute(\Brickoo\Routing\Interfaces\RouteInterface $Route, array $pathMatches) {
             $routeParams = $this->getRouteParameters($Route, $pathMatches);
 
             if (! isset($routeParams['format'])) {
@@ -158,8 +155,7 @@
          * @paam \Brickoo\Routing\Interfaces\RouteInterface $Route
          * @return boolean check result
          */
-        public function isAllowedRoute(\Brickoo\Routing\Interfaces\RouteInterface $Route)
-        {
+        public function isAllowedRoute(\Brickoo\Routing\Interfaces\RouteInterface $Route) {
             return
             (
                 preg_match('~^(' . $Route->getMethod() . ')$~i', $this->Request->getMethod()) &&
@@ -175,8 +171,7 @@
          * @param \Brickoo\Routing\Interfaces\RouteInterface $Route the Route instance
          * @return string the regular expression of the route format
          */
-        public function getRegexRouteFormat(\Brickoo\Routing\Interfaces\RouteInterface $Route)
-        {
+        public function getRegexRouteFormat(\Brickoo\Routing\Interfaces\RouteInterface $Route) {
             $formatRegex = '(\..*)?';
 
             if (($routeFormat = $Route->getFormat()) !== null) {
@@ -191,8 +186,7 @@
          * @param \Brickoo\Routing\Interfaces\RouteInterface $Route the Route instance
          * @return string the modified route path containing the aliases
          */
-        public function getRouteAliasesPath(\Brickoo\Routing\Interfaces\RouteInterface $Route)
-        {
+        public function getRouteAliasesPath(\Brickoo\Routing\Interfaces\RouteInterface $Route) {
             $routePath = $Route->getPath();
 
             if (! $this->Aliases->isEmpty()) {
@@ -215,8 +209,7 @@
          * @param \Brickoo\Routing\Interfaces\RouteInterface $Route the route to use
          * @return string the regular expression for the request path
          */
-        public function getRegexFromRoutePath(\Brickoo\Routing\Interfaces\RouteInterface $Route)
-        {
+        public function getRegexFromRoutePath(\Brickoo\Routing\Interfaces\RouteInterface $Route) {
             $regex  = $this->getRouteAliasesPath($Route);
             $regex .= $this->getRegexRouteFormat($Route);
 

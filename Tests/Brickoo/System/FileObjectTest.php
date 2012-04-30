@@ -43,8 +43,7 @@
      * @see Brickoo\System\FileObject
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
-    class FileObjectTest extends PHPUnit_Framework_TestCase
-    {
+    class FileObjectTest extends PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance of the FileObject class.
@@ -57,8 +56,7 @@
          * This method is called before a test is executed.
          * @return void
          */
-        protected function setUp()
-        {
+        protected function setUp() {
             $this->FileObject = new FileObject;
         }
 
@@ -66,8 +64,7 @@
          * Test if the constructor can be called.
          * @covers Brickoo\System\FileObject::__construct
          */
-        public function testConstruct()
-        {
+        public function testConstruct() {
             $this->assertInstanceOf('Brickoo\System\FileObject', $this->FileObject);
         }
 
@@ -75,8 +72,7 @@
          * Tests if the location can be set and the FileObject reference is returned.
          * @covers Brickoo\System\FileObject::setLocation
          */
-        public function testSetLocation()
-        {
+        public function testSetLocation() {
             $this->assertSame($this->FileObject, $this->FileObject->setLocation('/var/www/test.txt'));
         }
 
@@ -85,8 +81,7 @@
          * @covers Brickoo\System\FileObject::setLocation
          * @expectedException InvalidArgumentException
          */
-        public function testSetLocationArgumentException()
-        {
+        public function testSetLocationArgumentException() {
             $this->FileObject->setLocation(array('wrongType'));
         }
 
@@ -96,8 +91,7 @@
          * @covers Brickoo\System\Exceptions\HandleAlreadyExistsException
          * @expectedException Brickoo\System\Exceptions\HandleAlreadyExistsException
          */
-        public function testSetLocationHandleException()
-        {
+        public function testSetLocationHandleException() {
             $this->FileObject->setLocation('php://memory')
                              ->setMode('r')
                              ->open();
@@ -108,8 +102,7 @@
          * Test if the lcoation can be retrieved
          * @covers Brickoo\System\FileObject::getLocation
          */
-        public function testGetLocation()
-        {
+        public function testGetLocation() {
             $this->FileObject->setLocation(('/var/www/test.txt'));
             $this->assertEquals('/var/www/test.txt', $this->FileObject->getLocation());
         }
@@ -119,8 +112,7 @@
          * @covers Brickoo\System\FileObject::getLocation
          * @expectedException UnexpectedValueException
          */
-        public function testGetLocationValueException()
-        {
+        public function testGetLocationValueException() {
             $this->FileObject->getLocation();
         }
 
@@ -128,8 +120,7 @@
          * Test if the mode can be retrieved.
          * @covers Brickoo\System\FileObject::getMode
          */
-        public function testGetMode()
-        {
+        public function testGetMode() {
             $this->FileObject->setMode('r+');
             $this->assertEquals('r+', $this->FileObject->getMode());
         }
@@ -139,8 +130,7 @@
          * @covers Brickoo\System\FileObject::getMode
          * @expectedException UnexpectedValueException
          */
-        public function testGetModeValueException()
-        {
+        public function testGetModeValueException() {
             $this->FileObject->getMode();
         }
 
@@ -148,8 +138,7 @@
          * Test if the mode can be set and the FileObject reference is returned.
          * @covers Brickoo\System\FileObject::setMode
          */
-        public function testSetMode()
-        {
+        public function testSetMode() {
             $this->assertSame($this->FileObject, $this->FileObject->setMode('w+'));
         }
 
@@ -158,8 +147,7 @@
          * @covers Brickoo\System\FileObject::setMode
          * @expectedException InvalidArgumentException
          */
-        public function testSetModeArgumentException()
-        {
+        public function testSetModeArgumentException() {
             $this->FileObject->setMode(array('wrongType'));
         }
 
@@ -169,8 +157,7 @@
          * @covers Brickoo\System\Exceptions\HandleAlreadyExistsException
          * @expectedException Brickoo\System\Exceptions\HandleAlreadyExistsException
          */
-        public function testSetModeHandleException()
-        {
+        public function testSetModeHandleException() {
             $this->FileObject->setLocation('php://memory')
                              ->setMode('r')
                              ->open();
@@ -181,8 +168,7 @@
          * Test if a handle can be created.
          * @covers Brickoo\System\FileObject::open
          */
-        public function testOpen()
-        {
+        public function testOpen() {
             $this->FileObject->setLocation('php://memory')
                              ->setMode('r');
             $this->assertInternalType('resource', $this->FileObject->open());
@@ -194,8 +180,7 @@
          * @covers Brickoo\System\Exceptions\HandleAlreadyExistsException
          * @expectedException Brickoo\System\Exceptions\HandleAlreadyExistsException
          */
-        public function testOpenDuplicateHandleException()
-        {
+        public function testOpenDuplicateHandleException() {
             $this->FileObject->setLocation('php://memory')
                              ->setMode('r');
             $this->FileObject->open();
@@ -208,8 +193,7 @@
          * @covers Brickoo\System\Exceptions\UnableToCreateHandleException
          * @expectedException Brickoo\System\Exceptions\UnableToCreateHandleException
          */
-        public function testOpenCreateHandleException()
-        {
+        public function testOpenCreateHandleException() {
             $this->FileObject->setLocation('php://path/does/not/exist')
                              ->setMode('r');
             $this->FileObject->open();
@@ -219,8 +203,7 @@
          * Test if a handle can be returned.
          * @covers Brickoo\System\FileObject::getHandle
          */
-        public function testGetHandle()
-        {
+        public function testGetHandle() {
             $this->FileObject->setLocation('php://memory')
                              ->setMode('r');
             $this->assertInternalType('resource' , $this->FileObject->getHandle());
@@ -230,8 +213,7 @@
          * Test is the handle can be checked as available.
          * @covers Brickoo\System\FileObject::hasHandle
          */
-        public function testHasHandle()
-        {
+        public function testHasHandle() {
             $this->assertFalse($this->FileObject->hasHandle());
             $this->FileObject->setLocation('php://memory')
                              ->setMode('r')
@@ -243,8 +225,7 @@
          * Test is the handle can removed.
          * @covers Brickoo\System\FileObject::removeHandle
          */
-        public function testRemoveHandle()
-        {
+        public function testRemoveHandle() {
             $this->FileObject->setLocation('php://memory')
                              ->setMode('r')
                              ->open();
@@ -255,8 +236,7 @@
          * Test if the instance removes the handle when the destructor is called.
          * @covers Brickoo\System\FileObject::__destruct
          */
-        public function test__destruct()
-        {
+        public function test__destruct() {
             $FileObjectStub = $this->getMock('Brickoo\System\FileObject', array('removeHandle'));
             $FileObjectStub->expects($this->once())
                            ->method('removeHandle')
@@ -269,8 +249,7 @@
          * Test if the write method can write to the handle location.
          * @covers Brickoo\System\FileObject::write
          */
-        public function testWrite()
-        {
+        public function testWrite() {
             $data = 'some data save to file';
             $this->FileObject->setLocation('php://memory')
                              ->setMode('w+');
@@ -283,8 +262,7 @@
          * @covers Brickoo\System\Exceptions\InvalidModeOperationException
          * @expectedException Brickoo\System\Exceptions\InvalidModeOperationException
          */
-        public function testWriteInvalidModeOperationException()
-        {
+        public function testWriteInvalidModeOperationException() {
             $this->FileObject->setMode('r')
                              ->write('fails');
         }
@@ -293,8 +271,7 @@
          * Test if the read method can read from the handle location.
          * @covers Brickoo\System\FileObject::read
          */
-        public function testRead()
-        {
+        public function testRead() {
             $data = 'some data save to file';
             $this->FileObject->setLocation('php://memory')
                              ->setMode('w+')
@@ -308,8 +285,7 @@
          * @covers Brickoo\System\FileObject::read
          * @expectedException InvalidArgumentException
          */
-        public function testReadArgumentException()
-        {
+        public function testReadArgumentException() {
             $this->FileObject->read('wrongType');
         }
 
@@ -319,8 +295,7 @@
          * @covers Brickoo\System\Exceptions\InvalidModeOperationException
          * @expectedException Brickoo\System\Exceptions\InvalidModeOperationException
          */
-        public function testReadInvalidModeOperationException()
-        {
+        public function testReadInvalidModeOperationException() {
             $this->FileObject->setMode('w');
             $this->FileObject->read(1024);
         }
@@ -329,8 +304,7 @@
          * Test if the close method remove the handle handle.
          * @covers Brickoo\System\FileObject::close
          */
-        public function testClose()
-        {
+        public function testClose() {
             $this->FileObject->setLocation('php://memory')
                              ->setMode('r');
             $this->assertInternalType('resource', $this->FileObject->getHandle());
@@ -343,8 +317,7 @@
          * @covers Brickoo\System\Exceptions\HandleNotAvailableException
          * @expectedException Brickoo\System\Exceptions\HandleNotAvailableException
          */
-        public function testCloseHandleException()
-        {
+        public function testCloseHandleException() {
             $this->FileObject->close();
         }
 
@@ -352,8 +325,7 @@
          * Test if magic functions can be called an returns the function return value.
          * @covers Brickoo\System\FileObject::__call
          */
-        public function test__call()
-        {
+        public function test__call() {
             $originalData = 'some data to test with magic functions';
             $this->FileObject->setLocation('php://memory')
                              ->setMode('w+');
@@ -362,8 +334,7 @@
             $this->assertEquals(0, $this->FileObject->fseek(0)); // magic
 
             $loadedData = '';
-            while(! $this->FileObject->feof()) // magic
-            {
+            while(! $this->FileObject->feof()) {
                 $loadedData .= $this->FileObject->fread(1); // magic
             }
             $this->assertEquals($originalData, $loadedData);
@@ -374,8 +345,7 @@
          * @covers Brickoo\System\FileObject::__call
          * @expectedException BadMethodCallException
          */
-        public function testFopenBadMethodCallException()
-        {
+        public function testFopenBadMethodCallException() {
             $this->FileObject->fopen();
         }
 
@@ -384,8 +354,7 @@
          * @covers Brickoo\System\FileObject::__call
          * @expectedException BadMethodCallException
          */
-        public function testFcloseBadMethodCallException()
-        {
+        public function testFcloseBadMethodCallException() {
             $this->FileObject->fclose();
         }
 

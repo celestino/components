@@ -41,16 +41,14 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ReadonlyModeException extends \Exception
-    {
+    class ReadonlyModeException extends \Exception {
 
         /**
          * Class constructor.
          * Calls the parent Exception constructor.
          * @return void
          */
-        public function __construct()
-        {
+        public function __construct() {
             parent::__construct('The Registry is on read only mode any modfications are not allowed.');
         }
 

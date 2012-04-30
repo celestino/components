@@ -41,8 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Container implements Interfaces\ContainerInterface
-    {
+    class Container implements Interfaces\ContainerInterface {
 
         /**
          * Holds the session namespace using.
@@ -55,8 +54,7 @@
          * Sets the sessionNamespace to use.
          * @param string $sessionNamespace the namspace to use
          */
-        public function __construct($sessionNamespace)
-        {
+        public function __construct($sessionNamespace) {
             TypeValidator::MatchesRegex('~^[\w]+$~', $sessionNamespace);
 
             $this->sessionNamespace = $sessionNamespace;
@@ -67,8 +65,7 @@
         * @param string $property the property to check in the session
         * @return boolean check result
         */
-        public function has($property)
-        {
+        public function has($property) {
             TypeValidator::IsString($property);
 
             return array_key_exists($this->sessionNamespace . '.' . $property, $_SESSION);
@@ -80,8 +77,7 @@
          * @param mixed $defaultValue the default value if the property des not exist
          * @return mixed the property holded content or the default value if the property does not exist
          */
-        public function get($property, $defaultValue = null)
-        {
+        public function get($property, $defaultValue = null) {
             TypeValidator::IsString($property);
 
             if (! $this->has($property)) {
@@ -97,8 +93,7 @@
          * @param mixed $content the content to store
          * @return \Brickoo\Http\Session\Session
          */
-        public function set($property, $content)
-        {
+        public function set($property, $content) {
             TypeValidator::IsString($property);
 
             $_SESSION[$this->sessionNamespace . '.' . $property] = $content;
@@ -111,8 +106,7 @@
          * @param string $property the property to remove
          * @return \Brickoo\Http\Session\Session
          */
-        public function remove($property)
-        {
+        public function remove($property) {
             TypeValidator::IsString($property);
 
             if ($this->has($property)) {
@@ -127,8 +121,7 @@
          * @param string $property the property to retrieve the content from
          * @return mixed the session property content or boolean false if the property is not available
          */
-        public function __get($property)
-        {
+        public function __get($property) {
             return $this->get($property, false);
         }
 
@@ -137,8 +130,7 @@
          * @param string $property the property to assign the content to
          * @return void
          */
-        public function __set($property, $content)
-        {
+        public function __set($property, $content) {
             $this->set($property, $content);
         }
 
@@ -147,8 +139,7 @@
          * @param string $property the property to unset
          * @return void
          */
-        public function __unset($property)
-        {
+        public function __unset($property) {
             $this->remove($property);
         }
 
@@ -157,8 +148,7 @@
          * @param string $property the property to check
          * @return boolean check result
          */
-        public function __isset($property)
-        {
+        public function __isset($property) {
             return $this->has($property);
         }
 

@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class DuplicateHandlerRegistrationException extends \Exception
-    {
+    class DuplicateHandlerRegistrationException extends \Exception {
 
         /**
          * Class constructor.
@@ -48,8 +47,7 @@
          * @param string $handlerName the handler name registered
          * @return void
          */
-        public function __construct($handlerName)
-        {
+        public function __construct($handlerName) {
             parent::__construct(sprintf('The `%s` is already registered.', $handlerName));
         }
 

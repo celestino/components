@@ -42,8 +42,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class SyslogNGHandler implements Interfaces\LogHandlerInterface
-    {
+    class SyslogNGHandler implements Interfaces\LogHandlerInterface {
 
         /**
          * Declaration oo facility constants.
@@ -98,8 +97,7 @@
          * Returns the SocketObject instance holded.
          * @return \Brickoo\System\SocketObject
          */
-        public function SocketObject()
-        {
+        public function SocketObject() {
             return $this->_SocketObject;
         }
 
@@ -114,8 +112,7 @@
          * @throws UnexpectedValueException if the directory is not set
          * @return string
          */
-        public function getHostname()
-        {
+        public function getHostname() {
             if ($this->hostname === null) {
                 throw new \UnexpectedValueException('The hostname is `null`.');
             }
@@ -128,8 +125,7 @@
          * @param string $hostname the hostname to set
          * @return \Brickoo\Log\Handler\SyslogNGHandler
          */
-        public function setHostname($hostname)
-        {
+        public function setHostname($hostname) {
             TypeValidator::IsString($hostname);
 
             $this->hostname = str_replace(' ', '_', $hostname);
@@ -148,8 +144,7 @@
          * @throws UnexpectedValueException if the server adress is not set
          * @return string
          */
-        public function getServerAdress()
-        {
+        public function getServerAdress() {
             if ($this->serverAdress === null) {
                 throw new \UnexpectedValueException('The server adress is `null`.');
             }
@@ -161,8 +156,7 @@
          * @param string $serverAdress the server adress to set
          * @return \Brickoo\Log\Handler\SyslogNGHandler
          */
-        public function setServerAdress($serverAdress)
-        {
+        public function setServerAdress($serverAdress) {
             TypeValidator::IsString($serverAdress);
 
             $this->serverAdress = $serverAdress;
@@ -182,8 +176,7 @@
          * @throws UnexpectedValueException if the server port is not set
          * @return integer the port number
          */
-        public function getServerPort()
-        {
+        public function getServerPort() {
             if ($this->serverPort === null) {
                 throw new \UnexpectedValueException('The server port is `null`.');
             }
@@ -196,8 +189,7 @@
          * @param integer $port the syslog-ng port number
          * @return \Brickoo\Log\Handler\SyslogNGHandler
          */
-        public function setServerPort($port)
-        {
+        public function setServerPort($port) {
             TypeValidator::IsInteger($port);
 
             $this->serverPort = $port;
@@ -216,8 +208,7 @@
          * @throws UnexpectedValueException if the timeout is not set
          * @return integer the timeout of the connection
          */
-        public function getTimeout()
-        {
+        public function getTimeout() {
             if ($this->timeout === null) {
                 throw new \UnexpectedValueException('The timeout is `null`.');
             }
@@ -230,8 +221,7 @@
          * @param integer $timeout the timeout value
          * @return obejct reference
          */
-        public function SetTimeout($timeout)
-        {
+        public function SetTimeout($timeout) {
             TypeValidator::IsInteger($timeout);
 
             $this->timeout = $timeout;
@@ -250,8 +240,7 @@
          * @throws UnexpectedValueException if the facility is not set
          * @return integer the facility used
          */
-        public function getFacility()
-        {
+        public function getFacility() {
             if ($this->facility === null) {
                 throw new \UnexpectedValueException('The facility is `null`.');
             }
@@ -265,8 +254,7 @@
          * @throws OutOfRangeException if the facility is out of range
          * @return \Brickoo\Log\Handler\SyslogNGHandler
          */
-        public function setFacility($facility)
-        {
+        public function setFacility($facility) {
             TypeValidator::IsInteger($facility);
 
             if (($facility < 0) || ($facility > 23)) {
@@ -284,8 +272,7 @@
          * @param Brickoo\System\Interfaces\SocketObjectInterface $SocketObject
          * @return void
          */
-        public function __construct(\Brickoo\System\Interfaces\SocketObjectInterface $SocketObject)
-        {
+        public function __construct(\Brickoo\System\Interfaces\SocketObjectInterface $SocketObject) {
             $this->_SocketObject   = $SocketObject;
         }
 
@@ -294,8 +281,7 @@
          * @param integer $severity the severity of the log message
          * @return string the log message header
          */
-        public function getMessageHeader($severity)
-        {
+        public function getMessageHeader($severity) {
             TypeValidator::IsInteger($severity);
 
             return '<' . (($this->getFacility() * 8) + $severity) . '>' . date('c') . ' ' . $this->getHostname();
@@ -307,8 +293,7 @@
          * @throws Core\Exceptions\UnableToConnectException if the connection can not be created
          * @return \Brickoo\Log\Handler\SyslogNGHandler
          */
-        protected function sendMessages(array $messages, $severity)
-        {
+        protected function sendMessages(array $messages, $severity) {
             TypeValidator::IsInteger($severity);
 
             $SocketObject = $this->SocketObject();
@@ -334,8 +319,7 @@
          * @param integer $severity the severity of the messages
          * @return \Brickoo\Log\Handler\SyslogNGHandler
          */
-        public function log($messages, $severity)
-        {
+        public function log($messages, $severity) {
             TypeValidator::IsInteger($severity);
 
             if (! is_array($messages)) {

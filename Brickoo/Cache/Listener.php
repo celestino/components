@@ -42,8 +42,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Listener implements Event\Interfaces\ListenerAggregateInterface
-    {
+    class Listener implements Event\Interfaces\ListenerAggregateInterface {
 
         /**
          * Holds an instance of the Manager class.
@@ -64,8 +63,7 @@
          * @param integer $priority the listener priority
          * @return void
          */
-        public function __construct(\Brickoo\Cache\Interfaces\ManagerInterface $Manager, $priority = 0)
-        {
+        public function __construct(\Brickoo\Cache\Interfaces\ManagerInterface $Manager, $priority = 0) {
             TypeValidator::IsInteger($priority);
 
             $this->Manager             = $Manager;
@@ -77,8 +75,7 @@
          * @param \Brickoo\Event\Interfaces\ManagerInterface $EventManager
          * @return void
          */
-        public function aggregateListeners(\Brickoo\Event\Interfaces\ManagerInterface $EventManager)
-        {
+        public function aggregateListeners(\Brickoo\Event\Interfaces\ManagerInterface $EventManager) {
             $EventManager->attachListener(Events::EVENT_CACHE_GET,
                 array($this->Manager, 'get'), $this->listenerPriority, array('id')
             );

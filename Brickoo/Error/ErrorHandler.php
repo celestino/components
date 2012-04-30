@@ -45,8 +45,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ErrorHandler
-    {
+    class ErrorHandler {
 
         /**
          * Holds the bitwise error level to convert erros to exceptions.
@@ -58,8 +57,7 @@
          * Returns the current error level.
          * @return integer the current error level
          */
-        public function getErrorLevel()
-        {
+        public function getErrorLevel() {
             return $this->errorLevel;
         }
 
@@ -69,8 +67,7 @@
          * @throws InvalidArgumentException if the argument is not an integer
          * @return \Brickoo\Error\ErrorHandler
          */
-        public function setErrorLevel($errorLevel)
-        {
+        public function setErrorLevel($errorLevel) {
             TypeValidator::IsInteger($errorLevel);
 
             $this->errorLevel = $errorLevel;
@@ -88,8 +85,7 @@
          * Checks if the instance is registered as an error handler.
          * @return boolean check result
          */
-        public function isRegistered()
-        {
+        public function isRegistered() {
             return ($this->isRegistered === true);
         }
 
@@ -98,8 +94,7 @@
          * @throws DuplicateHandlerRegistrationException if the instance is already registred
          * @return \Brickoo\Error\ErrorHandler
          */
-        public function register()
-        {
+        public function register() {
             if ($this->isRegistered()) {
                 throw new Exceptions\DuplicateHandlerRegistrationException('ErrorHandler');
             }
@@ -115,8 +110,7 @@
          * @throws HandlerNotRegisteredException if the instance is not registred as handler
          * @return \Brickoo\Error\ErrorHandler
          */
-        public function unregister()
-        {
+        public function unregister() {
             if (! $this->isRegistered()) {
                 throw new Exceptions\HandlerNotRegisteredException('ErrorHandler');
             }
@@ -132,8 +126,7 @@
          * Initializes the class properties.
          * @return void
          */
-        public function __construct()
-        {
+        public function __construct() {
             $this->isRegistered    = false;
             $this->errorLevel      = 0;
         }
@@ -148,8 +141,7 @@
          * @throws ErrorHandlerException if the error level matches
          * @return boolean true to block php error message forwarding
          */
-        public function handleError($errorCode, $errorMessage, $errorFile, $errorLine)
-        {
+        public function handleError($errorCode, $errorMessage, $errorFile, $errorLine) {
             $message = $errorMessage . ' throwed in ' . $errorFile . ' on line ' . $errorLine;
 
             Event\Manager::Instance()->notify(new Event\Event(Log\Events::EVENT_LOG, $this, array(

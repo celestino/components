@@ -43,8 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class PhpTemplateTest extends \PHPUnit_Framework_TestCase
-    {
+    class PhpTemplateTest extends \PHPUnit_Framework_TestCase {
         /**
          * Holds an instance of the PhpTemplate class.
          * @var \Brickoo\Template\PhpTemplate
@@ -61,8 +60,7 @@
          * Sets up PhpTemplate instance used.
          * @return void
          */
-        protected function setUp()
-        {
+        protected function setUp() {
             $this->templateFile    = __DIR__ .'/assets/UnitTestTemplate.php';
             $this->PhpTemplate     = new PhpTemplate();
         }
@@ -71,8 +69,7 @@
          * Test if the PhpTemplate implements the TemplateInterface.
          * @covers Brickoo\Template\PhpTemplate::__construct
          */
-        public function testConstruct()
-        {
+        public function testConstruct() {
             $Template = new PhpTemplate($this->templateFile);
             $this->assertInstanceOf('Brickoo\Template\Interfaces\TemplateInterface', $Template);
         }
@@ -83,8 +80,7 @@
          * @covers Brickoo\Template\PhpTemplate::setTemplateFile
          * @covers Brickoo\Template\PhpTemplate::hasTemplateFile
          */
-        public function testTemplateFileRoutines()
-        {
+        public function testTemplateFileRoutines() {
             $this->assertSame($this->PhpTemplate, $this->PhpTemplate->setTemplateFile($this->templateFile));
             $this->assertAttributeEquals($this->templateFile, 'templateFile', $this->PhpTemplate);
             $this->assertEquals($this->templateFile, $this->PhpTemplate->getTemplateFile());
@@ -97,8 +93,7 @@
          * @covers Brickoo\Template\Exceptions\TemplateFileDoesNotExist::__construct
          * @expectedException Brickoo\Template\Exceptions\TemplateFileDoesNotExist
          */
-        public function testSetTemplateFileException()
-        {
+        public function testSetTemplateFileException() {
             $this->PhpTemplate->setTemplateFile('FileDoesNotExists'. uniqid() .'.test');
         }
 
@@ -108,8 +103,7 @@
          * @covers Brickoo\Template\PhpTemplate::addTemplateVars
          * @covers Brickoo\Template\PhpTemplate::hasTemplateVar
          */
-        public function testTemplateVarsRoutines()
-        {
+        public function testTemplateVarsRoutines() {
             $variables = array('content' => 'some content');
             $this->assertSame($this->PhpTemplate, $this->PhpTemplate->addTemplateVars($variables));
             $this->assertAttributeEquals($variables, 'templateVars', $this->PhpTemplate);
@@ -121,8 +115,7 @@
          * Test if the content of a single template variable can be retrieved.
          * @covers Brickoo\Template\PhpTemplate::getTemplateVar
          */
-        public function testGetTemplateVar()
-        {
+        public function testGetTemplateVar() {
             $variables = array('content' => 'some content');
             $this->assertSame($this->PhpTemplate, $this->PhpTemplate->addTemplateVars($variables));
             $this->assertEquals('some content', $this->PhpTemplate->getTemplateVar('content'));
@@ -133,8 +126,7 @@
          * @covers Brickoo\Template\PhpTemplate::getTemplateVar
          * @expectedException UnexpectedValueException
          */
-        public function testGetTemplateVarValueException()
-        {
+        public function testGetTemplateVarValueException() {
             $this->PhpTemplate->getTemplateVar('content');
         }
 
@@ -142,8 +134,7 @@
          * Test if a template is recognized as available.
          * @covers Brickoo\Template\PhpTemplate::hasTemplateVar
          */
-        public function testHasTemplateVar()
-        {
+        public function testHasTemplateVar() {
             $variables = array('content' => 'some content');
             $this->assertSame($this->PhpTemplate, $this->PhpTemplate->addTemplateVars($variables));
             $this->assertTrue($this->PhpTemplate->hasTemplateVar('content'));
@@ -153,8 +144,7 @@
          * Test if the template can be rendered.
          * @covers Brickoo\Template\PhpTemplate::render
          */
-        public function testRender()
-        {
+        public function testRender() {
             $expected = '<html><head></head><body>unit test content</body></html>';
 
             $this->PhpTemplate->setTemplateFile($this->templateFile)
@@ -167,8 +157,7 @@
          * @covers Brickoo\Template\PhpTemplate::render
          * @expectedException UnexpectedValueException
          */
-        public function testRenderTemplateException()
-        {
+        public function testRenderTemplateException() {
             $this->PhpTemplate->render();
         }
 
@@ -176,8 +165,7 @@
          * Test if a template variable can be retrived through the magic get method.
          * @covers Brickoo\Template\PhpTemplate::__get
          */
-        public function testMagicGet()
-        {
+        public function testMagicGet() {
             $this->PhpTemplate->addTemplateVars(array('content' => 'unit test content'));
             $this->assertEquals('unit test content', $this->PhpTemplate->content);
         }
@@ -186,8 +174,7 @@
          * Test if template variables can be added through the magic set method.
          * @covers Brickoo\Template\PhpTemplate::__set
          */
-        public function testMagicSet()
-        {
+        public function testMagicSet() {
             $this->assertEquals('some value', ($this->PhpTemplate->content = 'some value'));
             $this->assertAttributeEquals(array('content' => 'some value'), 'templateVars', $this->PhpTemplate);
         }

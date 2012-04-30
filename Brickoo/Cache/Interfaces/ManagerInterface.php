@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    Interface ManagerInterface
-    {
+    Interface ManagerInterface {
 
          /**
          * Return a cached content assigned to the identifier.
@@ -51,6 +50,7 @@
          * @param callable $callback the callback to call if the content is not cached
          * @param array $arguments the arguments to pass to the callback
          * @param integer $lifetime the lifetime for the cached content to set
+         * @return mixed the cached content
          */
         public function getByCallback($cacheIdentifier, $callback, array $arguments, $lifetime);
 
@@ -69,7 +69,7 @@
          * @param string $identifier the identifier which holds the content
          * @param mixed $content the content to cache
          * @param integer $lifetime the lifetime of the cached content
-         * @return \Brickoo\Cache\Interfaces\CacheProviderInterface
+         * @return \Brickoo\Cache\Interfaces\ManagerInterface
          */
         public function set($identifier, $content, $lifetime);
 
@@ -77,14 +77,14 @@
          * Deletes the cached content which is holded by the identifier.
          * Removes the local cached content.
          * @param string $identifier the identifier which holds the content
-         * @return \Brickoo\Cache\Interfaces\CacheProviderInterface
+         * @return \Brickoo\Cache\Interfaces\ManagerInterface
          */
         public function delete($identifier);
 
         /**
          * Flushes the cache which (flag as removed) removes the cached content.
          * Flushes the local cache.
-         * @return \Brickoo\Cache\Interfaces\CacheProviderInterface
+         * @return \Brickoo\Cache\Interfaces\ManagerInterface
          */
         public function flush();
 

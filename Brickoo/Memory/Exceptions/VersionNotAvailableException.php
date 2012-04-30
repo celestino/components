@@ -40,8 +40,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class VersionNotAvailableException extends \Exception
-    {
+    class VersionNotAvailableException extends \Exception {
 
         /**
          * Class constructor.
@@ -49,8 +48,7 @@
          * @param integer $version the version number
          * @return void
          */
-        public function __construct($version)
-        {
+        public function __construct($version) {
             parent::__construct(sprintf('The version `%s` is not available.', $version));
         }
 

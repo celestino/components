@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface ContainerInterface
-    {
+    interface ContainerInterface {
 
         /**
         * Checks if the session property is available.

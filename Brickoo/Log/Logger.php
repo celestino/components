@@ -41,8 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Logger implements Interfaces\LoggerInterface
-    {
+    class Logger implements Interfaces\LoggerInterface {
 
         /**
         * Holds the severity levels since Windows does have issues.
@@ -68,8 +67,7 @@
          * Retrieve the log handler dependency.
          * @return \Brickoo\Log\Handler\Interface\LogHandlerInterface
          */
-        public function LogHandler()
-        {
+        public function LogHandler() {
             return $this->_LogHandler;
         }
 
@@ -83,8 +81,7 @@
          * Returns the current default log severity.
          * @return integer the default log severity
          */
-        public function getDefaultSeverity()
-        {
+        public function getDefaultSeverity() {
             return $this->defaultSeverity;
         }
 
@@ -94,8 +91,7 @@
          * @param integer $logSeverity the default log severity to set
          * @return \Brickoo\Log\Logger
          */
-        public function setDefaultSeverity($severity)
-        {
+        public function setDefaultSeverity($severity) {
             TypeValidator::IsInteger($severity);
 
             $this->defaultSeverity = $severity;
@@ -110,8 +106,7 @@
         * @param \Brickoo\Log\Handler\Interfaces\LogHandlerInterface $LogHandler the LogHandler dependency
         * @return void
         */
-        public function __construct(\Brickoo\Log\Handler\Interfaces\LogHandlerInterface $LogHandler)
-        {
+        public function __construct(\Brickoo\Log\Handler\Interfaces\LogHandlerInterface $LogHandler) {
             $this->_LogHandler           = $LogHandler;
             $this->defaultSeverity       = self::SEVERITY_INFO;
         }
@@ -121,8 +116,7 @@
          * @param array|string $messages the messages to send
          * @return \Brickoo\Log\Logger
          */
-        public function log($messages, $severity = null)
-        {
+        public function log($messages, $severity = null) {
             if ($severity !== null) {
                 TypeValidator::IsInteger($severity);
             }
@@ -144,8 +138,7 @@
          * @param \Brickoo\Event\Interfaces\EventInterface $Event the event executed
          * @return void
          */
-        public function logEvent(\Brickoo\Event\Interfaces\EventInterface $Event)
-        {
+        public function logEvent(\Brickoo\Event\Interfaces\EventInterface $Event) {
             if (($messages = $Event->getParam('messages')) === null) {
                 return null;
             }

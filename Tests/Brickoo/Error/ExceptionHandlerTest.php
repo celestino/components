@@ -44,8 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ExceptionHandlerTest extends PHPUnit_Framework_TestCase
-    {
+    class ExceptionHandlerTest extends PHPUnit_Framework_TestCase {
 
         /**
          * Holds the ExceptionHandler instance for the tests.
@@ -58,8 +57,7 @@
          * @see PHPUnit_Framework_TestCase::setUp()
          * @return void
          */
-        public function setUp()
-        {
+        public function setUp() {
             $this->ExceptionHandler = new ExceptionHandler();
         }
 
@@ -67,8 +65,7 @@
          * Test if the class can be created and implements the ExceptionHandlerInterface.
          * @covers Brickoo\Error\ExceptionHandler::__construct
          */
-        public function testExceptionHandlerConstructor()
-        {
+        public function testExceptionHandlerConstructor() {
             $this->assertInstanceOf
             (
                 '\Brickoo\Error\ExceptionHandler',
@@ -81,8 +78,7 @@
          * @covers Brickoo\Error\ExceptionHandler::register
          * @covers Brickoo\Error\ExceptionHandler::unregister
          */
-        public function testUnRegisterProcess()
-        {
+        public function testUnRegisterProcess() {
             $this->assertSame($this->ExceptionHandler, $this->ExceptionHandler->register());
             $this->assertSame($this->ExceptionHandler, $this->ExceptionHandler->unregister());
         }
@@ -93,8 +89,7 @@
          * @covers Brickoo\Error\Exceptions\DuplicateHandlerRegistrationException
          * @expectedException Brickoo\Error\Exceptions\DuplicateHandlerRegistrationException
          */
-        public function testRegisterDuplicateRegistrationException()
-        {
+        public function testRegisterDuplicateRegistrationException() {
             $this->ExceptionHandler->register();
             $this->ExceptionHandler->register();
         }
@@ -105,8 +100,7 @@
          * @covers Brickoo\Error\Exceptions\HandlerNotRegisteredException
          * @expectedException Brickoo\Error\Exceptions\HandlerNotRegisteredException
          */
-        public function testUnregisterNotregisteredException()
-        {
+        public function testUnregisterNotregisteredException() {
             $this->ExceptionHandler->unregister();
         }
 
@@ -114,8 +108,7 @@
          * Test if the error handler can be registered and unregistered.
          * @covers Brickoo\Error\ExceptionHandler::isRegistered
          */
-        public function testIsRegistered()
-        {
+        public function testIsRegistered() {
             $this->assertFalse($this->ExceptionHandler->isRegistered());
             $this->ExceptionHandler->register();
             $this->assertTrue($this->ExceptionHandler->isRegistered());
@@ -129,11 +122,10 @@
          * @covers Brickoo\Error\ExceptionHandler::getExceptionMessage
          * @covers Brickoo\Log\Events
          */
-        public function testHandleException()
-        {
+        public function testHandleException() {
             $this->assertEquals
             (
-                '[123]: message Throwed in ' . __FILE__ . ' on line 137',
+                '[123]: message Throwed in ' . __FILE__ . ' on line 129',
                 $this->ExceptionHandler->handleException(new Exception('message', 123))
             );
         }
@@ -145,8 +137,7 @@
          * @expectedException Brickoo\Error\Exceptions\ErrorHandlerException
          * @expectedExceptionMessage some exception message
          */
-        public function testDisplayException()
-        {
+        public function testDisplayException() {
             $this->ExceptionHandler->register()
                                    ->displayExceptions = true;
             $this->assertNull

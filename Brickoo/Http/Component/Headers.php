@@ -42,8 +42,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Headers extends Memory\Container implements Interfaces\HeadersInterface
-    {
+    class Headers extends Memory\Container implements Interfaces\HeadersInterface {
 
         /**
          * Holds the accept types supported.
@@ -57,8 +56,7 @@
          * @param string $neededType the type which is needed if supported
          * @return array accept types sorted by priority descening otherwise null
          */
-        public function getAcceptTypes()
-        {
+        public function getAcceptTypes() {
             if (empty($this->acceptTypes) && ($acceptHeader = $this->get('Accept'))) {
                 $this->acceptTypes = $this->getAcceptHeaderByRegex(
                     '~^(?<type>[a-z\/\+\-\*]+)\s*(\;\s*q\=(?<quality>(0\.\d{1,5}|1\.0|[01])))?~i',
@@ -75,8 +73,7 @@
          * @param string $acceptType the accept type to check
          * @return boolean check result
          */
-        public function isTypeSupported($acceptType)
-        {
+        public function isTypeSupported($acceptType) {
             TypeValidator::IsString($acceptType);
 
             return array_key_exists($acceptType, $this->getAcceptTypes());
@@ -93,8 +90,7 @@
          * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.4
          * @return array the languages sorted by priority descening
          */
-        public function getAcceptLanguages()
-        {
+        public function getAcceptLanguages() {
             if (empty($this->acceptLanguages) && ($acceptLanguageHeader = $this->get('Accept-Language'))) {
                 $this->acceptLanguages = $this->getAcceptHeaderByRegex(
                     '~^(?<language>[a-z\-\*]+)\s*(\;\s*q\=(?<quality>(0\.\d{1,5}|1\.0|[01])))?$~i',
@@ -111,8 +107,7 @@
          * @param string $acceptLanguage the accept language to check
          * @return boolean check result
          */
-        public function isLanguageSupported($acceptLanguage)
-        {
+        public function isLanguageSupported($acceptLanguage) {
             TypeValidator::IsString($acceptLanguage);
 
             return array_key_exists($acceptLanguage, $this->getAcceptLanguages());
@@ -129,8 +124,7 @@
          * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.3
          * @return array the encondings sorted by priority descening
          */
-        public function getAcceptEncodings()
-        {
+        public function getAcceptEncodings() {
             if (empty($this->acceptEncodings) && ($acceptEncodingHeader = $this->get('Accept-Encoding'))) {
                 $this->acceptEncodings = $this->getAcceptHeaderByRegex(
                     '~^(?<encoding>[a-z\-\*]+)\s*(\;\s*q\=(?<quality>(0\.\d{1,5}|1\.0|[01])))?$~i',
@@ -147,8 +141,7 @@
          * @param string $acceptEncoding the accept encoding type to check
          * @return boolean check result
          */
-        public function isEncodingSupported($acceptEncoding)
-        {
+        public function isEncodingSupported($acceptEncoding) {
             TypeValidator::IsString($acceptEncoding);
 
             return array_key_exists($acceptEncoding, $this->getAcceptEncodings());
@@ -165,8 +158,7 @@
          * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.2
          * @return array the charsets sorted by priority descening
          */
-        public function getAcceptCharsets()
-        {
+        public function getAcceptCharsets() {
             if (empty($this->acceptCharsets) && ($acceptEncodingHeader = $this->get('Accept-Charset'))) {
                 $this->acceptCharsets = $this->getAcceptHeaderByRegex(
                     '~^(?<charset>[a-z0-9\-\*]+)\s*(\;\s*q\=(?<quality>(0\.\d{1,5}|1\.0|[01])))?$~i',
@@ -183,8 +175,7 @@
          * @param string $acceptEncoding the accept encoding type to check
          * @return boolean check result
          */
-        public function isCharsetSupported($acceptCharset)
-        {
+        public function isCharsetSupported($acceptCharset) {
             TypeValidator::IsString($acceptCharset);
 
             return array_key_exists($acceptCharset, $this->getAcceptCharsets());
@@ -197,8 +188,7 @@
          * @param string $acceptHeader the accept header to retireve the values from
          * @return array the result containing the header values
          */
-        public function getAcceptHeaderByRegex($regex, $keyName, $acceptHeader)
-        {
+        public function getAcceptHeaderByRegex($regex, $keyName, $acceptHeader) {
             TypeValidator::isString($regex);
             TypeValidator::isString($keyName);
             TypeValidator::isString($acceptHeader);
@@ -222,8 +212,7 @@
          * Initializes the class properties.
          * @return void
          */
-        public function __construct()
-        {
+        public function __construct() {
             parent::__construct();
 
             $this->acceptTypes        = array();
@@ -236,8 +225,7 @@
          * Imports the request http headers.
          * @return \Brickoo\Http\Component\Headers
          */
-        public function importFromGlobals()
-        {
+        public function importFromGlobals() {
             $this->merge($this->getRequestHeaders());
             $this->normalizeHeaders();
 
@@ -250,8 +238,7 @@
          * Looks also for the Apache headers if availale.
          * @return array the collected http headers
          */
-        public function getRequestHeaders()
-        {
+        public function getRequestHeaders() {
             $headers = array();
 
             foreach ($_SERVER as $key => $value) {
@@ -272,8 +259,7 @@
          * @param string $headers the headers to import
          * @return \Brickoo\Http\Component\Headers
          */
-        public function importFromString($headers)
-        {
+        public function importFromString($headers) {
             TypeValidator::IsString($headers);
 
             $importedHeader = array();
@@ -305,8 +291,7 @@
          * Normalizes the headers keys.
          * @return \Brickoo\Http\Component\Headers
          */
-        public function normalizeHeaders()
-        {
+        public function normalizeHeaders() {
             $normalizedHeaders = array();
 
             foreach ($this->container as $headerName => $headerValue) {
@@ -325,8 +310,7 @@
          * Coverts headers to a headers string.
          * @return string the headers string
          */
-        public function toString()
-        {
+        public function toString() {
             $headers = '';
 
             $this->normalizeHeaders();
@@ -348,8 +332,7 @@
          * Supporting casting to string.
          * @return string the headers string
          */
-        public function __toString()
-        {
+        public function __toString() {
             return $this->toString();
         }
 

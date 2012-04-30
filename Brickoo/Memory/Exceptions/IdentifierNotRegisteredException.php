@@ -40,8 +40,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class IdentifierNotRegisteredException extends \Exception
-    {
+    class IdentifierNotRegisteredException extends \Exception {
 
         /**
          * Class constructor.
@@ -49,8 +48,7 @@
          * @param string $identifier the identifier which is not registred.
          * @return void
          */
-        public function __construct($identifier)
-        {
+        public function __construct($identifier) {
             parent::__construct(sprintf('The identifier `%s` is not registered.', $identifier));
         }
 

@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    Interface RouterInterface
-    {
+    Interface RouterInterface {
 
         /**
          * Returns the Request instance implementing the Core\Interfaces\RequestInterface.

@@ -40,16 +40,14 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class RepositoryLockedException extends \Exception
-    {
+    class RepositoryLockedException extends \Exception {
 
         /**
          * Class constructor.
          * Calls the parent Exception constructor.
          * @return void
          */
-        public function __construct()
-        {
+        public function __construct() {
             parent::__construct('Repository is locked and can not be modified.');
         }
 

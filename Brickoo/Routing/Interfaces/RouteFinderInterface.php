@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface RouteFinderInterface
-    {
+    interface RouteFinderInterface {
 
         /**
          * Search for the Route which is responsible for the request.

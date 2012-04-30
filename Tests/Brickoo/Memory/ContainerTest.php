@@ -43,8 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ContainerTest extends \PHPUnit_Framework_TestCase
-    {
+    class ContainerTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance of the Container class.
@@ -56,8 +55,7 @@
          * Sets up the Container instance used.
          * @return void
          */
-        protected function setUp()
-        {
+        protected function setUp() {
             $this->Container = new Container();
         }
 
@@ -66,8 +64,7 @@
          * container property is defined.
          * @covers Brickoo\Memory\Container::__construct
          */
-        public function testConstructor()
-        {
+        public function testConstructor() {
             $this->assertInstanceOf('Brickoo\Memory\Container', $this->Container);
             $this->assertAttributeEquals(array(), 'container', $this->Container);
         }
@@ -79,8 +76,7 @@
          * @covers Brickoo\Memory\Container::offsetExists
          * @covers Brickoo\Memory\Container::offsetUnset
          */
-        public function testArrayAccess()
-        {
+        public function testArrayAccess() {
             $this->Container['unit'] = 'test';
             $this->assertAttributeEquals(array('unit' => 'test'), 'container', $this->Container);
             $this->assertEquals('test', $this->Container['unit']);
@@ -98,8 +94,7 @@
          * @covers Brickoo\Memory\Container::next
          * @covers Brickoo\Memory\Container::rewind
          */
-        public function testInterator()
-        {
+        public function testInterator() {
             $data = array('key1' => 'value1', 'key2' => 'value2', 'key3' => 'value3');
             $this->Container->merge($data);
             while($this->Container->valid()) {
@@ -115,8 +110,7 @@
          * Test if the Countable interface implemented.
          * @covers Brickoo\Memory\Container::count
          */
-        public function testCount()
-        {
+        public function testCount() {
             $this->Container->merge(array('key1' => 'value1', 'key2' => 'value2', 'key3' => 'value3'));
             $this->assertEquals(3, count($this->Container));
         }
@@ -126,8 +120,7 @@
          * Test if the offset does not exist the default value is returned.
          * @covers Brickoo\Memory\Container::get
          */
-        public function testGet()
-        {
+        public function testGet() {
             $this->Container['unit'] = 'test';
             $this->assertEquals('test', $this->Container->get('unit'));
             $this->assertEquals('DEFAULT', $this->Container->get('undefined', 'DEFAULT'));
@@ -137,8 +130,7 @@
          * Test if element can be set to the container.
          * @covers Brickoo\Memory\Container::set
          */
-        public function testSet()
-        {
+        public function testSet() {
             $this->assertSame($this->Container, $this->Container->set('unit', 'test'));
             $this->assertAttributeEquals(array('unit' => 'test'), 'container', $this->Container);
         }
@@ -147,8 +139,7 @@
          * Test if an element is recognized as available.
          * @covers Brickoo\Memory\Container::has
          */
-        public function testHas()
-        {
+        public function testHas() {
             $this->Container['unit'] = 'test';
             $this->assertTrue($this->Container->has('unit'));
             $this->assertFalse($this->Container->has('undefinied'));
@@ -158,8 +149,7 @@
          * Test if the container elements can be merged with a passed array.
          * @covers Brickoo\Memory\Container::merge
          */
-        public function testMerge()
-        {
+        public function testMerge() {
             $initData        = array('key1' => 'value1');
             $mergeData       = array('key2' => 'value2');
             $expectedData    = array_merge($initData, $mergeData);
@@ -174,8 +164,7 @@
          * Test if an array can be imported and used as the container.
          * @covers Brickoo\Memory\Container::fromArray
          */
-        public function testFromArray()
-        {
+        public function testFromArray() {
             $expected  = array('test', 'import');
             $this->assertSame($this->Container, $this->Container->fromArray($expected));
             $this->assertAttributeEquals($expected, 'container', $this->Container);
@@ -185,8 +174,7 @@
          * Test if the container can be retrived as array.
          * @covers Brickoo\Memory\Container::toArray
          */
-        public function testToArray()
-        {
+        public function testToArray() {
             $expected = array('test');
             $this->assertSame($this->Container, $this->Container->fromArray($expected));
             $this->assertEquals($expected, $this->Container->toArray());
@@ -196,8 +184,7 @@
          * Test if the container can be recognized as empty or not.
          * @covers Brickoo\Memory\Container::isEmpty
          */
-        public function testIsEmpty()
-        {
+        public function testIsEmpty() {
             $this->assertTrue($this->Container->isEmpty());
             $this->Container['unit'] = 'test';
             $this->assertFalse($this->Container->isEmpty());
@@ -207,8 +194,7 @@
          * Test if using the magic function __get the element value is returned.
          * @covers Brickoo\Memory\Container::__get
          */
-        public function test__get()
-        {
+        public function test__get() {
             $this->Container['unit'] = 'test';
             $this->assertEquals('test', $this->Container->unit);
         }
@@ -217,8 +203,7 @@
          * Test if an element can be set by the magic function __set.
          * @covers Brickoo\Memory\Container::__set
          */
-        public function test__set()
-        {
+        public function test__set() {
             $this->assertAttributeEquals(array(), 'container', $this->Container);
             $this->Container->unit = 'test';
             $this->assertAttributeEquals(array('unit' => 'test'), 'container', $this->Container);

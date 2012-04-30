@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    Interface LocalCacheInterface
-    {
+    Interface LocalCacheInterface {
 
         /**
          * Returns the cached content from the matching dentifier.

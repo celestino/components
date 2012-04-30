@@ -43,8 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class EventManagerTest extends \PHPUnit_Framework_TestCase
-    {
+    class EventManagerTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance of the EventManager class.
@@ -56,8 +55,7 @@
          * Sets up the EventManager instance used.
          * @return void
          */
-        protected function setUp()
-        {
+        protected function setUp() {
             $this->EventManager = new Manager();
         }
 
@@ -65,8 +63,7 @@
          * Test if the EventManager implements the EventManagerInterface.
          * @covers Brickoo\Event\Manager::__construct
          */
-        public function testConstruct()
-        {
+        public function testConstruct() {
             $this->assertInstanceOf('Brickoo\Event\Interfaces\ManagerInterface', $this->EventManager);
         }
 
@@ -74,8 +71,7 @@
          * Test if the static Mananager instance canbe injected.
          * @covers Brickoo\Event\Manager::Instance
          */
-        public function testStaticInstanceInjection()
-        {
+        public function testStaticInstanceInjection() {
             require_once 'Fixture/EventManagerFixture.php';
             $EventManager = new EventManagerFixture();
             $EventManager->resetInstance();
@@ -92,8 +88,7 @@
          * Test if the static Manager can be lazy initialized.
          * @covers Brickoo\Event\Manager::Instance
          */
-        public function testStaticInstanceLazyInitialization()
-        {
+        public function testStaticInstanceLazyInitialization() {
             require_once 'Fixture/EventManagerFixture.php';
             $EventManager = new EventManagerFixture();
             $EventManager->resetInstance();
@@ -107,8 +102,7 @@
          * Test if aggregated listeners would be attached.
          * @covers Brickoo\Event\Manager::attachAggregatedListeners
          */
-        public function testAttachAggregatedListeners()
-        {
+        public function testAttachAggregatedListeners() {
             $Listener = $this->getMock('\Brickoo\Event\Interfaces\ListenerAggregateInterface', array('aggregateListeners'));
             $Listener->expects($this->once())
                      ->method('aggregateListeners')
@@ -124,8 +118,7 @@
          * @covers Brickoo\Event\Manager::getEventListenerQueue
          * @covers Brickoo\Event\Manager::getUniformEventName
          */
-        public function testAttachListener()
-        {
+        public function testAttachListener() {
             $callback = function(){};
             $this->assertInternalType('string', ($listenerUID = $this->EventManager->attachListener('test', $callback)));
 
@@ -144,8 +137,7 @@
          * @covers Brickoo\Event\Manager::attachListener
          * @expectedException InvalidArgumentException
          */
-        public function testAttachListenerCallbackException()
-        {
+        public function testAttachListenerCallbackException() {
             $this->EventManager->attachListener('test', 'wrongType');
         }
 
@@ -154,8 +146,7 @@
          * @covers Brickoo\Event\Manager::attachListener
          * @expectedException InvalidArgumentException
          */
-        public function testAttachListenerConditionException()
-        {
+        public function testAttachListenerConditionException() {
             $this->EventManager->attachListener('test', function(){}, 0, null, 'wrongType');
         }
 
@@ -164,8 +155,7 @@
          * @covers Brickoo\Event\Manager::detachListener
          * @covers Brickoo\Event\Manager::isListener
          */
-        public function testDetachListener()
-        {
+        public function testDetachListener() {
             $callback = function(){};
             $listenerUID = $this->EventManager->attachListener('test', $callback);
             $expectedListeners = array(
@@ -185,8 +175,7 @@
          * @covers Brickoo\Event\Manager::hasEventListeners
          * @covers Brickoo\Event\Manager::getUniformEventName
          */
-        public function testHasEventListeners()
-        {
+        public function testHasEventListeners() {
             $this->assertFalse($this->EventManager->hasEventListeners('test'));
             $this->EventManager->attachListener('test', function() {});
             $this->assertTrue($this->EventManager->hasEventListeners('test'));
@@ -201,8 +190,7 @@
          * @covers Brickoo\Event\Manager::removeProcessedEvent
          * @covers Brickoo\Event\Manager::processEvent
          */
-        public function testNotify()
-        {
+        public function testNotify() {
             $Event = $this->getMock('Brickoo\Event\Event',
                 array('getName', 'hasEventManager', 'getParams', 'getParam'),
                 array('test.event')
@@ -234,8 +222,7 @@
          * @covers Brickoo\Event\Manager::removeProcessedEvent
          * @covers Brickoo\Event\Manager::processEvent
          */
-        public function testNotifyOnce()
-        {
+        public function testNotifyOnce() {
             $Event = $this->getMock('Brickoo\Event\Event',
                 array('getName', 'hasEventManager', 'getParams', 'getParam'),
                 array('test.event')
@@ -264,8 +251,7 @@
          * @covers Brickoo\Event\Exceptions\InfiniteEventLoopException::__construct
          * @expectedException Brickoo\Event\Exceptions\InfiniteEventLoopException
          */
-        public function testNotifyInfinitLoopException()
-        {
+        public function testNotifyInfinitLoopException() {
             $Event = $this->getMock('Brickoo\Event\Event',
                 array('getName', 'hasEventManager'),
                 array('test.event')
@@ -289,8 +275,7 @@
          * @covers Brickoo\Event\Exceptions\InfiniteEventLoopException::__construct
          * @expectedException Brickoo\Event\Exceptions\InfiniteEventLoopException
          */
-        public function testAskInfinitLoopException()
-        {
+        public function testAskInfinitLoopException() {
             $Event = $this->getMock('Brickoo\Event\Event',
                 array('getName', 'hasEventManager'),
                 array('test.event')
@@ -317,8 +302,7 @@
          * @covers Brickoo\Event\Manager::addEventProcessing
          * @covers Brickoo\Event\Manager::removeProcessedEvent
          */
-        public function testAsk()
-        {
+        public function testAsk() {
             $Event = $this->getMock('Brickoo\Event\Event',
                 array('getName', 'hasEventManager'),
                 array('test.event')
@@ -338,8 +322,7 @@
          * Test if the listener is not knowed returns null.
          * @covers Brickoo\Event\Manager::call
          */
-        public function testCall()
-        {
+        public function testCall() {
             $this->assertNull($this->EventManager->call('unknowed',  new \Brickoo\Event\Event('nothingToDo')));
         }
 
@@ -348,8 +331,7 @@
          * @covers Brickoo\Event\Manager::call
          * @covers Brickoo\Event\Manager::getCallbackArguments
          */
-        public function testCallConditionFails()
-        {
+        public function testCallConditionFails() {
             $Event = $this->getMock('Brickoo\Event\Event',
                 array('getName', 'hasEventManager'),
                 array('test.event')
@@ -372,8 +354,7 @@
          * @covers Brickoo\Event\Manager::call
          * @covers Brickoo\Event\Manager::getCallbackArguments
          */
-        public function testCallExpectedArgumentsFails()
-        {
+        public function testCallExpectedArgumentsFails() {
             $Event = $this->getMock('Brickoo\Event\Event',
                 array('getName', 'hasEventManager', 'getParams'),
                 array('test.event')

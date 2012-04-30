@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    Interface ResponseInterface
-    {
+    Interface ResponseInterface {
 
         /**
          * Sends the output to the output buffer.

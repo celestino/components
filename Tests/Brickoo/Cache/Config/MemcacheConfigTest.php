@@ -43,8 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class MemcacheConfigTest extends \PHPUnit_Framework_TestCase
-    {
+    class MemcacheConfigTest extends \PHPUnit_Framework_TestCase {
         /**
          * Holds an instance of the MemcacheConfig class-
          * @var MemcacheConfig
@@ -55,8 +54,7 @@
          * Sets up the MemcacheConfig instance used for testing.
          * @return vodi
          */
-        protected function setUp()
-        {
+        protected function setUp() {
             $this->MemcacheConfig = new MemcacheConfig();
         }
 
@@ -64,8 +62,7 @@
          * Test if the MemcacheConfig implements the Cache\Interface\MemcacheConfigInterface.
          * @covers Brickoo\Cache\Config\MemcacheConfig::__construct
          */
-        public function testConstruct()
-        {
+        public function testConstruct() {
             $this->assertInstanceOf
             (
                 'Brickoo\Cache\Config\Interfaces\MemcacheConfigInterface',
@@ -77,8 +74,7 @@
          * Test if a serevr configuration can be added and the MemcacheConfig reference is returned.
          * @covers Brickoo\Cache\Config\MemcacheConfig::addServer
          */
-        public function testAddServer()
-        {
+        public function testAddServer() {
             $serverConfig = array('host' => 'unix://some/socket', 'port' => 0);
 
             $this->assertSame($this->MemcacheConfig, $this->MemcacheConfig->addServer($serverConfig['host'], $serverConfig['port']));
@@ -92,8 +88,7 @@
          * @covers Brickoo\Cache\Config\MemcacheConfig::addServer
          * @expectedException InvalidArgumentException
          */
-        public function testAddServerValueException()
-        {
+        public function testAddServerValueException() {
             $this->MemcacheConfig->addServer(array(), 'wrongType');
         }
 
@@ -102,8 +97,7 @@
          * @covers Brickoo\Cache\Config\MemcacheConfig::getServers
          * @depends testAddServer
          */
-        public function testGetServers($MemcacheConfig)
-        {
+        public function testGetServers($MemcacheConfig) {
             $serverConfig = array('host' => 'unix://some/socket', 'port' => 0);
 
             $this->assertEquals(array($serverConfig), $MemcacheConfig->getServers());
@@ -113,8 +107,7 @@
          * Test if a collection of servers can be set.
          * @covers Brickoo\Cache\Config\MemcacheConfig::setServers
          */
-        public function testSetServer()
-        {
+        public function testSetServer() {
             $servers = array(
                 array('host' => 'localhost', 'port' => 112211),
                 array('host' => '127.0.0.1', 'port' => 112211),
@@ -129,8 +122,7 @@
         * @covers Brickoo\Cache\Config\MemcacheConfig::configure
         * @depends testAddServer
         */
-        public function testConfigure($MemcacheConfig)
-        {
+        public function testConfigure($MemcacheConfig) {
             $MemcacheStub = $this->getMock('Memcache', array('addServer'));
             $MemcacheStub->expects($this->once())
                          ->method('addServer')

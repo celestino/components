@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class UnableToCreateHandleException extends \Exception
-    {
+    class UnableToCreateHandleException extends \Exception {
 
         /**
          * Class constructor.
@@ -48,8 +47,7 @@
          * @param string $location the location from which the handle could not be opened.
          * @return void
          */
-        public function __construct($location)
-        {
+        public function __construct($location) {
             parent::__construct(sprintf('The resource handle for the location `%s` could not be opened.', $location));
         }
 

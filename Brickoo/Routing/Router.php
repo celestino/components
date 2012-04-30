@@ -44,8 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Router implements Interfaces\RouterInterface
-    {
+    class Router implements Interfaces\RouterInterface {
 
         /**
          * Holds an instance of the Request class.
@@ -57,8 +56,7 @@
          * Returns the Request instance implementing the RequestInterface.
          * @return \Brickoo\Core\Interfaces\RequestInterface
          */
-        public function getRequest()
-        {
+        public function getRequest() {
             return $this->Request;
         }
 
@@ -76,8 +74,7 @@
          * @param object $Dependency the dependecy to inject
          * @return object Router if overwritten otherwise the dependency
          */
-        protected function getDependency($name, $interface, $callback, $Dependency = null)
-        {
+        protected function getDependency($name, $interface, $callback, $Dependency = null) {
             if ($Dependency instanceof $interface) {
                 $this->dependencies[$name] = $Dependency;
                 return $this;
@@ -93,8 +90,7 @@
          * @param \Brickoo\Routing\Interfaces\RouteCollectionInterface $RouteCollection the collection of routes
          * @return \Brickoo\Routing\Interfaces\RouterCollectionInterface
          */
-        public function RouteCollection(\Brickoo\Routing\Interfaces\RouteCollectionInterface $RouteCollection = null)
-        {
+        public function RouteCollection(\Brickoo\Routing\Interfaces\RouteCollectionInterface $RouteCollection = null) {
             return $this->getDependency(
                 'RouteCollection',
                 '\Brickoo\Routing\Interfaces\RouteCollectionInterface',
@@ -108,8 +104,7 @@
          * @param \Brickoo\Routing\Interfaces\RouteFinderInterface $RouteFinder the RouteFinder dependency
          * @return \Brickoo\Routing\Interfaces\RouteFinderInterface
          */
-        public function RouteFinder(\Brickoo\Routing\Interfaces\RouteFinderInterface $RouteFinder = null)
-        {
+        public function RouteFinder(\Brickoo\Routing\Interfaces\RouteFinderInterface $RouteFinder = null) {
             return $this->getDependency(
                 'RouteFinder',
                 '\Brickoo\Routing\Interfaces\RouteFinderInterface',
@@ -127,8 +122,7 @@
          * @param \Brickoo\Memory\Interfaces\ContainerInterface $Aliases the Container dependency
          * @return \Brickoo\Memory\Interfaces\ContainerInterface
          */
-        public function Aliases(\Brickoo\Memory\Interfaces\ContainerInterface $Aliases = null)
-        {
+        public function Aliases(\Brickoo\Memory\Interfaces\ContainerInterface $Aliases = null) {
             return $this->getDependency(
                 'Aliases',
                 '\Brickoo\Memory\Interfaces\ContainerInterface',
@@ -142,8 +136,7 @@
          * @param \Brickoo\Event\Interfaces\ManagerInterface $EventManager the EventManager dependency
          * @return \Brickoo\Event\Interfaces\ManagerInterface
          */
-        public function EventManager(\Brickoo\Event\Interfaces\ManagerInterface $EventManager = null)
-        {
+        public function EventManager(\Brickoo\Event\Interfaces\ManagerInterface $EventManager = null) {
             return $this->getDependency(
                 'EventManager',
                 '\Brickoo\Event\Interfaces\ManagerInterface',
@@ -162,8 +155,7 @@
          * Returns the routes file name.
          * @return string the routes file name
          */
-        public function getRoutesFilename()
-        {
+        public function getRoutesFilename() {
             return $this->routesFilename;
         }
 
@@ -172,8 +164,7 @@
          * @param string $routesFilename the routes file name
          * @return \Brickoo\Routing\Router
          */
-        public function setRoutesFilename($routesFilename)
-        {
+        public function setRoutesFilename($routesFilename) {
             TypeValidator::IsString($routesFilename);
 
             $this->routesFilename = $routesFilename;
@@ -191,8 +182,7 @@
          * Returns the modules available.
          * @return array the modules available
          */
-        public function getModules()
-        {
+        public function getModules() {
             return $this->modules;
         }
 
@@ -203,8 +193,7 @@
          * @throws Core\Exceptions\ValueOverwriteException if trying to overwrite the available modules
          * @return \Brickoo\Routing\Router
          */
-        public function setModules(array $modules)
-        {
+        public function setModules(array $modules) {
             if (! empty($this->modules)) {
                 throw new Core\Exceptions\ValueOverwriteException('Router::modules');
             }
@@ -218,8 +207,7 @@
          * Checks if any modules are available.
          * @return boolean check result
          */
-        public function hasModules()
-        {
+        public function hasModules() {
             return (! empty($this->modules));
         }
 
@@ -235,8 +223,7 @@
          * @throws \Brickoo\Core\Exceptions\ValueOverwriteException if trying to overwrite the request route
          * @return \Brickoo\Routing\Router
          */
-        public function setRequestRoute(\Brickoo\Routing\Interfaces\RequestRouteInterface $RequestRoute)
-        {
+        public function setRequestRoute(\Brickoo\Routing\Interfaces\RequestRouteInterface $RequestRoute) {
             if ($this->RequestRoute !== null) {
                 throw new Core\Exceptions\ValueOverwriteException('Router::RequestRoute');
             }
@@ -250,8 +237,7 @@
          * Checks if the requested Route has been found and is set.
          * @return boolean check result
          */
-        public function hasRequestRoute()
-        {
+        public function hasRequestRoute() {
             return ($this->RequestRoute instanceof Interfaces\RequestRouteInterface);
         }
 
@@ -261,8 +247,7 @@
          * @throws Routing\Exceptions\RequestedHasNoRouteException if the request has not a matching Route
          * @return \Brickoo\Routing\Route
          */
-        public function getRequestRoute()
-        {
+        public function getRequestRoute() {
             if ($this->hasRequestRoute()) {
                 return $this->RequestRoute;
             }
@@ -292,8 +277,7 @@
         * Initializes the class properties.
         * @return void
         */
-        public function __construct(\Brickoo\Core\Interfaces\RequestInterface $Request)
-        {
+        public function __construct(\Brickoo\Core\Interfaces\RequestInterface $Request) {
             $this->Request            = $Request;
             $this->RequestRoute       = null;
             $this->dependencies       = array();
@@ -306,8 +290,7 @@
          * Loads the Modules routes by asking over an event or collecting from filesystem.
          * @return \Brickoo\Routing\Router
          */
-        public function loadModulesRoutes()
-        {
+        public function loadModulesRoutes() {
             if (($RouteCollection = $this->EventManager()->ask(new Event\Event(RouterEvents::EVENT_LOAD, $this))) &&
                 ($RouteCollection instanceof Interfaces\RouteCollectionInterface)
             ){
@@ -324,8 +307,7 @@
          * Saves the collected routes over an event notification.
          * @return \Brickoo\Routing\Router
          */
-        public function saveModulesRoutes()
-        {
+        public function saveModulesRoutes() {
             $this->EventManager()->notify(new Event\Event(
                 RouterEvents::EVENT_SAVE, $this, array('RouteCollection' => $this->RouteCollection())
             ));
@@ -339,8 +321,7 @@
          * This requires the registered modules, which is normaly done by the FrontController.
          * @return void
          */
-        public function collectModulesRoutes()
-        {
+        public function collectModulesRoutes() {
             if ($modules = $this->getModules()) {
                 foreach($modules as $modulePath) {
                     if (file_exists(($routingFilename = $modulePath . $this->getRoutesFilename()))&&

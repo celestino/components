@@ -44,8 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class CacheHandler implements Interfaces\SessionHandlerInterface
-    {
+    class CacheHandler implements Interfaces\SessionHandlerInterface {
 
         /**
          * Holds the cache prefix for the session.
@@ -67,8 +66,7 @@
          * @param object $Dependency the dependecy to inject
          * @return object Request if overwritten otherwise the dependency
          */
-        protected function getDependency($name, $interface, $callback, $Dependency = null)
-        {
+        protected function getDependency($name, $interface, $callback, $Dependency = null) {
             if ($Dependency instanceof $interface) {
                 $this->dependencies[$name] = $Dependency;
                 return $this;
@@ -84,8 +82,7 @@
          * @param \Brickoo\Cache\Interfaces\ManagerInterface $Manager the Manager depedency
          * @return \Brickoo\Cache\Interfaces\ManagerInterface
          */
-        public function Manager(\Brickoo\Cache\Interfaces\ManagerInterface $Manager = null)
-        {
+        public function Manager(\Brickoo\Cache\Interfaces\ManagerInterface $Manager = null) {
             return $this->getDependency(
                 'Manager',
                 '\Brickoo\Cache\Interfaces\ManagerInterface',
@@ -105,8 +102,7 @@
          * @param integer $lifetime the lifetime of the session
          * @return \Brickoo\Http\Session\Handler\CacheHandler
          */
-        public function setLifetime($lifetime)
-        {
+        public function setLifetime($lifetime) {
             TypeValidator::IsInteger($lifetime);
 
             $this->lifetime = $lifetime;
@@ -123,8 +119,7 @@
          * @param string $sessionName the session name
          * @return boolean true
          */
-        public function open($savePath, $sessionName)
-        {
+        public function open($savePath, $sessionName) {
             $this->Manager()->disableLocalCache();
 
             return true;
@@ -135,8 +130,7 @@
          * This method is called when the session has been closed at the end of the application.
          * @return boolean true
          */
-        public function close()
-        {
+        public function close() {
             return true;
         }
 
@@ -146,8 +140,7 @@
          * @param string $identifier the session identifier from where the content should be returned.
          * @return string the session content
          */
-        public function read($identifier)
-        {
+        public function read($identifier) {
             return $this->Manager()->get(self::SESSION_CACHE_PREFIX . $identifier);
         }
 
@@ -158,8 +151,7 @@
          * @param mixed $data the data to save
          * @return boolean true
          */
-        public function write($identifier, $data)
-        {
+        public function write($identifier, $data) {
             $this->Manager()->set(self::SESSION_CACHE_PREFIX . $identifier, $data, $this->lifetime);
             return true;
         }
@@ -171,8 +163,7 @@
          * @param string $identifier the session identifier to remove
          * @return boolean true
          */
-        public function destroy($identifier)
-        {
+        public function destroy($identifier) {
             $this->Manager()->delete(self::SESSION_CACHE_PREFIX . $identifier);
             return true;
         }
@@ -185,8 +176,7 @@
          * @param integer $maxlifetime the max lifetime of the sessions
          * @return boolean true
          */
-        public function gc($maxlifetime)
-        {
+        public function gc($maxlifetime) {
             return true;
         }
 

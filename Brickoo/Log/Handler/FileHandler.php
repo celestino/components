@@ -42,8 +42,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class FileHandler implements Interfaces\LogHandlerInterface
-    {
+    class FileHandler implements Interfaces\LogHandlerInterface {
 
         /**
          * Mapping of the severity level description.
@@ -61,8 +60,7 @@
          * Returns the FileObject dependency.
          * @return Brickoo\System\Interfaces\FileObjectInterface
          */
-        public function FileObject()
-        {
+        public function FileObject() {
             return $this->_FileObject;
         }
 
@@ -77,8 +75,7 @@
          * @throws \UnexpectedValueException if the directory is not set
          * @return string the current directory used
          */
-        public function getDirectory()
-        {
+        public function getDirectory() {
             if ($this->directory == null) {
                 throw new \UnexpectedValueException('The directory is `null`.');
             }
@@ -91,8 +88,7 @@
          * @param string $directory the directory full path
          * @return \Brickoo\Log\Handler\FileHandler
          */
-        public function setDirectory($directory)
-        {
+        public function setDirectory($directory) {
             TypeValidator::IsString($directory);
 
             $this->directory = rtrim($directory, '\/') . DIRECTORY_SEPARATOR;
@@ -110,8 +106,7 @@
          * Returns the current file prefix.
          * @return string the file prefix
          */
-        public function getFilePrefix()
-        {
+        public function getFilePrefix() {
             return $this->filePrefix;
         }
 
@@ -120,8 +115,7 @@
          * @param string $filePrefix the file prefix to use
          * @return \Brickoo\Log\Handler\FileHandler
          */
-        public function setFilePrefix($filePrefix)
-        {
+        public function setFilePrefix($filePrefix) {
             TypeValidator::IsString($filePrefix, TypeValidator::FLAG_STRING_CAN_BE_EMPTY);
 
             $this->filePrefix = $filePrefix;
@@ -134,8 +128,7 @@
         * Initializes the class properties.
         * @return void
         */
-        public function __construct(\Brickoo\System\Interfaces\FileObjectInterface $FileObject)
-        {
+        public function __construct(\Brickoo\System\Interfaces\FileObjectInterface $FileObject) {
             $this->_FileObject    = $FileObject;
             $this->filePrefix      = 'log_';
 
@@ -157,8 +150,7 @@
          * @param integer $severity the severity to explain for each message
          * @return string the converted messages
          */
-        public function convertToLogMessage(array $messages, $severity)
-        {
+        public function convertToLogMessage(array $messages, $severity) {
             TypeValidator::ArrayContainsStrings($messages);
             TypeValidator::IsInteger($severity);
 
@@ -177,8 +169,7 @@
         * @param integer $severity the severity level to add
         * @return \Brickoo\Log\Handler\FileHandler
         */
-        public function log($messages, $severity)
-        {
+        public function log($messages, $severity) {
             TypeValidator::IsInteger($severity);
 
             if (! is_array($messages)) {

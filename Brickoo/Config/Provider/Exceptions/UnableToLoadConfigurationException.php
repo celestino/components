@@ -39,16 +39,14 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class UnableToLoadConfigurationException extends \Exception
-    {
+    class UnableToLoadConfigurationException extends \Exception {
 
         /**
          * Class constructor.
          * Calls the parent Exception constructor.
          * @return void
          */
-        public function __construct()
-        {
+        public function __construct() {
             parent::__construct('The configuration could not be loaded.');
         }
 

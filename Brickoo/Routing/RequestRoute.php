@@ -42,8 +42,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class RequestRoute implements Interfaces\RequestRouteInterface
-    {
+    class RequestRoute implements Interfaces\RequestRouteInterface {
 
         /**
          * Holds an instance of the matched request module route.
@@ -55,8 +54,7 @@
          * Returns the request module route.
          * @return \Brickoo\Routing\Interfaces\RouteInterface
          */
-        public function getModuleRoute()
-        {
+        public function getModuleRoute() {
             return $this->ModuleRoute;
         }
 
@@ -74,8 +72,7 @@
          * @param object $Dependency the dependecy to inject
          * @return object RequestRoute if overwritten otherwise the dependency
          */
-        protected function getDependency($name, $interface, $callback, $Dependency = null)
-        {
+        protected function getDependency($name, $interface, $callback, $Dependency = null) {
             if ($Dependency instanceof $interface) {
                 $this->dependencies[$name] = $Dependency;
                 return $this;
@@ -91,8 +88,7 @@
          * @param \Brickoo\Memory\Interfaces\ContainerInterface $Container the route parasm container
          * @return \Brickoo\Memory\Interfaces\ContainerInterface
          */
-        public function Params(\Brickoo\Memory\Interfaces\ContainerInterface $Container = null)
-        {
+        public function Params(\Brickoo\Memory\Interfaces\ContainerInterface $Container = null) {
             return $this->getDependency(
                 'Params',
                 '\Brickoo\Memory\Interfaces\ContainerInterface',
@@ -107,8 +103,7 @@
          * @param \Brickoo\Routing\Interfaces\RouteInterface $Routehte request module route
          * @return void
          */
-        public function __construct(\Brickoo\Routing\Interfaces\RouteInterface $Route)
-        {
+        public function __construct(\Brickoo\Routing\Interfaces\RouteInterface $Route) {
             $this->ModuleRoute     = $Route;
             $this->dependencies    = array();
         }
@@ -120,8 +115,7 @@
          * @throws \BadMethodCallException if the method does not exist
          * @return mixed the returned value of the called method
          */
-        public function __call($method, $arguments)
-        {
+        public function __call($method, $arguments) {
             if (! method_exists($this->ModuleRoute, $method)) {
                 throw new \BadMethodCallException(sprintf('The Route method `%s` does not exist.', $method));
             }

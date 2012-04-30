@@ -41,8 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface QueryInterface extends Memory\Interfaces\ContainerInterface
-    {
+    interface QueryInterface extends Memory\Interfaces\ContainerInterface {
 
         /**
         * Importst the request query parameter.

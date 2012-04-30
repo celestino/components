@@ -41,8 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Manager implements Interfaces\ManagerInterface
-    {
+    class Manager implements Interfaces\ManagerInterface {
 
         /**
          * Holds an sttic instance of the EventManager class.
@@ -55,8 +54,7 @@
          * @param \Brickoo\Event\Manager $Manager the Manager to inject
          * @return \Brickoo\Event\Interfaces\ManagerInterface
          */
-        public static function Instance(\Brickoo\Event\Interfaces\ManagerInterface $Manager = null)
-        {
+        public static function Instance(\Brickoo\Event\Interfaces\ManagerInterface $Manager = null) {
             if (static::$staticManager === null) {
                 if ($Manager !== null) {
                     static::$staticManager = $Manager;
@@ -80,8 +78,7 @@
          * @param string $eventName the event to check
          * @return boolean check result
          */
-        public function isEventProcessing($eventName)
-        {
+        public function isEventProcessing($eventName) {
             $eventName = $this->getUniformEventName($eventName);
 
             return (in_array($eventName, $this->processingEvents));
@@ -92,8 +89,7 @@
          * @param string $eventName the event to add
          * @return \Brickoo\Event\Manager
          */
-        protected function addEventProcessing($eventName)
-        {
+        protected function addEventProcessing($eventName) {
             $eventName = $this->getUniformEventName($eventName);
 
             $this->processingEvents[] = $eventName;
@@ -106,8 +102,7 @@
          * @param string $eventName the vent to remove
          * @return \Brickoo\Event\Manager
          */
-        protected function removeProcessedEvent($eventName)
-        {
+        protected function removeProcessedEvent($eventName) {
             $eventName = $this->getUniformEventName($eventName);
 
             if (false !== ($key = array_search($eventName, $this->processingEvents))) {
@@ -128,8 +123,7 @@
          * @param strign $listenerUID the listener unique identifier
          * @return boolean check result
          */
-        public function isListener($listenerUID)
-        {
+        public function isListener($listenerUID) {
             TypeValidator::IsString($listenerUID);
 
             return isset($this->listeners[$listenerUID]);
@@ -144,8 +138,7 @@
          * @param callback $condition the condition which has to be true
          * @return string the listener unique identifier
          */
-        public function attachListener($eventName, $callback, $priority = 0, array $expectedParams = null, $condition = null)
-        {
+        public function attachListener($eventName, $callback, $priority = 0, array $expectedParams = null, $condition = null) {
             TypeValidator::IsInteger($priority);
             $eventName = $this->getUniformEventName($eventName);
 
@@ -153,8 +146,7 @@
                 throw new \InvalidArgumentException('The callback argument is not callable.');
             }
 
-            if (($condition !== null) && (! is_callable($condition)))
-            {
+            if (($condition !== null) && (! is_callable($condition))) {
                 throw new \InvalidArgumentException('The condition argument is not callable.');
             }
 
@@ -176,8 +168,7 @@
          * @param string $listenerUID the listener unique identifier
          * @return \Brickoo\Event\Manager
          */
-        public function detachListener($listenerUID)
-        {
+        public function detachListener($listenerUID) {
             TypeValidator::IsString($listenerUID);
 
             if ($this->isListener($listenerUID)) {
@@ -198,8 +189,7 @@
          * @param string $eventName the event
          * @return string the uniform event
          */
-        protected function getUniformEventName($eventName)
-        {
+        protected function getUniformEventName($eventName) {
             TypeValidator::IsString($eventName);
 
             return strtolower(trim($eventName));
@@ -210,8 +200,7 @@
          * @param string $eventName the event to check
          * @return boolean check result
          */
-        public function hasEventListeners($eventName)
-        {
+        public function hasEventListeners($eventName) {
             $eventName = $this->getUniformEventName($eventName);
 
             return (isset($this->events[$eventName]) && (count($this->events[$eventName]) > 0));
@@ -222,8 +211,7 @@
          * @param string $eventName the event to return the listener queue from
          * @return \Brickoo\Event\ListenerQueue
          */
-        public function getEventListenerQueue($eventName)
-        {
+        public function getEventListenerQueue($eventName) {
             $eventName = $this->getUniformEventName($eventName);
 
             if (! $this->hasEventListeners($eventName)) {
@@ -238,20 +226,18 @@
          * Initializes the class properties.
          * @return void
          */
-        public function __construct()
-        {
+        public function __construct() {
             $this->listeners           = array();
             $this->events              = array();
             $this->processingEvents    = array();
         }
 
         /**
-         * Attach the aggregated event listeners.
+         * Calls the listener to attach the aggregates event listeners.
          * @param \Brickoo\Event\Interfaces\ListenerAggregateInterface $Listener
          * @return \Brickoo\Event\Manager
          */
-        public function attachAggregatedListeners(\Brickoo\Event\Interfaces\ListenerAggregateInterface $Listener)
-        {
+        public function attachAggregatedListeners(\Brickoo\Event\Interfaces\ListenerAggregateInterface $Listener) {
             $Listener->aggregateListeners($this);
 
             return $this;
@@ -262,8 +248,7 @@
          * @param \Brickoo\Event\Interfaces\EventInterface $Event the executed event
          * @return void
          */
-        public function notify(\Brickoo\Event\Interfaces\EventInterface $Event)
-        {
+        public function notify(\Brickoo\Event\Interfaces\EventInterface $Event) {
             $this->processEvent($Event);
         }
 
@@ -272,8 +257,7 @@
          * @param \Brickoo\Event\Interfaces\EventInterface $Event the executed event
          * @return mixed the event listener response or null if no response has been returned
          */
-        public function ask(\Brickoo\Event\Interfaces\EventInterface $Event)
-        {
+        public function ask(\Brickoo\Event\Interfaces\EventInterface $Event) {
             return $this->processEvent($Event, true);
         }
 
@@ -282,8 +266,7 @@
          * @param \Brickoo\Event\Event $Event the executed event
          * @return void
          */
-        public function notifyOnce(\Brickoo\Event\Event $Event)
-        {
+        public function notifyOnce(\Brickoo\Event\Event $Event) {
             $this->processEvent($Event, false, true);
         }
 
@@ -295,8 +278,7 @@
          * @throws Exceptions\InfiniteEventLoopException throwed if an infinite lopp is detected
          * @return mixed the event listener response
          */
-        protected function processEvent(\Brickoo\Event\Interfaces\EventInterface $Event, $responseNeeded = false, $once = false)
-        {
+        protected function processEvent(\Brickoo\Event\Interfaces\EventInterface $Event, $responseNeeded = false, $once = false) {
             $response    = null;
             $eventName   = $this->getUniformEventName($Event->getName());
 
@@ -327,8 +309,7 @@
          * @param \Brickoo\Event\Interfaces\EventInterface $Event the event
          * @return mixed the listener response or null if the event does not contain expected params
          */
-        public function call($listenerUID, \Brickoo\Event\Interfaces\EventInterface $Event)
-        {
+        public function call($listenerUID, \Brickoo\Event\Interfaces\EventInterface $Event) {
             if (! $this->isListener($listenerUID)) {
                 return null;
             }
@@ -352,8 +333,7 @@
          * @param \Brickoo\Event\Interfaces\EventInterface $Event the Event executed
          * @return array the callback arguments or null if the requires arguments are not available
          */
-        protected function getCallbackArguments($expectedParams, \Brickoo\Event\Interfaces\EventInterface $Event)
-        {
+        protected function getCallbackArguments($expectedParams, \Brickoo\Event\Interfaces\EventInterface $Event) {
             if (is_array($expectedParams) &&
                 array_diff($expectedParams, array_keys($Event->getParams())) !== array()
             ){
@@ -362,7 +342,7 @@
 
             $arguments = array();
 
-            if(is_array($expectedParams)) {
+            if (is_array($expectedParams)) {
                 foreach ($expectedParams as $param) {
                     $arguments[] = $Event->getParam($param);
                 }

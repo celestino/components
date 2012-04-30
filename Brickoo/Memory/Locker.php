@@ -43,8 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    abstract class Locker implements \Countable
-    {
+    abstract class Locker implements \Countable {
 
         /**
          * Holds the locked identifier associated to the keys.
@@ -60,8 +59,7 @@
          * @throws LockFailedException if all the identifiers can not be locked
          * @return string the unlock key
          */
-        public function lock($identifier)
-        {
+        public function lock($identifier) {
             TypeValidator::IsStringOrInteger($identifier);
 
             if ((! $this->isIdentifierAvailable($identifier)) || $this->isLocked($identifier)) {
@@ -80,8 +78,7 @@
          * @throws UnlockFailedException if all the identifiers can not be unlocked
          * @return \Brickoo\Memory\Locker
          */
-        public function unlock($identifier, $unlockKey)
-        {
+        public function unlock($identifier, $unlockKey) {
             TypeValidator::IsStringOrInteger($identifier);
             TypeValidator::IsString($unlockKey);
 
@@ -99,8 +96,7 @@
          * @param string|integer $identifier the identifier to check
          * @return boolean check result
          */
-        public function isLocked($identifier)
-        {
+        public function isLocked($identifier) {
             TypeValidator::IsStringOrInteger($identifier);
 
             return array_key_exists($identifier, $this->locked);
@@ -111,8 +107,7 @@
          * Initializes the class properties.
          * @return void
          */
-        public function __construct()
-        {
+        public function __construct() {
             $this->locked = array();
         }
 
@@ -122,8 +117,7 @@
          * @see Countable::count()
          * @return integer the number of locked identifiers
          */
-        public function count()
-        {
+        public function count() {
             return count($this->locked);
         }
 

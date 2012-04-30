@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface DescriptionInterface
-    {
+    interface DescriptionInterface {
 
         /**
         * Returns the module name.

@@ -39,8 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface RequestRouteInterface
-    {
+    interface RequestRouteInterface {
 
         /**
          * Returns the request module route.
