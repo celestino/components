@@ -32,7 +32,7 @@
 
     namespace Brickoo\Core;
 
-    require_once 'Interfaces\Autoloader.php';
+    require_once 'Interfaces/Autoloader.php';
 
     /**
      * Autoloader
