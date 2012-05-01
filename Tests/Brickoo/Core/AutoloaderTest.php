@@ -170,7 +170,7 @@
          */
         public function testGetAbsolutePath() {
             $this->Autoloader->registerNamespace('TestNamespace', dirname(__FILE__));
-            $class = 'testnamespacepath\to\the\Class';
+            $class = 'testnamespacepath/to/the/Class';
             $this->assertEquals
             (
                 dirname(__FILE__) .DIRECTORY_SEPARATOR . $class . '.php',
