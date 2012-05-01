@@ -5,7 +5,7 @@ BrickOO is a PHP framework which focus on module based applications
 
 
 ###Requirements
-PHP 5.3.x / 5.4 or any later version required.
+PHP 5.3.2 or any later version required.
 
 Maybe some of the framework libraries require PHP libraries not installed on your machine
  or PHP configuration need to be done to provide full functionality.
