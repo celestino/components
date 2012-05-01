@@ -1,5 +1,5 @@
 
-##BrickOO
+##BrickOO [![Build Status](https://secure.travis-ci.org/celestino/BrickOO.png?branch=master)](http://travis-ci.org/celestino/BrickOO)
 BrickOO is a PHP framework which focus on module based applications
  and has been developed in strict mode with focus on coming PHP requirements.
 
