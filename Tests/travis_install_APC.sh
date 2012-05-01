@@ -1,4 +1,7 @@
 #!/bin/bash
+
+# Install APC extension
+
 echo "Downloading APC-3.1.10 ..."
 wget http://pecl.php.net/get/APC-3.1.10.tgz
 tar -xzf APC-3.1.10.tgz
