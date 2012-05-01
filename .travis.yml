@@ -3,5 +3,5 @@ php:
   - 5.3
   - 5.4
 before_script:
-  - ./Travis/install_APC.sh
-script: phpunit --configuration Tests/phpunit.xml
+  - ./Tests/travis_install_APC.sh
+script: phpunit --configuration ./Tests/phpunit.xml
