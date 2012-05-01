@@ -66,6 +66,12 @@
         const EVENT_SESSION_CONFIGURE = 'session.configure';
 
         /**
+         * Asks for the responsible route matching the request.
+         * @var string
+         */
+        const EVENT_ROUTE_GET = 'route.get';
+
+        /**
          * Asks for a cached response if the module route did enable the response cache.
          * @var string
          */

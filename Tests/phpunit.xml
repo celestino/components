@@ -10,7 +10,7 @@
     bootstrap="bootstrap.php">
     <testsuites>
         <testsuite name="BrickOO Test Suite">
-            <directory>./Brickoo/</directory>
+            <directory>./Brickoo</directory>
         </testsuite>
     </testsuites>
     <filter>

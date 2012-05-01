@@ -94,6 +94,7 @@
          * Registers the listeners to the EventManager.
          * This method is automaticly called by Brickoo\Core\Application::run if injected
          * since this application implements the ListenerAggreagte.
+         * The listeners have all the lowest priority (0-100 = low) to be overriden.
          * @param \Brickoo\Event\Interfaces\Manager $EventManager
          * @return void
          */

@@ -51,6 +51,7 @@
 
         /**
          * Set up the Autoloader object used.
+         * @return void
          */
         public function setUp() {
             $this->Autoloader = new Autoloader();

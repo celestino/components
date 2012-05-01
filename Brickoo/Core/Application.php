@@ -228,7 +228,7 @@
          * @return \Brickoo\Core\Application
          */
         public function registerModules(array $modules) {
-            foreach($modules as $index => $moduleDirectory) {
+            foreach ($modules as $index => $moduleDirectory) {
                 $modules[$index] = rtrim($moduleDirectory, '/\\') . DIRECTORY_SEPARATOR;
             }
 
@@ -398,7 +398,7 @@
          * Runs the application.
          * Retrives the route responsible for the request.
          * Executes the events in a proper order.
-         * @param object $MainApplication
+         * @param object $MainApplication the project main Application
          * @return \Brickoo\Core\Application
          */
         public function run($MainApplication = null) {
@@ -418,11 +418,13 @@
             try {
                 $EventManager->notify(new Event(Events::EVENT_BOOT, $this));
 
-                $Response = $EventManager->notify(new Event(Events::EVENT_RESPONSE_GET, $this));
+                $this->Route($EventManager->ask(new Event(Events::EVENT_ROUTE_GET, $this)));
+
+                $Response = $EventManager->ask(new Event(Events::EVENT_RESPONSE_GET, $this, array('Route' => $this->Route())));
 
                 if ($Response instanceof Interfaces\Response) {
-                    $EventManager->notifyOnce(
-                        new Event(Events::EVENT_RESPONSE_CACHE, $this, array('Response' => $Response))
+                    $EventManager->notify(
+                        new Event(Events::EVENT_RESPONSE_SAVE, $this, array('Response' => $Response))
                     );
                     $EventManager->notifyOnce(
                         new Event(Events::EVENT_RESPONSE_SEND, $this, array('Response' => $Response))

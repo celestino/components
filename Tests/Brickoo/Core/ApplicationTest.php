@@ -50,8 +50,8 @@
         protected $Application;
 
         /**
-         * Sets up the fixture, for example, opens a network connection.
-         * This method is called before a test is executed.
+         * Sets up the Application instance used.
+         * @return void
          */
         protected function setUp() {
             $this->Application = new Application();
@@ -176,6 +176,31 @@
             );
             $this->assertSame($this->Application, $this->Application->SessionManager($SessionManager));
             $this->assertAttributeEquals(array('SessionManager' => $SessionManager), 'dependencies', $this->Application);
+        }
+
+        /**
+         * Test if the Runner can be lazy initialized and retrieved.
+         * @covers Brickoo\Core\Application::Runner
+         * @covers Brickoo\Core\Application::getDependency
+         */
+        public function testRunner() {
+            $this->assertInstanceOf(
+                'Brickoo\Core\Interfaces\Runner',
+                ($Runner = $this->Application->Runner())
+            );
+
+            $this->assertAttributeEquals(array('Runner' => $Runner), 'dependencies', $this->Application);
+        }
+
+        /**
+         * Test if the Manager can be injected and the Application reference is returned.
+         * @covers Brickoo\Core\Application::Runner
+         * @covers Brickoo\Core\Application::getDependency
+         */
+        public function testRunnerInjection() {
+            $Runner = $this->getMock('Brickoo\Core\Runner');
+            $this->assertSame($this->Application, $this->Application->Runner($Runner));
+            $this->assertAttributeEquals(array('Runner' => $Runner), 'dependencies', $this->Application);
         }
 
         /**
@@ -493,89 +518,119 @@
         }
 
         /**
-         * Test if the application can be run with the proper configuration.
+         * Test if the application can be run and returns a response.
          * @covers Brickoo\Core\Events
          * @covers Brickoo\Core\Application::run
-         * @covers Brickoo\Core\Application::bootRouter
-         * @covers Brickoo\Core\Application::startSession
-         * @covers Brickoo\Core\Application::stopSession
-         * @covers Brickoo\Core\Application::askForResponse
-         * @covers Brickoo\Core\Application::notifyResponseCache
          */
-        public function TODOtestRunWithResponse() {
-            $modules = array('moduleTest' => '/some/location'.DIRECTORY_SEPARATOR);
+        public function testRunWithResponse() {
+            $RequestRoute = $this->getMock('Brickoo\Routing\RequestRoute', null, array($this->getMock(
+                'Brickoo\Routing\Route', null, array('testRoute')
+            )));
+            $Response = $this->getMock('Brickoo\Http\Response');
+
+            $callback = function($Event) use($Response, $RequestRoute) {
+                if ($Event->getName() == \Brickoo\Core\Events::EVENT_RESPONSE_GET) {
+                    return $Response;
+                }
+                if ($Event->getName() == \Brickoo\Core\Events::EVENT_ROUTE_GET) {
+                    return $RequestRoute;
+                }
+            };
 
             $EventManager = $this->getMock('Brickoo\Event\Manager');
+            $EventManager->expects($this->any())
+                         ->method('ask')
+                         ->will($this->returnCallback($callback));
 
-            $Response = $this->getMock('Brickoo\Http\Response');
-            $Listener = function($Event) use($Response) {return $Response;};
-            $listenerUID = $EventManager->attachListener(\Brickoo\Core\Events::EVENT_RESPONSE_GET, $Listener);
 
             $MainApplication = $this->getMock('Brickoo\Http\Application', array('aggregateListeners'));
             $MainApplication->expects($this->once())
                             ->method('aggregateListeners')
-                            ->with($this->equalTo($EventManager));
-                            // ->with($this->isInstanceOf('Brickoo\Event\Interfaces\Manager'));
+                            ->with($this->isInstanceOf('Brickoo\Event\Interfaces\Manager'));
 
-            $SessionManager = $this->getMock(
-                'Brickoo\Http\Session\Manager',
-                array('hasSessionStarted', 'start', 'stop'),
-                array(new \Brickoo\Http\Session\Handler\CacheHandler())
-            );
-            $SessionManager->expects($this->exactly(2))
-                           ->method('hasSessionStarted')
-                           ->will($this->onConsecutiveCalls(false, true));
-            $SessionManager->expects($this->once())
-                           ->method('start')
-                           ->will($this->returnValue($SessionManager));
-            $SessionManager->expects($this->once())
-                           ->method('start')
-                           ->will($this->returnValue($SessionManager));
-
-            $Route = $this->getMock(
-                'Brickoo\Routing\Route',
-                array('isSessionRequired', 'isCacheable'),
-                array('testRoute')
-            );
-            $Route->expects($this->any())
-                  ->method('isSessionRequired')
-                  ->will($this->returnValue(true));
-            $Route->expects($this->any())
-                  ->method('isCacheable')
-                  ->will($this->returnValue(true));
-
-            $RequestRoute = $this->getMock(
-                '\Brickoo\Routing\RequestRoute',
-                array('getModuleRoute'),
-                array($Route)
-            );
-            $RequestRoute->expects($this->any())
-                         ->method('getModuleRoute')
-                         ->will($this->returnValue($Route));
-
-            $Router = $this->getMock(
-                '\Brickoo\Routing\Router',
-                array('hasModules', 'setModules', 'getRequestRoute'),
-                array(new \Brickoo\Http\Request())
-            );
-            $Router->expects($this->once())
-                   ->method('hasModules')
-                   ->will($this->returnValue(false));
-            $Router->expects($this->once())
-                   ->method('setModules')
-                   ->with($modules);
-            $Router->expects($this->once())
-                   ->method('getRequestRoute')
-                   ->will($this->returnValue($RequestRoute));
-
-            $this->Application->registerModules($modules);
             $this->Application->EventManager($EventManager)
-                              ->SessionManager($SessionManager)
-                              ->Router($Router);
-
+                              ->Runner($this->getMock('Brickoo\Core\Runner'));
             $this->assertSame($this->Application, $this->Application->run($MainApplication));
-            $this->assertSame($RequestRoute, $this->Application->Route());
-            $this->assertSame($EventManager, $EventManager->detachListener($listenerUID));
+        }
+
+        /**
+         * Test if the application notifies if the response is missed.
+         * @covers Brickoo\Core\Events
+         * @covers Brickoo\Core\Application::run
+         */
+        public function testRunWithoutResponse() {
+            $callbackResult = null;
+
+            $RequestRoute = $this->getMock('Brickoo\Routing\RequestRoute', null, array($this->getMock(
+                'Brickoo\Routing\Route', null, array('testRoute')
+            )));
+
+            $askCallback = function($Event) use($RequestRoute) {
+                if ($Event->getName() == \Brickoo\Core\Events::EVENT_ROUTE_GET) {
+                    return $RequestRoute;
+                }
+            };
+
+            $notifyCallback = function($Event) use (&$callbackResult) {
+                if ($Event->getName() == \Brickoo\Core\Events::EVENT_RESPONSE_MISSING) {
+                    $callbackResult = 'missed';
+                }
+            };
+
+            $EventManager = $this->getMock('Brickoo\Event\Manager');
+            $EventManager->expects($this->any())
+                         ->method('ask')
+                         ->will($this->returnCallback($askCallback));
+            $EventManager->expects($this->any())
+                         ->method('notify')
+                         ->will($this->returnCallback($notifyCallback));
+
+            $this->Application->EventManager($EventManager)
+                              ->Runner($this->getMock('Brickoo\Core\Runner'));
+            $this->assertSame($this->Application, $this->Application->run());
+            $this->assertEquals('missed', $callbackResult);
+        }
+
+        /**
+         * Test if an exception is throwed during the the execution will be notified through an event.
+         * @covers Brickoo\Core\Events
+         * @covers Brickoo\Core\Application::run
+         */
+        public function testRunException() {
+            $callbackResult = null;
+
+            $RequestRoute = $this->getMock('Brickoo\Routing\RequestRoute', null, array($this->getMock(
+                'Brickoo\Routing\Route', null, array('testRoute')
+            )));
+
+            $askCallback = function($Event) use($RequestRoute) {
+                if ($Event->getName() == \Brickoo\Core\Events::EVENT_ROUTE_GET) {
+                    return $RequestRoute;
+                }
+            };
+
+            $notifyCallback = function($Event) use (&$callbackResult) {
+                if ($Event->getName() == \Brickoo\Core\Events::EVENT_RESPONSE_MISSING) {
+                    throw new \Exception('error');
+                }
+
+                if ($Event->getName() == \Brickoo\Core\Events::EVENT_ERROR) {
+                    $callbackResult = $Event->getParam('Exception')->getMessage();
+                }
+            };
+
+            $EventManager = $this->getMock('Brickoo\Event\Manager');
+            $EventManager->expects($this->any())
+                         ->method('ask')
+                         ->will($this->returnCallback($askCallback));
+            $EventManager->expects($this->any())
+                         ->method('notify')
+                         ->will($this->returnCallback($notifyCallback));
+
+            $this->Application->EventManager($EventManager)
+                              ->Runner($this->getMock('Brickoo\Core\Runner'));
+            $this->assertSame($this->Application, $this->Application->run());
+            $this->assertEquals('error', $callbackResult);
         }
 
     }
