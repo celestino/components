@@ -35,13 +35,13 @@
     use Brickoo\Validator\TypeValidator;
 
     /**
-     * APCProvider
+     * ApcProvider
      *
      * Provides caching operations based on APC.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class APCProvider implements Interfaces\Provider {
+    class ApcProvider implements Interfaces\Provider {
 
         /**
          * Returns the cached content from the matching dentifier.

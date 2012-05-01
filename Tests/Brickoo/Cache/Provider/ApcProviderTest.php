@@ -30,7 +30,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Cache\Provider\APCProvider;
+    use Brickoo\Cache\Provider\ApcProvider;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
@@ -38,8 +38,8 @@
     /**
      * ApcProviderTest
      *
-     * Test suite for the APCProvider class.
-     * @see Brickoo\Cache\Provider\APCProvider
+     * Test suite for the ApcProvider class.
+     * @see Brickoo\Cache\Provider\ApcProvider
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
