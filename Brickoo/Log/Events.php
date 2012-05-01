@@ -45,6 +45,6 @@
          * Notifies that the event listener should log some data.
          * @var string
          */
-        const EVENT_LOG = 'log';
+        const LOG = 'log';
 
     }

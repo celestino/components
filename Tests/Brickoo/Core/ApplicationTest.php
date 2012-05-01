@@ -529,10 +529,10 @@
             $Response = $this->getMock('Brickoo\Http\Response');
 
             $callback = function($Event) use($Response, $RequestRoute) {
-                if ($Event->getName() == \Brickoo\Core\Events::EVENT_RESPONSE_GET) {
+                if ($Event->getName() == \Brickoo\Core\Events::RESPONSE_GET) {
                     return $Response;
                 }
-                if ($Event->getName() == \Brickoo\Core\Events::EVENT_ROUTE_GET) {
+                if ($Event->getName() == \Brickoo\Core\Events::ROUTE_GET) {
                     return $RequestRoute;
                 }
             };
@@ -566,13 +566,13 @@
             )));
 
             $askCallback = function($Event) use($RequestRoute) {
-                if ($Event->getName() == \Brickoo\Core\Events::EVENT_ROUTE_GET) {
+                if ($Event->getName() == \Brickoo\Core\Events::ROUTE_GET) {
                     return $RequestRoute;
                 }
             };
 
             $notifyCallback = function($Event) use (&$callbackResult) {
-                if ($Event->getName() == \Brickoo\Core\Events::EVENT_RESPONSE_MISSING) {
+                if ($Event->getName() == \Brickoo\Core\Events::RESPONSE_MISSING) {
                     $callbackResult = 'missed';
                 }
             };
@@ -604,17 +604,17 @@
             )));
 
             $askCallback = function($Event) use($RequestRoute) {
-                if ($Event->getName() == \Brickoo\Core\Events::EVENT_ROUTE_GET) {
+                if ($Event->getName() == \Brickoo\Core\Events::ROUTE_GET) {
                     return $RequestRoute;
                 }
             };
 
             $notifyCallback = function($Event) use (&$callbackResult) {
-                if ($Event->getName() == \Brickoo\Core\Events::EVENT_RESPONSE_MISSING) {
+                if ($Event->getName() == \Brickoo\Core\Events::RESPONSE_MISSING) {
                     throw new \Exception('error');
                 }
 
-                if ($Event->getName() == \Brickoo\Core\Events::EVENT_ERROR) {
+                if ($Event->getName() == \Brickoo\Core\Events::ERROR) {
                     $callbackResult = $Event->getParam('Exception')->getMessage();
                 }
             };

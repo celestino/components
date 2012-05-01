@@ -101,22 +101,22 @@
         public function aggregateListeners(\Brickoo\Event\Interfaces\Manager $EventManager) {
             if ($this->listenerAggregated !== true) {
                 $EventManager->attachListener(
-                    Core\Events::EVENT_RESPONSE_GET, array($this, 'run'), 0, null,
+                    Core\Events::RESPONSE_GET, array($this, 'run'), 0, null,
                         function($Event){return ($Event->getParam('Route') instanceof \Brickoo\Routing\Interfaces\RequestRoute);}
                 );
                 $EventManager->attachListener(
-                    Core\Events::EVENT_RESPONSE_SEND, array($this, 'sendResponse'), 0, array('Response'),
+                    Core\Events::RESPONSE_SEND, array($this, 'sendResponse'), 0, array('Response'),
                     function($Event){return ($Event->getParam('Response') instanceof \Brickoo\Core\Interfaces\Response);}
 
                 );
                 $EventManager->attachListener(
-                    Module\Events::EVENT_MODULE_ERROR, array($this, 'displayModuleError'), 0, array('Exception')
+                    Module\Events::MODULE_ERROR, array($this, 'displayModuleError'), 0, array('Exception')
                 );
                 $EventManager->attachListener(
-                    Core\Events::EVENT_ERROR, array($this, 'displayError'), 0, array('Exception')
+                    Core\Events::ERROR, array($this, 'displayError'), 0, array('Exception')
                 );
                 $EventManager->attachListener(
-                    Core\Events::EVENT_RESPONSE_MISSING, array($this, 'displayResponseError')
+                    Core\Events::RESPONSE_MISSING, array($this, 'displayResponseError')
                 );
 
                 $this->listenerAggregated = true;
@@ -186,7 +186,7 @@
                 $RouteController = $RequestRoute->getModuleRoute()->getController();
 
                 $Event->EventManager()->notify(new Event\Event(
-                    Module\Events::EVENT_MODULE_BOOT, $Event->Sender(), array(
+                    Module\Events::MODULE_BOOT, $Event->Sender(), array(
                         'controller' => $RouteController['controller'],
                         'method'     => $RouteController['method']
                     )
@@ -203,11 +203,11 @@
                     );
                 }
 
-                $Event->EventManager()->notify(new Event\Event(Module\Events::EVENT_MODULE_SHUTDOWN, $Event->Sender()));
+                $Event->EventManager()->notify(new Event\Event(Module\Events::MODULE_SHUTDOWN, $Event->Sender()));
             }
             catch (\Exception $Exception) {
                 $Response = $Event->EventManager()->ask(new Event\Event(
-                    Module\Events::EVENT_MODULE_ERROR, $Event->Sender(), array('Exception' => $Exception)
+                    Module\Events::MODULE_ERROR, $Event->Sender(), array('Exception' => $Exception)
                 ));
             }
 

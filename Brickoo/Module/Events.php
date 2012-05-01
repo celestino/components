@@ -46,18 +46,18 @@
          * required dependencies, services, configuration, etc have to be initaliazed now.
          * @var string
          */
-        const EVENT_MODULE_BOOT = 'module.boot';
+        const MODULE_BOOT = 'module.boot';
 
         /**
          * Notifies that an error occured while processing the module.
          * @var string
          */
-        const EVENT_MODULE_ERROR = 'module.error';
+        const MODULE_ERROR = 'module.error';
 
         /**
          * Notifies that the module may shutdown.
          * @var string
          */
-        const EVENT_MODULE_SHUTDOWN = 'module.shutdown';
+        const MODULE_SHUTDOWN = 'module.shutdown';
 
     }

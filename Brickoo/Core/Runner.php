@@ -53,11 +53,11 @@
         public function aggregateListeners(\Brickoo\Event\Interfaces\Manager $EventManager)
         {
             $condition = function($Event) {return ($Event->Sender() instanceof \Brickoo\Core\Application);};
-            $EventManager->attachListener(Events::EVENT_BOOT, array($this, 'boot'), 100, null, $condition);
-            $EventManager->attachListener(Events::EVENT_SHUTDOWN, array($this, 'shutdown'), 100, null, $condition);
-            $EventManager->attachListener(Events::EVENT_ROUTE_GET, array($this, 'getRequestRoute'), 100, null, $condition);
-            $EventManager->attachListener(Events::EVENT_RESPONSE_GET, array($this, 'getResponse'), 100, null, $condition);
-            $EventManager->attachListener(Events::EVENT_RESPONSE_SAVE, array($this, 'saveResponse'), 100, null, $condition);
+            $EventManager->attachListener(Events::BOOT, array($this, 'boot'), 100, null, $condition);
+            $EventManager->attachListener(Events::SHUTDOWN, array($this, 'shutdown'), 100, null, $condition);
+            $EventManager->attachListener(Events::ROUTE_GET, array($this, 'getRequestRoute'), 100, null, $condition);
+            $EventManager->attachListener(Events::RESPONSE_GET, array($this, 'getResponse'), 100, null, $condition);
+            $EventManager->attachListener(Events::RESPONSE_SAVE, array($this, 'saveResponse'), 100, null, $condition);
         }
 
         /**
@@ -104,7 +104,7 @@
                 (! $Application->SessionManager()->hasSessionStarted())
             ){
                 $Application->EventManager()->notify(new Event(
-                    Events::EVENT_SESSION_CONFIGURE, $Application, array('SessionManager' => $Application->SessionManager())
+                    Events::SESSION_CONFIGURE, $Application, array('SessionManager' => $Application->SessionManager())
                 ));
                 $Application->SessionManager()->start();
             }
@@ -138,7 +138,7 @@
 
             if ($RequestRoute->getModuleRoute()->isCacheable()) {
                 $Response = $Event->EventManager()->ask(new Event(
-                    Events::EVENT_RESPONSE_LOAD, $Event->Sender(), array('Route' => $RequestRoute)
+                    Events::RESPONSE_LOAD, $Event->Sender(), array('Route' => $RequestRoute)
                 ));
             }
 

@@ -229,7 +229,7 @@
          */
         public function testGetResponse() {
             $callback = function($Event) {
-                if ($Event->getName() == \Brickoo\Core\Events::EVENT_RESPONSE_LOAD) {
+                if ($Event->getName() == \Brickoo\Core\Events::RESPONSE_LOAD) {
                     return 'The loaded response.';
                 }
             };

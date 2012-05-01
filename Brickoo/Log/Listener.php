@@ -76,7 +76,7 @@
          * @return \Brickoo\Log\Listener
          */
         public function aggregateListeners(\Brickoo\Event\Interfaces\Manager $EventManager) {
-            $EventManager->attachListener(Events::EVENT_LOG, array($this->Logger, 'logEvent'), $this->listenerPriority);
+            $EventManager->attachListener(Events::LOG, array($this->Logger, 'logEvent'), $this->listenerPriority);
 
             return $this;
         }

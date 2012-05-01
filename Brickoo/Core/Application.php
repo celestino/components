@@ -416,29 +416,29 @@
             }
 
             try {
-                $EventManager->notify(new Event(Events::EVENT_BOOT, $this));
+                $EventManager->notify(new Event(Events::BOOT, $this));
 
-                $this->Route($EventManager->ask(new Event(Events::EVENT_ROUTE_GET, $this)));
+                $this->Route($EventManager->ask(new Event(Events::ROUTE_GET, $this)));
 
-                $Response = $EventManager->ask(new Event(Events::EVENT_RESPONSE_GET, $this, array('Route' => $this->Route())));
+                $Response = $EventManager->ask(new Event(Events::RESPONSE_GET, $this, array('Route' => $this->Route())));
 
                 if ($Response instanceof Interfaces\Response) {
                     $EventManager->notify(
-                        new Event(Events::EVENT_RESPONSE_SAVE, $this, array('Response' => $Response))
+                        new Event(Events::RESPONSE_SAVE, $this, array('Response' => $Response))
                     );
                     $EventManager->notifyOnce(
-                        new Event(Events::EVENT_RESPONSE_SEND, $this, array('Response' => $Response))
+                        new Event(Events::RESPONSE_SEND, $this, array('Response' => $Response))
                     );
                 }
                 else {
-                    $EventManager->notify(new Event(Events::EVENT_RESPONSE_MISSING, $this));
+                    $EventManager->notify(new Event(Events::RESPONSE_MISSING, $this));
                 }
 
-                $EventManager->notify(new Event(Events::EVENT_SHUTDOWN, $this));
+                $EventManager->notify(new Event(Events::SHUTDOWN, $this));
             }
             catch(\Exception $Exception) {
                 $EventManager->notify(
-                    new Event(Events::EVENT_ERROR, $this, array('Exception' => $Exception))
+                    new Event(Events::ERROR, $this, array('Exception' => $Exception))
                 );
             }
 

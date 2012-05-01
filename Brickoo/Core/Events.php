@@ -45,61 +45,61 @@
         * Notifies the application boot event.
         * @var string
         */
-        const EVENT_BOOT = 'application.boot';
+        const BOOT = 'application.boot';
 
         /**
          * Notifies that an error/exception occured while running the application.
          * @var string
          */
-        const EVENT_ERROR = 'application.error';
+        const ERROR = 'application.error';
 
         /**
          * Notifies that the application has finished and can be shutdown.
          * @var string
          */
-        const EVENT_SHUTDOWN = 'application.shutdown';
+        const SHUTDOWN = 'application.shutdown';
 
         /**
          * Notifies that the module route requires session management and it could be configured.
          * @var string
          */
-        const EVENT_SESSION_CONFIGURE = 'session.configure';
+        const SESSION_CONFIGURE = 'session.configure';
 
         /**
          * Asks for the responsible route matching the request.
          * @var string
          */
-        const EVENT_ROUTE_GET = 'route.get';
+        const ROUTE_GET = 'route.get';
 
         /**
          * Asks for a cached response if the module route did enable the response cache.
          * @var string
          */
-        const EVENT_RESPONSE_LOAD = 'response.load';
+        const RESPONSE_LOAD = 'response.load';
 
         /**
          * Asks for a fresh response if the cached response has not been returned or did not be
          * enabled by the module route.
          * @var string
          */
-        const EVENT_RESPONSE_GET = 'response.get';
+        const RESPONSE_GET = 'response.get';
 
         /**
          * Notifies that the response could be cached if the module route did enabled response caching.
          * @var string
          */
-        const EVENT_RESPONSE_SAVE = 'response.save';
+        const RESPONSE_SAVE = 'response.save';
 
         /**
          * Notifies that the response could be sent now.
          * @var string
          */
-        const EVENT_RESPONSE_SEND = 'response.send';
+        const RESPONSE_SEND = 'response.send';
 
         /**
          * Notifies that the application did not get a fresh response after asking for.
          * @var string
          */
-        const EVENT_RESPONSE_MISSING = 'response.missing';
+        const RESPONSE_MISSING = 'response.missing';
 
     }

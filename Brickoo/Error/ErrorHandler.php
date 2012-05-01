@@ -144,7 +144,7 @@
         public function handleError($errorCode, $errorMessage, $errorFile, $errorLine) {
             $message = $errorMessage . ' throwed in ' . $errorFile . ' on line ' . $errorLine;
 
-            Event\Manager::Instance()->notify(new Event\Event(Log\Events::EVENT_LOG, $this, array(
+            Event\Manager::Instance()->notify(new Event\Event(Log\Events::LOG, $this, array(
                 'messages' => $message
             )));
 

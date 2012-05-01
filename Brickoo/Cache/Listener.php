@@ -76,19 +76,19 @@
          * @return void
          */
         public function aggregateListeners(\Brickoo\Event\Interfaces\Manager $EventManager) {
-            $EventManager->attachListener(Events::EVENT_CACHE_GET,
+            $EventManager->attachListener(Events::CACHE_GET,
                 array($this->Manager, 'get'), $this->listenerPriority, array('id')
             );
-            $EventManager->attachListener(Events::EVENT_CACHE_CALLBACK,
+            $EventManager->attachListener(Events::CACHE_CALLBACK,
                 array($this->Manager, 'getByCallback'), $this->listenerPriority, array('id', 'callback', 'arguments', 'lifetime')
             );
-            $EventManager->attachListener(Events::EVENT_CACHE_SET,
+            $EventManager->attachListener(Events::CACHE_SET,
                 array($this->Manager, 'set'), $this->listenerPriority, array('id', 'content', 'lifetime')
             );
-            $EventManager->attachListener(Events::EVENT_CACHE_DELETE,
+            $EventManager->attachListener(Events::CACHE_DELETE,
                 array($this->Manager, 'delete'), $this->listenerPriority, array('id')
             );
-            $EventManager->attachListener(Events::EVENT_CACHE_FLUSH,
+            $EventManager->attachListener(Events::CACHE_FLUSH,
                 array($this->Manager, 'flush'), $this->listenerPriority
             );
         }

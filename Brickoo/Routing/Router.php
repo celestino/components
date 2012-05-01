@@ -261,7 +261,7 @@
             }
             catch (\Brickoo\Routing\Exceptions\RequestHasNoRouteException $Exception) {
                 $this->EventManager()->notify(new Event\Event(
-                    RouterEvents::EVENT_ERROR, $this, array('Exception' => $Exception)
+                    RouterEvents::ERROR, $this, array('Exception' => $Exception)
                 ));
                 throw $Exception;
             }
@@ -291,7 +291,7 @@
          * @return \Brickoo\Routing\Router
          */
         public function loadModulesRoutes() {
-            if (($RouteCollection = $this->EventManager()->ask(new Event\Event(RouterEvents::EVENT_LOAD, $this))) &&
+            if (($RouteCollection = $this->EventManager()->ask(new Event\Event(RouterEvents::LOAD, $this))) &&
                 ($RouteCollection instanceof Interfaces\RouteCollection)
             ){
                 $this->RouteCollection($RouteCollection);
@@ -309,7 +309,7 @@
          */
         public function saveModulesRoutes() {
             $this->EventManager()->notify(new Event\Event(
-                RouterEvents::EVENT_SAVE, $this, array('RouteCollection' => $this->RouteCollection())
+                RouterEvents::SAVE, $this, array('RouteCollection' => $this->RouteCollection())
             ));
 
             return $this;

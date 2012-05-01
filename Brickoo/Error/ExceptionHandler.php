@@ -134,7 +134,7 @@
         public function handleException(\Exception $Exception) {
             $message = $this->getExceptionMessage($Exception);
 
-            Event\Manager::Instance()->notify(new Event\Event(Log\Events::EVENT_LOG, $this, array(
+            Event\Manager::Instance()->notify(new Event\Event(Log\Events::LOG, $this, array(
                 'messages' => $message
             )));
 
