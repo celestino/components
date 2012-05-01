@@ -4,6 +4,7 @@
     stopOnFailure="false"
     strict="true"
     verbose="true"
+    colors="true"
     convertErrorsToExceptions="true"
     convertNoticesToExceptions="true"
     convertWarningsToExceptions="true"
