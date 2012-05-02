@@ -43,13 +43,13 @@
     date_default_timezone_set('UTC');
 
     // require the default autoloader must implement the Autoloader interface
-    require_once (realpath(dirname(__FILE__)) .'/../Brickoo/Core/Autoloader.php');
+    require_once (realpath(dirname(__FILE__)) .'/../library/Brickoo/Core/Autoloader.php');
 
     // create the class autoloader instance
     $Autoloader = new Autoloader();
 
     // register the brickoo path as new namespace to the autoloader
-    $Autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../');
+    $Autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../library/');
 
     // register the autoloader instance to php
     $Autoloader->register();
