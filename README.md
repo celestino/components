@@ -31,6 +31,10 @@ BrickOO is tested with PHPUnit 3.6.10. PHPUnit installation information can be f
 
 `phpunit -c /path/to/Brickoo/tests/phpunit.xml --coverage-html  /path/to/coverage/directory`
 
+###Contributing
+BrickOO is an open source project. If you would like to contribute to Brickoo, please take a look at the 
+[Coding Standards](https://github.com/brickoo/brickoo/wiki/Coding-Standards).
+
 ###License
 The files in this archive are released under the new BSD license.
 You can find a copy of this license in the LICENSE file included.
