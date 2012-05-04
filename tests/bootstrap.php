@@ -35,21 +35,21 @@
     /**
      * Bootstrap for the Brickoo Framework used for Tests.
      * Sets the default timezone for Date functions.
-     * Defines test constants and initializes the required autoloader.
+     * Initializes the required autoloader.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
     // set the default timezone
     date_default_timezone_set('UTC');
 
-    // require the default autoloader must implement the Autoloader interface
-    require_once (realpath(dirname(__FILE__)) .'/../library/Brickoo/Core/Autoloader.php');
+    // require the default autoloader
+    require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Core/Autoloader.php');
 
     // create the class autoloader instance
     $Autoloader = new Autoloader();
 
     // register the brickoo path as new namespace to the autoloader
-    $Autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../library/');
+    $Autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
 
     // register the autoloader instance to php
     $Autoloader->register();
