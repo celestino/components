@@ -21,7 +21,7 @@ See [Apache mod_rewrite](http://httpd.apache.org/docs/2.2/mod/mod_rewrite.html),
 Just copy the Brickoo folder to a location you have read access to.
 
 An example of how to create an entry point (aka index.php), can be found in the
- [index.example.php](https://github.com/brickoo/brickoo/blob/master/index.example.php) 
+ [index.example.php](https://github.com/brickoo/brickoo/blob/master/examples/index.example.php) 
  file included.
 
 ###Testing
