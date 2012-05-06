@@ -152,8 +152,8 @@
          * Intializes the class properties.
          * @return void
          */
-        public function __construct() {
-            $this->container    = array();
+        public function __construct(array $container = array()) {
+            $this->container    = $container;
         }
 
         /**
