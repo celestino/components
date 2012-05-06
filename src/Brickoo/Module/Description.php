@@ -32,7 +32,9 @@
 
     namespace Brickoo\Module;
 
-    use Brickoo\Validator\TypeValidator;
+    use Brickoo\Core,
+        Brickoo\Memory,
+        Brickoo\Validator\TypeValidator;
 
     /**
      * Description
@@ -44,293 +46,95 @@
     class Description implements Interfaces\Description {
 
         /**
-         * Holds the available status keys.
-         * @var array
+         * Holds all added information instances.
+         * @var \Brickoo\Memory\Container
          */
-        protected $availableStatus;
-
-        /**
-         * Holds the name of the module.
-         * @var string
-         */
-        protected $name;
-
-        /**
-         * Returns the module name.
-         * @throws \UnexpectedValueException if the module name is not set
-         * @return string the module name
-         */
-        public function getName() {
-            if ($this->name === null) {
-                throw new \UnexpectedValueException('The module name is `null`.');
-            }
-
-            return $this->name;
-        }
-
-        /**
-         * Sets the module name.
-         * @param string $name the module name to set
-         * @return \Brickoo\Module\Description
-         */
-        public function setName($name) {
-            TypeValidator::IsString($name);
-
-            $this->name = $name;
-
-            return $this;
-        }
-
-        /**
-         * Holds the vendor name of the module.
-         * @var string
-         */
-        protected $vendor;
-
-        /**
-         * Returns the vendor name.
-         * @throws \UnexpectedValueException if the vendor name is not set
-         * @return string the vendor name
-         */
-        public function getVendor() {
-            if ($this->vendor === null) {
-                throw new \UnexpectedValueException('The vendor name is `null`.');
-            }
-
-            return $this->vendor;
-        }
-
-        /**
-         * Sets the vendor name.
-         * @param string $vendor the vendor name to set
-         * @return \Brickoo\Module\Description
-         */
-        public function setVendor($vendor) {
-            TypeValidator::IsString($vendor);
-
-            $this->vendor = $vendor;
-
-            return $this;
-        }
-
-        /**
-         * Holds the website url of the module vendor.
-         * @var string
-         */
-        protected $website;
-
-        /**
-         * Returns the website url.
-         * @throws \UnexpectedValueException if the website url is not set
-         * @return string the website url
-         */
-        public function getWebsite() {
-            if ($this->website === null) {
-                throw new \UnexpectedValueException('The website url is `null`.');
-            }
-
-            return $this->website;
-        }
-
-        /**
-         * Sets the website url.
-         * @param string $website the website url to set
-         * @return \Brickoo\Module\Description
-         */
-        public function setWebsite($website) {
-            TypeValidator::MatchesRegex('~^[^:/?#]+://[^/?#]+(\?[^#]*)?(#.*)?~', $website);
-
-            $this->website = $website;
-
-            return $this;
-        }
-
-        /**
-         * Holds the contact adress of the module vendor.
-         * @var string
-         */
-        protected $contact;
-
-        /**
-         * Returns the contact adress.
-         * @throws \UnexpectedValueException if the contact adress is not set
-         * @return string the contact adress
-         */
-        public function getContact() {
-            if ($this->contact === null) {
-                throw new \UnexpectedValueException('The contact adress is `null`.');
-            }
-
-            return $this->contact;
-        }
-
-        /**
-         * Sets the contact adress.
-         * @param string $contact the contact adress to set
-         * @return \Brickoo\Module\Description
-         */
-        public function setContact($contact) {
-            TypeValidator::IsString($contact);
-
-            $this->contact = $contact;
-
-            return $this;
-        }
-
-        /**
-         * Holds the status of the module.
-         * @var string
-         */
-        protected $status;
-
-        /**
-         * Returns the module status.
-         * @return string the module status
-         */
-        public function getStatus() {
-            return $this->status;
-        }
-
-        /**
-         * Sets the status.
-         * @param string $status the status to set
-         * @throws \InvalidArgumentException if the status in unknowed
-         * @return \Brickoo\Module\Description
-         */
-        public function setStatus($status) {
-            TypeValidator::IsString($status);
-
-            if (! in_array(strtolower($status), $this->availableStatus)) {
-                throw new \InvalidArgumentException(sprintf('The status `%s` unknowed.', $status));
-            }
-
-            $this->status = $status;
-
-            return $this;
-        }
-
-        /**
-         * Holds the version of the module.
-         * @var string
-         */
-        protected $version;
-
-        /**
-         * Returns the module version.
-         * @return string the module version
-         */
-        public function getVersion() {
-            return $this->version;
-        }
-
-        /**
-         * Sets the version.
-         * @param string $version the version to set
-         * @return \Brickoo\Module\Description
-         */
-        public function setVersion($version) {
-            TypeValidator::IsString($version);
-
-            $this->version = $version;
-
-            return $this;
-        }
-
-        /**
-         * Holds the description of the module.
-         * @var string
-         */
-        protected $description;
-
-        /**
-         * Returns the module description.
-         * @return string the module description
-         */
-        public function getDescription() {
-            return $this->description;
-        }
-
-        /**
-         * Sets the description.
-         * @param string $description the description to set
-         * @return \Brickoo\Module\Description
-         */
-        public function setDescription($description) {
-            TypeValidator::IsString($description);
-
-            $this->description = $description;
-
-            return $this;
-        }
-
-        /**
-         * Holds the module dependencies.
-         * @var array
-         */
-        protected $dependencies;
-
-        /**
-         * Returns the module dependencies.
-         * @return array
-         */
-        public function getDependencies() {
-            return $this->dependencies;
-        }
-
-        /**
-         * Sets the module dependencies.
-         * @param array $dependencies the module dependencies
-         * @return \Brickoo\Module\Description
-         */
-        public function setDependencies(array $dependencies) {
-            $this->dependencies = $dependencies;
-
-            return $this;
-        }
+        protected $InformationCollection;
 
         /**
          * Class constructor.
          * Initializes the class properties.
          * @return void
          */
-        public function __construct() {
-            $this->availableStatus = array('stable', 'dev', 'beta', 'alpha', 'rc');
+        public function __construct(\Brickoo\Memory\Interfaces\Container $Container = null) {
+            if ($Container === null) {
+                $Container = new Memory\Container();
+            }
+            $this->InformationCollection = $Container;
         }
 
         /**
-         * Returns the module description as string.
-         * @return string the module description
+         * Adds a module information element to the collection.
+         * @param \Brickoo\Module\Component\Interfaces\Information $Informationthe information to add
+         * @throws Core\Exceptions\ValueOverwriteException if trying to overwritte an information with the same name
+         * @return \Brickoo\Module\Description
+         */
+        public function add(\Brickoo\Module\Component\Interfaces\Information $Information) {
+            if ($this->InformationCollection->has($infoName = $Information->getName())) {
+                throw new Core\Exceptions\ValueOverwriteException(sprintf("Information::", $infoName));
+            }
+            $this->InformationCollection->set($infoName, $Information);
+
+            return $this;
+        }
+
+        /**
+         * Checks if the information with a specific name is set.
+         * @param string $informationName the information name to check
+         * @return boolean check result
+         */
+        public function has($informationName) {
+            TypeValidator::IsString($informationName);
+
+            return $this->InformationCollection->has($informationName);
+        }
+
+        /**
+         * Returns the information value of the specific name.
+         * @param string $informationName the information name to retrieve the value from
+         * @throws \UnexpectedValueException
+         * @return string the information value
+         */
+        public function get($informationName) {
+            TypeValidator::IsString($informationName);
+
+            if (! $Information = $this->InformationCollection->get($informationName)) {
+                throw new \UnexpectedValueException(sprintf("The information `%s` is not set.", $informationName));
+            }
+
+            return $Information->get();
+        }
+
+        /**
+         * Returns all collected information objects.
+         * @return array all collected information objects
+         */
+        public function getAll() {
+            return $this->InformationCollection->toArray();
+        }
+
+        /**
+         * Returns a string represantation of the collected informations.
+         * @return string the string information from all collected information objects
          */
         public function toString() {
-            $result = '';
+            $information = '';
 
-            $result .= "Name: " . $this->getName() . "\n";
-            $result .= "Vendor: " . $this->getVendor() . "\n";
-            $result .= "Website: " . $this->getWebsite() . "\n";
-            $result .= "Contact: " . $this->getContact() . "\n";
-
-            if ($status = $this->getStatus()) {
-                $result .= "Status: " . $status . "\n";
+            $this->InformationCollection->rewind();
+            while ($this->InformationCollection->valid()) {
+                $information .= sprintf("%s : %s\r\n",
+                    $this->InformationCollection->current()->getName(),
+                    $this->InformationCollection->current()->toString()
+                );
+                $this->InformationCollection->next();
             }
 
-            if ($version = $this->getVersion()) {
-                $result .= "Version: " . $version . "\n";
-            }
-
-            if($description = $this->getDescription()) {
-                $result .= "Description: " . $description;
-            }
-
-            if ($dependencies = $this->getDependencies()) {
-                $result .= "Dependencies: ". implode(', ', $dependencies);
-            }
-
-            return $result;
+            return $information;
         }
 
         /**
-         * Returns the module description as string.
-         * @return string the module description
+         * Returns the collected information as string.
+         * @return string the collected information
          */
         public function __toString() {
             return $this->toString();

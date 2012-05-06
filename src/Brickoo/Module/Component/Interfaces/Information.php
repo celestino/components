@@ -30,49 +30,38 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Module\Interfaces;
+    namespace Brickoo\Module\Component\Interfaces;
 
     /**
-     * Description
+     * Information
      *
      * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface Description {
+    interface Information {
 
         /**
-         * Adds a module information element to the collection.
-         * @param \Brickoo\Module\Component\Interfaces\Information $Informationthe information to add
-         * @throws Core\Exceptions\ValueOverwriteException if trying to overwritte an information with the same name
-         * @return \Brickoo\Module\Interfaces\Description
+         * Returns the information name.
+         * @returns string the information name
          */
-        public function add(\Brickoo\Module\Component\Interfaces\Information $Information);
+        public function getName();
 
         /**
-         * Checks if the information with a specific name is set.
-         * @param string $informationName the information name to check
-         * @return boolean check result
+         * Returns the description value.
+         * @return mixed the description value.
          */
-        public function has($informationName);
+        public function get();
 
         /**
-         * Returns the information value of the specific name.
-         * @param string $informationName the information name to retrieve the value from
-         * @throws \UnexpectedValueException
-         * @return string the information value
+         * Sets the description value.
+         * @param mixed $value the description value
          */
-        public function get($informationName);
+        public function set($value);
 
         /**
-         * Returns all collected information objects.
-         * @return array all collected information objects
-         */
-        public function getAll();
-
-        /**
-         * Returns a string represantation of the collected informations.
-         * @return string the string information from all collected information objects
+         * Returns the string represantation of the description value.
+         * @return string the description value
          */
         public function toString();
 

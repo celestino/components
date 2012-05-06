@@ -43,169 +43,156 @@
      */
 
     class DescriptionTest extends \PHPUnit_Framework_TestCase {
-        /**
-         * @var Description
-         */
-        protected $Description;
 
-        /**
-         * Sets up the Description instance used for hte tests.
-         * @return void
-         */
-        protected function setUp() {
-            $this->Description = new Description();
-        }
-
-        /**
-         * Test if the Description class implements the Description.
-         * Test if the status are available in the class property.
+       /**
+         * Test if the Description class implements the Description interface.
+         * Test if the collection property is an instance of the \Brickoo\Memory\Container
          * @covers Brickoo\Module\description::__construct
          */
         public function testConstructor() {
-            $this->assertInstanceOf('Brickoo\Module\Interfaces\Description', $this->Description);
-            $this->assertAttributeInternalType('array', 'availableStatus', $this->Description);
+            $Description = new Description();
+            $this->assertInstanceOf('Brickoo\Module\Interfaces\Description', $Description);
+            $this->assertAttributeInstanceOf('Brickoo\Memory\Container', 'InformationCollection', $Description);
         }
 
         /**
-         * Test if te modle name can be set and retrieved.
-         * @covers Brickoo\Module\Description::getName
-         * @covers Brickoo\Module\Description::setName
+         * Test if an Information element canbe added to the collection.
+         * @covers Brickoo\Module\Description::add
          */
-        public function testGetSetName() {
-            $this->assertSame($this->Description, $this->Description->setName('phpunit.test'));
-            $this->assertAttributeEquals('phpunit.test', 'name', $this->Description);
-            $this->assertEquals('phpunit.test', $this->Description->getName());
+        public function testAdd() {
+            $Information = $this->getMock(
+                'Brickoo\Module\Component\GenericInformation', array('getName'), array('name', null)
+            );
+            $Information->expects($this->any())
+                        ->method('getName')
+                        ->will($this->returnValue('name'));
+
+            $Container = $this->getMock('Brickoo\Memory\Container');
+            $Container->expects($this->once())
+                      ->method('has')
+                      ->with('name')
+                      ->will($this->returnValue(false));
+            $Container->expects($this->once())
+                      ->method('set')
+                      ->with('name', $Information);
+
+            $Description = new Description($Container);
+            $this->assertEquals($Description, $Description->add($Information));
         }
 
         /**
-         * Test if trying to retrieve the unset module name throws an exception.
-         * @covers Brickoo\Module\Description::getName
-         * @expectedException UnexpectedValueException
+         * Test if trying to overwritte an informationw ith the same key throws an exception.
+         * @covers Brickoo\Module\Description::add
+         * @covers \Brickoo\Core\Exceptions\ValueOverwriteException
+         * @expectedException \Brickoo\Core\Exceptions\ValueOverwriteException
          */
-        public function testGetNameValueExcpetion() {
-            $this->Description->getName();
+        public function testAddOverwritteException() {
+            $Information = $this->getMock(
+                'Brickoo\Module\Component\GenericInformation', array('getName'), array('name', null)
+            );
+            $Information->expects($this->any())
+                        ->method('getName')
+                        ->will($this->returnValue('name'));
+
+            $Container = $this->getMock('Brickoo\Memory\Container');
+            $Container->expects($this->once())
+                      ->method('has')
+                      ->with('name')
+                      ->will($this->returnValue(true));
+
+            $Description = new Description($Container);
+            $this->assertEquals($Description, $Description->add($Information));
         }
 
         /**
-         * Test if the vendor can be set and retrieved.
-         * @covers Brickoo\Module\Description::getVendor
-         * @covers Brickoo\Module\Description::setVendor
+         * Test if an information name can be checked as available through the collection container.
+         * @covers Brickoo\Module\Description::has
          */
-        public function testGetSetVendor() {
-            $this->assertSame($this->Description, $this->Description->setVendor('brickoo'));
-            $this->assertAttributeEquals('brickoo', 'vendor', $this->Description);
-            $this->assertEquals('brickoo', $this->Description->getVendor());
+        public function testHas() {
+            $Container = $this->getMock('Brickoo\Memory\Container');
+            $Container->expects($this->once())
+                      ->method('has')
+                      ->with('name')
+                      ->will($this->returnValue(true));
+
+            $Description = new Description($Container);
+            $this->assertTrue($Description->has('name'));
         }
 
         /**
-         * Test if trying to retrieve a not available vendor throws an exception.
-         * @covers Brickoo\Module\Description::getVendor
-         * @expectedException UnexpectedValueException
+         * Test if trying to use a wrong argument an exception is throwed.
+         * @covers Brickoo\Module\Description::has
+         * @expectedException \InvalidArgumentException
          */
-        public function testGetVendorValueException() {
-            $this->Description->getVendor();
+        public function testHasArgumentException() {
+            $Description = new Description();
+            $Description->has(array('wrongType'));
         }
 
         /**
-         * Test if the website can be set and retrieved.
-         * @covers Brickoo\Module\Description::getWebsite
-         * @covers Brickoo\Module\Description::setWebsite
+         * Test if an information value could be retrieved.
+         * @covers Brickoo\Module\Description::get
          */
-        public function testGetSetWebsite() {
-            $this->assertSame($this->Description, $this->Description->setWebsite('http://brickoo.home'));
-            $this->assertAttributeEquals('http://brickoo.home', 'website', $this->Description);
-            $this->assertEquals('http://brickoo.home', $this->Description->getWebsite());
+        public function testGet() {
+            $moduleName = 'name';
+
+            $Information = $this->getMock(
+                'Brickoo\Module\Component\GenericInformation', array('get'), array($moduleName, 'testValue')
+            );
+            $Information->expects($this->any())
+                        ->method('get')
+                        ->will($this->returnValue('testValue'));
+
+            $Container = $this->getMock('Brickoo\Memory\Container');
+            $Container->expects($this->once())
+                      ->method('get')
+                      ->with($moduleName)
+                      ->will($this->returnValue($Information));
+
+            $Description = new Description($Container);
+            $this->assertEquals('testValue', $Description->get($moduleName));
         }
 
         /**
-         * Test if trying to retrieve a not available website throws an exception.
-         * @covers Brickoo\Module\Description::GetWebsite
-         * @expectedException UnexpectedValueException
+         * Test if trying to retrieve an information which does not exist throws an exception.
+         * @covers Brickoo\Module\Description::get
+         * @expectedException \UnexpectedValueException
          */
-        public function testGetWebsiteValueException() {
-            $this->Description->getWebsite();
+        public function testGetValueException() {
+            $Container = $this->getMock('Brickoo\Memory\Container');
+            $Container->expects($this->once())
+                      ->method('get')
+                      ->with('name')
+                      ->will($this->returnValue(false));
+
+            $Description = new Description($Container);
+            $this->assertEquals('testValue', $Description->get('name'));
         }
 
         /**
-         * Test if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Module\Description::setWebsite
-         * @expectedException InvalidArgumentException
+         * Test if trying to use a not valid argument throws an exception.
+         * @covers Brickoo\Module\Description::get
+         * @expectedException \InvalidArgumentException
          */
-        public function testSetWebsiteArgumentException() {
-            $this->Description->setWebsite('fail');
+        public function testGetInvalidArgumentException() {
+            $Description = new Description();
+            $this->assertEquals('testValue', $Description->get(array('wrongType')));
         }
 
         /**
-         * Test if the contact can be set and retrieved.
-         * @covers Brickoo\Module\Description::getContact
-         * @covers Brickoo\Module\Description::setContact
+         * Test if the complete information collected could be retrieved.
+         * @covers Brickoo\Module\Description::getAll
          */
-        public function testGetSetContact() {
-            $this->assertSame($this->Description, $this->Description->setContact('contact@brickoo'));
-            $this->assertAttributeEquals('contact@brickoo', 'contact', $this->Description);
-            $this->assertEquals('contact@brickoo', $this->Description->getContact());
-        }
+        public function testGetAll() {
+            $informationCollected = array('information objects');
 
-        /**
-         * Test if trying to retrieve a not available contact throws an exception.
-         * @covers Brickoo\Module\Description::getContact
-         * @expectedException UnexpectedValueException
-         */
-        public function testGetContactValueException() {
-            $this->Description->getContact();
-        }
+            $Container = $this->getMock('Brickoo\Memory\Container');
+            $Container->expects($this->once())
+                      ->method('toArray')
+                      ->will($this->returnValue($informationCollected));
 
-        /**
-         * Test if the status can be set and retrieved.
-         * @covers Brickoo\Module\Description::getStatus
-         * @covers Brickoo\Module\Description::setStatus
-         */
-        public function testGetSetStatus() {
-            $this->assertSame($this->Description, $this->Description->setStatus('stable'));
-            $this->assertAttributeEquals('stable', 'status', $this->Description);
-            $this->assertEquals('stable', $this->Description->getStatus());
-        }
-
-        /**
-         * Test if trying to use a wrong argument throws an exception.
-         * @covers Brickoo\Module\Description::setStatus
-         * @expectedException InvalidArgumentException
-         */
-        public function testSetStatusArgumentException() {
-            $this->Description->setStatus('undefined');
-        }
-
-        /**
-         * Test if the version can be set and retrieved.
-         * @covers Brickoo\Module\Description::getVersion
-         * @covers Brickoo\Module\Description::setVersion
-         */
-        public function testGetSetVersion() {
-            $this->assertSame($this->Description, $this->Description->setVersion('v3.0'));
-            $this->assertAttributeEquals('v3.0', 'version', $this->Description);
-            $this->assertEquals('v3.0', $this->Description->getVersion());
-        }
-
-        /**
-         * Test if the description can be set and retrieved.
-         * @covers Brickoo\Module\Description::getDescription
-         * @covers Brickoo\Module\Description::setDescription
-         */
-        public function testGetSetDescription() {
-            $this->assertSame($this->Description, $this->Description->setDescription('some description'));
-            $this->assertAttributeEquals('some description', 'description', $this->Description);
-            $this->assertEquals('some description', $this->Description->getDescription());
-        }
-
-        /**
-         * Test if the dependencies can be set and retrieved.
-         * @covers Brickoo\Module\Description::getDependencies
-         * @covers Brickoo\Module\Description::setDependencies
-         */
-        public function testGetSetDependencies() {
-            $this->assertSame($this->Description, $this->Description->setDependencies(array('Test/Module')));
-            $this->assertAttributeEquals(array('Test/Module'), 'dependencies', $this->Description);
-            $this->assertEquals(array('Test/Module'), $this->Description->getDependencies());
+            $Description = new Description($Container);
+            $this->assertEquals($informationCollected, $Description->getAll());
         }
 
         /**
@@ -214,27 +201,34 @@
          * @covers Brickoo\Module\description::__toString
          */
         public function testDescriptionToString() {
-            $expected = '';
-            $expected .= "Name: Brickoo Test Module\n";
-            $expected .= "Vendor: Brickoo\n";
-            $expected .= "Website: http://brickoo.test\n";
-            $expected .= "Contact: contact@brickoo.test\n";
-            $expected .= "Status: stable\n";
-            $expected .= "Version: 3.0\n";
-            $expected .= "Description: some description text";
-            $expected .= "Dependencies: Test/ModuleA, Test/ModuleB";
+            $expected = "name : Test Module\r\n";
+            $expected .= "vendor : BrickOO\r\n";
 
-            $this->Description->setName('Brickoo Test Module')
-                              ->setVendor('Brickoo')
-                              ->setWebsite('http://brickoo.test')
-                              ->setContact('contact@brickoo.test')
-                              ->setStatus('stable')
-                              ->setVersion('3.0')
-                              ->setDescription('some description text')
-                              ->setDependencies(array('Test/ModuleA', 'Test/ModuleB'));
+            $InformationName = $this->getMock(
+                'Brickoo\Module\Component\GenericInformation', array('getName', 'toString'), array('name', 'Test Module')
+            );
+            $InformationName->expects($this->any())
+                            ->method('getName')
+                            ->will($this->returnValue('name'));
+            $InformationName->expects($this->any())
+                            ->method('toString')
+                            ->will($this->returnValue('Test Module'));
 
-            $this->assertEquals($expected, $this->Description->toString());
-            $this->assertEquals($expected, (string)$this->Description);
+            $InformationVendor = $this->getMock(
+                'Brickoo\Module\Component\GenericInformation', array('getName', 'toString'), array('vendor', 'BrickOO')
+            );
+            $InformationVendor->expects($this->any())
+                              ->method('getName')
+                              ->will($this->returnValue('vendor'));
+            $InformationVendor->expects($this->any())
+                              ->method('toString')
+                              ->will($this->returnValue('BrickOO'));
+
+            $Description = new Description();
+            $Description->add($InformationName)->add($InformationVendor);
+
+            $this->assertEquals($expected, $Description->toString());
+            $this->assertEquals($expected, (string)$Description);
         }
 
     }
