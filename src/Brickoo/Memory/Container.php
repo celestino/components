@@ -177,7 +177,7 @@
          * @return \Brickoo\Memory\Container
          */
         public function set($offset, $value) {
-            TypeValidator::IsString($offset);
+            TypeValidator::IsStringAndNotEmpty($offset);
 
             $this->offsetSet($offset, $value);
 

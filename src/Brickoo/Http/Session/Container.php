@@ -66,7 +66,7 @@
         * @return boolean check result
         */
         public function has($property) {
-            TypeValidator::IsString($property);
+            TypeValidator::IsStringAndNotEmpty($property);
 
             return array_key_exists($this->sessionNamespace . '.' . $property, $_SESSION);
         }
@@ -78,7 +78,7 @@
          * @return mixed the property holded content or the default value if the property does not exist
          */
         public function get($property, $defaultValue = null) {
-            TypeValidator::IsString($property);
+            TypeValidator::IsStringAndNotEmpty($property);
 
             if (! $this->has($property)) {
                 return $defaultValue;
@@ -94,7 +94,7 @@
          * @return \Brickoo\Http\Session\Session
          */
         public function set($property, $content) {
-            TypeValidator::IsString($property);
+            TypeValidator::IsStringAndNotEmpty($property);
 
             $_SESSION[$this->sessionNamespace . '.' . $property] = $content;
 
@@ -107,7 +107,7 @@
          * @return \Brickoo\Http\Session\Session
          */
         public function remove($property) {
-            TypeValidator::IsString($property);
+            TypeValidator::IsStringAndNotEmpty($property);
 
             if ($this->has($property)) {
                 unset($_SESSION[$this->sessionNamespace . '.' . $property]);

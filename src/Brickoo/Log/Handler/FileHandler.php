@@ -89,7 +89,7 @@
          * @return \Brickoo\Log\Handler\FileHandler
          */
         public function setDirectory($directory) {
-            TypeValidator::IsString($directory);
+            TypeValidator::IsStringAndNotEmpty($directory);
 
             $this->directory = rtrim($directory, '\/') . DIRECTORY_SEPARATOR;
 
@@ -116,7 +116,7 @@
          * @return \Brickoo\Log\Handler\FileHandler
          */
         public function setFilePrefix($filePrefix) {
-            TypeValidator::IsString($filePrefix, TypeValidator::FLAG_STRING_CAN_BE_EMPTY);
+            TypeValidator::IsString($filePrefix);
 
             $this->filePrefix = $filePrefix;
 

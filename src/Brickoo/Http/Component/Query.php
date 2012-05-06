@@ -60,7 +60,7 @@
          * @return \Brickoo\Http\Component\Query
          */
         public function importFromString($query) {
-            TypeValidator::IsString($query);
+            TypeValidator::IsStringAndNotEmpty($query);
 
             if (($position = strpos($query, '?')) !== false) {
                 $query = substr($query, $position + 1);

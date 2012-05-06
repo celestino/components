@@ -66,7 +66,7 @@
          * @return \Brickoo\Config\Provider\ArrayProvider
          */
         public function setFilename($filename) {
-            TypeValidator::IsString($filename);
+            TypeValidator::IsStringAndNotEmpty($filename);
 
             $this->filename = $filename;
 

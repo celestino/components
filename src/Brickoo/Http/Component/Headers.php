@@ -74,7 +74,7 @@
          * @return boolean check result
          */
         public function isTypeSupported($acceptType) {
-            TypeValidator::IsString($acceptType);
+            TypeValidator::IsStringAndNotEmpty($acceptType);
 
             return array_key_exists($acceptType, $this->getAcceptTypes());
         }
@@ -108,7 +108,7 @@
          * @return boolean check result
          */
         public function isLanguageSupported($acceptLanguage) {
-            TypeValidator::IsString($acceptLanguage);
+            TypeValidator::IsStringAndNotEmpty($acceptLanguage);
 
             return array_key_exists($acceptLanguage, $this->getAcceptLanguages());
         }
@@ -142,7 +142,7 @@
          * @return boolean check result
          */
         public function isEncodingSupported($acceptEncoding) {
-            TypeValidator::IsString($acceptEncoding);
+            TypeValidator::IsStringAndNotEmpty($acceptEncoding);
 
             return array_key_exists($acceptEncoding, $this->getAcceptEncodings());
         }
@@ -176,7 +176,7 @@
          * @return boolean check result
          */
         public function isCharsetSupported($acceptCharset) {
-            TypeValidator::IsString($acceptCharset);
+            TypeValidator::IsStringAndNotEmpty($acceptCharset);
 
             return array_key_exists($acceptCharset, $this->getAcceptCharsets());
         }
@@ -189,9 +189,9 @@
          * @return array the result containing the header values
          */
         public function getAcceptHeaderByRegex($regex, $keyName, $acceptHeader) {
-            TypeValidator::isString($regex);
-            TypeValidator::isString($keyName);
-            TypeValidator::isString($acceptHeader);
+            TypeValidator::IsStringAndNotEmpty($regex);
+            TypeValidator::IsStringAndNotEmpty($keyName);
+            TypeValidator::IsStringAndNotEmpty($acceptHeader);
 
             $results = array();
             $fields = explode(',', $acceptHeader);
@@ -260,7 +260,7 @@
          * @return \Brickoo\Http\Component\Headers
          */
         public function importFromString($headers) {
-            TypeValidator::IsString($headers);
+            TypeValidator::IsStringAndNotEmpty($headers);
 
             $importedHeader = array();
             $fields = explode("\r\n", preg_replace('/\x0D\x0A[\x09\x20]+/', ' ', $headers));

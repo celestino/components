@@ -124,7 +124,7 @@
          * @return boolean check result
          */
         public function isListener($listenerUID) {
-            TypeValidator::IsString($listenerUID);
+            TypeValidator::IsStringAndNotEmpty($listenerUID);
 
             return isset($this->listeners[$listenerUID]);
         }
@@ -169,7 +169,7 @@
          * @return \Brickoo\Event\Manager
          */
         public function detachListener($listenerUID) {
-            TypeValidator::IsString($listenerUID);
+            TypeValidator::IsStringAndNotEmpty($listenerUID);
 
             if ($this->isListener($listenerUID)) {
                 unset($this->listeners[$listenerUID]);
@@ -190,7 +190,7 @@
          * @return string the uniform event
          */
         protected function getUniformEventName($eventName) {
-            TypeValidator::IsString($eventName);
+            TypeValidator::IsStringAndNotEmpty($eventName);
 
             return strtolower(trim($eventName));
         }

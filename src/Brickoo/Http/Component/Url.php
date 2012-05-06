@@ -108,7 +108,7 @@
          * @return \Brickoo\Http\Component\Url
          */
         public function setScheme($scheme) {
-            TypeValidator::IsString($scheme);
+            TypeValidator::IsStringAndNotEmpty($scheme);
 
             $this->scheme = $scheme;
 
@@ -140,7 +140,7 @@
          * @return \Brickoo\Http\Component\Url
          */
         public function setHost($host) {
-            TypeValidator::IsString($host);
+            TypeValidator::IsStringAndNotEmpty($host);
 
             $this->host = $host;
 
@@ -194,7 +194,7 @@
          * @return \Brickoo\Http\Component\Url
          */
         public function setQuery($query) {
-            TypeValidator::IsString($query);
+            TypeValidator::IsStringAndNotEmpty($query);
 
             $this->query = $query;
 
@@ -226,7 +226,7 @@
          * @return \Brickoo\Http\Component\Url
          */
         public function setPath($path) {
-            TypeValidator::IsString($path);
+            TypeValidator::IsStringAndNotEmpty($path);
 
             $this->path = '/' . trim($path, '/');
 
@@ -253,7 +253,7 @@
          * @return \Brickoo\Http\Component\Url
          */
         public function setFormat($format) {
-            TypeValidator::IsString($format);
+            TypeValidator::IsStringAndNotEmpty($format);
 
             $this->format = $format;
 
@@ -266,7 +266,7 @@
          * @return \Brickoo\Http\Component\Url
          */
         public function importFromString($url) {
-            TypeValidator::IsString($url);
+            TypeValidator::IsStringAndNotEmpty($url);
 
             if (! preg_match('~^[^:/?#]+://[^/?#]+(\?[^#]*)?(#.*)?~', $url)) {
                 throw new \InvalidArgumentException(sprintf('The url `%s` does not match a valid URL', $url));

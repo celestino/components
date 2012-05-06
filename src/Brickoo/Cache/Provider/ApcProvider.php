@@ -49,7 +49,7 @@
          * @return mixed the cached content
          */
         public function get($identifier) {
-            TypeValidator::IsString($identifier);
+            TypeValidator::IsStringAndNotEmpty($identifier);
 
             return apc_fetch($identifier);
         }
@@ -64,7 +64,7 @@
          * @return mixed the cache provider result
          */
         public function set($identifier, $content, $lifetime = 60) {
-            TypeValidator::IsString($identifier);
+            TypeValidator::IsStringAndNotEmpty($identifier);
             TypeValidator::IsInteger($lifetime);
 
             return apc_store($identifier, $content, $lifetime);
@@ -76,7 +76,7 @@
          * @return mixed the cache provider result
          */
         public function delete($identifier) {
-            TypeValidator::IsString($identifier);
+            TypeValidator::IsStringAndNotEmpty($identifier);
 
             return apc_delete($identifier);
         }

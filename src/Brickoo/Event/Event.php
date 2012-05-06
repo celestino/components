@@ -146,7 +146,7 @@
          * @return mixed the parmeter value or null if not set
          */
         public function getParam($identifier) {
-            TypeValidator::IsString($identifier);
+            TypeValidator::IsStringAndNotEmpty($identifier);
 
             if (! $this->hasParam($identifier)) {
                 return null;
@@ -161,7 +161,7 @@
          * @return boolean check result
          */
         public function hasParam($identifier) {
-            TypeValidator::IsString($identifier);
+            TypeValidator::IsStringAndNotEmpty($identifier);
             return isset($this->params[$identifier]);
         }
 
@@ -188,7 +188,7 @@
          * @return void
          */
         public function __construct($name, $Sender = null, array $parameters = array()) {
-            TypeValidator::IsString($name);
+            TypeValidator::IsStringAndNotEmpty($name);
 
             if($Sender !== null) {
                 TypeValidator::isObject($Sender);

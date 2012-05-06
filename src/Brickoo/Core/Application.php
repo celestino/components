@@ -251,7 +251,7 @@
          * @return boolean check result
          */
         public function isModuleAvailable($moduleName) {
-            TypeValidator::IsString($moduleName);
+            TypeValidator::IsStringAndNotEmpty($moduleName);
 
             return array_key_exists($moduleName, $this->getModules());
         }
@@ -263,7 +263,7 @@
          * @return string the module absolute path to the root directory
          */
         public function getModulePath($moduleName) {
-            TypeValidator::IsString($moduleName);
+            TypeValidator::IsStringAndNotEmpty($moduleName);
 
             if (! $this->isModuleAvailable($moduleName)) {
                 throw new Exceptions\ModuleNotAvailableException($moduleName);
@@ -282,8 +282,8 @@
          * @return \Brickoo\Http\Application
          */
         public function registerDirectory($identifier, $directoryPath) {
-            TypeValidator::IsString($identifier);
-            TypeValidator::IsString($directoryPath);
+            TypeValidator::IsStringAndNotEmpty($identifier);
+            TypeValidator::IsStringAndNotEmpty($directoryPath);
 
             if (! is_dir($directoryPath)) {
                 throw new Exceptions\DirectoryDoesNotExistException($directoryPath);
@@ -300,7 +300,7 @@
          * @return \Brickoo\Http\Application
          */
         public function registerPublicDirectory($publicDirectory) {
-            TypeValidator::IsString($publicDirectory);
+            TypeValidator::IsStringAndNotEmpty($publicDirectory);
 
             $this->set($this->reservedIdentifiers['publicdirectory'], rtrim($publicDirectory, '/\\') . '/');
 
@@ -321,7 +321,7 @@
          * @return boolean check result
          */
         public function has($identifier) {
-            TypeValidator::IsString($identifier);
+            TypeValidator::IsStringAndNotEmpty($identifier);
 
             $reservedIdentifier = strtolower($identifier);
             if (array_key_exists($reservedIdentifier, $this->reservedIdentifiers)) {
@@ -337,7 +337,7 @@
         * @return mixed the value of the registered identifier or null if it is not registered
         */
         public function get($identifier) {
-            TypeValidator::IsString($identifier);
+            TypeValidator::IsStringAndNotEmpty($identifier);
 
             $reservedIdentifier = strtolower($identifier);
             if (array_key_exists($reservedIdentifier, $this->reservedIdentifiers)) {
@@ -358,7 +358,7 @@
          * @return \Brickoo\Core\Application
          */
         public function set($identifier, $value) {
-            TypeValidator::IsString($identifier);
+            TypeValidator::IsStringAndNotEmpty($identifier);
 
             $this->Registry()->register($identifier, $value)
                              ->lock($identifier);

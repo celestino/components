@@ -110,7 +110,7 @@
          * @return \Brickoo\Http\Session\Manager
          */
         public function configureSession($sessionName, $sessionLimiter = null) {
-            TypeValidator::IsString($sessionName);
+            TypeValidator::IsStringAndNotEmpty($sessionName);
 
             session_name($sessionName);
 

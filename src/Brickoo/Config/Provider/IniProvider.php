@@ -66,7 +66,7 @@
          * @return \Brickoo\Config\Provider\IniProvider
          */
         public function setFilename($filename) {
-            TypeValidator::IsString($filename);
+            TypeValidator::IsStringAndNotEmpty($filename);
 
             $this->filename = $filename;
 
@@ -127,7 +127,7 @@
          * @return array the loaded configuration
          */
         public function fromString($configuration) {
-            TypeValidator::IsString($configuration);
+            TypeValidator::IsStringAndNotEmpty($configuration);
 
             return parse_ini_string($configuration, true);
         }
@@ -156,7 +156,7 @@
          * @return string the section configuration
          */
         public function getSectionString($section, array $settings) {
-            TypeValidator::IsString($section);
+            TypeValidator::IsStringAndNotEmpty($section);
 
             $iniString = sprintf("[%s]\r\n", $section);
 
@@ -179,7 +179,7 @@
          * @return string the section array configuration
          */
         public function getSectionArrayString($key, array $values) {
-            TypeValidator::IsString($key);
+            TypeValidator::IsStringAndNotEmpty($key);
 
             $iniString = '';
 

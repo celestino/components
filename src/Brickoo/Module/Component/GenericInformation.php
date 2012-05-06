@@ -55,7 +55,7 @@
          * @return \Brickoo\Module\Component\GenericInformation
          */
         protected function setName($name) {
-            TypeValidator::IsString($name);
+            TypeValidator::IsStringAndNotEmpty($name);
 
             $this->name = strtolower($name);
             return $this;

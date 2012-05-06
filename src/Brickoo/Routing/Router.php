@@ -165,7 +165,7 @@
          * @return \Brickoo\Routing\Router
          */
         public function setRoutesFilename($routesFilename) {
-            TypeValidator::IsString($routesFilename);
+            TypeValidator::IsStringAndNotEmpty($routesFilename);
 
             $this->routesFilename = $routesFilename;
 

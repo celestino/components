@@ -93,7 +93,7 @@
          * @return \Brickoo\System\SocketObject
          */
         public function setProtocol($protocol) {
-            TypeValidator::IsString($protocol);
+            TypeValidator::IsStringAndNotEmpty($protocol);
 
             if ($this->hasHandle()) {
                 throw new Exceptions\HandleAlreadyExistsException();
@@ -129,7 +129,7 @@
          * @return \Brickoo\System\SocketObject
          */
         public function setServerAdress($serverAdress) {
-            TypeValidator::IsString($serverAdress);
+            TypeValidator::IsStringAndNotEmpty($serverAdress);
 
             if ($this->hasHandle()) {
                 throw new Exceptions\HandleAlreadyExistsException();

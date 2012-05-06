@@ -100,7 +100,7 @@
          * @return \Brickoo\Config\Configuration
          */
         public function convertSectionToConstants($section) {
-            TypeValidator::IsString($section);
+            TypeValidator::IsStringAndNotEmpty($section);
 
             if (($settings = $this->get($section)) === null) {
                 throw new \UnexpectedValueException(sprintf("The section `%s` does not exist.", $section));

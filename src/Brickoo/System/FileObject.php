@@ -99,7 +99,7 @@
          * @return \Brickoo\System\FileObject
          */
         public function setLocation($location) {
-            TypeValidator::IsString($location);
+            TypeValidator::IsStringAndNotEmpty($location);
 
             if ($this->hasHandle()) {
                 throw new Exceptions\HandleAlreadyExistsException();
@@ -250,7 +250,7 @@
          * @return string the readed content bytes
          */
         public function read($bytes = 1024) {
-            TypeValidator::IsInteger($bytes, TypeValidator::FLAG_INTEGER_CAN_NOT_BE_ZERO);
+            TypeValidator::IsIntegerAndNotZero($bytes);
 
             if (preg_match('~^[waxc]$~', ($mode = $this->getMode()))) {
                 throw new Exceptions\InvalidModeOperationException($mode);

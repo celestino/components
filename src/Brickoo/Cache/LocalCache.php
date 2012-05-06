@@ -58,7 +58,7 @@
          * @return mixed the cached content
          */
         public function get($identifier) {
-            TypeValidator::IsString($identifier);
+            TypeValidator::IsStringAndNotEmpty($identifier);
 
             if (! array_key_exists($identifier, $this->cacheValues)) {
                 throw new Exceptions\IdentifierNotAvailableException($identifier);
@@ -74,7 +74,7 @@
          * @return \Brickoo\Cache\LocalCache
          */
         public function set($identifier, $content) {
-            TypeValidator::IsString($identifier);
+            TypeValidator::IsStringAndNotEmpty($identifier);
 
             $this->cacheValues[$identifier] = $content;
 
@@ -89,7 +89,7 @@
          * @return \Brickoo\Cache\LocalCache
          */
         public function remove($identifier) {
-            TypeValidator::IsString($identifier);
+            TypeValidator::IsStringAndNotEmpty($identifier);
 
             if (! array_key_exists($identifier, $this->cacheValues)) {
                 throw new Exceptions\IdentifierNotAvailableException($identifier);

@@ -118,7 +118,7 @@
          * @return \Brickoo\Cache\Provider\FileProvider
          */
         public function setFilePrefix($filePrefix) {
-            TypeValidator::IsString($filePrefix);
+            TypeValidator::IsStringAndNotEmpty($filePrefix);
 
             if (! preg_match('~^[\w]+$~', $filePrefix)) {
                 throw new \UnexpectedValueException(sprintf('The file prefix `%s` is not valid.', $filePrefix));
@@ -154,7 +154,7 @@
          * @return \Brickoo\Cache\Provider\FileProvider
          */
         public function setDirectory($directory) {
-            TypeValidator::IsString($directory);
+            TypeValidator::IsStringAndNotEmpty($directory);
 
             $this->directory = rtrim(realpath($directory), '\\/') . DIRECTORY_SEPARATOR;
 
@@ -179,7 +179,7 @@
          * @return string the pull file path
          */
         public function getFileName($identifier) {
-            TypeValidator::IsString($identifier);
+            TypeValidator::IsStringAndNotEmpty($identifier);
 
             return $this->getDirectory() . $this->getFilePrefix() . str_replace(' ', '_', $identifier);
         }
@@ -191,7 +191,7 @@
          * @return mixed the cached content or false if the content is not available or has expired
          */
         public function get($identifier) {
-            TypeValidator::IsString($identifier);
+            TypeValidator::IsStringAndNotEmpty($identifier);
 
             if (! file_exists(($fileName = $this->getFileName($identifier)))) {
                 return false;
@@ -224,7 +224,7 @@
          * @return boolean true if the content could be saved
          */
         public function set($identifier, $content, $lifetime = 60) {
-            TypeValidator::IsString($identifier);
+            TypeValidator::IsStringAndNotEmpty($identifier);
             TypeValidator::IsInteger($lifetime);
 
             if ($lifetime == 0) {
@@ -245,7 +245,7 @@
          * @return boolean true if the file did be deleted otherwise false
          */
         public function delete($identifier) {
-            TypeValidator::IsString($identifier);
+            TypeValidator::IsStringAndNotEmpty($identifier);
 
             if (file_exists(($fileName = $this->getFileName($identifier)))) {
                 return unlink($fileName);

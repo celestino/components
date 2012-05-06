@@ -64,7 +64,7 @@
          * @return \Brickoo\Template\PhpTemplate
          */
         public function setTemplateFile($templateFile) {
-            TypeValidator::IsString($templateFile);
+            TypeValidator::IsStringAndNotEmpty($templateFile);
 
             if (! file_exists($templateFile)) {
                 throw new Exceptions\TemplateFileDoesNotExist($templateFile);
@@ -95,7 +95,7 @@
          * @return \Brickoo\Template\PhpTemplate
          */
         public function addTemplateVars(array $variables) {
-            TypeValidator::IsArray($variables);
+            TypeValidator::IsArrayAndNotEmpty($variables);
 
             $this->templateVars = array_merge($this->templateVars, $variables);
 
@@ -114,7 +114,7 @@
                 return $this->templateVars;
             }
 
-            TypeValidator::IsString($variable);
+            TypeValidator::IsStringAndNotEmpty($variable);
 
             if (! $this->hasTemplateVar($variable)) {
                 throw new \UnexpectedValueException(sprintf('The template variable `%s` does not exist.', $variable));
@@ -134,7 +134,7 @@
                 return (! empty($this->templateVars));
             }
 
-            TypeValidator::IsString($variable);
+            TypeValidator::IsStringAndNotEmpty($variable);
 
             return array_key_exists($variable, $this->templateVars);
         }
@@ -192,7 +192,7 @@
          * @return void
          */
         public function __set($variable, $value) {
-            TypeValidator::IsString($variable);
+            TypeValidator::IsStringAndNotEmpty($variable);
 
             $this->templateVars[$variable] = $value;
         }

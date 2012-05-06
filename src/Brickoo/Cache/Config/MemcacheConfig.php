@@ -64,7 +64,7 @@
          * @return \Brickoo\Cache\Config\MemcacheConfig
          */
         public function addServer($host, $port = 0) {
-            TypeValidator::IsString($host);
+            TypeValidator::IsStringAndNotEmpty($host);
             TypeValidator::IsInteger($port);
 
             $this->servers[] = array('host' => $host, 'port' => $port);

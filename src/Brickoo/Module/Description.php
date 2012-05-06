@@ -84,7 +84,7 @@
          * @return boolean check result
          */
         public function has($informationName) {
-            TypeValidator::IsString($informationName);
+            TypeValidator::IsStringAndNotEmpty($informationName);
 
             return $this->InformationCollection->has($informationName);
         }
@@ -96,7 +96,7 @@
          * @return string the information value
          */
         public function get($informationName) {
-            TypeValidator::IsString($informationName);
+            TypeValidator::IsStringAndNotEmpty($informationName);
 
             if (! $Information = $this->InformationCollection->get($informationName)) {
                 throw new \UnexpectedValueException(sprintf("The information `%s` is not set.", $informationName));

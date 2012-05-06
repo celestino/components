@@ -80,7 +80,7 @@
          */
         public function unlock($identifier, $unlockKey) {
             TypeValidator::IsStringOrInteger($identifier);
-            TypeValidator::IsString($unlockKey);
+            TypeValidator::IsStringAndNotEmpty($unlockKey);
 
             if(! $this->isLocked($identifier) || ($this->locked[$identifier] !== $unlockKey)) {
                 throw new Exceptions\UnlockFailedException($identifier);

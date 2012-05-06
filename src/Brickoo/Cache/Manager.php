@@ -166,7 +166,7 @@
          * @param integer $lifetime the lifetime in seconds for the cached content to set
          */
         public function getByCallback($identifier, $callback, array $arguments, $lifetime) {
-            TypeValidator::IsString($identifier);
+            TypeValidator::IsStringAndNotEmpty($identifier);
             TypeValidator::IsInteger($lifetime);
 
             if (! $cacheContent = $this->get($identifier)) {
@@ -183,7 +183,7 @@
          * @return mixed the cached content
          */
         public function get($identifier) {
-            TypeValidator::IsString($identifier);
+            TypeValidator::IsStringAndNotEmpty($identifier);
 
             if ($this->isLocalCacheEnabled() && $this->LocalCache()->has($identifier)) {
                 return $this->LocalCache()->get($identifier);
@@ -206,7 +206,7 @@
          * @return \Brickoo\Cache\Manager
          */
         public function set($identifier, $content, $lifetime) {
-            TypeValidator::IsString($identifier);
+            TypeValidator::IsStringAndNotEmpty($identifier);
             TypeValidator::IsInteger($lifetime);
 
             if ($this->isLocalCacheEnabled()) {
@@ -225,7 +225,7 @@
          * @return \Brickoo\Cache\Manager
          */
         public function delete($identifier) {
-            TypeValidator::IsString($identifier);
+            TypeValidator::IsStringAndNotEmpty($identifier);
 
             if ($this->isLocalCacheEnabled() && $this->LocalCache()->has($identifier)) {
                 $this->LocalCache()->remove($identifier);

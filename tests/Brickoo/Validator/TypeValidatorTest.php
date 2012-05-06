@@ -45,15 +45,15 @@
     class TypeValidatorTest extends PHPUnit_Framework_TestCase {
 
         /**
-         * Test if validation of the isString method works without flags.
-         * @covers Brickoo\Validator\TypeValidator::IsString
-         */
+        * Test if validation of the isString.
+        * @covers Brickoo\Validator\TypeValidator::IsString
+        */
         public function testIsString() {
             $this->assertTrue(TypeValidator::IsString('john'));
         }
 
         /**
-         * Test if validation of the isString method throws an exception without flag.
+         * Test if validation of the isString method throws an exception.
          * @covers Brickoo\Validator\TypeValidator::IsString
          * @covers Brickoo\Validator\TypeValidator::ThrowInvalidArgumentException
          * @expectedException InvalidArgumentException
@@ -63,15 +63,25 @@
         }
 
         /**
-         * Test if validation of the isString method works with empty flag and empty value.
-         * @covers Brickoo\Validator\TypeValidator::IsString
+         * Test if validation of the testIsStringAndNotEmpty.
+         * @covers Brickoo\Validator\TypeValidator::IsStringAndNotEmpty
          */
-        public function testIsStringWithoutEmpty() {
-            $this->assertTrue(TypeValidator::IsString('     ', TypeValidator::FLAG_STRING_CAN_BE_EMPTY));
+        public function testIsStringAndNotEmpty() {
+            $this->assertTrue(TypeValidator::IsStringAndNotEmpty('john'));
         }
 
         /**
-         * Test if validation of the isInteger method works without flags and accepts zero.
+         * Test if validation of the testIsStringAndNotEmpty method throws an exception.
+         * @covers Brickoo\Validator\TypeValidator::IsStringAndNotEmpty
+         * @covers Brickoo\Validator\TypeValidator::ThrowInvalidArgumentException
+         * @expectedException InvalidArgumentException
+         */
+        public function testIsStringAndNotEmptyArgumentException() {
+            TypeValidator::IsStringAndNotEmpty('     ');
+        }
+
+        /**
+         * Test if validation of the isInteger method works and accepts zero.
          * @covers Brickoo\Validator\TypeValidator::IsInteger
          */
         public function testIsInteger() {
@@ -80,13 +90,49 @@
         }
 
         /**
-         * Test if validation of zero values throws an exception.
+         * Test if validation of the IsInteger method throws an exception.
          * @covers Brickoo\Validator\TypeValidator::IsInteger
          * @covers Brickoo\Validator\TypeValidator::ThrowInvalidArgumentException
          * @expectedException InvalidArgumentException
          */
-        public function testIsIntegerWithoutZero() {
-            TypeValidator::IsInteger(0, TypeValidator::FLAG_INTEGER_CAN_NOT_BE_ZERO);
+        public function testIsIntegerArgumentException() {
+            TypeValidator::IsInteger(new stdClass());
+        }
+
+        /**
+         * Test if validation of the IsIntegerAndNotZero method works.
+         * @covers Brickoo\Validator\TypeValidator::IsIntegerAndNotZero
+         */
+        public function testIsIntegerAndNotZero() {
+            $this->assertTrue(TypeValidator::IsIntegerAndNotZero(1234));
+        }
+
+        /**
+         * Test if validation of zero values works.
+         * @covers Brickoo\Validator\TypeValidator::IsIntegerAndNotZero
+         * @covers Brickoo\Validator\TypeValidator::ThrowInvalidArgumentException
+         * @expectedException InvalidArgumentException
+         */
+        public function testIsIntegerAndNotZeroException() {
+            TypeValidator::IsIntegerAndNotZero(0);
+        }
+
+        /**
+         * Test if validation of the isStringOrInteger method works.
+         * @covers Brickoo\Validator\TypeValidator::IsStringOrInteger
+         */
+        public function testIsStringOrInteger() {
+            $this->assertTrue(TypeValidator::IsStringOrInteger(''));
+            $this->assertTrue(TypeValidator::IsStringOrInteger(0));
+        }
+
+        /**
+         * Test if validation of the isStringOrInteger method throws an exception.
+         * @covers Brickoo\Validator\TypeValidator::IsStringOrInteger
+         * @expectedException InvalidArgumentException
+         */
+        public function testIsStringOrIntegerException() {
+            $this->assertTrue(TypeValidator::IsStringOrInteger(array('wrongType')));
         }
 
         /**
@@ -108,29 +154,21 @@
         }
 
         /**
-         * Test if validation of the isArray method works without flags and different arguments.
-         * @covers Brickoo\Validator\TypeValidator::IsArray
+         * Test if validation of the isArray method workss and different arguments.
+         * @covers Brickoo\Validator\TypeValidator::IsArrayAndNotEmpty
          */
         public function testIsArray() {
-            $this->assertTrue(TypeValidator::IsArray(array('ok')));
+            $this->assertTrue(TypeValidator::IsArrayAndNotEmpty(array('ok')));
         }
 
         /**
-         * Test if validation of the isArray method throws an exception without flag.
-         * @covers Brickoo\Validator\TypeValidator::IsArray
+         * Test if validation of the isArray method throws an exception.
+         * @covers Brickoo\Validator\TypeValidator::IsArrayAndNotEmpty
          * @covers Brickoo\Validator\TypeValidator::ThrowInvalidArgumentException
          * @expectedException InvalidArgumentException
          */
         public function testIsArrayArgumentException() {
-            TypeValidator::IsArray(array());
-        }
-
-        /**
-         * Test if validation of the isArray method works with flags and empty values.
-         * @covers Brickoo\Validator\TypeValidator::IsArray
-         */
-        public function testIsArrayWithoutEmpty() {
-            $this->assertTrue(TypeValidator::IsArray(array(), TypeValidator::FLAG_ARRAY_CAN_BE_EMPTY));
+            TypeValidator::IsArrayAndNotEmpty(array());
         }
 
         /**
@@ -174,10 +212,8 @@
          * @covers Brickoo\Validator\TypeValidator::ArrayContainsKeys
          */
         public function testArrayContainsKeys() {
-            $this->assertTrue
-            (
-                TypeValidator::ArrayContainsKeys
-                (
+            $this->assertTrue(
+                TypeValidator::ArrayContainsKeys (
                     array('name', 'country'),
                     array('name' => 'some name', 'country' => 'some contry')
                 )
@@ -214,7 +250,7 @@
         }
 
         /**
-         * Test if validation of the isFloat method works without flags.
+         * Test if validation of the isFloat method works.
          * @covers Brickoo\Validator\TypeValidator::IsFloat
          */
         public function testIsFloat() {
@@ -253,49 +289,11 @@
         }
 
         /**
-         * Test if validation of the isStringOrInteger method.
-         * @covers Brickoo\Validator\TypeValidator::IsStringOrInteger
-         */
-        public function testIsStringOrInteger() {
-            $this->assertTrue(TypeValidator::IsStringOrInteger('john', TypeValidator::FLAG_INTEGER_CAN_NOT_BE_ZERO));
-            $this->assertTrue(TypeValidator::IsStringOrInteger(1, TypeValidator::FLAG_STRING_CAN_BE_EMPTY));
-            $this->assertTrue(TypeValidator::IsStringOrInteger(0));
-            $this->assertTrue
-            (
-                TypeValidator::IsStringOrInteger
-                (
-                    '',
-                    TypeValidator::FLAG_STRING_CAN_BE_EMPTY + TypeValidator::FLAG_INTEGER_CAN_NOT_BE_ZERO
-                )
-            );
-        }
-
-        /**
-         * Test if validation of the isStringOrInteger method throws an exception.
-         * @covers Brickoo\Validator\TypeValidator::IsStringOrInteger
-         * @covers Brickoo\Validator\TypeValidator::ThrowInvalidArgumentException
-         * @expectedException InvalidArgumentException
-         */
-        public function testIsStringOrIntegerWithEmptyException() {
-            TypeValidator::IsStringOrInteger('0');
-        }
-
-        /**
-         * Test if validation of the isStringOrInteger method throws an exception.
-         * @covers Brickoo\Validator\TypeValidator::IsStringOrInteger
-         * @expectedException InvalidArgumentException
-         */
-        public function testIsStringOrIntegerWithoutZeroException() {
-            TypeValidator::IsStringOrInteger(0, TypeValidator::FLAG_INTEGER_CAN_NOT_BE_ZERO);
-        }
-
-        /**
          * Test if validation of the isRegex method method.
          * @covers Brickoo\Validator\TypeValidator::MatchesRegex
          */
         public function testMatchesRegex() {
             $this->assertTrue(TypeValidator::MatchesRegex('~^[a-z0-9]{4}$~', 'ya12'));
-            $this->assertTrue(TypeValidator::MatchesRegex('~^[a-z0-9]{1}$~', 'ya12', TypeValidator::FLAG_REGEX_NEGATIVE_CHECK));
         }
 
         /**

@@ -102,7 +102,7 @@
         * @return mixed the cached content
         */
         public function get($identifier) {
-            TypeValidator::IsString($identifier);
+            TypeValidator::IsStringAndNotEmpty($identifier);
 
             return $this->Memcache()->get($identifier);
         }
@@ -117,7 +117,7 @@
          * @return boolean the Memcache result value, true for success false otherwise
          */
         public function set($identifier, $content, $lifetime = 60) {
-            TypeValidator::IsString($identifier);
+            TypeValidator::IsStringAndNotEmpty($identifier);
             TypeValidator::IsInteger($lifetime);
 
             return $this->Memcache()->set($identifier, $content, $this->compression, $lifetime);
@@ -129,7 +129,7 @@
          * @return boolean the Memcache result value, true for success false otherwise
          */
         public function delete($identifier) {
-            TypeValidator::IsString($identifier);
+            TypeValidator::IsStringAndNotEmpty($identifier);
 
             return $this->Memcache()->delete($identifier);
         }

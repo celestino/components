@@ -126,7 +126,7 @@
          * @return \Brickoo\Log\Handler\SyslogNGHandler
          */
         public function setHostname($hostname) {
-            TypeValidator::IsString($hostname);
+            TypeValidator::IsStringAndNotEmpty($hostname);
 
             $this->hostname = str_replace(' ', '_', $hostname);
 
@@ -157,7 +157,7 @@
          * @return \Brickoo\Log\Handler\SyslogNGHandler
          */
         public function setServerAdress($serverAdress) {
-            TypeValidator::IsString($serverAdress);
+            TypeValidator::IsStringAndNotEmpty($serverAdress);
 
             $this->serverAdress = $serverAdress;
 

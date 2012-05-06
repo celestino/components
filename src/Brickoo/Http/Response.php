@@ -168,7 +168,7 @@
          * @return boolean check result
          */
         public function hasHeader($headerName) {
-            TypeValidator::IsString($headerName);
+            TypeValidator::IsStringAndNotEmpty($headerName);
 
             return $this->Headers()->has($headerName);
         }
@@ -215,7 +215,7 @@
          * @return \Brickoo\Http\Response
          */
         public function setProtocol($protocol) {
-            TypeValidator::IsString($protocol);
+            TypeValidator::IsStringAndNotEmpty($protocol);
             TypeValidator::MatchesRegex('~^HTTP\/1\.[0|1]$~', $protocol);
 
             $this->protocol = $protocol;
@@ -292,7 +292,7 @@
          */
         public function setStatusPhrase($statusCode, $statusPhrase) {
             TypeValidator::IsInteger($statusCode);
-            TypeValidator::IsString($statusPhrase);
+            TypeValidator::IsStringAndNotEmpty($statusPhrase);
 
             $this->statusPhrases[$statusCode] = $statusPhrase;
 
@@ -322,7 +322,7 @@
          * @return \Brickoo\Http\Response
          */
         public function setContent($content) {
-            TypeValidator::IsString($content);
+            TypeValidator::IsStringAndNotEmpty($content);
 
             $this->content = $content;
 

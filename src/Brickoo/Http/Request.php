@@ -168,7 +168,7 @@
          * @return \Brickoo\Http\Request
          */
         public function setProtocol($protocol) {
-            TypeValidator::IsString($protocol);
+            TypeValidator::IsStringAndNotEmpty($protocol);
             TypeValidator::MatchesRegex('~^HTTP/1\.[0|1]$~', $protocol);
 
             $this->protocol = $protocol;
@@ -202,7 +202,7 @@
          * @return \Brickoo\Http\Request
          */
         public function setMethod($method) {
-            TypeValidator::IsString($method);
+            TypeValidator::IsStringAndNotEmpty($method);
 
             $this->method = strtoupper($method);
 
@@ -264,7 +264,7 @@
          * @return string the value of the server variable otherwise mixed the default value
          */
         public function getServerVar($name, $defaultValue = null) {
-            TypeValidator::IsString($name);
+            TypeValidator::IsStringAndNotEmpty($name);
 
             if (isset($_SERVER[$name])) {
                 return $_SERVER[$name];

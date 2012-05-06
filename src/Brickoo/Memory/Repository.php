@@ -60,7 +60,7 @@
          * @return \Brickoo\Memory\Repository
          */
         protected function setRepository(array $repository) {
-            TypeValidator::IsArray($repository);
+            TypeValidator::IsArrayAndNotEmpty($repository);
 
             $this->repository = $repository;
 
@@ -365,7 +365,7 @@
          * @return \Brickoo\Memory\Repository
          */
         public function import(array $repository) {
-            TypeValidator::IsArray($repository);
+            TypeValidator::IsArrayAndNotEmpty($repository);
 
             if ($this->isLocked()) {
                 throw new Exceptions\RepositoryLockedException();

@@ -86,7 +86,7 @@
          * @return \Brickoo\Routing\Route
          */
         public function setPath($path) {
-            TypeValidator::IsString($path);
+            TypeValidator::IsStringAndNotEmpty($path);
 
             $this->path = $path;
 
@@ -122,8 +122,8 @@
          * @return \Brickoo\Routing\Route
          */
         public function setController($controller, $method, $static = false) {
-            TypeValidator::IsString($controller);
-            TypeValidator::IsString($method);
+            TypeValidator::IsStringAndNotEmpty($controller);
+            TypeValidator::IsStringAndNotEmpty($method);
             TypeValidator::IsBoolean($static);
 
             $this->controller = array(
@@ -162,7 +162,7 @@
          * @return \Brickoo\Routing\Route
          */
         public function setMethod($method) {
-            TypeValidator::IsString($method);
+            TypeValidator::IsStringAndNotEmpty($method);
 
             $this->method = $method;
 
@@ -191,7 +191,7 @@
          * @return \Brickoo\Routing\Route
          */
         public function setHostname($hostname) {
-            TypeValidator::IsString($hostname);
+            TypeValidator::IsStringAndNotEmpty($hostname);
 
             $this->hostname = $hostname;
 
@@ -233,10 +233,10 @@
          * @return \Brickoo\Routing\Route
          */
         public function setFormat($format, $defaultFormat = null) {
-            TypeValidator::IsString($format);
+            TypeValidator::IsStringAndNotEmpty($format);
 
             if ($defaultFormat !== null) {
-                TypeValidator::IsString($defaultFormat);
+                TypeValidator::IsStringAndNotEmpty($defaultFormat);
                 $this->defaultFormat = $defaultFormat;
             }
 
@@ -314,7 +314,7 @@
          * @return mixed the default value for the passed parameter name
          */
         public function getDefaultValue($parameterName) {
-            TypeValidator::IsString($parameterName);
+            TypeValidator::IsStringAndNotEmpty($parameterName);
 
             if (! $this->hasDefaultValue($parameterName)) {
                 throw new \UnexpectedValueException(
@@ -331,7 +331,7 @@
          * @return boolean check result
          */
         public function hasDefaultValue($parameterName) {
-            TypeValidator::IsString($parameterName);
+            TypeValidator::IsStringAndNotEmpty($parameterName);
 
             return array_key_exists($parameterName, $this->defaultValues);
         }
@@ -344,7 +344,7 @@
          * @return \Brickoo\Routing\Route
          */
         public function addDefaultValue($parameterName, $defaultValue) {
-            TypeValidator::IsString($parameterName);
+            TypeValidator::IsStringAndNotEmpty($parameterName);
 
             $this->defaultValues[$parameterName] = $defaultValue;
 
@@ -380,7 +380,7 @@
          * @return string the rule assigned to the parameter name
          */
         public function getRule($parameterName) {
-            TypeValidator::IsString($parameterName);
+            TypeValidator::IsStringAndNotEmpty($parameterName);
 
             if (! $this->hasRule($parameterName)) {
                 throw new \UnexpectedValueException(
@@ -399,8 +399,8 @@
          * @return \Brickoo\Routing\Route
          */
         public function addRule($parameterName, $rule, $defaultValue = null) {
-            TypeValidator::IsString($parameterName);
-            TypeValidator::isString($rule);
+            TypeValidator::IsStringAndNotEmpty($parameterName);
+            TypeValidator::IsStringAndNotEmpty($rule);
 
             if ($defaultValue !== null) {
                 $this->addDefaultValue($parameterName, $defaultValue);
@@ -417,7 +417,7 @@
          * @return boolean check result
          */
         public function hasRule($parameterName) {
-            TypeValidator::IsString($parameterName);
+            TypeValidator::IsStringAndNotEmpty($parameterName);
 
             return array_key_exists($parameterName, $this->rules);
         }
@@ -429,7 +429,7 @@
         * @return void
         */
         public function __construct($name) {
-            TypeValidator::IsString($name);
+            TypeValidator::IsStringAndNotEmpty($name);
 
             $this->name                    = $name;
             $this->controller              = null;

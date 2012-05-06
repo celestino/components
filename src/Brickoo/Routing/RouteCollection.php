@@ -83,7 +83,7 @@
          * @return Brickoo\Routing\Interfaces\Route
          */
         public function createRoute($name) {
-            TypeValidator::IsString($name);
+            TypeValidator::IsStringAndNotEmpty($name);
 
             if ($this->hasRoute($name)) {
                 throw new Exceptions\DuplicateRouteException($name);
@@ -101,7 +101,7 @@
          * @return \Bricko\Routing\Interfaces\Route
          */
         public function getRoute($name) {
-            TypeValidator::IsString($name);
+            TypeValidator::IsStringAndNotEmpty($name);
 
             if (! $this->hasRoute($name)) {
                 throw new Exceptions\RouteNotFoundException($name);
@@ -116,7 +116,7 @@
          * @return boolean check result
          */
         public function hasRoute($name) {
-            TypeValidator::IsString($name);
+            TypeValidator::IsStringAndNotEmpty($name);
 
             return isset($this->routes[$name]);
         }
