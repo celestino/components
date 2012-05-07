@@ -65,6 +65,13 @@
         public function has($offset);
 
         /**
+         * Deletes the element and returns his value.
+         * @param string|integer $offset the offset to delete
+         * @return \Brickoo\Memory\Interfaces\Container
+         */
+        public function delete($offset);
+
+        /**
          * Merges the passed contianer with the currently holded.
          * @param array $container the container to merge
          * @return \Brickoo\Memory\Container

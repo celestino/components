@@ -163,6 +163,8 @@
          * @return mixed the offset contained value or the default value passed
          */
         public function get($offset, $defaultValue = null) {
+            TypeValidator::IsStringOrInteger($offset);
+
             if (($value = $this->offsetGet($offset))) {
                 return $value;
             }
@@ -177,7 +179,7 @@
          * @return \Brickoo\Memory\Container
          */
         public function set($offset, $value) {
-            TypeValidator::IsStringAndNotEmpty($offset);
+            TypeValidator::IsStringOrInteger($offset);
 
             $this->offsetSet($offset, $value);
 
@@ -190,7 +192,23 @@
          * @return boolean check result
          */
         public function has($offset) {
+            TypeValidator::IsStringOrInteger($offset);
             return isset($this->container[$offset]);
+        }
+
+        /**
+         * Deletes the element and returns his value.
+         * @param string|integer $offset the offset to delete
+         * @return \Brickoo\Memory\Container
+         */
+        public function delete($offset) {
+            TypeValidator::IsStringOrInteger($offset);
+
+            if ($this->has($offset)) {
+                unset($this->container[$offset]);
+            }
+
+            return $this;
         }
 
         /**

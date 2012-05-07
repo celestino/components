@@ -146,6 +146,16 @@
         }
 
         /**
+         * Test if an element can be deleted/removed from the list.
+         * @covers Brickoo\Memory\Container::delete
+         */
+        public function testDelete() {
+            $this->Container['unit'] = 'test';
+            $this->assertSame($this->Container, $this->Container->delete('unit'));
+            $this->assertAttributeEquals(array(), 'container', $this->Container);
+        }
+
+        /**
          * Test if the container elements can be merged with a passed array.
          * @covers Brickoo\Memory\Container::merge
          */
