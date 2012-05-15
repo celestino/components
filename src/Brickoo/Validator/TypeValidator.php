@@ -77,7 +77,7 @@
         /**
          * Checks if the argument is a string and not empty, accepts empty strings.
          * @param string $arguments the arguments to validate
-         * @throws \InvalidArgumentException if the valiadtion fails
+         * @throws \InvalidArgumentException if the validation fails
          * @return boolean check result
          */
         public static function IsString($argument) {
@@ -91,7 +91,7 @@
         /**
          * Checks if the argument is a string and not empty.
          * @param string $arguments the arguments to validate
-         * @throws \InvalidArgumentException if the valiadtion fails
+         * @throws \InvalidArgumentException if the validation fails
          * @return boolean check result
          */
         public static function IsStringAndNotEmpty($argument) {
@@ -105,7 +105,7 @@
         /**
          * Checks if the arguments is an integer.
          * @param float $argument the argument to check
-         * @throws \InvalidArgumentException if the valiadtion fails
+         * @throws \InvalidArgumentException if the validation fails
          * @return boolean check result
          */
         public static function IsInteger($argument) {
@@ -119,7 +119,7 @@
         /**
          * Checks if the argument is a integer and not zero.
          * @param integer $argument the argument to validate
-         * @throws \InvalidArgumentException if the valiadtion fails
+         * @throws \InvalidArgumentException if the validation fails
          * @return boolean check result
          */
         public static function IsIntegerAndNotZero($argument) {
@@ -133,7 +133,7 @@
         /**
          * Checks if the argument is a string or a integer, accepts empty values.
          * @param string $argument the argument to validate
-         * @throws \InvalidArgumentException if the valiadtion fails
+         * @throws \InvalidArgumentException if the validation fails
          * @return boolean check result
          */
         public static function IsStringOrInteger($argument) {
@@ -147,7 +147,7 @@
         /**
          * Checks if the arguments is a float.
          * @param float $argument the argument to check
-         * @throws \InvalidArgumentException if the valiadtion fails
+         * @throws \InvalidArgumentException if the validation fails
          * @return boolean check result
          */
         public static function IsFloat($argument) {
@@ -161,7 +161,7 @@
         /**
          * Checks if the argument is an array and not empty.
          * @param string $argument the argument to validate
-         * @throws \InvalidArgumentException if the valiadtion fails
+         * @throws \InvalidArgumentException if the validation fails
          * @return boolean check result
          */
         public static function IsArrayAndNotEmpty($argument) {
@@ -175,7 +175,7 @@
         /**
          * Checks if the array contains only string values.
          * @param array $argument the argument to validate
-         * @throws \InvalidArgumentException if the valiadtion fails
+         * @throws \InvalidArgumentException if the validation fails
          * @return boolean check result
          */
         public static function ArrayContainsStrings($argument) {
@@ -196,7 +196,7 @@
         /**
          * Checks if the array contains only integer  values.
          * @param array $argument the argument to validate
-         * @throws \InvalidArgumentException if the valiadtion fails
+         * @throws \InvalidArgumentException if the validation fails
          * @return boolean check result
          */
         public static function ArrayContainsIntegers($argument) {
@@ -218,7 +218,7 @@
          * Checks if the array contains the keys.
          * @param array $keys the keys which should be contained
          * @param array $argument the argument to validate
-         * @throws \InvalidArgumentException if the valiadtion fails
+         * @throws \InvalidArgumentException if the validation fails
          * @return boolean check result
          */
         public static function ArrayContainsKeys(array $keys, array $argument) {
@@ -240,7 +240,7 @@
         /**
          * Checks if the argument is a boolean.
          * @param string $argument the argument to validate
-         * @throws \InvalidArgumentException if the valiadtion fails
+         * @throws \InvalidArgumentException if the validation fails
          * @return boolean check result
          */
         public static function IsBoolean($argument) {
@@ -267,7 +267,7 @@
         /**
          * Check if the argument is not empty.
          * @param string $argument the argument to validate
-         * @throws \InvalidArgumentException if the valiadtion fails
+         * @throws \InvalidArgumentException if the validation fails
          * @return boolean check result
          */
         public static function IsNotEmpty($argument) {
@@ -279,10 +279,24 @@
         }
 
         /**
+         * Check if the arguemnt is callable.
+         * @param callable $argument the argument to validate
+         * @throws \InvalidArgumentException if the validation fails
+         * @return boolean check result
+         */
+        public static function IsCallable($argument) {
+            if (! is_callable($argument)) {
+                return self::ThrowInvalidArgumentException($argument, __METHOD__);
+            }
+
+            return true;
+        }
+
+        /**
          * Checks if the argument is a string matching a regex.
          * @param array ($regex, $argument) the regex and argument to validate
          * @param integer $flag does not affect
-         * @throws \InvalidArgumentException if the valiadtion fails
+         * @throws \InvalidArgumentException if the validation fails
          * @return boolean check result
          */
         public static function MatchesRegex($regex, $argument) {

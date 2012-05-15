@@ -231,7 +231,7 @@
         }
 
         /**
-         * Test if validation of the isBoolean method.
+         * Test if validation of the isBoolean method works.
          * @covers Brickoo\Validator\TypeValidator::IsBoolean
          */
         public function testIsBoolean() {
@@ -268,7 +268,7 @@
         }
 
         /**
-         * Test if validation of the isNotEmpty method.
+         * Test if validation of the isNotEmpty method works.
          * @covers Brickoo\Validator\TypeValidator::IsNotEmpty
          */
         public function testIsNotEmpty() {
@@ -289,7 +289,25 @@
         }
 
         /**
-         * Test if validation of the isRegex method method.
+         * Test if validation of the isCallable method works.
+         * @covers Brickoo\Validator\TypeValidator::IsCallable
+         */
+        public function testIsCallable() {
+            $this->assertTrue(TypeValidator::IsCallable(array($this, 'testIsCallable')));
+        }
+
+        /**
+         * Test if validation of the isCallable method throws an exception.
+         * @covers Brickoo\Validator\TypeValidator::IsCallable
+         * @covers Brickoo\Validator\TypeValidator::ThrowInvalidArgumentException
+         * @expectedException InvalidArgumentException
+         */
+        public function testIsCallableException() {
+            TypeValidator::IsCallable(array('wrontType'));
+        }
+
+        /**
+         * Test if validation of the isRegex method works.
          * @covers Brickoo\Validator\TypeValidator::MatchesRegex
          */
         public function testMatchesRegex() {
