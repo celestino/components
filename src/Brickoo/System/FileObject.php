@@ -195,7 +195,6 @@
         */
         public function __construct() {
             $this->location    = null;
-            $this->filename    = null;
             $this->mode        = null;
             $this->handle      = null;
         }
