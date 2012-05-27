@@ -35,7 +35,7 @@
     /**
      * ListenerAggregate
      *
-     * Describes the methods implemented y this interface.
+     * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
