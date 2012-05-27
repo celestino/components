@@ -128,7 +128,7 @@
                          ->method('addServer')
                          ->will($this->returnValue(true));
 
-            $this->assertSame($Memcache, $Memcache->configure($MemcacheStub));
+            $this->assertSame($MemcacheStub, $Memcache->configure($MemcacheStub));
         }
 
     }

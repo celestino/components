@@ -94,14 +94,14 @@
         /**
          * Configures the Memcache instance using the available servers list.
          * @param \Memcache $Memcache the Memcache instance to configure
-         * @return \Brickoo\Cache\Config\Memcache
+         * @return \Memcache
          */
         public function configure(\Memcache $Memcache) {
             foreach($this->getServers() as $serverConfig) {
                 $Memcache->addServer($serverConfig['host'], $serverConfig['port']);
             }
 
-            return $this;
+            return $Memcache;
         }
 
     }
