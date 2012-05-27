@@ -253,32 +253,32 @@
         }
 
         /**
+         * Notifies the event listener with the highest priority.
+         * @param \Brickoo\Event\Event $Event the executed event
+         * @return void
+         */
+        public function notifyOnce(\Brickoo\Event\Event $Event) {
+            $this->processEvent($Event, true);
+        }
+
+        /**
          * Asks all event listeners until one listener returns a response.
          * @param \Brickoo\Event\Interfaces\Event $Event the executed event
          * @return mixed the event listener response or null if no response has been returned
          */
         public function ask(\Brickoo\Event\Interfaces\Event $Event) {
-            return $this->processEvent($Event, true);
-        }
-
-        /**
-         * Notifies the event with the highest priority.
-         * @param \Brickoo\Event\Event $Event the executed event
-         * @return void
-         */
-        public function notifyOnce(\Brickoo\Event\Event $Event) {
-            $this->processEvent($Event, false, true);
+            return $this->processEvent($Event, true, true);
         }
 
         /**
          * Process the Event and returns the response if needed.
          * @param \Brickoo\Event\Interfaces\Event $Event the executed event
-         * @param boolean $responseNeeded flag to break the queue and return the response
          * @param boolean $once flag if just the listener with the highest priority should be notified
+         * @param boolean $responseNeeded flag to break the queue and return the response
          * @throws Exceptions\InfiniteEventLoopException throwed if an infinite lopp is detected
          * @return mixed the event listener response
          */
-        protected function processEvent(\Brickoo\Event\Interfaces\Event $Event, $responseNeeded = false, $once = false) {
+        protected function processEvent(\Brickoo\Event\Interfaces\Event $Event,  $once = false, $responseNeeded = false) {
             $response    = null;
             $eventName   = $this->getUniformEventName($Event->getName());
 

@@ -6,7 +6,7 @@ also a default `Event` class which can be used to trigger an event.
 
 ###Example
 This is an example of the `Event\Manager` usage. 
-The `Event\Manager` implements the `ListenerQueue` which is used to keep an listener queue with priority levels.
+The `Event\Manager` uses the `ListenerQueue` which is used to keep an listener queue with priority levels.
 Each registered *Listener* is registered under an unique identifier to provide the posibility to be removed.
 
     use Brickoo\Event;
