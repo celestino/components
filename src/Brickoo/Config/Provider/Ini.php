@@ -138,53 +138,32 @@
          * @return string the configuration as an ini format
          */
         public function toString(array $configuration) {
-            $iniString = '';
-
-            foreach($configuration as $section => $settings) {
-                if (is_array($settings)) {
-                    $iniString .= $this->getSectionString($section, $settings);
-                }
-            }
-
-            return $iniString;
+            return $this->getFlattenEntries($configuration);
         }
 
         /**
          * Returns a string containing the section configuration.
-         * @param string $section the section name
-         * @param array $settings the section settings
-         * @return string the section configuration
+         * @param array $entries the configuration entries
+         * @param integer $level the recursion level
+         * @param string $groupName the group name to create if the key is an integer
+         * @return string the flatten configuration
          */
-        public function getSectionString($section, array $settings) {
-            TypeValidator::IsStringAndNotEmpty($section);
+        public function getFlattenEntries(array $entries, $level = 0, $groupName = null) {
+            $iniString  = '';
 
-            $iniString = sprintf("[%s]\r\n", $section);
-
-            foreach ($settings as $key => $value) {
+            foreach ($entries as $key => $value) {
                 if (is_array($value)) {
-                    $iniString .= $this->getSectionArrayString($key, $value);
+                    if ($level == 0) {
+                        $iniString .= sprintf("[%s]\r\n", $key);
+                    }
+                    $iniString .= $this->getFlattenEntries($value, $level+1, $key);
                 }
                 else {
-                    $iniString .= sprintf("%s = ". (ctype_alnum((string)$value) ? "%s" : "\"%s\"") . "\r\n", $key, $value);
+                    $entryKey = (is_int($key)) ? $groupName.'[]' : $key;
+                    $iniString .= sprintf(
+                        "%s = ". (ctype_alnum((string)$value) ? "%s" : "\"%s\"") . "\r\n", $entryKey, $value
+                    );
                 }
-            }
-
-            return $iniString;
-        }
-
-        /**
-         * Returns a string containing the key/value pairs
-         * @param string $key the key name
-         * @param array $values the values of the key
-         * @return string the section array configuration
-         */
-        public function getSectionArrayString($key, array $values) {
-            TypeValidator::IsStringAndNotEmpty($key);
-
-            $iniString = '';
-
-            foreach ($values as $value) {
-                $iniString .= sprintf("%s[] = ". (ctype_alnum((string)$value) ? "%s" : "\"%s\"") . "\r\n", $key, $value);
             }
 
             return $iniString;

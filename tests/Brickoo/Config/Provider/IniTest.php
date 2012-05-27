@@ -191,37 +191,30 @@
 
         /**
          * Test if a section string can be created.
-         * @covers Brickoo\Config\Provider\Ini::getSectionString
+         * @covers Brickoo\Config\Provider\Ini::getFlattenEntries
          */
-        public function testGetSectionString() {
+        public function testGetFlattenEntries() {
             $section = array(
-                'key1'    => 'value1',
-                'key2'    => 'value 2',
-                'key3'    => array(1, 2, 3)
+                'SECTION' => array(
+                    'key1'    => 'value1',
+                    'key2'    => 'value 2',
+                ),
+                'key3'    => array(1, 2, 3),
+                'key4'    => array('languages' => array('de', 'en'))
             );
 
             $expected = "[SECTION]\r\n".
                         "key1 = value1\r\n".
                         "key2 = \"value 2\"\r\n".
+                        "[key3]\r\n".
                         "key3[] = 1\r\n".
                         "key3[] = 2\r\n".
-                        "key3[] = 3\r\n";
+                        "key3[] = 3\r\n".
+                        "[key4]\r\n".
+                        "languages[] = de\r\n".
+                        "languages[] = en\r\n";
 
-            $this->assertEquals($expected, $this->Provider->getSectionString('SECTION', $section));
-        }
-
-        /**
-         * Test if a section array can be converted to string.
-         * @covers Brickoo\Config\Provider\Ini::getSectionArrayString
-         */
-        public function testGetSectionArrayString() {
-            $values = array(1, 2, 3);
-
-            $expected = "key3[] = 1\r\n".
-                        "key3[] = 2\r\n".
-                        "key3[] = 3\r\n";
-
-            $this->assertEquals($expected, $this->Provider->getSectionArrayString('key3', $values));
+            $this->assertEquals($expected, $this->Provider->getFlattenEntries($section));
         }
 
     }
