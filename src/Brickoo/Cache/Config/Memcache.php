@@ -63,7 +63,7 @@
          * @param integer $port the port to connect to
          * @return \Brickoo\Cache\Config\Memcache
          */
-        public function addServer($host, $port = 0) {
+        public function addServer($host, $port = 11211) {
             TypeValidator::IsStringAndNotEmpty($host);
             TypeValidator::IsInteger($port);
 
@@ -88,7 +88,7 @@
          * @return void
          */
         public function __construct(array $servers = array()) {
-            $this->servers = $servers;
+            $this->setServers($servers);
         }
 
         /**
