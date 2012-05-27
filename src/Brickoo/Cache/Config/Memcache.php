@@ -86,7 +86,7 @@
         public function setServers(array $servers) {
             foreach ($servers as $server) {
                 TypeValidator::ArrayContainsKeys(array('host'), $server);
-                $port = (isset($server['port']) ? $server['port'] : self::DEFAULT_PORT);
+                $server['port'] = (isset($server['port']) ? $server['port'] : self::DEFAULT_PORT);
                 $this->addServer($server['host'], $server['port']);
             }
 
