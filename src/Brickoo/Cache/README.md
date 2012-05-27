@@ -1,5 +1,5 @@
-##Cache Manager
-The cache manager provides functionality for caching operations.
+##Cache Handling
+This component provides functionality for caching operations. The `Cache\Manager`, as the main component, does use a provider dependency as the endpoint for the operations.
 Using the included or own defined providers the behaviour and storage engines can be changed.
 To define your own provider you just need to implement the `Brickoo\Cache\Provider\Interfaces\Provider` interface.
 
@@ -27,6 +27,18 @@ The cache manager has also a special method `getByCallback` to do a callback *be
         },
         array('get.my.identifier', $this),
         60
+    );
+
+The cache component also provides a `Listener` to register caching events to the specific `Cache\Manager`. The `Cache\Events` provides mapping event keys to the available `Cache\Manager` available methods.
+
+    use Brickoo\Event;
+
+    $Listener = new Cache\Listener($CacheManager);
+    $EventManager = Event\Manager::Instance();
+    $EventManager->attachAggregatedListeners($Listener);
+
+    $cachedContent = $EventManager->ask(new Event\Event(
+        Cache\Events::CACHE_GET, null, array('id' => 'myIdentifier')
     );
 
 
