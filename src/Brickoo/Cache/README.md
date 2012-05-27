@@ -39,7 +39,7 @@ The `Cache\Events` provides mapping event keys to the available `Cache\Manager` 
     $EventManager->attachAggregatedListeners($Listener);
 
     $cachedContent = $EventManager->ask(new Event\Event(
-        Cache\Events::CACHE_GET, null, array('id' => 'myIdentifier')
+        Cache\Events::GET, null, array('id' => 'myIdentifier')
     );
 
 
