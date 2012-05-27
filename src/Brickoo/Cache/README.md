@@ -39,5 +39,5 @@ However, this makes the heap to grow depending on the data really fast, it can b
 
 
 ###See also
-[Memcache Configuration](https://github.com/brickoo/brickoo/tree/master/src/Brickoo/Cache/Config)
-[Provider](https://github.com/brickoo/brickoo/tree/master/src/Brickoo/Cache/Provider)
+- [Provider](https://github.com/brickoo/brickoo/tree/master/src/Brickoo/Cache/Provider)
+- [Memcache Configuration](https://github.com/brickoo/brickoo/tree/master/src/Brickoo/Cache/Config)

@@ -26,4 +26,5 @@ Also, you can pass the configuration to the constructor as an array containing a
 
 
 ###See also
-[Provider](https://github.com/brickoo/brickoo/tree/master/src/Brickoo/Cache/Provider)
+- [Cache Manager](https://github.com/brickoo/brickoo/tree/master/src/Brickoo/Cache)
+- [Provider](https://github.com/brickoo/brickoo/tree/master/src/Brickoo/Cache/Provider)

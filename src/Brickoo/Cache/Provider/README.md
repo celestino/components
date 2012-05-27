@@ -33,4 +33,5 @@ Or the shorter initialization using less stack space.
 
 
 ###See also
-[Cache Manager](https://github.com/brickoo/brickoo/tree/master/src/Brickoo/Cache)
+- [Cache Manager](https://github.com/brickoo/brickoo/tree/master/src/Brickoo/Cache)
+- [Memcache Configuration](https://github.com/brickoo/brickoo/tree/master/src/Brickoo/Cache/Config)
