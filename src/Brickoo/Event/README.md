@@ -31,7 +31,7 @@ Here explained shortly the arguments of a more complex listener registration.
 
     Event\Manager::Instance()->attachListener(
         // the event unique identifier
-        'my.event.id', 
+        'my.event.id',
         // the Listener callback, any PHP callable
         function($id, $name){echo(sprintf("ID:%s - Name:%s", $id, $name));},
         // optional: the Listener priority, any integer (low)0<----->100(high)
@@ -39,29 +39,26 @@ Here explained shortly the arguments of a more complex listener registration.
         // optional, condition: the Event instance has to have this parameters set
         array('id', 'name'),
         // optional, condition: the callback hast to return boolean true, any PHP callable
-        function($Event){return ($Event->Sender() instanceof \My\Caller);} 
+        function($Event){return ($Event->Sender() instanceof \My\Caller);}
     );
 
     // FAIL: the Event does not have the required Sender dependency
     Event\Manager::Instance()->notify(new Event\Event('my.event.id'));
 
     // FAIL: the Event does not have the required parameters
-    Event\Manager::Instance()->notify(new Event\Event('my.event.id', new \My\Caller());
+    Event\Manager::Instance()->notify(new Event\Event(
+        'my.event.id', new \My\Caller()
+    ));
 
     // FAIL: The Event does not have ALL the required parameters
     Event\Manager::Instance()->notify(new Event\Event(
-        'my.event.id', new \My\Caller(), array('id' => 'someID')
-    );
+        'my.event.id', new \My\Caller(), array('id' => 'not called')
+    ));
 
     // SUCCESS: all conditions match
     Event\Manager::Instance()->notify(new Event\Event(
         'my.event.id', new \My\Caller(), array('id' => 'someID', 'name' => 'BrickOO')
-    );
-    
-**Important:**
-If the required parameters are set, the Listener will recieved them as arguments. 
-The `Event` instance is **not** passed, so it will get lost. 
-If you like to have the `Event` as argument passed you can check the `Event` paramaters within the callback condition.
+    ));
 
 
 ###Notes
