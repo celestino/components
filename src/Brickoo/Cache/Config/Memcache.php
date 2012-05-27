@@ -44,6 +44,12 @@
     class Memcache implements Interfaces\Memcache {
 
         /**
+         * Holds the default memcache port.
+         * @var integer
+         */
+        const DEFAULT_PORT = 11211;
+
+        /**
          * Holds the servers list with configurations for a Memcache object.
          * @var array
          */
@@ -63,7 +69,7 @@
          * @param integer $port the port to connect to
          * @return \Brickoo\Cache\Config\Memcache
          */
-        public function addServer($host, $port = 11211) {
+        public function addServer($host, $port = self::DEFAULT_PORT) {
             TypeValidator::IsStringAndNotEmpty($host);
             TypeValidator::IsInteger($port);
 
@@ -78,7 +84,12 @@
          * @return \Brickoo\Cache\Config\Memcache
          */
         public function setServers(array $servers) {
-            $this->servers = $servers;
+            foreach ($servers as $server) {
+                TypeValidator::ArrayContainsKeys(array('host'), $server);
+                $port = (isset($server['port']) ? $server['port'] : self::DEFAULT_PORT);
+                $this->addServer($server['host'], $server['port']);
+            }
+
             return $this;
         }
 
@@ -97,7 +108,7 @@
          * @return \Memcache
          */
         public function configure(\Memcache $Memcache) {
-            foreach($this->getServers() as $serverConfig) {
+            foreach ($this->getServers() as $serverConfig) {
                 $Memcache->addServer($serverConfig['host'], $serverConfig['port']);
             }
 
