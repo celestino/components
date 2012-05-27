@@ -35,13 +35,13 @@
     use Brickoo\Validator\TypeValidator;
 
     /**
-     * MemcacheConfig
+     * Memcache
      *
      * Implements the configuration for a MemcacheProvider class.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class MemcacheConfig implements Interfaces\MemcacheConfig {
+    class Memcache implements Interfaces\Memcache {
 
         /**
          * Holds the servers list with configurations for a Memcache object.
@@ -61,7 +61,7 @@
          * Adds a server configuration to the server list.
          * @param string $host the host to connect to
          * @param integer $port the port to connect to
-         * @return \Brickoo\Cache\Config\MemcacheConfig
+         * @return \Brickoo\Cache\Config\Memcache
          */
         public function addServer($host, $port = 0) {
             TypeValidator::IsStringAndNotEmpty($host);
@@ -75,7 +75,7 @@
         /**
          * Sets the Memcache servers.
          * @param array $servers the servers to set
-         * @return \Brickoo\Cache\Config\MemcacheConfig
+         * @return \Brickoo\Cache\Config\Memcache
          */
         public function setServers(array $servers) {
             $this->servers = $servers;
@@ -94,7 +94,7 @@
         /**
          * Configures the Memcache instance using the available servers list.
          * @param \Memcache $Memcache the Memcache instance to configure
-         * @return \Brickoo\Cache\Config\MemcacheConfig
+         * @return \Brickoo\Cache\Config\Memcache
          */
         public function configure(\Memcache $Memcache) {
             foreach($this->getServers() as $serverConfig) {

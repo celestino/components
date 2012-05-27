@@ -30,13 +30,22 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo;
+    namespace Brickoo\Cache\Config\Interfaces;
 
     /**
-     * LoadableClass
+     * Memcache
      *
-     * Test class for the Autoloader.
+     * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class LoadableClass {}
+    interface Memcache {
+
+        /**
+         * Configures the Memcache instance.
+         * @param \Memcache $Memcache the Memcache instance to configure
+         * @return \Brickoo\Cache\Config\Interfaces\Memcache
+         */
+        public function configure(\Memcache $Memcache);
+
+    }
