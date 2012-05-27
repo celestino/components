@@ -30,21 +30,21 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Log\Handler\SyslogNGHandler;
+    use Brickoo\Log\Handler\SyslogNG;
 
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
-     * SyslogNGHandlerTest
+     * SyslogNGTest
      *
-     * Test suite for the SyslogNGHandler class.
-     * @see Brickoo\Log\Handler\SyslogNGHandler
+     * Test suite for the SyslogNG class.
+     * @see Brickoo\Log\Handler\SyslogNG
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class SyslogNGHandlerTest extends PHPUnit_Framework_TestCase {
+    class SyslogNGTest extends PHPUnit_Framework_TestCase {
 
 
         /**
@@ -61,261 +61,261 @@
         }
 
         /**
-         * Holds an instance of the SyslogNGHandler.
-         * @var SyslogNGHandler
+         * Holds an instance of the SyslogNG.
+         * @var SyslogNG
          */
-        protected $SyslogNGHandler;
+        protected $SyslogNG;
 
         /**
-         * Set up the SyslogNGHandler object used.
+         * Set up the SyslogNG object used.
          */
         public function setUp() {
-            $this->SyslogNGHandler = new SyslogNGHandler($this->getSocketObjectStub());
+            $this->SyslogNG = new SyslogNG($this->getSocketObjectStub());
         }
 
         /**
-         * Test if the SyslogNGHandler can be created.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::__construct
+         * Test if the SyslogNG can be created.
+         * @covers Brickoo\Log\Handler\SyslogNG::__construct
          */
         public function testConstruct() {
             $SocketObject = $this->getSocketObjectStub();
             $this->assertInstanceOf
             (
                 '\Brickoo\Log\Handler\Interfaces\Handler',
-                ($SyslogHandler = new SyslogNGHandler($SocketObject))
+                ($SyslogHandler = new SyslogNG($SocketObject))
             );
             $this->assertAttributeSame($SocketObject, '_SocketObject', $SyslogHandler);
         }
 
         /**
          * Test is the injected SocketObject can be retrieved.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::SocketObject
+         * @covers Brickoo\Log\Handler\SyslogNG::SocketObject
          */
         public function testGetSocketObject() {
             $this->assertInstanceOf
             (
                 'Brickoo\System\Interfaces\SocketObject',
-                $this->SyslogNGHandler->SocketObject()
+                $this->SyslogNG->SocketObject()
             );
         }
 
         /**
          * Test if the hostname can be retrieved.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::getHostname
+         * @covers Brickoo\Log\Handler\SyslogNG::getHostname
          */
         public function testGetHostname() {
-            $this->SyslogNGHandler->setHostname('testdomain.com');
-            $this->assertEquals('testdomain.com', $this->SyslogNGHandler->getHostname());
+            $this->SyslogNG->setHostname('testdomain.com');
+            $this->assertEquals('testdomain.com', $this->SyslogNG->getHostname());
         }
 
         /**
          * Test if the trying to retrieve not available hostname throws an exception.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::getHostname
+         * @covers Brickoo\Log\Handler\SyslogNG::getHostname
          * @expectedException UnexpectedValueException
          */
         public function testGetHostnameValueException() {
-            $this->SyslogNGHandler->getHostname();
+            $this->SyslogNG->getHostname();
         }
 
         /**
          * Test if the hostname can be set and the object refenrece is returned.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::setHostname
+         * @covers Brickoo\Log\Handler\SyslogNG::setHostname
          */
         public function testSetHostname() {
-            $this->assertSame($this->SyslogNGHandler, $this->SyslogNGHandler->setHostname('testdomain.com'));
-            $this->assertEquals('testdomain.com', $this->SyslogNGHandler->getHostname());
+            $this->assertSame($this->SyslogNG, $this->SyslogNG->setHostname('testdomain.com'));
+            $this->assertEquals('testdomain.com', $this->SyslogNG->getHostname());
         }
 
         /**
          * Test if the trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::setHostname
+         * @covers Brickoo\Log\Handler\SyslogNG::setHostname
          * @expectedException InvalidArgumentException
          */
         public function testSetHostnameArgumentException() {
-            $this->SyslogNGHandler->setHostname(array('wrongType'));
+            $this->SyslogNG->setHostname(array('wrongType'));
         }
 
         /**
          * Test if the server adress can be retrieved.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::getServerAdress
+         * @covers Brickoo\Log\Handler\SyslogNG::getServerAdress
          */
         public function testGetServerAdress() {
-            $this->SyslogNGHandler->setServerAdress('www.someadress.com');
-            $this->assertEquals('www.someadress.com', $this->SyslogNGHandler->getServerAdress());
+            $this->SyslogNG->setServerAdress('www.someadress.com');
+            $this->assertEquals('www.someadress.com', $this->SyslogNG->getServerAdress());
         }
 
         /**
          * Test if the trying to retrieve not available server adress throws an exception.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::getServerAdress
+         * @covers Brickoo\Log\Handler\SyslogNG::getServerAdress
          * @expectedException UnexpectedValueException
          */
         public function testGetServerAdressValueException() {
-            $this->SyslogNGHandler->getServerAdress();
+            $this->SyslogNG->getServerAdress();
         }
 
         /**
          * Test if the server adress can be set and the object refenrece is returned.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::setServerAdress
+         * @covers Brickoo\Log\Handler\SyslogNG::setServerAdress
          */
         public function testSetServerAdress() {
-            $this->assertSame($this->SyslogNGHandler, $this->SyslogNGHandler->setServerAdress('www.adress.com'));
-            $this->assertEquals('www.adress.com', $this->SyslogNGHandler->getServerAdress());
+            $this->assertSame($this->SyslogNG, $this->SyslogNG->setServerAdress('www.adress.com'));
+            $this->assertEquals('www.adress.com', $this->SyslogNG->getServerAdress());
         }
 
         /**
          * Test if the trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::setServerAdress
+         * @covers Brickoo\Log\Handler\SyslogNG::setServerAdress
          * @expectedException InvalidArgumentException
          */
         public function testSetAdressArgumentException() {
-            $this->SyslogNGHandler->setServerAdress(array('wrongType'));
+            $this->SyslogNG->setServerAdress(array('wrongType'));
         }
 
         /**
          * Test if the server port can be retrieved.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::getServerPort
+         * @covers Brickoo\Log\Handler\SyslogNG::getServerPort
          */
         public function testGetServerPort() {
-            $this->SyslogNGHandler->setServerPort(12345);
-            $this->assertEquals(12345, $this->SyslogNGHandler->getServerPort());
+            $this->SyslogNG->setServerPort(12345);
+            $this->assertEquals(12345, $this->SyslogNG->getServerPort());
         }
 
         /**
          * Test if the trying to retrieve not available server port throws an exception.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::getServerPort
+         * @covers Brickoo\Log\Handler\SyslogNG::getServerPort
          * @expectedException UnexpectedValueException
          */
         public function testGetServerPortValueException() {
-            $this->SyslogNGHandler->getServerPort();
+            $this->SyslogNG->getServerPort();
         }
 
         /**
          * Test if the server port can be set and the object refenrece is returned.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::setServerPort
+         * @covers Brickoo\Log\Handler\SyslogNG::setServerPort
          */
         public function testSetServerPort() {
-            $this->assertSame($this->SyslogNGHandler, $this->SyslogNGHandler->setServerPort(123));
-            $this->assertEquals(123, $this->SyslogNGHandler->getServerPort());
+            $this->assertSame($this->SyslogNG, $this->SyslogNG->setServerPort(123));
+            $this->assertEquals(123, $this->SyslogNG->getServerPort());
         }
 
         /**
          * Test if the trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::setServerPort
+         * @covers Brickoo\Log\Handler\SyslogNG::setServerPort
          * @expectedException InvalidArgumentException
          */
         public function testSetPortArgumentException() {
-            $this->SyslogNGHandler->setServerPort(array('wrongType'));
+            $this->SyslogNG->setServerPort(array('wrongType'));
         }
 
         /**
          * Test if the timeout can be retrieved.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::getTimeout
+         * @covers Brickoo\Log\Handler\SyslogNG::getTimeout
          */
         public function testGetTimeout() {
-            $this->SyslogNGHandler->setTimeout(60);
-            $this->assertEquals(60, $this->SyslogNGHandler->getTimeout());
+            $this->SyslogNG->setTimeout(60);
+            $this->assertEquals(60, $this->SyslogNG->getTimeout());
         }
 
         /**
          * Test if the trying to retrieve not available timeout throws an exception.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::getTimeout
+         * @covers Brickoo\Log\Handler\SyslogNG::getTimeout
          * @expectedException UnexpectedValueException
          */
         public function testGetTimeoutValueException() {
-            $this->SyslogNGHandler->getTimeout();
+            $this->SyslogNG->getTimeout();
         }
 
         /**
          * Test if the timeout can be set and the object refenrece is returned.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::setTimeout
+         * @covers Brickoo\Log\Handler\SyslogNG::setTimeout
          */
         public function testSetTimeout() {
-            $this->assertSame($this->SyslogNGHandler, $this->SyslogNGHandler->SetTimeout(30));
-            $this->assertEquals(30, $this->SyslogNGHandler->getTimeout());
+            $this->assertSame($this->SyslogNG, $this->SyslogNG->SetTimeout(30));
+            $this->assertEquals(30, $this->SyslogNG->getTimeout());
         }
 
         /**
          * Test if the trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::setTimeout
+         * @covers Brickoo\Log\Handler\SyslogNG::setTimeout
          * @expectedException InvalidArgumentException
          */
         public function testSetTimeoutArgumentException() {
-            $this->SyslogNGHandler->setTimeout('wrongType');
+            $this->SyslogNG->setTimeout('wrongType');
         }
 
         /**
          * Test if the facility can be retrieved.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::getFacility
+         * @covers Brickoo\Log\Handler\SyslogNG::getFacility
          */
         public function testGetFacility() {
-            $this->SyslogNGHandler->setFacility(10);
-            $this->assertEquals(10, $this->SyslogNGHandler->getFacility());
+            $this->SyslogNG->setFacility(10);
+            $this->assertEquals(10, $this->SyslogNG->getFacility());
         }
 
         /**
          * Test if the trying to retrieve not available timeout throws an exception.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::getFacility
+         * @covers Brickoo\Log\Handler\SyslogNG::getFacility
          * @expectedException UnexpectedValueException
          */
         public function testGetFacilityValueException() {
-            $this->SyslogNGHandler->getFacility();
+            $this->SyslogNG->getFacility();
         }
 
         /**
          * Test if the facility can be set and the object refenrece is returned.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::setFacility
+         * @covers Brickoo\Log\Handler\SyslogNG::setFacility
          */
         public function testSetFacility() {
-            $this->assertSame($this->SyslogNGHandler, $this->SyslogNGHandler->setFacility(13));
-            $this->assertEquals(13, $this->SyslogNGHandler->getFacility());
+            $this->assertSame($this->SyslogNG, $this->SyslogNG->setFacility(13));
+            $this->assertEquals(13, $this->SyslogNG->getFacility());
         }
 
         /**
          * Test if the trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::setFacility
+         * @covers Brickoo\Log\Handler\SyslogNG::setFacility
          * @expectedException InvalidArgumentException
          */
         public function testSetFacilityArgumentException() {
-            $this->SyslogNGHandler->setFacility('wrongType');
+            $this->SyslogNG->setFacility('wrongType');
         }
 
         /**
          * Test if the trying to use a wrong argument range throws an exception.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::setFacility
+         * @covers Brickoo\Log\Handler\SyslogNG::setFacility
          * @expectedException OutOfRangeException
          */
         public function testSetFacilityRangeException() {
-            $this->SyslogNGHandler->setFacility(99);
+            $this->SyslogNG->setFacility(99);
         }
 
         /**
          * Test if the message header returns the expected value format.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::getMessageHeader
+         * @covers Brickoo\Log\Handler\SyslogNG::getMessageHeader
          */
         public function testGetMessageHeader() {
-            $this->SyslogNGHandler->setHostname('testdomain.com');
-            $this->SyslogNGHandler->setFacility(10);
+            $this->SyslogNG->setHostname('testdomain.com');
+            $this->SyslogNG->setFacility(10);
             $this->assertEquals
             (
                 '<85>' . date('c') . ' testdomain.com',
-                $this->SyslogNGHandler->getMessageHeader(5)
+                $this->SyslogNG->getMessageHeader(5)
             );
         }
 
         /**
          * Test if the trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::getMessageHeader
+         * @covers Brickoo\Log\Handler\SyslogNG::getMessageHeader
          * @expectedException InvalidArgumentException
          */
         public function testGetMessageHeaderArgumentException() {
-            $this->SyslogNGHandler->getMessageHeader('wrongType');
+            $this->SyslogNG->getMessageHeader('wrongType');
         }
 
         /**
          * Test if messages can be sent and the SocketObject is used.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::log
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::sendMessages
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::getMessageHeader
+         * @covers Brickoo\Log\Handler\SyslogNG::log
+         * @covers Brickoo\Log\Handler\SyslogNG::sendMessages
+         * @covers Brickoo\Log\Handler\SyslogNG::getMessageHeader
          */
         public function testLog() {
             $SocketObject = $this->getSocketObjectStub
@@ -341,23 +341,23 @@
                          ->method('close')
                          ->will($this->returnSelf());
 
-            $SyslogHandler = new SyslogNGHandler($SocketObject);
+            $SyslogHandler = new SyslogNG($SocketObject);
             $SyslogHandler->setServerAdress('localhost')
                           ->setServerPort(514)
                           ->setTimeout(60)
                           ->setHostname('home')
-                          ->setFacility(SyslogNGHandler::FACILITY_USER_0);
+                          ->setFacility(SyslogNG::FACILITY_USER_0);
 
-            $this->assertSame($SyslogHandler, $SyslogHandler->log('message', SyslogNGHandler::SEVERITY_INFO));
+            $this->assertSame($SyslogHandler, $SyslogHandler->log('message', SyslogNG::SEVERITY_INFO));
         }
 
         /**
          * Test if the trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Log\Handler\SyslogNGHandler::log
+         * @covers Brickoo\Log\Handler\SyslogNG::log
          * @expectedException InvalidArgumentException
          */
         public function testLogSeverityArgumentException() {
-            $this->SyslogNGHandler->log('message', 'wrongType');
+            $this->SyslogNG->log('message', 'wrongType');
         }
 
     }

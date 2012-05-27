@@ -36,13 +36,13 @@
         Brickoo\Validator\TypeValidator;
 
     /**
-     * FileHandler
+     * Filesystem
      *
      * Handles the file operations for logging into the filesystem.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class FileHandler implements Interfaces\Handler {
+    class Filesystem implements Interfaces\Handler {
 
         /**
          * Mapping of the severity level description.
@@ -86,7 +86,7 @@
         /**
          * Sets the full path of the directory to log into.
          * @param string $directory the directory full path
-         * @return \Brickoo\Log\Handler\FileHandler
+         * @return \Brickoo\Log\Handler\Filesystem
          */
         public function setDirectory($directory) {
             TypeValidator::IsStringAndNotEmpty($directory);
@@ -113,7 +113,7 @@
         /**
          * Sets the log file prefix to use.
          * @param string $filePrefix the file prefix to use
-         * @return \Brickoo\Log\Handler\FileHandler
+         * @return \Brickoo\Log\Handler\Filesystem
          */
         public function setFilePrefix($filePrefix) {
             TypeValidator::IsString($filePrefix);
@@ -128,9 +128,13 @@
         * Initializes the class properties.
         * @return void
         */
-        public function __construct(\Brickoo\System\Interfaces\FileObject $FileObject) {
-            $this->_FileObject    = $FileObject;
+        public function __construct(\Brickoo\System\Interfaces\FileObject $FileObject, $directory = null) {
+            $this->_FileObject     = $FileObject;
             $this->filePrefix      = 'log_';
+
+            if ($directory !== null) {
+                $this->setDirectory($directory);
+            }
 
             $this->severityDescription = array(
                 Log\Logger::SEVERITY_EMERGENCY    =>'Emergency',
@@ -167,7 +171,7 @@
         * Logs the passed messages to the location.
         * @param array|string $messages the messages to log
         * @param integer $severity the severity level to add
-        * @return \Brickoo\Log\Handler\FileHandler
+        * @return \Brickoo\Log\Handler\Filesystem
         */
         public function log($messages, $severity) {
             TypeValidator::IsInteger($severity);

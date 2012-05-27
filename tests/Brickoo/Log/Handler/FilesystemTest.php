@@ -30,33 +30,33 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Log\Handler\FileHandler;
+    use Brickoo\Log\Handler\Filesystem;
 
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
-     * FileHandlerTest
+     * FilesystemTest
      *
-     * Test suite for the FileHandler class.
-     * @see Brickoo\Log\Handler\FileHandler
+     * Test suite for the Filesystem class.
+     * @see Brickoo\Log\Handler\Filesystem
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class FileHandlerTest extends PHPUnit_Framework_TestCase {
+    class FilesystemTest extends PHPUnit_Framework_TestCase {
 
         /**
-        * Holds an instance of the FileHandler object.
+        * Holds an instance of the Filesystem object.
         * @var object
         */
-        protected $FileHandler;
+        protected $Filesystem;
 
         /**
-         * Set up the FileHandler object used.
+         * Set up the Filesystem object used.
          */
         public function setUp() {
-            $this->FileHandler = new FileHandler($this->getFileObjectStub());
+            $this->Filesystem = new Filesystem($this->getFileObjectStub());
         }
 
         /**
@@ -74,96 +74,98 @@
 
         /**
         * Test if the class can be created and implementens the LogHandler.
-        * @covers Brickoo\Log\handler\FileHandler::__construct
+        * Test also if the directory is properly set.
+        * @covers Brickoo\Log\handler\Filesystem::__construct
         */
         public function testConstructor() {
             $FileObject = $this->getFileObjectStub();
             $this->assertInstanceOf
             (
                 '\Brickoo\Log\Handler\Interfaces\Handler',
-                ($FileHandler = new FileHandler($FileObject))
+                ($Filesystem = new Filesystem($FileObject, '/tmp/test'))
             );
-            $this->assertAttributeSame($FileObject, '_FileObject', $FileHandler);
+            $this->assertAttributeSame($FileObject, '_FileObject', $Filesystem);
+            $this->assertAttributeSame('/tmp/test'.DIRECTORY_SEPARATOR, 'directory', $Filesystem);
         }
 
         /**
          * Test if the FileObject can be retrieved and implements te FileObject.
-         * @covers Brickoo\Log\Handler\FileHandler::FileObject
+         * @covers Brickoo\Log\Handler\Filesystem::FileObject
          */
         public function testGetFileObject() {
             $this->assertInstanceOf
             (
                 '\Brickoo\System\Interfaces\FileObject',
-                $this->FileHandler->FileObject()
+                $this->Filesystem->FileObject()
             );
         }
 
         /**
-         * Test if the directory can be set and returns the FileHandler reference.
-         * @covers Brickoo\Log\Handler\FileHandler::setDirectory
+         * Test if the directory can be set and returns the Filesystem reference.
+         * @covers Brickoo\Log\Handler\Filesystem::setDirectory
          */
         public function testSetDirectory() {
-            $this->assertSame($this->FileHandler, $this->FileHandler->setDirectory('/var/www/log/'));
+            $this->assertSame($this->Filesystem, $this->Filesystem->setDirectory('/var/www/log/'));
         }
 
         /**
          * Test if the passing wront argument tyype as directory throw an exception.
-         * @covers Brickoo\Log\Handler\FileHandler::setDirectory
+         * @covers Brickoo\Log\Handler\Filesystem::setDirectory
          * @expectedException InvalidArgumentException
          */
         public function testSetDirectoryArgumentException() {
-            $this->assertSame($this->FileHandler, $this->FileHandler->setDirectory(array('wrongTyoe')));
+            $this->assertSame($this->Filesystem, $this->Filesystem->setDirectory(array('wrongTyoe')));
         }
 
         /**
          * Test if the directory can be retrieved and the last backslash/slash is removed.
-         * @covers Brickoo\Log\Handler\FileHandler::getDirectory
+         * @covers Brickoo\Log\Handler\Filesystem::getDirectory
          */
         public function testGetDirectory() {
-            $this->FileHandler->setDirectory('/var/log/');
-            $this->assertEquals('/var/log' . DIRECTORY_SEPARATOR, $this->FileHandler->getDirectory());
+            $this->Filesystem->setDirectory('/var/log/');
+            $this->assertEquals('/var/log' . DIRECTORY_SEPARATOR, $this->Filesystem->getDirectory());
         }
 
         /**
          * Test if the retirving the not available directorythrows an exception.
-         * @covers Brickoo\Log\Handler\FileHandler::getDirectory
+         * @covers Brickoo\Log\Handler\Filesystem::getDirectory
          * @expectedException UnexpectedValueException
          */
         public function testGetDirectoryUnexpectedValueException() {
-           $this->FileHandler->getDirectory();
+           $this->Filesystem->getDirectory();
         }
 
         /**
-         * Test if the FilePrefix can be set and the FileHandler reference is returned.
-         * @covers \Brickoo\Log\Handler\FileHandler::setFilePrefix
+         * Test if the FilePrefix can be set and the Filesystem reference is returned.
+         * @covers \Brickoo\Log\Handler\Filesystem::setFilePrefix
          */
         public function testSetFilePrefix() {
-            $this->assertSame($this->FileHandler, $this->FileHandler->setFilePrefix('test_'));
+            $this->assertSame($this->Filesystem, $this->Filesystem->setFilePrefix('test_'));
         }
 
         /**
          * Test if a wrong argument type throws an exception.
-         * @covers \Brickoo\Log\Handler\FileHandler::setFilePrefix
+         * @covers \Brickoo\Log\Handler\Filesystem::setFilePrefix
          * @expectedException InvalidArgumentException
          */
         public function testSetFilePrefixArgumentException() {
-            $this->FileHandler->setFilePrefix(array('wrongType'));
+            $this->Filesystem->setFilePrefix(array('wrongType'));
         }
 
         /**
          * Test if the FilePrefix can be retrived.
-         * @covers \Brickoo\Log\Handler\FileHandler::getFilePrefix
+         * @covers \Brickoo\Log\Handler\Filesystem::getFilePrefix
          */
         public function testGetFilePrefix() {
-            $this->assertEquals('log_', $this->FileHandler->getFilePrefix());
-            $this->FileHandler->setFilePrefix('test_');
-            $this->assertEquals('test_', $this->FileHandler->getFilePrefix());
+            $this->assertEquals('log_', $this->Filesystem->getFilePrefix());
+            $this->Filesystem->setFilePrefix('test_');
+            $this->assertEquals('test_', $this->Filesystem->getFilePrefix());
         }
 
         /**
          * Test if the messages array can be converted to a single message.
          * Test if the default severiy `Debug`is used if the severity is unknowed.
-         * @covers \Brickoo\Log\Handler\FileHandler::convertToLogMessage
+         * @covers \Brickoo\Log\Handler\Filesystem::convertToLogMessage
          */
         public function testConvertToLogMessage() {
             $messages = array('message 1', 'message 2');
@@ -171,34 +173,34 @@
 
             $expected = '['. date("Y-m-d H:i:s") . '][Info] message 1' . PHP_EOL .
                         '['. date("Y-m-d H:i:s") . '][Info] message 2' . PHP_EOL;
-            $this->assertEquals($expected, $this->FileHandler->convertToLogMessage($messages, $severity));
+            $this->assertEquals($expected, $this->Filesystem->convertToLogMessage($messages, $severity));
 
             $expected = '['. date("Y-m-d H:i:s") . '][Debug] message 1' . PHP_EOL .
                         '['. date("Y-m-d H:i:s") . '][Debug] message 2' . PHP_EOL;
-            $this->assertEquals($expected, $this->FileHandler->convertToLogMessage($messages, 123));
+            $this->assertEquals($expected, $this->Filesystem->convertToLogMessage($messages, 123));
         }
 
         /**
          * Test if an empty message array throws an exception.
-         * @covers \Brickoo\Log\Handler\FileHandler::convertToLogMessage
+         * @covers \Brickoo\Log\Handler\Filesystem::convertToLogMessage
          * @expectedException InvalidArgumentException
          */
         public function testConvertToLogMessageArgumentMessageException() {
-            $this->FileHandler->convertToLogMessage(array(), 7);
+            $this->Filesystem->convertToLogMessage(array(), 7);
         }
 
         /**
          * Test if a wrong severity argument type throws an exception.
-         * @covers \Brickoo\Log\Handler\FileHandler::convertToLogMessage
+         * @covers \Brickoo\Log\Handler\Filesystem::convertToLogMessage
          * @expectedException InvalidArgumentException
          */
         public function testConvertToLogMessageArgumentSeverityException() {
-            $this->FileHandler->convertToLogMessage(array('message'), 'wrongType');
+            $this->Filesystem->convertToLogMessage(array('message'), 'wrongType');
         }
 
         /**
         * Test if messages could be logged.
-        * @covers \Brickoo\Log\Handler\FileHandler::log
+        * @covers \Brickoo\Log\Handler\Filesystem::log
         */
         public function testlog() {
             date_default_timezone_set('UTC');
@@ -218,18 +220,18 @@
                        ->method('close')
                        ->will($this->returnSelf());
 
-            $FileHandler = new FileHandler($FileObject);
-            $FileHandler->setDirectory('/var/log/');
-            $this->assertSame($FileHandler, $FileHandler->log('mesage', 7));
+            $Filesystem = new Filesystem($FileObject);
+            $Filesystem->setDirectory('/var/log/');
+            $this->assertSame($Filesystem, $Filesystem->log('mesage', 7));
         }
 
         /**
         * Test if wrong severity argument type throws an exception..
-        * @covers \Brickoo\Log\Handler\FileHandler::log
+        * @covers \Brickoo\Log\Handler\Filesystem::log
         * @expectedException InvalidArgumentException
         */
         public function testlogArgumentException() {
-            $this->FileHandler->log('message', 'wrongType');
+            $this->Filesystem->log('message', 'wrongType');
         }
 
     }

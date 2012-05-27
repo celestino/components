@@ -35,14 +35,14 @@
     use Brickoo\Validator\TypeValidator;
 
     /**
-     * SyslogNGHandler
+     * SyslogNG
      *
      * This class implements the syslog-ng log interface.
      * @link http://tools.ietf.org/html/rfc3164
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class SyslogNGHandler implements Interfaces\Handler {
+    class SyslogNG implements Interfaces\Handler {
 
         /**
          * Declaration oo facility constants.
@@ -123,7 +123,7 @@
         /**
          * Sets the hostname or IP adress of the current server.
          * @param string $hostname the hostname to set
-         * @return \Brickoo\Log\Handler\SyslogNGHandler
+         * @return \Brickoo\Log\Handler\SyslogNG
          */
         public function setHostname($hostname) {
             TypeValidator::IsStringAndNotEmpty($hostname);
@@ -154,7 +154,7 @@
         /**
          * Sets the server adress of the syslog-ng to log to.
          * @param string $serverAdress the server adress to set
-         * @return \Brickoo\Log\Handler\SyslogNGHandler
+         * @return \Brickoo\Log\Handler\SyslogNG
          */
         public function setServerAdress($serverAdress) {
             TypeValidator::IsStringAndNotEmpty($serverAdress);
@@ -187,7 +187,7 @@
         /**
          * Sets the port of the syslog-ng server to connect to.
          * @param integer $port the syslog-ng port number
-         * @return \Brickoo\Log\Handler\SyslogNGHandler
+         * @return \Brickoo\Log\Handler\SyslogNG
          */
         public function setServerPort($port) {
             TypeValidator::IsInteger($port);
@@ -252,7 +252,7 @@
          * Sets the facility to use..
          * @param integer $facility the facility to use
          * @throws OutOfRangeException if the facility is out of range
-         * @return \Brickoo\Log\Handler\SyslogNGHandler
+         * @return \Brickoo\Log\Handler\SyslogNG
          */
         public function setFacility($facility) {
             TypeValidator::IsInteger($facility);
@@ -291,7 +291,7 @@
          * Sends the  messages to the syslog-ng server with the SockeObject.
          * @param array $messages the messages to send
          * @throws Core\Exceptions\UnableToConnectException if the connection can not be created
-         * @return \Brickoo\Log\Handler\SyslogNGHandler
+         * @return \Brickoo\Log\Handler\SyslogNG
          */
         protected function sendMessages(array $messages, $severity) {
             TypeValidator::IsInteger($severity);
@@ -317,7 +317,7 @@
          * Sends the messages to the syslog-ng server.
          * @param array|string $messages the messages to send
          * @param integer $severity the severity of the messages
-         * @return \Brickoo\Log\Handler\SyslogNGHandler
+         * @return \Brickoo\Log\Handler\SyslogNG
          */
         public function log($messages, $severity) {
             TypeValidator::IsInteger($severity);
