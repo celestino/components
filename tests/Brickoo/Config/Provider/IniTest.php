@@ -30,22 +30,22 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Config\Provider\IniProvider;
+    use Brickoo\Config\Provider\Ini;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
-     * Test suite for the IniProvider class.
-     * @see Brickoo\Config\Provider\IniProvider
+     * Test suite for the Ini class.
+     * @see Brickoo\Config\Provider\Ini
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
     class IniProviderTest extends \PHPUnit_Framework_TestCase {
 
         /**
-         * Holds an instance  of the IniProvider class.
-         * @var \Brickoo\Config\Provider\IniProvider
+         * Holds an instance  of the Ini class.
+         * @var \Brickoo\Config\Provider\Ini
          */
         protected $Provider;
 
@@ -54,23 +54,23 @@
          * @return void
          */
         public function setUp() {
-            $this->Provider = new IniProvider();
+            $this->Provider = new Ini();
         }
 
         /**
          * Test if the filename properties is set.
-         * @covers Brickoo\Config\Provider\IniProvider::__construct
+         * @covers Brickoo\Config\Provider\Ini::__construct
          */
         public function testConstructor() {
-            $Provider = new IniProvider('test.ini');
+            $Provider = new Ini('test.ini');
             $this->assertInstanceOf('Brickoo\Config\Provider\Interfaces\Provider', $Provider);
             $this->assertAttributeEquals('test.ini', 'filename', $Provider);
         }
 
         /**
          * Test if the filename can be set and retrieved.
-         * @covers Brickoo\Config\Provider\IniProvider::getFilename
-         * @covers Brickoo\Config\Provider\IniProvider::SetFilename
+         * @covers Brickoo\Config\Provider\Ini::getFilename
+         * @covers Brickoo\Config\Provider\Ini::SetFilename
          */
         public function testGetSetFilename() {
             $expectedFilename = 'test.ini';
@@ -81,7 +81,7 @@
 
         /**
          * Test if trying to retrieve the not available filename throws an exception.
-         * @covers Brickoo\Config\Provider\IniProvider::getFilename
+         * @covers Brickoo\Config\Provider\Ini::getFilename
          * @expectedException UnexpectedValueException
          */
         public function testGetFilenameValueException() {
@@ -90,7 +90,7 @@
 
         /**
          * Test if an ini configuration can be loaded.
-         * @covers Brickoo\Config\Provider\IniProvider::load
+         * @covers Brickoo\Config\Provider\Ini::load
          */
         public function testLoad() {
             $expected = array(
@@ -106,7 +106,7 @@
 
         /**
          * test if the file is not readable throws an exception.
-         * @covers Brickoo\Config\Provider\IniProvider::load
+         * @covers Brickoo\Config\Provider\Ini::load
          * @covers Brickoo\Config\Provider\Exceptions\UnableToLoadConfigurationException
          * @expectedException Brickoo\Config\Provider\Exceptions\UnableToLoadConfigurationException
          */
@@ -117,7 +117,7 @@
 
         /**
          * Test if the configuration can be saved to an ini file.
-         * @covers Brickoo\Config\Provider\IniProvider::save
+         * @covers Brickoo\Config\Provider\Ini::save
          */
         public function testSave() {
             $config = array(
@@ -134,7 +134,7 @@
 
         /**
          * Test if trying to save to a not available file throws an exception.
-         * @covers Brickoo\Config\Provider\IniProvider::save
+         * @covers Brickoo\Config\Provider\Ini::save
          * @covers Brickoo\Config\Provider\Exceptions\UnableToSaveConfigurationException
          * @expectedException Brickoo\Config\Provider\Exceptions\UnableToSaveConfigurationException
          */
@@ -145,7 +145,7 @@
 
         /**
          * Test if the configuration can be loaded from an ini formated string.
-         * @covers Brickoo\Config\Provider\IniProvider::fromString
+         * @covers Brickoo\Config\Provider\Ini::fromString
          */
         public function testFromString() {
             $expected = array(
@@ -168,7 +168,7 @@
 
         /**
          * Test if the configuration can be converted to an ini string.
-         * @covers Brickoo\Config\Provider\IniProvider::toString
+         * @covers Brickoo\Config\Provider\Ini::toString
          */
         public function testToString() {
            $config = array(
@@ -191,7 +191,7 @@
 
         /**
          * Test if a section string can be created.
-         * @covers Brickoo\Config\Provider\IniProvider::getSectionString
+         * @covers Brickoo\Config\Provider\Ini::getSectionString
          */
         public function testGetSectionString() {
             $section = array(
@@ -212,7 +212,7 @@
 
         /**
          * Test if a section array can be converted to string.
-         * @covers Brickoo\Config\Provider\IniProvider::getSectionArrayString
+         * @covers Brickoo\Config\Provider\Ini::getSectionArrayString
          */
         public function testGetSectionArrayString() {
             $values = array(1, 2, 3);

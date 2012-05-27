@@ -93,13 +93,13 @@
         }
 
         /**
-         * Converts a configuration section settings to constants.
+         * Converts a configuration first level key/section to constants.
          * @param string $section the configuration 1st level section
          * @throws \UnexpectedValueException if the section does not exist
          * @throws \UnexpectedValueException if the value is not scalar
          * @return \Brickoo\Config\Configuration
          */
-        public function convertSectionToConstants($section) {
+        public function convertToConstants($section) {
             TypeValidator::IsStringAndNotEmpty($section);
 
             if (($settings = $this->get($section)) === null) {

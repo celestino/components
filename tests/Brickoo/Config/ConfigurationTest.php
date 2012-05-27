@@ -100,7 +100,7 @@
 
         /**
          * Test if the configuration sections can be converted to constants.
-         * @covers Brickoo\Config\Configuration::convertSectionToConstants
+         * @covers Brickoo\Config\Configuration::convertToConstants
          */
         public function testConvertSectionToConstants() {
             $config = array(
@@ -109,25 +109,25 @@
             $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\Provider');
             $Configuration = new Configuration($Provider);
             $Configuration->fromArray($config)
-                          ->convertSectionToConstants('SECTION1');
+                          ->convertToConstants('SECTION1');
 
             $this->assertEquals('value1', SECTION1_KEY1);
         }
 
         /**
          * Test if trying to convert a not existing sectin throws an exception.
-         * @covers Brickoo\Config\Configuration::convertSectionToConstants
+         * @covers Brickoo\Config\Configuration::convertToConstants
          * @expectedException UnexpectedValueException
          */
         public function testConvertionWithNoktAvailableSectionException() {
             $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\Provider');
             $Configuration = new Configuration($Provider);
-            $Configuration->convertSectionToConstants('FAIL');
+            $Configuration->convertToConstants('FAIL');
         }
 
         /**
          * Test if trying to use a not scalar constant value throws an exception.
-         * @covers Brickoo\Config\Configuration::convertSectionToConstants
+         * @covers Brickoo\Config\Configuration::convertToConstants
          * @expectedException UnexpectedValueException
          */
         public function testConvertionNotScalarException() {
@@ -137,7 +137,7 @@
             $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\Provider');
             $Configuration = new Configuration($Provider);
             $Configuration->fromArray($config);
-            $Configuration->convertSectionToConstants('SECTION1');
+            $Configuration->convertToConstants('SECTION1');
         }
 
     }

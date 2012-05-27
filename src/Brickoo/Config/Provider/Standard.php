@@ -39,7 +39,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class IniProvider implements Interfaces\Provider {
+    class Standard implements Interfaces\Provider {
 
         /**
          * Holds the ini file name to load or save configuration.
@@ -48,9 +48,9 @@
         protected $filename;
 
         /**
-         * Returns the ini filename.
+         * Returns the array configuration filename..
          * @throws UnexpectedValueException if the filename is not set
-         * @return string the ini filename
+         * @return string the array configuration filename
          */
         public function getFilename() {
             if ($this->filename === null) {
@@ -63,7 +63,7 @@
         /**
          * Sets the ini filename to use.
          * @param string $filename the ini filename
-         * @return \Brickoo\Config\Provider\IniProvider
+         * @return \Brickoo\Config\Provider\Standard
          */
         public function setFilename($filename) {
             TypeValidator::IsStringAndNotEmpty($filename);
@@ -76,7 +76,7 @@
         /**
          * Class constructor.
          * Intializes the class properties.
-         * Sets the filename containing the configuration
+         * Sets the filename containing and returning the configuration array
          * @param string $filename the array filename
          * @return void
          */
@@ -87,7 +87,7 @@
         }
 
         /**
-         * Loads the configuration from an ini file.
+         * Loads the configuration from an array configuration file.
          * @param string $filename the file to load the configuration from
          * @throws Exceptions\UnableToLoadConfigurationException if the file does not exist
          * @return array the loaded configuration
@@ -99,7 +99,11 @@
                 throw new Exceptions\UnableToLoadConfigurationException();
             }
 
-            return parse_ini_file($filename, true);
+            if (! $configuration = include($filename)) {
+                throw new \UnexpectedValueException('The configuration could not be loaded from array.');
+            }
+
+            return $configuration;
 
         }
 
@@ -108,7 +112,7 @@
          * @param array $configuration the configuration to save
          * @param string $filename the filename as location
          * @throws Exceptions\UnableToSaveConfigurationException if the configuration could not be saved
-         * @return \Brickoo\Config\Provider\IniProvider
+         * @return \Brickoo\Config\Provider\Standard
          */
         public function save(array $configuration) {
             $filename    = $this->getFilename();
@@ -122,72 +126,12 @@
         }
 
         /**
-         * Loads the configuration from a ini format string.
-         * @param string $configuration the ini string containing the data
-         * @return array the loaded configuration
-         */
-        public function fromString($configuration) {
-            TypeValidator::IsStringAndNotEmpty($configuration);
-
-            return parse_ini_string($configuration, true);
-        }
-
-        /**
-         * Converts the configuration to an ini string.
-         * @param array $configuration the configuration to convert
-         * @return string the configuration as an ini format
+         * Converts the array configuration to an ini string.
+         * @param array $configuration
+         * @return string the configuration file content
          */
         public function toString(array $configuration) {
-            $iniString = '';
-
-            foreach($configuration as $section => $settings) {
-                if (is_array($settings)) {
-                    $iniString .= $this->getSectionString($section, $settings);
-                }
-            }
-
-            return $iniString;
-        }
-
-        /**
-         * Returns a string containing the section configuration.
-         * @param string $section the section name
-         * @param array $settings the section settings
-         * @return string the section configuration
-         */
-        public function getSectionString($section, array $settings) {
-            TypeValidator::IsStringAndNotEmpty($section);
-
-            $iniString = sprintf("[%s]\r\n", $section);
-
-            foreach ($settings as $key => $value) {
-                if (is_array($value)) {
-                    $iniString .= $this->getSectionArrayString($key, $value);
-                }
-                else {
-                    $iniString .= sprintf("%s = ". (ctype_alnum((string)$value) ? "%s" : "\"%s\"") . "\r\n", $key, $value);
-                }
-            }
-
-            return $iniString;
-        }
-
-        /**
-         * Returns a string containing the key/value pairs
-         * @param string $key the key name
-         * @param array $values the values of the key
-         * @return string the section array configuration
-         */
-        public function getSectionArrayString($key, array $values) {
-            TypeValidator::IsStringAndNotEmpty($key);
-
-            $iniString = '';
-
-            foreach ($values as $value) {
-                $iniString .= sprintf("%s[] = ". (ctype_alnum((string)$value) ? "%s" : "\"%s\"") . "\r\n", $key, $value);
-            }
-
-            return $iniString;
+            return "<?php \r\nreturn ". var_export($configuration, true) .";";
         }
 
     }

@@ -30,22 +30,22 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Config\Provider\ArrayProvider;
+    use Brickoo\Config\Provider\Standard;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
-     * Test suite for the ArrayProvider class.
-     * @see Brickoo\Config\Provider\ArrayProvider
+     * Test suite for the Standard class.
+     * @see Brickoo\Config\Provider\Standard
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ArrayProviderTest extends \PHPUnit_Framework_TestCase {
+    class StandardArrayProviderTest extends \PHPUnit_Framework_TestCase {
 
         /**
-         * Holds an instance  of the ArrayProvider class.
-         * @var \Brickoo\Config\Provider\ArrayProvider
+         * Holds an instance  of the Standard class.
+         * @var \Brickoo\Config\Provider\Standard
          */
         protected $Provider;
 
@@ -54,23 +54,23 @@
          * @return void
          */
         public function setUp() {
-            $this->Provider = new ArrayProvider();
+            $this->Provider = new Standard();
         }
 
         /**
          * Test if the filename properties is set.
-         * @covers Brickoo\Config\Provider\ArrayProvider::__construct
+         * @covers Brickoo\Config\Provider\Standard::__construct
          */
         public function testConstructor() {
-            $Provider = new ArrayProvider('test.array.php');
+            $Provider = new Standard('test.array.php');
             $this->assertInstanceOf('Brickoo\Config\Provider\Interfaces\Provider', $Provider);
             $this->assertAttributeEquals('test.array.php', 'filename', $Provider);
         }
 
         /**
          * Test if the filename can be set and retrieved.
-         * @covers Brickoo\Config\Provider\ArrayProvider::getFilename
-         * @covers Brickoo\Config\Provider\ArrayProvider::SetFilename
+         * @covers Brickoo\Config\Provider\Standard::getFilename
+         * @covers Brickoo\Config\Provider\Standard::SetFilename
          */
         public function testGetSetFilename() {
             $expectedFilename = 'test.array.php';
@@ -81,7 +81,7 @@
 
         /**
          * Test if trying to retrieve the not available filename throws an exception.
-         * @covers Brickoo\Config\Provider\ArrayProvider::getFilename
+         * @covers Brickoo\Config\Provider\Standard::getFilename
          * @expectedException UnexpectedValueException
          */
         public function testGetFilenameValueException() {
@@ -90,7 +90,7 @@
 
         /**
          * Test if an ini configuration can be loaded.
-         * @covers Brickoo\Config\Provider\ArrayProvider::load
+         * @covers Brickoo\Config\Provider\Standard::load
          */
         public function testLoad() {
             $expected = array(
@@ -106,7 +106,7 @@
 
         /**
          * test if the file is not readable throws an exception.
-         * @covers Brickoo\Config\Provider\ArrayProvider::load
+         * @covers Brickoo\Config\Provider\Standard::load
          * @covers Brickoo\Config\Provider\Exceptions\UnableToLoadConfigurationException
          * @expectedException Brickoo\Config\Provider\Exceptions\UnableToLoadConfigurationException
          */
@@ -117,7 +117,7 @@
 
         /**
          * Test if trying to load an empty file throws an exception.
-         * @covers Brickoo\Config\Provider\ArrayProvider::load
+         * @covers Brickoo\Config\Provider\Standard::load
          * @expectedException UnexpectedValueException
          */
         public function testLoadValueException() {
@@ -127,7 +127,7 @@
 
         /**
          * Test if the configuration can be saved to an ini file.
-         * @covers Brickoo\Config\Provider\ArrayProvider::save
+         * @covers Brickoo\Config\Provider\Standard::save
          */
         public function testSave() {
             $config = array(
@@ -144,7 +144,7 @@
 
         /**
          * Test if trying to save to a not available file throws an exception.
-         * @covers Brickoo\Config\Provider\ArrayProvider::save
+         * @covers Brickoo\Config\Provider\Standard::save
          * @covers Brickoo\Config\Provider\Exceptions\UnableToSaveConfigurationException
          * @expectedException Brickoo\Config\Provider\Exceptions\UnableToSaveConfigurationException
          */
@@ -155,7 +155,7 @@
 
         /**
          * Test if the configuration can be converted to an ini string.
-         * @covers Brickoo\Config\Provider\ArrayProvider::toString
+         * @covers Brickoo\Config\Provider\Standard::toString
          */
         public function testToString() {
            $config = array(

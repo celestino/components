@@ -67,6 +67,6 @@
         * @throws \UnexpectedValueException if the section does not exist
         * @return \Brickoo\Config\Configuration
         */
-        public function convertSectionToConstants($section);
+        public function convertToConstants($section);
 
     }
