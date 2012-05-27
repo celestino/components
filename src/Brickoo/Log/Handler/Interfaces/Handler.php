@@ -33,19 +33,19 @@
     namespace Brickoo\Log\Handler\Interfaces;
 
     /**
-     * LogHandler
+     * Handler
      *
      * Describes the methods implemented by this interface.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface LogHandler {
+    interface Handler {
 
         /**
          * Logs the passed messages to the location.
          * @param array|string $messages the messages to log
          * @param integer $severity the severity level to add
-         * @return \Brickoo\Log\Handler\Interfaces\LogHandler
+         * @return \Brickoo\Log\Handler\Interfaces\Handler
          */
         public function log($messages, $severity);
 

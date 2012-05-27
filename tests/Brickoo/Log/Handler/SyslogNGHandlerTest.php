@@ -81,7 +81,7 @@
             $SocketObject = $this->getSocketObjectStub();
             $this->assertInstanceOf
             (
-                '\Brickoo\Log\Handler\Interfaces\LogHandler',
+                '\Brickoo\Log\Handler\Interfaces\Handler',
                 ($SyslogHandler = new SyslogNGHandler($SocketObject))
             );
             $this->assertAttributeSame($SocketObject, '_SocketObject', $SyslogHandler);

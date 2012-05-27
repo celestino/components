@@ -40,7 +40,7 @@
      * ExceptionHandler
      *
      * Handles user defined or system exception.
-     * Exceptions can be logged using an instance implementing the LogHandler.
+     * Exceptions can be logged through the log event which is triggered if exceptions occured.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

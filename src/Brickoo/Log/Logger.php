@@ -58,17 +58,17 @@
 
         /**
          * Holds the log handler which implements
-         * the LogHandler used for logging.
-         * @var \Brickoo\Log\Handler\Interfaces\LogHandler
+         * the Log Handler used for logging.
+         * @var \Brickoo\Log\Handler\Interfaces\Handler
          */
-        protected $_LogHandler;
+        protected $Handler;
 
         /**
          * Retrieve the log handler dependency.
-         * @return \Brickoo\Log\Handler\Interface\LogHandler
+         * @return \Brickoo\Log\Handler\Interface\Handler
          */
         public function LogHandler() {
-            return $this->_LogHandler;
+            return $this->Handler;
         }
 
         /**
@@ -103,11 +103,11 @@
         * Class constructor.
         * Injection of the LogHandler dependency.
         * Initializes the class properties.
-        * @param \Brickoo\Log\Handler\Interfaces\LogHandler $LogHandler the LogHandler dependency
+        * @param \Brickoo\Log\Handler\Interfaces\Handler $LogHandler the LogHandler dependency
         * @return void
         */
-        public function __construct(\Brickoo\Log\Handler\Interfaces\LogHandler $LogHandler) {
-            $this->_LogHandler           = $LogHandler;
+        public function __construct(\Brickoo\Log\Handler\Interfaces\Handler $LogHandler) {
+            $this->Handler               = $LogHandler;
             $this->defaultSeverity       = self::SEVERITY_INFO;
         }
 

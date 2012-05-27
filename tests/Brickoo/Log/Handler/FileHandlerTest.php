@@ -80,7 +80,7 @@
             $FileObject = $this->getFileObjectStub();
             $this->assertInstanceOf
             (
-                '\Brickoo\Log\Handler\Interfaces\LogHandler',
+                '\Brickoo\Log\Handler\Interfaces\Handler',
                 ($FileHandler = new FileHandler($FileObject))
             );
             $this->assertAttributeSame($FileObject, '_FileObject', $FileHandler);

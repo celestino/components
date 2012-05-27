@@ -42,7 +42,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class SyslogNGHandler implements Interfaces\LogHandler {
+    class SyslogNGHandler implements Interfaces\Handler {
 
         /**
          * Declaration oo facility constants.

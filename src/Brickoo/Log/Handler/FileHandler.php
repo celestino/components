@@ -42,7 +42,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class FileHandler implements Interfaces\LogHandler {
+    class FileHandler implements Interfaces\Handler {
 
         /**
          * Mapping of the severity level description.

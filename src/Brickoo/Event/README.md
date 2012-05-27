@@ -59,6 +59,11 @@ Here explained shortly the arguments of a more complex listener registration.
     Event\Manager::Instance()->notify(new Event\Event(
         'my.event.id', new \My\Caller(), array('id' => 'someID', 'name' => 'BrickOO')
     ));
+    
+**Important:**
+If the required parameters are set, the Listener will recieved them as arguments.
+The `Event` instance is **not** passed, so it will get lost.
+If you like to have the `Event` as argument passed you can check the `Event` paramaters within the callback condition.
 
 
 ###Notes
