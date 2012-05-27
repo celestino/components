@@ -13,13 +13,13 @@ if you do unregister the previoues error handler will be restored.
 
     $ErrorHandler = new Error\ErrorHandler();
     $ErrorHandler->register();
-    $ErrorHandler->handleError(E_ERROR , 'User not found.', 'user.php', 123);
+    trigger_error("User not found.", E_USER_ERROR);
     $ErrorHandler->unregister();
 
     
 
 The `ErrorHandler` provides also the posibility to **convert errors into exceptions** for further processing. 
-The error level is equal to the PHP configuration levels. The log event will still be triggered.
+The error levels are equal to the PHP [error levels](http://www.php.net/manual/en/errorfunc.constants.php). The log event will still be triggered.
 
     $ErrorHandler->setErrorLevel(E_ALL ^ E_NOTICE);
 
@@ -30,7 +30,7 @@ This is an example of the `ExceptionHandler` usage.
 
     $ExceptionHandler = new Error\ExceptionHandler();
     $ExceptionHandler->register();
-    $ExceptionHandler->handleException(new \Exception('User not found.'));
+    throw new \Exception('User not found.');
     $ExceptionHandler->unregister();
 
 By default the `ExceptionHandler` triggers the log event but does not display the exception information. 
