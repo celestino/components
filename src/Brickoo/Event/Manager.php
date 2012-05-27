@@ -285,6 +285,7 @@
             if ($this->isEventProcessing($eventName)) {
                 throw new Exceptions\InfiniteEventLoopException($eventName);
             }
+
             if ($this->hasEventListeners($eventName)) {
                 if (! $Event->hasEventManager()) {
                     $Event->EventManager($this);
