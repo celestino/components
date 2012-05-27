@@ -30,16 +30,16 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Cache\Provider\MemcacheProvider;
+    use Brickoo\Cache\Provider\Memcache;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
-     * MemcacheProviderTest
+     * MemcacheTest
      *
-     * Test suite for the MemcacheProvider class.
-     * @see Brickoo\Cache\Provider\MemcacheProvider
+     * Test suite for the Memcache class.
+     * @see Brickoo\Cache\Provider\Memcache
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -54,13 +54,13 @@
         }
 
         /**
-         * Holds an instance of the MemcacheProvider class.
-         * @var MemcacheProvider
+         * Holds an instance of the Memcache class.
+         * @var Memcache
          */
-        protected $MemcacheProvider;
+        protected $Memcache;
 
         /**
-         * Set up the MemcacheProvider object used.
+         * Set up the Memcache object used.
          * @return void
          */
         protected function setUp() {
@@ -68,149 +68,149 @@
                 define('MEMCACHE_COMPRESSED', 2);
             }
 
-            $this->MemcacheProvider = new MemcacheProvider($this->getMemcacheStub());
+            $this->Memcache = new Memcache($this->getMemcacheStub());
         }
 
         /**
          * Test if the Memcache dependency has been be injected.
-         * @covers Brickoo\Cache\Provider\MemcacheProvider::__construct
+         * @covers Brickoo\Cache\Provider\Memcache::__construct
          */
         public function testConstruct() {
             $MemcacheStub = $this->getMemcacheStub();
-            $MemcacheProvider = new MemcacheProvider($MemcacheStub);
-            $this->assertAttributeSame($MemcacheStub, '_Memcache', $MemcacheProvider);
+            $Memcache = new Memcache($MemcacheStub);
+            $this->assertAttributeSame($MemcacheStub, '_Memcache', $Memcache);
         }
 
         /**
          * Test if the Memcache dependency can be retrieved.
-         * @covers Brickoo\Cache\Provider\MemcacheProvider::Memcache
+         * @covers Brickoo\Cache\Provider\Memcache::Memcache
          */
         public function testGetMemcache() {
-            $this->assertInstanceOf('Memcache', $this->MemcacheProvider->Memcache());
+            $this->assertInstanceOf('Memcache', $this->Memcache->Memcache());
         }
 
         /**
-         * Test if the compression can be enabled and the MemcacheProvider reference is returned.
-         * @covers Brickoo\Cache\Provider\MemcacheProvider::enableCompression
+         * Test if the compression can be enabled and the Memcache reference is returned.
+         * @covers Brickoo\Cache\Provider\Memcache::enableCompression
          */
         public function testEnableCompression() {
-            $this->assertAttributeEquals(false, 'compression', $this->MemcacheProvider);
-            $this->assertSame($this->MemcacheProvider, $this->MemcacheProvider->enableCompression());
-            $this->assertAttributeEquals(MEMCACHE_COMPRESSED, 'compression', $this->MemcacheProvider);
+            $this->assertAttributeEquals(false, 'compression', $this->Memcache);
+            $this->assertSame($this->Memcache, $this->Memcache->enableCompression());
+            $this->assertAttributeEquals(MEMCACHE_COMPRESSED, 'compression', $this->Memcache);
 
-            return $this->MemcacheProvider;
+            return $this->Memcache;
         }
 
         /**
-         * Test if the compression can be disabled and the MemcacheProvider reference is returned.
-         * @covers Brickoo\Cache\Provider\MemcacheProvider::disableCompression
+         * Test if the compression can be disabled and the Memcache reference is returned.
+         * @covers Brickoo\Cache\Provider\Memcache::disableCompression
          * @depends testEnableCompression
          */
-        public function testDisableCompression($MemcacheProvider) {
-            $this->assertAttributeEquals(MEMCACHE_COMPRESSED, 'compression', $MemcacheProvider);
-            $this->assertSame($MemcacheProvider, $MemcacheProvider->disableCompression());
-            $this->assertAttributeEquals(false, 'compression', $this->MemcacheProvider);
+        public function testDisableCompression($Memcache) {
+            $this->assertAttributeEquals(MEMCACHE_COMPRESSED, 'compression', $Memcache);
+            $this->assertSame($Memcache, $Memcache->disableCompression());
+            $this->assertAttributeEquals(false, 'compression', $this->Memcache);
         }
 
         /**
          * Test if a content can be retrieved from the Memcache.
-         * @covers Brickoo\Cache\Provider\MemcacheProvider::get
+         * @covers Brickoo\Cache\Provider\Memcache::get
          */
         public function testGet() {
-            $MemcacheStub = $this->MemcacheProvider->Memcache();
+            $MemcacheStub = $this->Memcache->Memcache();
             $MemcacheStub->expects($this->once())
                          ->method('get')
                          ->will($this->returnValue('some cached content'));
 
-            $this->assertEquals('some cached content', $this->MemcacheProvider->get('some_identifier'));
+            $this->assertEquals('some cached content', $this->Memcache->get('some_identifier'));
         }
 
         /**
          * Test if trying to use a wrong argument type throws an exception
-         * @covers Brickoo\Cache\Provider\MemcacheProvider::get
+         * @covers Brickoo\Cache\Provider\Memcache::get
          * @expectedException InvalidArgumentException
          */
         public function testGetArgumentException() {
-            $this->MemcacheProvider->get(array('wrongType'));
+            $this->Memcache->get(array('wrongType'));
         }
 
         /**
          * Test if a content can be set to the Memcache and the result is returned.
-         * @covers Brickoo\Cache\Provider\MemcacheProvider::set
+         * @covers Brickoo\Cache\Provider\Memcache::set
          */
         public function testSet() {
-            $MemcacheStub = $this->MemcacheProvider->Memcache();
+            $MemcacheStub = $this->Memcache->Memcache();
             $MemcacheStub->expects($this->once())
                          ->method('set')
                          ->will($this->returnValue(true));
 
-            $this->assertTrue($this->MemcacheProvider->set('some_identifier', 'content'));
+            $this->assertTrue($this->Memcache->set('some_identifier', 'content'));
         }
 
         /**
          * Test if trying to use a wrong argument type throws an exception
-         * @covers Brickoo\Cache\Provider\MemcacheProvider::set
+         * @covers Brickoo\Cache\Provider\Memcache::set
          * @expectedException InvalidArgumentException
          */
         public function testSetArgumentException() {
-            $this->MemcacheProvider->set(array('wrongType'), 'whatever', array('wrongType'));
+            $this->Memcache->set(array('wrongType'), 'whatever', array('wrongType'));
         }
 
         /**
          * Test if a cached content can be delete by its identifier and the result is returned.
-         * @covers Brickoo\Cache\Provider\MemcacheProvider::delete
+         * @covers Brickoo\Cache\Provider\Memcache::delete
          */
         public function testDelete() {
-            $MemcacheStub= $this->MemcacheProvider->Memcache();
+            $MemcacheStub= $this->Memcache->Memcache();
             $MemcacheStub->expects($this->once())
                          ->method('delete')
                          ->will($this->returnValue(true));
 
-            $this->assertTrue($this->MemcacheProvider->delete('some_identifier'));
+            $this->assertTrue($this->Memcache->delete('some_identifier'));
         }
 
         /**
          * Test if trying to use a wrong argument type throws an exception
-         * @covers Brickoo\Cache\Provider\MemcacheProvider::delete
+         * @covers Brickoo\Cache\Provider\Memcache::delete
          * @expectedException InvalidArgumentException
          */
         public function testDeleteArgumentException() {
-            $this->MemcacheProvider->delete(array('wrongType'));
+            $this->Memcache->delete(array('wrongType'));
         }
 
         /**
          * Test if a cached content can be flushed and the result is returned.
-         * @covers Brickoo\Cache\Provider\MemcacheProvider::flush
+         * @covers Brickoo\Cache\Provider\Memcache::flush
          */
         public function testFlush() {
-            $MemcacheStub= $this->MemcacheProvider->Memcache();
+            $MemcacheStub= $this->Memcache->Memcache();
             $MemcacheStub->expects($this->once())
                          ->method('flush')
                          ->will($this->returnValue(true));
 
-            $this->assertTrue($this->MemcacheProvider->flush());
+            $this->assertTrue($this->Memcache->flush());
         }
 
         /**
          * Test if a Memcache method not implemented can be called and the result is returned.
-         * @covers Brickoo\Cache\Provider\MemcacheProvider::__call
+         * @covers Brickoo\Cache\Provider\Memcache::__call
          */
         public function test__call() {
-            $MemcacheStub= $this->MemcacheProvider->Memcache();
+            $MemcacheStub= $this->Memcache->Memcache();
             $MemcacheStub->expects($this->once())
                          ->method('add')
                          ->will($this->returnValue(true));
 
-            $this->assertTrue($this->MemcacheProvider->add('some_identifier', 'some_content'));
+            $this->assertTrue($this->Memcache->add('some_identifier', 'some_content'));
         }
 
         /**
          * Test if trying to call a not available method on the Memcache object throws an exception
-         * @covers Brickoo\Cache\Provider\MemcacheProvider::__call
+         * @covers Brickoo\Cache\Provider\Memcache::__call
          * @expectedException BadMethodCallException
          */
         public function test__callBadMethodCallException() {
-            $this->MemcacheProvider->whatever();
+            $this->Memcache->whatever();
         }
 
     }

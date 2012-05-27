@@ -30,17 +30,17 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Cache\Provider\FileProvider;
+    use Brickoo\Cache\Provider\File;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
-     * FileProviderTest
+     * FileTest
      *
-     * Test suite for the FileProvider class.
+     * Test suite for the File class.
      * Some of the test cases are using the PHP temporary directory for the cache files.
-     * @see Brickoo\Cache\Provider\FileProvider
+     * @see Brickoo\Cache\Provider\File
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -60,154 +60,154 @@
         }
 
         /**
-         * Holds an instance of the FileProvider class.
-         * @var FileProvider
+         * Holds an instance of the File class.
+         * @var File
          */
-        protected $FileProvider;
+        protected $File;
 
         /**
-         * Set up the FileProvider object used.
+         * Set up the File object used.
          * @return void
          */
         protected function setUp() {
-            $this->FileProvider = new FileProvider();
+            $this->File = new File();
         }
 
         /**
-         * Test if the FileProvider implements the Provider.
+         * Test if the File implements the Provider.
          * Test if the properties are set.
-         * @covers Brickoo\Cache\Provider\FileProvider::__construct
+         * @covers Brickoo\Cache\Provider\File::__construct
          */
         public function testConstruct() {
             $this->assertInstanceOf
             (
                 'Brickoo\Cache\Provider\Interfaces\Provider',
-                ($Provider = new FileProvider(getcwd(), 'test_prefix'))
+                ($Provider = new File(getcwd(), 'test_prefix'))
             );
             $this->assertAttributeEquals(getcwd().DIRECTORY_SEPARATOR, 'directory', $Provider);
             $this->assertAttributeEquals('test_prefix', 'filePrefix', $Provider);
         }
 
         /**
-         * Test if the FileObject can be injected and the FileProvider referece is returned.
-         * @covers Brickoo\Cache\Provider\FileProvider::FileObject
-         * @covers Brickoo\Cache\Provider\FileProvider::getDependency
+         * Test if the FileObject can be injected and the File referece is returned.
+         * @covers Brickoo\Cache\Provider\File::FileObject
+         * @covers Brickoo\Cache\Provider\File::getDependency
          */
         public function testInjectFileObject() {
             $FileObjectStub = $this->getFileObjectStub();
-            $this->assertSame($this->FileProvider, $this->FileProvider->FileObject($FileObjectStub));
-            $this->assertAttributeContains($FileObjectStub, 'dependencies', $this->FileProvider);
+            $this->assertSame($this->File, $this->File->FileObject($FileObjectStub));
+            $this->assertAttributeContains($FileObjectStub, 'dependencies', $this->File);
 
-            return $this->FileProvider;
+            return $this->File;
         }
 
         /**
          * Test if the FileObject is lazy initializated and the dependency is returned.
-         * @covers Brickoo\Cache\Provider\FileProvider::FileObject
-         * @covers Brickoo\Cache\Provider\FileProvider::getDependency
+         * @covers Brickoo\Cache\Provider\File::FileObject
+         * @covers Brickoo\Cache\Provider\File::getDependency
          */
         public function testGetFileObjectLazyInitalization() {
             $this->assertInstanceOf
             (
                 'Brickoo\System\Interfaces\FileObject',
-                ($FileObject = $this->FileProvider->FileObject())
+                ($FileObject = $this->File->FileObject())
             );
-            $this->assertAttributeContains($FileObject, 'dependencies', $this->FileProvider);
+            $this->assertAttributeContains($FileObject, 'dependencies', $this->File);
         }
 
         /**
-         * Test if the file prefix can be set an the FileProvider reference is returned.
-         * @covers Brickoo\Cache\Provider\FileProvider::setFilePrefix
+         * Test if the file prefix can be set an the File reference is returned.
+         * @covers Brickoo\Cache\Provider\File::setFilePrefix
          */
         public function testSetFilePrefix() {
-            $this->assertSame($this->FileProvider, $this->FileProvider->setFilePrefix('test_'));
-            $this->assertAttributeEquals('test_', 'filePrefix', $this->FileProvider);
+            $this->assertSame($this->File, $this->File->setFilePrefix('test_'));
+            $this->assertAttributeEquals('test_', 'filePrefix', $this->File);
 
-            return $this->FileProvider;
+            return $this->File;
         }
 
         /**
          * Test if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Cache\Provider\FileProvider::setFilePrefix
+         * @covers Brickoo\Cache\Provider\File::setFilePrefix
          * @expectedException InvalidArgumentException
          */
         public function testSetFilePrefixArgumentException() {
-            $this->FileProvider->setFilePrefix(array('wrongType'));
+            $this->File->setFilePrefix(array('wrongType'));
         }
 
         /**
          * Test if trying to set a wrong file prefix throws an exception.
          * Allowed characters should cover a-z and the underscore.
-         * @covers Brickoo\Cache\Provider\FileProvider::setFilePrefix
+         * @covers Brickoo\Cache\Provider\File::setFilePrefix
          * @expectedException UnexpectedValueException
          */
         public function testSetFilePrefixValueException() {
-            $this->FileProvider->setFilePrefix('  wrong . prefix  ');
+            $this->File->setFilePrefix('  wrong . prefix  ');
         }
 
         /**
          * Test if the file prefix can be retrieved.
-         * @covers Brickoo\Cache\Provider\FileProvider::getFilePrefix
+         * @covers Brickoo\Cache\Provider\File::getFilePrefix
          * @depends testSetFilePrefix
          */
-        public function testGetFilePrefix($FileProvider) {
-            $this->assertEquals('test_', $FileProvider->getFilePrefix());
+        public function testGetFilePrefix($File) {
+            $this->assertEquals('test_', $File->getFilePrefix());
         }
 
         /**
          * Test if the cache directory (system temp directory) can be retrieved.
-         * @covers Brickoo\Cache\Provider\FileProvider::getDirectory
+         * @covers Brickoo\Cache\Provider\File::getDirectory
          */
         public function testGetDirectory() {
-            $this->assertEquals(realpath(sys_get_temp_dir()) . DIRECTORY_SEPARATOR, $this->FileProvider->getDirectory());
+            $this->assertEquals(realpath(sys_get_temp_dir()) . DIRECTORY_SEPARATOR, $this->File->getDirectory());
         }
 
         /**
-         * Test if the cache directory can be set and the FileProvider reference is returned.
+         * Test if the cache directory can be set and the File reference is returned.
          * The ending slash should be automaticly added.
-         * @covers Brickoo\Cache\Provider\FileProvider::setDirectory
+         * @covers Brickoo\Cache\Provider\File::setDirectory
          */
         public function testSetDirectory() {
-            $this->assertSame($this->FileProvider, $this->FileProvider->setDirectory(sys_get_temp_dir()));
-            $this->assertAttributeEquals(realpath(sys_get_temp_dir()) . DIRECTORY_SEPARATOR, 'directory', $this->FileProvider);
+            $this->assertSame($this->File, $this->File->setDirectory(sys_get_temp_dir()));
+            $this->assertAttributeEquals(realpath(sys_get_temp_dir()) . DIRECTORY_SEPARATOR, 'directory', $this->File);
 
-            return $this->FileProvider;
+            return $this->File;
         }
 
         /**
          * Test if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Cache\Provider\FileProvider::setDirectory
+         * @covers Brickoo\Cache\Provider\File::setDirectory
          * @expectedException InvalidArgumentException
          */
         public function testSetDirectoryArgumentException() {
-            $this->FileProvider->setDirectory(array('wrongType'));
+            $this->File->setDirectory(array('wrongType'));
         }
 
         /**
          * Test if the full file path and name can be retrieved.
          * The white spaces should be converted to underscores.
-         * @covers Brickoo\Cache\Provider\FileProvider::getFileName
+         * @covers Brickoo\Cache\Provider\File::getFileName
          */
         public function testGetFileName() {
             $this->assertEquals
             (
                 realpath(sys_get_temp_dir()) . DIRECTORY_SEPARATOR . 'cache_some_cache_identifier',
-                $this->FileProvider->getFileName('some cache identifier')
+                $this->File->getFileName('some cache identifier')
             );
         }
 
         /**
          * Tets if trying to use a wrong argument type throws an exception.
-         * @covers Brickoo\Cache\Provider\FileProvider::getFileName
+         * @covers Brickoo\Cache\Provider\File::getFileName
          * @expectedException InvalidArgumentException
          */
         public function testGetFileNameArgumentException() {
-            $this->FileProvider->getFileName(array('wrongType'));
+            $this->File->getFileName(array('wrongType'));
         }
 
         /**
          * Test if ca content can be cached with an identifier.
-         * @covers Brickoo\Cache\Provider\FileProvider::set
+         * @covers Brickoo\Cache\Provider\File::set
          */
         public function testSet() {
             $FileObjectStub = $this->getFileObjectStub(array());
@@ -224,73 +224,73 @@
                            ->method('close')
                            ->will($this->returnSelf());
 
-            $this->FileProvider->FileObject($FileObjectStub);
+            $this->File->FileObject($FileObjectStub);
 
-            $this->assertTrue($this->FileProvider->set('some identifier', 'content', 0));
+            $this->assertTrue($this->File->set('some identifier', 'content', 0));
         }
 
         /**
          * Test if a cached content can be retireved using the FileObject.
          * This test case uses the PHP temporary directory for the cache files.
-         * @covers Brickoo\Cache\Provider\FileProvider::get
+         * @covers Brickoo\Cache\Provider\File::get
          */
         public function testGet() {
             file_put_contents
             (
-                $this->FileProvider->getFilename('identifier'),
-                (date(FileProvider::LIFETIME_FORMAT, time() + 999999)) . serialize('some cached content')
+                $this->File->getFilename('identifier'),
+                (date(File::LIFETIME_FORMAT, time() + 999999)) . serialize('some cached content')
             );
 
-            $this->assertEquals('some cached content', $this->FileProvider->get('identifier'));
+            $this->assertEquals('some cached content', $this->File->get('identifier'));
         }
 
         /**
          * Test if trying to retrieve a not available cache file the check fails.
          * This test case uses the PHP temporary directory for the cache files.
-         * @covers Brickoo\Cache\Provider\FileProvider::get
+         * @covers Brickoo\Cache\Provider\File::get
          */
         public function testGetFileDoesNotExist() {
-            $this->assertFalse($this->FileProvider->get(uniqid()));
+            $this->assertFalse($this->File->get(uniqid()));
         }
 
         /**
          * Test if an expired file is not readed and it will be unlinked.
          * This test case uses the PHP temporary directory for the cache files.
-         * @covers Brickoo\Cache\Provider\FileProvider::get
-         * @covers Brickoo\Cache\Provider\FileProvider::delete
+         * @covers Brickoo\Cache\Provider\File::get
+         * @covers Brickoo\Cache\Provider\File::delete
          */
         public function testGetFileExpired() {
             file_put_contents
             (
-                $this->FileProvider->getFilename('identifier'),
-                date(FileProvider::LIFETIME_FORMAT, (time() - 10)) . serialize('some cached content')
+                $this->File->getFilename('identifier'),
+                date(File::LIFETIME_FORMAT, (time() - 10)) . serialize('some cached content')
             );
 
-            $this->assertFalse($this->FileProvider->get('identifier'));
+            $this->assertFalse($this->File->get('identifier'));
         }
 
         /**
          * Test if trying to delete a not available cahe file it will return boolean false.
          * This test case uses the PHP temporary directory for the cache files.
-         * @covers Brickoo\Cache\Provider\FileProvider::delete
+         * @covers Brickoo\Cache\Provider\File::delete
          */
         public function testDeleteFileNotExists() {
-            $this->assertFalse($this->FileProvider->delete('not_avaialble_identifier'));
+            $this->assertFalse($this->File->delete('not_avaialble_identifier'));
         }
 
         /**
          * Test if the cache files can be unlinked from the cache directory.
          * This test case uses the PHP temporary directory for the cache files.
-         * @covers Brickoo\Cache\Provider\FileProvider::flush
+         * @covers Brickoo\Cache\Provider\File::flush
          */
         public function testFlush() {
             file_put_contents
             (
-                $this->FileProvider->getFilename('identifier'),
-                date(FileProvider::LIFETIME_FORMAT, (time() - 10)) . serialize('some cached content')
+                $this->File->getFilename('identifier'),
+                date(File::LIFETIME_FORMAT, (time() - 10)) . serialize('some cached content')
             );
 
-            $this->assertInternalType('integer', $this->FileProvider->flush());
+            $this->assertInternalType('integer', $this->File->flush());
         }
 
     }

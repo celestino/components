@@ -35,23 +35,76 @@
     use Brickoo\Validator\TypeValidator;
 
     /**
-     * ApcProvider
+     * Memcache
      *
-     * Provides caching operations based on APC.
+     * Provides caching operations based on Memcache.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ApcProvider implements Interfaces\Provider {
+    class Memcache implements Interfaces\Provider {
 
         /**
-         * Returns the cached content from the matching dentifier.
-         * @param string $identifier the identifier to retrieve the content from
-         * @return mixed the cached content
+         * Holds an instance of the Memcache class.
+         * @var \Memcache
          */
+        protected $_Memcache;
+
+        /**
+         * Returns the Memcache dependecy.
+         * @return \Memcache
+         */
+        public function Memcache() {
+            return $this->_Memcache;
+        }
+
+        /**
+         * Holds the flag for using cache compression.
+         * @var integer
+         */
+        protected $compression;
+
+        /**
+         * Enables cache compression (not recommended).
+         * Be aware activating the comression since boolean, integer and floats can not be restored.
+         * Use compression only if you are storing strings .
+         * @return \Brickoo\Cache\Provider\Memcache
+         */
+        public function enableCompression() {
+            $this->compression = MEMCACHE_COMPRESSED;
+
+            return $this;
+        }
+
+        /**
+         * Disables cache compression.
+         * @return object refrence
+         */
+        public function disableCompression() {
+            $this->compression = 0;
+
+            return $this;
+        }
+
+        /**
+         * Injects the Memcache dependency.
+         * Initializes the class properties.
+         * @param \Memcache $Memcache the Memcache dependency
+         * @return void
+         */
+        public function __construct(\Memcache $Memcache) {
+            $this->_Memcache       = $Memcache;
+            $this->compression     = 0;
+        }
+
+        /**
+        * Returns the cached content from the matching dentifier.
+        * @param string $identifier the identifier to retrieve the content from
+        * @return mixed the cached content
+        */
         public function get($identifier) {
             TypeValidator::IsStringAndNotEmpty($identifier);
 
-            return apc_fetch($identifier);
+            return $this->Memcache()->get($identifier);
         }
 
         /**
@@ -61,47 +114,47 @@
          * @param string $identifier the identifier which should hold the content
          * @param mixed $content the content which should be cached
          * @param integer $lifetime the lifetime in seconds of the cached content
-         * @return mixed the cache provider result
+         * @return boolean the Memcache result value, true for success false otherwise
          */
         public function set($identifier, $content, $lifetime = 60) {
             TypeValidator::IsStringAndNotEmpty($identifier);
             TypeValidator::IsInteger($lifetime);
 
-            return apc_store($identifier, $content, $lifetime);
+            return $this->Memcache()->set($identifier, $content, $this->compression, $lifetime);
         }
 
         /**
          * Deletes the identifier and cached content.
          * @param string $identifier the identifer to remove
-         * @return mixed the cache provider result
+         * @return boolean the Memcache result value, true for success false otherwise
          */
         public function delete($identifier) {
             TypeValidator::IsStringAndNotEmpty($identifier);
 
-            return apc_delete($identifier);
+            return $this->Memcache()->delete($identifier);
         }
 
         /**
          * Flushes the cached values by removing (or flag as removed) any content holded.
-         * @return mixed the cache provider result
+         * @return boolean the Memcache result value, true for success false otherwise
          */
         public function flush() {
-            return apc_clear_cache('user');
+            return $this->Memcache()->flush();
         }
 
         /**
-         * Magic function to call other APC functions not implemented.
+         * Magic function to call other Memcache methods not implemented.
          * @param string $method the method called
          * @param array $arguments the arguments passed
          * @throws BadMethodCallException if the method is not defined
-         * @return mixed APC method result
+         * @return mixed Memcache method result
          */
         public function __call($method, array $arguments) {
-            if ((substr($method, 0, 4) != 'apc_') || (! function_exists($method))) {
-                throw new \BadMethodCallException(sprintf('The APC method `%s` is not defined.', $method));
+            if (! method_exists($this->Memcache(), $method)) {
+                throw new \BadMethodCallException(sprintf('The Memcache method `%s` is not defined.', $method));
             }
 
-            return call_user_func_array($method, $arguments);
+            return call_user_func_array(array($this->Memcache(), $method), $arguments);
         }
 
     }

@@ -36,14 +36,14 @@
         Brickoo\Validator\TypeValidator;
 
     /**
-     * FileProvider
+     * File
      *
      * Provides caching operations based on the Fileystem.
      * Uses the System\FileObject dependecy to handle the file operations.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class FileProvider implements Interfaces\Provider {
+    class File implements Interfaces\Provider {
 
         /**
          * Holds the lifetime format used for storing the expiration.
@@ -69,7 +69,7 @@
          * @param string $interface the interface which has to be implemented by the dependency
          * @param callback $callback the callback to create a new dependency
          * @param object $Dependency the dependecy to inject
-         * @return object FileProvider if overwritten otherwise the dependency
+         * @return object File if overwritten otherwise the dependency
          */
         protected function getDependency($name, $interface, $callback, $Dependency = null) {
             if ($Dependency instanceof $interface) {
@@ -115,7 +115,7 @@
          * Sets the file prefix which does match([\w]+).
          * @param string $filePrefix the file rpefix to use
          * @throws UnexpectedValueException if the file prefix does not match the regular expression
-         * @return \Brickoo\Cache\Provider\FileProvider
+         * @return \Brickoo\Cache\Provider\File
          */
         public function setFilePrefix($filePrefix) {
             TypeValidator::IsStringAndNotEmpty($filePrefix);
@@ -151,7 +151,7 @@
         /**
          * Sets the directory to use for caching.
          * @param strig $directory the directory to use for caching
-         * @return \Brickoo\Cache\Provider\FileProvider
+         * @return \Brickoo\Cache\Provider\File
          */
         public function setDirectory($directory) {
             TypeValidator::IsStringAndNotEmpty($directory);

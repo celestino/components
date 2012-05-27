@@ -30,53 +30,66 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Cache\Provider;
+    use Brickoo\Cache\Provider\Null;
+
+    // require PHPUnit Autoloader
+    require_once ('PHPUnit/Autoload.php');
 
     /**
-     * NullProvider
+     * NullTest
      *
-     * Does not do anything.
-     * This can be used if the backend cache is not need.
+     * Test suite for the Null class.
+     * Some of the test cases are using the PHP temporary directory for the cache files.
+     * @see Brickoo\Cache\Provider\File
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class NullProvider implements Interfaces\Provider {
+    class NullProviderTest extends \PHPUnit_Framework_TestCase {
 
         /**
-        * Returns boolean false like the content is not available.
-        * @param string $identifier the identifier to retrieve the content from
-        * @return boolean false
-        */
-        public function get($identifier) {
-            return false;
+         * Holds an instance of the Null class.
+         * @var Null
+         */
+        protected $Null;
+
+        /**
+         * Set up the Null object used.
+         * @return void
+         */
+        protected function setUp() {
+            $this->Null = new Null();
         }
 
         /**
-         * Returns boolean true like the content did be cached.
-         * @param string $identifier the identifier which should hold the content
-         * @param mixed $content the content which should be cached
-         * @param integer $lifetime the lifetime in seconds of the cached content
-         * @return boolean true
+         * Test if the Null returns always false.
+         * @covers Brickoo\Cache\Provider\Null::get
          */
-        public function set($identifier, $content, $lifetime) {
-            return true;
+        public function testGet() {
+            $this->assertFalse($this->Null->get('whatever'));
         }
 
         /**
-         * Returns boolean true like the identifier and its cached content did be deleted.
-         * @param string $identifier the identifer to remove
-         * @return boolean true
+         * Test if the Null returns always true.
+         * @covers Brickoo\Cache\Provider\Null::set
          */
-        public function delete($identifier) {
-            return true;
+        public function testSet() {
+            $this->assertTrue($this->Null->set('whatever', 'non cached content', 60));
         }
 
         /**
-         * Returns boolean true like the cache content did be flushed.
-         * @return boolean true
+         * Test if the Null returns always true.
+         * @covers Brickoo\Cache\Provider\Null::delete
          */
-        public function flush() {
-            return true;
+        public function testDelete() {
+            $this->assertTrue($this->Null->delete('whatever'));
+        }
+
+        /**
+         * Test if the Null returns always true.
+         * @covers Brickoo\Cache\Provider\Null::flush
+         */
+        public function testFlush() {
+            $this->assertTrue($this->Null->flush());
         }
 
     }

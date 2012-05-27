@@ -39,7 +39,7 @@
      * CacheHandler
      *
      * Handles the session operations with an Manager instance.
-     * The dedault Manager used has a FileProvider injected which will save the sessions
+     * The dedault Manager used has a File injected which will save the sessions
      * to the default PHP temporary directory.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
@@ -78,7 +78,7 @@
         }
 
         /**
-         * Lazy initialization of the Manager dependency with the default FileProvider.
+         * Lazy initialization of the Manager dependency with the default File.
          * @param \Brickoo\Cache\Interfaces\Manager $Manager the Manager depedency
          * @return \Brickoo\Cache\Interfaces\Manager
          */
@@ -86,7 +86,7 @@
             return $this->getDependency(
                 'Manager',
                 '\Brickoo\Cache\Interfaces\Manager',
-                function(){return new Cache\Manager(new Cache\Provider\FileProvider());},
+                function(){return new Cache\Manager(new Cache\Provider\File());},
                 $Manager
             );
         }

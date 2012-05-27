@@ -55,7 +55,7 @@
             (
                 'Brickoo\Cache\Manager',
                 (empty($methods) ? null : array_values($methods)),
-                array($this->getMock('Brickoo\Cache\Provider\FileProvider'))
+                array($this->getMock('Brickoo\Cache\Provider\File'))
             );
         }
 

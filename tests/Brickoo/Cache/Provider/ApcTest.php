@@ -30,29 +30,29 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    use Brickoo\Cache\Provider\ApcProvider;
+    use Brickoo\Cache\Provider\Apc;
 
     // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
-     * ApcProviderTest
+     * ApcTest
      *
-     * Test suite for the ApcProvider class.
-     * @see Brickoo\Cache\Provider\ApcProvider
+     * Test suite for the Apc class.
+     * @see Brickoo\Cache\Provider\Apc
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ApcProviderTest extends \PHPUnit_Framework_TestCase {
+    class ApcTest extends \PHPUnit_Framework_TestCase {
 
         /**
-         * Holds an instance of the ApcProvider class.
-         * @var ApcProvider
+         * Holds an instance of the Apc class.
+         * @var Apc
          */
-        protected $ApcProvider;
+        protected $Apc;
 
         /**
-         * Set up the ApcProvider object used.
+         * Set up the Apc object used.
          * @return void
          */
         protected function setUp() {
@@ -64,86 +64,86 @@
                 $this->markTestSkipped('The apc extension is not available.');
             }
 
-            $this->ApcProvider = new ApcProvider();
+            $this->Apc = new Apc();
         }
 
         /**
          * Test if a content can be set to the Apc and the result is returned.
-         * @covers Brickoo\Cache\Provider\ApcProvider::set
+         * @covers Brickoo\Cache\Provider\Apc::set
          */
         public function testSet() {
-            $this->assertTrue($this->ApcProvider->set('some_identifier', 'some cached content', 3600));
+            $this->assertTrue($this->Apc->set('some_identifier', 'some cached content', 3600));
         }
 
         /**
          * Test if trying to use a wrong argument type throws an exception
-         * @covers Brickoo\Cache\Provider\ApcProvider::set
+         * @covers Brickoo\Cache\Provider\Apc::set
          * @expectedException InvalidArgumentException
          */
         public function testSetArgumentException() {
-            $this->ApcProvider->set(array('wrongType'), 'whatever', array('wrongType'));
+            $this->Apc->set(array('wrongType'), 'whatever', array('wrongType'));
         }
 
         /**
          * Test if a content can be retrieved from the APC.
-         * @covers Brickoo\Cache\Provider\ApcProvider::get
+         * @covers Brickoo\Cache\Provider\Apc::get
          * @depends testSet
          */
         public function testGet() {
-            $this->assertEquals('some cached content', $this->ApcProvider->get('some_identifier'));
+            $this->assertEquals('some cached content', $this->Apc->get('some_identifier'));
         }
 
         /**
          * Test if trying to use a wrong argument type throws an exception
-         * @covers Brickoo\Cache\Provider\ApcProvider::get
+         * @covers Brickoo\Cache\Provider\Apc::get
          * @expectedException InvalidArgumentException
          */
         public function testGetArgumentException() {
-            $this->ApcProvider->get(array('wrongType'));
+            $this->Apc->get(array('wrongType'));
         }
 
         /**
          * Test if a cached content can be delete by its identifier and the result is returned.
-         * @covers Brickoo\Cache\Provider\ApcProvider::delete
+         * @covers Brickoo\Cache\Provider\Apc::delete
          * @depends testSet
          */
         public function testDelete() {
-            $this->assertTrue($this->ApcProvider->delete('some_identifier'));
+            $this->assertTrue($this->Apc->delete('some_identifier'));
         }
 
         /**
          * Test if trying to use a wrong argument type throws an exception
-         * @covers Brickoo\Cache\Provider\ApcProvider::delete
+         * @covers Brickoo\Cache\Provider\Apc::delete
          * @expectedException InvalidArgumentException
          */
         public function testDeleteArgumentException() {
-            $this->ApcProvider->delete(array('wrongType'));
+            $this->Apc->delete(array('wrongType'));
         }
 
         /**
          * Test if a cached content can be flushed and the result is returned.
-         * @covers Brickoo\Cache\Provider\ApcProvider::flush
+         * @covers Brickoo\Cache\Provider\Apc::flush
          */
         public function testFlush() {
-            $this->assertTrue($this->ApcProvider->flush());
+            $this->assertTrue($this->Apc->flush());
         }
 
         /**
          * Test if a APC method not implemented can be called and the result is returned.
-         * @covers Brickoo\Cache\Provider\ApcProvider::__call
+         * @covers Brickoo\Cache\Provider\Apc::__call
          */
         public function test__call() {
-            $this->assertTrue($this->ApcProvider->apc_add('some_identifier', 'some other content', 3600));
-            $this->assertEquals('some other content', $this->ApcProvider->get('some_identifier'));
+            $this->assertTrue($this->Apc->apc_add('some_identifier', 'some other content', 3600));
+            $this->assertEquals('some other content', $this->Apc->get('some_identifier'));
         }
 
         /**
          * Test if trying to call a not available APC function throws an exception
-         * @covers Brickoo\Cache\Provider\ApcProvider::__call
+         * @covers Brickoo\Cache\Provider\Apc::__call
          * @expectedException BadMethodCallException
          */
         public function test__callBadMethodCallException() {
-            $this->ApcProvider->whatever();
+            $this->Apc->whatever();
         }
 
     }
