@@ -132,6 +132,16 @@
         }
 
         /**
+         * Unregister the ErrorHandler on destruction.
+         * @return void
+         */
+        public function __destruct() {
+            if ($this->isRegistered()) {
+                $this->unregister();
+            }
+        }
+
+        /**
          * Handles the error reported by the user or system.
          * Notifies a log event containing the exception message.
          * @param integer $errorCode the error code number

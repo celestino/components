@@ -109,6 +109,16 @@
         }
 
         /**
+         * Unregister the ExceptionHandler on destruction.
+         * @return void
+         */
+        public function __destruct() {
+            if ($this->isRegistered()) {
+                $this->unregister();
+            }
+        }
+
+        /**
          * Returns the exception message created by the exception content.
          * @param Exception $Exception the Exception throwed
          * @return string the exception message

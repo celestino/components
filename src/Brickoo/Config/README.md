@@ -1,5 +1,5 @@
 ##Configuration
-The configuration is a object to load and store configuration data from and/or to a resource.
+The configuration is an object to load and store configuration data from and to a resource.
 Using the `Brickoo\Config\Interfaces\Provider` interface an own implementation with a different behaviour, 
 like loading from a database, could be done.
 

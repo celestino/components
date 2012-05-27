@@ -119,6 +119,7 @@
         public function testRegisterDuplicateRegistrationException() {
             $this->ErrorHandler->register();
             $this->ErrorHandler->register();
+            $this->ErrorHandler->unregister();
         }
 
         /**
@@ -161,6 +162,16 @@
         public function testHandleErrorException() {
             $this->ErrorHandler->setErrorLevel(777);
             $this->ErrorHandler->handleError(777, 'message', 'file', 0);
+        }
+
+        /**
+         * Test if destructing the instance does unregister.
+         * @covers Brickoo\Error\ErrorHandler::__destruct
+         */
+        public function testDestructorUnregister() {
+            $this->ErrorHandler->register();
+            $this->ErrorHandler->__destruct();
+            $this->assertAttributeEquals(false, 'isRegistered', $this->ErrorHandler);
         }
 
     }

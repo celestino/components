@@ -149,4 +149,14 @@
             );
         }
 
+        /**
+         * Test if destructing the instance does unregister.
+         * @covers Brickoo\Error\ExceptionHandler::__destruct
+         */
+        public function testDestructorUnregister() {
+            $this->ExceptionHandler->register();
+            $this->ExceptionHandler->__destruct();
+            $this->assertAttributeEquals(false, 'isRegistered', $this->ExceptionHandler);
+        }
+
     }
