@@ -45,30 +45,30 @@
          * Asks for a cached content.
          * @var string
          */
-        const CACHE_GET            = 'cache.get';
+        const GET            = 'cache.get';
 
         /**
          * Notifies that the content could be cached.
          * @var string
          */
-        const CACHE_SET            = 'cache.set';
+        const SET            = 'cache.set';
 
         /**
          * Asks for a cached content otherwise a caback should be executed.
          * @var string
          */
-        const CACHE_CALLBACK       = 'cache.callback';
+        const CALLBACK       = 'cache.callback';
 
         /**
          * Notifies that a cached content has to be deleted.
          * @var string
          */
-        const CACHE_DELETE         = 'cache.delete';
+        const DELETE         = 'cache.delete';
 
         /**
          * Notifies that all cached content has to be flushed.
          * @var string
          */
-        const CACHE_FLUSH          = 'cache.flush';
+        const FLUSH          = 'cache.flush';
 
     }

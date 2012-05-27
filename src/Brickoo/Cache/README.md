@@ -29,7 +29,8 @@ The cache manager has also a special method `getByCallback` to do a callback *be
         60
     );
 
-The cache component also provides a `Listener` to register caching events to the specific `Cache\Manager`. The `Cache\Events` provides mapping event keys to the available `Cache\Manager` available methods.
+The cache component also provides a `Listener` to register caching events to the specific `Cache\Manager`. 
+The `Cache\Events` provides mapping event keys to the available `Cache\Manager` methods.
 
     use Brickoo\Event;
 
