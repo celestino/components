@@ -20,13 +20,13 @@ Each registered *Listener* is registered under an unique identifier to provide t
     $EventManager->detachListener($listenerUID);
 
 
-The `Event\Manager` also provides a static method `Instance()` to retrieve a singleton from any place. 
-This should not be used, but sometimes needed to trigger an `Event` without having the `Event\Manager` as dependency.
+The `Event\Manager` also provides a static method `Instance()` to retrieve a singleton from anywhere. 
+This should not be used, but sometimes needed to  trigger an `Event` without having the `Event\Manager` as dependency.
 
     Event\Manager::Instance()->notify(new Event\Event('my.event.id));
 
 
-If conditions have to match *before* the *Listener* is called, the must have parameters and a callback can be specified. 
+If conditions have to match *before* the *Listener* is called, conditions can be specified. 
 Here explained shortly the arguments of a more complex listener registration.
 
     Event\Manager::Instance()->attachListener(

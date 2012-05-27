@@ -1,4 +1,4 @@
-##Cache Handling
+##Caching
 This component provides functionality for caching operations. The `Cache\Manager`, as the main component, does use a provider dependency as the endpoint for the operations.
 Using the included or own defined providers the behaviour and storage engines can be changed.
 To define your own provider you just need to implement the `Brickoo\Cache\Provider\Interfaces\Provider` interface.

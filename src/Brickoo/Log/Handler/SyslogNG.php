@@ -37,7 +37,8 @@
     /**
      * SyslogNG
      *
-     * This class implements the syslog-ng log interface.
+     * This class implements the syslog-ng log interface
+     * and can be used to log to a common syslog server.
      * @link http://tools.ietf.org/html/rfc3164
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
@@ -45,7 +46,7 @@
     class SyslogNG implements Interfaces\Handler {
 
         /**
-         * Declaration oo facility constants.
+         * Declaration of facility constants.
          * @var integer
          */
         const FACILITY_KERNEL            = 0; // kernel messages
@@ -74,7 +75,7 @@
         const FACILITY_USER_7            = 23; // local use 7 (local7)
 
         /**
-         * Decalration of the severity constants.
+         * Declaration of the severity constants.
          * @var integer
          */
         const SEVERITY_EMERGENCY        = 0; // Emergency: system is unusable
@@ -330,6 +331,5 @@
 
             return $this;
         }
-
 
 	}

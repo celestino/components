@@ -38,7 +38,7 @@ Each provider implements the `toString(array $configuration)` method to convert 
             array('countries' => array('USA', 'Germany'))
         )
     );
-    $iniContent = $Configuration->toString($myConfig);
+    $iniContent = $IniProvider->toString($myConfig);
 
 This configuration will return this `string`:
     

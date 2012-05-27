@@ -1,4 +1,4 @@
-##Error Handler
+##Error Handling
 This component includes the `ErrorHandler` and `ExceptionsHandler` which are used to handle any kind of errors. 
 By default the `ErrorHandler` and `ExceptionHandler` do only trigger the event `Brickoo\Log\Event::LOG` to notify 
 that an error or exception occured which could/should be logged. 
@@ -42,5 +42,5 @@ Setting the `displayExceptions` property does not affect the log event execution
 
 
 ###Notes
-The default setting of the `ExceptionHandler` is to not display exceptions.
+The default behaviour of the `ExceptionHandler` is to not display exceptions.
 This should be changed while in development mode to avoid unexpected behaviours.
