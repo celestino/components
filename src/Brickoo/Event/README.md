@@ -61,8 +61,8 @@ Here explained shortly the arguments of a more complex listener registration.
 
 ###Notes
 The `Event\Manager` *knows* three kind of notifications. 
-The `notify()` notification is used to call all *Listener* for an event identifier, a response is not expected.
-The `notifyOnce()` notification if only the *Listener* with the highest priority should be called, a response is not expected.
+The `notify()` notification is used to call all *Listeners* of an event, a response is not expected.
+The `notifyOnce()` notification, only the *Listener* with the highest priority should be called, a response is not expected.
 The `ask()` notification is used if a response is expected. 
 The *Listeners* are called from high to low priority, the first which does not return `null` stops the process and his response is returned. 
-This can be used for example caching and filter notifications.
+This can be used for example by caching and filter notifications.

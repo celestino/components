@@ -146,7 +146,7 @@
 
         /**
          * Test if a string can be logged through the Event method.
-         * @covers Brickoo\Log\Logger::logEvent
+         * @covers Brickoo\Log\Logger::handleEvent
          */
         public function testLogEvent() {
             $valueMap = array(
@@ -164,12 +164,12 @@
                   ->method('getParam')
                   ->will($this->returnValueMap($valueMap));
 
-            $this->assertNull($this->Logger->logEvent($Event));
+            $this->assertNull($this->Logger->handleEvent($Event));
         }
 
         /**
          * Test if the event does not have messages the logging is canceled.
-         * @covers Brickoo\Log\Logger::logEvent
+         * @covers Brickoo\Log\Logger::handleEvent
          */
         public function testLogEventNullMessages() {
             $Event = $this->getMock('Brickoo\Event\Event', array('getParam'), array('log.event'));
@@ -178,12 +178,12 @@
                   ->with('messages')
                   ->will($this->returnValue(null));
 
-            $this->assertNull($this->Logger->logEvent($Event));
+            $this->assertNull($this->Logger->handleEvent($Event));
         }
 
         /**
          * Test if the severity is not available as event parameters the Logger default is taken.
-         * @covers Brickoo\Log\Logger::logEvent
+         * @covers Brickoo\Log\Logger::handleEvent
          */
         public function testLogEventNullSeverity() {
             $valueMap = array(
@@ -201,7 +201,7 @@
                   ->method('getParam')
                   ->will($this->returnValueMap($valueMap));
 
-            $this->assertNull($this->Logger->logEvent($Event));
+            $this->assertNull($this->Logger->handleEvent($Event));
         }
 
         /**

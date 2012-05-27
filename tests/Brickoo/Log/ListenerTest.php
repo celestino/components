@@ -79,7 +79,7 @@
             $EventManager = $this->getMock('Brickoo\Event\Manager', array('attachListener'));
             $EventManager->expects($this->once())
                          ->method('attachListener')
-                         ->with(\Brickoo\Log\Events::LOG, array($Logger, 'logEvent'), $priority)
+                         ->with(\Brickoo\Log\Events::LOG, array($Logger, 'handleEvent'), $priority)
                          ->will($this->returnSelf());
 
             $Listener = new Listener($Logger, $priority);

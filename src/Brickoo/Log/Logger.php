@@ -138,7 +138,7 @@
          * @param \Brickoo\Event\Interfaces\Event $Event the event executed
          * @return void
          */
-        public function logEvent(\Brickoo\Event\Interfaces\Event $Event) {
+        public function handleEvent(\Brickoo\Event\Interfaces\Event $Event) {
             if (($messages = $Event->getParam('messages')) === null) {
                 return null;
             }
