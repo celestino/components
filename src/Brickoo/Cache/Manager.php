@@ -167,13 +167,17 @@
          */
         public function getByCallback($identifier, $callback, array $arguments, $lifetime) {
             TypeValidator::IsStringAndNotEmpty($identifier);
+            TypeValidator::IsCallable($callback);
             TypeValidator::IsInteger($lifetime);
 
-            if (! $cacheContent = $this->get($identifier)) {
-                $this->set($identifier, ($cacheContent = call_user_func_array($callback, $arguments)), $lifetime);
+            if ($cachedContent = call_user_func_array($callback, $arguments)) {
+                $this->LocalCache()->set($identifier, $cachedContent);
+            }
+            else {
+                $cachedContent = $this->get($identifier);
             }
 
-            return $cacheContent;
+            return $cachedContent;
         }
 
         /**

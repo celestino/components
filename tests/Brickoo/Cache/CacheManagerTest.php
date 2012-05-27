@@ -343,28 +343,45 @@
          * @covers Brickoo\Cache\Manager::getByCallback
          */
         public function testGetCacheCallback() {
-            $LocalCacheStub = $this->getLocalCacheStub(array('has', 'set'));
-            $LocalCacheStub->expects($this->once())
-                           ->method('has')
-                           ->will($this->returnValue(false));
-            $LocalCacheStub->expects($this->once())
+            $LocalCacheMock = $this->getLocalCacheStub(array('set'));
+            $LocalCacheMock->expects($this->once())
                            ->method('set')
-                           ->will($this->returnSelf());
+                           ->with('unique_identifier', 'callback content');
 
-            $CacheProviderStub = $this->Manager->CacheProvider();
-            $CacheProviderStub->expects($this->once())
-                              ->method('get')
-                              ->will($this->returnValue(false));
-            $CacheProviderStub->expects($this->once())
-                             ->method('set')
-                             ->will($this->returnSelf());
-
-            $this->Manager->LocalCache($LocalCacheStub);
+            $this->Manager->LocalCache($LocalCacheMock);
 
             $this->assertEquals
             (
                 'callback content',
                 $this->Manager->getByCallback('unique_identifier', array($this, 'callback'), array(), 60)
+            );
+        }
+
+        /**
+         * Test if the callback does not return a value the standard get is called.
+         * @covers Brickoo\Cache\Manager::getByCallback
+         */
+        public function testGetFallbackForTheCallback() {
+            $LocalCacheMock = $this->getLocalCacheStub(array('has', 'set'));
+            $LocalCacheMock->expects($this->once())
+                           ->method('has')
+                           ->with('unique_identifier')
+                           ->will($this->returnValue(false));
+            $LocalCacheMock->expects($this->once())
+                           ->method('set')
+                           ->with('unique_identifier', 'fallback content');
+
+            $CacheProviderStub = $this->Manager->CacheProvider();
+            $CacheProviderStub->expects($this->once())
+                              ->method('get')
+                              ->will($this->returnValue('fallback content'));
+
+            $this->Manager->LocalCache($LocalCacheMock);
+
+            $this->assertEquals
+            (
+                'fallback content',
+                $this->Manager->getByCallback('unique_identifier', array($this, 'callbackNotFound'), array(), 60)
             );
         }
 
@@ -388,10 +405,18 @@
 
         /**
          * Helper method for the testGetCacheCallback.
-         * @returns string the callback response
+         * @return string the callback response
          */
         public function callback() {
             return 'callback content';
+        }
+
+        /**
+         * Helper method for the testGetFallbackForTheCallback.
+         * @return null
+         */
+        public function callbackNotFound() {
+            return;
         }
 
     }
