@@ -30,19 +30,11 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
+    namespace Tests\Brickoo\Http\Component;
+
     use Brickoo\Http\Component\Headers;
 
-    // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
-
-    /**
-     * Fixture for the apache function.
-     * @return array sample header values
-     *
-     */
-    function apache_request_headers() {
-        return array('Apache-Header' => 'APACHE');
-    }
 
     /**
      * HeadersTest
@@ -251,6 +243,7 @@
          * @covers Brickoo\Http\Component\Headers::normalizeHeaders
          */
         public function testImportFromGlobals() {
+            require_once ('Fixture/Functions.php');
             $expectedHeaders = array
             (
                 'Unittest'        => 'yes',
@@ -268,6 +261,7 @@
          * @covers Brickoo\Http\Component\Headers::getRequestHeaders
          */
         public function testGetRequestHeaders() {
+            require_once ('Fixture/Functions.php');
             $expectedHeaders = array
             (
                 'UNITTEST'        => 'yes',

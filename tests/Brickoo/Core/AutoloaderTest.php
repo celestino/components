@@ -30,9 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
+    namespace Tests\Brickoo\Core;
+
     use Brickoo\Core\Autoloader;
 
-    // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
@@ -41,7 +42,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class AutoloaderTest extends PHPUnit_Framework_TestCase {
+    class AutoloaderTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Holds the Autoloader  object.

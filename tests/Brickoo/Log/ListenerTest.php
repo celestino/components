@@ -30,10 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
+    namespace Tests\Brickoo\Log;
+
     use Brickoo\Log\Listener;
 
-
-    // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
@@ -44,7 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class LogListenerTest extends PHPUnit_Framework_TestCase {
+    class LogListenerTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Test if the class properties are set.

@@ -30,9 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
+    namespace Tests\Brickoo\Memory;
+
     use Brickoo\Memory\Locker;
 
-    // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
@@ -43,7 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class LockerTest extends PHPUnit_Framework_TestCase {
+    class LockerTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance of the LockerTestable class.

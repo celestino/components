@@ -30,10 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
+    namespace Tests\Brickoo\Log;
+
     use Brickoo\Log\Logger;
 
-
-    // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
@@ -44,7 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class LoggerTest extends PHPUnit_Framework_TestCase {
+    class LoggerTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Returns an LogHandler Stub for testing the logging of messages.

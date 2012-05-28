@@ -30,9 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
+    namespace Tests\Brickoo\Event;
+
     use Brickoo\Event\Manager;
 
-    // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
@@ -73,7 +74,7 @@
          */
         public function testStaticInstanceInjection() {
             require_once 'Fixture/EventManagerFixture.php';
-            $EventManager = new EventManagerFixture();
+            $EventManager = new Fixture\EventManagerFixture();
             $EventManager->resetInstance();
 
             $ExpectedManager = new Manager();
@@ -90,7 +91,7 @@
          */
         public function testStaticInstanceLazyInitialization() {
             require_once 'Fixture/EventManagerFixture.php';
-            $EventManager = new EventManagerFixture();
+            $EventManager = new Fixture\EventManagerFixture();
             $EventManager->resetInstance();
 
             $this->assertInstanceOf('Brickoo\Event\Interfaces\Manager', Manager::Instance());

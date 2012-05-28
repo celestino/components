@@ -30,9 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
+    namespace Tests\Brickoo\Routing;
+
     use Brickoo\Routing\Route;
 
-    // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
@@ -43,7 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class RouteTest extends PHPUnit_Framework_TestCase {
+    class RouteTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance of the Route class.

@@ -30,9 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
+    namespace Tests\Brickoo\Memory;
+
     use Brickoo\Memory\Repository;
 
-    // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
@@ -43,7 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-     class RepositoryTest extends PHPUnit_Framework_TestCase {
+     class RepositoryTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance of the Repository class.
@@ -204,11 +205,11 @@
          * @covers Brickoo\Memory\Repository::getRecursiveCommit
          */
         public function testCommit() {
-            $this->assertSame($this->Repository, $this->Repository->commit(array(array('name' => 'brickoo', array(), new stdClass()))));
+            $this->assertSame($this->Repository, $this->Repository->commit(array(array('name' => 'brickoo', array(), new \stdClass()))));
             $this->assertSame($this->Repository, $this->Repository->commit(array('name' => 'brickoo')));
             $this->assertSame($this->Repository, $this->Repository->commit('brickoo'));
             $this->assertSame($this->Repository, $this->Repository->commit(true));
-            $this->assertSame($this->Repository, $this->Repository->commit(new stdClass()));
+            $this->assertSame($this->Repository, $this->Repository->commit(new \stdClass()));
         }
 
         /**

@@ -30,9 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
+    namespace Tests\Brickoo\Memory;
+
     use Brickoo\Memory\Registry;
 
-    // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
@@ -43,7 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class RegistryTest extends PHPUnit_Framework_TestCase {
+    class RegistryTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance of the Registry class.
