@@ -46,18 +46,18 @@
          * required dependencies, services, configuration, etc have to be initaliazed now.
          * @var string
          */
-        const MODULE_BOOT = 'module.boot';
+        const BOOT = 'module.boot';
 
         /**
          * Notifies that an error occured while processing the module.
          * @var string
          */
-        const MODULE_ERROR = 'module.error';
+        const ERROR = 'module.error';
 
         /**
          * Notifies that the module may shutdown.
          * @var string
          */
-        const MODULE_SHUTDOWN = 'module.shutdown';
+        const SHUTDOWN = 'module.shutdown';
 
     }

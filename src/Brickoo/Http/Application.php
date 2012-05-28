@@ -110,7 +110,7 @@
 
                 );
                 $EventManager->attachListener(
-                    Module\Events::MODULE_ERROR, array($this, 'displayModuleError'), 0, array('Exception')
+                    Module\Events::ERROR, array($this, 'displayModuleError'), 0, array('Exception')
                 );
                 $EventManager->attachListener(
                     Core\Events::ERROR, array($this, 'displayError'), 0, array('Exception')
@@ -186,7 +186,7 @@
                 $RouteController = $RequestRoute->getModuleRoute()->getController();
 
                 $Event->EventManager()->notify(new Event\Event(
-                    Module\Events::MODULE_BOOT, $Event->Sender(), array(
+                    Module\Events::BOOT, $Event->Sender(), array(
                         'controller' => $RouteController['controller'],
                         'method'     => $RouteController['method']
                     )
@@ -203,11 +203,11 @@
                     );
                 }
 
-                $Event->EventManager()->notify(new Event\Event(Module\Events::MODULE_SHUTDOWN, $Event->Sender()));
+                $Event->EventManager()->notify(new Event\Event(Module\Events::SHUTDOWN, $Event->Sender()));
             }
             catch (\Exception $Exception) {
                 $Response = $Event->EventManager()->ask(new Event\Event(
-                    Module\Events::MODULE_ERROR, $Event->Sender(), array('Exception' => $Exception)
+                    Module\Events::ERROR, $Event->Sender(), array('Exception' => $Exception)
                 ));
             }
 
