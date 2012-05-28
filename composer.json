@@ -1,0 +1,22 @@
+{
+    "name": "brickoo/brickoo",
+    "type": "library",
+    "description": "BrickOO PHP framework",
+    "keywords": ["framework"],
+    "homepage": "https://github.com/brickoo/brickoo",
+    "license": "BSD",
+    "authors": [
+        {
+            "name": "Celestino Diaz",
+            "email": "celestino.diaz@gmx.de"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2"
+    },
+    "autoload": {
+        "psr-0": {
+            "Brickoo": "src/"
+        }
+    }
+}
