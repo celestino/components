@@ -30,10 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
+    namespace Tests\Brickoo\Event;
+
     use Brickoo\Event\Event;
 
-
-    // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
@@ -44,7 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class EventTest extends PHPUnit_Framework_TestCase {
+    class EventTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance of the Event class.
@@ -57,7 +57,7 @@
          * @return void
          */
         protected function setUp() {
-            $this->Event = new Event('test', new stdClass(), array('key' => 'value'));
+            $this->Event = new Event('test', new \stdClass(), array('key' => 'value'));
         }
 
         /**
@@ -66,7 +66,7 @@
          * @covers Brickoo\Event\Event::__construct
          */
         public function testConstruct() {
-            $Event = new Event('unittest', ($obj = new stdClass()), array('key' => 'value'));
+            $Event = new Event('unittest', ($obj = new \stdClass()), array('key' => 'value'));
             $this->assertInstanceOf('Brickoo\Event\Event', $Event);
             $this->assertAttributeEquals('unittest', 'name', $Event);
             $this->assertAttributeSame($obj, 'Sender', $Event);

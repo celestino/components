@@ -30,9 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
+    namespace Tests\Brickoo\Validator;
+
     use Brickoo\Validator\TypeValidator;
 
-    // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
@@ -42,7 +43,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class TypeValidatorTest extends PHPUnit_Framework_TestCase {
+    class TypeValidatorTest extends \PHPUnit_Framework_TestCase {
 
         /**
         * Test if validation of the isString.
@@ -59,7 +60,7 @@
          * @expectedException InvalidArgumentException
          */
         public function testIsStringArgumentException() {
-            TypeValidator::IsString(new stdClass());
+            TypeValidator::IsString(new \stdClass());
         }
 
         /**
@@ -96,7 +97,7 @@
          * @expectedException InvalidArgumentException
          */
         public function testIsIntegerArgumentException() {
-            TypeValidator::IsInteger(new stdClass());
+            TypeValidator::IsInteger(new \stdClass());
         }
 
         /**
@@ -140,7 +141,7 @@
          * @covers Brickoo\Validator\TypeValidator::IsObject
          */
         public function testIsObject() {
-            $this->assertTrue(TypeValidator::IsObject(new stdClass()));
+            $this->assertTrue(TypeValidator::IsObject(new \stdClass()));
         }
 
         /**

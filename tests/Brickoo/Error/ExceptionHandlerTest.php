@@ -30,10 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
+    namespace Tests\Brickoo\Error;
+
     use Brickoo\Error\ExceptionHandler;
 
-
-    // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
@@ -44,7 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ExceptionHandlerTest extends PHPUnit_Framework_TestCase {
+    class ExceptionHandlerTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Holds the ExceptionHandler instance for the tests.
@@ -126,7 +126,7 @@
             $this->assertEquals
             (
                 '[123]: message Throwed in ' . __FILE__ . ' on line 129',
-                $this->ExceptionHandler->handleException(new Exception('message', 123))
+                $this->ExceptionHandler->handleException(new \Exception('message', 123))
             );
         }
 
@@ -144,7 +144,7 @@
             (
                 $this->ExceptionHandler->handleException
                 (
-                    new Brickoo\Error\Exceptions\ErrorHandlerException('some exception message')
+                    new \Brickoo\Error\Exceptions\ErrorHandlerException('some exception message')
                 )
             );
         }

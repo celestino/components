@@ -30,9 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
+    namespace Tests\Brickoo\Http\Session;
+
     use Brickoo\Http\Session\Manager;
 
-    // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
@@ -44,7 +45,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class SessionManagerTest extends PHPUnit_Framework_TestCase {
+    class SessionManagerTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Returns a SessionHandler stub implementig the Session\Interfaces\SessionHandler.

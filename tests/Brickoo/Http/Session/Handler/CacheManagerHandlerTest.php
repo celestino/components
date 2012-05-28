@@ -30,9 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
+    namespace Tests\Brickoo\Http\Session\Handler;
+
     use Brickoo\Http\Session\Handler\CacheHandler;
 
-    // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
@@ -43,7 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class CacheHandlerTest extends PHPUnit_Framework_TestCase {
+    class CacheHandlerTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Returns a Manager stub implementig the Cache\Interfaces\Manager.

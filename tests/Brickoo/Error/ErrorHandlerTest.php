@@ -30,10 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
+    namespace Tests\Brickoo\Error;
+
     use Brickoo\Error\ErrorHandler;
 
-
-    // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
@@ -44,7 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ErrorHandlerTest extends PHPUnit_Framework_TestCase {
+    class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Holds the ErrorHandler instance for the tests.

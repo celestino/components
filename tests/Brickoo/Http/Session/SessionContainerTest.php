@@ -30,9 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
+    namespace Tests\Brickoo\Http\Session;
+
     use Brickoo\Http\Session\Container;
 
-    // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
@@ -44,7 +45,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class SessionContainerTest extends PHPUnit_Framework_TestCase {
+    class SessionContainerTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance of the Container implementing the Session\Interfaces\Container.

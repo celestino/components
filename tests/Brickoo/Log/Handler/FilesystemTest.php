@@ -30,10 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
+    namespace Tests\Brickoo\Log\Handler;
+
     use Brickoo\Log\Handler\Filesystem;
 
-
-    // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
@@ -44,7 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class FilesystemTest extends PHPUnit_Framework_TestCase {
+    class FilesystemTest extends \PHPUnit_Framework_TestCase {
 
         /**
         * Holds an instance of the Filesystem object.
