@@ -30,9 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
+    namespace Tests\Brickoo\Module;
+
     use Brickoo\Module\Description;
 
-    // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**

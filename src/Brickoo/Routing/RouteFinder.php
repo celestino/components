@@ -106,28 +106,46 @@
         /**
          * Returns the request route parameters.
          * @param \Brickoo\Routing\Interfaces\Route $Route
-         * @param array $pathMatches the path matching fields
+         * @param array $pathMatches the request path matching fields
          * @return array the request route parameters
          */
         public function getRouteParameters(\Brickoo\Routing\Interfaces\Route $Route, array $pathMatches) {
             $routeParams = array();
 
             if ($Route->hasRules()) {
-                foreach(array_keys($Route->getRules()) as $parameter) {
-                    if (isset($pathMatches[$parameter]) && (! empty($pathMatches[$parameter]))) {
-                        $routeParams[$parameter] = $pathMatches[$parameter];
-                    }
-                    elseif ($Route->hasDefaultValue($parameter)) {
-                        $routeParams[$parameter] = $Route->getDefaultValue($parameter);
-                    }
-                }
+                $routeParams = $this->getRulesParamaters($Route, $pathMatches);
             }
 
             if (isset($pathMatches['__FORMAT__'])) {
                 $routeParams['format'] = $pathMatches['__FORMAT__'];
             }
+            else {
+                $routeParams['format'] = ($defaultFormat = $Route->getDefaultFormat()) !== null ?
+                $defaultFormat : $this->Request->getFormat();
+            }
 
             return $routeParams;
+        }
+
+        /**
+         * Returns the Route rules parameters.
+         * @param \Brickoo\Routing\Interfaces\Route $Route the Route to retrieve the rules from
+         * @param array $pathMatches the request path matching fields
+         * @return array the route rules parameters
+         */
+        public function getRulesParamaters(\Brickoo\Routing\Interfaces\Route $Route, array $pathMatches) {
+            $rulesParameters = array();
+
+            foreach(array_keys($Route->getRules()) as $parameter) {
+                if (isset($pathMatches[$parameter]) && (! empty($pathMatches[$parameter]))) {
+                    $rulesParameters[$parameter] = $pathMatches[$parameter];
+                }
+                elseif ($Route->hasDefaultValue($parameter)) {
+                    $rulesParameters[$parameter] = $Route->getDefaultValue($parameter);
+                }
+            }
+
+            return $rulesParameters;
         }
 
         /**
@@ -137,15 +155,8 @@
          * @return \Brickoo\Routing\RequestRoute
          */
         public function createRequestRoute(\Brickoo\Routing\Interfaces\Route $Route, array $pathMatches) {
-            $routeParams = $this->getRouteParameters($Route, $pathMatches);
-
-            if (! isset($routeParams['format'])) {
-                $routeParams['format'] = ($defaultFormat = $Route->getDefaultFormat()) !== null ?
-                $defaultFormat : $this->Request->getFormat();
-            }
-
             $RequestRoute = new RequestRoute($Route);
-            $RequestRoute->Params()->merge($routeParams);
+            $RequestRoute->Params()->fromArray($this->getRouteParameters($Route, $pathMatches));
 
             return $RequestRoute;
         }
@@ -172,7 +183,7 @@
          * @return string the regular expression of the route format
          */
         public function getRegexRouteFormat(\Brickoo\Routing\Interfaces\Route $Route) {
-            $formatRegex = '(\..*)?';
+            $formatRegex = '(\.[a-zA-Z0-9]+)?';
 
             if (($routeFormat = $Route->getFormat()) !== null) {
                 $formatRegex = '(\.(?<__FORMAT__>' . $routeFormat . '))?';

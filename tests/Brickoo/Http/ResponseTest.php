@@ -30,9 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
+    namespace Tests\Brickoo\Http;
+
     use Brickoo\Http\Response;
 
-    // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**

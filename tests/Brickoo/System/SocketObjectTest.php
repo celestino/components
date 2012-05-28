@@ -30,10 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
+    namespace Tests\Brickoo\System;
+
     use Brickoo\System\SocketObject;
 
-
-    // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
@@ -44,7 +44,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class SocketObjectTest extends PHPUnit_Framework_TestCase {
+    class SocketObjectTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Holds the SocketObject instance.

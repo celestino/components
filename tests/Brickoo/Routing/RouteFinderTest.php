@@ -30,9 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
+    namespace Tests\Brickoo\Routing;
+
     use Brickoo\Routing\RouteFinder;
 
-    // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
@@ -168,28 +169,24 @@
         }
 
         /**
-         * Test if the Route parameters can be retrieved.
-         * @covers Brickoo\Routing\RouteFinder::getRouteParameters
+         * Test if the Route rules parameters can be retrieved.
+         * @covers Brickoo\Routing\RouteFinder::getRulesParamaters
          */
-        public function testGetRouteParameters() {
+        public function testGetRulesParamaters() {
+            $pathMatches = array(
+                'parameter1'  => 'value 1',
+            );
+
             $rules = array(
                 'parameter1'  => '\\w',
                 'parameter2'  => '\\w'
             );
 
-            $pathMatches = array(
-                'parameter1'  => 'value1',
-                '__FORMAT__'  => 'xml'
-            );
-
             $Route = $this->getMock(
                 'Brickoo\Routing\Route',
-                array('hasRules', 'getRules', 'hasDefaultValue','getDefaultValue'),
+                array('hasDefaultValue', 'getRules', 'getDefaultValue'),
                 array('test.route')
             );
-            $Route->expects($this->once())
-                  ->method('hasRules')
-                  ->will($this->returnValue(true));
             $Route->expects($this->once())
                   ->method('getRules')
                   ->will($this->returnValue($rules));
@@ -199,16 +196,69 @@
             $Route->expects($this->once())
                   ->method('getDefaultValue')
                   ->with('parameter2')
-                  ->will($this->returnValue('value2'));
+                  ->will($this->returnValue('value 2'));
 
             $expected = array(
-                'parameter1'  => 'value1',
-                'parameter2'  => 'value2',
+                'parameter1'  => 'value 1',
+                'parameter2'  => 'value 2'
+            );
+
+            $RouteFinder = $this->getRouteFinder();
+            $this->assertEquals($expected, $RouteFinder->getRulesParamaters($Route, $pathMatches));
+        }
+
+        /**
+         * Test if the Route parameters can be retrieved containing a valid format.
+         * @covers Brickoo\Routing\RouteFinder::getRouteParameters
+         */
+        public function testGetRouteParameters() {
+            $pathMatches = array(
+                '__FORMAT__'  => 'xml'
+            );
+
+            $Route = $this->getMock(
+                'Brickoo\Routing\Route',
+                array('hasRules', 'getRules'),
+                array('test.route')
+            );
+            $Route->expects($this->once())
+                  ->method('hasRules')
+                  ->will($this->returnValue(true));
+            $Route->expects($this->once())
+                  ->method('getRules')
+                  ->will($this->returnValue(array()));
+
+            $expected = array(
                 'format'      => 'xml'
             );
 
             $RouteFinder = $this->getRouteFinder();
             $this->assertEquals($expected, $RouteFinder->getRouteParameters($Route, $pathMatches));
+        }
+
+        /**
+         * Test if the Route parameters can be retrieved and contains the standard format.
+         * @covers Brickoo\Routing\RouteFinder::getRouteParameters
+         */
+        public function testGetRouteParametersWithStandardFormat() {
+            $Route = $this->getMock(
+                'Brickoo\Routing\Route',
+                array('hasRules', 'getDefaultFormat'),
+                array('test.route')
+            );
+            $Route->expects($this->once())
+                  ->method('hasRules')
+                  ->will($this->returnValue(false));
+            $Route->expects($this->once())
+                  ->method('getDefaultFormat')
+                  ->will($this->returnValue('html'));
+
+            $expected = array(
+                'format'      => 'html'
+            );
+
+            $RouteFinder = $this->getRouteFinder();
+            $this->assertEquals($expected, $RouteFinder->getRouteParameters($Route, array()));
         }
 
         /**
@@ -353,7 +403,10 @@
                   ->will($this->onConsecutiveCalls('\w', '[0-9]'));
 
             $RouteFinder = new RouteFinder($RouteCollection, $Request, $Aliases);
-            $this->assertEquals('~^/(/(?<home>(\w)?))?/(?<page>[0-9])/ef7de3f485174ff47f061ad27d83d0ee(\..*)?$~i', $RouteFinder->getRegexFromRoutePath($Route));
+            $this->assertEquals(
+                '~^/(/(?<home>(\w)?))?/(?<page>[0-9])/ef7de3f485174ff47f061ad27d83d0ee(\.[a-zA-Z0-9]+)?$~i',
+                $RouteFinder->getRegexFromRoutePath($Route)
+            );
         }
 
     }

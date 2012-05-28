@@ -30,10 +30,10 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
+    namespace Tests\Brickoo\System;
+
     use Brickoo\System\FileObject;
 
-
-    // require PHPUnit Autoloader
     require_once ('PHPUnit/Autoload.php');
 
     /**
@@ -43,7 +43,7 @@
      * @see Brickoo\System\FileObject
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
-    class FileObjectTest extends PHPUnit_Framework_TestCase {
+    class FileObjectTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * Holds an instance of the FileObject class.
