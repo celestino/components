@@ -40,7 +40,7 @@
      * Builder
      *
      * Simple form builder for adding elements to validate values against.
-     * TODO: Add a simple render engine to return a represantation of the html form with the contained elements.
+     * @todo: Add a simple render engine to return a represantation of the html form with the contained elements.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
