@@ -267,7 +267,7 @@
          * @return mixed the event listener response or null if no response has been returned
          */
         public function ask(\Brickoo\Event\Interfaces\Event $Event) {
-            return $this->processEvent($Event, true, true);
+            return $this->processEvent($Event, false, true);
         }
 
         /**

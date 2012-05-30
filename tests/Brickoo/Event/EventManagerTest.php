@@ -320,6 +320,28 @@
         }
 
         /**
+         * Test if the iteration over the listener works and the first response is returned.
+         * @covers Brickoo\Event\Manager::ask
+         */
+        public function testAskReturnsTheResponse() {
+            $Event = $this->getMock('Brickoo\Event\Event',
+                array('getName', 'hasEventManager'),
+                array('test.event')
+            );
+            $Event->expects($this->any())
+                  ->method('getName')
+                  ->will($this->returnValue('test.event'));
+            $Event->expects($this->any())
+                  ->method('hasEventManager')
+                  ->will($this->returnValue(false));
+
+            $this->EventManager->attachListener('test.event', function($Event){return null;}, 100);
+            $this->EventManager->attachListener('test.event', function($Event){return '2nd Listener';}, 50);
+            $this->EventManager->attachListener('test.event', function($Event){return '3nd Listener';}, 0);
+            $this->assertEquals('2nd Listener', $this->EventManager->ask($Event));
+        }
+
+        /**
          * Test if the listener is not knowed returns null.
          * @covers Brickoo\Event\Manager::call
          */
@@ -332,7 +354,7 @@
          * @covers Brickoo\Event\Manager::call
          * @covers Brickoo\Event\Manager::getCallbackArguments
          */
-        public function testCallConditionFails() {
+        public function testCallbackConditionFails() {
             $Event = $this->getMock('Brickoo\Event\Event',
                 array('getName', 'hasEventManager'),
                 array('test.event')
@@ -355,7 +377,7 @@
          * @covers Brickoo\Event\Manager::call
          * @covers Brickoo\Event\Manager::getCallbackArguments
          */
-        public function testCallExpectedArgumentsFails() {
+        public function testExpectedArgumentsFails() {
             $Event = $this->getMock('Brickoo\Event\Event',
                 array('getName', 'hasEventManager', 'getParams'),
                 array('test.event')
