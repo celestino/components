@@ -37,10 +37,9 @@
         Brickoo\Validator\TypeValidator;
 
     /**
-     * Builder
+     * SimpleForm
      *
-     * Simple form builder for adding elements to validate values against.
-     * @todo: Add a simple render engine to return a represantation of the html form with the contained elements.
+     * Simple form builder adding elements to validate container values against.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
