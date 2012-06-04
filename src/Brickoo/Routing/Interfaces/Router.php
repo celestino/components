@@ -42,12 +42,6 @@
     Interface Router {
 
         /**
-         * Returns the Request instance implementing the Core\Interfaces\Request.
-         * @return \Brickoo\Core\Interfaces\Request
-         */
-        public function getRequest();
-
-        /**
          * Returns the routes file name.
          * @return string the routes file name
          */
@@ -67,8 +61,7 @@
         public function getModules();
 
         /**
-         * Sets the modules to load the routes from if available.
-         * If the modules a set directly, the modules will not be available through the Brickoo Registry.
+         * Sets the modules to load the routes the routing information.
          * @param array $modules the modules to load the routes from
          * @throws Core\Exceptions\ValueOverwriteException if trying to overwrite the available modules
          * @return \Brickoo\Routing\Router
@@ -80,42 +73,6 @@
          * @return boolean check result
          */
         public function hasModules();
-
-        /**
-         * Lazy initialization of the RouteCollection dependecy.
-         * @param \Brickoo\Routing\Interfaces\RouteCollection $RouteCollection the colection of routes
-         * @return \Brickoo\Routing\Interfaces\RouterCollection
-         */
-        public function RouteCollection(\Brickoo\Routing\Interfaces\RouteCollection $RouteCollection = null);
-
-        /**
-         * Lazy initialization of the RouteFinder dependecy.
-         * @param \Brickoo\Routing\Interfaces\RouteFinder $RouteFinder the RouteFinder dependency
-         * @return \Brickoo\Routing\Interfaces\RouteFinder
-         */
-        public function RouteFinder(\Brickoo\Routing\Interfaces\RouteFinder $RouteFinder = null);
-
-        /**
-         * Lazy initialization of the Aliases dependecy.
-         * @param \Brickoo\Memory\Interfaces\Container $Aliases the Container dependency
-         * @return \Brickoo\Memory\Interfaces\Container
-         */
-        public function Aliases(\Brickoo\Memory\Interfaces\Container $Aliases = null);
-
-        /**
-         * Lazy initialization of the EventManager dependecy.
-         * @param \Brickoo\Event\Interfaces\Manager $EventManager the EventManager dependency
-         * @return \Brickoo\Event\Interfaces\Manager
-         */
-        public function EventManager(\Brickoo\Event\Interfaces\Manager $EventManager = null);
-
-        /**
-         * Sets the requested Route for further routing.
-         * @param \Brickoo\Routing\Interfaces\RequestRoute $RequestRoute the route matched the request
-         * @throws \Brickoo\Core\Exceptions\ValueOverwriteException if trying to overwrite the request route
-         * @return \Brickoo\Routing\Router
-         */
-        public function setRequestRoute(\Brickoo\Routing\Interfaces\RequestRoute $RequestRoute);
 
         /**
          * Checks if the requested Route has been found and is set.
@@ -132,23 +89,15 @@
         public function getRequestRoute();
 
         /**
-         * Loads the Modules routes by asking over an event or collecting from filesystem.
+         * Loads the Modules routes.
          * @return \Brickoo\Routing\Router
          */
         public function loadModulesRoutes();
 
         /**
-         * Saves the collected routes over an event notification.
+         * Saves the collected routes.
          * @return \Brickoo\Routing\Router
          */
         public function saveModulesRoutes();
-
-        /**
-         * Collectes the routes available to add to the RouteCollection.
-         * Searches through all available modules available to require the route collections.
-         * This requires the registered modules, which is normaly done by the FrontController.
-         * @return void
-         */
-        public function collectModulesRoutes();
 
     }

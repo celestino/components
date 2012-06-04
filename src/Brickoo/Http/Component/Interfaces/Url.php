@@ -94,7 +94,7 @@
         public function importFromGlobals();
 
         /**
-         * Returns the full url.
+         * Returns the full url or the request path with the query parameters.
          * @param boolean $withHost flag to include the host
          * @return string the full url
          */

@@ -44,7 +44,7 @@
         /**
          * Configures the Memcache instance.
          * @param \Memcache $Memcache the Memcache instance to configure
-         * @return \Brickoo\Cache\Config\Interfaces\Memcache
+         * @return \Memcache
          */
         public function configure(\Memcache $Memcache);
 
