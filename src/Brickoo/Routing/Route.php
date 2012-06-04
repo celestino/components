@@ -260,7 +260,7 @@
         }
 
         /**
-         * Enables or the session usage.
+         * Requires the session usage.
          * @return \Brickoo\Routing\Route
          */
         public function requireSession() {

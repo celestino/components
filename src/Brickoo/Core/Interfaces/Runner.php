@@ -39,4 +39,20 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface Runner {}
+    interface Runner {
+
+        /**
+        * Boots the application.
+        * @param \Brickoo\Event\Interfaces\Event $Event the event triggered
+        * @return void
+        */
+        public function boot(\Brickoo\Event\Interfaces\Event $Event);
+
+        /**
+         * Shutdowns the application.
+         * @param \Brickoo\Event\Interfaces\Event $Event the event triggered
+         * @return void
+         */
+        public function shutdown(\Brickoo\Event\Interfaces\Event $Event);
+
+    }

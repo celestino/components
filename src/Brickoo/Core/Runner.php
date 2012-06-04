@@ -86,7 +86,7 @@
 
         /**
          * Listener called by the request route retrieve event.
-         * Retrives the RequestROute from the Router.
+         * Retrives the RequestRoute from the Router.
          * @param \Brickoo\Event\Interfaces\Event $Event the event triggered
          * @return \Brickoo\Routing\Interfaces\RequestRoute the matching request route
          */

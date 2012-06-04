@@ -48,19 +48,19 @@
         public function getName();
 
         /**
-         * Returns the description value.
-         * @return mixed the description value.
+         * Returns the information value.
+         * @return mixed the information value.
          */
         public function get();
 
         /**
-         * Sets the description value.
-         * @param mixed $value the description value
+         * Sets the information value.
+         * @param mixed $value the information value
          */
         public function set($value);
 
         /**
-         * Returns the string represantation of the description value.
+         * Returns the string represantation of the information value.
          * @return string the description value
          */
         public function toString();

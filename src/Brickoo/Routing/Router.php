@@ -318,7 +318,7 @@
         /**
          * Collectes the routes available to add to the RouteCollection.
          * Searches through all available modules available to require the route collections.
-         * This requires the registered modules, which is normaly done by the FrontController.
+         * This requires the registered modules, which is normaly done by the Application.
          * @return void
          */
         public function collectModulesRoutes() {
