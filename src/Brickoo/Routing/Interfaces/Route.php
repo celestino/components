@@ -88,12 +88,6 @@
         public function getHostname();
 
         /**
-         * Enables or the session usage.
-         * @return \Brickoo\Routing\Route
-         */
-        public function requireSession();
-
-        /**
          * Checks if a session is required.
          * @return boolean check result
          */

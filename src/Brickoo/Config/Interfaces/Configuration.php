@@ -42,12 +42,6 @@
     interface Configuration {
 
         /**
-        * Returns the configuration Provider dependency.
-        * @return \Brickoo\Config\Provider\Interfaces\Provider
-        */
-        public function Provider();
-
-        /**
          * Loads the configuration through the Provider.
          * @throws Exceptions\ProviderNotAvailableException if no Provider has been set
          * @return \Brickoo\Config\Interfaces\Configuration
@@ -65,7 +59,7 @@
         * Converts a configuration section settings to constants.
          * @param string $section the configuration 1st level section
         * @throws \UnexpectedValueException if the section does not exist
-        * @return \Brickoo\Config\Configuration
+        * @return \Brickoo\Config\Interfaces\Configuration
         */
         public function convertToConstants($section);
 
