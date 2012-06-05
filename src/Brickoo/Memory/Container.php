@@ -187,17 +187,18 @@
         }
 
         /**
-         * Checks if the element is available.
-         * @param string|integer $offset the element to check
+         * Checks if the offset is available.
+         * @param string|integer $offset the offset to check
          * @return boolean check result
          */
         public function has($offset) {
             TypeValidator::IsStringOrInteger($offset);
+
             return isset($this->container[$offset]);
         }
 
         /**
-         * Deletes the element and returns his value.
+         * Deletes the offset and returns his value.
          * @param string|integer $offset the offset to delete
          * @return \Brickoo\Memory\Container
          */
