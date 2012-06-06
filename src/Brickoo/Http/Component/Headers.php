@@ -240,10 +240,14 @@
          */
         public function getRequestHeaders() {
             $headers = array();
+            $exceptions = array('CONTENT_TYPE', 'CONTENT_LENGTH');
 
             foreach ($_SERVER as $key => $value) {
                 if (substr($key, 0, 5) == 'HTTP_') {
                     $headers[substr($key, 5)] = $value;
+                }
+                elseif (in_array($key, $exceptions)){
+                    $headers[$key] = $value;
                 }
             }
 
