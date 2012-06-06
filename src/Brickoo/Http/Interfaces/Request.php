@@ -94,6 +94,15 @@
         public function getServerVar($name, $defaultValue = null);
 
         /**
+         * Returns the client ip adress.
+         * Passing a list of reverse proxys,
+         * a deeper look into the request headers will be made.
+         * @param array $proxyServers the reverse proxys to recognize
+         * @return string the client ip or null if not available
+         */
+        public function getClientIp(array $proxyServers = null);
+
+        /**
          * Checks if the connection is based on https.
          * @return boolean check result
          */
@@ -105,6 +114,12 @@
          * @return boolean check result
          */
         public function isAjaxRequest();
+
+        /**
+         * Returns the raw input of the request.
+         * @return string the raw input
+         */
+        public function getRawInput();
 
         /**
          * Returns the http request headers.

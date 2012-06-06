@@ -464,4 +464,58 @@
             $this->assertSame($this->Request, $this->Request->importFromGlobals());
         }
 
+        /**
+         * Test if the client ip is returned from the REMOTE_ADDR.
+         * Test also if the adress is from the reverse proxy without any
+         * other headers the remote address is returned.
+         * @covers Brickoo\Http\Request::getClientIp
+         */
+        public function testGetClientIpByRemoteAddress() {
+            $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+            $this->assertEquals('127.0.0.1', $this->Request->getClientIp(array('127.0.0.1')));
+            unset($_SERVER['REMOTE_ADDR']);
+        }
+
+        /**
+         * Test if the client ip is returned by the forwarded ips if a reverse proxy is given.
+         * Only the first ip in the list should be returned.
+         * @covers Brickoo\Http\Request::getClientIp
+         * @covers Brickoo\Http\Request::getForwardedClientIp
+         */
+        public function testGetClientIpByForwardedIps() {
+            $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+
+            $Headers = $this->getMock('Brickoo\Http\Component\Headers');
+            $Headers->expects($this->once())
+                    ->method('get')
+                    ->with('X-Forwarded-For')
+                    ->will($this->returnValue('some.wrong.ip, 1.2.3.4 , 127.0.0.2 '));
+
+            $this->Request->Headers($Headers);
+            $this->assertEquals('1.2.3.4', $this->Request->getClientIp(array('127.0.0.1')));
+            unset($_SERVER['REMOTE_ADDR']);
+        }
+
+        /**
+         * Test if the client ip can be retrieved from the request header.
+         * @covers Brickoo\Http\Request::getClientIp
+         */
+        public function testGetClientIpByHeaderValue() {
+            $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+
+            $valueMap = array(
+                array('X-Forwarded-For', null, null),
+                array('Client-Ip', null, '1.2.3.4')
+            );
+
+            $Headers = $this->getMock('Brickoo\Http\Component\Headers');
+            $Headers->expects($this->any())
+                    ->method('get')
+                    ->will($this->returnValueMap($valueMap));
+
+            $this->Request->Headers($Headers);
+            $this->assertEquals('1.2.3.4', $this->Request->getClientIp(array('127.0.0.1')));
+            unset($_SERVER['REMOTE_ADDR']);
+        }
+
     }
