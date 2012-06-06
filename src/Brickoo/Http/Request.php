@@ -274,6 +274,55 @@
         }
 
         /**
+         * Returns the client ip adress.
+         * Passing a list of reverse proxys,
+         * a deeper look into the request headers will be made.
+         * @param array $proxyServers the reverse proxys to recognize
+         * @return string the client ip or null if not available
+         */
+        public function getClientIp(array $proxyServers = array()) {
+            $remoteAddressIsFromReversProxy = (
+                ($remoteAddress = $this->getServerVar('REMOTE_ADDR')) &&
+                in_array($remoteAddress, $proxyServers)
+            );
+
+            if ($remoteAddressIsFromReversProxy) {
+                if($forwardedIp = $this->getForwardedClientIp()) {
+                    return $forwardedIp;
+                }
+
+                if (($headerClientIp = $this->Headers()->get('Client-Ip')) &&
+                    filter_var($headerClientIp, FILTER_VALIDATE_IP)
+                ){
+                    return $headerClientIp;
+                }
+            }
+
+            return $remoteAddress;
+        }
+
+        /**
+         * Returns the forwarded client ip.
+         * @return string the forwarded client ip or null if not available
+         */
+        public function getForwardedClientIp() {
+            $clientIp = null;
+
+            if ($forwardedIps = $this->Headers()->get('X-Forwarded-For')) {
+                $forwardedIps = array_filter(
+                    preg_split('/[\s]*,[\s]*/', $forwardedIps),
+                    function($ip){return filter_var($ip, FILTER_VALIDATE_IP);}
+                );
+
+                if (! empty($forwardedIps)) {
+                    $clientIp = array_shift($forwardedIps);
+                }
+            }
+
+            return $clientIp;
+        }
+
+        /**
          * Checks if the connection is https.
          * @return boolean check result
          */

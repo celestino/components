@@ -247,13 +247,20 @@
             $expectedHeaders = array
             (
                 'Unittest'        => 'yes',
-                'Apache-Header'   => 'APACHE'
+                'Apache-Header'   => 'APACHE',
+                'Content-Type'    => 'application/xml',
+                'Content-Length'  => 123
             );
 
             $_SERVER['HTTP_UNITTEST'] = 'yes';
+            $_SERVER['CONTENT_TYPE'] = 'application/xml';
+            $_SERVER['CONTENT_LENGTH'] = 123;
+
             $this->assertSame($this->Headers, $this->Headers->importFromGlobals());
             $this->assertAttributeEquals($expectedHeaders, 'container', $this->Headers);
             unset($_SERVER['HTTP_UNITTEST']);
+            unset($_SERVER['CONTENT_TYPE']);
+            unset($_SERVER['CONTENT_LENGTH']);
         }
 
         /**
@@ -262,14 +269,23 @@
          */
         public function testGetRequestHeaders() {
             require_once ('Fixture/Functions.php');
+
             $expectedHeaders = array
             (
                 'UNITTEST'        => 'yes',
-                'Apache-Header'   => 'APACHE'
+                'Apache-Header'   => 'APACHE',
+                'CONTENT_TYPE'    => 'application/xml',
+                'CONTENT_LENGTH'  => 123
             );
+
+            $_SERVER['CONTENT_TYPE'] = 'application/xml';
+            $_SERVER['CONTENT_LENGTH'] = 123;
             $_SERVER['HTTP_UNITTEST'] = 'yes';
+
             $this->assertEquals($expectedHeaders, $this->Headers->getRequestHeaders());
             unset($_SERVER['HTTP_UNITTEST']);
+            unset($_SERVER['CONTENT_TYPE']);
+            unset($_SERVER['CONTENT_LENGTH']);
         }
 
         /**
