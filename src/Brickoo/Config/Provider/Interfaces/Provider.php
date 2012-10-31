@@ -1,0 +1,66 @@
+<?php
+
+    /*
+     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * All rights reserved.
+     *
+     * Redistribution and use in source and binary forms, with or without
+     * modification, are permitted provided that the following conditions
+     * are met:
+     *
+     * 1. Redistributions of source code must retain the above copyright
+     *    notice, this list of conditions and the following disclaimer.
+     * 2. Redistributions in binary form must reproduce the above copyright
+     *    notice, this list of conditions and the following disclaimer in the
+     *    documentation and/or other materials provided with the distribution.
+     * 3. Neither the name of Brickoo nor the names of its contributors may be used
+     *    to endorse or promote products derived from this software without specific
+     *    prior written permission.
+     *
+     * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+     * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+     * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+     * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+     * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+     * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+     * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+     * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+     * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+     * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+     * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+     */
+
+    namespace Brickoo\Config\Provider\Interfaces;
+
+    /**
+     * Provider
+     *
+     * Describes a provider which handle the loading and storage of a configuration.
+     * @author Celestino Diaz <celestino.diaz@gmx.de>
+     */
+
+    interface Provider {
+
+        /**
+         * Loads the configuration from a resource.
+         * @throws \Brickoo\Config\Provider\Exceptions\UnableToLoadConfiguration if the configuration could not be loaded
+         * @return array the loaded configuration
+         */
+        public function load();
+
+        /**
+         * Saves the configuration to a resource.
+         * @throws \Brickoo\Config\Provider\Exceptions\UnableToSaveConfiguration if the configuration could not be saved
+         * @return \Brickoo\Config\Provider\Interfaces\Provider
+         */
+        public function save(array $configuration);
+
+        /**
+         * Returns the string representation of the configuration
+         * depending on the provider specification.
+         * @param array $configuration the configuration to convert
+         * @return string the configuration representation
+         */
+        public function toString(array $configuration);
+
+    }

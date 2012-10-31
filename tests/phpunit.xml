@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpunit
+    stopOnError="false"
+    stopOnFailure="false"
+    strict="true"
+    verbose="true"
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    bootstrap="bootstrap.php">
+    <testsuites>
+        <testsuite name="BrickOO Test Suite">
+            <directory>./Brickoo</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <!-- path to the brickoo library -->
+            <directory suffix=".php">../src/Brickoo</directory>
+            <exclude>
+                <!-- exclude interfaces from code coverage -->
+                <directory suffix=".php">../src/Brickoo/*/Interfaces</directory>
+                <directory suffix=".php">../src/Brickoo/*/*/Interfaces</directory>
+                <directory suffix=".php">../src/Brickoo/*/*/*/Interfaces</directory>
+                <directory suffix=".php">../src/Brickoo/*/*/*/*/Interfaces</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>
