@@ -1,5 +1,5 @@
 
-##BrickOO [![Build Status](https://secure.travis-ci.org/brickoo/brickoo.png?branch=dev)](http://travis-ci.org/brickoo/brickoo)
+##BrickOO [![Build Status](https://secure.travis-ci.org/brickoo/brickoo.png?branch=master)](http://travis-ci.org/brickoo/brickoo)
 BrickOO is a PHP framework which focus on simplicity of highly flexible components having contracts as basis for the implementations. BrickOO has been developed in strict mode.
 
 
