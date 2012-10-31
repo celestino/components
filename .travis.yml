@@ -6,9 +6,9 @@ php:
   - 5.3
   - 5.4
 before_script:
-  - wget http://pecl.php.net/get/APC
-  - tar -xzf APC
-  - sh -c "cd APC-* && phpize && ./configure --enable-apc && sudo make install"
+  - pecl install memcache
+  - echo "extension=memcache.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
+  - pecl install apc
   - echo "extension=apc.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
   - echo "[apc]" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
   - echo "apc.enabled = 1" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
