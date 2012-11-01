@@ -35,7 +35,7 @@
     /**
      * Uri
      *
-     * Implements a resolver for the url factory.
+     * Implements a resolver for the uri factory.
      * WARNING: This implementation has not an explicit interface as a contract,
      * the public interfaces may change in the future !!!
      * @author Celestino Diaz <celestino.diaz@gmx.de>
@@ -118,7 +118,7 @@
 
         /**
          * Returns the request path.
-         * @return string the request request path
+         * @return string the request uri path
          */
         public function getPath() {
             if (! $requestPath = $this->getIISRequestUri()) {
@@ -133,12 +133,12 @@
         }
 
         /**
-         * Returns the IIS request url assigned if available.
-         * @return string the request url
+         * Returns the IIS request ur assigned if available.
+         * @return string the request uri
          */
         private function getIISRequestUri() {
-            if (! $requestPath = $this->Header->get("X-Original-Uri")) {
-                $requestPath = $this->Header->get("X-Rewrite-Uri");
+            if (! $requestPath = $this->Header->get("X-Original-Url")) {
+                $requestPath = $this->Header->get("X-Rewrite-Url");
             }
 
             return $requestPath;
