@@ -35,29 +35,29 @@
     use Brickoo\Validator\Argument;
 
     /**
-     * Url
+     * Uri
      *
      * Describes a factory for a http request url.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Url {
+    class Uri {
 
         /**
          * Creates an requets url object using the factory url resolver.
-         * @param \Brickoo\Http\Request\Factory\Resolver\Url $UrlResolver
+         * @param \Brickoo\Http\Request\Factory\Resolver\Uri $UriResolver
          * @param \Brickoo\Http\Request\Interfaces\Query $Query
-         * @return \Brickoo\Http\Request\Url
+         * @return \Brickoo\Http\Request\Uri
          */
         public static function Create(
-            \Brickoo\Http\Request\Factory\Resolver\Url $UrlResolver,
+            \Brickoo\Http\Request\Factory\Resolver\Uri $UriResolver,
             \Brickoo\Http\Request\Interfaces\Query $Query
         ){
-            return new \Brickoo\Http\Request\Url(
-                $UrlResolver->getScheme(),
-                $UrlResolver->getHostname(),
-                $UrlResolver->getPort(),
-                $UrlResolver->getPath(),
+            return new \Brickoo\Http\Request\Uri(
+                $UriResolver->getScheme(),
+                $UriResolver->getHostname(),
+                $UriResolver->getPort(),
+                $UriResolver->getPath(),
                 $Query
             );
         }
@@ -66,7 +66,7 @@
          * Create a request url object using the extracted url values.
          * @param string $url the url to extract the values from
          * @throws \InvalidArgumentException if the argument is not valid
-         * @return \Brickoo\Http\Request\Url
+         * @return \Brickoo\Http\Request\Uri
          */
         public static function CreateFromString($url) {
             Argument::IsString($url);
@@ -83,7 +83,7 @@
                 $urlParts["port"] = $urlParts["scheme"] == "https" ? 443 : 80;
             }
 
-            return new \Brickoo\Http\Request\Url(
+            return new \Brickoo\Http\Request\Uri(
                 $urlParts["scheme"],
                 $urlParts["hostname"],
                 $urlParts["port"],

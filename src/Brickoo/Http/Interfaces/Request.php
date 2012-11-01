@@ -50,9 +50,9 @@
 
         /**
          * Returnsthe request url dependency.
-         * @return \Brickoo\Http\Request\Interfaces\Url
+         * @return \Brickoo\Http\Request\Interfaces\Uri
          */
-        public function getUrl();
+        public function getUri();
 
         /**
          * Returns the request message header dependency.

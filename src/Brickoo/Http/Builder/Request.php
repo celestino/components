@@ -53,8 +53,8 @@
         /** @var \Brickoo\Http\Message\Interfaces\Body */
         private $Body;
 
-        /** @var \Brickoo\Http\Request\Interfaces\Url */
-        private $Url;
+        /** @var \Brickoo\Http\Request\Interfaces\Uri */
+        private $Uri;
 
         /** @var string */
         private $method;
@@ -75,8 +75,8 @@
         }
 
         /** {@inheritDoc} */
-        public function setUrl(\Brickoo\Http\Request\Interfaces\Url $Url) {
-            $this->Url = $Url;
+        public function setUri(\Brickoo\Http\Request\Interfaces\Uri $Uri) {
+            $this->Uri = $Uri;
             return $this;
         }
 
@@ -96,7 +96,7 @@
 
         /** {@inheritDoc} */
         public function build() {
-            return new HttpRequest($this->getHeader(), $this->getBody(), $this->getUrl(), $this->method, $this->version);
+            return new HttpRequest($this->getHeader(), $this->getBody(), $this->getUri(), $this->method, $this->version);
         }
 
         /**
@@ -128,14 +128,14 @@
          * If the dependency is not provided, it will be created using the factory.
          * @return \Brickoo\Http\Message\Interfaces\Header
          */
-        private function getUrl() {
-            if ($this->Url === null) {
-                $this->Url = RequestFactory\Url::Create(
-                    new RequestFactory\Resolver\Url($this->getHeader()),
+        private function getUri() {
+            if ($this->Uri === null) {
+                $this->Uri = RequestFactory\Uri::Create(
+                    new RequestFactory\Resolver\Uri($this->getHeader()),
                     RequestFactory\Query::Create()
                 );
             }
-            return $this->Url;
+            return $this->Uri;
         }
 
     }

@@ -32,9 +32,9 @@
 
     namespace Tests\Brickoo\Http\Request\Factory\Resolver;
 
-    use Brickoo\Http\Request\Factory\Resolver\Url;
+    use Brickoo\Http\Request\Factory\Resolver\Uri;
 
-    class UrlTest extends \PHPUnit_Framework_TestCase {
+    class UriTest extends \PHPUnit_Framework_TestCase {
 
         /** @var array */
         private $backupServerValues;
@@ -62,19 +62,19 @@
         }
 
         /**
-         * @covers Brickoo\Http\Request\Factory\Resolver\Url::__construct
+         * @covers Brickoo\Http\Request\Factory\Resolver\Uri::__construct
          */
         public function testConstructor() {
             $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
             $_SERVER = array("SERVER_NAME" => "localhost");
 
-            $UrlResolver = new Url($Header);
-            $this->assertAttributeSame($Header, "Header", $UrlResolver);
-            $this->assertAttributeEquals($_SERVER, "serverValues", $UrlResolver);
+            $UriResolver = new Uri($Header);
+            $this->assertAttributeSame($Header, "Header", $UriResolver);
+            $this->assertAttributeEquals($_SERVER, "serverValues", $UriResolver);
         }
 
         /**
-         * @covers Brickoo\Http\Request\Factory\Resolver\Url::getScheme
+         * @covers Brickoo\Http\Request\Factory\Resolver\Uri::getScheme
          */
         public function testGetSchemeFromHeadersForwardedProtocol() {
             $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
@@ -83,13 +83,13 @@
                     ->with("X-Forwarded-Proto")
                     ->will($this->returnValue("https"));
 
-            $UrlResolver = new Url($Header);
-            $this->assertEquals("https", $UrlResolver->getScheme());
+            $UriResolver = new Uri($Header);
+            $this->assertEquals("https", $UriResolver->getScheme());
         }
 
         /**
-         * @covers Brickoo\Http\Request\Factory\Resolver\Url::getScheme
-         * @covers Brickoo\Http\Request\Factory\Resolver\Url::getServerVar
+         * @covers Brickoo\Http\Request\Factory\Resolver\Uri::getScheme
+         * @covers Brickoo\Http\Request\Factory\Resolver\Uri::getServerVar
          */
         public function testGetSchemeFromGlobalServerValue() {
             $_SERVER = array("HTTPS" => "on");
@@ -99,12 +99,12 @@
                     ->method("get")
                     ->will($this->returnValue(null));
 
-            $UrlResolver = new Url($Header);
-            $this->assertEquals("https", $UrlResolver->getScheme());
+            $UriResolver = new Uri($Header);
+            $this->assertEquals("https", $UriResolver->getScheme());
         }
 
         /**
-         * @covers Brickoo\Http\Request\Factory\Resolver\Url::getHostname
+         * @covers Brickoo\Http\Request\Factory\Resolver\Uri::getHostname
          */
         public function testGetHostnameFromHeaders() {
             $expectedHost = "brickoo.localhost";
@@ -115,13 +115,13 @@
                     ->with("Host")
                     ->will($this->returnValue($expectedHost));
 
-            $UrlResolver = new Url($Header);
-            $this->assertEquals($expectedHost, $UrlResolver->getHostname());
+            $UriResolver = new Uri($Header);
+            $this->assertEquals($expectedHost, $UriResolver->getHostname());
         }
 
         /**
-         * @covers Brickoo\Http\Request\Factory\Resolver\Url::getHostname
-         * @covers Brickoo\Http\Request\Factory\Resolver\Url::getServerVar
+         * @covers Brickoo\Http\Request\Factory\Resolver\Uri::getHostname
+         * @covers Brickoo\Http\Request\Factory\Resolver\Uri::getServerVar
          */
         public function testGetHostnameFromGlobalServerName() {
             $expectedHost = "brickoo.localhost";
@@ -132,13 +132,13 @@
                     ->method("get")
                     ->will($this->returnValue(null));
 
-            $UrlResolver = new Url($Header);
-            $this->assertEquals($expectedHost, $UrlResolver->getHostname());
+            $UriResolver = new Uri($Header);
+            $this->assertEquals($expectedHost, $UriResolver->getHostname());
         }
 
         /**
-         * @covers Brickoo\Http\Request\Factory\Resolver\Url::getHostname
-         * @covers Brickoo\Http\Request\Factory\Resolver\Url::getServerVar
+         * @covers Brickoo\Http\Request\Factory\Resolver\Uri::getHostname
+         * @covers Brickoo\Http\Request\Factory\Resolver\Uri::getServerVar
          */
         public function testGetHostnameFromGlobalServerAddress() {
             $expectedHost = "brickoo.localhost";
@@ -149,12 +149,12 @@
                     ->method("get")
                     ->will($this->returnValue(null));
 
-            $UrlResolver = new Url($Header);
-            $this->assertEquals($expectedHost, $UrlResolver->getHostname());
+            $UriResolver = new Uri($Header);
+            $this->assertEquals($expectedHost, $UriResolver->getHostname());
         }
 
         /**
-         * @covers Brickoo\Http\Request\Factory\Resolver\Url::getPort
+         * @covers Brickoo\Http\Request\Factory\Resolver\Uri::getPort
          */
         public function testGetPortFromHeaders() {
 
@@ -166,15 +166,15 @@
                     ->with("X-Forwarded-Port")
                     ->will($this->returnValue($expectedPort));
 
-            $UrlResolver = new Url($Header);
-            $this->assertEquals($expectedPort, ($port = $UrlResolver->getPort()));
+            $UriResolver = new Uri($Header);
+            $this->assertEquals($expectedPort, ($port = $UriResolver->getPort()));
             $this->assertInternalType("integer", $port);
 
         }
 
         /**
-         * @covers Brickoo\Http\Request\Factory\Resolver\Url::getPort
-         * @covers Brickoo\Http\Request\Factory\Resolver\Url::getServerVar
+         * @covers Brickoo\Http\Request\Factory\Resolver\Uri::getPort
+         * @covers Brickoo\Http\Request\Factory\Resolver\Uri::getServerVar
          */
         public function testGetPortFromGlobalServerPort() {
             $expectedPort = "8080";
@@ -185,47 +185,47 @@
                     ->method("get")
                     ->will($this->returnValue(null));
 
-            $UrlResolver = new Url($Header);
-            $this->assertEquals($expectedPort, ($port = $UrlResolver->getPort()));
+            $UriResolver = new Uri($Header);
+            $this->assertEquals($expectedPort, ($port = $UriResolver->getPort()));
             $this->assertInternalType("integer", $port);
         }
 
         /**
-         * @covers Brickoo\Http\Request\Factory\Resolver\Url::getQueryString
-         * @covers Brickoo\Http\Request\Factory\Resolver\Url::getServerVar
+         * @covers Brickoo\Http\Request\Factory\Resolver\Uri::getQueryString
+         * @covers Brickoo\Http\Request\Factory\Resolver\Uri::getServerVar
          */
         public function testGetQueryStringFromGlobalServerQueryString() {
             $expectedQueryString = "key=value1&key2=value2";
             $_SERVER = array("QUERY_STRING" => $expectedQueryString);
 
-            $UrlResolver = new Url($this->getMock('Brickoo\Http\Message\Interfaces\Header'));
-            $this->assertEquals($expectedQueryString, $UrlResolver->getQueryString());
+            $UriResolver = new Uri($this->getMock('Brickoo\Http\Message\Interfaces\Header'));
+            $this->assertEquals($expectedQueryString, $UriResolver->getQueryString());
         }
 
         /**
-         * @covers Brickoo\Http\Request\Factory\Resolver\Url::getQueryString
+         * @covers Brickoo\Http\Request\Factory\Resolver\Uri::getQueryString
          */
         public function testGetQueryStringFromGlobalGETVariables() {
             $backupGlobalGetValues = $_GET;
             $expectedQueryString = "key1=value1&key2=value2";
             $_GET = array("key1" => "value1", "key2" => "value2");
 
-            $UrlResolver = new Url($this->getMock('Brickoo\Http\Message\Interfaces\Header'));
-            $this->assertEquals($expectedQueryString, $UrlResolver->getQueryString());
+            $UriResolver = new Uri($this->getMock('Brickoo\Http\Message\Interfaces\Header'));
+            $this->assertEquals($expectedQueryString, $UriResolver->getQueryString());
 
             $_GET = $backupGlobalGetValues;
         }
 
         /**
-         * @covers Brickoo\Http\Request\Factory\Resolver\Url::getPath
-         * @covers Brickoo\Http\Request\Factory\Resolver\Url::getIISRequestUrl
+         * @covers Brickoo\Http\Request\Factory\Resolver\Uri::getPath
+         * @covers Brickoo\Http\Request\Factory\Resolver\Uri::getIISRequestUri
          */
         public function testGetPathFromGlobalServerRequestUri() {
             $expectedPath = "/path/to/the/script";
             $_SERVER = array("REQUEST_URI" => "?". $expectedPath);
 
-            $UrlResolver = new Url($this->getMock('Brickoo\Http\Message\Interfaces\Header'));
-            $this->assertEquals($expectedPath, $UrlResolver->getPath());
+            $UriResolver = new Uri($this->getMock('Brickoo\Http\Message\Interfaces\Header'));
+            $this->assertEquals($expectedPath, $UriResolver->getPath());
         }
 
     }

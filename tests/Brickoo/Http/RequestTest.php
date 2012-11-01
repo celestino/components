@@ -75,16 +75,16 @@
         public function testConstructor() {
             $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
             $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
-            $Url = $this->getMock('\Brickoo\Http\Request\Interfaces\Url');
+            $Uri = $this->getMock('\Brickoo\Http\Request\Interfaces\Uri');
             $method = "GET";
             $version = Request::HTTP_VERSION_1_1;
 
-            $Request = new Request($Header, $Body, $Url, $method, $version);
+            $Request = new Request($Header, $Body, $Uri, $method, $version);
 
             $this->assertInstanceOf('Brickoo\Http\Interfaces\Request', $Request);
             $this->assertAttributeSame($Header, "Header", $Request);
             $this->assertAttributeSame($Body, "Body", $Request);
-            $this->assertAttributeSame($Url, "Url", $Request);
+            $this->assertAttributeSame($Uri, "Uri", $Request);
             $this->assertAttributeEquals($method, "method", $Request);
             $this->assertAttributeEquals($version, "version", $Request);
         }
@@ -95,9 +95,9 @@
         public function testGetHeaderDependency() {
             $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
             $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
-            $Url = $this->getMock('\Brickoo\Http\Request\Interfaces\Url');
+            $Uri = $this->getMock('\Brickoo\Http\Request\Interfaces\Uri');
 
-            $Request = new Request($Header, $Body, $Url);
+            $Request = new Request($Header, $Body, $Uri);
             $this->assertSame($Header, $Request->getHeader());
         }
 
@@ -107,22 +107,22 @@
         public function testGetBodyDependency() {
             $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
             $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
-            $Url = $this->getMock('\Brickoo\Http\Request\Interfaces\Url');
+            $Uri = $this->getMock('\Brickoo\Http\Request\Interfaces\Uri');
 
-            $Request = new Request($Header, $Body, $Url);
+            $Request = new Request($Header, $Body, $Uri);
             $this->assertSame($Body, $Request->getBody());
         }
 
         /**
-         * @covers Brickoo\Http\Request::getUrl
+         * @covers Brickoo\Http\Request::getUri
          */
-        public function testGetUrlDependency() {
+        public function testGetUriDependency() {
             $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
             $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
-            $Url = $this->getMock('\Brickoo\Http\Request\Interfaces\Url');
+            $Uri = $this->getMock('\Brickoo\Http\Request\Interfaces\Uri');
 
-            $Request = new Request($Header, $Body, $Url);
-            $this->assertSame($Url, $Request->getUrl());
+            $Request = new Request($Header, $Body, $Uri);
+            $this->assertSame($Uri, $Request->getUri());
         }
 
         /**
@@ -133,12 +133,12 @@
             $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
 
             $Query = $this->getMock('Brickoo\Http\Request\Interfaces\Query');
-            $Url = $this->getMock('\Brickoo\Http\Request\Interfaces\Url');
-            $Url->expects($this->once())
+            $Uri = $this->getMock('\Brickoo\Http\Request\Interfaces\Uri');
+            $Uri->expects($this->once())
                 ->method("getQuery")
                 ->will($this->returnValue($Query));
 
-            $Request = new Request($Header, $Body, $Url);
+            $Request = new Request($Header, $Body, $Uri);
             $this->assertSame($Query, $Request->getQuery());
         }
 
@@ -150,12 +150,12 @@
             $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
 
             $expectedPath = "/path/to/script";
-            $Url = $this->getMock('\Brickoo\Http\Request\Interfaces\Url');
-            $Url->expects($this->once())
+            $Uri = $this->getMock('\Brickoo\Http\Request\Interfaces\Uri');
+            $Uri->expects($this->once())
                 ->method("getPath")
                 ->will($this->returnValue($expectedPath));
 
-            $Request = new Request($Header, $Body, $Url);
+            $Request = new Request($Header, $Body, $Uri);
             $this->assertSame($expectedPath, $Request->getPath());
         }
 
@@ -175,9 +175,9 @@
 
             $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
             $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
-            $Url = $this->getMock('\Brickoo\Http\Request\Interfaces\Url');
+            $Uri = $this->getMock('\Brickoo\Http\Request\Interfaces\Uri');
 
-            $Request = new Request($Header, $Body, $Url);
+            $Request = new Request($Header, $Body, $Uri);
             $this->assertEquals("POST", $Request->getMethod());
         }
 
@@ -197,9 +197,9 @@
 
             $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
             $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
-            $Url = $this->getMock('\Brickoo\Http\Request\Interfaces\Url');
+            $Uri = $this->getMock('\Brickoo\Http\Request\Interfaces\Uri');
 
-            $Request = new Request($Header, $Body, $Url);
+            $Request = new Request($Header, $Body, $Uri);
             $this->assertEquals(Request::HTTP_VERSION_1, $Request->getVersion());
         }
 
@@ -246,11 +246,11 @@
                   ->method("toString")
                   ->will($this->returnValue($queryString));
 
-            $Url = $this->getMock('\Brickoo\Http\Request\Interfaces\Url');
-            $Url->expects($this->any())
+            $Uri = $this->getMock('\Brickoo\Http\Request\Interfaces\Uri');
+            $Uri->expects($this->any())
                 ->method("getQuery")
                 ->will($this->returnValue($Query));
-            $Url->expects($this->any())
+            $Uri->expects($this->any())
                 ->method("getPath")
                 ->will($this->returnValue($urlPath));
 
@@ -259,7 +259,7 @@
             );
             $expectedValue .= $headerString ."\r\n\r\n". $bodyString;
 
-            $Request = new Request($Header, $Body, $Url, $method, $version);
+            $Request = new Request($Header, $Body, $Uri, $method, $version);
             $this->assertEquals($expectedValue, $Request->toString());
         }
 
@@ -270,11 +270,11 @@
         private function getRequestFixture() {
             $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
             $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
-            $Url = $this->getMock('\Brickoo\Http\Request\Interfaces\Url');
+            $Uri = $this->getMock('\Brickoo\Http\Request\Interfaces\Uri');
             $method = "GET";
             $version = Request::HTTP_VERSION_1_1;
 
-            return new Request($Header, $Body, $Url, $method, $version);
+            return new Request($Header, $Body, $Uri, $method, $version);
 
         }
 
