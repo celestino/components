@@ -70,7 +70,7 @@
                 $isSecure = (strtolower($httpsForwarded) == "https");
             }
             elseif ($secureMode = $this->getServerVar("HTTPS")) {
-                $isSecure = (strtolower($secureMode) != "off" && $secureMode != "0");
+                $isSecure = (! empty($secureMode)) && (strtolower($secureMode) != "off" && $secureMode != "0");
             }
 
             return "http". ($isSecure ? "s" : "");
