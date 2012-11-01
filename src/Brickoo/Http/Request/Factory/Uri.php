@@ -37,14 +37,14 @@
     /**
      * Uri
      *
-     * Describes a factory for a http request url.
+     * Describes a factory for a http request uri.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
     class Uri {
 
         /**
-         * Creates an requets url object using the factory url resolver.
+         * Creates an requets uri object using the factory uri resolver.
          * @param \Brickoo\Http\Request\Factory\Resolver\Uri $UriResolver
          * @param \Brickoo\Http\Request\Interfaces\Query $Query
          * @return \Brickoo\Http\Request\Uri
@@ -64,32 +64,32 @@
         }
 
         /**
-         * Create a request url object using the extracted url values.
-         * @param string $url the url to extract the values from
+         * Create a request uri object using the extracted uri values.
+         * @param string $uri the uri to extract the values from
          * @throws \InvalidArgumentException if the argument is not valid
          * @return \Brickoo\Http\Request\Uri
          */
-        public static function CreateFromString($url) {
-            Argument::IsString($url);
+        public static function CreateFromString($uri) {
+            Argument::IsString($uri);
 
-            if (! preg_match("~^[^@:/?#]+:(.*@)?//[^/?#]+(\?[^#]*)?(#.*)?~", $url)) {
-                throw new \InvalidArgumentException(sprintf("The url `%s` does not match a valid URL", $url));
+            if (! preg_match("~^[^@:/?#]+:(.*@)?//[^/?#]+(\?[^#]*)?(#.*)?~", $uri)) {
+                throw new \InvalidArgumentException(sprintf("The argument `%s` does not match a valid uri.", $uri));
             }
 
-            preg_match("~^(?<scheme>[^@:/?#]+)://(.*@)?(?<hostname>[^/?:#]*)(:(?<port>\d+))?(?<path>[^?#]*)(\?(?<query>[^#]*))?~u", $url, $urlParts);
+            preg_match("~^(?<scheme>[^@:/?#]+)://(.*@)?(?<hostname>[^/?:#]*)(:(?<port>\d+))?(?<path>[^?#]*)(\?(?<query>[^#]*))?~u", $uri, $uriParts);
 
-            settype($urlParts["port"], "integer");
+            settype($uriParts["port"], "integer");
 
-            if ($urlParts["port"] == 0) {
-                $urlParts["port"] = $urlParts["scheme"] == "https" ? 443 : 80;
+            if ($uriParts["port"] == 0) {
+                $uriParts["port"] = $uriParts["scheme"] == "https" ? 443 : 80;
             }
 
             return new \Brickoo\Http\Request\Uri(
-                $urlParts["scheme"],
-                $urlParts["hostname"],
-                $urlParts["port"],
-                $urlParts["path"],
-                Query::CreateFromString($urlParts["query"])
+                $uriParts["scheme"],
+                $uriParts["hostname"],
+                $uriParts["port"],
+                $uriParts["path"],
+                Query::CreateFromString($uriParts["query"])
             );
         }
 
