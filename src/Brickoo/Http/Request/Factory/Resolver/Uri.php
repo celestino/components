@@ -35,7 +35,7 @@
     /**
      * Uri
      *
-     * Implements a resolver for the url factory.
+     * Implements a resolver for the uri factory.
      * WARNING: This implementation has not an explicit interface as a contract,
      * the public interfaces may change in the future !!!
      * @author Celestino Diaz <celestino.diaz@gmx.de>
@@ -70,7 +70,7 @@
                 $isSecure = (strtolower($httpsForwarded) == "https");
             }
             elseif ($secureMode = $this->getServerVar("HTTPS")) {
-                $isSecure = (strtolower($secureMode) != "off" && $secureMode != "0");
+                $isSecure = (! empty($secureMode)) && (strtolower($secureMode) != "off" && $secureMode != "0");
             }
 
             return "http". ($isSecure ? "s" : "");
@@ -117,28 +117,50 @@
         }
 
         /**
-         * Returns the request path.
-         * @return string the request request path
+         * Returns the request uri path.
+         * @return string the request uri path
          */
         public function getPath() {
             if (! $requestPath = $this->getIISRequestUri()) {
                 $requestPath = $this->getServerVar("REQUEST_URI");
             }
 
-            if (($position = strpos($requestPath, "?")) !== false) {
-                $requestPath = substr($requestPath, $position +1);
-            }
-
-            return "/". trim($requestPath, "/");
+            return "/". trim(parse_url($requestPath, PHP_URL_PATH), "/");
         }
 
         /**
-         * Returns the IIS request url assigned if available.
-         * @return string the request url
+         * Returns the uri path info.
+         * This is commonly used by having routes matching
+         * a concrete defined path which does not include
+         * the working directory and filename.
+         * @return the request uri path info
+         */
+        public function getPathInfo() {
+            if (! $pathInfo = $this->getServerVar("PATH_INFO")) {
+                $pathInfo = "";
+                $uriPath = $this->getPath();
+                $scriptPath = $this->getServerVar("SCRIPT_FILENAME", "");
+
+                $pathInfoParts = array_diff(
+                    explode("/", trim($uriPath, "/")),
+                    explode(DIRECTORY_SEPARATOR, trim($scriptPath, DIRECTORY_SEPARATOR))
+                );
+
+                if (! empty($pathInfoParts)) {
+                    $pathInfo = implode("/", $pathInfoParts);
+                }
+            }
+
+            return "/". trim($pathInfo, "/");
+        }
+
+        /**
+         * Returns the IIS request ur assigned if available.
+         * @return string the request uri
          */
         private function getIISRequestUri() {
-            if (! $requestPath = $this->Header->get("X-Original-Uri")) {
-                $requestPath = $this->Header->get("X-Rewrite-Uri");
+            if (! $requestPath = $this->Header->get("X-Original-Url")) {
+                $requestPath = $this->Header->get("X-Rewrite-Url");
             }
 
             return $requestPath;

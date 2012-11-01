@@ -129,7 +129,7 @@
                 ->method('getScheme')
                 ->will($this->returnValue('https'));
             $Uri->expects($this->any())
-                ->method('getPath')
+                ->method('getPathInfo')
                 ->will($this->returnValue('/artikeln/doing_unit-tests'));
 
             $Request = $this->getMock('Brickoo\Http\Interfaces\Request');

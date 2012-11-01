@@ -68,7 +68,7 @@
                 return false;
             }
 
-            if ($matches = (preg_match($this->getRegexFromRoute($Route), $this->Request->getUri()->getPath(), $pathMatchedParameters) == 1)) {
+            if ($matches = (preg_match($this->getRegexFromRoute($Route), $this->Request->getUri()->getPathInfo(), $pathMatchedParameters) == 1)) {
                 $this->matchedRouteParamaters = $this->getMatchedRoutePathParameters($Route, $pathMatchedParameters);
             }
 
