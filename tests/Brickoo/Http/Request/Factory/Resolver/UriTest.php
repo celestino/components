@@ -222,10 +222,35 @@
          */
         public function testGetPathFromGlobalServerRequestUri() {
             $expectedPath = "/path/to/the/script";
-            $_SERVER = array("REQUEST_URI" => "?". $expectedPath);
+            $_SERVER = array("REQUEST_URI" => $expectedPath ."?test=case");
 
             $UriResolver = new Uri($this->getMock('Brickoo\Http\Message\Interfaces\Header'));
             $this->assertEquals($expectedPath, $UriResolver->getPath());
+        }
+
+        /**
+         * @covers Brickoo\Http\Request\Factory\Resolver\Uri::getPathInfo
+         */
+        public function testGetPathInfoFromGlobalServerPathInfo() {
+            $expectedPath = "/articles/test-cases";
+            $_SERVER = array("PATH_INFO" => $expectedPath);
+
+            $UriResolver = new Uri($this->getMock('Brickoo\Http\Message\Interfaces\Header'));
+            $this->assertEquals($expectedPath, $UriResolver->getPathInfo());
+        }
+
+        /**
+         * @covers Brickoo\Http\Request\Factory\Resolver\Uri::getPathInfo
+         */
+        public function testGetPathInfoComparingRequestUriAndScriptFilename() {
+            $expectedPath = "/articles/test-cases";
+            $_SERVER = array(
+                "REQUEST_URI" => "/news/articles/test-cases",
+                "SCRIPT_FILENAME" => "/var/www/news/index.php"
+            );
+
+            $UriResolver = new Uri($this->getMock('Brickoo\Http\Message\Interfaces\Header'));
+            $this->assertEquals($expectedPath, $UriResolver->getPathInfo());
         }
 
     }

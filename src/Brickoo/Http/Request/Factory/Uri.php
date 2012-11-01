@@ -58,7 +58,8 @@
                 $UriResolver->getHostname(),
                 $UriResolver->getPort(),
                 $UriResolver->getPath(),
-                $Query
+                $Query,
+                $UriResolver->getPathInfo()
             );
         }
 

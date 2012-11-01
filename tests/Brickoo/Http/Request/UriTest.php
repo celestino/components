@@ -60,6 +60,7 @@
             $this->assertAttributeEquals($hostname, "hostname", $Uri);
             $this->assertAttributeEquals($port, "port", $Uri);
             $this->assertAttributeEquals($path, "path", $Uri);
+            $this->assertAttributeEquals($path, "pathInfo", $Uri);
         }
 
         /**
@@ -91,7 +92,15 @@
          */
         public function testGetPath() {
             $Uri = $this->getUriFixture();
-            $this->assertEquals("/path/to/script", $Uri->getPath());
+            $this->assertEquals("/path/to/script/index.php/arcticles/test-cases", $Uri->getPath());
+        }
+
+        /**
+         * @covers Brickoo\Http\Request\Uri::getPathInfo
+         */
+        public function testGetPathInfo() {
+            $Uri = $this->getUriFixture();
+            $this->assertEquals("/arcticles/test-cases", $Uri->getPathInfo());
         }
 
         /**
@@ -112,7 +121,7 @@
          * @covers Brickoo\Http\Request\Uri::toString
          */
         public function testToString() {
-            $expectedUri = "https://fixture.localhost:8080/path/to/script?key=value1";
+            $expectedUri = "https://fixture.localhost:8080/path/to/script/index.php/arcticles/test-cases?key=value1";
 
             $Uri = $this->getUriFixture();
 
@@ -134,9 +143,10 @@
             $scheme = "https";
             $hostname = "fixture.localhost";
             $port = 8080;
-            $path = "/path/to/script";
+            $path = "/path/to/script/index.php/arcticles/test-cases";
+            $pathInfo = "/arcticles/test-cases";
 
-            return new Uri($scheme, $hostname, $port, $path, $Query);
+            return new Uri($scheme, $hostname, $port, $path, $Query, $pathInfo);
         }
 
     }

@@ -55,28 +55,40 @@
         /** @var string */
         private $path;
 
+        /** @var string */
+        private $pathInfo;
+
         /** @var \Brickoo\Http\Request\Interfaces\Query */
         private $Query;
 
         /**
          * Class constructor.
-         * @param string $scheme the url protocol scheme
-         * @param string $hostname the url hostname
-         * @param integer $port the url port number
-         * @param string $path the url path
+         * @param string $scheme the uri protocol scheme
+         * @param string $hostname the uri hostname
+         * @param integer $port the uri port number
+         * @param string $path the uri path
          * @param \Brickoo\Http\Request\Interfaces\Query $Query
+         * @param string|null $pathInfo the uri path info
          * @return void
          */
-        public function __construct($scheme, $hostname, $port, $path, \Brickoo\Http\Request\Interfaces\Query $Query) {
+        public function __construct(
+            $scheme, $hostname, $port, $path, \Brickoo\Http\Request\Interfaces\Query $Query, $pathInfo = null
+        ){
+            if ($pathInfo === null) {
+                $pathInfo = $path;
+            }
+
             Argument::IsString($scheme);
             Argument::IsString($hostname);
             Argument::IsInteger($port);
             Argument::IsString($path);
+            Argument::IsString($pathInfo);
 
             $this->scheme = $scheme;
             $this->hostname = $hostname;
             $this->port = $port;
             $this->path = $path;
+            $this->pathInfo = $pathInfo;
             $this->Query = $Query;
         }
 
@@ -98,6 +110,11 @@
         /** {@inheritDoc} */
         public function getPath() {
             return $this->path;
+        }
+
+        /** {@inheritDoc} */
+        public function getPathInfo() {
+            return $this->pathInfo;
         }
 
         /** {@inheritDoc} */

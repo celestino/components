@@ -42,13 +42,13 @@
     Interface Uri {
 
         /**
-         * Returns the request url protocol scheme.
-         * @return string the url scheme
+         * Returns the request uri protocol scheme.
+         * @return string the uri scheme
          */
         public function getScheme();
 
         /**
-         * Returns the host name or ip address of the url hostname.
+         * Returns the host name or ip address of the uri hostname.
          * @return string the host name
          */
         public function getHostname();
@@ -60,20 +60,31 @@
         public function getPort();
 
         /**
-         * Returns the url (translated) path.
-         * @return string the url path
+         * Returns the uri path.
+         * @return string the uri path
          */
         public function getPath();
 
         /**
-         * Returns the url query dependency.
+         * Returns the uri path info.
+         * Commonly used for routing.
+         * The path info distinct from the uri path
+         * by extracting the script location parts.
+         * In most cases and specialy using rewrite rules
+         * the value equals the uri path.
+         * @return string the uri path info
+         */
+        public function getPathInfo();
+
+        /**
+         * Returns the uri query dependency.
          * @return \Brickoo\Http\Request\Interfaces\Query
          */
         public function getQuery();
 
         /**
-         * Returns the string representation of the url.
-         * @return string the url representation
+         * Returns the string representation of the uri.
+         * @return string the uri representation
          */
         public function toString();
 

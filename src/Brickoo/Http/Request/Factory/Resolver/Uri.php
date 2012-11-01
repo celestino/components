@@ -117,7 +117,7 @@
         }
 
         /**
-         * Returns the request path.
+         * Returns the request uri path.
          * @return string the request uri path
          */
         public function getPath() {
@@ -125,11 +125,33 @@
                 $requestPath = $this->getServerVar("REQUEST_URI");
             }
 
-            if (($position = strpos($requestPath, "?")) !== false) {
-                $requestPath = substr($requestPath, $position +1);
+            return "/". trim(parse_url($requestPath, PHP_URL_PATH), "/");
+        }
+
+        /**
+         * Returns the uri path info.
+         * This is commonly used by having routes matching
+         * a concrete defined path which does not include
+         * the working directory and filename.
+         * @return the request uri path info
+         */
+        public function getPathInfo() {
+            if (! $pathInfo = $this->getServerVar("PATH_INFO")) {
+                $pathInfo = "";
+                $uriPath = $this->getPath();
+                $scriptPath = $this->getServerVar("SCRIPT_FILENAME", "");
+
+                $pathInfoParts = array_diff(
+                    explode("/", trim($uriPath, "/")),
+                    explode(DIRECTORY_SEPARATOR, trim($scriptPath, DIRECTORY_SEPARATOR))
+                );
+
+                if (! empty($pathInfoParts)) {
+                    $pathInfo = implode("/", $pathInfoParts);
+                }
             }
 
-            return "/". trim($requestPath, "/");
+            return "/". trim($pathInfo, "/");
         }
 
         /**
