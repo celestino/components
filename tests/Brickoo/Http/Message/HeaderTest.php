@@ -202,13 +202,13 @@
         /**
          * @covers Brickoo\Http\Message\Header::send
          */
-        public function testSendHeader() {
-            $expectedOutput = "Unit: TEST\r\n";
+        public function testSendHeaderMustBeSorted() {
+            $expectedOutput = "First: HEADER\r\nUnit: TEST\r\n";
             $this->expectOutputString($expectedOutput);
 
             $output = "";
             $Header = new Header();
-            $Header->fromArray(array("Unit" => "TEST"));
+            $Header->fromArray(array("Unit" => "TEST", "FIRST" => "HEADER"));
             $Header->send(function ($header) use (&$output) {$output .= $header ."\r\n";});
 
             echo ($output);
@@ -217,21 +217,18 @@
         /**
          * @covers Brickoo\Http\Message\Header::toString
          */
-        public function testToString() {
+        public function testToStringMustBeSorted() {
             $headers = array(
-                "Accept"            => "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-                "Accept-Language"   => "en-us,en;q=0.5",
-                "Accept-Encoding"   => "gzip,deflate",
                 "Accept-Charset"    => "ISO-8859-1,utf-8;q=0.7,*;q=0.7",
-                "Special"           => array("some", "values")
+                "Accept-Encoding"   => "gzip,deflate",
+                "Accept"            => "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                "Accept-Language"   => "en-us,en;q=0.5"
             );
 
             $expectedHeader = "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n".
-               "Accept-Language: en-us,en;q=0.5\r\n".
-               "Accept-Encoding: gzip,deflate\r\n".
                "Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7\r\n".
-               "Special: some\r\n".
-               "Special: values\r\n";
+               "Accept-Encoding: gzip,deflate\r\n".
+               "Accept-Language: en-us,en;q=0.5\r\n";
 
             $Header = new Header();
             $this->assertSame($Header, $Header->fromArray($headers));

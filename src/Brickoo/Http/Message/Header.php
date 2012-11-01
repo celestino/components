@@ -175,10 +175,9 @@
         public function send($callback = null) {
             $function = (is_callable($callback) ? $callback : "header");
 
-            $this->rewind();
-            while($this->valid()) {
-                call_user_func($function, sprintf("%s: %s", $this->key(), $this->current()));
-                $this->next();
+            $header = $this->normalizeHeaders($this->toArray());
+            foreach($header as $key => $value) {
+                call_user_func($function, sprintf("%s: %s", $key, $value));
             }
 
             return $this;
@@ -186,23 +185,33 @@
 
         /** {@inheritDoc} */
         public function toString() {
-            $headers = "";
+            $headerString = "";
 
-            $this->rewind();
-            while ($this->valid()) {
-                $headerName = $this->key();
-                $headerValue = $this->current();
-                $headerValues = (is_array($headerValue) ? $headerValue : array($headerValue));
-                foreach ($headerValues as $value) {
-                    $headerName = str_replace(" ", "-", ucwords(
-                        strtolower(str_replace(array("_", "-"), " ", $headerName))
-                    ));
-                    $headers .= sprintf("%s: %s\r\n", $headerName, $value);
-                }
-                $this->next();
+            $header = $this->normalizeHeaders($this->toArray());
+            foreach($header as $key => $value) {
+                $headerString .= sprintf("%s: %s\r\n", $key, $value);
             }
 
-            return $headers;
+            return $headerString;
+        }
+
+        /**
+         * Normalizes the headers keys.
+         * @param array $headers the headers to normalized
+         * @return array the normalized headers
+         */
+        private function normalizeHeaders(array $headers) {
+            $normalizedHeaders = array();
+
+            foreach ($headers as $headerName => $headerValue) {
+                $headerName = str_replace(" ", "-", ucwords(
+                    strtolower(str_replace(array("_", "-"), " ", $headerName))
+                ));
+                $normalizedHeaders[$headerName] = $headerValue;
+            }
+
+            ksort($normalizedHeaders);
+            return $normalizedHeaders;
         }
 
     }
