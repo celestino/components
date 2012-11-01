@@ -121,11 +121,11 @@
          * @return \Brickoo\Http\Interfaces\Request
          */
         private function getRequestStub() {
-            $Url = $this->getMock('Brickoo\Http\Request\Interfaces\Url');
-            $Url->expects($this->any())
+            $Uri = $this->getMock('Brickoo\Http\Request\Interfaces\Uri');
+            $Uri->expects($this->any())
                 ->method('getHostname')
                 ->will($this->returnValue('localhost'));
-            $Url->expects($this->any())
+            $Uri->expects($this->any())
                 ->method('getScheme')
                 ->will($this->returnValue('https'));
 
@@ -134,8 +134,8 @@
                     ->method('getMethod')
                     ->will($this->returnValue('GET'));
             $Request->expects($this->any())
-                    ->method('getUrl')
-                    ->will($this->returnValue($Url));
+                    ->method('getUri')
+                    ->will($this->returnValue($Uri));
             $Request->expects($this->any())
                     ->method('getPath')
                     ->will($this->returnValue('/artikeln/doing_unit-tests'));

@@ -112,11 +112,11 @@
             return (preg_match("~^(". $Route->getMethod() .")$~i", $this->Request->getMethod()) == 1
                 && (
                     (($hostname = $Route->getHostname()) === null)
-                    || preg_match("~^(". $hostname .")$~i", $this->Request->getUrl()->getHostname()) == 1
+                    || preg_match("~^(". $hostname .")$~i", $this->Request->getUri()->getHostname()) == 1
                 )
                 && (
                     (($scheme = $Route->getScheme()) === null)
-                    || preg_match("~^(". $scheme .")$~i", $this->Request->getUrl()->getScheme()) == 1
+                    || preg_match("~^(". $scheme .")$~i", $this->Request->getUri()->getScheme()) == 1
                 )
             );
         }

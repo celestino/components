@@ -33,13 +33,13 @@
     namespace Brickoo\Http\Request\Interfaces;
 
     /**
-     * Url
+     * Uri
      *
-     * Describes a uniform resource location description.
+     * Describes a uniform resource identifier description.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    Interface Url {
+    Interface Uri {
 
         /**
          * Returns the request url protocol scheme.

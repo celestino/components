@@ -33,7 +33,7 @@
     namespace Brickoo\Http\Request\Factory\Resolver;
 
     /**
-     * Url
+     * Uri
      *
      * Implements a resolver for the url factory.
      * WARNING: This implementation has not an explicit interface as a contract,
@@ -41,7 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Url {
+    class Uri {
 
         /** @var \Brickoo\Http\Message\Interfaces\Header */
         private $Header;
@@ -121,7 +121,7 @@
          * @return string the request request path
          */
         public function getPath() {
-            if (! $requestPath = $this->getIISRequestUrl()) {
+            if (! $requestPath = $this->getIISRequestUri()) {
                 $requestPath = $this->getServerVar("REQUEST_URI");
             }
 
@@ -136,9 +136,9 @@
          * Returns the IIS request url assigned if available.
          * @return string the request url
          */
-        private function getIISRequestUrl() {
-            if (! $requestPath = $this->Header->get("X-Original-Url")) {
-                $requestPath = $this->Header->get("X-Rewrite-Url");
+        private function getIISRequestUri() {
+            if (! $requestPath = $this->Header->get("X-Original-Uri")) {
+                $requestPath = $this->Header->get("X-Rewrite-Uri");
             }
 
             return $requestPath;

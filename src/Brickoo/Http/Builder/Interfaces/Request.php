@@ -57,10 +57,10 @@
 
         /**
          * Sets the http request url dependency.
-         * @param \Brickoo\Http\Request\Interfaces\Url $Url
+         * @param \Brickoo\Http\Request\Interfaces\Uri $Uri
          * @return \Brickoo\Http\Request\Interfaces\Builder
          */
-        public function setUrl(\Brickoo\Http\Request\Interfaces\Url $Url);
+        public function setUri(\Brickoo\Http\Request\Interfaces\Uri $Uri);
 
         /**
          * Sets the request method (e.g. GET, POST, PUT, etc.).

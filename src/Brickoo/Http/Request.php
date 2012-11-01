@@ -49,8 +49,8 @@
         /** @var \Brickoo\Http\Message\Interfaces\Body */
         private $Body;
 
-        /** @var \Brickoo\Http\Request\Interfaces\Url */
-        private $Url;
+        /** @var \Brickoo\Http\Request\Interfaces\Uri */
+        private $Uri;
 
         /** @var string */
         private $method;
@@ -62,7 +62,7 @@
          * Class constructor.
          * @param \Brickoo\Http\Message\Interfaces\Header $Header
          * @param \Brickoo\Http\Message\Interfaces\Body $Body
-         * @param \Brickoo\Http\Request\Interfaces\Url $Url
+         * @param \Brickoo\Http\Request\Interfaces\Uri $Uri
          * @param string|null $method the http request method
          * @param string|null $version the http request protocol version
          * @throws \InvalidArgumentException if an argument is not valid
@@ -71,7 +71,7 @@
         public function __construct(
             \Brickoo\Http\Message\Interfaces\Header $Header,
             \Brickoo\Http\Message\Interfaces\Body $Body,
-            \Brickoo\Http\Request\Interfaces\Url $Url,
+            \Brickoo\Http\Request\Interfaces\Uri $Uri,
             $method = null, $version = null
         ){
             if ($method !== null) {
@@ -84,7 +84,7 @@
 
             $this->Header = $Header;
             $this->Body = $Body;
-            $this->Url = $Url;
+            $this->Uri = $Uri;
             $this->method = $method;
             $this->version = $version;
         }
@@ -100,18 +100,18 @@
         }
 
         /** {@inheritDoc} */
-        public function getUrl() {
-            return $this->Url;
+        public function getUri() {
+            return $this->Uri;
         }
 
         /** {@inheritDoc} */
         public function getQuery() {
-            return $this->Url->getQuery();
+            return $this->Uri->getQuery();
         }
 
         /** {@inheritDoc} */
         public function getPath() {
-            return $this->Url->getPath();
+            return $this->Uri->getPath();
         }
 
         /** {@inheritDoc} */

@@ -65,13 +65,13 @@
         }
 
         /**
-         * @covers Brickoo\Http\Builder\Request::setUrl
+         * @covers Brickoo\Http\Builder\Request::setUri
          */
-        public function testSetUrlDependency() {
-            $Url = $this->getMock('Brickoo\Http\Request\Interfaces\Url');
+        public function testSetUriDependency() {
+            $Uri = $this->getMock('Brickoo\Http\Request\Interfaces\Uri');
             $RequestBuilder = new Request();
-            $RequestBuilder->setUrl($Url);
-            $this->assertAttributeSame($Url, "Url", $RequestBuilder);
+            $RequestBuilder->setUri($Uri);
+            $this->assertAttributeSame($Uri, "Uri", $RequestBuilder);
         }
 
         /**
@@ -116,7 +116,7 @@
          * @covers Brickoo\Http\Builder\Request::build
          * @covers Brickoo\Http\Builder\Request::getHeader
          * @covers Brickoo\Http\Builder\Request::getBody
-         * @covers Brickoo\Http\Builder\Request::getUrl
+         * @covers Brickoo\Http\Builder\Request::getUri
          */
         public function testAutoBuild() {
             $RequestBuilder = new Request();
@@ -128,19 +128,19 @@
          * @covers Brickoo\Http\Builder\Request::build
          * @covers Brickoo\Http\Builder\Request::getHeader
          * @covers Brickoo\Http\Builder\Request::getBody
-         * @covers Brickoo\Http\Builder\Request::getUrl
+         * @covers Brickoo\Http\Builder\Request::getUri
          */
         public function testCustomBuild() {
             $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
             $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
-            $Url = $this->getMock('Brickoo\Http\Request\Interfaces\Url');
+            $Uri = $this->getMock('Brickoo\Http\Request\Interfaces\Uri');
             $method = "POST";
             $version = \Brickoo\Http\Interfaces\Request::HTTP_VERSION_1_1;
 
             $RequestBuilder = new Request();
             $RequestBuilder->setHeader($Header)
                            ->setBody($Body)
-                           ->setUrl($Url)
+                           ->setUri($Uri)
                            ->setMethod($method)
                            ->setVersion($version);
 
@@ -148,7 +148,7 @@
             $this->assertInstanceOf('Brickoo\Http\Interfaces\Request', $Request);
             $this->assertAttributeSame($Header, "Header", $Request);
             $this->assertAttributeSame($Body, "Body", $Request);
-            $this->assertAttributeSame($Url, "Url", $Request);
+            $this->assertAttributeSame($Uri, "Uri", $Request);
             $this->assertAttributeEquals($method, "method", $Request);
             $this->assertAttributeEquals($version, "version", $Request);
         }

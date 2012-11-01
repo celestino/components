@@ -35,13 +35,13 @@
     use Brickoo\Validator\Argument;
 
     /**
-     * Url
+     * Uri
      *
-     * Implements a uniform resource locater description.
+     * Implements a uniform resource identifier description.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Url implements Interfaces\Url {
+    class Uri implements Interfaces\Uri {
 
         /** @var string */
         private $scheme;

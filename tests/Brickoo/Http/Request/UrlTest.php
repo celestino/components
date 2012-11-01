@@ -32,20 +32,20 @@
 
     namespace Tests\Brickoo\Http\Component;
 
-    use Brickoo\Http\Request\Url;
+    use Brickoo\Http\Request\Uri;
 
     /**
-     * UrlTest
+     * UriTest
      *
-     * Test suite for the Url class.
-     * @see Brickoo\Http\Request\Url
+     * Test suite for the Uri class.
+     * @see Brickoo\Http\Request\Uri
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class UrlTest extends \PHPUnit_Framework_TestCase {
+    class UriTest extends \PHPUnit_Framework_TestCase {
 
         /**
-         * @covers Brickoo\Http\Request\Url::__construct
+         * @covers Brickoo\Http\Request\Uri::__construct
          */
         public function testConstructor() {
             $Query = $this->getMock('Brickoo\Http\Request\Interfaces\Query');
@@ -54,48 +54,48 @@
             $port = 8080;
             $path = "/path/to/script";
 
-            $Url = new Url($scheme, $hostname, $port, $path, $Query);
-            $this->assertInstanceOf('Brickoo\Http\Request\Interfaces\Url', $Url);
-            $this->assertAttributeEquals($scheme, "scheme", $Url);
-            $this->assertAttributeEquals($hostname, "hostname", $Url);
-            $this->assertAttributeEquals($port, "port", $Url);
-            $this->assertAttributeEquals($path, "path", $Url);
+            $Uri = new Uri($scheme, $hostname, $port, $path, $Query);
+            $this->assertInstanceOf('Brickoo\Http\Request\Interfaces\Uri', $Uri);
+            $this->assertAttributeEquals($scheme, "scheme", $Uri);
+            $this->assertAttributeEquals($hostname, "hostname", $Uri);
+            $this->assertAttributeEquals($port, "port", $Uri);
+            $this->assertAttributeEquals($path, "path", $Uri);
         }
 
         /**
-         * @covers Brickoo\Http\Request\Url::getScheme
+         * @covers Brickoo\Http\Request\Uri::getScheme
          */
         public function testGetScheme() {
-            $Url = $this->getUrlFixture();
-            $this->assertEquals("https", $Url->getScheme());
+            $Uri = $this->getUriFixture();
+            $this->assertEquals("https", $Uri->getScheme());
         }
 
         /**
-         * @covers Brickoo\Http\Request\Url::getHostname
+         * @covers Brickoo\Http\Request\Uri::getHostname
          */
         public function testGetHostname() {
-            $Url = $this->getUrlFixture();
-            $this->assertEquals("fixture.localhost", $Url->getHostname());
+            $Uri = $this->getUriFixture();
+            $this->assertEquals("fixture.localhost", $Uri->getHostname());
         }
 
         /**
-         * @covers Brickoo\Http\Request\Url::getPort
+         * @covers Brickoo\Http\Request\Uri::getPort
          */
         public function testGetPort() {
-            $Url = $this->getUrlFixture();
-            $this->assertEquals(8080, $Url->getPort());
+            $Uri = $this->getUriFixture();
+            $this->assertEquals(8080, $Uri->getPort());
         }
 
         /**
-         * @covers Brickoo\Http\Request\Url::getPath
+         * @covers Brickoo\Http\Request\Uri::getPath
          */
         public function testGetPath() {
-            $Url = $this->getUrlFixture();
-            $this->assertEquals("/path/to/script", $Url->getPath());
+            $Uri = $this->getUriFixture();
+            $this->assertEquals("/path/to/script", $Uri->getPath());
         }
 
         /**
-         * @covers Brickoo\Http\Request\Url::getQuery
+         * @covers Brickoo\Http\Request\Uri::getQuery
          */
         public function testGetQuery() {
             $Query = $this->getMock('Brickoo\Http\Request\Interfaces\Query');
@@ -104,31 +104,31 @@
             $port = 8080;
             $path = "/path/to/script";
 
-            $Url = new Url($scheme, $hostname, $port, $path, $Query);
-            $this->assertSame($Query, $Url->getQuery());
+            $Uri = new Uri($scheme, $hostname, $port, $path, $Query);
+            $this->assertSame($Query, $Uri->getQuery());
         }
 
         /**
-         * @covers Brickoo\Http\Request\Url::toString
+         * @covers Brickoo\Http\Request\Uri::toString
          */
         public function testToString() {
-            $expectedUrl = "https://fixture.localhost:8080/path/to/script?key=value1";
+            $expectedUri = "https://fixture.localhost:8080/path/to/script?key=value1";
 
-            $Url = $this->getUrlFixture();
+            $Uri = $this->getUriFixture();
 
-            $Query = $Url->getQuery();
+            $Query = $Uri->getQuery();
             $Query->expects($this->any())
                   ->method("toString")
                   ->will($this->returnValue("key=value1"));
 
-            $this->assertEquals($expectedUrl, $Url->toString());
+            $this->assertEquals($expectedUri, $Uri->toString());
         }
 
         /**
-         * Returns a Url fixture object.
-         * @return \Brickoo\Http\Request\Url
+         * Returns a Uri fixture object.
+         * @return \Brickoo\Http\Request\Uri
          */
-        private function getUrlFixture() {
+        private function getUriFixture() {
             $Query = $this->getMock('Brickoo\Http\Request\Interfaces\Query');
 
             $scheme = "https";
@@ -136,7 +136,7 @@
             $port = 8080;
             $path = "/path/to/script";
 
-            return new Url($scheme, $hostname, $port, $path, $Query);
+            return new Uri($scheme, $hostname, $port, $path, $Query);
         }
 
     }
