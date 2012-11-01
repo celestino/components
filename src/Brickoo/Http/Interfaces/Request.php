@@ -49,7 +49,7 @@
         const HTTP_VERSION_1_1 = "HTTP/1.1";
 
         /**
-         * Returnsthe request url dependency.
+         * Returns the request uri dependency.
          * @return \Brickoo\Http\Request\Interfaces\Uri
          */
         public function getUri();
@@ -71,12 +71,6 @@
          * @return \Brickoo\Http\Request\Interfaces\Query
          */
         public function getQuery();
-
-        /**
-         * Returns the (translated) rquest path.
-         * @return string the request path
-         */
-        public function getPath();
 
         /**
          * Returns the http request method.

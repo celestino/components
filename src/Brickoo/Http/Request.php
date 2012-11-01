@@ -110,11 +110,6 @@
         }
 
         /** {@inheritDoc} */
-        public function getPath() {
-            return $this->Uri->getPath();
-        }
-
-        /** {@inheritDoc} */
         public function getMethod() {
             if ($this->method === null) {
                 $this->method = $this->getServerVar("REQUEST_METHOD", "GET");
@@ -145,7 +140,7 @@
         public function toString() {
             $queryString = (($queryString = $this->getQuery()->toString()) ? "?". $queryString : "");
 
-            $request  = sprintf("%s %s %s\r\n", $this->getMethod(), $this->getPath() . $queryString, $this->getVersion());
+            $request  = sprintf("%s %s %s\r\n", $this->getMethod(), $this->getUri()->getPath() . $queryString, $this->getVersion());
             $request .= rtrim($this->getHeader()->toString(), "\r\n");
             $request .= "\r\n\r\n". $this->getBody()->getContent();
 
