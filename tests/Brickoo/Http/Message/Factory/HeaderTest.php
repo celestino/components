@@ -87,16 +87,13 @@
                 "Accept"            => "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
                 "Accept-Language"   => "en-us,en;q=0.5",
                 "Accept-Encoding"   => "gzip,deflate",
-                "Accept-Charset"    => "ISO-8859-1,utf-8;q=0.7,*;q=0.7",
-                "Special"           => array('some', 'values')
+                "Accept-Charset"    => "ISO-8859-1,utf-8;q=0.7,*;q=0.7"
             );
 
             $headers = "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n".
                        "Accept-Language: en-us,en;q=0.5\r\n".
                        "Accept-Encoding: gzip,deflate\r\n".
-                       "Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7\r\n".
-                       "Special: some\r\n".
-                       "Special: values";
+                       "Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7";
 
             $Header = Header::CreateFromString($headers);
             $this->assertInstanceOf('Brickoo\Http\Message\Interfaces\Header', $Header);

@@ -82,16 +82,7 @@
             foreach ($fields as $field) {
                 if (preg_match("/(?<name>[^:]+): (?<value>.+)/m", $field, $match)) {
                     $match["name"] = preg_replace("/(?<=^|[\x09\x20\x2D])./e", 'strtoupper("\0")', strtolower(trim($match["name"])));
-
-                    if( isset($importedHeaders[$match["name"]])) {
-                        if(! is_array($importedHeaders[$match["name"]])) {
-                            $importedHeaders[$match["name"]] = array($importedHeaders[$match["name"]]);
-                        }
-                        $importedHeaders[$match["name"]] = array_merge($importedHeaders[$match["name"]], array($match["value"]));
-                    }
-                    else {
-                        $importedHeaders[$match["name"]] = trim($match["value"]);
-                    }
+                    $importedHeaders[$match["name"]] = trim($match["value"]);
                 }
             }
 
@@ -113,6 +104,7 @@
                 $normalizedHeaders[$headerName] = $headerValue;
             }
 
+            ksort($normalizedHeaders);
             return $normalizedHeaders;
         }
 
