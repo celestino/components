@@ -143,23 +143,6 @@
         }
 
         /**
-         * @covers Brickoo\Http\Request::getPath
-         */
-        public function testGetPath() {
-            $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
-            $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
-
-            $expectedPath = "/path/to/script";
-            $Uri = $this->getMock('\Brickoo\Http\Request\Interfaces\Uri');
-            $Uri->expects($this->once())
-                ->method("getPath")
-                ->will($this->returnValue($expectedPath));
-
-            $Request = new Request($Header, $Body, $Uri);
-            $this->assertSame($expectedPath, $Request->getPath());
-        }
-
-        /**
          * @covers Brickoo\Http\Request::getMethod
          */
         public function testGetMethod() {
