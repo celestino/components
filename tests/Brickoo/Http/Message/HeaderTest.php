@@ -201,6 +201,7 @@
 
         /**
          * @covers Brickoo\Http\Message\Header::send
+         * @covers Brickoo\Http\Message\Header::normalizeHeaders
          */
         public function testSendHeaderMustBeSorted() {
             $expectedOutput = "First: HEADER\r\nUnit: TEST\r\n";
@@ -216,6 +217,7 @@
 
         /**
          * @covers Brickoo\Http\Message\Header::toString
+         * @covers Brickoo\Http\Message\Header::normalizeHeaders
          */
         public function testToStringMustBeSorted() {
             $headers = array(
