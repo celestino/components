@@ -317,6 +317,30 @@
         }
 
         /**
+         * @covers Brickoo\Event\Manager::process
+         */
+        public function testResponseCollectionIsReturnedWithoutHavingListeners() {
+            $eventName = 'test.event.manager.collect';
+
+            $Event = $this->getMock('Brickoo\Event\Interfaces\Event');
+            $Event->expects($this->any())
+                  ->method('getName')
+                  ->will($this->returnValue($eventName));
+
+            $ListenerCollection = $this->getMock('Brickoo\Event\Listener\Interfaces\Collection');
+            $ListenerCollection->expects($this->any())
+                               ->method('hasListeners')
+                               ->will($this->returnValue(false));
+
+            $EventManager = new Manager(
+                $this->getMock('Brickoo\Event\Process\Interfaces\Processor'),
+                $ListenerCollection,
+                $this->getMock('Brickoo\Memory\Interfaces\Container')
+            );
+            $this->assertInstanceOf('\Brickoo\Event\Response\Interfaces\Collection', $EventManager->collect($Event));
+        }
+
+        /**
          * Returns an event manager fixture configured with the arguments.
          * @param string $eventName the event name
          * @param \Brickoo\Event\Interfaces\Event $Event the event triggered
