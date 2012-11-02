@@ -42,19 +42,13 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Uri {
+    class Uri implements Interfaces\Uri {
 
         /** @var string */
         private $location;
 
         /** @var \Brickoo\Routing\Interfaces\Router */
         private $Router;
-
-        /** @var array */
-        private $pathParameters;
-
-        /** @var string */
-        private $queryString;
 
         /**
          * Class constructor.
@@ -66,50 +60,52 @@
             Argument::IsString($location);
             $this->Router = $Router;
             $this->location = $location;
-            $this->pathParameters = array();
-            $this->queryString = "";
         }
 
         /** {@inheritDoc} */
-        public function setPathParameters(array $pathParameters) {
-            $this->pathParameters = $pathParameters;
-            return $this;
-        }
-
-        /** {@inheritDoc} */
-        public function setQueryString($queryString) {
-            Argument::IsString($queryString);
-            $this->queryString = $queryString;
-            return $this;
-        }
-
-        /** {@inheritDoc} */
-        public function build($routeName) {
+        public function build($routeName, array $pathParameters, $queryString = null) {
             Argument::IsString($routeName);
+
+            if ($queryString !== null) {
+                Argument::IsString($queryString);
+            }
+
+            if (! $this->Router->hasRoute($routeName)) {
+                throw new Exceptions\RouteNotFound($routeName);
+            }
 
             $Route = $this->Router->getRoute($routeName);
 
-            $expectedPath = $this->getExpectedRoutePath($Route);
+            $expectedPath = $this->getExpectedRoutePath($Route, $pathParameters);
 
             if (! preg_match_all($this->getRegexFromRoute($Route), $expectedPath, $matches)) {
                 throw new Exceptions\PathNotValid($routeName, $expectedPath);
             }
 
-            $queryString = empty($this->queryString) ? "" : "?". ltrim($this->queryString, "?");
-            $uri = rtrim($this->location, "/") . $expectedPath. $queryString;
+            return UriFactory::CreateFromString($this->createUriString($expectedPath, $queryString));
+        }
 
-            return UriFactory::CreateFromString($uri);
+        /**
+         * Returns the created uri string.
+         * @param string $uriPath the uri path
+         * @param string $queryString the query string
+         * @return string the created uri string
+         */
+        private function createUriString($uriPath, $query) {
+            return rtrim($this->location, "/") . $uriPath. (empty($query) ? "" : "?". ltrim($query, "?"));
         }
 
         /**
          * Returns the expected uri path to validate against the route path.
          * @param \Brickoo\Routing\Interfaces\Route $Route
+         * @param array $pathParameters the path parameters to use
          * @throws Exceptions\RequiredParametersMissing if a required parameter is missing
          * @return string the uri path expected
          */
-        private function getExpectedRoutePath(\Brickoo\Routing\Interfaces\Route $Route) {
+        private function getExpectedRoutePath(\Brickoo\Routing\Interfaces\Route $Route, $pathParameters) {
             $routePath = $Route->getPath();
-            $pathParameters = array_merge($this->pathParameters, $Route->getDefaultValues());
+            $pathParameters = array_merge($pathParameters, $Route->getDefaultValues());
+
             foreach ($pathParameters as $parameter => $value) {
                 $routePath = str_replace("{". $parameter ."}", $value, $routePath);
             }

@@ -50,38 +50,15 @@
         public function testConstructor() {
             $Router = $this->getRouterFixture("test.case");
             $location = "http://test-case.localhost:8080";
+
             $UriBuilder = new Uri($Router, $location);
+            $this->assertAttributeSame($Router, "Router", $UriBuilder);
             $this->assertAttributeEquals($location, "location", $UriBuilder);
-            $this->assertAttributeEquals(array(), "pathParameters", $UriBuilder);
-            $this->assertAttributeEquals("", "queryString", $UriBuilder);
-        }
-
-        /**
-         * @covers Brickoo\Routing\Builder\Uri::setPathParameters
-         */
-        public function testSetPathParamers() {
-            $Router = $this->getRouterFixture("test.case");
-            $pathParameters = array("article" => "test-case");
-            $UriBuilder = new Uri($Router, "http://test-case.localhost:8080");
-
-            $this->assertSame($UriBuilder, $UriBuilder->setPathParameters($pathParameters));
-            $this->assertAttributeEquals($pathParameters, "pathParameters", $UriBuilder);
-        }
-
-        /**
-         * @covers Brickoo\Routing\Builder\Uri::setQueryString
-         */
-        public function testSetQueryString() {
-            $Router = $this->getRouterFixture("test.case");
-            $queryString = "order=date_desc";
-            $UriBuilder = new Uri($Router, "http://test-case.localhost:8080");
-
-            $this->assertSame($UriBuilder, $UriBuilder->setQueryString($queryString));
-            $this->assertAttributeEquals($queryString, "queryString", $UriBuilder);
         }
 
         /**
          * @covers Brickoo\Routing\Builder\Uri::build
+         * @covers Brickoo\Routing\Builder\Uri::createUriString
          * @covers Brickoo\Routing\Builder\Uri::getExpectedRoutePath
          * @covers Brickoo\Routing\Builder\Uri::getRegexFromRoute
          * @covers Brickoo\Routing\Builder\Uri::replaceRoutePathWithRulesExpressions
@@ -94,11 +71,22 @@
             $Router = $this->getRouterFixture($routeName);
 
             $UriBuilder = new Uri($Router, "http://test-case.localhost:8080");
-            $CreatedUri = $UriBuilder->setPathParameters($pathParameters)
-                                     ->setQueryString($queryString)
-                                     ->build($routeName);
+            $CreatedUri = $UriBuilder->build($routeName, $pathParameters, $queryString);
 
             $this->assertInstanceOf('Brickoo\Http\Request\Interfaces\Uri', $CreatedUri);
+        }
+
+        /**
+         * @covers Brickoo\Routing\Builder\Uri::build
+         * @covers Brickoo\Routing\Builder\Exceptions\RouteNotFound
+         * @expectedException Brickoo\Routing\Builder\Exceptions\RouteNotFound
+         */
+        public function testBuildThrowsRouteNotFoundException() {
+            $routeName = "news.get.articles";
+            $Router = $this->getRouterFixture($routeName);
+
+            $UriBuilder = new Uri($Router, "http://test-case.localhost:8080");
+            $UriBuilder->build("unknown.route.name", array());
         }
 
         /**
@@ -113,8 +101,7 @@
             $Router = $this->getRouterFixture($routeName);
 
             $UriBuilder = new Uri($Router, "http://test-case.localhost:8080");
-            $CreatedUri = $UriBuilder->setPathParameters($pathParameters)
-                                     ->build($routeName);
+            $UriBuilder->build($routeName, $pathParameters);
         }
 
         /**
@@ -128,7 +115,7 @@
             $Router = $this->getRouterFixture($routeName);
 
             $UriBuilder = new Uri($Router, "http://test-case.localhost:8080");
-            $CreatedUri = $UriBuilder->build($routeName);
+            $UriBuilder->build($routeName, array());
         }
 
         /**
@@ -168,7 +155,15 @@
                   ->method("getDefaultValues")
                   ->will($this->returnValue($defaultValues));
 
+            $routeValuesMap = array(
+                array("news.get.articles", true),
+                array("unknown.route.name", false)
+            );
+
             $Router = $this->getMock('Brickoo\Routing\Interfaces\Router');
+            $Router->expects($this->any())
+                   ->method("hasRoute")
+                   ->will($this->returnValueMap($routeValuesMap));
             $Router->expects($this->any())
                    ->method("getRoute")
                    ->with($routeName)

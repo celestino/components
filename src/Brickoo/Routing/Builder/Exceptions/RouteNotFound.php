@@ -30,28 +30,25 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Routing\Builder\Interfaces;
+    namespace Brickoo\Routing\Builder\Exceptions;
 
     /**
-     * Uri
+     * RouteNotFound
      *
-     * Describes a uri builder to create a route matching http request uri.
+     * Exception throwed if the route could not be found.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface Uri {
+    class RouteNotFound extends \Exception {
 
         /**
-         * Builds the request uri object with the configuration provided.
-         * @param string $routeName the route to use for the build
-         * @param array $pathParameters the path parameters
-         * @param string $queryParameters the query parameters
-         * @throws \InvalidArgumentException if an argument is not valid
-         * @throws \Brickoo\Routing\Builder\Exceptions\RouteNotFound
-         * @throws \Brickoo\Routing\Builder\Exceptions\PathNotValid
-         * @throws \Brickoo\Routing\Builder\Exceptions\RequiredParametersMissing
-         * @return \Brickoo\Http\Request\Interfaces\Uri
+         * Class constructor.
+         * Calls the parent Exception constructor.
+         * @param string $routeName the route which could not be found.
+         * @return void
          */
-        public function build($routeName, array $pathParameters, $queryString = null);
+        public function __construct($routeName) {
+            parent::__construct(sprintf('The route `%s` could not be found.', $routeName));
+        }
 
     }
