@@ -78,8 +78,10 @@
 
             preg_match("~^(?<scheme>[^@:/?#]+)://(.*@)?(?<hostname>[^/?:#]*)(:(?<port>\d+))?(?<path>[^?#]*)(\?(?<query>[^#]*))?~u", $uri, $uriParts);
 
-            settype($uriParts["port"], "integer");
+            $uriParts["path"] = isset($uriParts["path"]) ? $uriParts["path"] : "/";
+            $uriParts["query"] = isset($uriParts["query"]) ? $uriParts["query"] : "";
 
+            settype($uriParts["port"], "integer");
             if ($uriParts["port"] == 0) {
                 $uriParts["port"] = $uriParts["scheme"] == "https" ? 443 : 80;
             }
