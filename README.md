@@ -21,7 +21,7 @@ BrickOO has been tested with PHPUnit 3.7 in strict mode.
 
 ###Contributing
 BrickOO is an open source project. If you would like to contribute to BrickOO, please take a look at the 
-[Coding Standards](https://github.com/brickoo/brickoo/wiki/Coding-Standards).
+[Coding Standards](http://brickoo.github.com/brickoo/coding-standards.html).
 
 
 ###Requests

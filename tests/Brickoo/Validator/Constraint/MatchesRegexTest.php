@@ -76,7 +76,7 @@
         /**
          * @covers Brickoo\Validator\Constraint\MatchesRegex::assert
          */
-        public function testAssertRegularExpresionFails() {
+        public function testAssertRegularExpressionFails() {
             $compareWith ="test case";
             $regularExpression = "~^[a-z]+$~";
 

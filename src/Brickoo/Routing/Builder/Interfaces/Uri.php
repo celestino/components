@@ -30,40 +30,39 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Validator\Constraint;
-
-    use Brickoo\Validator\Argument;
+    namespace Brickoo\Routing\Builder\Interfaces;
 
     /**
-     * MatchesRegex
+     * Uri
      *
-     * Asserts that a string matches a regular expression.
+     * Describes a uri builder to create a route matching http request uri.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class MatchesRegex implements Interfaces\Constraint {
-
-        /** @var string */
-        private $regularExpression;
+    interface Uri {
 
         /**
-         * Class constructor.
-         * @param string $regularExpression the regular expression to use
-         * @throws \InvalidArgumentException if an argument is not valid
-         * @return void
+         * Sets the path parameters to inject as key/value pairs.
+         * Paramaters not defined should be replaced by the default value.
+         * @param array $pathParameters the path parameters
+         * @return \Brickoo\Routing\Builder\Interfaces\Uri
          */
-        public function __construct($regularExpression) {
-            Argument::IsString($regularExpression);
-            $this->regularExpression = $regularExpression;
-        }
+        public function setPathParameters(array $pathParameters);
 
         /**
-         * {@inheritDoc}
-         * @param string $compareWith the value to compare with the regex
+         * Sets the query string to append.
+         * @param string $queryParameters the query parameters
+         * @throws \InvalidArgumentException if the argument is not valid
+         * @return \Brickoo\Routing\Builder\Interfaces\Uri
          */
-        public function assert($compareWith) {
-            Argument::IsString($compareWith);
-            return (preg_match_all($this->regularExpression, $compareWith, $matches) != 0);
-        }
+        public function setQueryString($queryString);
+
+        /**
+         * Builds the request uri object with the configuration provided.
+         * @param string $routeName the route to use for the build
+         * @throws \InvalidArgumentException if the argument is not valid
+         * @return \Brickoo\Http\Request\Interfaces\Uri
+         */
+        public function build($routeName);
 
     }

@@ -30,40 +30,30 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Validator\Constraint;
-
-    use Brickoo\Validator\Argument;
+    namespace Brickoo\Routing\Builder\Exceptions;
 
     /**
-     * MatchesRegex
+     * RequiredParametersMissing
      *
-     * Asserts that a string matches a regular expression.
+     * Exception throwed if the uri builder is missing required parameters to generate the route path.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class MatchesRegex implements Interfaces\Constraint {
-
-        /** @var string */
-        private $regularExpression;
+    class RequiredParametersMissing extends \Exception {
 
         /**
          * Class constructor.
-         * @param string $regularExpression the regular expression to use
-         * @throws \InvalidArgumentException if an argument is not valid
+         * Calls the parent Exception constructor.
+         * @param string $routeName the route name
+         * @param array $parametersMissed the parameters missed as array values
          * @return void
          */
-        public function __construct($regularExpression) {
-            Argument::IsString($regularExpression);
-            $this->regularExpression = $regularExpression;
-        }
-
-        /**
-         * {@inheritDoc}
-         * @param string $compareWith the value to compare with the regex
-         */
-        public function assert($compareWith) {
-            Argument::IsString($compareWith);
-            return (preg_match_all($this->regularExpression, $compareWith, $matches) != 0);
+        public function __construct($routeName, array $parametersMissed) {
+            parent::__construct(sprintf(
+                "The route `%s` requires missing parameter(s) `%s`.",
+                $routeName,
+                implode(", ", array_values($parametersMissed))
+            ));
         }
 
     }

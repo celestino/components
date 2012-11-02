@@ -146,7 +146,7 @@
          * @return array the listener responses otherwise null on failure
          */
         private function process(\Brickoo\Event\Interfaces\Event $Event, $behaviourControllFlag) {
-            $response = null;
+            $response = array();
             $eventName = $Event->getName();
 
             if (! $this->ListenerCollection->hasListeners($eventName)) {

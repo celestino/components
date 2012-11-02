@@ -30,40 +30,26 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Validator\Constraint;
-
-    use Brickoo\Validator\Argument;
+    namespace Brickoo\Routing\Builder\Exceptions;
 
     /**
-     * MatchesRegex
+     * PathNotValid
      *
-     * Asserts that a string matches a regular expression.
+     * Exception throwed if the uri builder could not generate a valid route path.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class MatchesRegex implements Interfaces\Constraint {
-
-        /** @var string */
-        private $regularExpression;
+    class PathNotValid extends \Exception {
 
         /**
          * Class constructor.
-         * @param string $regularExpression the regular expression to use
-         * @throws \InvalidArgumentException if an argument is not valid
+         * Calls the parent Exception constructor.
+         * @param string $routeName the route name
+         * @param string $invalidPath the path which is not valid
          * @return void
          */
-        public function __construct($regularExpression) {
-            Argument::IsString($regularExpression);
-            $this->regularExpression = $regularExpression;
-        }
-
-        /**
-         * {@inheritDoc}
-         * @param string $compareWith the value to compare with the regex
-         */
-        public function assert($compareWith) {
-            Argument::IsString($compareWith);
-            return (preg_match_all($this->regularExpression, $compareWith, $matches) != 0);
+        public function __construct($routeName, $invalidPath) {
+            parent::__construct(sprintf("The path `%s` is not valid for the route `%s`.", $invalidPath, $routeName));
         }
 
     }

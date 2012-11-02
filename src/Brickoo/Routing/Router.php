@@ -32,9 +32,7 @@
 
     namespace Brickoo\Routing;
 
-    use Brickoo\Event\Event,
-        Brickoo\Routing\Event\Events,
-        Brickoo\Validator\Argument;
+    use Brickoo\Validator\Argument;
 
     /**
      * Router
