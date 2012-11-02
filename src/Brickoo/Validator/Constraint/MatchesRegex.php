@@ -63,7 +63,7 @@
          */
         public function assert($compareWith) {
             Argument::IsString($compareWith);
-            return (preg_match_all($this->regularExpression, $compareWith) != 0);
+            return (preg_match_all($this->regularExpression, $compareWith, $matches) != 0);
         }
 
     }
