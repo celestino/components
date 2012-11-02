@@ -229,6 +229,19 @@
         }
 
         /**
+         * @covers Brickoo\Http\Request\Factory\Resolver\Uri::getPath
+         * @covers Brickoo\Http\Request\Factory\Resolver\Uri::getIISRequestUri
+         */
+        public function testGetPathWithEncodedCharacters() {
+            $expectedPath = "/path/to/the/script with spaces";
+            $encodedPath = "/path/to/the/script%20with%20spaces";
+            $_SERVER = array("REQUEST_URI" => $encodedPath);
+
+            $UriResolver = new Uri($this->getMock('Brickoo\Http\Message\Interfaces\Header'));
+            $this->assertEquals($expectedPath, $UriResolver->getPath());
+        }
+
+        /**
          * @covers Brickoo\Http\Request\Factory\Resolver\Uri::getPathInfo
          */
         public function testGetPathInfoFromGlobalServerPathInfo() {

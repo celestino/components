@@ -125,7 +125,7 @@
                 $requestPath = $this->getServerVar("REQUEST_URI");
             }
 
-            return "/". trim(parse_url($requestPath, PHP_URL_PATH), "/");
+            return "/". trim(rawurldecode(parse_url($requestPath, PHP_URL_PATH)), "/");
         }
 
         /**
@@ -151,7 +151,7 @@
                 }
             }
 
-            return "/". trim($pathInfo, "/");
+            return "/". trim(rawurldecode($pathInfo), "/");
         }
 
         /**
