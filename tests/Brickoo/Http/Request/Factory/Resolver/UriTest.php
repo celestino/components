@@ -259,7 +259,7 @@
             $expectedPath = "/articles/test-cases";
             $_SERVER = array(
                 "REQUEST_URI" => "/news/articles/test-cases",
-                "SCRIPT_FILENAME" => "/var/www/news/index.php"
+                "SCRIPT_FILENAME" => str_replace("/", DIRECTORY_SEPARATOR, "/var/www/news/index.php")
             );
 
             $UriResolver = new Uri($this->getMock('Brickoo\Http\Message\Interfaces\Header'));
