@@ -64,7 +64,7 @@
 
             $logMessage = "Message to log.";
             $expectedFilename = "/var/log". DIRECTORY_SEPARATOR . date("Y-m-d") .".log";
-            $expectedRegexMessage = "~^\[[0-9]{4}\-[0-9]{2}\-[0-9]{2} [0-9]{2}\:[0-9]{2}\:[0-9]{2}\]\[[a-zA-Z]+\] ". $logMessage ."$~";
+            $expectedRegexMessage = "~^\[[0-9]{4}\-[0-9]{2}\-[0-9]{2} [0-9]{2}\:[0-9]{2}\:[0-9]{2}\]\[[a-zA-Z]+\] ". $logMessage . PHP_EOL ."$~";
 
             $Client = $this->getMock('Brickoo\Filesystem\Interfaces\Client');
             $Client->expects($this->once())
