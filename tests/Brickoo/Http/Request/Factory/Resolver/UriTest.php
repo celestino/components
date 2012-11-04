@@ -258,7 +258,7 @@
         public function testGetPathInfoComparingRequestUriAndScriptFilename() {
             $expectedPath = "/articles/test-cases";
             $_SERVER = array(
-                "REQUEST_URI" => "/news/articles/test-cases",
+                "REQUEST_URI" => "/news/index.php/articles/test-cases",
                 "SCRIPT_FILENAME" => str_replace("/", DIRECTORY_SEPARATOR, "/var/www/news/index.php")
             );
 

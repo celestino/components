@@ -139,15 +139,13 @@
             if (! $pathInfo = $this->getServerVar("PATH_INFO")) {
                 $pathInfo = "";
                 $uriPath = $this->getPath();
-                $scriptPath = $this->getServerVar("SCRIPT_FILENAME", "");
 
-                $pathInfoParts = array_diff(
-                    explode("/", trim($uriPath, "/")),
-                    explode(DIRECTORY_SEPARATOR, trim($scriptPath, DIRECTORY_SEPARATOR))
-                );
+                if ($scriptName = $this->getServerVar("SCRIPT_FILENAME", $this->getServerVar("SCRIPT_NAME"))) {
+                    $scriptName = basename($scriptName);;
+                }
 
-                if (! empty($pathInfoParts)) {
-                    $pathInfo = implode("/", $pathInfoParts);
+                if (($position = strpos($uriPath, $scriptName)) !== false) {
+                    $pathInfo = substr($uriPath, ($position + strlen($scriptName)));
                 }
             }
 
