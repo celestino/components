@@ -137,8 +137,8 @@
          */
         public function getPathInfo() {
             if (! $pathInfo = $this->getServerVar("PATH_INFO")) {
-                $pathInfo = "";
                 $uriPath = $this->getPath();
+                $pathInfo = $uriPath;
 
                 if ($scriptName = $this->getServerVar("SCRIPT_FILENAME", $this->getServerVar("SCRIPT_NAME"))) {
                     $scriptName = basename($scriptName);;
