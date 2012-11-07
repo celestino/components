@@ -30,41 +30,51 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Routing\Interfaces;
+    namespace Tests\Brickoo\Routing\Route;
+
+    use Brickoo\Routing\Route\RegexGenerator;
 
     /**
-     * Router
+     * RegexGeneratorTest
      *
-     * Defines a router to determine the request responsible route to execute.
-     * Also the router should return any available route.
+     * Test suite for the RegexGenerator class.
+     * @see Brickoo\Routing\Route\RegexGenerator
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    Interface Router {
+    class RegexGeneratorTest extends \PHPUnit_Framework_TestCase {
 
         /**
-         * Returns the route having the given unique name.
-         * @param string $routeName the route unqiue name
-         * @throws \InvalidArgumentException if the argument is not valid
-         * @throws \Brickoo\Routing\Route\Exceptions\RouteNotFound if the route is not available
+         * @covers Brickoo\Routing\Route\RegexGenerator::__construct
+         */
+        public function testConstructor() {
+            $aliases = array("articles" => "test-case");
+            $RegexGenerator = new RegexGenerator($aliases);
+            $this->assertInstanceOf('Brickoo\Routing\Route\Interfaces\RegexGenerator', $RegexGenerator);
+            $this->assertAttributeEquals($aliases, "aliases", $RegexGenerator);
+        }
+
+        /**
+         * @covers Brickoo\Routing\Route\RegexGenerator::generatePathRegex
+         * @covers Brickoo\Routing\Route\RegexGenerator::getRoutePath
+         * @covers Brickoo\Routing\Route\RegexGenerator::replaceRoutePathWithRulesExpressions
+         */
+        public function testGeneratePathRegexFromRoute() {
+            $expectedRegex = "~^/(articles|artikeln)/(?<articleName>[\w\-]+)(/(?<pageNumber>([0-9]+)?))?$~i";
+            $aliases = array("articles" => "artikeln");
+            $RegexGenerator = new RegexGenerator($aliases);
+            $this->assertEquals($expectedRegex, $RegexGenerator->generatePathRegex($this->getRouteFixture()));
+        }
+
+        /**
+         * Returns a route complete configured fixture.
          * @return \Brickoo\Routing\Interfaces\Route
          */
-        public function getRoute($routeName);
-
-        /**
-         * Checks if the route is available.
-         * @param string $routeName the route unique name
-         * @throws \InvalidArgumentException if the argument is not valid
-         * @return boolean check result
-         */
-        public function hasRoute($routeName);
-
-        /**
-         * Returns the request matching executable route.
-         * @return \Brickoo\Routing\Interfaces\RequestRoute
-         * @throws \Brickoo\Routing\Exceptions\RequestHasNoRoute if non route for the request is available
-         * @return \Brickoo\Routing\Route\Interfaces\ExecutableRoute
-         */
-        public function getExecutableRoute();
+        private function getRouteFixture() {
+            return new \Brickoo\Routing\Route(
+                "articles", "/articles/{articleName}/{pageNumber}", "MyBlog", "displayArticle",
+                array("articleName" => "[\w\-]+", "pageNumber" => "[0-9]+"), array("pageNumber" => 1)
+            );
+        }
 
     }

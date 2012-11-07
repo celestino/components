@@ -49,19 +49,30 @@
          */
         public function testConstructor() {
             $Router = $this->getRouterFixture("test.case");
-            $location = "http://test-case.localhost:8080";
+            $baseUrl = "http://test-case.localhost:8080";
 
-            $UriBuilder = new Uri($Router, $location);
+            $UriBuilder = new Uri($Router, $baseUrl);
             $this->assertAttributeSame($Router, "Router", $UriBuilder);
-            $this->assertAttributeEquals($location, "location", $UriBuilder);
+            $this->assertAttributeEquals($baseUrl, "baseUrl", $UriBuilder);
+        }
+
+        /**
+         * @covers Brickoo\Routing\Builder\Uri::setRegexGenerator
+         */
+        public function testSetRegexGenerator() {
+            $RegexGenerator = $this->getMock('Brickoo\Routing\Route\Interfaces\RegexGenerator');
+            $Router = $this->getRouterFixture("test.case");
+
+            $UriBuilder = new Uri($Router);
+            $this->assertSame($UriBuilder, $UriBuilder->setRegexGenerator($RegexGenerator));
+            $this->assertAttributeSame($RegexGenerator, "RegexGenerator", $UriBuilder);
         }
 
         /**
          * @covers Brickoo\Routing\Builder\Uri::build
          * @covers Brickoo\Routing\Builder\Uri::createUriString
          * @covers Brickoo\Routing\Builder\Uri::getExpectedRoutePath
-         * @covers Brickoo\Routing\Builder\Uri::getRegexFromRoute
-         * @covers Brickoo\Routing\Builder\Uri::replaceRoutePathWithRulesExpressions
+         * @covers Brickoo\Routing\Builder\Uri::getRegexGenerator
          */
         public function testBuildUri() {
             $routeName = "news.get.articles";
