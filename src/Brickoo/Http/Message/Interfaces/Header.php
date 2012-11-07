@@ -42,63 +42,6 @@
     interface Header extends \Brickoo\Memory\Interfaces\Container {
 
         /**
-         * Returns the accept types supported by the request client.
-         * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
-         * @param string $neededType the type which is needed if supported
-         * @return array the accepted types sorted by priority descending otherwise null
-         */
-        public function getAcceptTypes();
-
-        /**
-         * Checks if the passed type is supported.
-         * @param string $type the type to check
-         * @return boolean check result
-         */
-        public function isTypeSupported($type);
-
-        /**
-         * Returns the accept charsets supported by the request client.
-         * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.2
-         * @return array the charsets sorted by priority descending
-         */
-        public function getAcceptCharsets();
-
-        /**
-         * Checks if the passed encoding type is supported.
-         * @param string $charset the charset to check
-         * @return boolean check result
-         */
-        public function isCharsetSupported($charset);
-
-        /**
-         * Returns the accept encodings supported by the request client.
-         * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.3
-         * @return array the encondings sorted by priority descending
-         */
-        public function getAcceptEncodings();
-
-        /**
-         * Checks if the passed encoding type is supported.
-         * @param string $encoding the encoding type to check
-         * @return boolean check result
-         */
-        public function isEncodingSupported($encoding);
-
-        /**
-         * Returns the accept languages supported by the request client.
-         * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.4
-         * @return array the languages sorted by priority descending
-         */
-        public function getAcceptLanguages();
-
-        /**
-         * Checks if the passed language is supported.
-         * @param string $language the language to check
-         * @return boolean check result
-         */
-        public function isLanguageSupported($language);
-
-        /**
          * Sends the message headers to the output buffer.
          * @return \Brickoo\Http\Message\Interfaces\Headers
          */

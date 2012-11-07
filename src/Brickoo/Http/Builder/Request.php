@@ -33,6 +33,7 @@
     namespace Brickoo\Http\Builder;
 
     use Brickoo\Http\Request as HttpRequest,
+        Brickoo\Http\Request\Header as RequestHeader,
         Brickoo\Http\Message\Factory as MessageFactory,
         Brickoo\Http\Request\Factory as RequestFactory,
         Brickoo\Validator\Argument;
@@ -106,7 +107,7 @@
          */
         private function getHeader() {
             if ($this->Header === null) {
-                $this->Header = MessageFactory\Header::Create();
+                $this->Header = new RequestHeader(MessageFactory\Header::Create()->toArray());
             }
             return $this->Header;
         }
