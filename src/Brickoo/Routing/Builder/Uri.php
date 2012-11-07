@@ -67,11 +67,7 @@
             $this->baseUrl = $baseUrl;
         }
 
-        /**
-         * Sets the routem regular expression generator dependency.
-         * @param \Brickoo\Routing\Route\Interfaces\RegexGenerator $RegexGenerator
-         * @return \Brickoo\Routing\Builder\Uri
-         */
+        /** {@inheritDoc} */
         public function setRegexGenerator(\Brickoo\Routing\Route\Interfaces\RegexGenerator $RegexGenerator) {
             $this->RegexGenerator = $RegexGenerator;
             return $this;
