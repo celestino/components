@@ -32,8 +32,7 @@
 
     namespace Brickoo\Http\Message;
 
-    use Brickoo\Memory,
-        Brickoo\Validator\Argument;
+    use Brickoo\Memory;
 
     /**
      * Header
@@ -43,130 +42,6 @@
      */
 
     class Header extends Memory\Container implements Interfaces\Header {
-
-        /** @var array */
-        private $acceptTypes;
-
-        /** @var array */
-        private $acceptLanguages;
-
-        /** @var array */
-        private $acceptEncodings;
-
-        /** @var array */
-        private $acceptCharsets;
-
-        /**
-         * Class constructor.
-         * @param array $headers the message headers to set
-         * @return void
-         */
-        public function __construct(array $headers = array()) {
-            parent::__construct($headers);
-
-            $this->acceptTypes = array();
-            $this->acceptLanguages = array();
-            $this->acceptEncodings = array();
-            $this->acceptCharsets = array();
-        }
-
-        /** {@inheritDoc} */
-        public function getAcceptTypes() {
-            if (empty($this->acceptTypes) && ($acceptHeader = $this->get("Accept"))) {
-                $this->acceptTypes = $this->getAcceptHeaderByRegex(
-                    "~^(?<type>[a-z\/\+\-\*]+)\s*(\;\s*q\=(?<quality>(0\.\d{1,5}|1\.0|[01])))?~i",
-                    "type",
-                    $acceptHeader
-                );
-            }
-
-            return $this->acceptTypes;
-        }
-
-        /** {@inheritDoc} */
-        public function isTypeSupported($type) {
-            Argument::IsString($type);
-            return array_key_exists($type, $this->getAcceptTypes());
-        }
-
-        /** {@inheritDoc} */
-        public function getAcceptLanguages() {
-            if (empty($this->acceptLanguages) && ($acceptLanguageHeader = $this->get("Accept-Language"))) {
-                $this->acceptLanguages = $this->getAcceptHeaderByRegex(
-                    "~^(?<language>[a-z\-\*]+)\s*(\;\s*q\=(?<quality>(0\.\d{1,5}|1\.0|[01])))?$~i",
-                    "language",
-                    $acceptLanguageHeader
-                );
-            }
-
-            return $this->acceptLanguages;
-        }
-
-        /** {@inheritDoc} */
-        public function isLanguageSupported($language) {
-            Argument::IsString($language);
-            return array_key_exists($language, $this->getAcceptLanguages());
-        }
-
-        /** {@inheritDoc} */
-        public function getAcceptEncodings() {
-            if (empty($this->acceptEncodings) && ($acceptEncodingHeader = $this->get("Accept-Encoding"))) {
-                $this->acceptEncodings = $this->getAcceptHeaderByRegex(
-                    "~^(?<encoding>[a-z\-\*]+)\s*(\;\s*q\=(?<quality>(0\.\d{1,5}|1\.0|[01])))?$~i",
-                    "encoding",
-                    $acceptEncodingHeader
-                );
-            }
-
-            return $this->acceptEncodings;
-        }
-
-        /** {@inheritDoc} */
-        public function isEncodingSupported($encoding) {
-            Argument::IsString($encoding);
-            return array_key_exists($encoding, $this->getAcceptEncodings());
-        }
-
-        /** {@inheritDoc} */
-        public function getAcceptCharsets() {
-            if (empty($this->acceptCharsets) && ($acceptEncodingHeader = $this->get("Accept-Charset"))) {
-                $this->acceptCharsets = $this->getAcceptHeaderByRegex(
-                    "~^(?<charset>[a-z0-9\-\*]+)\s*(\;\s*q\=(?<quality>(0\.\d{1,5}|1\.0|[01])))?$~i",
-                    "charset",
-                    $acceptEncodingHeader
-                );
-            }
-
-            return $this->acceptCharsets;
-        }
-
-        /** {@inheritDoc} */
-        public function isCharsetSupported($charset) {
-            Argument::IsString($charset);
-            return array_key_exists($charset, $this->getAcceptCharsets());
-        }
-
-        /**
-         * Returns the accept header value sorted by quality.
-         * @param string $regex the regular expression to use
-         * @param string $keyName the key name to assign the quality to
-         * @param string $acceptHeader the accept header to retireve the values from
-         * @return array the result containing the header values
-         */
-        private function getAcceptHeaderByRegex($regex, $keyName, $acceptHeader) {
-            $results = array();
-            $fields = explode(",", $acceptHeader);
-
-            foreach ($fields as $field) {
-                if (preg_match($regex, trim($field), $matches) && isset($matches[$keyName])) {
-                    $matches["quality"] = (isset($matches["quality"]) ? $matches["quality"] : 1);
-                    $results[trim($matches[$keyName])] = (float)$matches["quality"];
-                }
-            }
-
-            arsort($results);
-            return $results;
-        }
 
         /**
          * {@inheritDoc}
