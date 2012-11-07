@@ -53,7 +53,7 @@
 
         /**
          * Returns the dynamic request parameters defined as rules by the last matched route.
-         * @return array the paramaters list as rule parameter/value pair
+         * @return array the paramaters list as parameter/value pair
          */
         public function getParameters();
 

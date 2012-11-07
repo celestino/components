@@ -32,7 +32,8 @@
 
     namespace Brickoo\Routing\Builder;
 
-    use \Brickoo\Http\Request\Factory\Uri as UriFactory,
+    use Brickoo\Http\Request\Factory\Uri as UriFactory,
+        Brickoo\Routing\Route\RegexGenerator,
         Brickoo\Validator\Argument;
 
     /**
@@ -45,21 +46,35 @@
     class Uri implements Interfaces\Uri {
 
         /** @var string */
-        private $location;
+        private $baseUrl;
 
         /** @var \Brickoo\Routing\Interfaces\Router */
         private $Router;
 
+        /** @var \Brickoo\Routing\Route\Interfaces\RegexGenerator */
+        private $RegexGenerator;
+
         /**
          * Class constructor.
          * @param \Brickoo\Routing\Interfaces\Router $Router
-         * @param string $location the base location e.g. http://localhost:8080
+         * @param \Brickoo\Routing\Route\Interfaces\RegexGenerator $RegexGenerator
+         * @param string $baseUrl the base baseUrl for absolute paths e.g. http://localhost:8080
          * @return void
          */
-        public function __construct(\Brickoo\Routing\Interfaces\Router $Router, $location) {
-            Argument::IsString($location);
+        public function __construct(\Brickoo\Routing\Interfaces\Router $Router, $baseUrl = "") {
+            Argument::IsString($baseUrl);
             $this->Router = $Router;
-            $this->location = $location;
+            $this->baseUrl = $baseUrl;
+        }
+
+        /**
+         * Sets the routem regular expression generator dependency.
+         * @param \Brickoo\Routing\Route\Interfaces\RegexGenerator $RegexGenerator
+         * @return \Brickoo\Routing\Builder\Uri
+         */
+        public function setRegexGenerator(\Brickoo\Routing\Route\Interfaces\RegexGenerator $RegexGenerator) {
+            $this->RegexGenerator = $RegexGenerator;
+            return $this;
         }
 
         /** {@inheritDoc} */
@@ -78,21 +93,11 @@
 
             $expectedPath = $this->getExpectedRoutePath($Route, $pathParameters);
 
-            if (! preg_match_all($this->getRegexFromRoute($Route), $expectedPath, $matches)) {
+            if (! preg_match_all($this->getRegexGenerator()->generatePathRegex($Route), $expectedPath, $matches)) {
                 throw new Exceptions\PathNotValid($routeName, $expectedPath);
             }
 
             return UriFactory::CreateFromString($this->createUriString($expectedPath, $queryString));
-        }
-
-        /**
-         * Returns the created uri string.
-         * @param string $uriPath the uri path
-         * @param string $queryString the query string
-         * @return string the created uri string
-         */
-        private function createUriString($uriPath, $query) {
-            return rtrim($this->location, "/") . $uriPath. (empty($query) ? "" : "?". ltrim($query, "?"));
         }
 
         /**
@@ -118,40 +123,25 @@
         }
 
         /**
-         * Returns a regular expression from the route to match a request path.
-         * @param \Brickoo\Routing\Interfaces\Route $Route
-         * @return string the regular expression for the route
+         * Returns the regular route expression generator dependency.
+         * If it does not exists it will be created using the framework implementation.
+         * @return \Brickoo\Routing\Route\Interfaces\RegexGenerator
          */
-        private function getRegexFromRoute(\Brickoo\Routing\Interfaces\Route $Route) {
-            $routePath  = $Route->getPath();
-
-            if (preg_match_all("~(\{(?<parameters>[\w]+)\})~", $routePath, $matches)) {
-                $this->replaceRoutePathWithRulesExpressions($Route, $routePath, $matches['parameters']);
+        private function getRegexGenerator() {
+            if ($this->RegexGenerator === null) {
+                $this->RegexGenerator = new RegexGenerator();
             }
-
-            return "~^/". trim($routePath, "/") ."$~i";
+            return $this->RegexGenerator;
         }
 
         /**
-         * Replaces the route parameters with the rules defined.
-         * @param \Brickoo\Routing\Interfaces\Route $Route
-         * @param string $regex the regular expression to modify
-         * @param array $parameters the dynamic parameters of the route
-         * @return void
+         * Returns the created uri string.
+         * @param string $uriPath the uri path
+         * @param string $queryString the query string
+         * @return string the created uri string
          */
-        private function replaceRoutePathWithRulesExpressions(\Brickoo\Routing\Interfaces\Route $Route, &$routePath, array $parameters) {
-            foreach ($parameters as $parameterName) {
-                if ($Route->hasRule($parameterName)) {
-                    $routePath = str_replace("/{". $parameterName ."}",
-                        (
-                            $Route->hasDefaultValue($parameterName) ?
-                            "(/(?<". $parameterName .">(". $Route->getRule($parameterName) .")?))?" :
-                            "/(?<". $parameterName .">". $Route->getRule($parameterName) .")"
-                        ),
-                        $routePath
-                    );
-                }
-            }
+        private function createUriString($uriPath, $query) {
+            return rtrim($this->baseUrl, "/") . $uriPath. (empty($query) ? "" : "?". ltrim($query, "?"));
         }
 
     }

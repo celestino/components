@@ -32,6 +32,8 @@
 
     namespace Brickoo\Routing\Matcher;
 
+    use Brickoo\Routing\Route\Interfaces\RegexGenerator;
+
     /**
      * HttpMatcher
      *
@@ -44,8 +46,8 @@
         /** @var \Brickoo\Http\Interfaces\Request */
         private $Request;
 
-        /** @var array */
-        private $aliases;
+        /** @var \Brickoo\Routing\Route\Interfaces\RegexGenerator */
+        private $RegexGenerator;
 
         /** @var array */
         private $matchedRouteParamaters;
@@ -56,9 +58,12 @@
          * @param array $aliases the route aliases as key/alias pairs
          * @return void
          */
-        public function __construct(\Brickoo\Http\Interfaces\Request $Request, array $aliases = array()) {
+        public function __construct(
+            \Brickoo\Http\Interfaces\Request $Request,
+            \Brickoo\Routing\Route\Interfaces\RegexGenerator $RegexGenerator
+        ){
             $this->Request = $Request;
-            $this->aliases = $aliases;
+            $this->RegexGenerator = $RegexGenerator;
             $this->matchedRouteParamaters = array();
         }
 
@@ -68,7 +73,7 @@
                 return false;
             }
 
-            if ($matches = (preg_match($this->getRegexFromRoute($Route), $this->Request->getUri()->getPathInfo(), $pathMatchedParameters) == 1)) {
+            if ($matches = (preg_match($this->RegexGenerator->generatePathRegex($Route), $this->Request->getUri()->getPathInfo(), $pathMatchedParameters) == 1)) {
                 $this->matchedRouteParamaters = $this->getMatchedRoutePathParameters($Route, $pathMatchedParameters);
             }
 
@@ -78,6 +83,24 @@
         /** {@inheritDoc} */
         public function getParameters() {
             return $this->matchedRouteParamaters;
+        }
+
+        /**
+         * Checks if the Route is allowed to be executed.
+         * @param \Brickoo\Routing\Interfaces\Route $Route
+         * @return boolean check result
+         */
+        private function isAllowedRoute(\Brickoo\Routing\Interfaces\Route $Route) {
+            return (preg_match("~^(". $Route->getMethod() .")$~i", $this->Request->getMethod()) == 1
+                && (
+                    (($hostname = $Route->getHostname()) === null)
+                    || preg_match("~^(". $hostname .")$~i", $this->Request->getUri()->getHostname()) == 1
+                )
+                && (
+                    (($scheme = $Route->getScheme()) === null)
+                    || preg_match("~^(". $scheme .")$~i", $this->Request->getUri()->getScheme()) == 1
+                )
+            );
         }
 
         /**
@@ -101,80 +124,6 @@
             }
 
             return $routeParameters;
-        }
-
-        /**
-         * Checks if the Route is allowed to be executed.
-         * @param \Brickoo\Routing\Interfaces\Route $Route
-         * @return boolean check result
-         */
-        private function isAllowedRoute(\Brickoo\Routing\Interfaces\Route $Route) {
-            return (preg_match("~^(". $Route->getMethod() .")$~i", $this->Request->getMethod()) == 1
-                && (
-                    (($hostname = $Route->getHostname()) === null)
-                    || preg_match("~^(". $hostname .")$~i", $this->Request->getUri()->getHostname()) == 1
-                )
-                && (
-                    (($scheme = $Route->getScheme()) === null)
-                    || preg_match("~^(". $scheme .")$~i", $this->Request->getUri()->getScheme()) == 1
-                )
-            );
-        }
-
-        /**
-         * Returns a regular expression from the route to match a request path.
-         * @param \Brickoo\Routing\Interfaces\Route $Route
-         * @return string the regular expression for the route
-         */
-        private function getRegexFromRoute(\Brickoo\Routing\Interfaces\Route $Route) {
-            $routePath  = $this->getRoutePath($Route);
-
-            if (preg_match_all("~(\{(?<parameters>[\w]+)\})~", $routePath, $matches)) {
-                $this->replaceRoutePathWithRulesExpressions($routePath, $matches['parameters'], $Route);
-            }
-
-            return "~^/". trim($routePath, "/") ."$~i";
-        }
-
-        /**
-         * Returns the route path contaning the aliases definitions if any given.
-         * @param \Brickoo\Routing\Interfaces\Route $Route
-         * @return string the modified route path containing the aliases
-         */
-        private function getRoutePath(\Brickoo\Routing\Interfaces\Route $Route) {
-            $routePath = $Route->getPath();
-
-            foreach ($this->aliases as $routeKey => $routeAlias) {
-                if (strpos($routePath, $routeKey) !== false) {
-                    $replacement = sprintf("(%s|%s)", $routeKey, preg_quote($routeAlias, "~"));
-                    $routePath = str_replace($routeKey, $replacement, $routePath);
-                    break;
-                }
-            }
-
-            return $routePath;
-        }
-
-        /**
-         * Replaces the route parameters with the rules defined.
-         * @param string $regex the regular expression to modify
-         * @param array $parameters the dynamic parameters of the route
-         * @param \Brickoo\Routing\Interfaces\Route $Route
-         * @return void
-         */
-        private function replaceRoutePathWithRulesExpressions(&$routePath, array $parameters, \Brickoo\Routing\Interfaces\Route $Route) {
-            foreach ($parameters as $parameterName) {
-                if ($Route->hasRule($parameterName)) {
-                    $routePath = str_replace("/{". $parameterName ."}",
-                        (
-                            $Route->hasDefaultValue($parameterName) ?
-                            "(/(?<". $parameterName .">(". $Route->getRule($parameterName) .")?))?" :
-                            "/(?<". $parameterName .">". $Route->getRule($parameterName) .")"
-                        ),
-                        $routePath
-                    );
-                }
-            }
         }
 
     }
