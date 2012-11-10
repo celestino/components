@@ -34,8 +34,6 @@
 
     use Brickoo\Memory\Container;
 
-    require_once ('PHPUnit/Autoload.php');
-
     /**
      * ContainerTest
      *
@@ -61,17 +59,16 @@
         }
 
         /**
-         * Test if the Container implements the Container and the
-         * container property is defined.
          * @covers Brickoo\Memory\Container::__construct
          */
         public function testConstructor() {
-            $this->assertInstanceOf('Brickoo\Memory\Container', $this->Container);
-            $this->assertAttributeEquals(array(), 'container', $this->Container);
+            $expectedContainerValues = array("name" => "test.case");
+            $Container = new Container($expectedContainerValues);
+            $this->assertInstanceOf('Brickoo\Memory\Interfaces\Container', $Container);
+            $this->assertAttributeEquals($expectedContainerValues, "container", $Container);
         }
 
         /**
-         * Test the ArrayAcces routines.
          * @covers Brickoo\Memory\Container::offsetSet
          * @covers Brickoo\Memory\Container::offsetGet
          * @covers Brickoo\Memory\Container::offsetExists
@@ -88,7 +85,6 @@
         }
 
         /**
-         * Test the Iterator routines.
          * @covers Brickoo\Memory\Container::valid
          * @covers Brickoo\Memory\Container::key
          * @covers Brickoo\Memory\Container::current
@@ -108,7 +104,6 @@
         }
 
         /**
-         * Test if the Countable interface implemented.
          * @covers Brickoo\Memory\Container::count
          */
         public function testCount() {
@@ -117,8 +112,6 @@
         }
 
         /**
-         * Test if an value of the Container can be retrieved.
-         * Test if the offset does not exist the default value is returned.
          * @covers Brickoo\Memory\Container::get
          */
         public function testGet() {
@@ -128,7 +121,6 @@
         }
 
         /**
-         * Test if element can be set to the container.
          * @covers Brickoo\Memory\Container::set
          */
         public function testSet() {
@@ -137,7 +129,6 @@
         }
 
         /**
-         * Test if an element is recognized as available.
          * @covers Brickoo\Memory\Container::has
          */
         public function testHas() {
@@ -147,7 +138,6 @@
         }
 
         /**
-         * Test if an element can be deleted/removed from the list.
          * @covers Brickoo\Memory\Container::delete
          */
         public function testDelete() {
@@ -157,7 +147,6 @@
         }
 
         /**
-         * Test if the container elements can be merged with a passed array.
          * @covers Brickoo\Memory\Container::merge
          */
         public function testMerge() {
@@ -172,7 +161,6 @@
         }
 
         /**
-         * Test if an array can be imported and used as the container.
          * @covers Brickoo\Memory\Container::fromArray
          */
         public function testFromArray() {
@@ -182,7 +170,6 @@
         }
 
         /**
-         * Test if the container can be retrived as array.
          * @covers Brickoo\Memory\Container::toArray
          */
         public function testToArray() {
@@ -192,7 +179,6 @@
         }
 
         /**
-         * Test if the container can be recognized as empty or not.
          * @covers Brickoo\Memory\Container::isEmpty
          */
         public function testIsEmpty() {
@@ -203,7 +189,6 @@
 
         /**
          * @covers Brickoo\Memory\Container::flush
-         * Enter description here ...
          */
         public function testFlush() {
             $this->Container['unit'] = 'test';
@@ -212,7 +197,6 @@
         }
 
         /**
-         * Test if using the magic function __get the element value is returned.
          * @covers Brickoo\Memory\Container::__get
          */
         public function test__get() {
@@ -221,7 +205,6 @@
         }
 
         /**
-         * Test if an element can be set by the magic function __set.
          * @covers Brickoo\Memory\Container::__set
          */
         public function test__set() {

@@ -46,25 +46,30 @@
 
     class Registry extends Locker implements Interfaces\Registry {
 
-        /**
-         * Holds the registered identifier-value pairs.
-         * @var array
-         */
+        /** @var array */
         protected $registrations;
 
+        /** @var boolean */
+        protected $readOnly;
+
         /**
-         * Returns all assigned registrations.
-         * @return array the assigned registrations
+         * Class constructor.
+         * @param array $registrations the registrations to add
+         * @param string $readOnly initialize mode for the registry
+         * @return void
          */
+        public function __construct(array $registrations = array(), $readOnly = false) {
+            parent::__construct();
+            $this->registrations = $registrations;
+            $this->readOnly = $readOnly;
+        }
+
+        /** {@inheritDoc} */
         public function getAll() {
             return $this->registrations;
         }
 
-        /**
-         * Adds the list of registrations to the registry.
-         * @param array $registrations the registrations to add
-         * @return \Brickoo\Memory\Registry
-         */
+        /** {@inheritDoc} */
         public function add(array $registrations) {
             foreach($registrations as $identifier => $value) {
                 $this->register($identifier, $value);
@@ -73,13 +78,7 @@
             return $this;
         }
 
-        /**
-         * Returns the registered value from the given identifier.
-         * @param string|integer $identifier the identifier so retrieve the value from
-         * @throws InvalidArgumentException if the identifier is not valid
-         * @throws IdentifierNotRegisteredException if the identifier is not registered
-         * @return mixed the value of the registered identifier
-         */
+        /** {@inheritDoc} */
         public function get($identifier) {
             Argument::IsStringOrInteger($identifier);
 
@@ -90,16 +89,7 @@
             return $this->registrations[$identifier];
         }
 
-        /**
-         * Register an identifer-value pair.
-         * Take care of registering objects which could be used somewhere else
-         * as a reference changes applys to the registered as well.
-         * @param string|integer $identifier the identifier to register
-         * @param mixed $value the identifier value to reguister with
-         * @throws DuplicateRegistrationException the identifier is already registered
-         * @throws ReadonlyModeException if the mode is currently read only
-         * @return \Brickoo\Memory\Registry
-         */
+        /** {@inheritDoc} */
         public function register($identifier, $value) {
             Argument::IsStringOrInteger($identifier);
 
@@ -116,15 +106,7 @@
             return $this;
         }
 
-        /**
-         * Overrides an existing identifier with the given value (!).
-         * If the identifer ist not registered it will be registered.
-         * @param string|integer $identifier the identifier to register
-         * @param mixed $value the identifier value to register
-         * @throws ReadonlyModeException if the mode is currently read only
-         * @throws IdentifierLockedException if the identifier is locked
-         * @return \Brickoo\Memory\Registry
-         */
+        /** {@inheritDoc} */
         public function override($identifier, $value) {
             Argument::IsStringOrInteger($identifier);
 
@@ -141,14 +123,7 @@
             return $this;
         }
 
-        /**
-         * Unregister the indentifier and his value.
-         * @param string|integer $identifier the identifier to unregister
-         * @throws ReadonlyModeException if the mode is currently read only
-         * @throws IdentifierLockedException if the identifier is locked
-         * @throws IdentifierNotRegisteredException if the identifier is not registered
-         * @return \Brickoo\Memory\Registry
-         */
+        /** {@inheritDoc} */
         public function unregister($identifier) {
             Argument::IsStringOrInteger($identifier);
 
@@ -169,72 +144,33 @@
             return $this;
         }
 
-        /**
-         * Abstract method used by Locker class.
-         * Alias for for isRegistered to check if an identifier is registered
-         * @param string|integer $identifier the identifier to check
-         * @return boolean check result
-         * @see Brickoo\Memory\Locker::isIdentifierAvailable()
-         */
+        /** {@inheritDoc} */
         public function isIdentifierAvailable($identifier) {
             return $this->isRegistered($identifier);
         }
 
-        /**
-         * Check if the identifier is registered.
-         * @param string|integer $identifier the identifier to check
-         * @return boolean check result
-         */
+        /** {@inheritDoc} */
         public function isRegistered($identifier) {
             Argument::IsStringOrInteger($identifier);
 
             return array_key_exists($identifier, $this->registrations);
         }
 
-        /**
-         * Holds the status of the current read / write mode.
-         * @var boolean
-         */
-        protected $readOnly;
-
-        /**
-         * Sets the read only mode for all registrations.
-         * True to allow read only, all write are not allowed.
-         * False for read and all write operations,
-         * locked identifiers will still being locked .
-         * @param boolean $mode the mode to set
-         * @return \Brickoo\Memory\Registry
-         */
+        /** {@inheritDoc} */
         public function setReadOnly($mode = true) {
             Argument::IsBoolean($mode);
 
             $this->readOnly = $mode;
-
             return $this;
         }
 
-        /**
-         * Check if the mode is currently set to read only.
-         * @return boolean read only mode
-         */
+        /** {@inheritDoc} */
         public function isReadOnly() {
             return $this->readOnly;
         }
 
         /**
-         * Registry constructor.
-         * Initializes the class properties.
-         * @return void
-         */
-        public function __construct() {
-            $this->registrations    = array();
-            $this->readOnly         = false;
-
-            parent::__construct();
-        }
-
-        /**
-         * Countable interface function.
+         * Countable interface implementation.
          * Returns the number of registrations.
          * @see Countable::count()
          * @return integer the number of registrations
