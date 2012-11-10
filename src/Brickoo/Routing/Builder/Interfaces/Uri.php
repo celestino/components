@@ -42,6 +42,13 @@
     interface Uri {
 
         /**
+         * Sets the route regular expression generator dependency.
+         * @param \Brickoo\Routing\Route\Interfaces\RegexGenerator $RegexGenerator
+         * @return \Brickoo\Routing\Builder\Interfaces\Uri
+         */
+        public function setRegexGenerator(\Brickoo\Routing\Route\Interfaces\RegexGenerator $RegexGenerator);
+
+        /**
          * Builds the request uri object with the configuration provided.
          * @param string $routeName the route to use for the build
          * @param array $pathParameters the path parameters

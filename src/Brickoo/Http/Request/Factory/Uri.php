@@ -76,19 +76,22 @@
                 throw new \InvalidArgumentException(sprintf("The argument `%s` does not match a valid uri.", $uri));
             }
 
-            preg_match("~^(?<scheme>[^@:/?#]+)://(.*@)?(?<hostname>[^/?:#]*)(:(?<port>\d+))?(?<path>[^?#]*)(\?(?<query>[^#]*))?~u", $uri, $uriParts);
+            $defaultValues = array(
+                "scheme" => "http",
+                "host" => "localhost",
+                "path" => "/",
+                "query" => ""
+            );
 
-            $uriParts["path"] = isset($uriParts["path"]) ? $uriParts["path"] : "/";
-            $uriParts["query"] = isset($uriParts["query"]) ? $uriParts["query"] : "";
+            $uriParts = array_merge($defaultValues, parse_url($uri));
 
-            settype($uriParts["port"], "integer");
-            if ($uriParts["port"] == 0) {
+            if (! isset($uriParts["port"])) {
                 $uriParts["port"] = $uriParts["scheme"] == "https" ? 443 : 80;
             }
 
             return new \Brickoo\Http\Request\Uri(
                 $uriParts["scheme"],
-                $uriParts["hostname"],
+                $uriParts["host"],
                 $uriParts["port"],
                 $uriParts["path"],
                 Query::CreateFromString($uriParts["query"])

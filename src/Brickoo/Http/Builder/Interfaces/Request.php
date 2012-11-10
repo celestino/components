@@ -44,21 +44,21 @@
         /**
          * Sets the message header dependency.
          * @param \Brickoo\Http\Message\Interfaces\Header $Header
-         * @return \Brickoo\Http\Request\Interfaces\Builder
+         * @return \Brickoo\Http\Builder\Interfaces\Request
          */
         public function setHeader(\Brickoo\Http\Message\Interfaces\Header $Header);
 
         /**
          * Sets the message body dependency.
          * @param \Brickoo\Http\Message\Interfaces\Body $Body
-         * @return \Brickoo\Http\Request\Interfaces\Builder
+         * @return \Brickoo\Http\Builder\Interfaces\Request
          */
         public function setBody(\Brickoo\Http\Message\Interfaces\Body $Body);
 
         /**
          * Sets the http request url dependency.
          * @param \Brickoo\Http\Request\Interfaces\Uri $Uri
-         * @return \Brickoo\Http\Request\Interfaces\Builder
+         * @return \Brickoo\Http\Builder\Interfaces\Request
          */
         public function setUri(\Brickoo\Http\Request\Interfaces\Uri $Uri);
 
@@ -66,7 +66,7 @@
          * Sets the request method (e.g. GET, POST, PUT, etc.).
          * @param string $method the request method
          * @throws \InvalidArgumentException if the argument is not valid
-         * @return \Brickoo\Http\Request\Interfaces\Builder
+         * @return \Brickoo\Http\Builder\Interfaces\Request
          */
         public function setMethod($method);
 
@@ -75,7 +75,7 @@
          * @see \Brickoo\Http\Interfaces\Request
          * @param string $version the htto protocol version
          * @throws \InvalidArgumentException if the argument is not valid
-         * @return \Brickoo\Http\Request\Interfaces\Builder
+         * @return \Brickoo\Http\Builder\Interfaces\Request
          */
         public function setVersion($version);
 
