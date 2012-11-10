@@ -50,6 +50,15 @@
         protected $container;
 
         /**
+         * Class constructor.
+         * Intializes the class properties.
+         * @return void
+         */
+        public function __construct(array $container = array()) {
+            $this->container = $container;
+        }
+
+        /**
          * Sets the value with relation to the offset.
          * @see ArrayAccess::offsetSet()
          * @return void
@@ -147,21 +156,7 @@
             return count($this->container);
         }
 
-        /**
-         * Class constructor.
-         * Intializes the class properties.
-         * @return void
-         */
-        public function __construct(array $container = array()) {
-            $this->container    = $container;
-        }
-
-        /**
-         * Returns the value of the given offset.
-         * @param string|integer $offset the offset to retrieve the value from
-         * @param mixed $defaultValue the default value if the offset does not exist
-         * @return mixed the offset contained value or the default value passed
-         */
+        /** {@inheritDoc} */
         public function get($offset, $defaultValue = null) {
             Argument::IsStringOrInteger($offset);
 
@@ -172,12 +167,7 @@
             return $defaultValue;
         }
 
-        /**
-         * Sets an offset-value pair to the array object.
-         * @param string|integer $offset the offset to add
-         * @param mixed $value the value of the offset
-         * @return \Brickoo\Memory\Container
-         */
+        /** {@inheritDoc} */
         public function set($offset, $value) {
             Argument::IsStringOrInteger($offset);
 
@@ -186,22 +176,14 @@
             return $this;
         }
 
-        /**
-         * Checks if the offset is available.
-         * @param string|integer $offset the offset to check
-         * @return boolean check result
-         */
+        /** {@inheritDoc} */
         public function has($offset) {
             Argument::IsStringOrInteger($offset);
 
             return isset($this->container[$offset]);
         }
 
-        /**
-         * Deletes the offset and returns his value.
-         * @param string|integer $offset the offset to delete
-         * @return \Brickoo\Memory\Container
-         */
+        /** {@inheritDoc} */
         public function delete($offset) {
             Argument::IsStringOrInteger($offset);
 
@@ -212,11 +194,7 @@
             return $this;
         }
 
-        /**
-         * Merges the passed contianer with the currently holded.
-         * @param array $container the container to merge
-         * @return \Brickoo\Memory\Container
-         */
+        /** {@inheritDoc} */
         public function merge(array $container) {
             $this->container = array_merge($this->container, $container);
 
@@ -237,21 +215,14 @@
             return $this;
         }
 
-        /**
-         * Imports the container values from an array.
-         * @param array $container the container to import
-         * @return \Brickoo\Memory\Container
-         */
+        /** {@inheritDoc} */
         public function fromArray(array $container) {
             $this->container = $container;
 
             return $this;
         }
 
-        /**
-         * Returns the holded hey/value pairs as an array.
-         * @return array the holded key/value pairs
-         */
+        /** {@inheritDoc} */
         public function toArray() {
             return $this->container;
         }

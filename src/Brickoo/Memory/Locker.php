@@ -38,8 +38,8 @@
      * Locker
      *
      * This class can be used to have keep an lock status on specific identifiers.
-     * Contains one abstract method (public boolean Locker::isIdentifierAvailable($identifier)).
-     * The abstract method is implemented to allow only identifiers which are available on the main class.
+     * Contains one abstract method (public boolean isIdentifierAvailable($identifier)).
+     * The abstract method is implemented to assure the existence of identifiers.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -52,11 +52,19 @@
         protected $locked;
 
         /**
+         * Class constructor.
+         * @return void
+         */
+        public function __construct() {
+            $this->locked = array();
+        }
+
+        /**
          * Locks the identifer and returns an unlock key.
          * Extended by the Registry class, override and unregister methods of the
          * Registry class are disabled for this identifier(s)
-         * @param string|integer|array $identifiers the identifiers to lock
-         * @throws LockFailedException if all the identifiers can not be locked
+         * @param string|integer $identifier the identifier to lock
+         * @throws \Brickoo\Memory\Exceptions\LockFailedException if the identifier could not be locked
          * @return string the unlock key
          */
         public function lock($identifier) {
@@ -75,7 +83,7 @@
          * Unlocks the locked identifer matching the lock key.
          * @param string|integer $identifier the identifier which should be unlocked
          * @param string $unlockKey the key to unlock the identifier
-         * @throws UnlockFailedException if all the identifiers can not be unlocked
+         * @throws \Brickoo\Memory\Exceptions\UnlockFailedException if the identifier could not be unlocked
          * @return \Brickoo\Memory\Locker
          */
         public function unlock($identifier, $unlockKey) {
@@ -103,15 +111,6 @@
         }
 
         /**
-         * Class constructor.
-         * Initializes the class properties.
-         * @return void
-         */
-        public function __construct() {
-            $this->locked = array();
-        }
-
-        /**
          * Countable interface function.
          * Returns the number of locked identifiers.
          * @see Countable::count()
@@ -122,8 +121,7 @@
         }
 
         /**
-         * Abstract method needed to check if the identifier
-         * is available to be locked or unlocked
+         * Abstract method needed to check if the identifier is available.
          * @param string|integer $identifier the identifier to check
          * @return boolean check result
          */
