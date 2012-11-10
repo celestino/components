@@ -53,20 +53,20 @@
         /** @var \Brickoo\Routing\Matcher\Interfaces\Matcher */
         private $Matcher;
 
-        /** @var \Brickoo\Routing\Search\Interfaces\Search */
-        private $Search;
+        /** @var \Brickoo\Routing\Collector\Interfaces\Collector */
+        private $Collector;
 
         /**
         * Class constructor.
-        * @param \Brickoo\Routing\Route\Interfaces\Search $Search
+        * @param \Brickoo\Routing\Route\Interfaces\Collector $Collector
         * @param \Brickoo\Routing\Route\Interfaces\Matcher $Matcher
         * @return void
         */
         public function __construct(
-            \Brickoo\Routing\Search\Interfaces\Search $Search,
+            \Brickoo\Routing\Collector\Interfaces\Collector $Collector,
             \Brickoo\Routing\Matcher\Interfaces\Matcher $Matcher
         ){
-            $this->Search = $Search;
+            $this->Collector = $Collector;
             $this->Matcher = $Matcher;
             $this->RouteCollection = null;
             $this->ExecutableRoute = null;
@@ -119,7 +119,7 @@
          */
         private function getRouteCollection() {
             if ($this->RouteCollection === null) {
-                $this->RouteCollection = $this->Search->find();
+                $this->RouteCollection = $this->Collector->collect();
             }
 
             return $this->RouteCollection;

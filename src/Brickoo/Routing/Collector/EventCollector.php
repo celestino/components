@@ -30,20 +30,20 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Routing\Search;
+    namespace Brickoo\Routing\Collector;
 
     use Brickoo\Event\Event,
         Brickoo\Routing\Route\Collection,
         Brickoo\Routing\Events;
 
     /**
-     * EventSearch
+     * EventCollector
      *
-     * Implementation of a route search based on event calls.
+     * Implementation of a route search based on event collection calls.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class EventSearch implements Interfaces\Search {
+    class EventCollector implements Interfaces\Collector {
 
         /** @var \Brickoo\Event\Interfaces\Manager */
         private $EventManager;
@@ -59,7 +59,7 @@
         }
 
         /** {@inheritDoc} */
-        public function find() {
+        public function collect() {
             $EventResponseCollection = $this->EventManager->collect(new Event(Events::SEARCH, $this));
 
             if ($EventResponseCollection->isEmpty()) {
@@ -72,7 +72,7 @@
         /**
          * Returns one route collection containing all collected routes.
          * @param \Brickoo\Event\Response\Interfaces\Collection $EventResponseCollection
-         * @throws \Brickoo\Routing\Search\Exceptions\RouteCollectionExpected
+         * @throws \Brickoo\Routing\Collector\Exceptions\RouteCollectionExpected
          * @return \Brickoo\Routing\Route\Interfaces\Collection
          */
         private function getRouteCollection(\Brickoo\Event\Response\Interfaces\Collection $EventResponseCollection) {
@@ -89,7 +89,7 @@
         /**
          * Merges collections to one collection containing all routes.
          * @param \Brickoo\Event\Response\Interfaces\Collection $EventResponseCollection
-         * @throws \Brickoo\Routing\Search\Exceptions\RouteCollectionExpected
+         * @throws \Brickoo\Routing\Collector\Exceptions\RouteCollectionExpected
          * @return \Brickoo\Routing\Route\Interfaces\Collection
          */
         private function getMergedRouteCollection(\Brickoo\Event\Response\Interfaces\Collection $EventResponseCollection) {

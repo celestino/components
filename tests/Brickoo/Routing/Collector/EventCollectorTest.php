@@ -30,35 +30,35 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Tests\Brickoo\Routing\Search;
+    namespace Tests\Brickoo\Routing\Collector;
 
-    use Brickoo\Routing\Search\EventSearch;
+    use Brickoo\Routing\Collector\EventCollector;
 
     /**
-     * EventSearchTest
+     * EventCollectorTest
      *
      * Test suite for the route event based search class.
-     * @see Brickoo\Routing\Search\EventSearch
+     * @see Brickoo\Routing\Collector\EventCollector
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class EventSearchTest extends \PHPUnit_Framework_TestCase {
+    class EventCollectorTest extends \PHPUnit_Framework_TestCase {
 
         /**
-         * @covers Brickoo\Routing\Search\EventSearch::__construct
+         * @covers Brickoo\Routing\Collector\EventCollector::__construct
          */
         public function testConstructor() {
             $EventManager = $this->getMock('Brickoo\Event\Interfaces\Manager');
-            $RouteSearch = new EventSearch($EventManager);
-            $this->assertInstanceOf('Brickoo\Routing\Search\Interfaces\Search',$RouteSearch);
-            $this->assertAttributeSame($EventManager, 'EventManager', $RouteSearch);
+            $RouteCollector = new EventCollector($EventManager);
+            $this->assertInstanceOf('Brickoo\Routing\Collector\Interfaces\Collector',$RouteCollector);
+            $this->assertAttributeSame($EventManager, 'EventManager', $RouteCollector);
         }
 
         /**
-         * @covers Brickoo\Routing\Search\EventSearch::find
-         * @covers Brickoo\Routing\Search\EventSearch::getRouteCollection
+         * @covers Brickoo\Routing\Collector\EventCollector::collect
+         * @covers Brickoo\Routing\Collector\EventCollector::getRouteCollection
          */
-        public function testFindRouteCollection() {
+        public function testCollectRouteCollection() {
             $RouteCollection = $this->getMock('Brickoo\Routing\Route\Interfaces\Collection');
             $EventResponseCollection = new \Brickoo\Event\Response\Collection(array($RouteCollection));
 
@@ -68,16 +68,16 @@
                          ->with($this->isInstanceOf('Brickoo\Event\Interfaces\Event'))
                          ->will($this->returnValue($EventResponseCollection));
 
-            $RouteSearch = new EventSearch($EventManager);
-            $this->assertEquals($RouteCollection, $RouteSearch->find());
+            $RouteCollector = new EventCollector($EventManager);
+            $this->assertEquals($RouteCollection, $RouteCollector->collect());
         }
 
         /**
-         * @covers Brickoo\Routing\Search\EventSearch::find
-         * @covers Brickoo\Routing\Search\EventSearch::getRouteCollection
-         * @covers Brickoo\Routing\Search\EventSearch::getMergedRouteCollection
+         * @covers Brickoo\Routing\Collector\EventCollector::collect
+         * @covers Brickoo\Routing\Collector\EventCollector::getRouteCollection
+         * @covers Brickoo\Routing\Collector\EventCollector::getMergedRouteCollection
          */
-        public function testFindManyRouteCollections() {
+        public function testCollectManyRouteCollections() {
             $Route1 = $this->getMock('Brickoo\Routing\Interfaces\Route');
             $Route1->expects($this->any())
                    ->method('getName')
@@ -99,17 +99,17 @@
                          ->with($this->isInstanceOf('Brickoo\Event\Interfaces\Event'))
                          ->will($this->returnValue($EventResponseCollection));
 
-            $RouteSearch = new EventSearch($EventManager);
-            $this->assertInstanceOf('Brickoo\Routing\Route\Interfaces\Collection', ($FoundCollection = $RouteSearch->find()));
+            $RouteCollector = new EventCollector($EventManager);
+            $this->assertInstanceOf('Brickoo\Routing\Route\Interfaces\Collection', ($FoundCollection = $RouteCollector->collect()));
             $this->assertEquals(array('test.route.1' => $Route1, 'test.route.2' => $Route2), $FoundCollection->getRoutes());
         }
 
         /**
-         * @covers Brickoo\Routing\Search\EventSearch::find
-         * @covers Brickoo\Routing\Search\Exceptions\RoutesNotAvailable
-         * @expectedException Brickoo\Routing\Search\Exceptions\RoutesNotAvailable
+         * @covers Brickoo\Routing\Collector\EventCollector::collect
+         * @covers Brickoo\Routing\Collector\Exceptions\RoutesNotAvailable
+         * @expectedException Brickoo\Routing\Collector\Exceptions\RoutesNotAvailable
          */
-        public function testFindThrowsRoutesNotAvailable() {
+        public function testCollectThrowsRoutesNotAvailable() {
             $EventResponseCollection = $this->getMock('Brickoo\Event\Response\Interfaces\Collection');
             $EventResponseCollection->expects($this->any())
                                     ->method('isEmpty')
@@ -121,18 +121,18 @@
                          ->with($this->isInstanceOf('Brickoo\Event\Interfaces\Event'))
                          ->will($this->returnValue($EventResponseCollection));
 
-            $RouteSearch = new EventSearch($EventManager);
-            $RouteSearch->find();
+            $RouteCollector = new EventCollector($EventManager);
+            $RouteCollector->collect();
         }
 
         /**
-         * @covers Brickoo\Routing\Search\EventSearch::find
-         * @covers Brickoo\Routing\Search\EventSearch::getRouteCollection
-         * @covers Brickoo\Routing\Search\EventSearch::getMergedRouteCollection
-         * @covers Brickoo\Routing\Search\Exceptions\RouteCollectionExpected
-         * @expectedException Brickoo\Routing\Search\Exceptions\RouteCollectionExpected
+         * @covers Brickoo\Routing\Collector\EventCollector::collect
+         * @covers Brickoo\Routing\Collector\EventCollector::getRouteCollection
+         * @covers Brickoo\Routing\Collector\EventCollector::getMergedRouteCollection
+         * @covers Brickoo\Routing\Collector\Exceptions\RouteCollectionExpected
+         * @expectedException Brickoo\Routing\Collector\Exceptions\RouteCollectionExpected
          */
-        public function testFindThrowsRouteCollectionExpectedException() {
+        public function testCollectThrowsRouteCollectionExpectedException() {
             $unexpectedValue = "someString";
             $EventResponseCollection = new \Brickoo\Event\Response\Collection(array($unexpectedValue));
 
@@ -142,18 +142,18 @@
                          ->with($this->isInstanceOf('Brickoo\Event\Interfaces\Event'))
                          ->will($this->returnValue($EventResponseCollection));
 
-            $RouteSearch = new EventSearch($EventManager);
-            $RouteSearch->find();
+            $RouteCollector = new EventCollector($EventManager);
+            $RouteCollector->collect();
         }
 
         /**
-         * @covers Brickoo\Routing\Search\EventSearch::find
-         * @covers Brickoo\Routing\Search\EventSearch::getRouteCollection
-         * @covers Brickoo\Routing\Search\EventSearch::getMergedRouteCollection
-         * @covers Brickoo\Routing\Search\Exceptions\RouteCollectionExpected
-         * @expectedException Brickoo\Routing\Search\Exceptions\RouteCollectionExpected
+         * @covers Brickoo\Routing\Collector\EventCollector::collect
+         * @covers Brickoo\Routing\Collector\EventCollector::getRouteCollection
+         * @covers Brickoo\Routing\Collector\EventCollector::getMergedRouteCollection
+         * @covers Brickoo\Routing\Collector\Exceptions\RouteCollectionExpected
+         * @expectedException Brickoo\Routing\Collector\Exceptions\RouteCollectionExpected
          */
-        public function testFindThrowsRouteCollectionExpectedExceptionWhileTryingToMerge() {
+        public function testCollectThrowsRouteCollectionExpectedExceptionWhileTryingToMerge() {
             $unexpectedValue = new \stdClass();
             $EventResponseCollection = new \Brickoo\Event\Response\Collection(array($unexpectedValue, $unexpectedValue));
 
@@ -163,8 +163,8 @@
                          ->with($this->isInstanceOf('Brickoo\Event\Interfaces\Event'))
                          ->will($this->returnValue($EventResponseCollection));
 
-            $RouteSearch = new EventSearch($EventManager);
-            $RouteSearch->find();
+            $RouteCollector = new EventCollector($EventManager);
+            $RouteCollector->collect();
         }
 
     }

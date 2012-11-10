@@ -48,12 +48,12 @@
          * @covers Brickoo\Routing\Router::__construct
          */
         public function testConstructor() {
-            $Search = $this->getMock('Brickoo\Routing\Search\Interfaces\Search');
+            $Collector = $this->getMock('Brickoo\Routing\Collector\Interfaces\Collector');
             $Matcher = $this->getMock('Brickoo\Routing\Matcher\Interfaces\Matcher');
 
-            $Router = new Router($Search, $Matcher);
+            $Router = new Router($Collector, $Matcher);
             $this->assertInstanceOf('Brickoo\Routing\Interfaces\Router', $Router);
-            $this->assertAttributeSame($Search, 'Search', $Router);
+            $this->assertAttributeSame($Collector, 'Collector', $Router);
             $this->assertAttributeSame($Matcher, 'Matcher', $Router);
         }
 
@@ -76,7 +76,7 @@
 
             $Matcher = $this->getMock('Brickoo\Routing\Matcher\Interfaces\Matcher');
 
-            $Router = new Router($this->getSearchStub($RouteCollection), $Matcher);
+            $Router = new Router($this->getCollectorStub($RouteCollection), $Matcher);
             $this->assertSame($Route, $Router->getRoute('unit.test.route'));
         }
 
@@ -95,7 +95,7 @@
 
             $Matcher = $this->getMock('Brickoo\Routing\Matcher\Interfaces\Matcher');
 
-            $Router = new Router($this->getSearchStub($RouteCollection), $Matcher);
+            $Router = new Router($this->getCollectorStub($RouteCollection), $Matcher);
             $Router->getRoute('unit.test.route');
         }
 
@@ -104,10 +104,10 @@
          * @expectedException InvalidArgumentException
          */
         public function testGetRouteThrowsInvalidArgumentException() {
-            $Search = $this->getMock('Brickoo\Routing\Search\Interfaces\Search');
+            $Collector = $this->getMock('Brickoo\Routing\Collector\Interfaces\Collector');
             $Matcher = $this->getMock('Brickoo\Routing\Matcher\Interfaces\Matcher');
 
-            $Router = new Router($Search, $Matcher);
+            $Router = new Router($Collector, $Matcher);
             $Router->getRoute(array('wrongType'));
         }
 
@@ -123,7 +123,7 @@
 
             $Matcher = $this->getMock('Brickoo\Routing\Matcher\Interfaces\Matcher');
 
-            $Router = new Router($this->getSearchStub($RouteCollection), $Matcher);
+            $Router = new Router($this->getCollectorStub($RouteCollection), $Matcher);
             $this->assertTrue($Router->hasRoute('unit.test.route'));
             $this->assertFalse($Router->hasRoute('route.does.not.exist'));
         }
@@ -133,10 +133,10 @@
          * @expectedException InvalidArgumentException
          */
         public function testHasRouteThrowsInvalidArgumentException() {
-            $Search = $this->getMock('Brickoo\Routing\Search\Interfaces\Search');
+            $Collector = $this->getMock('Brickoo\Routing\Collector\Interfaces\Collector');
             $Matcher = $this->getMock('Brickoo\Routing\Matcher\Interfaces\Matcher');
 
-            $Router = new Router($Search, $Matcher);
+            $Router = new Router($Collector, $Matcher);
             $Router->hasRoute(array('wrongType'));
         }
 
@@ -151,7 +151,7 @@
                             ->method('getRoutes')
                             ->will($this->returnValue(array($Route)));
 
-            $Router = new Router($this->getSearchStub($RouteCollection), $this->getMatcherMock($Route));
+            $Router = new Router($this->getCollectorStub($RouteCollection), $this->getMatcherMock($Route));
             $this->assertInstanceOf('Brickoo\Routing\Route\Interfaces\ExecutableRoute', ($ExecutableRoute = $Router->getExecutableRoute()));
             $this->assertSame($ExecutableRoute, $Router->getExecutableRoute());
         }
@@ -168,21 +168,21 @@
                             ->will($this->returnValue(array()));
 
             $Matcher = $this->getMock('Brickoo\Routing\Matcher\Interfaces\Matcher');
-            $Router = new Router($this->getSearchStub($RouteCollection), $Matcher);
+            $Router = new Router($this->getCollectorStub($RouteCollection), $Matcher);
             $Router->getExecutableRoute();
         }
 
         /**
          * Stub creator for the route search dependency.
          * @param \Brickoo\Routing\Route\Interfaces\Collection $RouteCollection the route collection to return by the search
-         * @return \Brickoo\Routing\Route\Interfaces\Search
+         * @return \Brickoo\Routing\Route\Interfaces\Collector
          */
-        private function getSearchStub($RouteCollection) {
-            $SearchStub = $this->getMock('Brickoo\Routing\Search\Interfaces\Search');
-            $SearchStub->expects($this->any())
-                       ->method('find')
+        private function getCollectorStub($RouteCollection) {
+            $CollectorStub = $this->getMock('Brickoo\Routing\Collector\Interfaces\Collector');
+            $CollectorStub->expects($this->any())
+                       ->method('collect')
                        ->will($this->returnValue($RouteCollection));
-            return $SearchStub;
+            return $CollectorStub;
         }
 
         /**

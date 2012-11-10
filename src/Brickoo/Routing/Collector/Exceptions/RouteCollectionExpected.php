@@ -30,23 +30,31 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Routing\Search\Interfaces;
+    namespace Brickoo\Routing\Collector\Exceptions;
 
     /**
-     * Search
+     * RouteCollectionExpected
      *
-     * Defines a route search returning a route collection.
+     * Exception throwed if a value is not an expected route collection.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface Search {
+    class RouteCollectionExpected extends \Exception {
 
         /**
-         * Search for the route which is responsible for the request.
-         * @throws \Brickoo\Routing\Search\Exceptions\RoutesNotAvailable if no routes could be found
-         * @throws \Brickoo\Routing\Search\Exceptions\RouteCollectionExpected if search results does not match expectation
-         * @return \Brickoo\Routing\Route\Interfaces\Collection
+         * Class constructor.
+         * Calls the parent Exception constructor.
+         * @param string $name the route name already existing
+         * @return void
          */
-        public function find();
+        public function __construct($wrongValue) {
+            if (is_object($wrongValue)) {
+                $valueType = "[object] ". get_class($wrongValue);
+            }
+            else {
+                $valueType = gettype($wrongValue);
+            }
+            parent::__construct(sprintf('Route collection expected, type `%s` given.', $valueType));
+        }
 
     }
