@@ -64,18 +64,27 @@
 
         /** {@inheritDoc} */
         public function render() {
-            extract($this->templateVars, EXTR_SKIP);
-
-            ob_start();
-
             try {
+                extract($this->templateVars, EXTR_SKIP);
+                $TPL_DIR = $this->getTemplateDirectory();
+
+                ob_start();
                 require ($this->templateFile);
+                $output = ob_get_clean();
             }
             catch (\Exception $Exception) {
                 throw new Exceptions\RenderingAborted($Exception);
             }
 
-            return ob_get_clean();
+            return $output;
+        }
+
+        /**
+         * Returns the absolute directory path of the current template.
+         * @return string the template directory path
+         */
+        private function getTemplateDirectory() {
+            return realpath(dirname($this->templateFile)) . DIRECTORY_SEPARATOR;
         }
 
     }

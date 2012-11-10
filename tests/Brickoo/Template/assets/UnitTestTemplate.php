@@ -1,1 +1,1 @@
-<html><head></head><body><?php echo($content);?></body></html>
+<html><head></head><body><?php echo($content);?> in directory <?php echo ($TPL_DIR);?></body></html>
