@@ -53,11 +53,7 @@
             $this->aliases = $aliases;
         }
 
-        /**
-         * Returns a regular expression from the route to match a request path.
-         * @param \Brickoo\Routing\Interfaces\Route $Route
-         * @return string the regular expression for the route
-         */
+        /** {@inheritDoc} */
         public function generatePathRegex(\Brickoo\Routing\Interfaces\Route $Route) {
             $routePath  = $this->getRoutePath($Route);
 

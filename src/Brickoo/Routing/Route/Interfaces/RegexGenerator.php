@@ -42,8 +42,9 @@
     interface RegexGenerator {
 
         /**
-         * Returns a generated regular expression of the route path.
-         * @return string the regular expression
+         * Returns a regular expression from the route to match a request path.
+         * @param \Brickoo\Routing\Interfaces\Route $Route
+         * @return string the regular expression for the route
          */
         public function generatePathRegex(\Brickoo\Routing\Interfaces\Route $Route);
 
