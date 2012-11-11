@@ -37,19 +37,22 @@
     use Brickoo\Validator\Argument;
 
     /**
-     * ExecutableRoute
+     * Executable
      *
      * Implementation of a request responsible route which can be executed.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ExecutableRoute implements Interfaces\ExecutableRoute {
+    class Executable implements Interfaces\Executable {
 
         /** @var \Brickoo\Routing\Interfaces\Route */
         private $Route;
 
         /** @var array */
         private $parameters;
+
+        /** @var boolean */
+        private $hasBeenExecuted;
 
         /**
          * Class constructor.
@@ -60,11 +63,17 @@
         public function __construct(\Brickoo\Routing\Interfaces\Route $Route, array $parameters = array()) {
             $this->Route = $Route;
             $this->parameters = $parameters;
+            $this->hasBeenExecuted = false;
         }
 
         /** {@inheritDoc} */
         public function getRoute() {
             return $this->Route;
+        }
+
+        /** {@inheritDoc} */
+        public function getParameters() {
+            return $this->parameters;
         }
 
         /** {@inheritDoc} */
@@ -86,14 +95,20 @@
 
         /** {@inheritDoc} */
         public function execute() {
+            if ($this->hasBeenExecuted) {
+                throw new Exceptions\MultipleExecutions($this->getRoute()->getName());
+            }
+
             if (func_num_args() == 0 || (! $parameter = func_get_arg(0))) {
                 $parameter = null;
             }
 
+            $this->hasBeenExecuted = true;
+
             $Controller = $this->Route->getController();
             $actionMethod = $this->Route->getAction();
             $Controller = new $Controller($parameter);
-            return $Controller->{$actionMethod}($this);
+            return $Controller->{$actionMethod}();
         }
 
     }

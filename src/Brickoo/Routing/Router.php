@@ -44,8 +44,8 @@
 
     class Router implements Interfaces\Router {
 
-        /**  @var \Brickoo\Routing\Interfaces\ExecutableRoute */
-        private $ExecutableRoute;
+        /**  @var \Brickoo\Routing\Interfaces\Executable */
+        private $Executable;
 
         /** @var \Brickoo\Routing\Route\Interfaces\Collection */
         private $RouteCollection;
@@ -69,7 +69,7 @@
             $this->Collector = $Collector;
             $this->Matcher = $Matcher;
             $this->RouteCollection = null;
-            $this->ExecutableRoute = null;
+            $this->Executable = null;
         }
 
         /** {@inheritDoc} */
@@ -94,23 +94,23 @@
         }
 
         /** {@inheritDoc} */
-        public function getExecutableRoute() {
-            if ($this->ExecutableRoute === null) {
+        public function getExecutable() {
+            if ($this->Executable === null) {
                 $RouteCollection = $this->getRouteCollection();
 
                 foreach($RouteCollection->getRoutes() as $Route) {
                     if ($this->Matcher->matches($Route)) {
-                        $this->ExecutableRoute = new Route\ExecutableRoute($Route, $this->Matcher->getParameters());
+                        $this->Executable = new Route\Executable($Route, $this->Matcher->getParameters());
                         break;
                     }
                 }
 
-                if ($this->ExecutableRoute === null) {
+                if ($this->Executable === null) {
                     throw new Exceptions\NoMatchingRouteFound();
                 }
             }
 
-            return $this->ExecutableRoute;
+            return $this->Executable;
         }
 
         /**

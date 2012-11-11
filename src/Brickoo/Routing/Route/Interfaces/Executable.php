@@ -33,19 +33,25 @@
     namespace Brickoo\Routing\Route\Interfaces;
 
     /**
-     * ExecutableRoute
+     * Executable
      *
      * Defines a route responsible for the request and can be executed.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface ExecutableRoute {
+    interface Executable {
 
         /**
          * Returns the matched route.
          * @return \Brickoo\Routing\Interfaces\Route
          */
         public function getRoute();
+
+        /**
+         * Returns the route parameters.
+         * @return array the route parameters
+         */
+        public function getParameters();
 
         /**
          * Returns the value of the requested parameter.
@@ -63,10 +69,12 @@
         public function hasParameter($parameter);
 
         /**
-         * Executes the responsible controller action call with the route paramaters.
-         * This method allows to be called with argument ot pass to the controller,
-         * like for example an dependency container.
-         * The ExecutableRoute is passed as reference to the action automaticly.
+         * Executes the route controller action.
+         * This method allows to be called with an argument
+         * which should be pass to the controller constructor,
+         * like for example a dependency container.
+         * @param null|mixed the argument to parameter to forward
+         * @throws \Brickoo\Routing\Route\Exceptions\MultipleExecutions
          * @return mixed the controller action returned response
          */
         public function execute();

@@ -32,95 +32,107 @@
 
     namespace Tests\Brickoo\Routing\Route;
 
-    use Brickoo\Routing\Route\ExecutableRoute;
+    use Brickoo\Routing\Route\Executable;
 
     /**
-     * ExecutableRouteTest
+     * ExecutableTest
      *
-     * Test suite for the ExecutableRoute class.
-     * @see Brickoo\Routing\Route\ExecutableRoute
+     * Test suite for the Executable class.
+     * @see Brickoo\Routing\Route\Executable
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ExecutableRouteTest extends \PHPUnit_Framework_TestCase {
+    class ExecutableTest extends \PHPUnit_Framework_TestCase {
 
         /**
-         * @covers Brickoo\Routing\Route\ExecutableRoute::__construct
+         * @covers Brickoo\Routing\Route\Executable::__construct
          */
         public function testConstructor() {
             $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
             $parameters = array('name' => 'test');
-            $ExecutableRoute = new ExecutableRoute($Route, $parameters);
-            $this->assertInstanceOf('Brickoo\Routing\Route\Interfaces\ExecutableRoute', $ExecutableRoute);
-            $this->assertAttributeSame($Route, 'Route', $ExecutableRoute);
-            $this->assertAttributeSame($parameters, 'parameters', $ExecutableRoute);
+            $Executable = new Executable($Route, $parameters);
+            $this->assertInstanceOf('Brickoo\Routing\Route\Interfaces\Executable', $Executable);
+            $this->assertAttributeSame($Route, 'Route', $Executable);
+            $this->assertAttributeSame($parameters, 'parameters', $Executable);
+            $this->assertAttributeEquals(false, "hasBeenExecuted", $Executable);
         }
 
         /**
-         * @covers Brickoo\Routing\Route\ExecutableRoute::getRoute
+         * @covers Brickoo\Routing\Route\Executable::getRoute
          */
         public function testGetRoute() {
             $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
-            $ExecutableRoute = new ExecutableRoute($Route);
-            $this->assertSame($Route, $ExecutableRoute->getRoute());
+            $Executable = new Executable($Route);
+            $this->assertSame($Route, $Executable->getRoute());
         }
 
         /**
-         * @covers Brickoo\Routing\Route\ExecutableRoute::getParameter
+         * @covers Brickoo\Routing\Route\Executable::getParameters
+         */
+        public function testGetParameters() {
+            $expectedParameters = array('param' => 'the parameter value');
+
+            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Executable = new Executable($Route, $expectedParameters);
+            $this->assertEquals($expectedParameters, $Executable->getParameters());
+        }
+
+        /**
+         * @covers Brickoo\Routing\Route\Executable::getParameter
          */
         public function testGetParameter() {
             $parameters = array('param' => 'the parameter value');
 
             $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
-            $ExecutableRoute = new ExecutableRoute($Route, $parameters);
-            $this->assertEquals($parameters['param'], $ExecutableRoute->getParameter('param'));
+            $Executable = new Executable($Route, $parameters);
+            $this->assertEquals($parameters['param'], $Executable->getParameter('param'));
         }
 
         /**
-         * @covers Brickoo\Routing\Route\ExecutableRoute::getParameter
+         * @covers Brickoo\Routing\Route\Executable::getParameter
          * @expectedException InvalidArgumentException
          */
         public function testGetParameterThrowsInvalidArgumentException() {
             $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
-            $ExecutableRoute = new ExecutableRoute($Route);
-            $ExecutableRoute->getParameter(array('wrongType'));
+            $Executable = new Executable($Route);
+            $Executable->getParameter(array('wrongType'));
         }
 
         /**
-         * @covers Brickoo\Routing\Route\ExecutableRoute::getParameter
+         * @covers Brickoo\Routing\Route\Executable::getParameter
          * @covers Brickoo\Routing\Route\Exceptions\ParameterNotAvailable
          * @expectedException Brickoo\Routing\Route\Exceptions\ParameterNotAvailable
          */
         public function testGetParameterThrowsParameterNotAvailableException() {
             $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
-            $ExecutableRoute = new ExecutableRoute($Route);
-            $ExecutableRoute->getParameter('not.available');
+            $Executable = new Executable($Route);
+            $Executable->getParameter('not.available');
         }
 
         /**
-         * @covers Brickoo\Routing\Route\ExecutableRoute::hasParameter
+         * @covers Brickoo\Routing\Route\Executable::hasParameter
          */
         public function testHasParameter() {
             $parameters = array('param' => 'the parameter value');
 
             $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
-            $ExecutableRoute = new ExecutableRoute($Route, $parameters);
-            $this->assertFalse($ExecutableRoute->hasParameter('nots.available'));
-            $this->assertTrue($ExecutableRoute->hasParameter('param'));
+            $Executable = new Executable($Route, $parameters);
+            $this->assertFalse($Executable->hasParameter('nots.available'));
+            $this->assertTrue($Executable->hasParameter('param'));
         }
 
         /**
-         * @covers Brickoo\Routing\Route\ExecutableRoute::hasParameter
+         * @covers Brickoo\Routing\Route\Executable::hasParameter
          * @expectedException InvalidArgumentException
          */
         public function testHasParameterThrowsInvalidArgumentException() {
             $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
-            $ExecutableRoute = new ExecutableRoute($Route);
-            $ExecutableRoute->hasParameter(array('wrongType'));
+            $Executable = new Executable($Route);
+            $Executable->hasParameter(array('wrongType'));
         }
 
         /**
-         * @covers Brickoo\Routing\Route\ExecutableRoute::execute
+         * @covers Brickoo\Routing\Route\Executable::execute
          */
         public function testExecute() {
             require_once "Assets/ExecutableController.php";
@@ -131,10 +143,33 @@
                   ->will($this->returnValue('\Tests\Brickoo\Routing\Route\Assets\ExecutableController'));
             $Route->expects($this->once())
                   ->method('getAction')
-                  ->will($this->returnValue('returnValues'));
+                  ->will($this->returnValue('returnText'));
 
-            $ExecutableRoute = new ExecutableRoute($Route, array('param1' => 'value1', 'param2' => 'value2'));
-            $this->assertEquals('value1 & value2', $ExecutableRoute->execute());
+            $Executable = new Executable($Route);
+            $this->assertEquals("ExecutableController::returnText executed.", $Executable->execute());
+        }
+
+        /**
+         * @covers Brickoo\Routing\Route\Executable::execute
+         * @covers \Brickoo\Routing\Route\Exceptions\MultipleExecutions
+         * @expectedException \Brickoo\Routing\Route\Exceptions\MultipleExecutions
+         */
+        public function testExecuteThrowsMultipleExecutionsException() {
+            require_once "Assets/ExecutableController.php";
+
+            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Route->expects($this->once())
+                  ->method('getController')
+                  ->will($this->returnValue('\Tests\Brickoo\Routing\Route\Assets\ExecutableController'));
+            $Route->expects($this->once())
+                  ->method('getAction')
+                  ->will($this->returnValue('returnText'));
+
+            $Executable = new Executable($Route);
+            $Executable->execute();
+            $this->assertAttributeEquals(true, "hasBeenExecuted", $Executable);
+            $Executable->execute();
+
         }
 
     }

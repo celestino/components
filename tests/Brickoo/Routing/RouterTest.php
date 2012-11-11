@@ -141,9 +141,9 @@
         }
 
         /**
-         * @covers Brickoo\Routing\Router::getExecutableRoute
+         * @covers Brickoo\Routing\Router::getExecutable
          */
-        public function testGetExecutableRoute() {
+        public function testGetExecutable() {
             $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
 
             $RouteCollection = $this->getMock('Brickoo\Routing\Route\Interfaces\Collection');
@@ -152,16 +152,16 @@
                             ->will($this->returnValue(array($Route)));
 
             $Router = new Router($this->getCollectorStub($RouteCollection), $this->getMatcherMock($Route));
-            $this->assertInstanceOf('Brickoo\Routing\Route\Interfaces\ExecutableRoute', ($ExecutableRoute = $Router->getExecutableRoute()));
-            $this->assertSame($ExecutableRoute, $Router->getExecutableRoute());
+            $this->assertInstanceOf('Brickoo\Routing\Route\Interfaces\Executable', ($Executable = $Router->getExecutable()));
+            $this->assertSame($Executable, $Router->getExecutable());
         }
 
         /**
-         * @covers Brickoo\Routing\Router::getExecutableRoute
+         * @covers Brickoo\Routing\Router::getExecutable
          * @covers Brickoo\Routing\Exceptions\NoMatchingRouteFound
          * @expectedException Brickoo\Routing\Exceptions\NoMatchingRouteFound
          */
-        public function testGetExecutableRouteThrowsNoExecutableRouteFoundException() {
+        public function testGetExecutableThrowsNoExecutableFoundException() {
             $RouteCollection = $this->getMock('Brickoo\Routing\Route\Interfaces\Collection');
             $RouteCollection->expects($this->any())
                             ->method('getRoutes')
@@ -169,7 +169,7 @@
 
             $Matcher = $this->getMock('Brickoo\Routing\Matcher\Interfaces\Matcher');
             $Router = new Router($this->getCollectorStub($RouteCollection), $Matcher);
-            $Router->getExecutableRoute();
+            $Router->getExecutable();
         }
 
         /**

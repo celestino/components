@@ -30,41 +30,25 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Routing\Interfaces;
+    namespace Brickoo\Routing\Route\Exceptions;
 
     /**
-     * Router
+     * MultipleExecutions
      *
-     * Defines a router to determine the request responsible route to execute.
-     * Also the router should return any available route.
+     * Exception throwed if trying to execute a route multiple times.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    Interface Router {
+    class MultipleExecutions extends \Exception {
 
         /**
-         * Returns the route having the given unique name.
-         * @param string $routeName the route unqiue name
-         * @throws \InvalidArgumentException if the argument is not valid
-         * @throws \Brickoo\Routing\Route\Exceptions\RouteNotFound if the route is not available
-         * @return \Brickoo\Routing\Interfaces\Route
+         * Class constructor.
+         * Calls the parent Exception constructor.
+         * @param string $name the route name which has been executed multiple times
+         * @return void
          */
-        public function getRoute($routeName);
-
-        /**
-         * Checks if the route is available.
-         * @param string $routeName the route unique name
-         * @throws \InvalidArgumentException if the argument is not valid
-         * @return boolean check result
-         */
-        public function hasRoute($routeName);
-
-        /**
-         * Returns the request matching executable route.
-         * @return \Brickoo\Routing\Interfaces\RequestRoute
-         * @throws \Brickoo\Routing\Exceptions\RequestHasNoRoute if non route for the request is available
-         * @return \Brickoo\Routing\Route\Interfaces\Executable
-         */
-        public function getExecutable();
+        public function __construct($name) {
+            parent::__construct(sprintf("The route `%s` has been tryed to be executed multiple times.", $name));
+        }
 
     }
