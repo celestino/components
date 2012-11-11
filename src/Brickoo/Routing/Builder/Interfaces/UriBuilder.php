@@ -30,22 +30,35 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Routing\Route\Interfaces;
+    namespace Brickoo\Routing\Builder\Interfaces;
 
     /**
-     * RegexGenerator
+     * UriBuilder
      *
-     * Defines a route regex generator to generate route related regular expressions.
+     * Describes a uri builder to create a route matching http request uri.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface RegexGenerator {
+    interface UriBuilder {
 
         /**
-         * Returns a regular expression from the route to match a request path.
-         * @param \Brickoo\Routing\Interfaces\Route $Route
-         * @return string the regular expression for the route
+         * Sets the route regular expression generator dependency.
+         * @param \Brickoo\Routing\Route\Interfaces\RegexGenerator $RegexGenerator
+         * @return \Brickoo\Routing\Builder\Interfaces\UriBuilder
          */
-        public function generatePathRegex(\Brickoo\Routing\Interfaces\Route $Route);
+        public function setRegexGenerator(\Brickoo\Routing\Route\Interfaces\RegexGenerator $RegexGenerator);
+
+        /**
+         * Builds the request uri object with the configuration provided.
+         * @param string $routeName the route to use for the build
+         * @param array $pathParameters the path parameters
+         * @param string $queryParameters the query parameters
+         * @throws \InvalidArgumentException if an argument is not valid
+         * @throws \Brickoo\Routing\Builder\Exceptions\RouteNotFound
+         * @throws \Brickoo\Routing\Builder\Exceptions\PathNotValid
+         * @throws \Brickoo\Routing\Builder\Exceptions\RequiredParametersMissing
+         * @return \Brickoo\Http\Request\Interfaces\Uri
+         */
+        public function build($routeName, array $pathParameters, $queryString = null);
 
     }

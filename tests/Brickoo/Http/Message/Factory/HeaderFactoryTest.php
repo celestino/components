@@ -32,19 +32,19 @@
 
     namespace Tests\Brickoo\Http\Message\Factory;
 
-    use Brickoo\Http\Message\Factory\Header;
+    use Brickoo\Http\Message\Factory\HeaderFactory;
 
     require_once "Fixture/Functions.php";
 
     /**
-     * HeaderTest
+     * HeaderFactoryTest
      *
-     * Test suite for the Factory\Header class.
-     * @see Brickoo\Http\Message\Factory\Header
+     * Test suite for the HeaderFactory class.
+     * @see Brickoo\Http\Message\Factory\HeaderFactory
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class HeaderTest extends \PHPUnit_Framework_TestCase {
+    class HeaderFactoryTest extends \PHPUnit_Framework_TestCase {
 
         /** @var array */
         private $cachedServerVars;
@@ -58,8 +58,8 @@
         }
 
         /**
-         * @covers Brickoo\Http\Message\Factory\Header::Create
-         * @covers Brickoo\Http\Message\Factory\Header::NormalizeHeaders
+         * @covers Brickoo\Http\Message\Factory\HeaderFactory::Create
+         * @covers Brickoo\Http\Message\Factory\HeaderFactory::NormalizeHeaders
          */
         public function testCreateHeader() {
             $expectedHeader = array (
@@ -73,14 +73,14 @@
             $_SERVER["CONTENT_TYPE"] = "application/xml";
             $_SERVER["CONTENT_LENGTH"] = 123;
 
-            $Header = Header::Create();
+            $Header = HeaderFactory::Create();
             $this->assertInstanceOf('Brickoo\Http\Message\Interfaces\Header', $Header);
             $this->assertEquals($expectedHeader, $Header->toArray());
         }
 
         /**
-         * @covers Brickoo\Http\Message\Factory\Header::CreateFromString
-         * @covers Brickoo\Http\Message\Factory\Header::NormalizeHeaders
+         * @covers Brickoo\Http\Message\Factory\HeaderFactory::CreateFromString
+         * @covers Brickoo\Http\Message\Factory\HeaderFactory::NormalizeHeaders
          */
         public function testCreateHeaderFromString() {
             $expectedHeader = array(
@@ -95,17 +95,17 @@
                        "Accept-Encoding: gzip,deflate\r\n".
                        "Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7";
 
-            $Header = Header::CreateFromString($headers);
+            $Header = HeaderFactory::CreateFromString($headers);
             $this->assertInstanceOf('Brickoo\Http\Message\Interfaces\Header', $Header);
             $this->assertEquals($expectedHeader, $Header->toArray());
         }
 
         /**
-         * @covers Brickoo\Http\Message\Factory\Header::CreateFromString
+         * @covers Brickoo\Http\Message\Factory\HeaderFactory::CreateFromString
          * @expectedException InvalidArgumentException
          */
         public function testCreateFromStringThrowsInvalidArgumentException() {
-            $Header = Header::CreateFromString(array("wrongType"));
+            $Header = HeaderFactory::CreateFromString(array("wrongType"));
         }
 
     }

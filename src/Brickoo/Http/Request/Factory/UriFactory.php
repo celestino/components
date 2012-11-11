@@ -35,22 +35,22 @@
     use Brickoo\Validator\Argument;
 
     /**
-     * Uri
+     * UriFactory
      *
      * Describes a factory for a http request uri.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Uri {
+    class UriFactory {
 
         /**
          * Creates an requets uri object using the factory uri resolver.
-         * @param \Brickoo\Http\Request\Factory\Resolver\Uri $UriResolver
+         * @param \Brickoo\Http\Request\Factory\Resolver\UriResolver $UriResolver
          * @param \Brickoo\Http\Request\Interfaces\Query $Query
          * @return \Brickoo\Http\Request\Uri
          */
         public static function Create(
-            \Brickoo\Http\Request\Factory\Resolver\Uri $UriResolver,
+            \Brickoo\Http\Request\Factory\Resolver\UriResolver $UriResolver,
             \Brickoo\Http\Request\Interfaces\Query $Query
         ){
             return new \Brickoo\Http\Request\Uri(
@@ -94,7 +94,7 @@
                 $uriParts["host"],
                 $uriParts["port"],
                 $uriParts["path"],
-                Query::CreateFromString($uriParts["query"])
+                QueryFactory::CreateFromString($uriParts["query"])
             );
         }
 

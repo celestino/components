@@ -30,35 +30,38 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Routing\Builder\Interfaces;
+    namespace Brickoo\Http\Request\Factory;
+
+    use Brickoo\Validator\Argument;
 
     /**
-     * Uri
+     * FormFactory
      *
-     * Describes a uri builder to create a route matching http request uri.
+     * Describes a factory for a http request form parameters object.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface Uri {
+    class FormFactory {
 
         /**
-         * Sets the route regular expression generator dependency.
-         * @param \Brickoo\Routing\Route\Interfaces\RegexGenerator $RegexGenerator
-         * @return \Brickoo\Routing\Builder\Interfaces\Uri
+         * Creates a request form parameters objectcontaining the global POST values.
+         * @return \Brickoo\Http\Request\Form
          */
-        public function setRegexGenerator(\Brickoo\Routing\Route\Interfaces\RegexGenerator $RegexGenerator);
+        public static function Create() {
+            return new \Brickoo\Http\Request\Form($_POST);
+        }
 
         /**
-         * Builds the request uri object with the configuration provided.
-         * @param string $routeName the route to use for the build
-         * @param array $pathParameters the path parameters
-         * @param string $queryParameters the query parameters
-         * @throws \InvalidArgumentException if an argument is not valid
-         * @throws \Brickoo\Routing\Builder\Exceptions\RouteNotFound
-         * @throws \Brickoo\Routing\Builder\Exceptions\PathNotValid
-         * @throws \Brickoo\Routing\Builder\Exceptions\RequiredParametersMissing
-         * @return \Brickoo\Http\Request\Interfaces\Uri
+         * Creates a request form parameters object from the extracted values.
+         * @param strin $messageBody the message body string to extract the values from
+         * @throws \InvalidArgumentException if the argument is not valid
+         * @return \Brickoo\Http\Request\Form
          */
-        public function build($routeName, array $pathParameters, $queryString = null);
+        public static function CreateFromString($messageBody) {
+            Argument::IsString($messageBody);
+
+            parse_str(rawurldecode($messageBody), $importedFormParameters);
+            return new \Brickoo\Http\Request\Form($importedFormParameters);
+        }
 
     }

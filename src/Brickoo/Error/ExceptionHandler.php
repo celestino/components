@@ -32,8 +32,7 @@
 
     namespace Brickoo\Error;
 
-    use Brickoo\Log,
-        Brickoo\Event\Event,
+    use Brickoo\Event\Event,
         Brickoo\Validator\Argument;
 
     /**
@@ -47,9 +46,6 @@
     class ExceptionHandler {
 
         /** @var boolean */
-        private $displayExceptions;
-
-        /** @var boolean */
         private $isRegistered;
 
         /** @var \Brickoo\Event\Interfaces\Manager */
@@ -57,24 +53,12 @@
 
         /**
          * Class constructor.
-         * @param boolean $displayExceptions flag to forward throwed exceptions to the output
+         * @param \Brickoo\Event\Interfaces\Manager $EventManager
          * @return void
          */
-        public function __construct($displayExceptions = false) {
-            Argument::IsBoolean($displayExceptions);
-
-            $this->displayExceptions = $displayExceptions;
-            $this->isRegistered = false;
-        }
-
-        /**
-         * Sets the event manager to notify if an exception is throwed.
-         * @param \Brickoo\Event\Interfaces\Manager $EventManager
-         * @return \Brickoo\Error\ExceptionHandler
-         */
-        public function setEventManager(\Brickoo\Event\Interfaces\Manager $EventManager) {
+        public function __construct(\Brickoo\Event\Interfaces\Manager $EventManager) {
             $this->EventManager = $EventManager;
-            return $this;
+            $this->isRegistered = false;
         }
 
         /**
@@ -92,10 +76,10 @@
          */
         public function register() {
             if ($this->isRegistered()) {
-                throw new Exceptions\DuplicateHandlerRegistration('ExceptionHandler');
+                throw new Exceptions\DuplicateHandlerRegistration("ExceptionHandler");
             }
 
-            set_exception_handler(array($this, 'handleException'));
+            set_exception_handler(array($this, "handleException"));
             $this->isRegistered = true;
 
             return $this;
@@ -108,7 +92,7 @@
          */
         public function unregister() {
             if (! $this->isRegistered()) {
-                throw new Exceptions\HandlerNotRegistered('ExceptionHandler');
+                throw new Exceptions\HandlerNotRegistered("ExceptionHandler");
             }
 
             restore_exception_handler();
@@ -128,6 +112,20 @@
         }
 
         /**
+         * Handles the exception throwed by the user or system.
+         * Notifies a log event containing the exception message.
+         * @param \Exception $Exception the exception throwed
+         * @return string the exception message
+         */
+        public function handleException(\Exception $Exception) {
+            $this->EventManager->notify(new Event(Events::EXCEPTION, $this, array(
+                "Exception" => $Exception,
+                "message" => $this->getExceptionMessage($Exception),
+                "stacktrace" => $Exception->getTraceAsString()
+            )));
+        }
+
+        /**
          * Returns the exception message created by the exception content.
          * @param \Exception $Exception the Exception throwed
          * @return string the exception message
@@ -137,25 +135,6 @@
                 "[#%s] Uncaught Exception: %s -=- Message: %s",
                 $Exception->getCode(), get_class($Exception), $Exception->getMessage()
             );
-        }
-
-        /**
-         * Handles the exception throwed by the user or system.
-         * Notifies a log event containing the exception message.
-         * @param \Exception $Exception the exception throwed
-         * @return string the exception message
-         */
-        public function handleException(\Exception $Exception) {
-            $message = $this->getExceptionMessage($Exception);
-
-            if ($this->EventManager !== null) {
-                $this->EventManager->notify(new Event(Log\Events::LOG, $this, array('messages' => $message)));
-            }
-
-            if ($this->displayExceptions) {
-                $this->unregister();
-                throw $Exception;
-            }
         }
 
     }

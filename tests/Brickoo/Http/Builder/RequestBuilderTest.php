@@ -32,103 +32,103 @@
 
     namespace Tests\Brickoo\Http\Builder;
 
-    use Brickoo\Http\Builder\Request;
+    use Brickoo\Http\Builder\RequestBuilder;
 
     /**
-     * RequestTest
+     * RequestBuilderTest
      *
-     * Test suite for the Builder\Request class.
-     * @see Brickoo\Http\Builder\Request
+     * Test suite for the Builder\RequestBuilder class.
+     * @see Brickoo\Http\Builder\RequestBuilder
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class RequestTest extends \PHPUnit_Framework_TestCase {
+    class RequestBuilderTest extends \PHPUnit_Framework_TestCase {
 
         /**
-         * @covers Brickoo\Http\Builder\Request::setHeader
+         * @covers Brickoo\Http\Builder\RequestBuilder::setHeader
          */
         public function testSetHeaderDependency() {
             $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
-            $RequestBuilder = new Request();
+            $RequestBuilder = new RequestBuilder();
             $RequestBuilder->setHeader($Header);
             $this->assertAttributeSame($Header, "Header", $RequestBuilder);
         }
 
         /**
-         * @covers Brickoo\Http\Builder\Request::setBody
+         * @covers Brickoo\Http\Builder\RequestBuilder::setBody
          */
         public function testSetBodyDependency() {
             $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
-            $RequestBuilder = new Request();
+            $RequestBuilder = new RequestBuilder();
             $RequestBuilder->setBody($Body);
             $this->assertAttributeSame($Body, "Body", $RequestBuilder);
         }
 
         /**
-         * @covers Brickoo\Http\Builder\Request::setUri
+         * @covers Brickoo\Http\Builder\RequestBuilder::setUri
          */
         public function testSetUriDependency() {
             $Uri = $this->getMock('Brickoo\Http\Request\Interfaces\Uri');
-            $RequestBuilder = new Request();
+            $RequestBuilder = new RequestBuilder();
             $RequestBuilder->setUri($Uri);
             $this->assertAttributeSame($Uri, "Uri", $RequestBuilder);
         }
 
         /**
-         * @covers Brickoo\Http\Builder\Request::setMethod
+         * @covers Brickoo\Http\Builder\RequestBuilder::setMethod
          */
         public function testSetRequestMethod() {
             $expectedValue = "PUT";
-            $RequestBuilder = new Request();
+            $RequestBuilder = new RequestBuilder();
             $RequestBuilder->setMethod($expectedValue);
             $this->assertAttributeEquals($expectedValue, "method", $RequestBuilder);
         }
 
         /**
-         * @covers Brickoo\Http\Builder\Request::setMethod
+         * @covers Brickoo\Http\Builder\RequestBuilder::setMethod
          * @expectedException InvalidArgumentException
          */
         public function testSetRequestMethodThrowsInvalidArgumentException() {
-            $RequestBuilder = new Request();
+            $RequestBuilder = new RequestBuilder();
             $RequestBuilder->setMethod(array("wrongType"));
         }
 
         /**
-         * @covers Brickoo\Http\Builder\Request::setVersion
+         * @covers Brickoo\Http\Builder\RequestBuilder::setVersion
          */
         public function testSetRequestProtocolVersion() {
             $expectedValue = \Brickoo\Http\Interfaces\Request::HTTP_VERSION_1_1;
-            $RequestBuilder = new Request();
+            $RequestBuilder = new RequestBuilder();
             $RequestBuilder->setVersion($expectedValue);
             $this->assertAttributeEquals($expectedValue, "version", $RequestBuilder);
         }
 
         /**
-         * @covers Brickoo\Http\Builder\Request::setVersion
+         * @covers Brickoo\Http\Builder\RequestBuilder::setVersion
          * @expectedException InvalidArgumentException
          */
         public function testSetRequestVersionThrowsInvalidArgumentException() {
-            $RequestBuilder = new Request();
+            $RequestBuilder = new RequestBuilder();
             $RequestBuilder->setVersion(array("wrongType"));
         }
 
         /**
-         * @covers Brickoo\Http\Builder\Request::build
-         * @covers Brickoo\Http\Builder\Request::getHeader
-         * @covers Brickoo\Http\Builder\Request::getBody
-         * @covers Brickoo\Http\Builder\Request::getUri
+         * @covers Brickoo\Http\Builder\RequestBuilder::build
+         * @covers Brickoo\Http\Builder\RequestBuilder::getHeader
+         * @covers Brickoo\Http\Builder\RequestBuilder::getBody
+         * @covers Brickoo\Http\Builder\RequestBuilder::getUri
          */
         public function testAutoBuild() {
-            $RequestBuilder = new Request();
+            $RequestBuilder = new RequestBuilder();
             $Request = $RequestBuilder->build();
             $this->assertInstanceOf('Brickoo\Http\Interfaces\Request', $Request);
         }
 
         /**
-         * @covers Brickoo\Http\Builder\Request::build
-         * @covers Brickoo\Http\Builder\Request::getHeader
-         * @covers Brickoo\Http\Builder\Request::getBody
-         * @covers Brickoo\Http\Builder\Request::getUri
+         * @covers Brickoo\Http\Builder\RequestBuilder::build
+         * @covers Brickoo\Http\Builder\RequestBuilder::getHeader
+         * @covers Brickoo\Http\Builder\RequestBuilder::getBody
+         * @covers Brickoo\Http\Builder\RequestBuilder::getUri
          */
         public function testCustomBuild() {
             $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
@@ -137,7 +137,7 @@
             $method = "POST";
             $version = \Brickoo\Http\Interfaces\Request::HTTP_VERSION_1_1;
 
-            $RequestBuilder = new Request();
+            $RequestBuilder = new RequestBuilder();
             $RequestBuilder->setHeader($Header)
                            ->setBody($Body)
                            ->setUri($Uri)

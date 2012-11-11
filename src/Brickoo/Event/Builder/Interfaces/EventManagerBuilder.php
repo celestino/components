@@ -30,23 +30,51 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Tests\Brickoo\Http\Request\Factory;
-
-    use Brickoo\Http\Request\Factory\Body;
+    namespace Brickoo\Event\Builder\Interfaces;
 
     /**
-     * BodyTest
+     * EventManagerBuilder
      *
-     * Test suite for the Factory\Body class.
-     * @see Brickoo\Http\Request\Factory\Body
+     * Describes an event manager builder.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class BodyTest extends \PHPUnit_Framework_TestCase {
+    interface EventManagerBuilder {
 
-        public function testCreateBody() {
-            $Body = Body::Create();
-            $this->assertInstanceOf('Brickoo\Http\Message\Interfaces\Body', $Body);
-        }
+        /**
+         * Sets the event processor dependency.
+         * @param \Brickoo\Event\Process\Interfaces\Processor $Processor
+         * @return \Brickoo\Event\Builder\Interfaces\EventManager
+         */
+        public function setEventProcessor(\Brickoo\Event\Process\Interfaces\Processor $Processor);
+
+        /**
+         * Sets the listener collection dependency.
+         * @param \Brickoo\Event\Listener\Collection $ListenerCollection
+         * @return \Brickoo\Event\Builder\Interfaces\EventManager
+         */
+        public function setListenerCollection(\Brickoo\Event\Listener\Interfaces\Collection $ListenerCollection);
+
+        /**
+         * Sets the event memory list dependency.
+         * @param \Brickoo\Memory\Interfaces\Container $EventList
+         * @return \Brickoo\Event\Builder\Interfaces\EventManager
+         */
+        public function setEventList(\Brickoo\Memory\Interfaces\Container $EventList);
+
+        /**
+         * Sets the event listeners of the event manager.
+         * @param \Traversable|array $listeners
+         * @throws \InvalidArgumentException if the argument is not valid
+         * @return \Brickoo\Event\Builder\Interfaces\EventManager
+         */
+        public function setListeners($listeners);
+
+        /**
+         * Builds the event manager based on the configuration or
+         * default implementations.
+         * @return \Brickoo\Event\Interfaces\Manager
+         */
+        public function build();
 
     }

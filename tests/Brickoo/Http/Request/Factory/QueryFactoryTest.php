@@ -32,17 +32,17 @@
 
     namespace Tests\Brickoo\Http\Request\Factory;
 
-    use Brickoo\Http\Request\Factory\Query;
+    use Brickoo\Http\Request\Factory\QueryFactory;
 
     /**
-     * QueryTest
+     * QueryFactoryTest
      *
-     * Test suite for the Factory\Query class.
-     * @see Brickoo\Http\Request\Factory\Query
+     * Test suite for the QueryFactory class.
+     * @see Brickoo\Http\Request\Factory\QueryFactory
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class QueryTest extends \PHPUnit_Framework_TestCase {
+    class QueryFactoryTest extends \PHPUnit_Framework_TestCase {
 
         /** @var array */
         private $backupGetVars;
@@ -70,18 +70,18 @@
         }
 
         /**
-         * @covers Brickoo\Http\Request\Factory\Query::Create
+         * @covers Brickoo\Http\Request\Factory\QueryFactory::Create
          */
         public function testCreateFromGlobals() {
             $_GET = array ("test" => "passed");
 
-            $Query = Query::Create();
+            $Query = QueryFactory::Create();
             $this->assertInstanceOf('Brickoo\Http\Request\Interfaces\Query', $Query);
             $this->assertEquals($_GET, $Query->toArray());
         }
 
         /**
-         * @covers Brickoo\Http\Request\Factory\Query::CreateFromString
+         * @covers Brickoo\Http\Request\Factory\QueryFactory::CreateFromString
          */
         public function testImportFromString() {
             $expectedParameters = array(
@@ -91,17 +91,17 @@
             );
             $query = "?param1=value1&param2=value2&param3=value3";
 
-            $Query = Query::CreateFromString($query);
+            $Query = QueryFactory::CreateFromString($query);
             $this->assertInstanceOf('Brickoo\Http\Request\Interfaces\Query', $Query);
             $this->assertEquals($expectedParameters, $Query->toArray());
         }
 
         /**
-         * @covers Brickoo\Http\Request\Factory\Query::CreateFromString
+         * @covers Brickoo\Http\Request\Factory\QueryFactory::CreateFromString
          * @expectedException InvalidArgumentException
          */
         public function testCreateFromStringThrowsInvalidArgumentException() {
-            Query::CreateFromString(array("wrongType"));
+            QueryFactory::CreateFromString(array("wrongType"));
         }
 
     }

@@ -30,38 +30,27 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Http\Request\Factory;
-
-    use Brickoo\Validator\Argument;
+    namespace Brickoo\Error;
 
     /**
-     * Form
+     * Events
      *
-     * Describes a factory for a http request form parameters object.
+     * Holds the error related events.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Form {
+    class Events {
 
         /**
-         * Creates a request form parameters objectcontaining the global POST values.
-         * @return \Brickoo\Http\Request\Form
+         * Notifies that an error occured.
+         * @var string
          */
-        public static function Create() {
-            return new \Brickoo\Http\Request\Form($_POST);
-        }
+        const ERROR = 'brickoo.error';
 
         /**
-         * Creates a request form parameters object from the extracted values.
-         * @param strin $messageBody the message body string to extract the values from
-         * @throws \InvalidArgumentException if the argument is not valid
-         * @return \Brickoo\Http\Request\Form
+         * Notifies that an exception occured.
+         * @var string
          */
-        public static function CreateFromString($messageBody) {
-            Argument::IsString($messageBody);
-
-            parse_str(rawurldecode($messageBody), $importedFormParameters);
-            return new \Brickoo\Http\Request\Form($importedFormParameters);
-        }
+        const EXCEPTION = 'brickoo.exception';
 
     }

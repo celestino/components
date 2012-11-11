@@ -70,7 +70,8 @@
 
                 ob_start();
                 require ($this->templateFile);
-                $output = ob_get_clean();
+                $output = ob_get_contents();
+                ob_end_clean();
             }
             catch (\Exception $Exception) {
                 throw new Exceptions\RenderingAborted($Exception);

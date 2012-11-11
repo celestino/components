@@ -32,21 +32,21 @@
 
     namespace Brickoo\Http\Builder;
 
-    use Brickoo\Http\Request as HttpRequest,
-        Brickoo\Http\Request\Header as RequestHeader,
+    use Brickoo\Http\Request,
+        Brickoo\Http\Request\Header,
         Brickoo\Http\Message\Factory as MessageFactory,
         Brickoo\Http\Request\Factory as RequestFactory,
         Brickoo\Validator\Argument;
 
     /**
-     * Request
+     * RequestBuilder
      *
      * Implements a builder with a fluent interface for the http request class.
      * If a dependency is not set, the corresponding factory is used to create it.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Request implements Interfaces\Request {
+    class RequestBuilder implements Interfaces\RequestBuilder {
 
         /** @var \Brickoo\Http\Message\Interfaces\Header */
         private $Header;
@@ -97,7 +97,7 @@
 
         /** {@inheritDoc} */
         public function build() {
-            return new HttpRequest($this->getHeader(), $this->getBody(), $this->getUri(), $this->method, $this->version);
+            return new Request($this->getHeader(), $this->getBody(), $this->getUri(), $this->method, $this->version);
         }
 
         /**
@@ -107,7 +107,7 @@
          */
         private function getHeader() {
             if ($this->Header === null) {
-                $this->Header = new RequestHeader(MessageFactory\Header::Create()->toArray());
+                $this->Header = new Header(MessageFactory\HeaderFactory::Create()->toArray());
             }
             return $this->Header;
         }
@@ -119,7 +119,7 @@
          */
         private function getBody() {
             if ($this->Body === null) {
-                $this->Body = RequestFactory\Body::Create();
+                $this->Body = RequestFactory\BodyFactory::Create();
             }
             return $this->Body;
         }
@@ -131,9 +131,9 @@
          */
         private function getUri() {
             if ($this->Uri === null) {
-                $this->Uri = RequestFactory\Uri::Create(
-                    new RequestFactory\Resolver\Uri($this->getHeader()),
-                    RequestFactory\Query::Create()
+                $this->Uri = RequestFactory\UriFactory::Create(
+                    new RequestFactory\Resolver\UriResolver($this->getHeader()),
+                    RequestFactory\QueryFactory::Create()
                 );
             }
             return $this->Uri;

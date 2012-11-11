@@ -30,59 +30,42 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Http\Builder\Interfaces;
+    namespace Brickoo\Http\Request\Factory;
+
+    use Brickoo\Validator\Argument;
 
     /**
-     * Request
+     * QueryFactory
      *
-     * Describes a builder with a fluent interface to create a http request object.
+     * Describes a factory for a http request query parameters object.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface Request {
+    class QueryFactory {
 
         /**
-         * Sets the message header dependency.
-         * @param \Brickoo\Http\Message\Interfaces\Header $Header
-         * @return \Brickoo\Http\Builder\Interfaces\Request
+         * Creates a request query parameters object from the global values.
+         * @return \Brickoo\Http\Request\Query
          */
-        public function setHeader(\Brickoo\Http\Message\Interfaces\Header $Header);
+        public static function Create() {
+            return new \Brickoo\Http\Request\Query($_GET);
+        }
 
         /**
-         * Sets the message body dependency.
-         * @param \Brickoo\Http\Message\Interfaces\Body $Body
-         * @return \Brickoo\Http\Builder\Interfaces\Request
-         */
-        public function setBody(\Brickoo\Http\Message\Interfaces\Body $Body);
-
-        /**
-         * Sets the http request url dependency.
-         * @param \Brickoo\Http\Request\Interfaces\Uri $Uri
-         * @return \Brickoo\Http\Builder\Interfaces\Request
-         */
-        public function setUri(\Brickoo\Http\Request\Interfaces\Uri $Uri);
-
-        /**
-         * Sets the request method (e.g. GET, POST, PUT, etc.).
-         * @param string $method the request method
+         * Creates a request query parameters object from the extracted values.
+         * @param strin $query the query to extract the values from
          * @throws \InvalidArgumentException if the argument is not valid
-         * @return \Brickoo\Http\Builder\Interfaces\Request
+         * @return \Brickoo\Http\Request\Query
          */
-        public function setMethod($method);
+        public static function CreateFromString($query) {
+            Argument::IsString($query);
 
-        /**
-         * Sets the http protocol version.
-         * @see \Brickoo\Http\Interfaces\Request
-         * @param string $version the htto protocol version
-         * @throws \InvalidArgumentException if the argument is not valid
-         * @return \Brickoo\Http\Builder\Interfaces\Request
-         */
-        public function setVersion($version);
+            if (($position = strpos($query, "?")) !== false) {
+                $query = substr($query, $position + 1);
+            }
 
-        /**
-         * Builds the http request object with the provide or generated configuration.
-         * @return \Brickoo\Http\Interfaces\Request
-         */
-        public function build();
+            parse_str(rawurldecode($query), $importedQueryParameters);
+            return new \Brickoo\Http\Request\Query($importedQueryParameters);
+        }
 
     }
