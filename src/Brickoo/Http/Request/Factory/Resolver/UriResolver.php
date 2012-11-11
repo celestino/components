@@ -33,7 +33,7 @@
     namespace Brickoo\Http\Request\Factory\Resolver;
 
     /**
-     * Uri
+     * UriResolver
      *
      * Implements a resolver for the uri factory.
      * WARNING: This implementation has not an explicit interface as a contract,
@@ -41,7 +41,7 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Uri {
+    class UriResolver {
 
         /** @var \Brickoo\Http\Message\Interfaces\Header */
         private $Header;

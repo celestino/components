@@ -32,40 +32,21 @@
 
     namespace Brickoo\Http\Request\Factory;
 
-    use Brickoo\Validator\Argument;
-
     /**
-     * Query
+     * BodyFactory
      *
-     * Describes a factory for a http request query parameters object.
+     * Describes a factory for a http message body object.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Query {
+    class BodyFactory {
 
         /**
-         * Creates a request query parameters object from the global values.
-         * @return \Brickoo\Http\Request\Query
+         * Creates a request message body containing the raw PHP input as content.
+         * @return \Brickoo\Http\Message\Body
          */
         public static function Create() {
-            return new \Brickoo\Http\Request\Query($_GET);
-        }
-
-        /**
-         * Creates a request query parameters object from the extracted values.
-         * @param strin $query the query to extract the values from
-         * @throws \InvalidArgumentException if the argument is not valid
-         * @return \Brickoo\Http\Request\Query
-         */
-        public static function CreateFromString($query) {
-            Argument::IsString($query);
-
-            if (($position = strpos($query, "?")) !== false) {
-                $query = substr($query, $position + 1);
-            }
-
-            parse_str(rawurldecode($query), $importedQueryParameters);
-            return new \Brickoo\Http\Request\Query($importedQueryParameters);
+            return new \Brickoo\Http\Message\Body(file_get_contents("php://input"));
         }
 
     }

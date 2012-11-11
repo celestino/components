@@ -35,33 +35,37 @@
     use Brickoo\Validator\Argument;
 
     /**
-     * Form
+     * QueryFactory
      *
-     * Describes a factory for a http request form parameters object.
+     * Describes a factory for a http request query parameters object.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Form {
+    class QueryFactory {
 
         /**
-         * Creates a request form parameters objectcontaining the global POST values.
-         * @return \Brickoo\Http\Request\Form
+         * Creates a request query parameters object from the global values.
+         * @return \Brickoo\Http\Request\Query
          */
         public static function Create() {
-            return new \Brickoo\Http\Request\Form($_POST);
+            return new \Brickoo\Http\Request\Query($_GET);
         }
 
         /**
-         * Creates a request form parameters object from the extracted values.
-         * @param strin $messageBody the message body string to extract the values from
+         * Creates a request query parameters object from the extracted values.
+         * @param strin $query the query to extract the values from
          * @throws \InvalidArgumentException if the argument is not valid
-         * @return \Brickoo\Http\Request\Form
+         * @return \Brickoo\Http\Request\Query
          */
-        public static function CreateFromString($messageBody) {
-            Argument::IsString($messageBody);
+        public static function CreateFromString($query) {
+            Argument::IsString($query);
 
-            parse_str(rawurldecode($messageBody), $importedFormParameters);
-            return new \Brickoo\Http\Request\Form($importedFormParameters);
+            if (($position = strpos($query, "?")) !== false) {
+                $query = substr($query, $position + 1);
+            }
+
+            parse_str(rawurldecode($query), $importedQueryParameters);
+            return new \Brickoo\Http\Request\Query($importedQueryParameters);
         }
 
     }

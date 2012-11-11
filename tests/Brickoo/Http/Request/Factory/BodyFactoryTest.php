@@ -30,23 +30,23 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Http\Request\Factory;
+    namespace Tests\Brickoo\Http\Request\Factory;
+
+    use Brickoo\Http\Request\Factory\BodyFactory;
 
     /**
-     * Body
+     * BodyFactoryTest
      *
-     * Describes a factory for a http message body object.
+     * Test suite for the BodyFactory class.
+     * @see Brickoo\Http\Request\Factory\BodyFactory
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Body {
+    class BodyFactoryTest extends \PHPUnit_Framework_TestCase {
 
-        /**
-         * Creates a request message body containing the raw PHP input as content.
-         * @return \Brickoo\Http\Message\Body
-         */
-        public static function Create() {
-            return new \Brickoo\Http\Message\Body(file_get_contents("php://input"));
+        public function testCreateBody() {
+            $Body = BodyFactory::Create();
+            $this->assertInstanceOf('Brickoo\Http\Message\Interfaces\Body', $Body);
         }
 
     }

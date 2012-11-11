@@ -30,23 +30,38 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Tests\Brickoo\Http\Request\Factory;
+    namespace Brickoo\Http\Request\Factory;
 
-    use Brickoo\Http\Request\Factory\Body;
+    use Brickoo\Validator\Argument;
 
     /**
-     * BodyTest
+     * FormFactory
      *
-     * Test suite for the Factory\Body class.
-     * @see Brickoo\Http\Request\Factory\Body
+     * Describes a factory for a http request form parameters object.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class BodyTest extends \PHPUnit_Framework_TestCase {
+    class FormFactory {
 
-        public function testCreateBody() {
-            $Body = Body::Create();
-            $this->assertInstanceOf('Brickoo\Http\Message\Interfaces\Body', $Body);
+        /**
+         * Creates a request form parameters objectcontaining the global POST values.
+         * @return \Brickoo\Http\Request\Form
+         */
+        public static function Create() {
+            return new \Brickoo\Http\Request\Form($_POST);
+        }
+
+        /**
+         * Creates a request form parameters object from the extracted values.
+         * @param strin $messageBody the message body string to extract the values from
+         * @throws \InvalidArgumentException if the argument is not valid
+         * @return \Brickoo\Http\Request\Form
+         */
+        public static function CreateFromString($messageBody) {
+            Argument::IsString($messageBody);
+
+            parse_str(rawurldecode($messageBody), $importedFormParameters);
+            return new \Brickoo\Http\Request\Form($importedFormParameters);
         }
 
     }

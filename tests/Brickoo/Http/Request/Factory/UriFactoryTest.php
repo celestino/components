@@ -32,26 +32,66 @@
 
     namespace Tests\Brickoo\Http\Request\Factory;
 
-    use Brickoo\Http\Request\Factory\Uri;
+    use Brickoo\Http\Request\Factory\UriFactory;
 
     /**
-     * UriTest
+     * UriFactoryTest
      *
-     * Test suite for the Factory\Uri class.
-     * @see Brickoo\Http\Request\Factory\Uri
+     * Test suite for the UriFactory class.
+     * @see Brickoo\Http\Request\Factory\UriFactory
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class UriTest extends \PHPUnit_Framework_TestCase {
+    class UriFactoryTest extends \PHPUnit_Framework_TestCase {
+
+        /**
+         * @covers Brickoo\Http\Request\Factory\UriFactory::Create
+         */
+        public function testCreateWithResolver() {
+            $Resolver = $this->getUriResolver();
+            $Query = $this->getMock('Brickoo\Http\Request\Interfaces\Query');
+
+            $Uri = UriFactory::Create($Resolver, $Query);
+            $this->assertInstanceOf('Brickoo\Http\Request\Interfaces\Uri', $Uri);
+            $this->assertSame($Query, $Uri->getQuery());
+        }
+
+        /**
+         * @covers Brickoo\Http\Request\Factory\UriFactory::CreateFromString
+         */
+        public function testImportFromString() {
+            $expectedQueryString = "param1=value1&param2=value2";
+
+            $urlString = "https://testcase.locahost/path/to/script.php?param1=value1&param2=value2";
+            $Uri = UriFactory::CreateFromString($urlString);
+            $this->assertInstanceOf('Brickoo\Http\Request\Interfaces\Query', ($Query = $Uri->getQuery()));
+            $this->assertEquals($expectedQueryString, $Query->toString());
+        }
+
+        /**
+         * @covers Brickoo\Http\Request\Factory\UriFactory::CreateFromString
+         * @expectedException InvalidArgumentException
+         */
+        public function testCreateFromStringThrowsInvalidArgumentException() {
+            UriFactory::CreateFromString(array("wrongType"));
+        }
+
+        /**
+         * @covers Brickoo\Http\Request\Factory\UriFactory::CreateFromString
+         * @expectedException InvalidArgumentException
+         */
+        public function testCreateFromStringThrowsNotAcceptableUriException() {
+            UriFactory::CreateFromString("http-not-valid-url");
+        }
 
         /**
          * Returns a url resolver mock object.
-         * @return \Brickoo\Http\Request\Factory\Resolver\Uri
+         * @return \Brickoo\Http\Request\Factory\Resolver\UriResolver
          */
         private function getUriResolver() {
             $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
             $Resolver = $this->getMock(
-                'Brickoo\Http\Request\Factory\Resolver\Uri',
+                'Brickoo\Http\Request\Factory\Resolver\UriResolver',
                 array("getScheme", "getHostname", "getPort", "getQueryString", "getPath"),
                 array($Header)
             );
@@ -69,46 +109,6 @@
                      ->will($this->returnValue("/path/to/script"));
 
             return $Resolver;
-        }
-
-        /**
-         * @covers Brickoo\Http\Request\Factory\Uri::Create
-         */
-        public function testCreateWithResolver() {
-            $Resolver = $this->getUriResolver();
-            $Query = $this->getMock('Brickoo\Http\Request\Interfaces\Query');
-
-            $Uri = Uri::Create($Resolver, $Query);
-            $this->assertInstanceOf('Brickoo\Http\Request\Interfaces\Uri', $Uri);
-            $this->assertSame($Query, $Uri->getQuery());
-        }
-
-        /**
-         * @covers Brickoo\Http\Request\Factory\Uri::CreateFromString
-         */
-        public function testImportFromString() {
-            $expectedQueryString = "param1=value1&param2=value2";
-
-            $urlString = "https://testcase.locahost/path/to/script.php?param1=value1&param2=value2";
-            $Uri = Uri::CreateFromString($urlString);
-            $this->assertInstanceOf('Brickoo\Http\Request\Interfaces\Query', ($Query = $Uri->getQuery()));
-            $this->assertEquals($expectedQueryString, $Query->toString());
-        }
-
-        /**
-         * @covers Brickoo\Http\Request\Factory\Uri::CreateFromString
-         * @expectedException InvalidArgumentException
-         */
-        public function testCreateFromStringThrowsInvalidArgumentException() {
-            Uri::CreateFromString(array("wrongType"));
-        }
-
-        /**
-         * @covers Brickoo\Http\Request\Factory\Uri::CreateFromString
-         * @expectedException InvalidArgumentException
-         */
-        public function testCreateFromStringThrowsNotAcceptableUriException() {
-            Uri::CreateFromString("http-not-valid-url");
         }
 
     }

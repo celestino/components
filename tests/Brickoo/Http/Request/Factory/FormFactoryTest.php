@@ -32,17 +32,17 @@
 
     namespace Tests\Brickoo\Http\Request\Factory;
 
-    use Brickoo\Http\Request\Factory\Form;
+    use Brickoo\Http\Request\Factory\FormFactory;
 
     /**
-     * FormTest
+     * FormFactoryTest
      *
-     * Test suite for the Factory\Form class.
-     * @see Brickoo\Http\Request\Factory\Form
+     * Test suite for the FormFactory class.
+     * @see Brickoo\Http\Request\Factory\FormFactory
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class FormTest extends \PHPUnit_Framework_TestCase {
+    class FormFactoryTest extends \PHPUnit_Framework_TestCase {
 
         /** @var array */
         private $backupPostVars;
@@ -70,18 +70,18 @@
         }
 
         /**
-         * @covers Brickoo\Http\Request\Factory\Form::Create
+         * @covers Brickoo\Http\Request\Factory\FormFactory::Create
          */
         public function testCreateFromGlobals() {
             $_POST = array ("test" => "passed");
 
-            $Form = Form::Create();
+            $Form = FormFactory::Create();
             $this->assertInstanceOf('Brickoo\Http\Request\Interfaces\Form', $Form);
             $this->assertEquals($_POST, $Form->toArray());
         }
 
         /**
-         * @covers Brickoo\Http\Request\Factory\Form::CreateFromString
+         * @covers Brickoo\Http\Request\Factory\FormFactory::CreateFromString
          */
         public function testImportFromString() {
             $expectedParameters = array(
@@ -91,17 +91,17 @@
             );
             $Form = "param1=value%201&param2=value+2&param3=value3";
 
-            $Form = Form::CreateFromString($Form);
+            $Form = FormFactory::CreateFromString($Form);
             $this->assertInstanceOf('Brickoo\Http\Request\Interfaces\Form', $Form);
             $this->assertEquals($expectedParameters, $Form->toArray());
         }
 
         /**
-         * @covers Brickoo\Http\Request\Factory\Form::CreateFromString
+         * @covers Brickoo\Http\Request\Factory\FormFactory::CreateFromString
          * @expectedException InvalidArgumentException
          */
         public function testCreateFromStringThrowsInvalidArgumentException() {
-            Form::CreateFromString(array("wrongType"));
+            FormFactory::CreateFromString(array("wrongType"));
         }
 
     }

@@ -35,13 +35,13 @@
     use Brickoo\Validator\Argument;
 
     /**
-     * Header
+     * HeaderFactory
      *
      * Describes a factory for the http message header.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Header {
+    class HeaderFactory {
 
         /**
          * Creates a http message header object from the global server values.
