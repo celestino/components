@@ -32,7 +32,7 @@
 
     namespace Brickoo\Routing\Builder;
 
-    use Brickoo\Http\Request\Factory\Uri as UriFactory,
+    use Brickoo\Http\Request\Factory\UriFactory,
         Brickoo\Routing\Route\RegexGenerator,
         Brickoo\Validator\Argument;
 
