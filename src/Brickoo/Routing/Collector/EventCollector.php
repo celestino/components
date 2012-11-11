@@ -60,7 +60,7 @@
 
         /** {@inheritDoc} */
         public function collect() {
-            $EventResponseCollection = $this->EventManager->collect(new Event(Events::SEARCH, $this));
+            $EventResponseCollection = $this->EventManager->collect(new Event(Events::COLLECT_ROUTES, $this));
 
             if ($EventResponseCollection->isEmpty()) {
                 throw new Exceptions\RoutesNotAvailable();
