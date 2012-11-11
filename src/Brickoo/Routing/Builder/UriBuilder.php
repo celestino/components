@@ -37,13 +37,13 @@
         Brickoo\Validator\Argument;
 
     /**
-     * Uri
+     * UriBuilder
      *
      * Implements a uri builder to create a route matching uri.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Uri implements Interfaces\Uri {
+    class UriBuilder implements Interfaces\UriBuilder {
 
         /** @var string */
         private $baseUrl;

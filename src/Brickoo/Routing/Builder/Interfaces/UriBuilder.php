@@ -33,18 +33,18 @@
     namespace Brickoo\Routing\Builder\Interfaces;
 
     /**
-     * Uri
+     * UriBuilder
      *
      * Describes a uri builder to create a route matching http request uri.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface Uri {
+    interface UriBuilder {
 
         /**
          * Sets the route regular expression generator dependency.
          * @param \Brickoo\Routing\Route\Interfaces\RegexGenerator $RegexGenerator
-         * @return \Brickoo\Routing\Builder\Interfaces\Uri
+         * @return \Brickoo\Routing\Builder\Interfaces\UriBuilder
          */
         public function setRegexGenerator(\Brickoo\Routing\Route\Interfaces\RegexGenerator $RegexGenerator);
 
