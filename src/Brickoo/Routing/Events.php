@@ -42,15 +42,15 @@
     class Events {
 
         /**
-         * Asks for available routes which must be returned as a route collection.
+         * Collects available routes which must be returned as a route collection.
          * @var string
          */
-        const SEARCH = 'routing.routes.search';
+        const COLLECT_ROUTES = 'brickoo.collect.routes';
 
         /**
-         * Notifies that the router has not a request matched route.
+         * Notifies that the router has run into an error.
          * @var string
          */
-        const ERROR = 'routing.router.error';
+        const ERROR = 'brickoo.router.error';
 
     }
