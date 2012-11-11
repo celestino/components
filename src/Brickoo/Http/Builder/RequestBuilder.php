@@ -32,21 +32,21 @@
 
     namespace Brickoo\Http\Builder;
 
-    use Brickoo\Http\Request as HttpRequest,
+    use Brickoo\Http\Request,
         Brickoo\Http\Request\Header as RequestHeader,
         Brickoo\Http\Message\Factory as MessageFactory,
         Brickoo\Http\Request\Factory as RequestFactory,
         Brickoo\Validator\Argument;
 
     /**
-     * Request
+     * RequestBuilder
      *
      * Implements a builder with a fluent interface for the http request class.
      * If a dependency is not set, the corresponding factory is used to create it.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Request implements Interfaces\Request {
+    class RequestBuilder implements Interfaces\RequestBuilder {
 
         /** @var \Brickoo\Http\Message\Interfaces\Header */
         private $Header;
@@ -97,7 +97,7 @@
 
         /** {@inheritDoc} */
         public function build() {
-            return new HttpRequest($this->getHeader(), $this->getBody(), $this->getUri(), $this->method, $this->version);
+            return new Request($this->getHeader(), $this->getBody(), $this->getUri(), $this->method, $this->version);
         }
 
         /**
