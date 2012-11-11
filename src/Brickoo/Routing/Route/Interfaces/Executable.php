@@ -33,13 +33,13 @@
     namespace Brickoo\Routing\Route\Interfaces;
 
     /**
-     * ExecutableRoute
+     * Executable
      *
      * Defines a route responsible for the request and can be executed.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface ExecutableRoute {
+    interface Executable {
 
         /**
          * Returns the matched route.
@@ -66,7 +66,7 @@
          * Executes the responsible controller action call with the route paramaters.
          * This method allows to be called with argument ot pass to the controller,
          * like for example an dependency container.
-         * The ExecutableRoute is passed as reference to the action automaticly.
+         * The Executable is passed as reference to the action automaticly.
          * @return mixed the controller action returned response
          */
         public function execute();

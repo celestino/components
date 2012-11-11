@@ -63,8 +63,8 @@
          * Returns the request matching executable route.
          * @return \Brickoo\Routing\Interfaces\RequestRoute
          * @throws \Brickoo\Routing\Exceptions\RequestHasNoRoute if non route for the request is available
-         * @return \Brickoo\Routing\Route\Interfaces\ExecutableRoute
+         * @return \Brickoo\Routing\Route\Interfaces\Executable
          */
-        public function getExecutableRoute();
+        public function getExecutable();
 
     }

@@ -4,7 +4,7 @@
 
     class ExecutableController {
 
-        public function returnValues(\Brickoo\Routing\Route\Interfaces\ExecutableRoute $Route) {
+        public function returnValues(\Brickoo\Routing\Route\Interfaces\Executable $Route) {
             return $Route->getParameter('param1') ." & ". $Route->getParameter('param2');
         }
 

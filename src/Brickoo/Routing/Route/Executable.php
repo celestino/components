@@ -37,13 +37,13 @@
     use Brickoo\Validator\Argument;
 
     /**
-     * ExecutableRoute
+     * Executable
      *
      * Implementation of a request responsible route which can be executed.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ExecutableRoute implements Interfaces\ExecutableRoute {
+    class Executable implements Interfaces\Executable {
 
         /** @var \Brickoo\Routing\Interfaces\Route */
         private $Route;
