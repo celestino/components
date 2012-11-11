@@ -51,7 +51,6 @@
         /**
          * Class constructor.
          * @param \Brickoo\Event\Interfaces\Manager $EventManager
-         * @param \Brickoo\Routing\Route\Interfaces\Collection $RouteCollection
          * @return void
          */
         public function __construct(\Brickoo\Event\Interfaces\Manager $EventManager) {

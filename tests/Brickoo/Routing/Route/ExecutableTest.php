@@ -54,6 +54,7 @@
             $this->assertInstanceOf('Brickoo\Routing\Route\Interfaces\Executable', $Executable);
             $this->assertAttributeSame($Route, 'Route', $Executable);
             $this->assertAttributeSame($parameters, 'parameters', $Executable);
+            $this->assertAttributeEquals(false, "hasBeenExecuted", $Executable);
         }
 
         /**
@@ -63,6 +64,17 @@
             $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
             $Executable = new Executable($Route);
             $this->assertSame($Route, $Executable->getRoute());
+        }
+
+        /**
+         * @covers Brickoo\Routing\Route\Executable::getParameters
+         */
+        public function testGetParameters() {
+            $expectedParameters = array('param' => 'the parameter value');
+
+            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Executable = new Executable($Route, $expectedParameters);
+            $this->assertEquals($expectedParameters, $Executable->getParameters());
         }
 
         /**
@@ -131,10 +143,33 @@
                   ->will($this->returnValue('\Tests\Brickoo\Routing\Route\Assets\ExecutableController'));
             $Route->expects($this->once())
                   ->method('getAction')
-                  ->will($this->returnValue('returnValues'));
+                  ->will($this->returnValue('returnText'));
 
-            $Executable = new Executable($Route, array('param1' => 'value1', 'param2' => 'value2'));
-            $this->assertEquals('value1 & value2', $Executable->execute());
+            $Executable = new Executable($Route);
+            $this->assertEquals("ExecutableController::returnText executed.", $Executable->execute());
+        }
+
+        /**
+         * @covers Brickoo\Routing\Route\Executable::execute
+         * @covers \Brickoo\Routing\Route\Exceptions\MultipleExecutions
+         * @expectedException \Brickoo\Routing\Route\Exceptions\MultipleExecutions
+         */
+        public function testExecuteThrowsMultipleExecutionsException() {
+            require_once "Assets/ExecutableController.php";
+
+            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Route->expects($this->once())
+                  ->method('getController')
+                  ->will($this->returnValue('\Tests\Brickoo\Routing\Route\Assets\ExecutableController'));
+            $Route->expects($this->once())
+                  ->method('getAction')
+                  ->will($this->returnValue('returnText'));
+
+            $Executable = new Executable($Route);
+            $Executable->execute();
+            $this->assertAttributeEquals(true, "hasBeenExecuted", $Executable);
+            $Executable->execute();
+
         }
 
     }

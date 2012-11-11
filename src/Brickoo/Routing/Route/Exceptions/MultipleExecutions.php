@@ -30,53 +30,25 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Routing\Route\Interfaces;
+    namespace Brickoo\Routing\Route\Exceptions;
 
     /**
-     * Executable
+     * MultipleExecutions
      *
-     * Defines a route responsible for the request and can be executed.
+     * Exception throwed if trying to execute a route multiple times.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface Executable {
+    class MultipleExecutions extends \Exception {
 
         /**
-         * Returns the matched route.
-         * @return \Brickoo\Routing\Interfaces\Route
+         * Class constructor.
+         * Calls the parent Exception constructor.
+         * @param string $name the route name which has been executed multiple times
+         * @return void
          */
-        public function getRoute();
-
-        /**
-         * Returns the route parameters.
-         * @return array the route parameters
-         */
-        public function getParameters();
-
-        /**
-         * Returns the value of the requested parameter.
-         * @param string $parameter the parameter name
-         * @throws \Brickoo\Routing\Route\Exceptions\ParameterNotAvailable if the parameter does not exist
-         * @return string the parameter value
-         */
-        public function getParameter($parameter);
-
-        /**
-         * Checks if the parameter is available.
-         * @param string $parameter the parameter name
-         * @return boolean check result
-         */
-        public function hasParameter($parameter);
-
-        /**
-         * Executes the route controller action.
-         * This method allows to be called with an argument
-         * which should be pass to the controller constructor,
-         * like for example a dependency container.
-         * @param null|mixed the argument to parameter to forward
-         * @throws \Brickoo\Routing\Route\Exceptions\MultipleExecutions
-         * @return mixed the controller action returned response
-         */
-        public function execute();
+        public function __construct($name) {
+            parent::__construct(sprintf("The route `%s` has been tryed to be executed multiple times.", $name));
+        }
 
     }
