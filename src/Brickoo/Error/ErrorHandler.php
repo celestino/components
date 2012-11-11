@@ -32,8 +32,7 @@
 
     namespace Brickoo\Error;
 
-    use Brickoo\Log,
-        Brickoo\Event\Event,
+    use Brickoo\Event\Event,
         Brickoo\Validator\Argument;
 
     /**
@@ -47,9 +46,6 @@
 
     class ErrorHandler {
 
-        /** @var integer */
-        private $errorLevel;
-
         /** @var boolean */
         private $convertToException;
 
@@ -61,27 +57,16 @@
 
         /**
          * Class constructor.
-         * @param integer $errorLevel the error level to listening to, default E_USER_ERROR
+         * @param \Brickoo\Event\Interfaces\Manager $EventManager
          * @param boolean $convertToException flag to convert errors to exceptions
          * @return void
          */
-        public function __construct($errorLevel = 32767, $convertToException = true) {
-            Argument::IsInteger($errorLevel);
+        public function __construct(\Brickoo\Event\Interfaces\Manager $EventManager, $convertToException = true) {
             Argument::IsBoolean($convertToException);
 
-            $this->isRegistered = false;
-            $this->errorLevel = $errorLevel;
-            $this->convertToException = $convertToException;
-        }
-
-        /**
-         * Sets the event manager to notify if an error occurred.
-         * @param \Brickoo\Event\Interfaces\Manager $EventManager
-         * @return \Brickoo\Error\ErrorHandler
-         */
-        public function setEventManager(\Brickoo\Event\Interfaces\Manager $EventManager) {
             $this->EventManager = $EventManager;
-            return $this;
+            $this->convertToException = $convertToException;
+            $this->isRegistered = false;
         }
 
         /**
@@ -99,10 +84,10 @@
          */
         public function register() {
             if ($this->isRegistered()) {
-                throw new Exceptions\DuplicateHandlerRegistration('ErrorHandler');
+                throw new Exceptions\DuplicateHandlerRegistration("ErrorHandler");
             }
 
-            set_error_handler(array($this, 'handleError'), $this->errorLevel);
+            set_error_handler(array($this, "handleError"));
             $this->isRegistered = true;
 
             return $this;
@@ -115,7 +100,7 @@
          */
         public function unregister() {
             if (! $this->isRegistered()) {
-                throw new Exceptions\HandlerNotRegistered('ErrorHandler');
+                throw new Exceptions\HandlerNotRegistered("ErrorHandler");
             }
 
             restore_error_handler();
@@ -148,15 +133,30 @@
         public function handleError($errorCode, $errorMessage, $errorFile, $errorLine) {
             $message = sprintf("%s in %s on line %s", $errorMessage, $errorFile, $errorLine);
 
-            if ($this->EventManager !== null) {
-                $this->EventManager->notify(new Event(Log\Events::LOG, $this, array('messages' => $message)));
-            }
-
             if ($this->convertToException) {
                 throw new Exceptions\ErrorOccurred($message, $errorCode);
             }
+            else {
+                $this->EventManager->notify(new Event(Events::ERROR, $this, array(
+                    "message" => $message,
+                    "stacktrace" => $this->getStackTrace()
+                )));
+            }
 
             return true;
+        }
+
+        /**
+         * Returns the stack trace.
+         * @return string the stack trace
+         */
+        private function getStackTrace() {
+            ob_start();
+            debug_print_backtrace();
+            $stackTrace = ob_get_contents();
+            ob_end_clean();
+
+            return $stackTrace;
         }
 
     }

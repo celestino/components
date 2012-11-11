@@ -48,19 +48,10 @@
          * @covers Brickoo\Error\ErrorHandler::__construct
          */
         public function testErrorHandlerConstructor() {
-            $ErrorHandler = new ErrorHandler(E_ALL, true);
-            $this->assertAttributeEquals(E_ALL, 'errorLevel', $ErrorHandler);
+            $EventManager = $this->getEventManagerStub();
+            $ErrorHandler = new ErrorHandler($EventManager, true);
+            $this->assertAttributeSame($EventManager, "EventManager", $ErrorHandler);
             $this->assertAttributeEquals(true, 'convertToException', $ErrorHandler);
-        }
-
-        /**
-         * @covers Brickoo\Error\ErrorHandler::setEventManager
-         */
-        public function testSetEventManager() {
-            $EventManager = $this->getMock('Brickoo\Event\Interfaces\Manager');
-            $ErrorHandler = new ErrorHandler();
-            $ErrorHandler->setEventManager($EventManager);
-            $this->assertAttributeSame($EventManager, 'EventManager', $ErrorHandler);
         }
 
         /**
@@ -69,7 +60,7 @@
          * @covers Brickoo\Error\ErrorHandler::unregister
          */
         public function testRegisterAndUnregisterProcess() {
-            $ErrorHandler = new ErrorHandler();
+            $ErrorHandler = new ErrorHandler($this->getEventManagerStub());
             $this->assertSame($ErrorHandler, $ErrorHandler->register());
             $this->assertAttributeEquals(true, 'isRegistered', $ErrorHandler);
             $this->assertSame($ErrorHandler, $ErrorHandler->unregister());
@@ -82,7 +73,7 @@
          * @expectedException Brickoo\Error\Exceptions\DuplicateHandlerRegistration
          */
         public function testRegisterDuplicateRegistrationThrowsException() {
-            $ErrorHandler = new ErrorHandler();
+            $ErrorHandler = new ErrorHandler($this->getEventManagerStub());
             $ErrorHandler->register();
             $ErrorHandler->register();
             $ErrorHandler->unregister();
@@ -94,30 +85,22 @@
          * @expectedException Brickoo\Error\Exceptions\HandlerNotRegistered
          */
         public function testUnregisterNotRegisteredhandlerThrowsException() {
-            $ErrorHandler = new ErrorHandler();
+            $ErrorHandler = new ErrorHandler($this->getEventManagerStub());
             $ErrorHandler->unregister();
         }
 
         /**
          * @covers Brickoo\Error\ErrorHandler::handleError
+         * @covers Brickoo\Error\ErrorHandler::getStackTrace
          */
-        public function testHandleErrorDoesNotingWithoutEventManagerAndConversionToException() {
-            $ErrorHandler = new ErrorHandler(0, false);
-            $this->assertTrue($ErrorHandler->handleError(777, 'does nothing', 'noFileNeeded', 0));
-        }
-
-        /**
-         * @covers Brickoo\Error\ErrorHandler::handleError
-         */
-        public function testHandleErrorWithEventExecution() {
+        public function testHandleErrorEventNotification() {
             $EventManager = $this->getMock('Brickoo\Event\Interfaces\Manager');
             $EventManager->expects($this->once())
                          ->method('notify')
                          ->with($this->isInstanceOf('Brickoo\Event\Interfaces\Event'))
                          ->will($this->returnValue(null));
 
-            $ErrorHandler = new ErrorHandler(0, false);
-            $ErrorHandler->setEventManager($EventManager);
+            $ErrorHandler = new ErrorHandler($EventManager, false);
             $ErrorHandler->handleError(E_ALL, 'message', 'file', 0);
         }
 
@@ -127,7 +110,7 @@
          * @expectedException Brickoo\Error\Exceptions\ErrorOccurred
          */
         public function testHandleErrorConvertingToException() {
-            $ErrorHandler = new ErrorHandler(E_ALL, true);
+            $ErrorHandler = new ErrorHandler($this->getEventManagerStub(), true);
             $ErrorHandler->handleError(E_ALL, 'message', 'file', 0);
         }
 
@@ -135,10 +118,18 @@
          * @covers Brickoo\Error\ErrorHandler::__destruct
          */
         public function testDestructorUnregister() {
-            $ErrorHandler = new ErrorHandler();
+            $ErrorHandler = new ErrorHandler($this->getEventManagerStub());
             $ErrorHandler->register();
             $ErrorHandler->__destruct();
             $this->assertAttributeEquals(false, 'isRegistered', $ErrorHandler);
+        }
+
+        /**
+         * Returns an event manager stub.
+         * @return \Brickoo\Event\Interfaces\Manager
+         */
+        private function getEventManagerStub() {
+            return $this->getMock('Brickoo\Event\Interfaces\Manager');
         }
 
     }
