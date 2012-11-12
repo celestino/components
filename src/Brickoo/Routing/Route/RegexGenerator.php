@@ -93,14 +93,24 @@
         private function replaceRoutePathWithRulesExpressions(&$routePath, array $parameters, \Brickoo\Routing\Interfaces\Route $Route) {
             foreach ($parameters as $parameterName) {
                 if ($Route->hasRule($parameterName)) {
-                    $routePath = str_replace("/{". $parameterName ."}",
-                        (
-                            $Route->hasDefaultValue($parameterName) ?
-                            "(/(?<". $parameterName .">(". $Route->getRule($parameterName) .")?))?" :
-                            "/(?<". $parameterName .">". $Route->getRule($parameterName) .")"
-                        ),
-                        $routePath
-                    );
+                    if (strpos($routePath, "/{". $parameterName ."}") !== false) {
+                        $routePath = str_replace("/{". $parameterName ."}",
+                            ($Route->hasDefaultValue($parameterName) ?
+                                "(/(?<". $parameterName .">(". $Route->getRule($parameterName) .")?))?" :
+                                "/(?<". $parameterName .">". $Route->getRule($parameterName) .")"
+                            ),
+                            $routePath
+                        );
+                    }
+                    else {
+                        $routePath = str_replace("{". $parameterName ."}",
+                            ($Route->hasDefaultValue($parameterName) ?
+                                "(?<". $parameterName .">(". $Route->getRule($parameterName) .")?)" :
+                                "(?<". $parameterName .">". $Route->getRule($parameterName) .")"
+                            ),
+                            $routePath
+                        );
+                    }
                 }
             }
         }

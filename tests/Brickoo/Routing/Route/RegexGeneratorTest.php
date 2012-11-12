@@ -60,7 +60,13 @@
          * @covers Brickoo\Routing\Route\RegexGenerator::replaceRoutePathWithRulesExpressions
          */
         public function testGeneratePathRegexFromRoute() {
-            $expectedRegex = "~^/(articles|artikeln)/(?<articleName>[\w\-]+)(/(?<pageNumber>([0-9]+)?))?$~i";
+            $expectedRegex = "~^".
+                             "/(articles|artikeln)".
+                             "/(?<articleName>[\w\-]+)".
+                             "(/(?<pageNumber>([0-9]+)?))?".
+                             "(?<version>\.[0-9]+)".
+                             "(?<format>(\.html|\.json)?)".
+                             "$~i";
             $aliases = array("articles" => "artikeln");
             $RegexGenerator = new RegexGenerator($aliases);
             $this->assertEquals($expectedRegex, $RegexGenerator->generatePathRegex($this->getRouteFixture()));
@@ -72,8 +78,9 @@
          */
         private function getRouteFixture() {
             return new \Brickoo\Routing\Route(
-                "articles", "/articles/{articleName}/{pageNumber}", "MyBlog", "displayArticle",
-                array("articleName" => "[\w\-]+", "pageNumber" => "[0-9]+"), array("pageNumber" => 1)
+                "articles", "/articles/{articleName}/{pageNumber}{version}{format}", "MyBlog", "displayArticle",
+                array("articleName" => "[\w\-]+", "pageNumber" => "[0-9]+", "version" => "\.[0-9]+", "format" => "\.html|\.json"),
+                array("pageNumber" => 1, "format" => "html")
             );
         }
 
