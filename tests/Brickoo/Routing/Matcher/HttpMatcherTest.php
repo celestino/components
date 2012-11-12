@@ -60,6 +60,7 @@
         /**
          * @covers Brickoo\Routing\Matcher\HttpMatcher::matches
          * @covers Brickoo\Routing\Matcher\HttpMatcher::isAllowedRoute
+         * @covers Brickoo\Routing\Matcher\HttpMatcher::isMatchingRoute
          */
         public function testMatchesCompleteWorkflow() {
             $Request = $this->getRequestStub();
@@ -89,7 +90,7 @@
 
         /**
          * @covers Brickoo\Routing\Matcher\HttpMatcher::getParameters
-         * @covers Brickoo\Routing\Matcher\HttpMatcher::getMatchedRoutePathParameters
+         * @covers Brickoo\Routing\Matcher\HttpMatcher::getRouteParameters
          */
         public function testGetRouteRulesParameters() {
             $expectedParameters = array(

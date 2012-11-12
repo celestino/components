@@ -43,14 +43,23 @@
 
     class HttpMatcher implements Interfaces\Matcher {
 
+        /**
+         * Holds the paramater key for the auto detected format.
+         * @var string
+         */
+        const FORMAT_PARAM_KEY = "_FORMAT_";
+
         /** @var \Brickoo\Http\Interfaces\Request */
         private $Request;
 
         /** @var \Brickoo\Routing\Route\Interfaces\RegexGenerator */
         private $RegexGenerator;
 
-        /** @var array */
-        private $matchedRouteParamaters;
+        /** @var null|array */
+        private $routeParameters;
+
+        /** @var null|array */
+        private $pathParameters;
 
         /**
          * Class constructor
@@ -64,7 +73,6 @@
         ){
             $this->Request = $Request;
             $this->RegexGenerator = $RegexGenerator;
-            $this->matchedRouteParamaters = array();
         }
 
         /** {@inheritDoc} */
@@ -73,16 +81,19 @@
                 return false;
             }
 
-            if ($matches = (preg_match($this->RegexGenerator->generatePathRegex($Route), $this->Request->getUri()->getPathInfo(), $pathMatchedParameters) == 1)) {
-                $this->matchedRouteParamaters = $this->getMatchedRoutePathParameters($Route, $pathMatchedParameters);
+            $this->pathParameters = null;
+            $this->routeParameters = null;
+
+            if ($doesMatch = $this->isMatchingRoute($Route)) {
+                $this->routeParameters = $this->getRouteParameters($Route);
             }
 
-            return $matches;
+            return $doesMatch;
         }
 
         /** {@inheritDoc} */
         public function getParameters() {
-            return $this->matchedRouteParamaters;
+            return $this->routeParameters ?: array();
         }
 
         /**
@@ -104,18 +115,29 @@
         }
 
         /**
+         * Checks if the route does match the request uri path.
+         * On matching, the path paramters will be extracted.
+         * @param \Brickoo\Routing\Interfaces\Route $Route
+         * @return boolean check result
+         */
+        private function isMatchingRoute(\Brickoo\Routing\Interfaces\Route $Route) {
+            return (preg_match($this->RegexGenerator->generatePathRegex($Route),
+                $this->Request->getUri()->getPathInfo(), $this->pathParameters) == 1);
+        }
+
+        /**
          * Returns the route matched parameters for the current request.
          * @param \Brickoo\Routing\Interfaces\Route $Route
          * @param array $pathMatchedParameters the path matching parameters
          * @return array the path parameters of the matching route
          */
-        private function getMatchedRoutePathParameters(\Brickoo\Routing\Interfaces\Route $Route, array $pathMatchedParameters) {
+        private function getRouteParameters(\Brickoo\Routing\Interfaces\Route $Route) {
             $routeParameters = array();
 
             if ($Route->hasRules()) {
                 foreach(array_keys($Route->getRules()) as $ruleParameter) {
-                    if (isset($pathMatchedParameters[$ruleParameter]) && (! empty($pathMatchedParameters[$ruleParameter]))) {
-                        $routeParameters[$ruleParameter] = $pathMatchedParameters[$ruleParameter];
+                    if (isset($this->pathParameters[$ruleParameter]) && (! empty($this->pathParameters[$ruleParameter]))) {
+                        $routeParameters[$ruleParameter] = $this->pathParameters[$ruleParameter];
                     }
                     elseif ($Route->hasDefaultValue($ruleParameter)) {
                         $routeParameters[$ruleParameter] = $Route->getDefaultValue($ruleParameter);

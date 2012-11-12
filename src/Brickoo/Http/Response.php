@@ -163,7 +163,6 @@
         public function send($callback = null) {
             $this->sendStatus($callback);
             $this->getHeader()->send();
-            echo ("\r\n");
             $this->getBody()->send();
 
             return $this;
@@ -172,8 +171,8 @@
         /** {@inheritDoc} */
         public function toString() {
             $response  = sprintf("%s %d %s\r\n", $this->version, $this->getStatus(), $this->getStatusPhrase());
-            $response .= rtrim($this->getHeader()->toString(), "\r\n");
-            $response .= "\r\n\r\n" . $this->getBody()->getContent();
+            $response .= $this->getHeader()->toString();
+            $response .= "\r\n" . $this->getBody()->getContent();
 
             return $response;
         }
