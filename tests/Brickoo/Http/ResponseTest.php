@@ -125,7 +125,7 @@
          * @covers Brickoo\Http\Response::getStatusPhrase
          */
         public function testSend() {
-            $expectedOutput = "HTTP/1.1 201 Created\r\n\r\n";
+            $expectedOutput = "HTTP/1.1 201 Created\r\n";
             $this->expectOutputString($expectedOutput);
 
             $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
@@ -146,8 +146,8 @@
          */
         public function testToString() {
             $expectedOutput  = "HTTP/1.1 200 OK\r\n";
-            $expectedOutput .= "Unit: TEST\r\n\r\n";
-            $expectedOutput .= "test case content";
+            $expectedOutput .= "Unit: TEST\r\n";
+            $expectedOutput .= "\r\ntest case content";
 
             $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
             $Header->expects($this->once())
