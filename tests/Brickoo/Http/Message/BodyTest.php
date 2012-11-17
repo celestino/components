@@ -57,10 +57,20 @@
         /**
          * @covers Brickoo\Http\Message\Body::getContent
          */
-        public function testToString() {
+        public function testGetContent() {
             $expectedBody = "test message body content";
             $Body = new Body($expectedBody);
             $this->assertEquals($expectedBody, $Body->getContent());
+        }
+
+        /**
+         * @covers Brickoo\Http\Message\Body::setContent
+         */
+        public function testSetContent() {
+            $expectedBody = "test message body content";
+            $Body = new Body();
+            $this->assertSame($Body, $Body->setContent($expectedBody));
+            $this->assertAttributeEquals($expectedBody, "content", $Body);
         }
 
         /**

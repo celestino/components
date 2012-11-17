@@ -48,6 +48,14 @@
         public function getContent();
 
         /**
+         * Sets the content of the message body.
+         * @param string $content the body content to set
+         * @throws \InvalidArgumentException if the argument is not valid
+         * @return \Brickoo\Http\Message\Interfaces\Body
+         */
+        public function setContent($content);
+
+        /**
          * Sends the body to the output buffer.
          * @return \Brickoo\Http\Message\Interfaces\Body
          */
