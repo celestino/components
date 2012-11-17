@@ -32,7 +32,7 @@
 
     namespace Brickoo\Http\Message;
 
-    use Brickoo\Memory;
+    use Brickoo\Validator\Argument;
 
     /**
      * Body
@@ -58,6 +58,13 @@
         /** {@inheritDoc} */
         public function getContent() {
             return $this->content;
+        }
+
+        /** {@inheritDoc} */
+        public function setContent($content) {
+            Argument::IsString($content);
+            $this->content = $content;
+            return $this;
         }
 
         /** {@inheritDoc} */
