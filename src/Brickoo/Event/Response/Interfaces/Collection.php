@@ -33,9 +33,9 @@
     namespace Brickoo\Event\Response\Interfaces;
 
     /**
-     * Response
+     * Collection
      *
-     * Describes the methods implemented by this interface.
+     * Describes an event response collection contaning the collected responses.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

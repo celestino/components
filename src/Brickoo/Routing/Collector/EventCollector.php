@@ -39,7 +39,7 @@
     /**
      * EventCollector
      *
-     * Implementation of a route search based on event collection calls.
+     * Implementation of a route collection based on event collection calls.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

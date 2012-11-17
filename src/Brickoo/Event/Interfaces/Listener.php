@@ -35,7 +35,8 @@
     /**
      * Listener
      *
-     * Describes the methods implemented by this interface.
+     * Describes an event listener for a specific event which has
+     * an optional matching condition, a queue priority and a callback to execute.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

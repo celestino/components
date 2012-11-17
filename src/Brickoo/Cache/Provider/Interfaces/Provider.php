@@ -35,7 +35,7 @@
     /**
      * Provider
      *
-     * Describes the methods implemented by this interface.
+     * Describes a caching provider.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
