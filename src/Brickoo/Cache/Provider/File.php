@@ -37,8 +37,7 @@
     /**
      * File
      *
-     * Provides caching operations based on the Fileystem.
-     * Uses a System\Client dependency to handle filesystem related operations.
+     * Provides caching operations based on files.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -50,8 +49,8 @@
         /** @var integer */
         const LIFETIME_BYTES_LENGTH = 14;
 
-        /** @var \Brickoo\System\Interfaces\Client */
-        private $Client;
+        /** @var \Brickoo\System\Interfaces\FileObject */
+        private $FileObject;
 
         /** @var string */
         private $cacheDirectory;
@@ -64,19 +63,19 @@
 
         /**
          * Class constructor.
-         * @param \Brickoo\Filesystem\Interfaces\Client $Client
+         * @param \Brickoo\Filesystem\Interfaces\FileObject $FileObject
          * @param string $cacheDirectory the directory used for the cache operations
          * @param boolean $serializeCacheContent flag to serialize the content cached
          * @param string $cacheFileNameSuffix the sufffix to add to caching file names
          * @throws \InvalidArgumentException if an argument is not valid
          * @return void
          */
-        public function __construct(\Brickoo\Filesystem\Interfaces\Client $Client, $cacheDirectory, $serializeCacheContent = true, $cacheFileNameSuffix = ".cache") {
+        public function __construct(\Brickoo\Filesystem\Interfaces\FileObject $FileObject, $cacheDirectory, $serializeCacheContent = true, $cacheFileNameSuffix = ".cache") {
             Argument::IsString($cacheDirectory);
             Argument::IsBoolean($serializeCacheContent);
             Argument::IsString($cacheFileNameSuffix);
 
-            $this->Client = $Client;
+            $this->FileObject = $FileObject;
             $this->cacheDirectory = rtrim($cacheDirectory, '\\/') . DIRECTORY_SEPARATOR;
             $this->serializeCacheContent = $serializeCacheContent;
             $this->cacheFileNameSuffix = $cacheFileNameSuffix;
@@ -99,15 +98,15 @@
                 return false;
             }
 
-            $expirationDate = $this->Client->open($cacheFilePath, "r")->read(self::LIFETIME_BYTES_LENGTH);
+            $expirationDate = $this->FileObject->open($cacheFilePath, "r")->read(self::LIFETIME_BYTES_LENGTH);
 
             if (strtotime($expirationDate) < time()) {
-                $this->Client->close();
+                $this->FileObject->close();
                 return false;
             }
 
-            $cachedContent = $this->Client->read(filesize($cacheFilePath) - self::LIFETIME_BYTES_LENGTH);
-            $this->Client->close();
+            $cachedContent = $this->FileObject->read(filesize($cacheFilePath) - self::LIFETIME_BYTES_LENGTH);
+            $this->FileObject->close();
 
             return ($this->serializeCacheContent ? unserialize($cachedContent) : $cachedContent);
         }
@@ -123,9 +122,9 @@
                 $content = serialize($content);
             }
 
-            $this->Client->open($this->getCacheFilePath($identifier), "w")
+            $this->FileObject->open($this->getCacheFilePath($identifier), "w")
                              ->write(date(self::LIFETIME_FORMAT, (time()+ $lifetime)) . $content);
-            $this->Client->close();
+            $this->FileObject->close();
 
             return $this;
         }

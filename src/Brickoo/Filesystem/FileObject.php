@@ -35,12 +35,12 @@
     use Brickoo\Validator\Argument;
 
     /**
-     * Client
+     * FileObject
      *
      * Implements an OOP wrapper for handling file operations.
-     * The SplClient has not an implementation for changing or just close
+     * The SplFileObject has not an implementation for changing or just close
      * and open the location anytime within an instance, that`s the reason why did this version has been created.
-     * The resource handle is created and closed by the Client,
+     * The resource handle is created and closed by the FileObject,
      * that`s the reason why fopen() and fclose() are not supported as magic method.
      * This class does not implement all functions available for file handling,
      * BUT(!) you can use any file function which expects the resource handle as first argument.
@@ -48,27 +48,27 @@
      * <code>
      *     // Not implemented fseek() and fread() but supported, notify the handle handle is not passed !
      *     $content = "";
-     *     $Client =  new Brickoo\Filesystem\Client();
-     *     $Client->open("/path/to/file.txt", "r");
-     *     $Client->fseek(100);
-     *     $content .= $Client->fread(1024);
-     *     $Client->close();
+     *     $FileObject =  new Brickoo\Filesystem\FileObject();
+     *     $FileObject->open("/path/to/file.txt", "r");
+     *     $FileObject->fseek(100);
+     *     $content .= $FileObject->fread(1024);
+     *     $FileObject->close();
      *     var_dump($content);
      *
      *     // Not implemented feof() but supported, reading a file until end of file
      *     $content = "";
-     *     $Client =  new Brickoo\Filesystem\Client();
-     *     $Client->open("/path/to/file.txt", "r");
-     *     while(! $Client->feof()) {
-     *         $content .= $Client->read(1024);
+     *     $FileObject =  new Brickoo\Filesystem\FileObject();
+     *     $FileObject->open("/path/to/file.txt", "r");
+     *     while(! $FileObject->feof()) {
+     *         $content .= $FileObject->read(1024);
      *     }
-     *     $Client->close();
+     *     $FileObject->close();
      *     var_dump($content);
      * </code>
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Client implements Interfaces\Client {
+    class FileObject implements Interfaces\FileObject {
 
         /** @var string */
         private $mode;

@@ -48,10 +48,10 @@
         * @covers Brickoo\Log\handler\Filesystem::__construct
         */
         public function testConstructor() {
-            $Client = $this->getMock('Brickoo\Filesystem\Interfaces\Client');
-            $Filesystem = new Filesystem($Client, "/tmp/test");
+            $FileObject = $this->getMock('Brickoo\Filesystem\Interfaces\FileObject');
+            $Filesystem = new Filesystem($FileObject, "/tmp/test");
             $this->assertInstanceOf('\Brickoo\Log\Handler\Interfaces\Handler', $Filesystem);
-            $this->assertAttributeSame($Client, "Client", $Filesystem);
+            $this->assertAttributeSame($FileObject, "FileObject", $Filesystem);
             $this->assertAttributeSame("/tmp/test".DIRECTORY_SEPARATOR, "logsDirectory", $Filesystem);
         }
 
@@ -66,19 +66,19 @@
             $expectedFilename = "/var/log". DIRECTORY_SEPARATOR . date("Y-m-d") .".log";
             $expectedRegexMessage = "~^\[[0-9]{4}\-[0-9]{2}\-[0-9]{2} [0-9]{2}\:[0-9]{2}\:[0-9]{2}\]\[[a-zA-Z]+\] ". $logMessage . PHP_EOL ."$~";
 
-            $Client = $this->getMock('Brickoo\Filesystem\Interfaces\Client');
-            $Client->expects($this->once())
+            $FileObject = $this->getMock('Brickoo\Filesystem\Interfaces\FileObject');
+            $FileObject->expects($this->once())
                        ->method("open")
                        ->with($expectedFilename, "a", false, null)
                        ->will($this->returnSelf());
-            $Client->expects($this->once())
+            $FileObject->expects($this->once())
                        ->method("write")
                        ->with($this->matchesRegularExpression($expectedRegexMessage));
-            $Client->expects($this->once())
+            $FileObject->expects($this->once())
                        ->method("close")
                        ->will($this->returnSelf());
 
-            $Filesystem = new Filesystem($Client, "/var/log");
+            $Filesystem = new Filesystem($FileObject, "/var/log");
             $this->assertNull($Filesystem->log($logMessage, 99999));
         }
 
@@ -87,8 +87,8 @@
         * @expectedException InvalidArgumentException
         */
         public function testlogArgumentException() {
-            $Client = $this->getMock('Brickoo\Filesystem\Interfaces\Client');
-            $Filesystem = new Filesystem($Client, "/var/log/");
+            $FileObject = $this->getMock('Brickoo\Filesystem\Interfaces\FileObject');
+            $Filesystem = new Filesystem($FileObject, "/var/log/");
             $Filesystem->log("message", "wrongType");
         }
 

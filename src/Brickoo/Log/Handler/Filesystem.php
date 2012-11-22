@@ -47,22 +47,22 @@
         /** @var array */
         private $severityDescription;
 
-        /** @var \Brickoo\Filesystem\Interfaces\Client */
-        private $Client;
+        /** @var \Brickoo\Filesystem\Interfaces\FileObject */
+        private $FileObject;
 
         /** @var string */
         private $logsDirectory;
 
         /**
         * Class constructor.
-        * @param \Brickoo\Filesystem\Interfaces\Client $Client
+        * @param \Brickoo\Filesystem\Interfaces\FileObject $FileObject
         * @param string $logsDirectory the directory to store the log messages
         * @return void
         */
-        public function __construct(\Brickoo\Filesystem\Interfaces\Client $Client, $logsDirectory) {
+        public function __construct(\Brickoo\Filesystem\Interfaces\FileObject $FileObject, $logsDirectory) {
             Argument::IsString($logsDirectory);
 
-            $this->Client = $Client;
+            $this->FileObject = $FileObject;
             $this->logsDirectory = rtrim($logsDirectory, '\\\/') . DIRECTORY_SEPARATOR;
             $this->severityDescription = array(
                 Log\Logger::SEVERITY_EMERGENCY    => 'Emergency',
@@ -87,8 +87,8 @@
             $logMessage  = $this->convertToLogMessage($messages, $severity);
             $location    = $this->logsDirectory . date("Y-m-d") . ".log";
 
-            $this->Client->open($location, "a")->write($logMessage);
-            $this->Client->close();
+            $this->FileObject->open($location, "a")->write($logMessage);
+            $this->FileObject->close();
         }
 
         /**
