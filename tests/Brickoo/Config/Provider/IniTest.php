@@ -77,6 +77,16 @@
         }
 
         /**
+         * @covers Brickoo\Config\Provider\Ini::load
+         * @covers Brickoo\Config\Provider\Exceptions\UnableToLoadConfiguration
+         * @expectedException Brickoo\Config\Provider\Exceptions\UnableToLoadConfiguration
+         */
+        public function testLoadFileWithErrorSyntaxThrowsUnableToLoadConfigurationException() {
+            $IniProvider = new Ini(dirname(__FILE__) .'/assets/test.error.ini');
+            $IniProvider->load();
+        }
+
+        /**
          * @covers Brickoo\Config\Provider\Ini::save
          */
         public function testSave() {
@@ -97,7 +107,7 @@
          * @covers Brickoo\Config\Provider\Exceptions\UnableToSaveConfiguration
          * @expectedException Brickoo\Config\Provider\Exceptions\UnableToSaveConfiguration
          */
-        public function testSaveFileThrowsException() {
+        public function testSaveFileThrowsUnableToSaveConfigurationException() {
             $IniProvider = new Ini('/path/does/not/exist');
             $IniProvider->save(array('fails'));
         }

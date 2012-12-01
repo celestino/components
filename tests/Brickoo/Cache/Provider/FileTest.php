@@ -49,11 +49,11 @@
          * @covers Brickoo\Cache\Provider\File::__construct
          */
         public function testConstructor() {
-            $Client = $this->getMock('Brickoo\Filesystem\Interfaces\Client');
-            $Provider = new File($Client, getcwd(), false, ".test");
+            $FileObject = $this->getMock('Brickoo\Filesystem\Interfaces\FileObject');
+            $Provider = new File($FileObject, getcwd(), false, ".test");
 
             $this->assertInstanceOf('Brickoo\Cache\Provider\Interfaces\Provider', $Provider);
-            $this->assertAttributeSame($Client, 'Client', $Provider);
+            $this->assertAttributeSame($FileObject, 'FileObject', $Provider);
             $this->assertAttributeEquals(getcwd().DIRECTORY_SEPARATOR, 'cacheDirectory', $Provider);
             $this->assertAttributeEquals(false, 'serializeCacheContent', $Provider);
             $this->assertAttributeEquals('.test', 'cacheFileNameSuffix', $Provider);
@@ -65,19 +65,19 @@
          */
         public function testSetCacheContent() {
             $content = "content";
-            $Client = $this->getMock('Brickoo\Filesystem\Interfaces\Client');
-            $Client->expects($this->once())
+            $FileObject = $this->getMock('Brickoo\Filesystem\Interfaces\FileObject');
+            $FileObject->expects($this->once())
                        ->method('open')
                        ->with(getcwd(). DIRECTORY_SEPARATOR ."some_identifier.cache", "w")
                        ->will($this->returnSelf());
-            $Client->expects($this->once())
+            $FileObject->expects($this->once())
                        ->method('write')
                        ->will($this->returnValue(strlen($content)));
-            $Client->expects($this->once())
+            $FileObject->expects($this->once())
                        ->method('close')
                        ->will($this->returnSelf());
 
-            $FileProvider = new File($Client, getcwd(), true, ".cache");
+            $FileProvider = new File($FileObject, getcwd(), true, ".cache");
             $this->assertSame($FileProvider, $FileProvider->set('some_identifier', $content, 0));
         }
 
@@ -86,9 +86,9 @@
          * @covers Brickoo\Cache\Provider\File::getCacheFilePath
          */
         public function testGetNotReadable() {
-            $Client = $this->getMock('Brickoo\Filesystem\Interfaces\Client');
+            $FileObject = $this->getMock('Brickoo\Filesystem\Interfaces\FileObject');
 
-            $FileProvider = new File($Client, getcwd());
+            $FileProvider = new File($FileObject, getcwd());
             $this->assertFalse($FileProvider->get("file_is_not_readable"));
         }
 
@@ -101,20 +101,20 @@
             $cacheFileName = "cached_content";
             $cacheFileSuffix = ".cache";
 
-            $Client = $this->getMock('Brickoo\Filesystem\Interfaces\Client');
-            $Client->expects($this->once())
+            $FileObject = $this->getMock('Brickoo\Filesystem\Interfaces\FileObject');
+            $FileObject->expects($this->once())
                        ->method('open')
                        ->with($cacheDirectory . $cacheFileName . $cacheFileSuffix, "r")
                        ->will($this->returnSelf());
-            $Client->expects($this->once())
+            $FileObject->expects($this->once())
                        ->method('read')
                        ->with(File::LIFETIME_BYTES_LENGTH)
                        ->will($this->returnValue(date("YmdHis", time()-10)));
-            $Client->expects($this->once())
+            $FileObject->expects($this->once())
                        ->method('close')
                        ->will($this->returnSelf());
 
-            $FileProvider = new File($Client, $cacheDirectory, false, $cacheFileSuffix);
+            $FileProvider = new File($FileObject, $cacheDirectory, false, $cacheFileSuffix);
             $this->assertFalse($FileProvider->get($cacheFileName));
         }
 
@@ -126,7 +126,7 @@
             $cacheFileName = "cached_content";
             $cacheFileSuffix = ".cache";
 
-            $FileProvider = new File(new \Brickoo\Filesystem\Client(), $cacheDirectory, true, $cacheFileSuffix);
+            $FileProvider = new File(new \Brickoo\Filesystem\FileObject(), $cacheDirectory, true, $cacheFileSuffix);
             $this->assertEquals(array("cached content"), $FileProvider->get($cacheFileName));
         }
 
@@ -142,8 +142,8 @@
                 sys_get_temp_dir() . DIRECTORY_SEPARATOR . $cacheFileName . $cacheFileSuffix
             );
 
-            $Client = $this->getMock("Brickoo\Filesystem\Interfaces\Client");
-            $FileProvider = new File($Client, sys_get_temp_dir(), false, $cacheFileSuffix);
+            $FileObject = $this->getMock("Brickoo\Filesystem\Interfaces\FileObject");
+            $FileProvider = new File($FileObject, sys_get_temp_dir(), false, $cacheFileSuffix);
 
             $this->assertTrue(file_exists(sys_get_temp_dir() . DIRECTORY_SEPARATOR . $cacheFileName . $cacheFileSuffix));
             $this->assertSame($FileProvider, $FileProvider->delete($cacheFileName));
@@ -163,8 +163,8 @@
                 sys_get_temp_dir() . DIRECTORY_SEPARATOR . $cacheFileName . $cacheFileSuffix
             );
 
-            $Client = $this->getMock("Brickoo\Filesystem\Interfaces\Client");
-            $FileProvider = new File($Client, sys_get_temp_dir(), false, $cacheFileSuffix);
+            $FileObject = $this->getMock("Brickoo\Filesystem\Interfaces\FileObject");
+            $FileProvider = new File($FileObject, sys_get_temp_dir(), false, $cacheFileSuffix);
 
             $this->assertTrue(file_exists(sys_get_temp_dir() . DIRECTORY_SEPARATOR . $cacheFileName . $cacheFileSuffix));
             $this->assertSame($FileProvider, $FileProvider->flush());

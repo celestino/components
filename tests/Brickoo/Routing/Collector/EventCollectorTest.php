@@ -37,7 +37,7 @@
     /**
      * EventCollectorTest
      *
-     * Test suite for the route event based search class.
+     * Test suite for the route event based collector class.
      * @see Brickoo\Routing\Collector\EventCollector
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */

@@ -58,11 +58,16 @@
          * Class constructor.
          * @param \Brickoo\Routing\Interfaces\Router $Router
          * @param \Brickoo\Routing\Route\Interfaces\RegexGenerator $RegexGenerator
-         * @param string $baseUrl the base baseUrl for absolute paths e.g. http://localhost:8080
+         * @param string $baseUrl the base url e.g. http://localhost:8080
          * @return void
          */
-        public function __construct(\Brickoo\Routing\Interfaces\Router $Router, $baseUrl = "") {
+        public function __construct(\Brickoo\Routing\Interfaces\Router $Router, $baseUrl) {
             Argument::IsString($baseUrl);
+
+            if (empty($baseUrl)) {
+                throw new \InvalidArgumentException("The base url can not be empty.");
+            }
+
             $this->Router = $Router;
             $this->baseUrl = $baseUrl;
         }

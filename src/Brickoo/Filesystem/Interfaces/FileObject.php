@@ -33,13 +33,13 @@
     namespace Brickoo\Filesystem\Interfaces;
 
     /**
-     * Client
+     * FileObject
      *
      * Describes a file object to read from and write to files.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface Client {
+    interface FileObject {
 
         /**
         * Opens the file to store the handle of a resource.

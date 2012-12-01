@@ -35,7 +35,7 @@
     /**
      * Manager
      *
-     * Describes the methods implemented by this interface.
+     * Describes a cache manager which handles the caching providers.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

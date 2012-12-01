@@ -35,7 +35,7 @@
     /**
      * Registry
      *
-     * Describes the methods implemented by this interface.
+     * Describes a registry for registering unique keys and their values.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

@@ -57,13 +57,22 @@
         }
 
         /**
+         * @covers Brickoo\Routing\Builder\UriBuilder::__construct
+         * @expectedException InvalidArgumentException
+         */
+        public function testConstructorThrowsInvalidArgumentException() {
+            $Router = $this->getRouterFixture("test.case");
+            $UriBuilder = new UriBuilder($Router, "");
+        }
+
+        /**
          * @covers Brickoo\Routing\Builder\UriBuilder::setRegexGenerator
          */
         public function testSetRegexGenerator() {
             $RegexGenerator = $this->getMock('Brickoo\Routing\Route\Interfaces\RegexGenerator');
             $Router = $this->getRouterFixture("test.case");
 
-            $UriBuilder = new UriBuilder($Router);
+            $UriBuilder = new UriBuilder($Router, "http://localhost");
             $this->assertSame($UriBuilder, $UriBuilder->setRegexGenerator($RegexGenerator));
             $this->assertAttributeSame($RegexGenerator, "RegexGenerator", $UriBuilder);
         }

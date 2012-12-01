@@ -35,7 +35,8 @@
     /**
      * ListenerAggregate
      *
-     * Describes the methods implemented by this interface.
+     * Describes an listener which implements a method to attach
+     * aggregated listeners to an event manager.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

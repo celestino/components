@@ -35,7 +35,8 @@
     /**
      * Manager
      *
-     * Describes the methods implemented by this interface.
+     * Describes an event manager which implements methods to
+     * handle the attachment of listeners and their notifications.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

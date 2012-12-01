@@ -32,56 +32,56 @@
 
     namespace Tests\Brickoo\Filesystem;
 
-    use Brickoo\Filesystem\Client;
+    use Brickoo\Filesystem\FileObject;
 
     /**
-     * ClientTest
+     * FileObjectTest
      *
-     * Test suite for the Client class.
-     * @see Brickoo\Filesystem\Client
+     * Test suite for the FileObject class.
+     * @see Brickoo\Filesystem\FileObject
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
-    class ClientTest extends \PHPUnit_Framework_TestCase {
+    class FileObjectTest extends \PHPUnit_Framework_TestCase {
 
         public function testImplementingInterface() {
-            $Client = new Client();
-            $this->assertInstanceOf('Brickoo\Filesystem\Interfaces\Client', $Client);
+            $FileObject = new FileObject();
+            $this->assertInstanceOf('Brickoo\Filesystem\Interfaces\FileObject', $FileObject);
         }
 
         /**
-         * @covers Brickoo\Filesystem\Client::open
-         * @covers Brickoo\Filesystem\Client::__destruct
+         * @covers Brickoo\Filesystem\FileObject::open
+         * @covers Brickoo\Filesystem\FileObject::__destruct
          */
         public function testOpenFile() {
-            $Client = new Client();
-            $Client->open("php://memory", "r");
-            $this->assertAttributeEquals("r", "mode", $Client);
-            $this->assertAttributeInternalType("resource", "handle", $Client);
+            $FileObject = new FileObject();
+            $FileObject->open("php://memory", "r");
+            $this->assertAttributeEquals("r", "mode", $FileObject);
+            $this->assertAttributeInternalType("resource", "handle", $FileObject);
         }
 
         /**
-         * @covers Brickoo\Filesystem\Client::open
+         * @covers Brickoo\Filesystem\FileObject::open
          * @covers Brickoo\Filesystem\Exceptions\HandleAlreadyExists
          * @expectedException Brickoo\Filesystem\Exceptions\HandleAlreadyExists
          */
         public function testOpenTwiceThrowsHandleAlreadyExistsException() {
-            $Client = new Client();
-            $Client->open("php://memory", "r");
-            $Client->open("php://memory", "r");
+            $FileObject = new FileObject();
+            $FileObject->open("php://memory", "r");
+            $FileObject->open("php://memory", "r");
         }
 
         /**
-         * @covers Brickoo\Filesystem\Client::open
+         * @covers Brickoo\Filesystem\FileObject::open
          * @covers Brickoo\Filesystem\Exceptions\UnableToCreateHandle
          * @expectedException Brickoo\Filesystem\Exceptions\UnableToCreateHandle
          */
         public function testOpenFailureThrowsUnableToCreateHandleException() {
-            $Client = new Client();
-            $Client->open("php://path/does/not/exist", "r");
+            $FileObject = new FileObject();
+            $FileObject->open("php://path/does/not/exist", "r");
         }
 
         /**
-         * @covers Brickoo\Filesystem\Client::open
+         * @covers Brickoo\Filesystem\FileObject::open
          * @covers Brickoo\Filesystem\Exceptions\UnableToCreateHandle
          * @expectedException Brickoo\Filesystem\Exceptions\UnableToCreateHandle
          */
@@ -93,137 +93,137 @@
               )
             ));
 
-            $Client = new Client();
-            $Client->open("http://localhost:12345", "w", false, $context);
+            $FileObject = new FileObject();
+            $FileObject->open("http://localhost:12345", "w", false, $context);
         }
 
         /**
-         * @covers Brickoo\Filesystem\Client::write
-         * @covers Brickoo\Filesystem\Client::read
-         * @covers Brickoo\Filesystem\Client::hasHandle
-         * @covers Brickoo\Filesystem\Client::getHandle
+         * @covers Brickoo\Filesystem\FileObject::write
+         * @covers Brickoo\Filesystem\FileObject::read
+         * @covers Brickoo\Filesystem\FileObject::hasHandle
+         * @covers Brickoo\Filesystem\FileObject::getHandle
          */
         public function testWriteAndReadOperations() {
             $expectedData = "The written data.";
-            $Client = new Client();
-            $Client->open("php://memory", "r+");
-            $this->assertEquals(strlen($expectedData), $Client->write($expectedData));
-            $Client->fseek(0);
-            $this->assertEquals($expectedData, $Client->read(strlen($expectedData)));
+            $FileObject = new FileObject();
+            $FileObject->open("php://memory", "r+");
+            $this->assertEquals(strlen($expectedData), $FileObject->write($expectedData));
+            $FileObject->fseek(0);
+            $this->assertEquals($expectedData, $FileObject->read(strlen($expectedData)));
         }
 
         /**
-         * @covers Brickoo\Filesystem\Client::read
-         * @covers Brickoo\Filesystem\Client::getHandle
+         * @covers Brickoo\Filesystem\FileObject::read
+         * @covers Brickoo\Filesystem\FileObject::getHandle
          * @covers Brickoo\Filesystem\Exceptions\HandleNotAvailable
          * @expectedException Brickoo\Filesystem\Exceptions\HandleNotAvailable
          */
         public function testReadThrowsHandleNotAvailableException() {
-            $Client = new Client();
-            $Client->read(1);
+            $FileObject = new FileObject();
+            $FileObject->read(1);
         }
 
         /**
-         * @covers Brickoo\Filesystem\Client::read
+         * @covers Brickoo\Filesystem\FileObject::read
          * @covers Brickoo\Filesystem\Exceptions\InvalidModeOperation
          * @expectedException Brickoo\Filesystem\Exceptions\InvalidModeOperation
          */
         public function testReadThrowsInvalidModeOperationException() {
-            $Client = new Client();
-            $Client->open("php://memory", "w")
+            $FileObject = new FileObject();
+            $FileObject->open("php://memory", "w")
                        ->read(1);
         }
 
         /**
-         * @covers Brickoo\Filesystem\Client::read
+         * @covers Brickoo\Filesystem\FileObject::read
          * @expectedException InvalidArgumentException
          */
         public function testReadThrowsArgumentException() {
-            $Client = new Client();
-            $Client->open("php://memory", "r")
+            $FileObject = new FileObject();
+            $FileObject->open("php://memory", "r")
                        ->read('wrongType');
         }
 
         /**
-         * @covers Brickoo\Filesystem\Client::write
-         * @covers Brickoo\Filesystem\Client::getHandle
+         * @covers Brickoo\Filesystem\FileObject::write
+         * @covers Brickoo\Filesystem\FileObject::getHandle
          * @covers Brickoo\Filesystem\Exceptions\HandleNotAvailable
          * @expectedException Brickoo\Filesystem\Exceptions\HandleNotAvailable
          */
         public function testWriteThrowsHandleNotAvailableException() {
-            $Client = new Client();
-            $Client->write("throws exception");
+            $FileObject = new FileObject();
+            $FileObject->write("throws exception");
         }
 
         /**
-         * @covers Brickoo\Filesystem\Client::write
+         * @covers Brickoo\Filesystem\FileObject::write
          * @covers Brickoo\Filesystem\Exceptions\InvalidModeOperation
          * @expectedException Brickoo\Filesystem\Exceptions\InvalidModeOperation
          */
         public function testWriteThrowsInvalidModeOperationException() {
-            $Client = new Client();
-            $Client->open("php://memory", "r")
+            $FileObject = new FileObject();
+            $FileObject->open("php://memory", "r")
                        ->write("throws exception");
         }
 
         /**
-         * @covers Brickoo\Filesystem\Client::close
+         * @covers Brickoo\Filesystem\FileObject::close
          */
         public function testClose() {
-            $Client = new Client();
-            $Client->open("php://memory", "r");
-            $this->assertAttributeInternalType("resource","handle", $Client);
-            $Client->close();
-            $this->assertAttributeEquals(null,"handle", $Client);
+            $FileObject = new FileObject();
+            $FileObject->open("php://memory", "r");
+            $this->assertAttributeInternalType("resource","handle", $FileObject);
+            $FileObject->close();
+            $this->assertAttributeEquals(null,"handle", $FileObject);
         }
 
         /**
          * Test if the trying to close the handle without being opened throws an exception.
-         * @covers Brickoo\Filesystem\Client::close
+         * @covers Brickoo\Filesystem\FileObject::close
          * @covers Brickoo\Filesystem\Exceptions\HandleNotAvailable
          * @expectedException Brickoo\Filesystem\Exceptions\HandleNotAvailable
          */
         public function testCloseHandleException() {
-            $Client = new Client();
-            $Client->close();
+            $FileObject = new FileObject();
+            $FileObject->close();
         }
 
         /**
          * Test if magic functions can be called an returns the function return value.
-         * @covers Brickoo\Filesystem\Client::__call
+         * @covers Brickoo\Filesystem\FileObject::__call
          */
         public function test__call() {
             $expectedData = 'Some data to test with magic functions.';
 
-            $Client = new Client();
-            $Client->open("php://memory", "w+");
+            $FileObject = new FileObject();
+            $FileObject->open("php://memory", "w+");
 
-            $this->assertEquals(strlen($expectedData), $Client->fwrite($expectedData)); // magic
-            $this->assertEquals(0, $Client->fseek(0)); // magic
+            $this->assertEquals(strlen($expectedData), $FileObject->fwrite($expectedData)); // magic
+            $this->assertEquals(0, $FileObject->fseek(0)); // magic
 
             $loadedData = '';
-            while(! $Client->feof()) {
-                $loadedData .= $Client->fread(5); // magic
+            while(! $FileObject->feof()) {
+                $loadedData .= $FileObject->fread(5); // magic
             }
             $this->assertEquals($expectedData, $loadedData);
         }
 
         /**
-         * @covers Brickoo\Filesystem\Client::__call
+         * @covers Brickoo\Filesystem\FileObject::__call
          * @expectedException BadMethodCallException
          */
         public function testFOPENThrowsBadMethodCallException() {
-            $Client = new Client();
-            $Client->fopen();
+            $FileObject = new FileObject();
+            $FileObject->fopen();
         }
 
         /**
-         * @covers Brickoo\Filesystem\Client::__call
+         * @covers Brickoo\Filesystem\FileObject::__call
          * @expectedException BadMethodCallException
          */
         public function testFCLOSEThrowsBadMethodCallException() {
-            $Client = new Client();
-            $Client->fclose();
+            $FileObject = new FileObject();
+            $FileObject->fclose();
         }
 
     }

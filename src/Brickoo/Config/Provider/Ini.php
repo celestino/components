@@ -56,11 +56,13 @@
 
         /** {@inheritDoc} */
         public function load() {
-            if (! is_readable($this->filename)) {
+            if (! is_readable($this->filename)
+                || (($configuration = @parse_ini_file($this->filename, true)) === false)
+            ){
                 throw new Exceptions\UnableToLoadConfiguration();
             }
 
-            return parse_ini_file($this->filename, true);
+            return $configuration;
 
         }
 
