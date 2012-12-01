@@ -47,7 +47,7 @@
         private $routingPath;
 
         /** @var string */
-        private $routingFileName;
+        private $routingFilename;
 
         /** @var boolean */
         private $searchRecursively;
@@ -56,9 +56,8 @@
          * Class constructor.
          * @param string $routingDirectory the routing directory
          * @param string $routingFilename the route filename to look for
-         * @param boolean $collectRecursively flag to search recursively
+         * @param boolean $searchRecursively flag to search recursively
          * @throws \InvalidArgumentException if an argument is not valid
-         * @throws \UnexpectedValueException if the routing path cannot be opened
          * @return void
          */
         public function __construct($routingPath, $routingFilename, $searchRecursively = false) {
@@ -75,7 +74,7 @@
             }
 
             $this->routingPath = $routingPath;
-            $this->routingFileName = $routingFilename;
+            $this->routingFilename = $routingFilename;
             $this->searchRecursively = $searchRecursively;
         }
 
@@ -87,24 +86,87 @@
                 throw new Exceptions\RoutesNotAvailable();
             }
 
-            if (! $collected instanceof \Brickoo\Routing\Route\Interfaces\Collection) {
-                throw new Exceptions\RouteCollectionExpected($collected);
-            }
-
             return $collected;
         }
 
+        /**
+         * Returns the route collection containing the available routes.
+         * @throws \Brickoo\Routing\Collector\Exceptions\RouteCollectionExpected
+         * @return \Brickoo\Routing\Route\Interfaces\Collection otherwise null on failure
+         */
         private function getRouteCollection() {
-            $collected = null;
+            $RouteCollection = null;
+            $collected = array();
 
-            foreach (new \DirectoryIterator($this->routingPath) as $SplFileInfo) {
-                if (! $SplFileInfo->isDot()) {
-                    if ($SplFileInfo->isDir() && $this->searchRecursively)) {
-                }
+            $filePaths = $this->searchRecursively ? $this->getRecursiveFilePaths() : $this->getFilePaths();
+            foreach ($filePaths as $filePath) {
+                if ($RouteCollection = include $filePath) {
+                    if (! $RouteCollection instanceof \Brickoo\Routing\Route\Interfaces\Collection){
+                        throw new Exceptions\RouteCollectionExpected($RouteCollection);
+                    }
+                    $collected[] = $RouteCollection;
                 }
             }
 
-            return $collected;
+            if (! empty($collected)) {
+                $RouteCollection = $this->getMergedRouteCollection($collected);
+            }
+
+            return $RouteCollection;
+        }
+
+        /**
+         * Returns the file paths of the available route collections.
+         * @return array the matching file paths
+         */
+        private function getFilePaths() {
+            $collectedFilePaths = array();
+
+            foreach (new \DirectoryIterator($this->routingPath) as $SplFileInfo) {
+                if ((! $SplFileInfo->isDot())
+                    && (! $SplFileInfo->isDir())
+                    && (strpos($SplFileInfo->getFilename(), $this->routingFilename) !== false)
+                ){
+                    $collectedFilePaths[] = $SplFileInfo->getRealPath();
+                }
+            }
+
+            return $collectedFilePaths;
+        }
+
+        /**
+         * Returns the file paths of the route collections recurservely collected.
+         * @return array the available file paths
+         */
+        private function getRecursiveFilePaths() {
+            $collectedFilePaths = array();
+
+            $Directory = new \RecursiveDirectoryIterator($this->routingPath);
+            $Iterator = new \RecursiveIteratorIterator($Directory);
+            foreach (new \RegexIterator($Iterator, "/^.*". $this->routingFilename ."$/i", \RecursiveRegexIterator::MATCH) as $SplFileInfo) {
+                $collectedFilePaths[] = $SplFileInfo->getRealPath();
+            }
+
+            return $collectedFilePaths;
+        }
+
+        /**
+         * Merges collections to one collection containing all routes.
+         * @param array $routeCollections the route collections to merge
+         * @return \Brickoo\Routing\Route\Interfaces\Collection
+         */
+        private function getMergedRouteCollection(array $routeCollections) {
+            if (count($routeCollections) == 1) {
+                return array_shift($routeCollections);
+            }
+
+            $MergedRouteCollection = new \Brickoo\Routing\Route\Collection();
+
+            foreach ($routeCollections as $RouteCollection) {
+                $MergedRouteCollection->addRoutes($RouteCollection->getRoutes());
+            }
+
+            return $MergedRouteCollection;
         }
 
     }
