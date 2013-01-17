@@ -32,7 +32,7 @@
 
     namespace Brickoo\Error;
 
-    use Brickoo\Event\Event,
+    use Brickoo\Error\Event\ExceptionEvent,
         Brickoo\Validator\Argument;
 
     /**
@@ -118,23 +118,7 @@
          * @return string the exception message
          */
         public function handleException(\Exception $Exception) {
-            $this->EventManager->notify(new Event(Events::EXCEPTION, $this, array(
-                "Exception" => $Exception,
-                "message" => $this->getExceptionMessage($Exception),
-                "stacktrace" => $Exception->getTraceAsString()
-            )));
-        }
-
-        /**
-         * Returns the exception message created by the exception content.
-         * @param \Exception $Exception the Exception throwed
-         * @return string the exception message
-         */
-        private function getExceptionMessage(\Exception $Exception) {
-            return sprintf(
-                "[#%s] Uncaught Exception: %s -=- Message: %s",
-                $Exception->getCode(), get_class($Exception), $Exception->getMessage()
-            );
+            $this->EventManager->notify(new ExceptionEvent($Exception));
         }
 
     }

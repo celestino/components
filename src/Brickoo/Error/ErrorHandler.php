@@ -32,7 +32,7 @@
 
     namespace Brickoo\Error;
 
-    use Brickoo\Event\Event,
+    use Brickoo\Error\Event\ErrorEvent,
         Brickoo\Validator\Argument;
 
     /**
@@ -137,10 +137,7 @@
                 throw new Exceptions\ErrorOccurred($message, $errorCode);
             }
             else {
-                $this->EventManager->notify(new Event(Events::ERROR, $this, array(
-                    "message" => $message,
-                    "stacktrace" => $this->getStackTrace()
-                )));
+                $this->EventManager->notify(new ErrorEvent($message, $this->getStackTrace()));
             }
 
             return true;

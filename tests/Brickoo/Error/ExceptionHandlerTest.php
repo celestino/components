@@ -90,13 +90,12 @@
 
         /**
          * @covers Brickoo\Error\ExceptionHandler::handleException
-         * @covers Brickoo\Error\ExceptionHandler::getExceptionMessage
          */
         public function testHandleExceptionExecutesEventNotification() {
             $EventManager = $this->getMock('Brickoo\Event\Interfaces\Manager');
             $EventManager->expects($this->once())
                          ->method('notify')
-                         ->with($this->isInstanceOf('Brickoo\Event\Interfaces\Event'))
+                         ->with($this->isInstanceOf('Brickoo\Error\Event\Interfaces\ExceptionEvent'))
                          ->will($this->returnValue(null));
 
             $ExceptionHandler = new ExceptionHandler($EventManager);

@@ -84,7 +84,7 @@
          * @covers Brickoo\Error\Exceptions\HandlerNotRegistered
          * @expectedException Brickoo\Error\Exceptions\HandlerNotRegistered
          */
-        public function testUnregisterNotRegisteredhandlerThrowsException() {
+        public function testUnregisterNotRegisteredHandlerThrowsException() {
             $ErrorHandler = new ErrorHandler($this->getEventManagerStub());
             $ErrorHandler->unregister();
         }
@@ -97,7 +97,7 @@
             $EventManager = $this->getMock('Brickoo\Event\Interfaces\Manager');
             $EventManager->expects($this->once())
                          ->method('notify')
-                         ->with($this->isInstanceOf('Brickoo\Event\Interfaces\Event'))
+                         ->with($this->isInstanceOf('Brickoo\Error\Event\Interfaces\ErrorEvent'))
                          ->will($this->returnValue(null));
 
             $ErrorHandler = new ErrorHandler($EventManager, false);
