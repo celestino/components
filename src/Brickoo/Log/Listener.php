@@ -74,15 +74,12 @@
 
         /**
          * Handle the event to log messages.
-         * @param \Brickoo\Event\Interfaces\Event $Event
+         * @param \Brickoo\Log\Event\Interfaces\LogEvent $LogEvent
          * @param \Brickoo\Event\Interfaces\Manager $Manager
          * @return void
          */
-        public function handleLogEvent(\Brickoo\Event\Interfaces\Event $Event, \Brickoo\Event\Interfaces\Manager $Manager) {
-            if ($Event->hasParam("messages")) {
-                $severity = $Event->hasParam("severity") ? $Event->getParam("severity") : null;
-                $this->Logger->log($Event->getParam("messages"), $severity);
-            }
+        public function handleLogEvent(\Brickoo\Log\Event\Interfaces\LogEvent $LogEvent, \Brickoo\Event\Interfaces\Manager $Manager) {
+            $this->Logger->log($LogEvent->getMessages(), $LogEvent->getSeverity());
         }
 
     }

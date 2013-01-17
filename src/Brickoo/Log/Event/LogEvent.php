@@ -32,6 +32,8 @@
 
     namespace Brickoo\Log\Event;
 
+    use Brickoo\Validator\Argument;
+
     /**
      * LogEvent
      *
@@ -44,16 +46,23 @@
         /**
          * Class constructor.
          * Calls the parent constructor.
-         * @param array $messages the messages to log
+         * @param array $messages
+         * @param integer $severity
          * @return void
          */
-        public function __construct(array $messages) {
-            parent::__construct(\Brickoo\Log\Events::LOG, null, array("messages" => $messages));
+        public function __construct(array $messages, $severity = \Brickoo\Log\Logger::SEVERITY_INFO) {
+            Argument::IsInteger($severity);
+            parent::__construct(\Brickoo\Log\Events::LOG, null, array("messages" => $messages, "severity" => $severity));
         }
 
         /** {@inheritDoc} */
         public function getMessages() {
             return $this->getParam("messages");
+        }
+
+        /** {@inheritDoc} */
+        public function getSeverity() {
+            return $this->getParam("severity");
         }
 
     }

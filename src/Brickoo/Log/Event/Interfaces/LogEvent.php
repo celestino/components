@@ -47,4 +47,10 @@
          */
         public function getMessages();
 
+        /**
+         * Returns the severity level.
+         * @return integer the severity level
+         */
+        public function getSeverity();
+
     }

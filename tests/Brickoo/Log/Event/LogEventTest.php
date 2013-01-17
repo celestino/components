@@ -52,11 +52,12 @@
                 "first message",
                 "second message"
             );
+            $severity = \Brickoo\Log\Logger::SEVERITY_EMERGENCY;
 
-            $LogEvent = new LogEvent($messages);
+            $LogEvent = new LogEvent($messages, $severity);
             $this->assertInstanceOf('Brickoo\Log\Event\Interfaces\LogEvent', $LogEvent);
             $this->assertInstanceOf('Brickoo\Event\Interfaces\Event', $LogEvent);
-            $this->assertAttributeEquals(array("messages"=> $messages), "params", $LogEvent);
+            $this->assertAttributeEquals(array("messages"=> $messages, "severity" => $severity), "params", $LogEvent);
         }
 
         /**
@@ -70,6 +71,16 @@
 
             $LogEvent = new LogEvent($messages);
             $this->assertEquals($messages, $LogEvent->getMessages());
+        }
+
+        /**
+         * @covers Brickoo\Log\Event\LogEvent::getSeverity
+         */
+        public function testGetSeverity() {
+            $messages = array("Some log message");
+            $severity = \Brickoo\Log\Logger::SEVERITY_EMERGENCY;
+            $LogEvent = new LogEvent($messages, $severity);
+            $this->assertEquals($severity, $LogEvent->getSeverity());
         }
 
     }
