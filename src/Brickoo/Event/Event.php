@@ -42,9 +42,6 @@
 
     class Event implements Interfaces\Event {
 
-        /** @var boolean */
-        private $stopped;
-
         /** @var string */
         private $name;
 
@@ -53,6 +50,9 @@
 
         /** @var object */
         private $Sender;
+
+        /** @var boolean */
+        private $stopped;
 
         /**
          * Class constructor.

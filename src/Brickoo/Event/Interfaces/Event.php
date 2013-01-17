@@ -87,6 +87,7 @@
 
         /**
          * Checks if the arguments are available event parameters.
+         * @param string any number of arguments to check
          * @return boolean check result
          */
         public function hasParams();
