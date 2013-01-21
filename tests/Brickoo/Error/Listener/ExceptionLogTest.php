@@ -63,12 +63,23 @@
         /**
          * @covers Brickoo\Error\Listener\ExceptionLog::getCondition
          */
-        public function testGetConditionChecksExpectedParameter() {
+        public function testGetConditionChecksExpectedEvent() {
             $EventManager = $this->getMock('Brickoo\Event\Interfaces\Manager');
             $Event = new \Brickoo\Error\Event\ExceptionEvent(new \Exception("Some exception message."));
 
             $ExceptionLog = new ExceptionLog();
             $this->assertTrue(call_user_func_array($ExceptionLog->getCondition(), array($Event, $EventManager)));
+        }
+
+        /**
+         * @covers Brickoo\Error\Listener\ExceptionLog::getCondition
+         */
+        public function testConditiolnWithoutExceptionEventFails() {
+            $EventManager = $this->getMock('Brickoo\Event\Interfaces\Manager');
+            $Event = new \Brickoo\Event\Event("Some::Event");
+
+            $ExceptionLog = new ExceptionLog();
+            $this->assertFalse(call_user_func_array($ExceptionLog->getCondition(), array($Event, $EventManager)));
         }
 
         /**

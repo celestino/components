@@ -72,6 +72,17 @@
         }
 
         /**
+         * @covers Brickoo\Error\Listener\ErrorLog::getCondition
+         */
+        public function testConditionWithoutErrorEventFails() {
+            $EventManager = $this->getMock('Brickoo\Event\Interfaces\Manager');
+            $Event = new \Brickoo\Event\Event("Some::Event");
+
+            $ErrorLog = new ErrorLog();
+            $this->assertFalse(call_user_func_array($ErrorLog->getCondition(), array($Event, $EventManager)));
+        }
+
+        /**
          * @covers Brickoo\Error\Listener\ErrorLog::getPriority
          */
         public function testGetPriority() {

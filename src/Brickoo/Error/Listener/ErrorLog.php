@@ -49,7 +49,7 @@
         /** {@inheritDoc} */
         public function getCondition() {
             return function(\Brickoo\Event\Interfaces\Event $Event, \Brickoo\Event\Interfaces\Manager $EventManager) {
-                return ($Event instanceof \Brickoo\Error\Event\Interfaces\ErrorEvent);
+                return ($Event->getName() == \Brickoo\Error\Events::ERROR) && ($Event instanceof \Brickoo\Error\Event\Interfaces\ErrorEvent);
             };
         }
 
