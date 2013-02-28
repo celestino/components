@@ -15,7 +15,7 @@
         </testsuite>
     </testsuites>
     <filter>
-        <whitelist addUncoveredFilesFromWhitelist="true">
+        <whitelist processUncoveredFilesFromWhitelist="true">
             <!-- path to the brickoo library -->
             <directory suffix=".php">../src/Brickoo</directory>
             <exclude>
