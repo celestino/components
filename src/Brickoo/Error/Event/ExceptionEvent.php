@@ -34,6 +34,13 @@
 
     use Brickoo\Validator\Argument;
 
+    /**
+     * ExceptionEvent
+     *
+     * Implementation of an exception event.
+     * @author Celestino Diaz <celestino.diaz@gmx.de>
+     */
+
     class ExceptionEvent extends \Brickoo\Event\Event implements Interfaces\ExceptionEvent {
 
         /**

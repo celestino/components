@@ -32,6 +32,13 @@
 
     namespace Brickoo\Error\Event\Interfaces;
 
+    /**
+     * ExceptionEvent
+     *
+     * Describes an occured exception event.
+     * @author Celestino Diaz <celestino.diaz@gmx.de>
+     */
+
     interface ExceptionEvent {
 
         /**
