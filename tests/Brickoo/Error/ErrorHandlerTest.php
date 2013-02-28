@@ -101,7 +101,7 @@
                          ->will($this->returnValue(null));
 
             $ErrorHandler = new ErrorHandler($EventManager, false);
-            $ErrorHandler->handleError(E_ALL, 'message', 'file', 0);
+            $ErrorHandler->handleError(\E_ALL, 'message', 'file', 0);
         }
 
         /**
@@ -111,7 +111,7 @@
          */
         public function testHandleErrorConvertingToException() {
             $ErrorHandler = new ErrorHandler($this->getEventManagerStub(), true);
-            $ErrorHandler->handleError(E_ALL, 'message', 'file', 0);
+            $ErrorHandler->handleError(\E_ALL, 'message', 'file', 0);
         }
 
         /**
