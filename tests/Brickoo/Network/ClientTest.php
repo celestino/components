@@ -142,7 +142,7 @@
             $Client = new Client();
             $Client->open("www.google.com", 80, 30);
             $Client->write($data);
-            $this->assertTrue(preg_match("~^HTTP\/1\.(0|1) (302|200) (Ok|Found)$~", $Client->read(strlen($expectedData))) == 1);
+            $this->assertTrue(preg_match("~^HTTP\/1\.(0|1) [0-9]{3}~", $Client->read(strlen($expectedData))) == 1);
         }
 
         /**
