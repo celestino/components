@@ -134,7 +134,7 @@
          * @covers Brickoo\Network\Client::getHandle
          * @covers Brickoo\Network\Client::hasHandle
          */
-        public function testREadFromStream() {
+        public function testReadFromStream() {
             $expectedData = "HTTP/1.0 302 Found";
             $data = "GET / HTTP/1.0\r\n".
                     "Host: www.google.com\r\n\r\n\r\n";
@@ -142,7 +142,7 @@
             $Client = new Client();
             $Client->open("www.google.com", 80, 30);
             $Client->write($data);
-            $this->assertEquals($expectedData, $Client->read(strlen($expectedData)));
+            $this->assertTrue(preg_match("~^HTTP\/1\.(0|1) (302|200) (Ok|Found)$~", $Client->read(strlen($expectedData))) == 1);
         }
 
         /**
@@ -151,9 +151,9 @@
          * @covers Brickoo\Network\Exceptions\HandleNotAvailable
          * @expectedException Brickoo\Network\Exceptions\HandleNotAvailable
          */
-        public function testReradThrowsHandleNotAvailableException() {
+        public function testReadThrowsHandleNotAvailableException() {
             $Client = new Client();
-            $Client->read("failure");
+            $Client->read(1024);
         }
 
         /**
