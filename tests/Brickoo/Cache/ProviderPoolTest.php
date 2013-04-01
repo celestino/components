@@ -133,7 +133,7 @@
             $ProviderPool = new ProviderPool($poolEntries);
             $this->assertSame($ProviderPool, $ProviderPool->select("special"));
             $this->assertSame($special, $ProviderPool->current());
-            $this->assertEquals(1, $ProviderPool->key());
+            $this->assertEquals("special", $ProviderPool->key());
         }
 
         /**

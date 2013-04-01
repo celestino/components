@@ -85,7 +85,7 @@
          * @return integer the current key
          */
         public function key() {
-            return $this->currentKey;
+            return $this->mappingKeys[$this->currentKey];
         }
 
         /** {@inheritDoc}*/
