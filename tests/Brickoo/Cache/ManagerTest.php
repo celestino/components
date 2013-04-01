@@ -48,23 +48,32 @@
          * @covers Brickoo\Cache\Manager::__construct
          */
         public function testConstructorAssignsTheProperties() {
-            $Provider = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider');
-            $CacheManager = new Manager($Provider);
-            $this->assertAttributeSame($Provider, 'CacheProvider', $CacheManager);
+            $ProviderPool = $this->getMock('Brickoo\Cache\Interfaces\ProviderPool');
+            $CacheManager = new Manager($ProviderPool);
+            $this->assertAttributeSame($ProviderPool, "ProviderPool", $CacheManager);
         }
 
         /**
          * @covers Brickoo\Cache\Manager::get
+         * @covers Brickoo\Cache\Manager::getCurrentProvider
          */
         public function testGetCachedContent() {
-            $Provider = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider');
-            $Provider->expects($this->any())
-                     ->method('get')
-                     ->with('some_identifier')
-                     ->will($this->returnValue('provider cache content'));
+            $cacheIdentifier = "someIdentifier";
+            $cachedContent = "some cached content";
 
-            $CacheManager = new Manager($Provider);
-            $this->assertEquals('provider cache content', $CacheManager->get('some_identifier'));
+            $Provider = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider');
+            $Provider->expects($this->once())
+                     ->method("get")
+                     ->with($cacheIdentifier)
+                     ->will($this->returnValue($cachedContent));
+
+            $ProviderPool = $this->getMock('Brickoo\Cache\Interfaces\ProviderPool');
+            $ProviderPool->expects($this->once())
+                         ->method("current")
+                         ->will($this->returnValue($Provider));
+
+            $CacheManager = new Manager($ProviderPool);
+            $this->assertEquals($cachedContent, $CacheManager->get($cacheIdentifier));
         }
 
         /**
@@ -72,22 +81,32 @@
          * @expectedException InvalidArgumentException
          */
         public function testGetIdentifierThrowsArgumentException() {
-            $Provider = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider');
-            $CacheManager = new Manager($Provider);
+            $ProviderPool = $this->getMock('Brickoo\Cache\Interfaces\ProviderPool');
+            $CacheManager = new Manager($ProviderPool);
             $CacheManager->get(array('wrongType'));
         }
 
         /**
          * @covers Brickoo\Cache\Manager::set
+         * @covers Brickoo\Cache\Manager::getCurrentProvider
          */
         public function testStoringContentToCache() {
+            $cacheIdentifier = "someIdentifier";
+            $cacheContent = "some content ot cache";
+            $lifetime = 60;
+
             $Provider = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider');
             $Provider->expects($this->once())
-                     ->method('set')
-                     ->with('some_identifier', array('content'), 60);
+                     ->method("set")
+                     ->with($cacheIdentifier, $cacheContent, $lifetime);
 
-            $CacheManager = new Manager($Provider);
-            $this->assertSame($CacheManager, $CacheManager->set('some_identifier', array('content'), 60));
+            $ProviderPool = $this->getMock('Brickoo\Cache\Interfaces\ProviderPool');
+            $ProviderPool->expects($this->once())
+                         ->method("current")
+                         ->will($this->returnValue($Provider));
+
+            $CacheManager = new Manager($ProviderPool);
+            $this->assertSame($CacheManager, $CacheManager->set($cacheIdentifier, $cacheContent, $lifetime));
         }
 
         /**
@@ -95,8 +114,8 @@
          * @expectedException InvalidArgumentException
          */
         public function testSetIdentifierThrowsArgumentException() {
-            $Provider = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider');
-            $CacheManager = new Manager($Provider);
+            $ProviderPool = $this->getMock('Brickoo\Cache\Interfaces\ProviderPool');
+            $CacheManager = new Manager($ProviderPool);
             $CacheManager->set(array('wrongType'), '', 60);
         }
 
@@ -105,22 +124,36 @@
          * @expectedException InvalidArgumentException
          */
         public function testSetLifetimeThrowsArgumentException() {
-            $Provider = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider');
-            $CacheManager = new Manager($Provider);
+            $ProviderPool = $this->getMock('Brickoo\Cache\Interfaces\ProviderPool');
+            $CacheManager = new Manager($ProviderPool);
             $CacheManager->set('some_identifier', '', 'wrongType');
         }
 
         /**
          * @covers Brickoo\Cache\Manager::delete
          */
-        public function testDeleteCachedContentFromLocalAndProvider() {
-            $Provider = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider');
-            $Provider->expects($this->once())
-                     ->method('delete')
-                     ->with('some_identifier');
+        public function testDeleteCachedContent() {
+            $cacheIdentifier = "someIdentifier";
 
-            $CacheManager = new Manager($Provider);
-            $this->assertSame($CacheManager, $CacheManager->delete('some_identifier'));
+            $Memcache = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider');
+            $Memcache->expects($this->once())
+                     ->method("delete")
+                     ->with($cacheIdentifier);
+
+            $APC = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider');
+            $APC->expects($this->once())
+                ->method("delete")
+                ->with($cacheIdentifier);
+
+            $ProviderPool = new \Brickoo\Cache\ProviderPool(array(
+                "memcache" => $Memcache,
+                "apc" => $APC,
+            ));
+            $ProviderPool->select("apc");
+
+            $CacheManager = new Manager($ProviderPool);
+            $this->assertSame($CacheManager, $CacheManager->delete($cacheIdentifier));
+            $this->assertEquals("apc", $ProviderPool->key());
         }
 
         /**
@@ -128,8 +161,8 @@
          * @expectedException InvalidArgumentException
          */
         public function testDeleteIdentifierThrowsArgumentException() {
-            $Provider = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider');
-            $CacheManager = new Manager($Provider);
+            $ProviderPool = $this->getMock('Brickoo\Cache\Interfaces\ProviderPool');
+            $CacheManager = new Manager($ProviderPool);
             $CacheManager->delete(array('wrongType'));
         }
 
@@ -137,39 +170,55 @@
          * @covers Brickoo\Cache\Manager::flush
          */
         public function testFlushCachedContent() {
-            $Provider = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider');
-            $Provider->expects($this->once())
-                     ->method('flush');
+            $cacheIdentifier = "someIdentifier";
 
-            $CacheManager = new Manager($Provider);
+            $Memcache = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider');
+            $Memcache->expects($this->once())
+                     ->method("flush")
+                     ->will($this->returnSelf());
+
+            $APC = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider');
+            $APC->expects($this->once())
+                ->method("flush")
+                ->will($this->returnSelf());
+
+            $ProviderPool = new \Brickoo\Cache\ProviderPool(array(
+                "memcache" => $Memcache,
+                "apc" => $APC,
+            ));
+            $ProviderPool->select("apc");
+
+            $CacheManager = new Manager($ProviderPool);
             $this->assertSame($CacheManager, $CacheManager->flush());
+            $this->assertEquals("apc", $ProviderPool->key());
         }
 
         /**
          * @covers Brickoo\Cache\Manager::getByCallback
          */
-        public function testGetByCallbackFromLocalStorage() {
-            $Provider = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider');
-            $CacheManager = new Manager($Provider);
-            $this->assertEquals(
-                'callback content',
-                $CacheManager->getByCallback('unique_identifier', array($this, 'callbackGetCachedContent'), array())
-            );
-        }
+        public function testGetByCallbackFallbackFromProviderPool() {
+            $cacheIdentifier = "someIdentifier";
+            $callback = array($this, "callbackGetCachedContent");
+            $callbackArguments = array();
+            $lifetime = 60;
 
-        /**
-         * @covers Brickoo\Cache\Manager::getByCallback
-         */
-        public function testGetByCallbackFallbackFromCacheProvider() {
             $Provider = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider');
             $Provider->expects($this->once())
-                     ->method('get')
-                     ->will($this->returnValue('fallback content'));
+                     ->method("get")
+                     ->will($this->returnValue(null));
+            $Provider->expects($this->once())
+                     ->method("set")
+                     ->with($cacheIdentifier, $this->callbackGetCachedContent(), $lifetime);
 
-            $CacheManager = new Manager($Provider);
+            $ProviderPool = $this->getMock('Brickoo\Cache\Interfaces\ProviderPool');
+            $ProviderPool->expects($this->any())
+                         ->method("current")
+                         ->will($this->returnValue($Provider));
+
+            $CacheManager = new Manager($ProviderPool);
             $this->assertEquals(
-                'fallback content',
-                $CacheManager->getByCallback('unique_identifier', array($this, 'callbackNotFound'), array())
+                $this->callbackGetCachedContent(),
+                $CacheManager->getByCallback($cacheIdentifier, $callback, $callbackArguments, $lifetime)
             );
         }
 
@@ -177,20 +226,30 @@
          * @covers Brickoo\Cache\Manager::getByCallback
          * @expectedException InvalidArgumentException
          */
-        public function testGetByCallbackIdentifierArgumentException() {
-            $Provider = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider');
-            $CacheManager = new Manager($Provider);
-            $CacheManager->getByCallback(array('wrongType'), 'someFunction', array());
+        public function testGetByCallbackIdentifierThrowsInvalidArgumentException() {
+            $ProviderPool = $this->getMock('Brickoo\Cache\Interfaces\ProviderPool');
+            $CacheManager = new Manager($ProviderPool);
+            $CacheManager->getByCallback(array('wrongType'), "someFunction", array(), 60);
         }
 
         /**
          * @covers Brickoo\Cache\Manager::getByCallback
          * @expectedException InvalidArgumentException
          */
-        public function testGetByCallbackCallableArgumentException() {
-            $Provider = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider');
-            $CacheManager = new Manager($Provider);
-            $CacheManager->getByCallback('some_identifier', 'this.is.not.callable', array());
+        public function testGetByCallbackCallableThrowsInvalidArgumentException() {
+            $ProviderPool = $this->getMock('Brickoo\Cache\Interfaces\ProviderPool');
+            $CacheManager = new Manager($ProviderPool);
+            $CacheManager->getByCallback("some_identifier", "this.is.not.callable", array(), 60);
+        }
+
+        /**
+         * @covers Brickoo\Cache\Manager::getByCallback
+         * @expectedException InvalidArgumentException
+         */
+        public function testGetByCallbackLifetimeThrowsInvalidArgumentException() {
+            $ProviderPool = $this->getMock('Brickoo\Cache\Interfaces\ProviderPool');
+            $CacheManager = new Manager($ProviderPool);
+            $CacheManager->getByCallback("some_identifier", array($this, "callbackGetCachedContent"), array(), "wrongType");
         }
 
         /**
@@ -198,7 +257,7 @@
          * @return string the callback response
          */
         public function callbackGetCachedContent() {
-            return 'callback content';
+            return "callback content";
         }
 
         /**

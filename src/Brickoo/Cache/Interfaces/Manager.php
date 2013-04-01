@@ -41,16 +41,17 @@
 
     Interface Manager {
 
-         /**
-         * Return a cached content holded by an identifier.
-         * If the cached content is not available, it will be retrieved with the given callback
-         * @param string $cacheIdentifier the cache identifier of the content
+        /**
+         * Return a cached content or if the cached content is not available,
+         * it will be retrieved by the provided callback and stored back to the.
+         * @param string $identifier the identifier to retrieve/store the content from/to
          * @param callable $callback the callback to call if the content is not cached
          * @param array $callbackArguments the arguments to pass forward to the callback
+         * @param integer $lifetime the lifetime of the cached content in seconds
          * @throws \InvalidArgumentException if an argument is not valid
          * @return mixed the cached content
          */
-        public function getByCallback($cacheIdentifier, $callback, array $callbackArguments);
+        public function getByCallback($identifier, $callback, array $callbackArguments, $lifetime);
 
         /**
          * Returns the cached content holded by the identifier.

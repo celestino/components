@@ -43,35 +43,38 @@
 
     class Manager implements Interfaces\Manager {
 
-        /** @var \Brickoo\Cache\Provider\Interfaces\Provider */
-        private $CacheProvider;
+        /** @var \Brickoo\Cache\Interfaces\ProviderPool */
+        private $ProviderPool;
 
         /**
          * Class constructor.
-         * @param \Brickoo\Cache\Provider\Interfaces\Provider $CacheProvider
+         * @param \Brickoo\Cache\Interfaces\ProviderPool $ProviderPool
          * @return void
          */
-        public function __construct(\Brickoo\Cache\Provider\Interfaces\Provider $CacheProvider) {
-            $this->CacheProvider = $CacheProvider;
+        public function __construct(\Brickoo\Cache\Interfaces\ProviderPool $ProviderPool) {
+            $this->ProviderPool = $ProviderPool;
         }
 
         /** {@inheritDoc} */
-        public function getByCallback($identifier, $callback, array $arguments) {
+        public function getByCallback($identifier, $callback, array $callbackArguments, $lifetime) {
             Argument::IsString($identifier);
             Argument::IsCallable($callback);
+            Argument::IsInteger($lifetime);
 
-            if (! $cachedContent = $this->get($identifier)) {
-                $cachedContent = call_user_func_array($callback, $arguments);
+            if ((! $content = $this->get($identifier))
+                && ($content = call_user_func_array($callback, $callbackArguments))
+            ){
+                $this->set($identifier, $content, $lifetime);
             }
 
-            return $cachedContent;
+            return $content;
         }
 
         /** {@inheritDoc} */
         public function get($identifier) {
             Argument::IsString($identifier);
 
-            return $this->CacheProvider->get($identifier);
+            return $this->getCurrentProvider()->get($identifier);
         }
 
         /** {@inheritDoc} */
@@ -79,7 +82,7 @@
             Argument::IsString($identifier);
             Argument::IsInteger($lifetime);
 
-            $this->CacheProvider->set($identifier, $content, $lifetime);
+            $this->getCurrentProvider()->set($identifier, $content, $lifetime);
             return $this;
         }
 
@@ -87,14 +90,38 @@
         public function delete($identifier) {
             Argument::IsString($identifier);
 
-            $this->CacheProvider->delete($identifier);
+            $lastPoolKey = $this->ProviderPool->key();
+
+            $this->ProviderPool->rewind();
+            while ($this->ProviderPool->valid()) {
+                $this->ProviderPool->current()->delete($identifier);
+                $this->ProviderPool->next();
+            }
+
+            $this->ProviderPool->select($lastPoolKey);
             return $this;
         }
 
         /** {@inheritDoc} */
         public function flush() {
-            $this->CacheProvider->flush();
+            $lastPoolKey = $this->ProviderPool->key();
+
+            $this->ProviderPool->rewind();
+            while ($this->ProviderPool->valid()) {
+                $this->ProviderPool->current()->flush();
+                $this->ProviderPool->next();
+            }
+
+            $this->ProviderPool->select($lastPoolKey);
             return $this;
+        }
+
+        /**
+         * Returns the current responsible provider entry from pool.
+         * @return \Brickoo\Cache\Provider\Interfaces\Provider
+         */
+        private function getCurrentProvider() {
+            return $this->ProviderPool->current();
         }
 
     }
