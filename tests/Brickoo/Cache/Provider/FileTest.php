@@ -171,4 +171,19 @@
             $this->assertFalse(file_exists(sys_get_temp_dir() . DIRECTORY_SEPARATOR . $cacheFileName . $cacheFileSuffix));
         }
 
+        /**
+         * @covers Brickoo\Cache\Provider\File::isReady
+         */
+        public function testIsReady() {
+            $failureCacheDirectory = dirname(__FILE__) . DIRECTORY_SEPARATOR ."DOES_NOT_EXIST". DIRECTORY_SEPARATOR;
+            $cacheFileSuffix =".cache";
+
+            $FileObject = $this->getMock("Brickoo\Filesystem\Interfaces\FileObject");
+            $FileProvider = new File($FileObject, $failureCacheDirectory, false, $cacheFileSuffix);
+            $this->assertFalse($FileProvider->isReady());
+
+            $FileProvider = new File($FileObject, sys_get_temp_dir(), false, $cacheFileSuffix);
+            $this->assertTrue($FileProvider->isReady());
+        }
+
     }

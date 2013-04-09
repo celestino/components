@@ -66,4 +66,9 @@
             return $this;
         }
 
+        /** {@inheritDoc} */
+        public function isReady() {
+            return true;
+        }
+
     }

@@ -74,4 +74,10 @@
          */
         public function flush();
 
+        /**
+         * Checks if the provider is ready.
+         * @return boolean check result
+         */
+        public function isReady();
+
     }

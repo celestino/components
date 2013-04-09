@@ -105,7 +105,6 @@
 
         /**
          * @covers Brickoo\Cache\Provider\Memory::delete
-         * @depends testSetCacheContent
          */
         public function testDeleteCachedContent() {
             $Memory = new Memory();
@@ -135,7 +134,6 @@
 
         /**
          * @covers Brickoo\Cache\Provider\Memory::has
-         * @depends testSetCacheContent
          */
         public function testHasAnIdentifier() {
             $Memory = new Memory();
@@ -147,7 +145,6 @@
 
         /**
          * @covers Brickoo\Cache\Provider\Memory::flush
-         * @depends testSetCacheContent
          */
         public function testFlushCachedContent() {
             $Memory = new Memory();
@@ -156,6 +153,14 @@
 
             $this->assertSame($Memory, $Memory->flush());
             $this->assertAttributeEquals(array(), 'cacheValues', $Memory);
+        }
+
+        /**
+         * @covers Brickoo\Cache\Provider\Memory::isReady
+         */
+        public function testIsReady() {
+            $Memory =  new Memory();
+            $this->assertTrue($Memory->isReady());
         }
 
     }

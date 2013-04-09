@@ -112,6 +112,14 @@
         }
 
         /**
+         * @covers Brickoo\Cache\Provider\Apc::isReady
+         */
+        public function testIsReady() {
+            $Provider = new Apc();
+            $this->assertTrue($Provider->isReady());
+        }
+
+        /**
          * @covers Brickoo\Cache\Provider\Apc::__call
          */
         public function test__call() {

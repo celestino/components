@@ -30,65 +30,23 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Cache\Provider;
-
-    use Brickoo\Validator\Argument;
+    namespace Brickoo\Cache\Exceptions;
 
     /**
-     * Apc
+     * ProviderNotReady
      *
-     * Provides caching operations using the APC extension.
+     * Exception throwed if no caching provider has been ready.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Apc implements Interfaces\Provider {
-
-        /** {@inheritDoc} */
-        public function get($identifier) {
-            Argument::IsString($identifier);
-            return apc_fetch($identifier);
-        }
-
-        /** {@inheritDoc} */
-        public function set($identifier, $content, $lifetime) {
-            Argument::IsString($identifier);
-            Argument::IsInteger($lifetime);
-
-            apc_store($identifier, $content, $lifetime);
-            return $this;
-        }
-
-        /** {@inheritDoc} */
-        public function delete($identifier) {
-            Argument::IsString($identifier);
-            apc_delete($identifier);
-            return $this;
-        }
-
-        /** {@inheritDoc} */
-        public function flush() {
-            apc_clear_cache("user");
-            return $this;
-        }
-
-        /** {@inheritDoc} */
-        public function isReady() {
-            return (extension_loaded("apc") && in_array(ini_get("apc.enabled"), array("On", "1")));
-        }
+    class ProviderNotReady extends \Exception {
 
         /**
-         * Magic function to call other APC functions not implemented.
-         * @param string $method the method called
-         * @param array $arguments the arguments passed
-         * @throws \BadMethodCallException if the method is not defined
-         * @return mixed the called APC method result
+         * Calls the parent \Exception constructor.
+         * @return void
          */
-        public function __call($method, array $arguments) {
-            if ((substr($method, 0, 4) != "apc_") || (! function_exists($method))) {
-                throw new \BadMethodCallException(sprintf("The APC method `%s` is not defined.", $method));
-            }
-
-            return call_user_func_array($method, $arguments);
+        public function __construct() {
+            parent::__construct("Could not found a ready provider.");
         }
 
     }

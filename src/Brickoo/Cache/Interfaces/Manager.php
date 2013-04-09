@@ -35,7 +35,7 @@
     /**
      * Manager
      *
-     * Describes a cache manager which handles the caching providers.
+     * Describes a cache manager which handles the caching operations.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -43,12 +43,14 @@
 
         /**
          * Return a cached content or if the cached content is not available,
-         * it will be retrieved by the provided callback and stored back to the.
+         * it will be retrieved by the provided callback and stored back into the cache.
          * @param string $identifier the identifier to retrieve/store the content from/to
          * @param callable $callback the callback to call if the content is not cached
          * @param array $callbackArguments the arguments to pass forward to the callback
          * @param integer $lifetime the lifetime of the cached content in seconds
          * @throws \InvalidArgumentException if an argument is not valid
+         * @throws \Brickoo\Cache\Exceptions\ProviderNotFound
+         * @throws \Brickoo\Cache\Exceptions\ProviderNotReady
          * @return mixed the cached content
          */
         public function getByCallback($identifier, $callback, array $callbackArguments, $lifetime);
@@ -57,6 +59,8 @@
          * Returns the cached content holded by the identifier.
          * @param string $identifier the identifier to retrieve the content
          * @throws \InvalidArgumentException if an argument is not valid
+         * @throws \Brickoo\Cache\Exceptions\ProviderNotFound
+         * @throws \Brickoo\Cache\Exceptions\ProviderNotReady
          * @return mixed the cached content
          */
         public function get($identifier);
@@ -68,6 +72,8 @@
          * @param mixed $content the content to cache
          * @param integer $lifetime the lifetime of the cached content
          * @throws \InvalidArgumentException if an argument is not valid
+         * @throws \Brickoo\Cache\Exceptions\ProviderNotFound
+         * @throws \Brickoo\Cache\Exceptions\ProviderNotReady
          * @return \Brickoo\Cache\Interfaces\Manager
          */
         public function set($identifier, $content, $lifetime);

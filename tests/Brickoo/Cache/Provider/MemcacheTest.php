@@ -153,6 +153,14 @@
         }
 
         /**
+         * @covers Brickoo\Cache\Provider\Memcache::isReady
+         */
+        public function testIsReady() {
+            $Memcache = new Memcache($this->getMock('Memcache'));
+            $this->assertTrue($Memcache->isReady());
+        }
+
+        /**
          * @covers Brickoo\Cache\Provider\Memcache::__call
          */
         public function testMagicCallToMemcacheMethod() {

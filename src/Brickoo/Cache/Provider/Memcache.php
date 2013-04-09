@@ -92,6 +92,11 @@
             return $this;
         }
 
+        /** {@inheritDoc} */
+        public function isReady() {
+            return extension_loaded("memcache");
+        }
+
         /**
          * Magic function to call other Memcache methods not implemented.
          * @param string $method the method called

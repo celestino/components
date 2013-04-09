@@ -156,4 +156,9 @@
             return $this;
         }
 
+        /** {@inheritDoc} */
+        public function isReady() {
+            return (is_writable($this->cacheDirectory) && is_readable($this->cacheDirectory));
+        }
+
     }

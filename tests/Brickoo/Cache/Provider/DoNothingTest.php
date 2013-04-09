@@ -76,4 +76,12 @@
             $this->assertSame($Provider, $Provider->flush());
         }
 
+        /**
+         * @covers Brickoo\Cache\Provider\DoNothing::isReady
+         */
+        public function testIsReadyReturnsAlwaysTrue() {
+            $Provider = new DoNothing();
+            $this->assertTrue($Provider->isReady());
+        }
+
     }
