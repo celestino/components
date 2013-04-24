@@ -52,11 +52,12 @@
         /**
          * Class constructor.
          * @param \Brickoo\Http\Message\Interfaces\Header $Header
+         * @param array $serverValues the server variables as key=>values pairs
          * @return void
          */
-        public function __construct(\Brickoo\Http\Message\Interfaces\Header $Header) {
+        public function __construct(\Brickoo\Http\Message\Interfaces\Header $Header, array $serverValues = null) {
             $this->Header = $Header;
-            $this->serverValues = $_SERVER;
+            $this->serverValues = $serverValues !== null ? $serverValues : $_SERVER;
         }
 
         /**

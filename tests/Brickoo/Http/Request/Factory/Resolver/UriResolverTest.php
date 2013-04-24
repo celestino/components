@@ -74,6 +74,18 @@
         }
 
         /**
+         * @covers Brickoo\Http\Request\Factory\Resolver\UriResolver::__construct
+         */
+        public function testConstructorReplacesServerValues() {
+            $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
+            $serverValues = array("key" => "value");
+
+            $UriResolver = new UriResolver($Header, $serverValues);
+            $this->assertAttributeSame($Header, "Header", $UriResolver);
+            $this->assertAttributeEquals($serverValues, "serverValues", $UriResolver);
+        }
+
+        /**
          * @covers Brickoo\Http\Request\Factory\Resolver\UriResolver::getScheme
          */
         public function testGetSchemeFromHeadersForwardedProtocol() {
