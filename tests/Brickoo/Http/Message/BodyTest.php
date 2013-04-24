@@ -55,6 +55,14 @@
         }
 
         /**
+         * @covers Brickoo\Http\Message\Body::__construct
+         * @expectedException \InvalidArgumentException
+         */
+        public function testConstructorThrowsInvalidArgumentException() {
+            $Body = new Body(array("wrongType"));
+        }
+
+        /**
          * @covers Brickoo\Http\Message\Body::getContent
          */
         public function testGetContent() {

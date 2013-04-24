@@ -52,6 +52,9 @@
          * @return void
          */
         public function __construct($content = null) {
+            if ($content !== null) {
+                Argument::IsString($content);
+            }
             $this->content = $content;
         }
 
