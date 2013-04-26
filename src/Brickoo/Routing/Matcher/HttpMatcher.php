@@ -122,7 +122,7 @@
          */
         private function isMatchingRoute(\Brickoo\Routing\Interfaces\Route $Route) {
             return (preg_match($this->RegexGenerator->generatePathRegex($Route),
-                $this->Request->getUri()->getPathInfo(), $this->pathParameters) == 1);
+                $this->Request->getUri()->getPath(), $this->pathParameters) == 1);
         }
 
         /**
