@@ -71,8 +71,9 @@
          * @covers Brickoo\Routing\Builder\UriBuilder::build
          * @covers Brickoo\Routing\Builder\UriBuilder::createUriString
          * @covers Brickoo\Routing\Builder\UriBuilder::getExpectedRoutePath
+         * @covers Brickoo\Routing\Builder\UriBuilder::getRegexGenerator
          */
-        public function testBuildUri() {
+        public function testBuildUriWithCustomRegexGenerator() {
             $routeName = "news.get.articles";
             $pathParameters = array("article" => "test-case");
             $queryString = "order=date_desc";
@@ -81,6 +82,25 @@
             $Router = $this->getRouterMock($routeName);
 
             $UriBuilder = new UriBuilder($Router, "http://test-case.localhost:8080", $RegexGenerator);
+            $uriString = $UriBuilder->build($routeName, $pathParameters, $queryString);
+
+            $this->assertEquals("http://test-case.localhost:8080/articles/test-case/1?order=date_desc", $uriString);
+        }
+
+        /**
+         * @covers Brickoo\Routing\Builder\UriBuilder::build
+         * @covers Brickoo\Routing\Builder\UriBuilder::createUriString
+         * @covers Brickoo\Routing\Builder\UriBuilder::getExpectedRoutePath
+         * @covers Brickoo\Routing\Builder\UriBuilder::getRegexGenerator
+         */
+        public function testBuildUriWithDefaultRegexGenerator() {
+            $routeName = "news.get.articles";
+            $pathParameters = array("article" => "test-case");
+            $queryString = "order=date_desc";
+
+            $Router = $this->getRouterMock($routeName);
+
+            $UriBuilder = new UriBuilder($Router, "http://test-case.localhost:8080");
             $uriString = $UriBuilder->build($routeName, $pathParameters, $queryString);
 
             $this->assertEquals("http://test-case.localhost:8080/articles/test-case/1?order=date_desc", $uriString);
