@@ -53,14 +53,17 @@
             $hostname = "testcase.localhost";
             $port = 8080;
             $path = "/path/to/script";
+            $fragment = "ankerLink1";
 
-            $Uri = new Uri($scheme, $hostname, $port, $path, $Query);
+            $Uri = new Uri($scheme, $hostname, $port, $path, $Query, $fragment);
             $this->assertInstanceOf('Brickoo\Http\Request\Interfaces\Uri', $Uri);
             $this->assertAttributeEquals($scheme, "scheme", $Uri);
             $this->assertAttributeEquals($hostname, "hostname", $Uri);
             $this->assertAttributeEquals($port, "port", $Uri);
             $this->assertAttributeEquals($path, "path", $Uri);
-            $this->assertAttributeEquals($path, "pathInfo", $Uri);
+            $this->assertAttributeEquals($fragment, "fragment", $Uri);
+            $this->assertAttributeSame($Query, "Query", $Uri);
+
         }
 
         /**
@@ -92,15 +95,15 @@
          */
         public function testGetPath() {
             $Uri = $this->getUriFixture();
-            $this->assertEquals("/path/to/script/index.php/arcticles/test-cases", $Uri->getPath());
+            $this->assertEquals("/arcticles/test-cases", $Uri->getPath());
         }
 
         /**
-         * @covers Brickoo\Http\Request\Uri::getPathInfo
+         * @covers Brickoo\Http\Request\Uri::getFragment
          */
-        public function testGetPathInfo() {
+        public function testGetFragment() {
             $Uri = $this->getUriFixture();
-            $this->assertEquals("/arcticles/test-cases", $Uri->getPathInfo());
+            $this->assertEquals("ankerLink1", $Uri->getFragment());
         }
 
         /**
@@ -121,7 +124,7 @@
          * @covers Brickoo\Http\Request\Uri::toString
          */
         public function testToString() {
-            $expectedUri = "https://fixture.localhost:8080/path/to/script/index.php/arcticles/test-cases?key=value1";
+            $expectedUri = "https://fixture.localhost:8080/arcticles/test-cases?key=value1#ankerLink1";
 
             $Uri = $this->getUriFixture();
 
@@ -143,10 +146,10 @@
             $scheme = "https";
             $hostname = "fixture.localhost";
             $port = 8080;
-            $path = "/path/to/script/index.php/arcticles/test-cases";
-            $pathInfo = "/arcticles/test-cases";
+            $path = "/arcticles/test-cases";
+            $fragment = "ankerLink1";
 
-            return new Uri($scheme, $hostname, $port, $path, $Query, $pathInfo);
+            return new Uri($scheme, $hostname, $port, $path, $Query, $fragment);
         }
 
     }

@@ -56,7 +56,7 @@
         private $path;
 
         /** @var string */
-        private $pathInfo;
+        private $fragment;
 
         /** @var \Brickoo\Http\Request\Interfaces\Query */
         private $Query;
@@ -72,23 +72,24 @@
          * @return void
          */
         public function __construct(
-            $scheme, $hostname, $port, $path, \Brickoo\Http\Request\Interfaces\Query $Query, $pathInfo = null
+            $scheme, $hostname, $port, $path,
+            \Brickoo\Http\Request\Interfaces\Query $Query, $fragment = null
         ){
-            if ($pathInfo === null) {
-                $pathInfo = $path;
+            if ($fragment === null) {
+                $fragment = "";
             }
 
             Argument::IsString($scheme);
             Argument::IsString($hostname);
             Argument::IsInteger($port);
             Argument::IsString($path);
-            Argument::IsString($pathInfo);
+            Argument::IsString($fragment);
 
             $this->scheme = $scheme;
             $this->hostname = $hostname;
             $this->port = $port;
             $this->path = $path;
-            $this->pathInfo = $pathInfo;
+            $this->fragment = $fragment;
             $this->Query = $Query;
         }
 
@@ -113,8 +114,8 @@
         }
 
         /** {@inheritDoc} */
-        public function getPathInfo() {
-            return $this->pathInfo;
+        public function getFragment() {
+            return $this->fragment;
         }
 
         /** {@inheritDoc} */
@@ -134,7 +135,11 @@
                 $queryString = "?". $queryString;
             }
 
-            return  $host . $this->getPath() . $queryString;
+            if ($fragment = $this->getFragment()) {
+                $fragment = "#". $fragment;
+            }
+
+            return  $host . $this->getPath() . $queryString . $fragment;
         }
 
      }
