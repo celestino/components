@@ -54,14 +54,13 @@
 
         /**
          * @covers Brickoo\Template\PhpTemplate::render
-         * @covers Brickoo\Template\PhpTemplate::getTemplateDirectory
          */
         public function testRender() {
             $templateFile = __DIR__ ."/assets/UnitTestTemplate.php";
             $templateDirectory = realpath(dirname($templateFile));
 
             $expectedDirectory = $templateDirectory . DIRECTORY_SEPARATOR;
-            $expectedValue = "<html><head></head><body>test content in directory ".$expectedDirectory."</body></html>";
+            $expectedValue = "<html><head></head><body>test content</body></html>";
 
             $Template = new PhpTemplate($templateFile, array("content" => "test content"));
             $this->assertEquals($expectedValue, $Template->render());
@@ -72,7 +71,7 @@
          * @covers Brickoo\Template\Exceptions\RenderingAborted
          * @expectedException Brickoo\Template\Exceptions\RenderingAborted
          */
-        public function testRenderThrowsRendingAbortedException() {
+        public function testRenderThrowsRenderingAbortedException() {
             $Template = new PhpTemplate(__DIR__ ."/assets/ExceptionThrowingTemplate.php");
             $Template->render();
         }
