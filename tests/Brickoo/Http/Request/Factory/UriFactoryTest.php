@@ -61,11 +61,12 @@
          */
         public function testImportFromString() {
             $expectedQueryString = "param1=value1&param2=value2";
+            $uriString = "https://testcase.locahost/path/to/script.php?param1=value1&param2=value2#fragment1";
 
-            $urlString = "https://testcase.locahost/path/to/script.php?param1=value1&param2=value2";
-            $Uri = UriFactory::CreateFromString($urlString);
+            $Uri = UriFactory::CreateFromString($uriString);
             $this->assertInstanceOf('Brickoo\Http\Request\Interfaces\Query', ($Query = $Uri->getQuery()));
             $this->assertEquals($expectedQueryString, $Query->toString());
+            $this->assertEquals($uriString, $Uri->toString());
         }
 
         /**
