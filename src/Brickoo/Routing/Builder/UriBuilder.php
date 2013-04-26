@@ -98,7 +98,7 @@
                 throw new Exceptions\PathNotValid($routeName, $expectedPath);
             }
 
-            return UriFactory::CreateFromString($this->createUriString($expectedPath, $queryString));
+            return $this->createUriString($expectedPath, $queryString);
         }
 
         /**
@@ -141,8 +141,8 @@
          * @param string $queryString the query string
          * @return string the created uri string
          */
-        private function createUriString($uriPath, $query) {
-            return rtrim($this->baseUrl, "/") . $uriPath. (empty($query) ? "" : "?". ltrim($query, "?"));
+        private function createUriString($uriPath, $queryString) {
+            return rtrim($this->baseUrl, "/") . $uriPath. (empty($queryString) ? "" : "?". ltrim($queryString, "?"));
         }
 
     }

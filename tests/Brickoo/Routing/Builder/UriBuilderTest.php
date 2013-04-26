@@ -91,9 +91,9 @@
             $Router = $this->getRouterFixture($routeName);
 
             $UriBuilder = new UriBuilder($Router, "http://test-case.localhost:8080");
-            $CreatedUri = $UriBuilder->build($routeName, $pathParameters, $queryString);
+            $uriString = $UriBuilder->build($routeName, $pathParameters, $queryString);
 
-            $this->assertInstanceOf('Brickoo\Http\Request\Interfaces\Uri', $CreatedUri);
+            $this->assertEquals("http://test-case.localhost:8080/articles/test-case/1?order=date_desc", $uriString);
         }
 
         /**
