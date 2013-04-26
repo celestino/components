@@ -61,7 +61,9 @@
          * @param string $baseUrl the base url e.g. http://localhost:8080
          * @return void
          */
-        public function __construct(\Brickoo\Routing\Interfaces\Router $Router, $baseUrl) {
+        public function __construct(\Brickoo\Routing\Interfaces\Router $Router, $baseUrl,
+            \Brickoo\Routing\Route\Interfaces\RegexGenerator $RegexGenerator = null
+        ){
             Argument::IsString($baseUrl);
 
             if (empty($baseUrl)) {
@@ -70,12 +72,7 @@
 
             $this->Router = $Router;
             $this->baseUrl = $baseUrl;
-        }
-
-        /** {@inheritDoc} */
-        public function setRegexGenerator(\Brickoo\Routing\Route\Interfaces\RegexGenerator $RegexGenerator) {
             $this->RegexGenerator = $RegexGenerator;
-            return $this;
         }
 
         /** {@inheritDoc} */

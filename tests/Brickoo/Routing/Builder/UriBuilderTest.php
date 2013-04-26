@@ -48,12 +48,14 @@
          * @covers Brickoo\Routing\Builder\UriBuilder::__construct
          */
         public function testConstructor() {
-            $Router = $this->getRouterFixture("test.case");
+            $Router = $this->getRouterMock("test.case");
             $baseUrl = "http://test-case.localhost:8080";
+            $RegexGenerator = $this->getMock('Brickoo\Routing\Route\Interfaces\RegexGenerator');
 
-            $UriBuilder = new UriBuilder($Router, $baseUrl);
+            $UriBuilder = new UriBuilder($Router, $baseUrl, $RegexGenerator);
             $this->assertAttributeSame($Router, "Router", $UriBuilder);
             $this->assertAttributeEquals($baseUrl, "baseUrl", $UriBuilder);
+            $this->assertAttributeSame($RegexGenerator, "RegexGenerator", $UriBuilder);
         }
 
         /**
@@ -61,36 +63,24 @@
          * @expectedException InvalidArgumentException
          */
         public function testConstructorThrowsInvalidArgumentException() {
-            $Router = $this->getRouterFixture("test.case");
+            $Router = $this->getRouterMock("test.case");
             $UriBuilder = new UriBuilder($Router, "");
-        }
-
-        /**
-         * @covers Brickoo\Routing\Builder\UriBuilder::setRegexGenerator
-         */
-        public function testSetRegexGenerator() {
-            $RegexGenerator = $this->getMock('Brickoo\Routing\Route\Interfaces\RegexGenerator');
-            $Router = $this->getRouterFixture("test.case");
-
-            $UriBuilder = new UriBuilder($Router, "http://localhost");
-            $this->assertSame($UriBuilder, $UriBuilder->setRegexGenerator($RegexGenerator));
-            $this->assertAttributeSame($RegexGenerator, "RegexGenerator", $UriBuilder);
         }
 
         /**
          * @covers Brickoo\Routing\Builder\UriBuilder::build
          * @covers Brickoo\Routing\Builder\UriBuilder::createUriString
          * @covers Brickoo\Routing\Builder\UriBuilder::getExpectedRoutePath
-         * @covers Brickoo\Routing\Builder\UriBuilder::getRegexGenerator
          */
         public function testBuildUri() {
             $routeName = "news.get.articles";
             $pathParameters = array("article" => "test-case");
             $queryString = "order=date_desc";
 
-            $Router = $this->getRouterFixture($routeName);
+            $RegexGenerator = $this->getRegexGeneratorMock();
+            $Router = $this->getRouterMock($routeName);
 
-            $UriBuilder = new UriBuilder($Router, "http://test-case.localhost:8080");
+            $UriBuilder = new UriBuilder($Router, "http://test-case.localhost:8080", $RegexGenerator);
             $uriString = $UriBuilder->build($routeName, $pathParameters, $queryString);
 
             $this->assertEquals("http://test-case.localhost:8080/articles/test-case/1?order=date_desc", $uriString);
@@ -103,7 +93,7 @@
          */
         public function testBuildThrowsRouteNotFoundException() {
             $routeName = "news.get.articles";
-            $Router = $this->getRouterFixture($routeName);
+            $Router = $this->getRouterMock($routeName);
 
             $UriBuilder = new UriBuilder($Router, "http://test-case.localhost:8080");
             $UriBuilder->build("unknown.route.name", array());
@@ -118,7 +108,7 @@
             $routeName = "news.get.articles";
             $pathParameters = array("article" => "111-i-am-not-valid-111");
 
-            $Router = $this->getRouterFixture($routeName);
+            $Router = $this->getRouterMock($routeName);
 
             $UriBuilder = new UriBuilder($Router, "http://test-case.localhost:8080");
             $UriBuilder->build($routeName, $pathParameters);
@@ -130,20 +120,20 @@
          * @covers Brickoo\Routing\Builder\Exceptions\RequiredParametersMissing
          * @expectedException Brickoo\Routing\Builder\Exceptions\RequiredParametersMissing
          */
-        public function testBuildThrowsRequiredParametersMissingExcpetion() {
+        public function testBuildThrowsRequiredParametersMissingException() {
             $routeName = "news.get.articles";
-            $Router = $this->getRouterFixture($routeName);
+            $Router = $this->getRouterMock($routeName);
 
             $UriBuilder = new UriBuilder($Router, "http://test-case.localhost:8080");
             $UriBuilder->build($routeName, array());
         }
 
         /**
-         * Returns a router fixture containing a configured route.
+         * Returns a router mock object containing a configured route.
          * @param string $routeName the route name of the test case
          * @return Brickoo\Routing\Interfaces\Router
          */
-        private function getRouterFixture($routeName) {
+        private function getRouterMock($routeName) {
             $rulesValuesMap = array(
                 array("article", "[a-zA-Z][\w\-]+"),
                 array("page", "[0-9]+")
@@ -190,6 +180,20 @@
                    ->will($this->returnValue($Route));
 
             return $Router;
+        }
+
+        /**
+         * Returns a regular route expression generator to validate the path.
+         * @return Brickoo\Routing\Route\Interfaces\RegexGenerator
+         */
+        private function getRegexGeneratorMock() {
+            $RegexGenerator = $this->getMock('Brickoo\Routing\Route\Interfaces\RegexGenerator');
+            $RegexGenerator->expects($this->once())
+                           ->method("generatePathRegex")
+                           ->with($this->isInstanceOf('Brickoo\Routing\Interfaces\Route'))
+                           ->will($this->returnValue("~^/articles/([a-zA-Z][\w\-]+)/([0-9]+)$~"));
+
+            return $RegexGenerator;
         }
 
     }
