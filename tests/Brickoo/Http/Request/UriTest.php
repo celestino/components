@@ -67,6 +67,27 @@
         }
 
         /**
+         * @covers Brickoo\Http\Request\Uri::__construct
+         */
+        public function testConstructorWithoutFragmentPassed() {
+            $Query = $this->getMock('Brickoo\Http\Request\Interfaces\Query');
+            $scheme = "http";
+            $hostname = "testcase.localhost";
+            $port = 8080;
+            $path = "/path/to/script";
+
+            $Uri = new Uri($scheme, $hostname, $port, $path, $Query);
+            $this->assertInstanceOf('Brickoo\Http\Request\Interfaces\Uri', $Uri);
+            $this->assertAttributeEquals($scheme, "scheme", $Uri);
+            $this->assertAttributeEquals($hostname, "hostname", $Uri);
+            $this->assertAttributeEquals($port, "port", $Uri);
+            $this->assertAttributeEquals($path, "path", $Uri);
+            $this->assertAttributeSame($Query, "Query", $Uri);
+            $this->assertAttributeEquals("", "fragment", $Uri);
+
+        }
+
+        /**
          * @covers Brickoo\Http\Request\Uri::getScheme
          */
         public function testGetScheme() {
