@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -71,6 +71,18 @@
             $UriResolver = new UriResolver($Header);
             $this->assertAttributeSame($Header, "Header", $UriResolver);
             $this->assertAttributeEquals($_SERVER, "serverValues", $UriResolver);
+        }
+
+        /**
+         * @covers Brickoo\Http\Request\Factory\Resolver\UriResolver::__construct
+         */
+        public function testConstructorReplacesServerValues() {
+            $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
+            $serverValues = array("key" => "value");
+
+            $UriResolver = new UriResolver($Header, $serverValues);
+            $this->assertAttributeSame($Header, "Header", $UriResolver);
+            $this->assertAttributeEquals($serverValues, "serverValues", $UriResolver);
         }
 
         /**
@@ -242,28 +254,22 @@
         }
 
         /**
-         * @covers Brickoo\Http\Request\Factory\Resolver\UriResolver::getPathInfo
+         * @covers Brickoo\Http\Request\Factory\Resolver\UriResolver::getPath
          */
-        public function testGetPathInfoFromGlobalServerPathInfo() {
+        public function testGetPathFromGlobalServerPathInfo() {
             $expectedPath = "/articles/test-cases";
             $_SERVER = array("PATH_INFO" => $expectedPath);
 
             $UriResolver = new UriResolver($this->getMock('Brickoo\Http\Message\Interfaces\Header'));
-            $this->assertEquals($expectedPath, $UriResolver->getPathInfo());
+            $this->assertEquals($expectedPath, $UriResolver->getPath());
         }
 
         /**
-         * @covers Brickoo\Http\Request\Factory\Resolver\UriResolver::getPathInfo
+         * @covers Brickoo\Http\Request\Factory\Resolver\UriResolver::getFragment
          */
-        public function testGetPathInfoComparingRequestUriAndScriptFilename() {
-            $expectedPath = "/articles/test-cases";
-            $_SERVER = array(
-                "REQUEST_URI" => "/news/index.php/articles/test-cases",
-                "SCRIPT_FILENAME" => str_replace("/", DIRECTORY_SEPARATOR, "/var/www/news/index.php")
-            );
-
+        public function testGetEmptyFragment() {
             $UriResolver = new UriResolver($this->getMock('Brickoo\Http\Message\Interfaces\Header'));
-            $this->assertEquals($expectedPath, $UriResolver->getPathInfo());
+            $this->assertEquals("", $UriResolver->getFragment());
         }
 
     }

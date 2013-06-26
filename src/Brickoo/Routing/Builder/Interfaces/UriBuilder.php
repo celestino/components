@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -35,21 +35,14 @@
     /**
      * UriBuilder
      *
-     * Describes a uri builder to create a route matching http request uri.
+     * Describes a uri builder to create a route matching uri.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
     interface UriBuilder {
 
         /**
-         * Sets the route regular expression generator dependency.
-         * @param \Brickoo\Routing\Route\Interfaces\RegexGenerator $RegexGenerator
-         * @return \Brickoo\Routing\Builder\Interfaces\UriBuilder
-         */
-        public function setRegexGenerator(\Brickoo\Routing\Route\Interfaces\RegexGenerator $RegexGenerator);
-
-        /**
-         * Builds the request uri object with the configuration provided.
+         * Builds an uri string based on the parameters provided.
          * @param string $routeName the route to use for the build
          * @param array $pathParameters the path parameters
          * @param string $queryParameters the query parameters
@@ -57,7 +50,7 @@
          * @throws \Brickoo\Routing\Builder\Exceptions\RouteNotFound
          * @throws \Brickoo\Routing\Builder\Exceptions\PathNotValid
          * @throws \Brickoo\Routing\Builder\Exceptions\RequiredParametersMissing
-         * @return \Brickoo\Http\Request\Interfaces\Uri
+         * @return string the builded uri
          */
         public function build($routeName, array $pathParameters, $queryString = null);
 

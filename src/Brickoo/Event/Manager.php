@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -141,11 +141,11 @@
         /**
          * Process the event by calling the event listeners with the requested behaviour.
          * @param \Brickoo\Event\Interfaces\Event $Event the event to processed
-         * @param integer $behaviourControllFlag the behaviour controll flag
+         * @param integer $behaviourControlFlag the behaviour control flag
          * @throws \Brickoo\Event\Exceptions\InfiniteEventLoop if an infinite loop is detected
          * @return array the listener responses otherwise null on failure
          */
-        private function process(\Brickoo\Event\Interfaces\Event $Event, $behaviourControllFlag) {
+        private function process(\Brickoo\Event\Interfaces\Event $Event, $behaviourControlFlag) {
             $response = array();
             $eventName = $Event->getName();
 
@@ -158,7 +158,7 @@
             }
 
             $this->EventList->set($eventName, time());
-            $response = $this->getEventListenersResponse($Event, $behaviourControllFlag);
+            $response = $this->getEventListenersResponse($Event, $behaviourControlFlag);
             $this->EventList->delete($eventName);
 
             return $response;
@@ -167,27 +167,27 @@
         /**
          * Returns the event listeners response(s).
          * @param \Brickoo\Event\Interfaces\Event $Event the event to processed
-         * @param integer $behaviourControllFlag the behaviour controll flag
+         * @param integer $behaviourControlFlag the behaviour control flag
          * @return mixed the returned response or array the collected responses
          */
-        private function getEventListenersResponse(\Brickoo\Event\Interfaces\Event $Event, $behaviourControllFlag) {
+        private function getEventListenersResponse(\Brickoo\Event\Interfaces\Event $Event, $behaviourControlFlag) {
             $collectedResponses = array();
 
             foreach ($this->ListenerCollection->getListeners($Event->getName()) as $Listener) {
                 $response = $this->Processor->handle($this, $Event, $Listener);
 
-                if ((($behaviourControllFlag & self::BEHAVIOUR_CALL_UNTIL_LISTENER_RESPONSE) == $behaviourControllFlag)
+                if ((($behaviourControlFlag & self::BEHAVIOUR_CALL_UNTIL_LISTENER_RESPONSE) == $behaviourControlFlag)
                     && ($response !== null)
                 ){
                     $collectedResponses[] = $response;
                     break;
                 }
 
-                if ($Event->isStopped() || (($behaviourControllFlag & self::BEHAVIOUR_CALL_ONLY_HIGHEST_PRIORITY_LISTENER) == $behaviourControllFlag)) {
+                if ($Event->isStopped() || (($behaviourControlFlag & self::BEHAVIOUR_CALL_ONLY_HIGHEST_PRIORITY_LISTENER) == $behaviourControlFlag)) {
                     break;
                 }
 
-                if (($behaviourControllFlag & self::BEHAVIOUR_CALL_ALL_LISTENERS_COLLECT_RESPONSES) == $behaviourControllFlag
+                if (($behaviourControlFlag & self::BEHAVIOUR_CALL_ALL_LISTENERS_COLLECT_RESPONSES) == $behaviourControlFlag
                     && ($response !== null)
                 ){
                     $collectedResponses[] = $response;

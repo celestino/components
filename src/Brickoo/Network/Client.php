@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -44,7 +44,7 @@
      * BUT(!) you can use any socket function which expects the resource handle as first argument.
      * Example:
      * <code>
-     *     // Not implemented fwrite() or feof() but supported, notify the handle handle is not passed !
+     *     // Not implemented fwrite() or feof() but supported, notify the resource handle is not passed !
      *     $Client =  new Brickoo\Network\Client();
      *     $Client->open("tcp://somedomain.com", 80, 30);
      *     $Client->write("GET /projects/brickoo/ HTTP/1.1\r\n");
@@ -97,6 +97,7 @@
 
         /** {@inheritDoc} */
         public function read($bytes) {
+            Argument::IsInteger($bytes);
             return fread($this->getHandle(), $bytes);
         }
 
@@ -139,10 +140,10 @@
         }
 
         /**
-         * Provides the posibility to call not implemented socket functions.
+         * Provides the possibility to call not implemented socket functions.
          * @param string $function the function name to call
          * @param array $arguments the arguments to pass
-         * @throws BadMethodCallException if the trying to call fopen() or fclose()
+         * @throws \BadMethodCallException if the trying to call fopen() or fclose()
          * @return mixed the calles function return value
          */
         public function __call($function, array $arguments) {

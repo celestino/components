@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -52,6 +52,14 @@
             $Body = new Body($expectedBody);
             $this->assertInstanceOf("Brickoo\Http\Message\Interfaces\Body", $Body);
             $this->assertAttributeEquals($expectedBody, "content", $Body);
+        }
+
+        /**
+         * @covers Brickoo\Http\Message\Body::__construct
+         * @expectedException \InvalidArgumentException
+         */
+        public function testConstructorThrowsInvalidArgumentException() {
+            $Body = new Body(array("wrongType"));
         }
 
         /**

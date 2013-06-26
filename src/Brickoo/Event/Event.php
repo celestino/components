@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -42,9 +42,6 @@
 
     class Event implements Interfaces\Event {
 
-        /** @var boolean */
-        private $stopped;
-
         /** @var string */
         private $name;
 
@@ -53,6 +50,9 @@
 
         /** @var object */
         private $Sender;
+
+        /** @var boolean */
+        private $stopped;
 
         /**
          * Class constructor.

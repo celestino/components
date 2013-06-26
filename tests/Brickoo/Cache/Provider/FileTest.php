@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -169,6 +169,21 @@
             $this->assertTrue(file_exists(sys_get_temp_dir() . DIRECTORY_SEPARATOR . $cacheFileName . $cacheFileSuffix));
             $this->assertSame($FileProvider, $FileProvider->flush());
             $this->assertFalse(file_exists(sys_get_temp_dir() . DIRECTORY_SEPARATOR . $cacheFileName . $cacheFileSuffix));
+        }
+
+        /**
+         * @covers Brickoo\Cache\Provider\File::isReady
+         */
+        public function testIsReady() {
+            $failureCacheDirectory = dirname(__FILE__) . DIRECTORY_SEPARATOR ."DOES_NOT_EXIST". DIRECTORY_SEPARATOR;
+            $cacheFileSuffix =".cache";
+
+            $FileObject = $this->getMock("Brickoo\Filesystem\Interfaces\FileObject");
+            $FileProvider = new File($FileObject, $failureCacheDirectory, false, $cacheFileSuffix);
+            $this->assertFalse($FileProvider->isReady());
+
+            $FileProvider = new File($FileObject, sys_get_temp_dir(), false, $cacheFileSuffix);
+            $this->assertTrue($FileProvider->isReady());
         }
 
     }

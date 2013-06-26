@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -52,6 +52,9 @@
          * @return void
          */
         public function __construct($content = null) {
+            if ($content !== null) {
+                Argument::IsString($content);
+            }
             $this->content = $content;
         }
 

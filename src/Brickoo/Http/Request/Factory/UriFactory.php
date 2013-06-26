@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -59,42 +59,44 @@
                 $UriResolver->getPort(),
                 $UriResolver->getPath(),
                 $Query,
-                $UriResolver->getPathInfo()
+                $UriResolver->getFragment()
             );
         }
 
         /**
          * Create a request uri object using the extracted uri values.
          * @param string $uri the uri to extract the values from
+         * @param array $defaultValues values for the keys (scheme, host, port, path, query, fragment)
          * @throws \InvalidArgumentException if the argument is not valid
          * @return \Brickoo\Http\Request\Uri
          */
-        public static function CreateFromString($uri) {
+        public static function CreateFromString($uri, array $defaultValues = null) {
             Argument::IsString($uri);
 
-            if (! preg_match("~^[^@:/?#]+:(.*@)?//[^/?#]+(\?[^#]*)?(#.*)?~", $uri)) {
+            if (! filter_var($uri, FILTER_VALIDATE_URL)) {
                 throw new \InvalidArgumentException(sprintf("The argument `%s` does not match a valid uri.", $uri));
             }
 
-            $defaultValues = array(
-                "scheme" => "http",
-                "host" => "localhost",
-                "path" => "/",
-                "query" => ""
-            );
+            if ($defaultValues === null) {
+                $defaultValues = array(
+                    "scheme" => "http",
+                    "host" => "localhost",
+                    "port" => 80,
+                    "path" => "/",
+                    "query" => "",
+                    "fragment" => ""
+                );
+            }
 
             $uriParts = array_merge($defaultValues, parse_url($uri));
-
-            if (! isset($uriParts["port"])) {
-                $uriParts["port"] = $uriParts["scheme"] == "https" ? 443 : 80;
-            }
 
             return new \Brickoo\Http\Request\Uri(
                 $uriParts["scheme"],
                 $uriParts["host"],
                 $uriParts["port"],
                 $uriParts["path"],
-                QueryFactory::CreateFromString($uriParts["query"])
+                QueryFactory::CreateFromString($uriParts["query"]),
+                $uriParts["fragment"]
             );
         }
 

@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -89,24 +89,22 @@
         public function testHandleLogEvent() {
             $priority = 10;
 
-            $valueMap = array(
-                array("messages", "log this test message"),
-                array("severity", "\Brickoo\Log\Logger::SEVERITY_INFO")
-            );
+            $messages = array("log this test message");
+            $severity = \Brickoo\Log\Logger::SEVERITY_INFO;
 
             $Logger = $this->getMock('Brickoo\Log\Interfaces\Logger');
             $Logger->expects($this->once())
                    ->method("log")
-                   ->with($valueMap[0][1], $valueMap[1][1]);
+                   ->with($messages, $severity);
 
             $EventManager = $this->getMock('Brickoo\Event\Interfaces\Manager');
-            $Event = $this->getMock('Brickoo\Event\Interfaces\Event');
-            $Event->expects($this->exactly(2))
-                  ->method('hasParam')
-                  ->will($this->onConsecutiveCalls(true, true));
-            $Event->expects($this->exactly(2))
-                  ->method('getParam')
-                  ->will($this->returnValueMap($valueMap));
+            $Event = $this->getMock('Brickoo\Log\Event\LogEvent', array("getMessages", "getSeverity"), array($messages, $severity));
+            $Event->expects($this->once())
+                  ->method('getMessages')
+                  ->will($this->returnValue($messages));
+            $Event->expects($this->once())
+                  ->method('getSeverity')
+                  ->will($this->returnValue($severity));
 
 
             $Listener = new Listener($Logger, 100);

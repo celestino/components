@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -67,8 +67,13 @@
 
         /** {@inheritDoc} */
         public function flush() {
-            apc_clear_cache('user');
+            apc_clear_cache("user");
             return $this;
+        }
+
+        /** {@inheritDoc} */
+        public function isReady() {
+            return (extension_loaded("apc") && in_array(ini_get("apc.enabled"), array("On", "1")));
         }
 
         /**
@@ -79,8 +84,8 @@
          * @return mixed the called APC method result
          */
         public function __call($method, array $arguments) {
-            if ((substr($method, 0, 4) != 'apc_') || (! function_exists($method))) {
-                throw new \BadMethodCallException(sprintf('The APC method `%s` is not defined.', $method));
+            if ((substr($method, 0, 4) != "apc_") || (! function_exists($method))) {
+                throw new \BadMethodCallException(sprintf("The APC method `%s` is not defined.", $method));
             }
 
             return call_user_func_array($method, $arguments);

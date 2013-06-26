@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -105,7 +105,6 @@
 
         /**
          * @covers Brickoo\Cache\Provider\Memory::delete
-         * @depends testSetCacheContent
          */
         public function testDeleteCachedContent() {
             $Memory = new Memory();
@@ -135,7 +134,6 @@
 
         /**
          * @covers Brickoo\Cache\Provider\Memory::has
-         * @depends testSetCacheContent
          */
         public function testHasAnIdentifier() {
             $Memory = new Memory();
@@ -147,7 +145,6 @@
 
         /**
          * @covers Brickoo\Cache\Provider\Memory::flush
-         * @depends testSetCacheContent
          */
         public function testFlushCachedContent() {
             $Memory = new Memory();
@@ -156,6 +153,14 @@
 
             $this->assertSame($Memory, $Memory->flush());
             $this->assertAttributeEquals(array(), 'cacheValues', $Memory);
+        }
+
+        /**
+         * @covers Brickoo\Cache\Provider\Memory::isReady
+         */
+        public function testIsReady() {
+            $Memory =  new Memory();
+            $this->assertTrue($Memory->isReady());
         }
 
     }

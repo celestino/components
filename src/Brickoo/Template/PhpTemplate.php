@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -43,8 +43,6 @@
 
     class PhpTemplate implements Interfaces\Template {
 
-        /** @var string */
-        protected $templateFile;
 
         /** @var array */
         protected $templateVars;
@@ -66,7 +64,6 @@
         public function render() {
             try {
                 extract($this->templateVars, EXTR_SKIP);
-                $TPL_DIR = $this->getTemplateDirectory();
 
                 ob_start();
                 require ($this->templateFile);
@@ -78,14 +75,6 @@
             }
 
             return $output;
-        }
-
-        /**
-         * Returns the absolute directory path of the current template.
-         * @return string the template directory path
-         */
-        private function getTemplateDirectory() {
-            return realpath(dirname($this->templateFile)) . DIRECTORY_SEPARATOR;
         }
 
     }

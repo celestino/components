@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -90,13 +90,12 @@
 
         /**
          * @covers Brickoo\Error\ExceptionHandler::handleException
-         * @covers Brickoo\Error\ExceptionHandler::getExceptionMessage
          */
         public function testHandleExceptionExecutesEventNotification() {
             $EventManager = $this->getMock('Brickoo\Event\Interfaces\Manager');
             $EventManager->expects($this->once())
                          ->method('notify')
-                         ->with($this->isInstanceOf('Brickoo\Event\Interfaces\Event'))
+                         ->with($this->isInstanceOf('Brickoo\Error\Event\Interfaces\ExceptionEvent'))
                          ->will($this->returnValue(null));
 
             $ExceptionHandler = new ExceptionHandler($EventManager);

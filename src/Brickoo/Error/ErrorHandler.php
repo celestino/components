@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -32,7 +32,7 @@
 
     namespace Brickoo\Error;
 
-    use Brickoo\Event\Event,
+    use Brickoo\Error\Event\ErrorEvent,
         Brickoo\Validator\Argument;
 
     /**
@@ -137,10 +137,7 @@
                 throw new Exceptions\ErrorOccurred($message, $errorCode);
             }
             else {
-                $this->EventManager->notify(new Event(Events::ERROR, $this, array(
-                    "message" => $message,
-                    "stacktrace" => $this->getStackTrace()
-                )));
+                $this->EventManager->notify(new ErrorEvent($message, $this->getStackTrace()));
             }
 
             return true;

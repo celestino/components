@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -81,7 +81,6 @@
 
             foreach ($fields as $field) {
                 if (preg_match("/(?<name>[^:]+): (?<value>.+)/m", $field, $match)) {
-                    $match["name"] = preg_replace("/(?<=^|[\x09\x20\x2D])./e", 'strtoupper("\0")', strtolower(trim($match["name"])));
                     $importedHeaders[$match["name"]] = trim($match["value"]);
                 }
             }

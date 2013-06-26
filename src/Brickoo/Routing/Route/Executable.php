@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -31,8 +31,6 @@
      */
 
     namespace Brickoo\Routing\Route;
-
-    use Brickoo\Http\Session\Handler\CacheHandler;
 
     use Brickoo\Validator\Argument;
 

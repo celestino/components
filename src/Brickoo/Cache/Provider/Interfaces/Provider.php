@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -73,5 +73,11 @@
          * @return \Brickoo\Cache\Provider\Interfaces\Provider
          */
         public function flush();
+
+        /**
+         * Checks if the provider is ready.
+         * @return boolean check result
+         */
+        public function isReady();
 
     }

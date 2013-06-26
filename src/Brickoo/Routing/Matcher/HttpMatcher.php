@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -32,8 +32,6 @@
 
     namespace Brickoo\Routing\Matcher;
 
-    use Brickoo\Routing\Route\Interfaces\RegexGenerator;
-
     /**
      * HttpMatcher
      *
@@ -42,12 +40,6 @@
      */
 
     class HttpMatcher implements Interfaces\Matcher {
-
-        /**
-         * Holds the paramater key for the auto detected format.
-         * @var string
-         */
-        const FORMAT_PARAM_KEY = "_FORMAT_";
 
         /** @var \Brickoo\Http\Interfaces\Request */
         private $Request;
@@ -122,7 +114,7 @@
          */
         private function isMatchingRoute(\Brickoo\Routing\Interfaces\Route $Route) {
             return (preg_match($this->RegexGenerator->generatePathRegex($Route),
-                $this->Request->getUri()->getPathInfo(), $this->pathParameters) == 1);
+                $this->Request->getUri()->getPath(), $this->pathParameters) == 1);
         }
 
         /**

@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,8 @@
     /**
      * FileCollector
      *
-     * Implements a route collector base on files which must return a route collection.
+     * Implements a route collector based on one or many files
+     * which have to return a route collection.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -61,7 +61,9 @@
          * @param string $baseUrl the base url e.g. http://localhost:8080
          * @return void
          */
-        public function __construct(\Brickoo\Routing\Interfaces\Router $Router, $baseUrl) {
+        public function __construct(\Brickoo\Routing\Interfaces\Router $Router, $baseUrl,
+            \Brickoo\Routing\Route\Interfaces\RegexGenerator $RegexGenerator = null
+        ){
             Argument::IsString($baseUrl);
 
             if (empty($baseUrl)) {
@@ -70,12 +72,7 @@
 
             $this->Router = $Router;
             $this->baseUrl = $baseUrl;
-        }
-
-        /** {@inheritDoc} */
-        public function setRegexGenerator(\Brickoo\Routing\Route\Interfaces\RegexGenerator $RegexGenerator) {
             $this->RegexGenerator = $RegexGenerator;
-            return $this;
         }
 
         /** {@inheritDoc} */
@@ -98,7 +95,7 @@
                 throw new Exceptions\PathNotValid($routeName, $expectedPath);
             }
 
-            return UriFactory::CreateFromString($this->createUriString($expectedPath, $queryString));
+            return $this->createUriString($expectedPath, $queryString);
         }
 
         /**
@@ -141,8 +138,8 @@
          * @param string $queryString the query string
          * @return string the created uri string
          */
-        private function createUriString($uriPath, $query) {
-            return rtrim($this->baseUrl, "/") . $uriPath. (empty($query) ? "" : "?". ltrim($query, "?"));
+        private function createUriString($uriPath, $queryString) {
+            return rtrim($this->baseUrl, "/") . $uriPath. (empty($queryString) ? "" : "?". ltrim($queryString, "?"));
         }
 
     }

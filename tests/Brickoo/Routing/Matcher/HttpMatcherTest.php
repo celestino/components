@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -119,7 +119,7 @@
                 ->method("getScheme")
                 ->will($this->returnValue("https"));
             $Uri->expects($this->any())
-                ->method('getPathInfo')
+                ->method('getPath')
                 ->will($this->returnValue("/articles/doing_unit-tests"));
 
             $Request = $this->getMock('Brickoo\Http\Interfaces\Request');

@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -66,15 +66,10 @@
         public function getPath();
 
         /**
-         * Returns the uri path info.
-         * Commonly used for routing.
-         * The path info distinct from the uri path
-         * by extracting the script location parts.
-         * In most cases and specialy using rewrite rules
-         * the value equals the uri path.
+         * Returns the uri fragment.
          * @return string the uri path info
          */
-        public function getPathInfo();
+        public function getFragment();
 
         /**
          * Returns the uri query dependency.

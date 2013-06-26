@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,7 @@
      * Router
      *
      * Router which can return the request corresponding executable route
-     * and any route in the collection which has been collected by the finder.
+     * and any route available in the collection.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -114,7 +114,7 @@
         }
 
         /**
-         * Returns the route collection or searches for the route collection if not available.
+         * Returns the route collection or searches for the routes if not available.
          * @return \Brickoo\Routing\Route\Interfaces\Collection
          */
         private function getRouteCollection() {

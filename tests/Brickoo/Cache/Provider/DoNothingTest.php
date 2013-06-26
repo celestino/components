@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -74,6 +74,14 @@
         public function testFlushDoesNothing() {
             $Provider = new DoNothing();
             $this->assertSame($Provider, $Provider->flush());
+        }
+
+        /**
+         * @covers Brickoo\Cache\Provider\DoNothing::isReady
+         */
+        public function testIsReadyReturnsAlwaysTrue() {
+            $Provider = new DoNothing();
+            $this->assertTrue($Provider->isReady());
         }
 
     }

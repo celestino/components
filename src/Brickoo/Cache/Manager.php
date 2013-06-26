@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -44,34 +44,41 @@
     class Manager implements Interfaces\Manager {
 
         /** @var \Brickoo\Cache\Provider\Interfaces\Provider */
-        private $CacheProvider;
+        private $Provider;
+
+        /** @var \Brickoo\Cache\Interfaces\ProviderPool */
+        private $ProviderPool;
 
         /**
          * Class constructor.
-         * @param \Brickoo\Cache\Provider\Interfaces\Provider $CacheProvider
+         * @param \Brickoo\Cache\Interfaces\ProviderPool $ProviderPool
          * @return void
          */
-        public function __construct(\Brickoo\Cache\Provider\Interfaces\Provider $CacheProvider) {
-            $this->CacheProvider = $CacheProvider;
+        public function __construct(\Brickoo\Cache\Interfaces\ProviderPool $ProviderPool) {
+            $this->Provider = null;
+            $this->ProviderPool = $ProviderPool;
         }
 
         /** {@inheritDoc} */
-        public function getByCallback($identifier, $callback, array $arguments) {
+        public function getByCallback($identifier, $callback, array $callbackArguments, $lifetime) {
             Argument::IsString($identifier);
             Argument::IsCallable($callback);
+            Argument::IsInteger($lifetime);
 
-            if (! $cachedContent = $this->get($identifier)) {
-                $cachedContent = call_user_func_array($callback, $arguments);
+            if ((! $content = $this->get($identifier))
+                && ($content = call_user_func_array($callback, $callbackArguments))
+            ){
+                $this->set($identifier, $content, $lifetime);
             }
 
-            return $cachedContent;
+            return $content;
         }
 
         /** {@inheritDoc} */
         public function get($identifier) {
             Argument::IsString($identifier);
 
-            return $this->CacheProvider->get($identifier);
+            return $this->getProvider()->get($identifier);
         }
 
         /** {@inheritDoc} */
@@ -79,7 +86,7 @@
             Argument::IsString($identifier);
             Argument::IsInteger($lifetime);
 
-            $this->CacheProvider->set($identifier, $content, $lifetime);
+            $this->getProvider()->set($identifier, $content, $lifetime);
             return $this;
         }
 
@@ -87,14 +94,60 @@
         public function delete($identifier) {
             Argument::IsString($identifier);
 
-            $this->CacheProvider->delete($identifier);
+            $providerEntryKey = $this->ProviderPool->key();
+
+            $this->ProviderPool->rewind();
+            while ($this->ProviderPool->valid()) {
+                $this->ProviderPool->current()->delete($identifier);
+                $this->ProviderPool->next();
+            }
+
+            $this->ProviderPool->select($providerEntryKey);
             return $this;
         }
 
         /** {@inheritDoc} */
         public function flush() {
-            $this->CacheProvider->flush();
+            $providerEntryKey = $this->ProviderPool->key();
+
+            $this->ProviderPool->rewind();
+            while ($this->ProviderPool->valid()) {
+                $this->ProviderPool->current()->flush();
+                $this->ProviderPool->next();
+            }
+
+            $this->ProviderPool->select($providerEntryKey);
             return $this;
+        }
+
+        /**
+         * Returns a responsible provider entry from pool
+         * which have to be ready.
+         * @return \Brickoo\Cache\Provider\Interfaces\Provider
+         */
+        private function getProvider() {
+            if ($this->Provider === null) {
+                if ($this->ProviderPool->isEmpty()) {
+                    throw new Exceptions\ProviderNotFound();
+                }
+
+                $this->ProviderPool->rewind();
+                while ($this->Provider === null && $this->ProviderPool->valid()) {
+                    if ($this->ProviderPool->current()->isReady()) {
+                        $this->Provider = $this->ProviderPool->current();
+                        $readyProviderEntryKey = $this->ProviderPool->key();
+                    }
+                    $this->ProviderPool->next();
+                }
+
+                if ($this->Provider === null) {
+                    throw new Exceptions\ProviderNotReady();
+                }
+
+                $this->ProviderPool->select($readyProviderEntryKey);
+            }
+
+            return $this->Provider;
         }
 
     }

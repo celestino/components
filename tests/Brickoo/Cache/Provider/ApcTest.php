@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -109,6 +109,14 @@
         public function testFlush() {
             $Provider = new Apc();
             $this->assertSame($Provider, $Provider->flush());
+        }
+
+        /**
+         * @covers Brickoo\Cache\Provider\Apc::isReady
+         */
+        public function testIsReady() {
+            $Provider = new Apc();
+            $this->assertTrue($Provider->isReady());
         }
 
         /**

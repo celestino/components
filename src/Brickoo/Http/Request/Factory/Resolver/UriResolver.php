@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -52,11 +52,12 @@
         /**
          * Class constructor.
          * @param \Brickoo\Http\Message\Interfaces\Header $Header
+         * @param array $serverValues the server variables as key=>values pairs
          * @return void
          */
-        public function __construct(\Brickoo\Http\Message\Interfaces\Header $Header) {
+        public function __construct(\Brickoo\Http\Message\Interfaces\Header $Header, array $serverValues = null) {
             $this->Header = $Header;
-            $this->serverValues = $_SERVER;
+            $this->serverValues = $serverValues !== null ? $serverValues : $_SERVER;
         }
 
         /**
@@ -101,8 +102,22 @@
         }
 
         /**
-         * Returns the request request query string or one build from the $_GET paramater.
-         * @return the request query string
+         * Returns the request uri path.
+         * @return string the request uri path
+         */
+        public function getPath() {
+            if ((! $requestPath = $this->getServerVar("PATH_INFO"))
+                && (! $requestPath = $this->getIISRequestUri())
+            ){
+                $requestPath = $this->getServerVar("REQUEST_URI", "/");
+            }
+
+            return "/". trim(rawurldecode(parse_url($requestPath, PHP_URL_PATH)), "/");
+        }
+
+        /**
+         * Returns the request uri query string or one built from the $_GET paramater.
+         * @return string the request query string
          */
         public function getQueryString() {
             if (! $queryString = $this->getServerVar("QUERY_STRING")) {
@@ -117,39 +132,14 @@
         }
 
         /**
-         * Returns the request uri path.
-         * @return string the request uri path
+         * Returns the request uri fragment.
+         * Since the fragment is not sent to the server
+         * and using rewrite rules would be extracted,
+         * just return an empty string.
+         * @return string the uri fragment
          */
-        public function getPath() {
-            if (! $requestPath = $this->getIISRequestUri()) {
-                $requestPath = $this->getServerVar("REQUEST_URI");
-            }
-
-            return "/". trim(rawurldecode(parse_url($requestPath, PHP_URL_PATH)), "/");
-        }
-
-        /**
-         * Returns the uri path info.
-         * This is commonly used by having routes matching
-         * a concrete defined path which does not include
-         * the working directory and filename.
-         * @return the request uri path info
-         */
-        public function getPathInfo() {
-            if (! $pathInfo = $this->getServerVar("PATH_INFO")) {
-                $uriPath = $this->getPath();
-                $pathInfo = $uriPath;
-
-                if ($scriptName = $this->getServerVar("SCRIPT_FILENAME", $this->getServerVar("SCRIPT_NAME"))) {
-                    $scriptName = basename($scriptName);;
-                }
-
-                if (($position = strpos($uriPath, $scriptName)) !== false) {
-                    $pathInfo = substr($uriPath, ($position + strlen($scriptName)));
-                }
-            }
-
-            return "/". trim(rawurldecode($pathInfo), "/");
+        public function getFragment() {
+            return "";
         }
 
         /**

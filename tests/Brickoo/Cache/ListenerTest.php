@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -110,22 +110,28 @@
          * @covers Brickoo\Cache\Listener::handleCacheEventGetByCallback
          */
         public function testHandleCacheEventGetByCallback() {
-            $cacheIdentifier      = 'test';
-            $cacheCallback        = function(){ /*do nothing */ };
-            $callbackArguments    = array();
-            $cachedResponse       = 'cached test callback response';
+            $cacheIdentifier = "test";
+            $cacheCallback = function(){ /*do nothing */ };
+            $callbackArguments = array();
+            $lifetime = 60;
+            $cachedResponse = "cached test callback response";
 
             $CacheManager = $this->getMock('Brickoo\Cache\Interfaces\Manager');
             $CacheManager->expects($this->once())
-                         ->method('getByCallback')
-                         ->with($cacheIdentifier, $cacheCallback, $callbackArguments)
+                         ->method("getByCallback")
+                         ->with($cacheIdentifier, $cacheCallback, $callbackArguments, $lifetime)
                          ->will($this->returnValue($cachedResponse));
 
             $EventManager = $this->getMock('Brickoo\Event\Interfaces\Manager');
             $Event = new \Brickoo\Event\Event(
-                'test.event',
+                "test.event",
                 null,
-                array('id' => $cacheIdentifier, 'callback' => $cacheCallback, 'callbackArguments' => $callbackArguments)
+                array(
+                    "id" => $cacheIdentifier,
+                    "callback" => $cacheCallback,
+                    "callbackArguments" => $callbackArguments,
+                    "lifetime" => $lifetime
+                )
             );
 
             $Listener = new Listener($CacheManager);

@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -150,6 +150,14 @@
 
             $MemcacheProvider = new Memcache($Memcache);
             $this->assertSame($MemcacheProvider, $MemcacheProvider->flush());
+        }
+
+        /**
+         * @covers Brickoo\Cache\Provider\Memcache::isReady
+         */
+        public function testIsReady() {
+            $Memcache = new Memcache($this->getMock('Memcache'));
+            $this->assertTrue($Memcache->isReady());
         }
 
         /**

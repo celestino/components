@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -68,27 +68,27 @@
         public function attachListeners(\Brickoo\Event\Interfaces\Manager $EventManager) {
             $EventManager->attach(new EventListener(
                 Events::GET,
-                array($this, 'handleCacheEventGet'),
+                array($this, "handleCacheEventGet"),
                 $this->listenerPriority
             ));
             $EventManager->attach(new EventListener(
                 Events::CALLBACK,
-                array($this, 'handleCacheEventGetByCallback'),
+                array($this, "handleCacheEventGetByCallback"),
                 $this->listenerPriority
             ));
             $EventManager->attach(new EventListener(
                 Events::SET,
-                array($this, 'handleCacheEventSet'),
+                array($this, "handleCacheEventSet"),
                 $this->listenerPriority
             ));
             $EventManager->attach(new EventListener(
                 Events::DELETE,
-                array($this, 'handleCacheEventDelete'),
+                array($this, "handleCacheEventDelete"),
                 $this->listenerPriority
             ));
             $EventManager->attach(new EventListener(
                 Events::FLUSH,
-                array($this, 'handleCacheEventFlush'),
+                array($this, "handleCacheEventFlush"),
                 $this->listenerPriority
             ));
         }
@@ -100,8 +100,8 @@
          * @return mixed the event response otherwise null on failure
          */
         public function handleCacheEventGet(\Brickoo\Event\Interfaces\Event $Event, \Brickoo\Event\Interfaces\Manager $EventManager) {
-            if ($Event->hasParam('id')) {
-                return $this->CacheManager->get($Event->getParam('id'));
+            if ($Event->hasParam("id")) {
+                return $this->CacheManager->get($Event->getParam("id"));
             }
         }
 
@@ -113,9 +113,12 @@
          * @return mixed the event response otherwise null on failure
          */
         public function handleCacheEventGetByCallback(\Brickoo\Event\Interfaces\Event $Event, \Brickoo\Event\Interfaces\Manager $EventManager) {
-            if ($Event->hasParams('id', 'callback', 'callbackArguments')) {
+            if ($Event->hasParams("id", "callback", "callbackArguments", "lifetime")) {
                 return $this->CacheManager->getByCallback(
-                    $Event->getParam('id'), $Event->getParam('callback'), $Event->getParam('callbackArguments')
+                    $Event->getParam("id"),
+                    $Event->getParam("callback"),
+                    $Event->getParam("callbackArguments"),
+                    $Event->getParam("lifetime")
                 );
             }
         }
@@ -127,8 +130,8 @@
          * @return void
          */
         public function handleCacheEventSet(\Brickoo\Event\Interfaces\Event $Event, \Brickoo\Event\Interfaces\Manager $EventManager) {
-            if ($Event->hasParams('id', 'content', 'lifetime')) {
-                $this->CacheManager->set($Event->getParam('id'), $Event->getParam('content'), $Event->getParam('lifetime'));
+            if ($Event->hasParams("id", "content", "lifetime")) {
+                $this->CacheManager->set($Event->getParam("id"), $Event->getParam("content"), $Event->getParam("lifetime"));
             }
         }
 
@@ -139,8 +142,8 @@
          * @param \Brickoo\Event\Interfaces\Manager $EventManager
          */
         public function handleCacheEventDelete(\Brickoo\Event\Interfaces\Event $Event, \Brickoo\Event\Interfaces\Manager $EventManager) {
-            if ($Event->hasParam('id')) {
-                $this->CacheManager->delete($Event->getParam('id'));
+            if ($Event->hasParam("id")) {
+                $this->CacheManager->delete($Event->getParam("id"));
             }
         }
 

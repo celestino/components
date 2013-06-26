@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2012, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -61,11 +61,12 @@
          */
         public function testImportFromString() {
             $expectedQueryString = "param1=value1&param2=value2";
+            $uriString = "https://testcase.locahost/path/to/script.php?param1=value1&param2=value2#fragment1";
 
-            $urlString = "https://testcase.locahost/path/to/script.php?param1=value1&param2=value2";
-            $Uri = UriFactory::CreateFromString($urlString);
+            $Uri = UriFactory::CreateFromString($uriString);
             $this->assertInstanceOf('Brickoo\Http\Request\Interfaces\Query', ($Query = $Uri->getQuery()));
             $this->assertEquals($expectedQueryString, $Query->toString());
+            $this->assertEquals($uriString, $Uri->toString());
         }
 
         /**
