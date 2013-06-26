@@ -32,8 +32,6 @@
 
     namespace Brickoo\Routing\Matcher;
 
-    use Brickoo\Routing\Route\Interfaces\RegexGenerator;
-
     /**
      * HttpMatcher
      *
@@ -42,12 +40,6 @@
      */
 
     class HttpMatcher implements Interfaces\Matcher {
-
-        /**
-         * Holds the paramater key for the auto detected format.
-         * @var string
-         */
-        const FORMAT_PARAM_KEY = "_FORMAT_";
 
         /** @var \Brickoo\Http\Interfaces\Request */
         private $Request;

@@ -37,7 +37,8 @@
     /**
      * FileCollector
      *
-     * Implements a route collector base on files which must return a route collection.
+     * Implements a route collector based on one or many files
+     * which have to return a route collection.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

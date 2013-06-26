@@ -32,8 +32,6 @@
 
     namespace Brickoo\Routing\Route;
 
-    use Brickoo\Http\Session\Handler\CacheHandler;
-
     use Brickoo\Validator\Argument;
 
     /**
