@@ -81,7 +81,6 @@
 
             foreach ($fields as $field) {
                 if (preg_match("/(?<name>[^:]+): (?<value>.+)/m", $field, $match)) {
-                    $match["name"] = preg_replace("/(?<=^|[\x09\x20\x2D])./e", 'strtoupper("\0")', strtolower(trim($match["name"])));
                     $importedHeaders[$match["name"]] = trim($match["value"]);
                 }
             }
