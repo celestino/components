@@ -30,70 +30,26 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Config;
-
-    use Brickoo\Memory,
-        Brickoo\Validator\Argument;
+    namespace Brickoo\Config\Exceptions;
 
     /**
-     * Configuration
+     * ConstantAlreadyDefined
      *
-     * Implements a configuration to store and retrieve configuration values.
-     * Uses the \Brickoo\Memory\Container to store the configuration values.
-     * @see \Brickoo\Memory\Container
+     * Exception throwed if the configuration would have tried to define
+     * an existing constant with the conversion memthod.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Configuration extends Memory\Container implements Interfaces\Configuration {
-
-        /** @var \Brickoo\Config\Provider\Interfaces\Provider */
-        protected $Provider;
+    class ConstantAlreadyDefined extends \Exception {
 
         /**
          * Class constructor.
-         * @param \Brickoo\Config\Provider\Interfaces\Provider $Provider
+         * Calls the parent Exception constructor.
+         * @param string $definedConstant the already defined constant
          * @return void
          */
-        public function __construct(\Brickoo\Config\Provider\Interfaces\Provider $Provider) {
-            parent::__construct();
-            $this->Provider = $Provider;
-        }
-
-        /** {@inheritDoc} */
-        public function load() {
-            $this->fromArray($this->Provider->load());
-            return $this;
-        }
-
-        /** {@inheritDoc} */
-        public function save() {
-            $this->Provider->save($this->toArray());
-            return $this;
-        }
-
-        /** {@inheritDoc} */
-        public function convertToConstants($entry) {
-            Argument::IsString($entry);
-
-            if (($settings = $this->get($entry)) === null) {
-                throw new \UnexpectedValueException(sprintf("The entry `%s` does not exist.", $entry));
-            }
-
-            foreach($settings as $key => $value) {
-                if (! is_scalar($value)) {
-                    throw new \UnexpectedValueException(sprintf("The value of `%s[%s]` is not scalar.", $entry, $key));
-                }
-
-                $constKey = strtoupper($entry ."_". $key);
-
-                if (defined($constKey)) {
-                    throw new Exceptions\ConstantAlreadyDefined($constKey);
-                }
-
-                define($constKey, $value);
-            }
-
-            return $this;
+        public function __construct($definedConstant) {
+            parent::__construct(sprintf("The constant `%s` is already defined.", $definedConstant));
         }
 
     }

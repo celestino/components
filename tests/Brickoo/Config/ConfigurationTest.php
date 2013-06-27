@@ -50,23 +50,23 @@
             $this->assertInstanceOf('Brickoo\Config\Interfaces\Configuration',
                 ($Configuration = new Configuration($Provider))
             );
-            $this->assertAttributeSame($Provider, 'Provider', $Configuration);
+            $this->assertAttributeSame($Provider, "Provider", $Configuration);
         }
 
         /**
          * @covers Brickoo\Config\Configuration::load
          */
         public function testLoad() {
-            $expectedResult = array('Key' => 'Value');
+            $expectedResult = array("Key" => "Value");
 
             $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\Provider');
             $Provider->expects($this->once())
-                     ->method('load')
+                     ->method("load")
                      ->will($this->returnValue($expectedResult));
 
             $Configuration = new Configuration($Provider);
             $this->assertSame($Configuration,  $Configuration->load());
-            $this->assertAttributeEquals($expectedResult, 'container', $Configuration);
+            $this->assertAttributeEquals($expectedResult, "container", $Configuration);
         }
 
         /**
@@ -75,12 +75,12 @@
         public function testSave() {
             $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\Provider');
             $Provider->expects($this->once())
-                     ->method('save')
-                     ->with(array('key' => 'value'))
+                     ->method("save")
+                     ->with(array("key" => "value"))
                      ->will($this->returnSelf());
 
             $Configuration = new Configuration($Provider);
-            $Configuration->fromArray(array('key' => 'value'));
+            $Configuration->fromArray(array("key" => "value"));
             $this->assertSame($Configuration, $Configuration->save());
         }
 
@@ -89,14 +89,14 @@
          */
         public function testConvertSectionToConstants() {
             $config = array(
-                'SECTION1' => array('key1' => 'value1')
+                "SECTION1" => array("key1" => "value1")
             );
             $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\Provider');
             $Configuration = new Configuration($Provider);
             $Configuration->fromArray($config)
-                          ->convertToConstants('SECTION1');
+                          ->convertToConstants("SECTION1");
 
-            $this->assertEquals('value1', SECTION1_KEY1);
+            $this->assertEquals("value1", SECTION1_KEY1);
         }
 
         /**
@@ -106,7 +106,7 @@
         public function testConvertionWithNotAvailableSectionThrowsException() {
             $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\Provider');
             $Configuration = new Configuration($Provider);
-            $Configuration->convertToConstants('FAIL');
+            $Configuration->convertToConstants("FAIL");
         }
 
         /**
@@ -115,12 +115,29 @@
          */
         public function testConvertionWithNotScalarValuesThrowsException() {
             $config = array(
-                'SECTION1' => array('key1' => array('wrongValueType'))
+                "SECTION1" => array("key1" => array("wrongValueType"))
             );
             $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\Provider');
             $Configuration = new Configuration($Provider);
             $Configuration->fromArray($config);
-            $Configuration->convertToConstants('SECTION1');
+            $Configuration->convertToConstants("SECTION1");
+        }
+
+        /**
+         * @covers Brickoo\Config\Configuration::convertToConstants
+         * @expectedException Brickoo\Config\Exceptions\ConstantAlreadyDefined
+         */
+        public function testConvertionOfAnExistingConstantThrowsException() {
+            $existingConstant = strtoupper(uniqid("CONVERTION_FAILURE_"));
+            define("SECTION1_".$existingConstant, null);
+
+            $config = array(
+                "SECTION1" => array($existingConstant => "will not be defined")
+            );
+            $Provider = $this->getMock('Brickoo\Config\Provider\Interfaces\Provider');
+            $Configuration = new Configuration($Provider);
+            $Configuration->fromArray($config);
+            $Configuration->convertToConstants("SECTION1");
         }
 
     }
