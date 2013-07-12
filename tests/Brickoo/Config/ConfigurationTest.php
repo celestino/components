@@ -122,6 +122,7 @@
 
         /**
          * @covers Brickoo\Config\Configuration::convertToConstants
+         * @covers Brickoo\Config\Exceptions\ConstantAlreadyDefined
          * @expectedException Brickoo\Config\Exceptions\ConstantAlreadyDefined
          */
         public function testConvertionOfAnExistingConstantThrowsException() {
