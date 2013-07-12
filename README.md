@@ -14,14 +14,10 @@ Just copy the Brickoo source files to a location your application has read acces
 ###Testing
 Brickoo has been tested with PHPUnit 3.7.
 
-`phpunit -c /path/to/brickoo/tests/phpunit.xml`
-
-`phpunit -c /path/to/brickoo/tests/phpunit.xml --coverage-html  /path/to/coverage/directory`
-
 
 ###Contributing
 Brickoo is an open source project. If you would like to contribute to Brickoo, please take a look at the
-[Coding Standards](http://brickoo.com/coding-standards.html).
+[Coding Standards](http://brickoo.com/#coding_standards).
 
 
 ###Requests
@@ -30,4 +26,4 @@ Most of the implementations are strongly closed. This could be opened if the rea
 
 ###License
 The files in this archive are released under the new BSD license.
-You can find a copy of this license in the [LICENSE](http://brickoo.com/license.html) file included.
+You can find a copy of this [license](http://brickoo.com/#license) in the LICENSE file included.
