@@ -45,7 +45,7 @@
          * @covers Brickoo\Routing\Route\Executable::__construct
          */
         public function testConstructor() {
-            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
             $parameters = array('name' => 'test');
             $Executable = new Executable($Route, $parameters);
             $this->assertInstanceOf('Brickoo\Routing\Route\Interfaces\Executable', $Executable);
@@ -58,7 +58,7 @@
          * @covers Brickoo\Routing\Route\Executable::getRoute
          */
         public function testGetRoute() {
-            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
             $Executable = new Executable($Route);
             $this->assertSame($Route, $Executable->getRoute());
         }
@@ -69,7 +69,7 @@
         public function testGetParameters() {
             $expectedParameters = array('param' => 'the parameter value');
 
-            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
             $Executable = new Executable($Route, $expectedParameters);
             $this->assertEquals($expectedParameters, $Executable->getParameters());
         }
@@ -80,7 +80,7 @@
         public function testGetParameter() {
             $parameters = array('param' => 'the parameter value');
 
-            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
             $Executable = new Executable($Route, $parameters);
             $this->assertEquals($parameters['param'], $Executable->getParameter('param'));
         }
@@ -90,7 +90,7 @@
          * @expectedException InvalidArgumentException
          */
         public function testGetParameterThrowsInvalidArgumentException() {
-            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
             $Executable = new Executable($Route);
             $Executable->getParameter(array('wrongType'));
         }
@@ -101,7 +101,7 @@
          * @expectedException Brickoo\Routing\Route\Exceptions\ParameterNotAvailable
          */
         public function testGetParameterThrowsParameterNotAvailableException() {
-            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
             $Executable = new Executable($Route);
             $Executable->getParameter('not.available');
         }
@@ -112,7 +112,7 @@
         public function testHasParameter() {
             $parameters = array('param' => 'the parameter value');
 
-            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
             $Executable = new Executable($Route, $parameters);
             $this->assertFalse($Executable->hasParameter('nots.available'));
             $this->assertTrue($Executable->hasParameter('param'));
@@ -123,7 +123,7 @@
          * @expectedException InvalidArgumentException
          */
         public function testHasParameterThrowsInvalidArgumentException() {
-            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
             $Executable = new Executable($Route);
             $Executable->hasParameter(array('wrongType'));
         }
@@ -134,7 +134,7 @@
         public function testExecute() {
             require_once "Assets/ExecutableController.php";
 
-            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
             $Route->expects($this->once())
                   ->method('getController')
                   ->will($this->returnValue('\Tests\Brickoo\Routing\Route\Assets\ExecutableController'));
@@ -154,7 +154,7 @@
         public function testExecuteThrowsMultipleExecutionsException() {
             require_once "Assets/ExecutableController.php";
 
-            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
             $Route->expects($this->once())
                   ->method('getController')
                   ->will($this->returnValue('\Tests\Brickoo\Routing\Route\Assets\ExecutableController'));

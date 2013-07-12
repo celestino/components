@@ -43,13 +43,13 @@
 
         /**
          * Checks if the route matches the request.
-         * @param \Brickoo\Routing\Interfaces\Route $Route
+         * @param \Brickoo\Routing\Route\Interfaces\Route $Route
          * @return boolean check result
          */
-        public function matches(\Brickoo\Routing\Interfaces\Route $Route);
+        public function matches(\Brickoo\Routing\Route\Interfaces\Route $Route);
 
         /**
-         * Returns the dynamic request parameters defined as rules by the last matched route.
+         * Returns the expected request parameters defined as rules by the last matched route.
          * @return array the paramaters list as parameter/value pair
          */
         public function getParameters();

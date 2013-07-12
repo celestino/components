@@ -27,22 +27,22 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Tests\Brickoo\Routing;
+    namespace Tests\Brickoo\Routing\Route;
 
-    use Brickoo\Routing\Route;
+    use Brickoo\Routing\Route\Route;
 
     /**
      * RouteTest
      *
      * Test suite for the Route class.
-     * @see Brickoo\Routing\Route
+     * @see Brickoo\Routing\Route\Route
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
     class RouteTest extends \PHPUnit_Framework_TestCase {
 
         /**
-         * @covers Brickoo\Routing\Route::__construct
+         * @covers Brickoo\Routing\Route\Route::__construct
          */
         public function testConstructor() {
             $routeName = 'test.route';
@@ -51,29 +51,22 @@
             $routeAction = 'someAction';
             $routeRules = array('page' => '[a-z]');
             $routeDefaultValues = array('pageNumber' => 1);
-            $routeMethod = 'GET';
-            $routeScheme = 'http';
-            $routeHostname = 'localhost';
 
             $Route = new Route(
                 $routeName, $routePath, $routeController, $routeAction,
-                $routeRules, $routeDefaultValues,
-                $routeMethod, $routeScheme, $routeHostname
+                $routeRules, $routeDefaultValues
             );
-            $this->assertInstanceof('Brickoo\Routing\Interfaces\Route', $Route);
+            $this->assertInstanceof('Brickoo\Routing\Route\Interfaces\Route', $Route);
             $this->assertAttributeEquals($routeName, 'name', $Route);
             $this->assertAttributeEquals($routePath, 'path', $Route);
             $this->assertAttributeEquals($routeController, 'controller', $Route);
             $this->assertAttributeEquals($routeAction, 'action', $Route);
-            $this->assertAttributeEquals($routeMethod, 'method', $Route);
-            $this->assertAttributeEquals($routeScheme, 'scheme', $Route);
-            $this->assertAttributeEquals($routeHostname, 'hostname', $Route);
             $this->assertAttributeEquals($routeRules, 'rules', $Route);
             $this->assertAttributeEquals($routeDefaultValues, 'defaultValues', $Route);
         }
 
         /**
-         * @covers Brickoo\Routing\Route::getName
+         * @covers Brickoo\Routing\Route\Route::getName
          */
         public function testGeName() {
             $Route = $this->getRouteFixture();
@@ -81,7 +74,7 @@
         }
 
         /**
-         * @covers Brickoo\Routing\Route::getPath
+         * @covers Brickoo\Routing\Route\Route::getPath
          */
         public function testGetPath() {
             $Route = $this->getRouteFixture();
@@ -89,7 +82,7 @@
         }
 
         /**
-         * @covers Brickoo\Routing\Route::getController
+         * @covers Brickoo\Routing\Route\Route::getController
          */
         public function testGetController() {
             $Route = $this->getRouteFixture();
@@ -97,7 +90,7 @@
         }
 
         /**
-         * @covers Brickoo\Routing\Route::getAction
+         * @covers Brickoo\Routing\Route\Route::getAction
          */
         public function testGetAction() {
             $Route = $this->getRouteFixture();
@@ -105,31 +98,7 @@
         }
 
         /**
-         * @covers Brickoo\Routing\Route::getMethod
-         */
-        public function testGetMethod() {
-            $Route = $this->getRouteFixture();
-            $this->assertEquals('GET', $Route->getMethod());
-        }
-
-        /**
-         * @covers Brickoo\Routing\Route::getScheme
-         */
-        public function testGetScheme() {
-            $Route = $this->getRouteFixture();
-            $this->assertEquals('http', $Route->getScheme());
-        }
-
-        /**
-         * @covers Brickoo\Routing\Route::getHostname
-         */
-        public function testGetHostname() {
-            $Route = $this->getRouteFixture();
-            $this->assertEquals('localhost', $Route->getHostname());
-        }
-
-        /**
-         * @covers Brickoo\Routing\Route::getRules
+         * @covers Brickoo\Routing\Route\Route::getRules
          */
         public function testGetRules() {
             $expectedRules = array(
@@ -141,7 +110,7 @@
         }
 
         /**
-         * @covers Brickoo\Routing\Route::getRule
+         * @covers Brickoo\Routing\Route\Route::getRule
          */
         public function testGetRule() {
             $Route = $this->getRouteFixture();
@@ -150,7 +119,7 @@
         }
 
         /**
-         * @covers Brickoo\Routing\Route::getRule
+         * @covers Brickoo\Routing\Route\Route::getRule
          * @expectedException InvalidArgumentException
          */
         public function testGetRuleThrowsArgumentException() {
@@ -159,7 +128,7 @@
         }
 
         /**
-         * @covers Brickoo\Routing\Route::getRule
+         * @covers Brickoo\Routing\Route\Route::getRule
          * @expectedException UnexpectedValueException
          */
         public function testGetRuleThrowsUnexpectedException() {
@@ -168,7 +137,7 @@
         }
 
         /**
-         * @covers Brickoo\Routing\Route::hasRules
+         * @covers Brickoo\Routing\Route\Route::hasRules
          */
         public function testHasRules() {
             $Route = $this->getRouteFixture();
@@ -176,7 +145,7 @@
         }
 
         /**
-         * @covers Brickoo\Routing\Route::hasRule
+         * @covers Brickoo\Routing\Route\Route::hasRule
          */
         public function testHasRule() {
             $Route = $this->getRouteFixture();
@@ -186,7 +155,7 @@
         }
 
         /**
-         * @covers Brickoo\Routing\Route::hasRule
+         * @covers Brickoo\Routing\Route\Route::hasRule
          * @expectedException InvalidArgumentException
          */
         public function testHasRuleThrowsArgumentException() {
@@ -195,7 +164,7 @@
         }
 
         /**
-         * @covers Brickoo\Routing\Route::getDefaultValues
+         * @covers Brickoo\Routing\Route\Route::getDefaultValues
          */
         public function testGetDefaultValues() {
             $expectedResult = array('page' => 1);
@@ -204,7 +173,7 @@
         }
 
         /**
-         * @covers Brickoo\Routing\Route::getDefaultValue
+         * @covers Brickoo\Routing\Route\Route::getDefaultValue
          */
         public function testGetDefaultValue() {
             $Route = $this->getRouteFixture();
@@ -212,7 +181,7 @@
         }
 
         /**
-         * @covers Brickoo\Routing\Route::getDefaultValue
+         * @covers Brickoo\Routing\Route\Route::getDefaultValue
          * @expectedException InvalidArgumentException
          */
         public function testGetDefaultValueThrowsArgumentExpception() {
@@ -221,7 +190,7 @@
         }
 
         /**
-         * @covers Brickoo\Routing\Route::getDefaultValue
+         * @covers Brickoo\Routing\Route\Route::getDefaultValue
          * @expectedException UnexpectedValueException
          */
         public function testGetDefaultvalueThrowsUnexpectedValueException() {
@@ -230,7 +199,7 @@
         }
 
         /**
-         * @covers Brickoo\Routing\Route::hasDefaultValue
+         * @covers Brickoo\Routing\Route\Route::hasDefaultValue
          */
         public function testHasDefaultValue() {
             $Route = $this->getRouteFixture();
@@ -239,7 +208,7 @@
         }
 
         /**
-         * @covers Brickoo\Routing\Route::hasDefaultValue
+         * @covers Brickoo\Routing\Route\Route::hasDefaultValue
          * @expectedException InvalidArgumentException
          */
         public function testHasDefaultValueThrowsInvalidArgumentExcpetion() {
@@ -249,7 +218,7 @@
 
         /**
          * Returns a route fixture for the test cases.
-         * @return \Brickoo\Routing\Route
+         * @return \Brickoo\Routing\Route\Route
          */
         private function getRouteFixture() {
             return new Route(
@@ -261,10 +230,7 @@
                      'name' => '[\w\-]+',
                      'page' => '[0-9]+'
                  ),
-                 array('page' => 1),
-                'GET',
-                'http',
-                'localhost'
+                 array('page' => 1)
             );
         }
 

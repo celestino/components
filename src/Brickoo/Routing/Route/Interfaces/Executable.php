@@ -40,7 +40,7 @@
 
         /**
          * Returns the matched route.
-         * @return \Brickoo\Routing\Interfaces\Route
+         * @return \Brickoo\Routing\Route\Interfaces\Route
          */
         public function getRoute();
 

@@ -146,10 +146,10 @@
 
         /**
          * Returns a route complete configured fixture.
-         * @return \Brickoo\Routing\Interfaces\Route
+         * @return \Brickoo\Routing\Route\Interfaces\HttpRoute
          */
         private function getRouteFixture() {
-            return new \Brickoo\Routing\Route(
+            return new \Brickoo\Routing\Route\HttpRoute(
                 "articles", "/articles/{articleName}/{pageNumber}", "MyBlog", "displayArticle",
                 array("articleName" => "[\w\-]+", "pageNumber" => "[0-9]+"), array("pageNumber" => 1)
             );
@@ -157,10 +157,10 @@
 
         /**
          * Returns a restricted to GET requests route fixture.
-         * @return \Brickoo\Routing\Interfaces\Route
+         * @return \Brickoo\Routing\Route\Interfaces\HttpRoute
          */
         private function getRestrictedRouteFixture() {
-            return new \Brickoo\Routing\Route(
+            return new \Brickoo\Routing\Route\HttpRoute(
                 "articles", "/articles/{articleName}/{pageNumber}", "MyBlog", "displayArticle",
                 array("articleName" => "[\w\-]+", "pageNumber" => "[0-9]+"), array("pageNumber" => 1),
                 "GET"

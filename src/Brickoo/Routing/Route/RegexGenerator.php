@@ -33,6 +33,8 @@
      * RegexGenerator
      *
      * Implementation of a route regular expression generator.
+     * The path can be manipulated using the aliases to handle
+     * expected segments as an OR condition.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -51,7 +53,7 @@
         }
 
         /** {@inheritDoc} */
-        public function generatePathRegex(\Brickoo\Routing\Interfaces\Route $Route) {
+        public function generatePathRegex(\Brickoo\Routing\Route\Interfaces\Route $Route) {
             $routePath  = $this->getRoutePath($Route);
 
             if (preg_match_all("~(\{(?<parameters>[\w]+)\})~", $routePath, $matches)) {
@@ -63,10 +65,10 @@
 
         /**
          * Returns the route path contaning the aliases definitions if any given.
-         * @param \Brickoo\Routing\Interfaces\Route $Route
+         * @param \Brickoo\Routing\Route\Interfaces\Route $Route
          * @return string the modified route path containing the aliases
          */
-        private function getRoutePath(\Brickoo\Routing\Interfaces\Route $Route) {
+        private function getRoutePath(\Brickoo\Routing\Route\Interfaces\Route $Route) {
             $routePath = $Route->getPath();
 
             foreach ($this->aliases as $routeKey => $routeAlias) {
@@ -84,30 +86,32 @@
          * Replaces the route parameters with the rules defined.
          * @param string $regex the regular expression to modify
          * @param array $parameters the dynamic parameters of the route
-         * @param \Brickoo\Routing\Interfaces\Route $Route
+         * @param \Brickoo\Routing\Route\Interfaces\Route $Route
          * @return void
          */
-        private function replaceRoutePathWithRulesExpressions(&$routePath, array $parameters, \Brickoo\Routing\Interfaces\Route $Route) {
+        private function replaceRoutePathWithRulesExpressions(&$routePath, array $parameters, \Brickoo\Routing\Route\Interfaces\Route $Route) {
             foreach ($parameters as $parameterName) {
-                if ($Route->hasRule($parameterName)) {
-                    if (strpos($routePath, "/{". $parameterName ."}") !== false) {
-                        $routePath = str_replace("/{". $parameterName ."}",
-                            ($Route->hasDefaultValue($parameterName) ?
-                                "(/(?<". $parameterName .">(". $Route->getRule($parameterName) .")?))?" :
-                                "/(?<". $parameterName .">". $Route->getRule($parameterName) .")"
-                            ),
-                            $routePath
-                        );
-                    }
-                    else {
-                        $routePath = str_replace("{". $parameterName ."}",
-                            ($Route->hasDefaultValue($parameterName) ?
-                                "(?<". $parameterName .">(". $Route->getRule($parameterName) .")?)" :
-                                "(?<". $parameterName .">". $Route->getRule($parameterName) .")"
-                            ),
-                            $routePath
-                        );
-                    }
+                if (! $Route->hasRule($parameterName)) {
+                    continue;
+                }
+
+                if (strpos($routePath, "/{". $parameterName ."}") !== false) {
+                    $routePath = str_replace("/{". $parameterName ."}",
+                        ($Route->hasDefaultValue($parameterName) ?
+                            "(/(?<". $parameterName .">(". $Route->getRule($parameterName) .")?))?" :
+                            "/(?<". $parameterName .">". $Route->getRule($parameterName) .")"
+                        ),
+                        $routePath
+                    );
+                }
+                else {
+                    $routePath = str_replace("{". $parameterName ."}",
+                        ($Route->hasDefaultValue($parameterName) ?
+                            "(?<". $parameterName .">(". $Route->getRule($parameterName) .")?)" :
+                            "(?<". $parameterName .">". $Route->getRule($parameterName) .")"
+                        ),
+                        $routePath
+                    );
                 }
             }
         }

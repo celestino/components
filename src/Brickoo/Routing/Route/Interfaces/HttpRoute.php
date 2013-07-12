@@ -30,49 +30,30 @@
     namespace Brickoo\Routing\Route\Interfaces;
 
     /**
-     * Collection
+     * HttpRoute
      *
-     * Defines an iterable route collection providing available routes.
+     * Defines a http route for handling routeable requests.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface Collection extends \IteratorAggregate {
+    interface HttpRoute extends Route {
 
         /**
-        * Returns all containing routes.
-        * @return array the containing routes
-        */
-        public function getRoutes();
-
-        /**
-         * Adds routes to the current collection.
-         * @param array $routes the routes implementing \Brickoo\Routing\Route\Interfaces\Route to add
-         * @throws \Brickoo\Routing\Route\Exceptions\DuplicateRouteException if a route does already exist
-         * @return \Brickoo\Routing\Interfaces\RouteCollection
+         * Returns the http method(s) allowed listening to.
+         * @return string the http methods allowed as a regular expression
          */
-        public function addRoutes(array $routes);
+        public function getMethod();
 
         /**
-         * Checks if the collection contains routes.
-         * @return boolean check result
+         * Returns the hostname(s) allowed listening to.
+         * @return string the hostnames allowed as a regular expression
          */
-        public function hasRoutes();
+        public function getHostname();
 
         /**
-         * Returns the route matching the unique name.
-         * @param string $name the route to return
-         * @throws \InvalidArgumentException if an argument is invalid
-         * @throws \Brickoo\Routing\Route\Exceptions\RouteNotFound if the route is not available
-         * @return \Bricko\Routing\Route\Interfaces\Route
+         * Returns the scheme allowed listening to.
+         * @return string the scheme allowed as a regular expression
          */
-        public function getRoute($routeName);
-
-        /**
-         * Checks if the route is in the collection.
-         * @param string $name the route to check
-         * @throws \InvalidArgumentException if an argument is invalid
-         * @return boolean check result
-         */
-        public function hasRoute($routeName);
+        public function getScheme();
 
     }

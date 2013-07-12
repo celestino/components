@@ -71,10 +71,10 @@
 
         /**
          * Returns a route complete configured fixture.
-         * @return \Brickoo\Routing\Interfaces\Route
+         * @return \Brickoo\Routing\Route\Interfaces\Route
          */
         private function getRouteFixture() {
-            return new \Brickoo\Routing\Route(
+            return new \Brickoo\Routing\Route\Route(
                 "articles", "/articles/{articleName}/{pageNumber}{version}{format}", "MyBlog", "displayArticle",
                 array("articleName" => "[\w\-]+", "pageNumber" => "[0-9]+", "version" => "\.[0-9]+", "format" => "\.html|\.json"),
                 array("pageNumber" => 1, "format" => "html")

@@ -40,7 +40,7 @@
 
     class Executable implements Interfaces\Executable {
 
-        /** @var \Brickoo\Routing\Interfaces\Route */
+        /** @var \Brickoo\Routing\Route\Interfaces\Route */
         private $Route;
 
         /** @var array */
@@ -51,11 +51,11 @@
 
         /**
          * Class constructor.
-         * @param \Brickoo\Routing\Interfaces\Route $Route the matching request route
-         * @param array $parameters the paramaters extracted from the route
+         * @param \Brickoo\Routing\Route\Interfaces\Route $Route the matching request route
+         * @param array $parameters the paramaters extracted from the request
          * @return void
          */
-        public function __construct(\Brickoo\Routing\Interfaces\Route $Route, array $parameters = array()) {
+        public function __construct(\Brickoo\Routing\Route\Interfaces\Route $Route, array $parameters = array()) {
             $this->Route = $Route;
             $this->parameters = $parameters;
             $this->hasBeenExecuted = false;

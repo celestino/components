@@ -59,7 +59,7 @@
          * @covers Brickoo\Routing\Router::getRouteCollection
          */
         public function testGetRoute() {
-            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
 
             $RouteCollection = $this->getMock('Brickoo\Routing\Route\Interfaces\Collection');
             $RouteCollection->expects($this->any())
@@ -141,7 +141,7 @@
          * @covers Brickoo\Routing\Router::getExecutable
          */
         public function testGetExecutable() {
-            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
 
             $RouteCollection = $this->getMock('Brickoo\Routing\Route\Interfaces\Collection');
             $RouteCollection->expects($this->any())

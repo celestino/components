@@ -126,7 +126,7 @@
             $searchRecursively = false;
 
             $FileCollector = new FileCollector($routingPath, $routingFilename, $searchRecursively);
-            $RouteCollection = $FileCollector->collect();
+            $FileCollector->collect();
         }
 
         /**
@@ -141,7 +141,7 @@
             $searchRecursively = false;
 
             $FileCollector = new FileCollector($routingPath, $routingFilename, $searchRecursively);
-            $RouteCollection = $FileCollector->collect();
+            $FileCollector->collect();
         }
 
     }

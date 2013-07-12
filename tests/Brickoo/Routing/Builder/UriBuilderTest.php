@@ -162,7 +162,7 @@
                 array("page", true)
             );
 
-            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
             $Route->expects($this->any())
                   ->method("getName")
                   ->will($this->returnValue($routeName));
@@ -207,7 +207,7 @@
             $RegexGenerator = $this->getMock('Brickoo\Routing\Route\Interfaces\RegexGenerator');
             $RegexGenerator->expects($this->once())
                            ->method("generatePathRegex")
-                           ->with($this->isInstanceOf('Brickoo\Routing\Interfaces\Route'))
+                           ->with($this->isInstanceOf('Brickoo\Routing\Route\Interfaces\Route'))
                            ->will($this->returnValue("~^/articles/([a-zA-Z][\w\-]+)/([0-9]+)$~"));
 
             return $RegexGenerator;

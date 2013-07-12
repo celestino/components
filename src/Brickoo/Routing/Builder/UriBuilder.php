@@ -97,12 +97,12 @@
 
         /**
          * Returns the expected uri path to validate against the route path.
-         * @param \Brickoo\Routing\Interfaces\Route $Route
+         * @param \Brickoo\Routing\Route\Interfaces\Route $Route
          * @param array $pathParameters the path parameters to use
          * @throws Exceptions\RequiredParametersMissing if a required parameter is missing
          * @return string the uri path expected
          */
-        private function getExpectedRoutePath(\Brickoo\Routing\Interfaces\Route $Route, $pathParameters) {
+        private function getExpectedRoutePath(\Brickoo\Routing\Route\Interfaces\Route $Route, $pathParameters) {
             $routePath = $Route->getPath();
             $pathParameters = array_merge($pathParameters, $Route->getDefaultValues());
 

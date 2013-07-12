@@ -75,12 +75,12 @@
          * @covers Brickoo\Routing\Collector\EventCollector::getMergedRouteCollection
          */
         public function testCollectManyRouteCollections() {
-            $Route1 = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Route1 = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
             $Route1->expects($this->any())
                    ->method('getName')
                    ->will($this->returnValue('test.route.1'));
 
-            $Route2 = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Route2 = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
             $Route2->expects($this->any())
                    ->method('getName')
                    ->will($this->returnValue('test.route.2'));

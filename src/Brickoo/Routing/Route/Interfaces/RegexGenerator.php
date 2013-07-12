@@ -40,9 +40,9 @@
 
         /**
          * Returns a regular expression from the route to match a request path.
-         * @param \Brickoo\Routing\Interfaces\Route $Route
+         * @param \Brickoo\Routing\Route\Interfaces\Route $Route
          * @return string the regular expression for the route
          */
-        public function generatePathRegex(\Brickoo\Routing\Interfaces\Route $Route);
+        public function generatePathRegex(\Brickoo\Routing\Route\Interfaces\Route $Route);
 
     }

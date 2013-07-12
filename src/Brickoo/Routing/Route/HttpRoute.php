@@ -32,71 +32,64 @@
     use Brickoo\Validator\Argument;
 
     /**
-     * Collection
+     * HttpRoute
      *
-     * Implements an iterable route collection providing available routes.
+     * Implents a http route which can be configured to match http requests.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Collection implements Interfaces\Collection {
+    class HttpRoute extends Route implements Interfaces\HttpRoute {
 
-        /** @var array */
-        private $routes;
+        /** @var string */
+        private $method;
 
-        /**
-         * Class constructor.
-         * @param array $routes the routes to add to the collection
-         * @return void
-         */
-        public function __construct(array $routes = array()) {
-            $this->routes = $routes;
-        }
+        /** @var string */
+        private $scheme;
 
-        /** {@inheritDoc} */
-        public function getRoutes() {
-            return $this->routes;
-        }
-
-        /** {@inheritDoc} */
-        public function addRoutes(array $routes) {
-            foreach ($routes as $Route) {
-                if ($this->hasRoute(($routeName = $Route->getName()))) {
-                    throw new Exceptions\DuplicateRoute($routeName);
-                }
-                $this->routes[$routeName] = $Route;
-            }
-            return $this;
-        }
-
-        /** {@inheritDoc} */
-        public function hasRoutes() {
-            return (! empty($this->routes));
-        }
-
-        /** {@inheritDoc} */
-        public function getRoute($routeName) {
-            Argument::IsString($routeName);
-
-            if (! $this->hasRoute($routeName)) {
-                throw new Exceptions\RouteNotFound($routeName);
-            }
-
-            return $this->routes[$routeName];
-        }
-
-        /** {@inheritDoc} */
-        public function hasRoute($routeName) {
-            Argument::IsString($routeName);
-            return isset($this->routes[$routeName]);
-        }
+        /** @var string */
+        private $hostname;
 
         /**
-         * {@inheritDoc}
-         * @see IteratorAggregate::getIterator()
-         * @return \ArrayIterator
-         */
-        public function getIterator() {
-            return new \ArrayIterator($this->getRoutes());
+        * Class constructor.
+        * @param string $name the unique route name.
+        * @return void
+        */
+        public function __construct(
+            $name, $path, $controller, $action,
+            array $rules = array(), array $defaultValues = array(),
+            $method = ".*", $scheme = ".*", $hostname = ".*"
+        ){
+            Argument::IsString($name);
+            Argument::IsString($path);
+            Argument::IsString($controller);
+            Argument::IsString($action);
+            Argument::IsString($method);
+            Argument::IsString($scheme);
+
+            $this->name = $name;
+            $this->path = $path;
+            $this->controller = $controller;
+            $this->action = $action;
+            $this->method = $method;
+            $this->scheme = $scheme;
+            $this->hostname = $hostname;
+            $this->rules = $rules;
+            $this->defaultValues = $defaultValues;
+        }
+
+        /** {@inheritDoc} */
+        public function getMethod() {
+            return $this->method;
+        }
+
+        /** {@inheritDoc} */
+        public function getScheme() {
+            return $this->scheme;
+        }
+
+        /** {@inheritDoc} */
+        public function getHostname() {
+            return $this->hostname;
         }
 
     }

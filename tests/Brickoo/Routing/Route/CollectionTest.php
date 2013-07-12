@@ -56,7 +56,7 @@
          * @covers Brickoo\Routing\Route\Collection::addRoutes
          */
         public function testAddingRoutes() {
-            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
             $Route->expects($this->any())
                   ->method('getName')
                   ->will($this->returnValue('test.route'));
@@ -73,7 +73,7 @@
          * @expectedException Brickoo\Routing\Route\Exceptions\DuplicateRoute
          */
         public function testAddingDuplicatedRoutesThrowsAnException() {
-            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
             $Route->expects($this->any())
                   ->method('getName')
                   ->will($this->returnValue('test.route'));
@@ -87,7 +87,7 @@
          */
         public function testGetRoutes() {
             $expectedRoutes = array(
-                'test.route' => $this->getMock('Brickoo\Routing\Interfaces\Route')
+                'test.route' => $this->getMock('Brickoo\Routing\Route\Interfaces\Route')
             );
             $Collection = new Collection($expectedRoutes);
             $this->assertAttributeSame($expectedRoutes, 'routes', $Collection);
@@ -101,7 +101,7 @@
             $Collection = new Collection();
             $this->assertFalse($Collection->hasRoutes());
 
-            $Collection = new Collection(array('test.route' => $this->getMock('Brickoo\Routing\Interfaces\Route')));
+            $Collection = new Collection(array('test.route' => $this->getMock('Brickoo\Routing\Route\Interfaces\Route')));
             $this->assertTrue($Collection->hasRoutes());
         }
 
@@ -109,7 +109,7 @@
          * @covers Brickoo\Routing\Route\Collection::getRoute
          */
         public function testGetRoute(){
-            $expectedRoute = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $expectedRoute = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
             $Collection = new Collection(array('test.route' => $expectedRoute));
             $this->assertSame($expectedRoute, $Collection->getRoute('test.route'));
         }
@@ -154,7 +154,7 @@
          * @covers Brickoo\Routing\Route\Collection::getIterator
          */
         public function testGetIterator() {
-            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
             $Collection = new Collection(array($Route));
             $Container = $Collection->getIterator();
             $this->assertInstanceOf('Traversable', $Container);
