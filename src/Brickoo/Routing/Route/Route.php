@@ -59,10 +59,15 @@
         protected $rules;
 
         /**
-        * Class constructor.
-        * @param string $name the unique route name.
-        * @return void
-        */
+         * Class constructor.
+         * @param string $name
+         * @param string $path
+         * @param string $controller
+         * @param string $action
+         * @param array $rules
+         * @param array $defaultValues
+         * @return void
+         */
         public function __construct(
             $name, $path, $controller, $action,
             array $rules = array(), array $defaultValues = array()
