@@ -34,7 +34,7 @@
     /**
      * Collection
      *
-     * Implements a route collection containing route objects.
+     * Implements an iterable route collection providing available routes.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

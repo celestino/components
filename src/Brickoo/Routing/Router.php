@@ -34,8 +34,10 @@
     /**
      * Router
      *
-     * Router which can return the request corresponding executable route
-     * and any route available in the collection.
+     * Router which can return the request matching executable route
+     * and any route available based on the unique name
+     * For collecting the availables routes a collector is used
+     * which does provide the available routes as collection.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

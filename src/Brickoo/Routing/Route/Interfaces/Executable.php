@@ -32,7 +32,7 @@
     /**
      * Executable
      *
-     * Defines a route responsible for the request and can be executed.
+     * Defines an executable route containing the responsible route.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

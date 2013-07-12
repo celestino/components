@@ -34,7 +34,7 @@
     /**
      * Executable
      *
-     * Implementation of a request responsible route which can be executed.
+     * Implementation of an executable route containing the responsible route.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

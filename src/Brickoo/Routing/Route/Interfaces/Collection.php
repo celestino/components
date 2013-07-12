@@ -32,7 +32,7 @@
     /**
      * Collection
      *
-     * Defines a collection of route objects.
+     * Defines an iterable route collection providing available routes.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 

@@ -53,7 +53,7 @@
         /**
          * Class constructor
          * @param \Brickoo\Http\Interfaces\Request $Request
-         * @param array $aliases the route aliases as key/alias pairs
+         * @param \Brickoo\Routing\Route\Interfaces\RegexGenerator $RegexGenerator
          * @return void
          */
         public function __construct(

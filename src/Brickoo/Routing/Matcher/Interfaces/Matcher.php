@@ -34,8 +34,8 @@
      *
      * Defines a route matcher for a request.
      * If the responsible route is found, the route rules paramaters
-     * can be retrieved otherwise trying to retrieve the parameters
-     * first must end in an execption.
+     * can be retrieved. Otherwise trying to retrieve the parameters
+     * first must end in an exception.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
