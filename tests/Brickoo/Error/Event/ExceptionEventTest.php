@@ -47,7 +47,7 @@
         public function testContructor() {
             $Exception = new \Exception("Some test exception.");
 
-            $expectedParameters = array("Exception" => $Exception);
+            $expectedParameters = array(ExceptionEvent::PARAM_EXCEPTION => $Exception);
 
             $ExceptionEvent = new ExceptionEvent($Exception);
             $this->assertInstanceOf('Brickoo\Event\Interfaces\Event', $ExceptionEvent);

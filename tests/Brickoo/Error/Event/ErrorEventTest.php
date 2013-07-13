@@ -49,8 +49,8 @@
             $errorStacktrace = "Somefile.php on line 10.";
 
             $expectedParameters = array(
-                "errorMessage" => $errorMessage,
-                "errorStacktrace" => $errorStacktrace
+                ErrorEvent::PARAM_ERROR_MESSAGE => $errorMessage,
+                ErrorEvent::PARAM_ERROR_STACKTRACE => $errorStacktrace
             );
 
             $ErrorEvent = new ErrorEvent($errorMessage, $errorStacktrace);

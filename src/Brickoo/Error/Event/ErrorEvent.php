@@ -41,6 +41,13 @@
     class ErrorEvent extends \Brickoo\Event\Event implements Interfaces\ErrorEvent {
 
         /**
+         * Error event parameters.
+         * @var string
+         */
+        const PARAM_ERROR_MESSAGE = "errorMessage";
+        const PARAM_ERROR_STACKTRACE = "errorStacktrace";
+
+        /**
          * Class constructor.
          * Calls the parent constructor.
          * @param string $errorMessage
@@ -50,10 +57,10 @@
         public function __construct($errorMessage, $errorStacktrace = null) {
             Argument::IsString($errorMessage);
 
-            $parameters = array("errorMessage" => $errorMessage);
+            $parameters = array(self::PARAM_ERROR_MESSAGE => $errorMessage);
 
             if ($errorStacktrace !== null && Argument::IsString($errorStacktrace)) {
-                $parameters["errorStacktrace"] = $errorStacktrace;
+                $parameters[self::PARAM_ERROR_STACKTRACE] = $errorStacktrace;
             }
 
             parent::__construct(\Brickoo\Error\Events::ERROR, null, $parameters);
@@ -61,12 +68,12 @@
 
         /** {@inheritDoc} */
         public function getErrorMessage() {
-            return $this->getParam("errorMessage");
+            return $this->getParam(self::PARAM_ERROR_MESSAGE);
         }
 
         /** {@inheritDoc} */
         public function getErrorStacktrace() {
-            return $this->getParam("errorStacktrace");
+            return $this->getParam(self::PARAM_ERROR_STACKTRACE);
         }
 
     }
