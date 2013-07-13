@@ -73,30 +73,31 @@
          */
         public function testIteration() {
             $poolEntries = array(
-                ($mok_1 = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider')),
-                ($mok_2 = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider')),
-                ($mok_3 = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider'))
+                "mock_0" => ($mock_0 = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider')),
+                "mock_1" => ($mock_1 = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider')),
+                "mock_2" => ($mock_2 = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider'))
             );
             $ProviderPool = new ProviderPool($poolEntries);
             $this->assertTrue($ProviderPool->valid());
-            $this->assertEquals(0, $ProviderPool->key());
-            $this->assertSame($mok_1, $ProviderPool->current());
+            $this->assertEquals("mock_0", $ProviderPool->key());
+            $this->assertSame($mock_0, $ProviderPool->current());
 
             $ProviderPool->next();
             $this->assertTrue($ProviderPool->valid());
-            $this->assertEquals(1, $ProviderPool->key());
-            $this->assertSame($mok_2, $ProviderPool->current());
+            $this->assertEquals("mock_1", $ProviderPool->key());
+            $this->assertSame($mock_1, $ProviderPool->current());
 
             $ProviderPool->next();
             $this->assertTrue($ProviderPool->valid());
-            $this->assertEquals(2, $ProviderPool->key());
-            $this->assertSame($mok_3, $ProviderPool->current());
+            $this->assertEquals("mock_2", $ProviderPool->key());
+            $this->assertSame($mock_2, $ProviderPool->current());
 
             $ProviderPool->next();
             $this->assertFalse($ProviderPool->valid());
+            $this->assertEquals(3, $ProviderPool->key());
 
             $ProviderPool->rewind();
-            $this->assertEquals(0, $ProviderPool->key());
+            $this->assertEquals("mock_0", $ProviderPool->key());
         }
 
         /**

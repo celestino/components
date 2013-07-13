@@ -41,7 +41,7 @@
 
     class ProviderPool implements Interfaces\ProviderPool {
 
-        /** @var array of type \Brickoo\Cache\Provider\Interfaces\Provider */
+        /** @var array containing entries of type \Brickoo\Cache\Provider\Interfaces\Provider */
         private $poolEntries;
 
         /** @var array */
@@ -82,25 +82,28 @@
          * @return integer the current key
          */
         public function key() {
-            return $this->mappingKeys[$this->currentKey];
+            if (isset($this->mappingKeys[$this->currentKey])) {
+                return $this->mappingKeys[$this->currentKey];
+            }
+            return $this->currentKey;
         }
 
-        /** {@inheritDoc}*/
+        /** {@inheritDoc} */
         public function next() {
             $this->currentKey++;
         }
 
-        /** {@inheritDoc}*/
+        /** {@inheritDoc} */
         public function rewind() {
             $this->currentKey = 0;
         }
 
-        /** {@inheritDoc}*/
+        /** {@inheritDoc} */
         public function valid() {
             return isset($this->poolEntries[$this->currentKey]);
         }
 
-        /** {@inheritDoc}*/
+        /** {@inheritDoc} */
         public function select($entryKey) {
             Argument::IsStringOrInteger($entryKey);
 
@@ -112,18 +115,18 @@
             return $this;
         }
 
-        /** {@inheritDoc}*/
+        /** {@inheritDoc} */
         public function has($entryKey) {
             Argument::IsStringOrInteger($entryKey);
             return in_array($entryKey, $this->mappingKeys, true);
         }
 
-        /** {@inheritDoc}*/
+        /** {@inheritDoc} */
         public function isEmpty() {
             return empty($this->poolEntries);
         }
 
-        /** {@inheritDoc}*/
+        /** {@inheritDoc} */
         public function count(){
             return count($this->poolEntries);
         }
