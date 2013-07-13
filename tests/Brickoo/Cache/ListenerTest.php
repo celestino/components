@@ -85,7 +85,7 @@
                          ->will($this->returnValue($cachedResponse));
 
             $EventManager = $this->getMock('Brickoo\Event\Interfaces\Manager');
-            $Event = new \Brickoo\Event\Event('test.event', null, array('id' => $cacheIdentifier));
+            $Event = new \Brickoo\Event\Event('test.event', null, array(Listener::PARAM_IDENTIFIER => $cacheIdentifier));
 
             $Listener = new Listener($CacheManager);
             $this->assertEquals($cachedResponse, $Listener->handleCacheEventGet($Event, $EventManager));
@@ -124,10 +124,10 @@
                 "test.event",
                 null,
                 array(
-                    "id" => $cacheIdentifier,
-                    "callback" => $cacheCallback,
-                    "callbackArguments" => $callbackArguments,
-                    "lifetime" => $lifetime
+                    Listener::PARAM_IDENTIFIER => $cacheIdentifier,
+                    Listener::PARAM_CALLBACK => $cacheCallback,
+                    Listener::PARAM_CALLBACK_ARGS => $callbackArguments,
+                    Listener::PARAM_LIFETIME => $lifetime
                 )
             );
 
@@ -141,7 +141,7 @@
         public function testHandleCacheEventGetByCallbackReturnsNull() {
             $CacheManager = $this->getMock('Brickoo\Cache\Interfaces\Manager');
             $EventManager = $this->getMock('Brickoo\Event\Interfaces\Manager');
-            $Event = new \Brickoo\Event\Event('test.event', null, array('missed identifier, callback andcallback arguments'));
+            $Event = new \Brickoo\Event\Event('test.event', null, array('missed identifier, callback and callback arguments'));
 
             $Listener = new Listener($CacheManager);
             $this->assertNull($Listener->handleCacheEventGetByCallback($Event, $EventManager));
@@ -165,7 +165,11 @@
             $Event = new \Brickoo\Event\Event(
                 'test.event',
                 null,
-                array('id' => $cacheIdentifier, 'content' => $content, 'lifetime' => $cacheLifetime)
+                array(
+                    Listener::PARAM_IDENTIFIER => $cacheIdentifier,
+                    Listener::PARAM_CONTENT => $content,
+                    Listener::PARAM_LIFETIME => $cacheLifetime
+                )
             );
 
             $Listener = new Listener($CacheManager);
@@ -185,7 +189,7 @@
                          ->will($this->returnSelf());
 
             $EventManager = $this->getMock('Brickoo\Event\Interfaces\Manager');
-            $Event = new \Brickoo\Event\Event('test.event', null, array('id' => $cacheIdentifier));
+            $Event = new \Brickoo\Event\Event('test.event', null, array(Listener::PARAM_IDENTIFIER => $cacheIdentifier));
 
             $Listener = new Listener($CacheManager);
             $this->assertNull($Listener->handleCacheEventDelete($Event, $EventManager));
