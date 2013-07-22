@@ -1,7 +1,6 @@
 
 ##Brickoo [![Build Status](https://secure.travis-ci.org/brickoo/brickoo.png?branch=master)](http://travis-ci.org/brickoo/brickoo)
-Brickoo is a PHP framework which focus on simplicity of highly flexible components having contracts as basis for the implementations. Brickoo has been developed in strict mode.
-
+Brickoo focus on simplicity of highly flexible components having well defined interfaces for customization.
 
 ###Requirements
 PHP 5.3.3 or any later version required.
