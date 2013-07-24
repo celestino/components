@@ -32,17 +32,16 @@
     /**
      * Collector
      *
-     * Defines a route collector returning a route collection.
+     * Defines a route collector for iterable route collections.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface Collector {
+    interface Collector extends \IteratorAggregate {
 
         /**
-         * Collects and returns the available routes.
-         * @throws \Brickoo\Routing\Collector\Exceptions\RoutesNotAvailable if no routes could be found
-         * @throws \Brickoo\Routing\Collector\Exceptions\RouteCollectionExpected if search results does not match expectation
-         * @return \Brickoo\Routing\Route\Interfaces\Collection
+         * Collects the routing routes.
+         * @throws \Brickoo\Routing\Collector\Exceptions\RoutesNotAvailable if no routes could be collected
+         * @return \Brickoo\Routing\Collector\Interfaces\Collector
          */
         public function collect();
 

@@ -30,7 +30,6 @@
     namespace Brickoo\Routing\Collector;
 
     use Brickoo\Event\Event,
-        Brickoo\Routing\Route\Collection,
         Brickoo\Routing\Events;
 
     /**
@@ -45,6 +44,9 @@
         /** @var \Brickoo\Event\Interfaces\Manager */
         private $EventManager;
 
+        /** @var array */
+        private $collections;
+
         /**
          * Class constructor.
          * @param \Brickoo\Event\Interfaces\Manager $EventManager
@@ -52,6 +54,7 @@
          */
         public function __construct(\Brickoo\Event\Interfaces\Manager $EventManager) {
             $this->EventManager = $EventManager;
+            $this->collections = array();
         }
 
         /** {@inheritDoc} */
@@ -62,43 +65,34 @@
                 throw new Exceptions\RoutesNotAvailable();
             }
 
-            return $this->getRouteCollection($EventResponseCollection);
-        }
-
-        /**
-         * Returns one route collection containing all collected routes.
-         * @param \Brickoo\Event\Response\Interfaces\Collection $EventResponseCollection
-         * @throws \Brickoo\Routing\Collector\Exceptions\RouteCollectionExpected
-         * @return \Brickoo\Routing\Route\Interfaces\Collection
-         */
-        private function getRouteCollection(\Brickoo\Event\Response\Interfaces\Collection $EventResponseCollection) {
-            if (count($EventResponseCollection) == 1) {
-                if (! ($RouteCollection = $EventResponseCollection->shift()) instanceof \Brickoo\Routing\Route\Interfaces\Collection) {
-                    throw new Exceptions\RouteCollectionExpected($RouteCollection);
-                }
-                return $RouteCollection;
+            $this->extractRouteCollections($EventResponseCollection);
+            if (empty($this->collections)) {
+                throw new Exceptions\RoutesNotAvailable();
             }
 
-            return $this->getMergedRouteCollection($EventResponseCollection);
+            return $this;
         }
 
         /**
-         * Merges collections to one collection containing all routes.
-         * @param \Brickoo\Event\Response\Interfaces\Collection $EventResponseCollection
-         * @throws \Brickoo\Routing\Collector\Exceptions\RouteCollectionExpected
-         * @return \Brickoo\Routing\Route\Interfaces\Collection
+         * {@inheritDoc}
+         * @see IteratorAggregate::getIterator()
+         * @return \ArrayIterator containing the route collections
          */
-        private function getMergedRouteCollection(\Brickoo\Event\Response\Interfaces\Collection $EventResponseCollection) {
-            $MergedRouteCollection = new Collection();
+        public function getIterator() {
+            return new \ArrayIterator($this->collections);
+        }
 
+        /**
+         * Extracts collected route collections from the event response.
+         * @param \Brickoo\Event\Response\Interfaces\Collection $EventResponseCollection
+         * @return void
+         */
+        private function extractRouteCollections(\Brickoo\Event\Response\Interfaces\Collection $EventResponseCollection) {
             while (! $EventResponseCollection->isEmpty()) {
-                if (! ($RouteCollection = $EventResponseCollection->shift()) instanceof \Brickoo\Routing\Route\Interfaces\Collection) {
-                    throw new Exceptions\RouteCollectionExpected($RouteCollection);
+                if (($RouteCollection = $EventResponseCollection->shift()) instanceof \Brickoo\Routing\Route\Interfaces\Collection) {
+                    $this->collections[] = $RouteCollection;
                 }
-                $MergedRouteCollection->addRoutes($RouteCollection->getRoutes());
             }
-
-            return $MergedRouteCollection;
         }
 
     }

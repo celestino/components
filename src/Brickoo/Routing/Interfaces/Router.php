@@ -41,20 +41,22 @@
 
         /**
          * Returns the route having the given unique name.
-         * @param string $routeName the route unqiue name
-         * @throws \InvalidArgumentException if the argument is not valid
+         * @param string $routeName the route unique name
+         * @param string $collectionName the route collections name
+         * @throws \InvalidArgumentException if an argument is not valid
          * @throws \Brickoo\Routing\Route\Exceptions\RouteNotFound if the route is not available
          * @return \Brickoo\Routing\Interfaces\Route
          */
-        public function getRoute($routeName);
+        public function getRoute($routeName, $collectionName = null);
 
         /**
          * Checks if the route is available.
          * @param string $routeName the route unique name
+         * @param string $collectionName the route collections name
          * @throws \InvalidArgumentException if the argument is not valid
          * @return boolean check result
          */
-        public function hasRoute($routeName);
+        public function hasRoute($routeName, $collectionName = null);
 
         /**
          * Returns the request matching executable route.

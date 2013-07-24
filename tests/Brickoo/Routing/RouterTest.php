@@ -56,9 +56,9 @@
 
         /**
          * @covers Brickoo\Routing\Router::getRoute
-         * @covers Brickoo\Routing\Router::getRouteCollection
+         * @covers Brickoo\Routing\Router::getCollectorIterator
          */
-        public function testGetRoute() {
+        public function testGetRouteWithoutCollectionName() {
             $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
 
             $RouteCollection = $this->getMock('Brickoo\Routing\Route\Interfaces\Collection');
@@ -79,7 +79,38 @@
 
         /**
          * @covers Brickoo\Routing\Router::getRoute
-         * @covers Brickoo\Routing\Router::getRouteCollection
+         * @covers Brickoo\Routing\Router::getCollectorIterator
+         */
+        public function testGetRouteWithCollectionName() {
+            $collectionName = "unit-test-collection";
+
+            $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
+
+            $RouteCollection = $this->getMock('Brickoo\Routing\Route\Interfaces\Collection');
+            $RouteCollection->expects($this->any())
+                            ->method('hasName')
+                            ->will($this->returnValue(true));
+            $RouteCollection->expects($this->any())
+                            ->method('getName')
+                            ->will($this->returnValue($collectionName));
+            $RouteCollection->expects($this->any())
+                            ->method('hasRoute')
+                            ->with('unit.test.route')
+                            ->will($this->returnValue(true));
+            $RouteCollection->expects($this->any())
+                            ->method('getRoute')
+                            ->with('unit.test.route')
+                            ->will($this->returnValue($Route));
+
+            $Matcher = $this->getMock('Brickoo\Routing\Matcher\Interfaces\Matcher');
+
+            $Router = new Router($this->getCollectorStub($RouteCollection), $Matcher);
+            $this->assertSame($Route, $Router->getRoute('unit.test.route', $collectionName));
+        }
+
+        /**
+         * @covers Brickoo\Routing\Router::getRoute
+         * @covers Brickoo\Routing\Router::getCollectorIterator
          * @covers Brickoo\Routing\Route\Exceptions\RouteNotFound
          * @expectedException Brickoo\Routing\Route\Exceptions\RouteNotFound
          */
@@ -110,19 +141,56 @@
 
         /**
          * @covers Brickoo\Routing\Router::hasRoute
-         * @covers Brickoo\Routing\Router::getRouteCollection
+         * @covers Brickoo\Routing\Router::getCollectorIterator
          */
-        public function testHasRoute() {
+        public function testHasRouteWithoutCollectionName() {
+            $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
+
             $RouteCollection = $this->getMock('Brickoo\Routing\Route\Interfaces\Collection');
             $RouteCollection->expects($this->any())
                             ->method('hasRoute')
                             ->will($this->onConsecutiveCalls(true, false));
+            $RouteCollection->expects($this->any())
+                            ->method('getRoute')
+                            ->with('unit.test.route')
+                            ->will($this->returnValue($Route));
 
             $Matcher = $this->getMock('Brickoo\Routing\Matcher\Interfaces\Matcher');
 
             $Router = new Router($this->getCollectorStub($RouteCollection), $Matcher);
             $this->assertTrue($Router->hasRoute('unit.test.route'));
             $this->assertFalse($Router->hasRoute('route.does.not.exist'));
+        }
+
+        /**
+         * @covers Brickoo\Routing\Router::hasRoute
+         * @covers Brickoo\Routing\Router::getCollectorIterator
+         */
+        public function testHasRouteWithCollectionName() {
+            $collectionName = "unit-test-collection";
+
+            $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
+
+            $RouteCollection = $this->getMock('Brickoo\Routing\Route\Interfaces\Collection');
+            $RouteCollection->expects($this->any())
+                            ->method('hasName')
+                            ->will($this->returnValue(true));
+            $RouteCollection->expects($this->any())
+                            ->method('getName')
+                            ->will($this->returnValue($collectionName));
+            $RouteCollection->expects($this->any())
+                            ->method('hasRoute')
+                            ->will($this->onConsecutiveCalls(true, false));
+            $RouteCollection->expects($this->any())
+                            ->method('getRoute')
+                            ->with('unit.test.route')
+                            ->will($this->returnValue($Route));
+
+            $Matcher = $this->getMock('Brickoo\Routing\Matcher\Interfaces\Matcher');
+
+            $Router = new Router($this->getCollectorStub($RouteCollection), $Matcher);
+            $this->assertTrue($Router->hasRoute('unit.test.route', $collectionName));
+            $this->assertFalse($Router->hasRoute('route.does.not.exist', $collectionName));
         }
 
         /**
@@ -144,6 +212,9 @@
             $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
 
             $RouteCollection = $this->getMock('Brickoo\Routing\Route\Interfaces\Collection');
+            $RouteCollection->expects($this->any())
+                            ->method('hasPath')
+                            ->will($this->returnValue(false));
             $RouteCollection->expects($this->any())
                             ->method('getRoutes')
                             ->will($this->returnValue(array($Route)));
@@ -170,15 +241,18 @@
         }
 
         /**
-         * Stub creator for the route search dependency.
+         * Stub creator for the route collector dependency.
          * @param \Brickoo\Routing\Route\Interfaces\Collection $RouteCollection the route collection to return by the search
          * @return \Brickoo\Routing\Route\Interfaces\Collector
          */
         private function getCollectorStub($RouteCollection) {
             $CollectorStub = $this->getMock('Brickoo\Routing\Collector\Interfaces\Collector');
             $CollectorStub->expects($this->any())
-                       ->method('collect')
-                       ->will($this->returnValue($RouteCollection));
+                          ->method("collect")
+                          ->will($this->returnValue($CollectorStub));
+            $CollectorStub->expects($this->any())
+                          ->method("getIterator")
+                          ->will($this->returnValue(new \ArrayIterator(array($RouteCollection))));
             return $CollectorStub;
         }
 
@@ -190,12 +264,15 @@
         private function getMatcherMock($Route) {
             $MatcherMock = $this->getMock('Brickoo\Routing\Matcher\Interfaces\Matcher');
             $MatcherMock->expects($this->any())
-                        ->method('matches')
+                        ->method("matchesCollection")
+                        ->will($this->returnValue(true));
+            $MatcherMock->expects($this->any())
+                        ->method("matchesRoute")
                         ->with($Route)
                         ->will($this->returnValue(true));
             $MatcherMock->expects($this->any())
-                        ->method('getParameters')
-                        ->will($this->returnValue(array('key' => 'value')));
+                        ->method("getRouteParameters")
+                        ->will($this->returnValue(array("key" => "value")));
             return $MatcherMock;
         }
 

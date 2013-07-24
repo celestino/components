@@ -46,7 +46,7 @@
 
         /**
          * Adds routes to the current collection.
-         * @param array $routes the routes implementing \Brickoo\Routing\Route\Interfaces\Route to add
+         * @param array $routes values implementing \Brickoo\Routing\Route\Interfaces\Route
          * @throws \Brickoo\Routing\Route\Exceptions\DuplicateRouteException if a route does already exist
          * @return \Brickoo\Routing\Interfaces\RouteCollection
          */
@@ -74,5 +74,31 @@
          * @return boolean check result
          */
         public function hasRoute($routeName);
+
+        /**
+         * Returns the route collection (unique) name.
+         * @throws \UnexpectedValueException if the name is not set
+         * @return string collection name
+         */
+        public function getName();
+
+        /**
+         * Checks if the name is set.
+         * @return boolean check result
+         */
+        public function hasName();
+
+        /**
+         * Returns the routes common path.
+         * @throws \UnexpectedValueException if the path is not set
+         * @return string the routes common path
+         */
+        public function getPath();
+
+        /**
+         * Checks if the path is set.
+         * @return boolean check result
+         */
+        public function hasPath();
 
     }

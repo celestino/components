@@ -183,8 +183,8 @@
                   ->will($this->returnValue($defaultValues));
 
             $routeValuesMap = array(
-                array("news.get.articles", true),
-                array("unknown.route.name", false)
+                array($routeName, null, true),
+                array("unknown.route.name", null, false)
             );
 
             $Router = $this->getMock('Brickoo\Routing\Interfaces\Router');
@@ -193,7 +193,7 @@
                    ->will($this->returnValueMap($routeValuesMap));
             $Router->expects($this->any())
                    ->method("getRoute")
-                   ->with($routeName)
+                   ->with($routeName, null)
                    ->will($this->returnValue($Route));
 
             return $Router;

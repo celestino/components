@@ -40,16 +40,60 @@
 
     class Collection implements Interfaces\Collection {
 
+        /** @var string */
+        private $name;
+
+        /** @var string */
+        private $path;
+
         /** @var array */
         private $routes;
 
         /**
          * Class constructor.
+         * @param string|null $name the collection (unique) name
+         * @param string|null $path the routes common path
          * @param array $routes the routes to add to the collection
          * @return void
          */
-        public function __construct(array $routes = array()) {
+        public function __construct($name = null, $path = null, array $routes = array()) {
+            if ($name !== null) {
+                Argument::IsString($name);
+            }
+
+            if ($path !== null) {
+                Argument::IsString($path);
+            }
+
+            $this->name = $name;
+            $this->path = $path;
             $this->routes = $routes;
+        }
+
+        /** {@inheritDoc} */
+        public function getName() {
+            if ($this->name === null) {
+                throw new \UnexpectedValueException("The collection name is not set.");
+            }
+            return $this->name;
+        }
+
+        /** {@inheritDoc} */
+        public function hasName() {
+            return ($this->name !== null);
+        }
+
+        /** {@inheritDoc} */
+        public function getPath() {
+            if ($this->name === null) {
+                throw new \UnexpectedValueException("The collection path is not set.");
+            }
+            return $this->path;
+        }
+
+        /** {@inheritDoc} */
+        public function hasPath() {
+            return ($this->path !== null);
         }
 
         /** {@inheritDoc} */
@@ -93,7 +137,7 @@
         /**
          * {@inheritDoc}
          * @see IteratorAggregate::getIterator()
-         * @return \ArrayIterator
+         * @return \ArrayIterator containing the routes
          */
         public function getIterator() {
             return new \ArrayIterator($this->getRoutes());

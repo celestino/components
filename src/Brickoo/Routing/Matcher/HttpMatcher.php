@@ -65,7 +65,12 @@
         }
 
         /** {@inheritDoc} */
-        public function matches(\Brickoo\Routing\Route\Interfaces\Route $Route) {
+        public function matchesCollection(\Brickoo\Routing\Route\Interfaces\Collection $RouteCollection) {
+            return ((! $RouteCollection->hasPath()) || strpos($this->Request->getUri()->getPath(), $RouteCollection->getPath()) === 0);
+        }
+
+        /** {@inheritDoc} */
+        public function matchesRoute(\Brickoo\Routing\Route\Interfaces\Route $Route) {
             if (! $this->isAllowedRoute($Route)) {
                 return false;
             }
@@ -74,14 +79,14 @@
             $this->routeParameters = null;
 
             if ($doesMatch = $this->isMatchingRoute($Route)) {
-                $this->routeParameters = $this->getRouteParameters($Route);
+                $this->routeParameters = $this->collectRouteParameters($Route);
             }
 
             return $doesMatch;
         }
 
         /** {@inheritDoc} */
-        public function getParameters() {
+        public function getRouteParameters() {
             return $this->routeParameters ?: array();
         }
 
@@ -111,7 +116,9 @@
          */
         private function isMatchingRoute(\Brickoo\Routing\Route\Interfaces\HttpRoute $Route) {
             return (preg_match($this->RegexGenerator->generatePathRegex($Route),
-                $this->Request->getUri()->getPath(), $this->pathParameters) == 1);
+                $this->Request->getUri()->getPath(),
+                $this->pathParameters
+            ) == 1);
         }
 
         /**
@@ -120,7 +127,7 @@
          * @param array $pathMatchedParameters the path matching parameters
          * @return array the path parameters of the matching route
          */
-        private function getRouteParameters(\Brickoo\Routing\Route\Interfaces\HttpRoute $Route) {
+        private function collectRouteParameters(\Brickoo\Routing\Route\Interfaces\HttpRoute $Route) {
             $routeParameters = array();
 
             if ($Route->hasRules()) {

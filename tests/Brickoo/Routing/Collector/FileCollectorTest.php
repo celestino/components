@@ -54,6 +54,7 @@
             $this->assertAttributeEquals($routingPath, "routingPath", $FileCollector);
             $this->assertAttributeEquals($routingFilename, "routingFilename", $FileCollector);
             $this->assertAttributeEquals($searchRecursively, "searchRecursively", $FileCollector);
+            $this->assertAttributeEquals(array(), "collections", $FileCollector);
         }
 
         /**
@@ -61,10 +62,7 @@
          * @expectedException InvalidArgumentException
          */
         public function testEmptyRoutePathThrowsArgumentException() {
-            $routingPath = "";
-            $routingFilename = "routes.php";
-
-            $FileCollector = new FileCollector($routingPath, $routingFilename);
+            $FileCollector = new FileCollector("", "routes.php");
         }
 
         /**
@@ -72,17 +70,13 @@
          * @expectedException InvalidArgumentException
          */
         public function testEmptyRouteFilenameThrowsArgumentException() {
-            $routingPath = __DIR__;
-            $routingFilename = "";
-
-            $FileCollector = new FileCollector($routingPath, $routingFilename);
+            $FileCollector = new FileCollector(__DIR__, "");
         }
 
         /**
          * @covers Brickoo\Routing\Collector\FileCollector::collect
-         * @covers Brickoo\Routing\Collector\FileCollector::getRouteCollection
+         * @covers Brickoo\Routing\Collector\FileCollector::collectRouteCollections
          * @covers Brickoo\Routing\Collector\FileCollector::getFilePaths
-         * @covers Brickoo\Routing\Collector\FileCollector::getMergedRouteCollection
          */
         public function testCollectInOnDirectory() {
             $routingPath = realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR ."Assets".DIRECTORY_SEPARATOR ."Routes";
@@ -90,17 +84,14 @@
             $searchRecursively = false;
 
             $FileCollector = new FileCollector($routingPath, $routingFilename, $searchRecursively);
-            $RouteCollection = $FileCollector->collect();
-
-            $this->assertInstanceOf('Brickoo\Routing\Route\Interfaces\Collection', $RouteCollection);
-            $this->assertEquals(1, count($RouteCollection->getRoutes()));
+            $this->assertSame($FileCollector, $FileCollector->collect());
+            $this->assertAttributeCount(1, "collections", $FileCollector);
         }
 
         /**
          * @covers Brickoo\Routing\Collector\FileCollector::collect
-         * @covers Brickoo\Routing\Collector\FileCollector::getRouteCollection
+         * @covers Brickoo\Routing\Collector\FileCollector::collectRouteCollections
          * @covers Brickoo\Routing\Collector\FileCollector::getRecursiveFilePaths
-         * @covers Brickoo\Routing\Collector\FileCollector::getMergedRouteCollection
          */
         public function testCollectRecursively() {
             $routingPath = realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR ."Assets";
@@ -108,15 +99,13 @@
             $searchRecursively = true;
 
             $FileCollector = new FileCollector($routingPath, $routingFilename, $searchRecursively);
-            $RouteCollection = $FileCollector->collect();
-
-            $this->assertInstanceOf('Brickoo\Routing\Route\Interfaces\Collection', $RouteCollection);
-            $this->assertEquals(2, count($RouteCollection->getRoutes()));
+            $this->assertSame($FileCollector, $FileCollector->collect());
+            $this->assertAttributeCount(2, "collections", $FileCollector);
         }
 
         /**
          * @covers Brickoo\Routing\Collector\FileCollector::collect
-         * @covers Brickoo\Routing\Collector\FileCollector::getRouteCollection
+         * @covers Brickoo\Routing\Collector\FileCollector::collectRouteCollections
          * @covers Brickoo\Routing\Collector\Exceptions\RoutesNotAvailable
          * @expectedException Brickoo\Routing\Collector\Exceptions\RoutesNotAvailable
          */
@@ -130,18 +119,15 @@
         }
 
         /**
-         * @covers Brickoo\Routing\Collector\FileCollector::collect
-         * @covers Brickoo\Routing\Collector\FileCollector::getRouteCollection
-         * @covers Brickoo\Routing\Collector\Exceptions\RouteCollectionExpected
-         * @expectedException Brickoo\Routing\Collector\Exceptions\RouteCollectionExpected
+         * covers Brickoo\Routing\Collector\FileCollector::getIterator
          */
-        public function testCollectWithWrongReturnValueThrowsException() {
-            $routingPath = realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR ."Assets". DIRECTORY_SEPARATOR ."Routes";
-            $routingFilename = "failure.php";
+        public function testGetCollectionsIterator() {
+            $routingPath = realpath(dirname(__FILE__));
+            $routingFilename = "nothing_available.php";
             $searchRecursively = false;
 
             $FileCollector = new FileCollector($routingPath, $routingFilename, $searchRecursively);
-            $FileCollector->collect();
+            $this->assertInstanceOf('ArrayIterator', $FileCollector->getIterator());
         }
 
     }

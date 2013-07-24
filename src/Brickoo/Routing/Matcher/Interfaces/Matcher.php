@@ -33,25 +33,30 @@
      * Matcher
      *
      * Defines a route matcher for a request.
-     * If the responsible route is found, the route rules paramaters
-     * can be retrieved. Otherwise trying to retrieve the parameters
-     * first must end in an exception.
+     * If the route does match, the route rules paramaters can be retrieved.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
     interface Matcher {
 
         /**
-         * Checks if the route matches the request.
+         * Check if a route collection matches the request at all.
+         * @param \Brickoo\Routing\Route\Interfaces\Collection $RouteCollection
+         * @return boolean check result
+         */
+        public function matchesCollection(\Brickoo\Routing\Route\Interfaces\Collection $RouteCollection);
+
+        /**
+         * Checks if a route matches the complete request.
          * @param \Brickoo\Routing\Route\Interfaces\Route $Route
          * @return boolean check result
          */
-        public function matches(\Brickoo\Routing\Route\Interfaces\Route $Route);
+        public function matchesRoute(\Brickoo\Routing\Route\Interfaces\Route $Route);
 
         /**
-         * Returns the expected routing parameters defined as rules by the last matched route.
-         * @return array the paramaters list as parameter/value pair
+         * Returns the expected routing parameters from the last matched route.
+         * @return array the paramaters list as parameter/value pairs
          */
-        public function getParameters();
+        public function getRouteParameters();
 
     }
