@@ -49,17 +49,17 @@
          */
         public function __construct(array $messages, $severity = \Brickoo\Log\Logger::SEVERITY_INFO) {
             Argument::IsInteger($severity);
-            parent::__construct(\Brickoo\Log\Events::LOG, null, array("messages" => $messages, "severity" => $severity));
+            parent::__construct(\Brickoo\Log\Events::LOG, null, array(self::PARAM_LOG_MESSAGES => $messages, self::PARAM_LOG_SEVERITY => $severity));
         }
 
         /** {@inheritDoc} */
         public function getMessages() {
-            return $this->getParam("messages");
+            return $this->getParam(self::PARAM_LOG_MESSAGES);
         }
 
         /** {@inheritDoc} */
         public function getSeverity() {
-            return $this->getParam("severity");
+            return $this->getParam(self::PARAM_LOG_SEVERITY);
         }
 
     }

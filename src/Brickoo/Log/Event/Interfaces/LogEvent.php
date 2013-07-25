@@ -39,6 +39,13 @@
     interface LogEvent {
 
         /**
+         * Event parameters.
+         * @var string
+         */
+        const PARAM_LOG_MESSAGES = "messages";
+        const PARAM_LOG_SEVERITY = "severity";
+
+        /**
          * Returns the messages to lolg.
          * @return array the log messages
          */

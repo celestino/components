@@ -66,7 +66,7 @@
          * @return void
          */
         public function attachListeners(\Brickoo\Event\Interfaces\Manager $EventManager) {
-            $EventManager->attach(new Event\Listener(Events::LOG, array($this, 'handleLogEvent'), $this->listenerPriority));
+            $EventManager->attach(new Event\Listener(Events::LOG, array($this, "handleLogEvent"), $this->listenerPriority));
         }
 
         /**

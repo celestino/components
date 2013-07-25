@@ -54,7 +54,7 @@
             $LogEvent = new LogEvent($messages, $severity);
             $this->assertInstanceOf('Brickoo\Log\Event\Interfaces\LogEvent', $LogEvent);
             $this->assertInstanceOf('Brickoo\Event\Interfaces\Event', $LogEvent);
-            $this->assertAttributeEquals(array("messages"=> $messages, "severity" => $severity), "params", $LogEvent);
+            $this->assertAttributeEquals(array(LogEvent::PARAM_LOG_MESSAGES => $messages, LogEvent::PARAM_LOG_SEVERITY => $severity), "params", $LogEvent);
         }
 
         /**
