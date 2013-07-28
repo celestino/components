@@ -13,9 +13,6 @@
      * 2. Redistributions in binary form must reproduce the above copyright
      *    notice, this list of conditions and the following disclaimer in the
      *    documentation and/or other materials provided with the distribution.
-     * 3. Neither the name of Brickoo nor the names of its contributors may be used
-     *    to endorse or promote products derived from this software without specific
-     *    prior written permission.
      *
      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
      * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -32,8 +29,6 @@
 
     namespace Brickoo\Error\Event;
 
-    use Brickoo\Validator\Argument;
-
     /**
      * ExceptionEvent
      *
@@ -44,18 +39,24 @@
     class ExceptionEvent extends \Brickoo\Event\Event implements Interfaces\ExceptionEvent {
 
         /**
+         * Exception event parameters.
+         * @var string
+         */
+        const PARAM_EXCEPTION = "exception";
+
+        /**
          * Class constructor.
          * Calls the parent constructor.
          * @param \Exception $Exception
          * @return void
          */
         public function __construct(\Exception $Exception) {
-            parent::__construct(\Brickoo\Error\Events::EXCEPTION, null, array("Exception" => $Exception));
+            parent::__construct(\Brickoo\Error\Events::EXCEPTION, null, array(self::PARAM_EXCEPTION => $Exception));
         }
 
         /** {@inheritDoc} */
         public function getException() {
-            return $this->getParam("Exception");
+            return $this->getParam(self::PARAM_EXCEPTION);
         }
 
     }

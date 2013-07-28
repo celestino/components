@@ -13,9 +13,6 @@
      * 2. Redistributions in binary form must reproduce the above copyright
      *    notice, this list of conditions and the following disclaimer in the
      *    documentation and/or other materials provided with the distribution.
-     * 3. Neither the name of Brickoo nor the names of its contributors may be used
-     *    to endorse or promote products derived from this software without specific
-     *    prior written permission.
      *
      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
      * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -36,25 +33,30 @@
      * Matcher
      *
      * Defines a route matcher for a request.
-     * If the responsible route is found, the route rules paramaters
-     * can be retrieved otherwise trying to retrieve the parameters
-     * first must end in an execption.
+     * If the route does match, the route rules paramaters can be retrieved.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
     interface Matcher {
 
         /**
-         * Checks if the route matches the request.
-         * @param \Brickoo\Routing\Interfaces\Route $Route
+         * Check if a route collection matches the request at all.
+         * @param \Brickoo\Routing\Route\Interfaces\Collection $RouteCollection
          * @return boolean check result
          */
-        public function matches(\Brickoo\Routing\Interfaces\Route $Route);
+        public function matchesCollection(\Brickoo\Routing\Route\Interfaces\Collection $RouteCollection);
 
         /**
-         * Returns the dynamic request parameters defined as rules by the last matched route.
-         * @return array the paramaters list as parameter/value pair
+         * Checks if a route matches the complete request.
+         * @param \Brickoo\Routing\Route\Interfaces\Route $Route
+         * @return boolean check result
          */
-        public function getParameters();
+        public function matchesRoute(\Brickoo\Routing\Route\Interfaces\Route $Route);
+
+        /**
+         * Returns the expected routing parameters from the last matched route.
+         * @return array the paramaters list as parameter/value pairs
+         */
+        public function getRouteParameters();
 
     }

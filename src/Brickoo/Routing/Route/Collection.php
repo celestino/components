@@ -13,9 +13,6 @@
      * 2. Redistributions in binary form must reproduce the above copyright
      *    notice, this list of conditions and the following disclaimer in the
      *    documentation and/or other materials provided with the distribution.
-     * 3. Neither the name of Brickoo nor the names of its contributors may be used
-     *    to endorse or promote products derived from this software without specific
-     *    prior written permission.
      *
      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
      * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -37,22 +34,66 @@
     /**
      * Collection
      *
-     * Implements a route collection containing route objects.
+     * Implements an iterable route collection providing available routes.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
     class Collection implements Interfaces\Collection {
+
+        /** @var string */
+        private $name;
+
+        /** @var string */
+        private $path;
 
         /** @var array */
         private $routes;
 
         /**
          * Class constructor.
+         * @param string|null $name the collection (unique) name
+         * @param string|null $path the routes common path
          * @param array $routes the routes to add to the collection
          * @return void
          */
-        public function __construct(array $routes = array()) {
+        public function __construct($name = null, $path = null, array $routes = array()) {
+            if ($name !== null) {
+                Argument::IsString($name);
+            }
+
+            if ($path !== null) {
+                Argument::IsString($path);
+            }
+
+            $this->name = $name;
+            $this->path = $path;
             $this->routes = $routes;
+        }
+
+        /** {@inheritDoc} */
+        public function getName() {
+            if ($this->name === null) {
+                throw new \UnexpectedValueException("The collection name is not set.");
+            }
+            return $this->name;
+        }
+
+        /** {@inheritDoc} */
+        public function hasName() {
+            return ($this->name !== null);
+        }
+
+        /** {@inheritDoc} */
+        public function getPath() {
+            if ($this->name === null) {
+                throw new \UnexpectedValueException("The collection path is not set.");
+            }
+            return $this->path;
+        }
+
+        /** {@inheritDoc} */
+        public function hasPath() {
+            return ($this->path !== null);
         }
 
         /** {@inheritDoc} */
@@ -96,7 +137,7 @@
         /**
          * {@inheritDoc}
          * @see IteratorAggregate::getIterator()
-         * @return \Brickoo\Memory\Interfaces\Container
+         * @return \ArrayIterator containing the routes
          */
         public function getIterator() {
             return new \ArrayIterator($this->getRoutes());

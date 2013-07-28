@@ -13,9 +13,6 @@
      * 2. Redistributions in binary form must reproduce the above copyright
      *    notice, this list of conditions and the following disclaimer in the
      *    documentation and/or other materials provided with the distribution.
-     * 3. Neither the name of Brickoo nor the names of its contributors may be used
-     *    to endorse or promote products derived from this software without specific
-     *    prior written permission.
      *
      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
      * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -73,11 +70,28 @@
         }
 
         /**
+         * @covers Brickoo\Routing\Route\RegexGenerator::generatePathRegex
+         * @covers Brickoo\Routing\Route\RegexGenerator::getRoutePath
+         * @covers Brickoo\Routing\Route\RegexGenerator::replaceRoutePathWithRulesExpressions
+         */
+        public function testGeneratePathRegexFromRouteWithoutRules() {
+            $expectedRegex = "~^/(articles|artikeln)/{articleName}$~i";
+            $aliases = array("articles" => "artikeln");
+
+            $Route = new \Brickoo\Routing\Route\Route(
+                "articles", "/articles/{articleName}", "MyBlog", "displayArticle"
+            );
+
+            $RegexGenerator = new RegexGenerator($aliases);
+            $this->assertEquals($expectedRegex, $RegexGenerator->generatePathRegex($Route));
+        }
+
+        /**
          * Returns a route complete configured fixture.
-         * @return \Brickoo\Routing\Interfaces\Route
+         * @return \Brickoo\Routing\Route\Interfaces\Route
          */
         private function getRouteFixture() {
-            return new \Brickoo\Routing\Route(
+            return new \Brickoo\Routing\Route\Route(
                 "articles", "/articles/{articleName}/{pageNumber}{version}{format}", "MyBlog", "displayArticle",
                 array("articleName" => "[\w\-]+", "pageNumber" => "[0-9]+", "version" => "\.[0-9]+", "format" => "\.html|\.json"),
                 array("pageNumber" => 1, "format" => "html")

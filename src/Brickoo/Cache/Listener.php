@@ -13,9 +13,6 @@
      * 2. Redistributions in binary form must reproduce the above copyright
      *    notice, this list of conditions and the following disclaimer in the
      *    documentation and/or other materials provided with the distribution.
-     * 3. Neither the name of Brickoo nor the names of its contributors may be used
-     *    to endorse or promote products derived from this software without specific
-     *    prior written permission.
      *
      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
      * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -44,6 +41,16 @@
      */
 
     class Listener implements Event\Interfaces\ListenerAggregate {
+
+        /**
+         * Listener event parameters.
+         * @var string
+         */
+        const PARAM_IDENTIFIER = "id";
+        const PARAM_CONTENT = "content";
+        const PARAM_CALLBACK = "callback";
+        const PARAM_CALLBACK_ARGS = "callbackArguments";
+        const PARAM_LIFETIME = "lifetime";
 
         /** @var \Brickoo\Cache\Interfaces\Manager */
         private $CacheManager;
@@ -100,8 +107,8 @@
          * @return mixed the event response otherwise null on failure
          */
         public function handleCacheEventGet(\Brickoo\Event\Interfaces\Event $Event, \Brickoo\Event\Interfaces\Manager $EventManager) {
-            if ($Event->hasParam("id")) {
-                return $this->CacheManager->get($Event->getParam("id"));
+            if ($Event->hasParam(self::PARAM_IDENTIFIER)) {
+                return $this->CacheManager->get($Event->getParam(self::PARAM_IDENTIFIER));
             }
         }
 
@@ -113,12 +120,12 @@
          * @return mixed the event response otherwise null on failure
          */
         public function handleCacheEventGetByCallback(\Brickoo\Event\Interfaces\Event $Event, \Brickoo\Event\Interfaces\Manager $EventManager) {
-            if ($Event->hasParams("id", "callback", "callbackArguments", "lifetime")) {
+            if ($Event->hasParams(self::PARAM_IDENTIFIER, self::PARAM_CALLBACK, self::PARAM_CALLBACK_ARGS, self::PARAM_LIFETIME)) {
                 return $this->CacheManager->getByCallback(
-                    $Event->getParam("id"),
-                    $Event->getParam("callback"),
-                    $Event->getParam("callbackArguments"),
-                    $Event->getParam("lifetime")
+                    $Event->getParam(self::PARAM_IDENTIFIER),
+                    $Event->getParam(self::PARAM_CALLBACK),
+                    $Event->getParam(self::PARAM_CALLBACK_ARGS),
+                    $Event->getParam(self::PARAM_LIFETIME)
                 );
             }
         }
@@ -130,8 +137,12 @@
          * @return void
          */
         public function handleCacheEventSet(\Brickoo\Event\Interfaces\Event $Event, \Brickoo\Event\Interfaces\Manager $EventManager) {
-            if ($Event->hasParams("id", "content", "lifetime")) {
-                $this->CacheManager->set($Event->getParam("id"), $Event->getParam("content"), $Event->getParam("lifetime"));
+            if ($Event->hasParams(self::PARAM_IDENTIFIER, self::PARAM_CONTENT, self::PARAM_LIFETIME)) {
+                $this->CacheManager->set(
+                    $Event->getParam(self::PARAM_IDENTIFIER),
+                    $Event->getParam(self::PARAM_CONTENT),
+                    $Event->getParam(self::PARAM_LIFETIME)
+                );
             }
         }
 
@@ -142,8 +153,8 @@
          * @param \Brickoo\Event\Interfaces\Manager $EventManager
          */
         public function handleCacheEventDelete(\Brickoo\Event\Interfaces\Event $Event, \Brickoo\Event\Interfaces\Manager $EventManager) {
-            if ($Event->hasParam("id")) {
-                $this->CacheManager->delete($Event->getParam("id"));
+            if ($Event->hasParam(self::PARAM_IDENTIFIER)) {
+                $this->CacheManager->delete($Event->getParam(self::PARAM_IDENTIFIER));
             }
         }
 
@@ -155,7 +166,5 @@
         public function handleCacheEventFlush(\Brickoo\Event\Interfaces\Event $Event, \Brickoo\Event\Interfaces\Manager $EventManager) {
             $this->CacheManager->flush();
         }
-
-
 
     }

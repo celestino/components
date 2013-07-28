@@ -13,9 +13,6 @@
      * 2. Redistributions in binary form must reproduce the above copyright
      *    notice, this list of conditions and the following disclaimer in the
      *    documentation and/or other materials provided with the distribution.
-     * 3. Neither the name of Brickoo nor the names of its contributors may be used
-     *    to endorse or promote products derived from this software without specific
-     *    prior written permission.
      *
      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
      * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -44,20 +41,22 @@
 
         /**
          * Returns the route having the given unique name.
-         * @param string $routeName the route unqiue name
-         * @throws \InvalidArgumentException if the argument is not valid
+         * @param string $routeName the route unique name
+         * @param string $collectionName the route collections name
+         * @throws \InvalidArgumentException if an argument is not valid
          * @throws \Brickoo\Routing\Route\Exceptions\RouteNotFound if the route is not available
          * @return \Brickoo\Routing\Interfaces\Route
          */
-        public function getRoute($routeName);
+        public function getRoute($routeName, $collectionName = null);
 
         /**
          * Checks if the route is available.
          * @param string $routeName the route unique name
+         * @param string $collectionName the route collections name
          * @throws \InvalidArgumentException if the argument is not valid
          * @return boolean check result
          */
-        public function hasRoute($routeName);
+        public function hasRoute($routeName, $collectionName = null);
 
         /**
          * Returns the request matching executable route.

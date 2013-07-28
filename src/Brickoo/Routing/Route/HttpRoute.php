@@ -27,39 +27,77 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Log\Event;
+    namespace Brickoo\Routing\Route;
 
     use Brickoo\Validator\Argument;
 
     /**
-     * LogEvent
+     * HttpRoute
      *
-     * Implementation of a log event which keeps logs messages.
+     * Implents a http route which can be configured to match http requests.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class LogEvent extends \Brickoo\Event\Event implements Interfaces\LogEvent {
+    class HttpRoute extends Route implements Interfaces\HttpRoute {
+
+        /** @var string */
+        private $method;
+
+        /** @var string */
+        private $scheme;
+
+        /** @var string */
+        private $hostname;
 
         /**
          * Class constructor.
-         * Calls the parent constructor.
-         * @param array $messages
-         * @param integer $severity
+         * @param string $name
+         * @param string $path
+         * @param string $controller
+         * @param string $action
+         * @param array $rules
+         * @param array $defaultValues
+         * @param string $method
+         * @param string $scheme
+         * @param string $hostname
          * @return void
          */
-        public function __construct(array $messages, $severity = \Brickoo\Log\Logger::SEVERITY_INFO) {
-            Argument::IsInteger($severity);
-            parent::__construct(\Brickoo\Log\Events::LOG, null, array(self::PARAM_LOG_MESSAGES => $messages, self::PARAM_LOG_SEVERITY => $severity));
+        public function __construct(
+            $name, $path, $controller, $action,
+            array $rules = array(), array $defaultValues = array(),
+            $method = ".*", $scheme = ".*", $hostname = ".*"
+        ){
+            Argument::IsString($name);
+            Argument::IsString($path);
+            Argument::IsString($controller);
+            Argument::IsString($action);
+            Argument::IsString($method);
+            Argument::IsString($scheme);
+
+            $this->name = $name;
+            $this->path = $path;
+            $this->controller = $controller;
+            $this->action = $action;
+            $this->method = $method;
+            $this->scheme = $scheme;
+            $this->hostname = $hostname;
+            $this->rules = $rules;
+            $this->defaultValues = $defaultValues;
         }
 
         /** {@inheritDoc} */
-        public function getMessages() {
-            return $this->getParam(self::PARAM_LOG_MESSAGES);
+        public function getMethod() {
+            return $this->method;
         }
 
         /** {@inheritDoc} */
-        public function getSeverity() {
-            return $this->getParam(self::PARAM_LOG_SEVERITY);
+        public function getScheme() {
+            return $this->scheme;
+        }
+
+        /** {@inheritDoc} */
+        public function getHostname() {
+            return $this->hostname;
         }
 
     }

@@ -13,9 +13,6 @@
      * 2. Redistributions in binary form must reproduce the above copyright
      *    notice, this list of conditions and the following disclaimer in the
      *    documentation and/or other materials provided with the distribution.
-     * 3. Neither the name of Brickoo nor the names of its contributors may be used
-     *    to endorse or promote products derived from this software without specific
-     *    prior written permission.
      *
      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
      * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -48,24 +45,102 @@
          * @covers Brickoo\Routing\Route\Collection::__construct
          */
         public function testConstructor() {
-            $Collection = new Collection();
+            $name = "test.collection";
+            $path = "/articles/test-collection";
+            $Collection = new Collection($name, $path);
             $this->assertInstanceOf(
                 'Brickoo\Routing\Route\Interfaces\Collection', $Collection
             );
+            $this->assertAttributeEquals($name, 'name', $Collection);
+            $this->assertAttributeEquals($path, 'path', $Collection);
             $this->assertAttributeEquals(array(), 'routes', $Collection);
+        }
+
+        /**
+         * @covers Brickoo\Routing\Route\Collection::__construct
+         * @expectedException \InvalidArgumentException
+         */
+        public function testConstructorInvalidNameThrowsArgumentException() {
+            $Collection = new Collection(array("wrongType"), "/some/path");
+        }
+
+        /**
+         * @covers Brickoo\Routing\Route\Collection::__construct
+         * @expectedException \InvalidArgumentException
+         */
+        public function testConstructorInvalidPathThrowsArgumentException() {
+            $Collection = new Collection("test.collection", array("wrongType"));
+        }
+
+        /**
+         * @covers Brickoo\Routing\Route\Collection::getName
+         */
+        public function testGetCollectionName() {
+            $name = "test.collection";
+            $Collection = new Collection($name, "/articles/test-collection");
+            $this->assertEquals($name, $Collection->getName());
+        }
+
+        /**
+         * @covers Brickoo\Routing\Route\Collection::getName
+         * @expectedException \UnexpectedValueException
+         */
+        public function testGetCollectionNameThrowsValueException() {
+            $Collection = new Collection();
+            $Collection->getName();
+        }
+
+        /**
+         * @covers Brickoo\Routing\Route\Collection::hasName
+         */
+        public function testHasCollectionName() {
+            $Collection = new Collection();
+            $this->assertFalse($Collection->hasName());
+
+            $Collection = new Collection("some-name");
+            $this->assertTrue($Collection->hasName());
+        }
+
+        /**
+         * @covers Brickoo\Routing\Route\Collection::getPath
+         */
+        public function testGetCollectionCommonPath() {
+            $path = "/articles/test-collection";
+            $Collection = new Collection("test.collection", $path);
+            $this->assertEquals($path, $Collection->getPath());
+        }
+
+        /**
+         * @covers Brickoo\Routing\Route\Collection::getPath
+         * @expectedException \UnexpectedValueException
+         */
+        public function testGetCollectionPathThrowsValueException() {
+            $Collection = new Collection();
+            $Collection->getPath();
+        }
+
+        /**
+         * @covers Brickoo\Routing\Route\Collection::hasPath
+         */
+        public function testHasCollectionPath() {
+            $Collection = new Collection();
+            $this->assertFalse($Collection->hasPath());
+
+            $Collection = new Collection(null, "/articles/lists");
+            $this->assertTrue($Collection->hasPath());
         }
 
         /**
          * @covers Brickoo\Routing\Route\Collection::addRoutes
          */
         public function testAddingRoutes() {
-            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
             $Route->expects($this->any())
                   ->method('getName')
                   ->will($this->returnValue('test.route'));
 
             $expectedRoutes = array('test.route' => $Route);
-            $Collection = new Collection();
+            $Collection = new Collection("name", "/path");
             $this->assertSame($Collection, $Collection->addRoutes($expectedRoutes));
             $this->assertAttributeEquals($expectedRoutes, 'routes', $Collection);
         }
@@ -76,12 +151,12 @@
          * @expectedException Brickoo\Routing\Route\Exceptions\DuplicateRoute
          */
         public function testAddingDuplicatedRoutesThrowsAnException() {
-            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
             $Route->expects($this->any())
                   ->method('getName')
                   ->will($this->returnValue('test.route'));
 
-            $Collection = new Collection(array('test.route' => $Route));
+            $Collection = new Collection("name", "/path", array('test.route' => $Route));
             $Collection->addRoutes(array($Route));
         }
 
@@ -90,9 +165,9 @@
          */
         public function testGetRoutes() {
             $expectedRoutes = array(
-                'test.route' => $this->getMock('Brickoo\Routing\Interfaces\Route')
+                'test.route' => $this->getMock('Brickoo\Routing\Route\Interfaces\Route')
             );
-            $Collection = new Collection($expectedRoutes);
+            $Collection = new Collection("name", "/path", $expectedRoutes);
             $this->assertAttributeSame($expectedRoutes, 'routes', $Collection);
             $this->assertSame($expectedRoutes, $Collection->getRoutes());
         }
@@ -101,10 +176,10 @@
          * @covers Brickoo\Routing\Route\Collection::hasRoutes
          */
         public function testHasRoutes(){
-            $Collection = new Collection();
+            $Collection = new Collection("name", "/path");
             $this->assertFalse($Collection->hasRoutes());
 
-            $Collection = new Collection(array('test.route' => $this->getMock('Brickoo\Routing\Interfaces\Route')));
+            $Collection = new Collection("name", "/path", array('test.route' => $this->getMock('Brickoo\Routing\Route\Interfaces\Route')));
             $this->assertTrue($Collection->hasRoutes());
         }
 
@@ -112,8 +187,8 @@
          * @covers Brickoo\Routing\Route\Collection::getRoute
          */
         public function testGetRoute(){
-            $expectedRoute = $this->getMock('Brickoo\Routing\Interfaces\Route');
-            $Collection = new Collection(array('test.route' => $expectedRoute));
+            $expectedRoute = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
+            $Collection = new Collection("name", "/path", array('test.route' => $expectedRoute));
             $this->assertSame($expectedRoute, $Collection->getRoute('test.route'));
         }
 
@@ -122,7 +197,7 @@
          * @expectedException InvalidArgumentException
          */
         public function testGetRouteThrowsInvalidArgumentException() {
-            $Collection = new Collection();
+            $Collection = new Collection("name", "/path");
             $Collection->getRoute(array('wrongType'));
         }
 
@@ -132,7 +207,7 @@
          * @expectedException Brickoo\Routing\Route\Exceptions\RouteNotFound
          */
         public function testGetRouteThrowsRouteNotFoundException() {
-            $Collection = new Collection();
+            $Collection = new Collection("name", "/path");
             $Collection->getRoute('not.available.fail');
         }
 
@@ -140,7 +215,7 @@
          * @covers Brickoo\Routing\Route\Collection::hasRoute
          */
         public function testHasRoute(){
-            $Collection = new Collection();
+            $Collection = new Collection("name", "/path");
             $this->assertFalse($Collection->hasRoute('test.route'));
         }
 
@@ -149,7 +224,7 @@
          * @expectedException InvalidArgumentException
          */
         public function testHasRouteThrowsInvalidArgumentException() {
-            $Collection = new Collection();
+            $Collection = new Collection("name", "/path");
             $Collection->hasRoute(array('wrongType'));
         }
 
@@ -157,8 +232,8 @@
          * @covers Brickoo\Routing\Route\Collection::getIterator
          */
         public function testGetIterator() {
-            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
-            $Collection = new Collection(array($Route));
+            $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
+            $Collection = new Collection("name", "/path", array($Route));
             $Container = $Collection->getIterator();
             $this->assertInstanceOf('Traversable', $Container);
             $Container->rewind();

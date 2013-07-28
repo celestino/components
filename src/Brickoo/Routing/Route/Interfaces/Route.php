@@ -13,9 +13,6 @@
      * 2. Redistributions in binary form must reproduce the above copyright
      *    notice, this list of conditions and the following disclaimer in the
      *    documentation and/or other materials provided with the distribution.
-     * 3. Neither the name of Brickoo nor the names of its contributors may be used
-     *    to endorse or promote products derived from this software without specific
-     *    prior written permission.
      *
      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
      * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -30,12 +27,12 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Routing\Interfaces;
+    namespace Brickoo\Routing\Route\Interfaces;
 
     /**
      * Route
      *
-     * Defines a route for handling dynamic requests.
+     * Defines a route for handling routeable requests.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -64,24 +61,6 @@
          * @return string the controller action method
          */
         public function getAction();
-
-        /**
-         * Returns the http method(s) allowed listening to.
-         * @return string the http methods allowed as a regular expression
-         */
-        public function getMethod();
-
-        /**
-         * Returns the hostname(s) allowed listening to.
-         * @return string the hostnames allowed as a regular expression
-         */
-        public function getHostname();
-
-        /**
-         * Returns the scheme allowed listening to.
-         * @return string the scheme allowed as a regular expression
-         */
-        public function getScheme();
 
         /**
          * Returns all the regular expression rules available.

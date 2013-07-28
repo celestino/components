@@ -13,9 +13,6 @@
      * 2. Redistributions in binary form must reproduce the above copyright
      *    notice, this list of conditions and the following disclaimer in the
      *    documentation and/or other materials provided with the distribution.
-     * 3. Neither the name of Brickoo nor the names of its contributors may be used
-     *    to endorse or promote products derived from this software without specific
-     *    prior written permission.
      *
      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
      * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -37,13 +34,13 @@
     /**
      * Executable
      *
-     * Implementation of a request responsible route which can be executed.
+     * Implementation of an executable route containing the responsible route.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
     class Executable implements Interfaces\Executable {
 
-        /** @var \Brickoo\Routing\Interfaces\Route */
+        /** @var \Brickoo\Routing\Route\Interfaces\Route */
         private $Route;
 
         /** @var array */
@@ -54,11 +51,11 @@
 
         /**
          * Class constructor.
-         * @param \Brickoo\Routing\Interfaces\Route $Route the matching request route
-         * @param array $parameters the paramaters extracted from the route
+         * @param \Brickoo\Routing\Route\Interfaces\Route $Route the matching request route
+         * @param array $parameters the paramaters extracted from the request
          * @return void
          */
-        public function __construct(\Brickoo\Routing\Interfaces\Route $Route, array $parameters = array()) {
+        public function __construct(\Brickoo\Routing\Route\Interfaces\Route $Route, array $parameters = array()) {
             $this->Route = $Route;
             $this->parameters = $parameters;
             $this->hasBeenExecuted = false;

@@ -13,9 +13,6 @@
      * 2. Redistributions in binary form must reproduce the above copyright
      *    notice, this list of conditions and the following disclaimer in the
      *    documentation and/or other materials provided with the distribution.
-     * 3. Neither the name of Brickoo nor the names of its contributors may be used
-     *    to endorse or promote products derived from this software without specific
-     *    prior written permission.
      *
      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
      * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -30,70 +27,60 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Routing;
+    namespace Brickoo\Routing\Route;
 
     use Brickoo\Validator\Argument;
 
     /**
      * Route
      *
-     * Implents a Route which can be configured to match requests
+     * Implents a route which can be configured to match requests.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
     class Route implements Interfaces\Route {
 
         /** @var string */
-        private $name;
+        protected $name;
 
         /** @var string */
-        private $path;
+        protected $path;
 
         /** @var string */
-        private $controller;
+        protected $controller;
 
         /** @var string */
-        private $action;
-
-        /** @var string */
-        private $method;
-
-        /** @var string */
-        private $scheme;
-
-        /** @var string */
-        private $hostname;
+        protected $action;
 
         /** @var array */
-        private $defaultValues;
+        protected $defaultValues;
 
         /** @var array */
-        private $rules;
+        protected $rules;
 
         /**
-        * Class constructor.
-        * @param string $name the unique route name.
-        * @return void
-        */
+         * Class constructor.
+         * @param string $name
+         * @param string $path
+         * @param string $controller
+         * @param string $action
+         * @param array $rules
+         * @param array $defaultValues
+         * @return void
+         */
         public function __construct(
             $name, $path, $controller, $action,
-            array $rules = array(), array $defaultValues = array(),
-            $method = ".*", $scheme = ".*", $hostname = ".*"
+            array $rules = array(), array $defaultValues = array()
         ){
             Argument::IsString($name);
             Argument::IsString($path);
             Argument::IsString($controller);
             Argument::IsString($action);
-            Argument::IsString($method);
-            Argument::IsString($scheme);
 
             $this->name = $name;
             $this->path = $path;
             $this->controller = $controller;
             $this->action = $action;
-            $this->method = $method;
-            $this->scheme = $scheme;
-            $this->hostname = $hostname;
             $this->rules = $rules;
             $this->defaultValues = $defaultValues;
         }
@@ -117,21 +104,6 @@
         /** {@inheritDoc} */
         public function getAction() {
             return $this->action;
-        }
-
-        /** {@inheritDoc} */
-        public function getMethod() {
-            return $this->method;
-        }
-
-        /** {@inheritDoc} */
-        public function getScheme() {
-            return $this->scheme;
-        }
-
-        /** {@inheritDoc} */
-        public function getHostname() {
-            return $this->hostname;
         }
 
         /** {@inheritDoc} */

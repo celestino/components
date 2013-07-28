@@ -13,9 +13,6 @@
      * 2. Redistributions in binary form must reproduce the above copyright
      *    notice, this list of conditions and the following disclaimer in the
      *    documentation and/or other materials provided with the distribution.
-     * 3. Neither the name of Brickoo nor the names of its contributors may be used
-     *    to endorse or promote products derived from this software without specific
-     *    prior written permission.
      *
      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
      * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -32,8 +29,7 @@
 
     namespace Brickoo\Routing\Builder;
 
-    use Brickoo\Http\Request\Factory\UriFactory,
-        Brickoo\Routing\Route\RegexGenerator,
+    use Brickoo\Routing\Route\RegexGenerator,
         Brickoo\Validator\Argument;
 
     /**
@@ -100,12 +96,12 @@
 
         /**
          * Returns the expected uri path to validate against the route path.
-         * @param \Brickoo\Routing\Interfaces\Route $Route
+         * @param \Brickoo\Routing\Route\Interfaces\Route $Route
          * @param array $pathParameters the path parameters to use
          * @throws Exceptions\RequiredParametersMissing if a required parameter is missing
          * @return string the uri path expected
          */
-        private function getExpectedRoutePath(\Brickoo\Routing\Interfaces\Route $Route, $pathParameters) {
+        private function getExpectedRoutePath(\Brickoo\Routing\Route\Interfaces\Route $Route, $pathParameters) {
             $routePath = $Route->getPath();
             $pathParameters = array_merge($pathParameters, $Route->getDefaultValues());
 

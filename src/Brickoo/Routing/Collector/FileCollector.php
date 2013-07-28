@@ -13,9 +13,6 @@
      * 2. Redistributions in binary form must reproduce the above copyright
      *    notice, this list of conditions and the following disclaimer in the
      *    documentation and/or other materials provided with the distribution.
-     * 3. Neither the name of Brickoo nor the names of its contributors may be used
-     *    to endorse or promote products derived from this software without specific
-     *    prior written permission.
      *
      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
      * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -53,6 +50,9 @@
         /** @var boolean */
         private $searchRecursively;
 
+        /** @var array */
+        private $collections;
+
         /**
          * Class constructor.
          * @param string $routingDirectory the routing directory
@@ -77,43 +77,42 @@
             $this->routingPath = $routingPath;
             $this->routingFilename = $routingFilename;
             $this->searchRecursively = $searchRecursively;
+            $this->collections = array();
         }
 
         /** {@inheritDoc} */
         public function collect() {
-            $collected = $this->getRouteCollection();
+            $this->collectRouteCollections();
 
-            if ($collected === null) {
+            if (empty($this->collections)) {
                 throw new Exceptions\RoutesNotAvailable();
             }
 
-            return $collected;
+            return $this;
         }
 
         /**
-         * Returns the route collection containing the available routes.
-         * @throws \Brickoo\Routing\Collector\Exceptions\RouteCollectionExpected
-         * @return \Brickoo\Routing\Route\Interfaces\Collection otherwise null on failure
+         * {@inheritDoc}
+         * @see IteratorAggregate::getIterator()
+         * @return \ArrayIterator containing the route collections
          */
-        private function getRouteCollection() {
-            $RouteCollection = null;
-            $collected = array();
+        public function getIterator() {
+            return new \ArrayIterator($this->collections);
+        }
 
+        /**
+         * Collects collections containing the routing routes.
+         * @throws \Brickoo\Routing\Collector\Exceptions\RouteCollectionExpected
+         * @return void
+         */
+        private function collectRouteCollections() {
             $filePaths = $this->searchRecursively ? $this->getRecursiveFilePaths() : $this->getFilePaths();
+
             foreach ($filePaths as $filePath) {
-                if ($RouteCollection = include $filePath) {
-                    if (! $RouteCollection instanceof \Brickoo\Routing\Route\Interfaces\Collection){
-                        throw new Exceptions\RouteCollectionExpected($RouteCollection);
-                    }
-                    $collected[] = $RouteCollection;
+                if (($RouteCollection = include $filePath) && $RouteCollection instanceof \Brickoo\Routing\Route\Interfaces\Collection) {
+                    $this->collections[] = $RouteCollection;
                 }
             }
-
-            if (! empty($collected)) {
-                $RouteCollection = $this->getMergedRouteCollection($collected);
-            }
-
-            return $RouteCollection;
         }
 
         /**
@@ -149,25 +148,6 @@
             }
 
             return $collectedFilePaths;
-        }
-
-        /**
-         * Merges collections to one collection containing all routes.
-         * @param array $routeCollections the route collections to merge
-         * @return \Brickoo\Routing\Route\Interfaces\Collection
-         */
-        private function getMergedRouteCollection(array $routeCollections) {
-            if (count($routeCollections) == 1) {
-                return array_shift($routeCollections);
-            }
-
-            $MergedRouteCollection = new \Brickoo\Routing\Route\Collection();
-
-            foreach ($routeCollections as $RouteCollection) {
-                $MergedRouteCollection->addRoutes($RouteCollection->getRoutes());
-            }
-
-            return $MergedRouteCollection;
         }
 
     }

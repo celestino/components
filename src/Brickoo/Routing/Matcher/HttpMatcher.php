@@ -13,9 +13,6 @@
      * 2. Redistributions in binary form must reproduce the above copyright
      *    notice, this list of conditions and the following disclaimer in the
      *    documentation and/or other materials provided with the distribution.
-     * 3. Neither the name of Brickoo nor the names of its contributors may be used
-     *    to endorse or promote products derived from this software without specific
-     *    prior written permission.
      *
      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
      * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -56,7 +53,7 @@
         /**
          * Class constructor
          * @param \Brickoo\Http\Interfaces\Request $Request
-         * @param array $aliases the route aliases as key/alias pairs
+         * @param \Brickoo\Routing\Route\Interfaces\RegexGenerator $RegexGenerator
          * @return void
          */
         public function __construct(
@@ -68,7 +65,12 @@
         }
 
         /** {@inheritDoc} */
-        public function matches(\Brickoo\Routing\Interfaces\Route $Route) {
+        public function matchesCollection(\Brickoo\Routing\Route\Interfaces\Collection $RouteCollection) {
+            return ((! $RouteCollection->hasPath()) || strpos($this->Request->getUri()->getPath(), $RouteCollection->getPath()) === 0);
+        }
+
+        /** {@inheritDoc} */
+        public function matchesRoute(\Brickoo\Routing\Route\Interfaces\Route $Route) {
             if (! $this->isAllowedRoute($Route)) {
                 return false;
             }
@@ -77,23 +79,23 @@
             $this->routeParameters = null;
 
             if ($doesMatch = $this->isMatchingRoute($Route)) {
-                $this->routeParameters = $this->getRouteParameters($Route);
+                $this->routeParameters = $this->collectRouteParameters($Route);
             }
 
             return $doesMatch;
         }
 
         /** {@inheritDoc} */
-        public function getParameters() {
+        public function getRouteParameters() {
             return $this->routeParameters ?: array();
         }
 
         /**
          * Checks if the Route is allowed to be executed.
-         * @param \Brickoo\Routing\Interfaces\Route $Route
+         * @param \Brickoo\Routing\Route\Interfaces\HttpRoute $Route
          * @return boolean check result
          */
-        private function isAllowedRoute(\Brickoo\Routing\Interfaces\Route $Route) {
+        private function isAllowedRoute(\Brickoo\Routing\Route\Interfaces\HttpRoute $Route) {
             return (preg_match("~^(". $Route->getMethod() .")$~i", $this->Request->getMethod()) == 1
                 && (
                     (($hostname = $Route->getHostname()) === null)
@@ -108,22 +110,24 @@
 
         /**
          * Checks if the route does match the request uri path.
-         * On matching, the path paramters will be extracted.
-         * @param \Brickoo\Routing\Interfaces\Route $Route
+         * On matching, the request matching parameters will be extracted.
+         * @param \Brickoo\Routing\Route\Interfaces\HttpRoute $Route
          * @return boolean check result
          */
-        private function isMatchingRoute(\Brickoo\Routing\Interfaces\Route $Route) {
+        private function isMatchingRoute(\Brickoo\Routing\Route\Interfaces\HttpRoute $Route) {
             return (preg_match($this->RegexGenerator->generatePathRegex($Route),
-                $this->Request->getUri()->getPath(), $this->pathParameters) == 1);
+                $this->Request->getUri()->getPath(),
+                $this->pathParameters
+            ) == 1);
         }
 
         /**
          * Returns the route matched parameters for the current request.
-         * @param \Brickoo\Routing\Interfaces\Route $Route
+         * @param \Brickoo\Routing\Route\Interfaces\HttpRoute $Route
          * @param array $pathMatchedParameters the path matching parameters
          * @return array the path parameters of the matching route
          */
-        private function getRouteParameters(\Brickoo\Routing\Interfaces\Route $Route) {
+        private function collectRouteParameters(\Brickoo\Routing\Route\Interfaces\HttpRoute $Route) {
             $routeParameters = array();
 
             if ($Route->hasRules()) {

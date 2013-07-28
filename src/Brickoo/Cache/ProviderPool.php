@@ -13,9 +13,6 @@
      * 2. Redistributions in binary form must reproduce the above copyright
      *    notice, this list of conditions and the following disclaimer in the
      *    documentation and/or other materials provided with the distribution.
-     * 3. Neither the name of Brickoo nor the names of its contributors may be used
-     *    to endorse or promote products derived from this software without specific
-     *    prior written permission.
      *
      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
      * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -44,7 +41,7 @@
 
     class ProviderPool implements Interfaces\ProviderPool {
 
-        /** @var array of type \Brickoo\Cache\Provider\Interfaces\Provider */
+        /** @var array containing entries of type \Brickoo\Cache\Provider\Interfaces\Provider */
         private $poolEntries;
 
         /** @var array */
@@ -85,25 +82,28 @@
          * @return integer the current key
          */
         public function key() {
-            return $this->mappingKeys[$this->currentKey];
+            if (isset($this->mappingKeys[$this->currentKey])) {
+                return $this->mappingKeys[$this->currentKey];
+            }
+            return $this->currentKey;
         }
 
-        /** {@inheritDoc}*/
+        /** {@inheritDoc} */
         public function next() {
             $this->currentKey++;
         }
 
-        /** {@inheritDoc}*/
+        /** {@inheritDoc} */
         public function rewind() {
             $this->currentKey = 0;
         }
 
-        /** {@inheritDoc}*/
+        /** {@inheritDoc} */
         public function valid() {
             return isset($this->poolEntries[$this->currentKey]);
         }
 
-        /** {@inheritDoc}*/
+        /** {@inheritDoc} */
         public function select($entryKey) {
             Argument::IsStringOrInteger($entryKey);
 
@@ -115,18 +115,18 @@
             return $this;
         }
 
-        /** {@inheritDoc}*/
+        /** {@inheritDoc} */
         public function has($entryKey) {
             Argument::IsStringOrInteger($entryKey);
             return in_array($entryKey, $this->mappingKeys, true);
         }
 
-        /** {@inheritDoc}*/
+        /** {@inheritDoc} */
         public function isEmpty() {
             return empty($this->poolEntries);
         }
 
-        /** {@inheritDoc}*/
+        /** {@inheritDoc} */
         public function count(){
             return count($this->poolEntries);
         }

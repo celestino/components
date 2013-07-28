@@ -13,9 +13,6 @@
      * 2. Redistributions in binary form must reproduce the above copyright
      *    notice, this list of conditions and the following disclaimer in the
      *    documentation and/or other materials provided with the distribution.
-     * 3. Neither the name of Brickoo nor the names of its contributors may be used
-     *    to endorse or promote products derived from this software without specific
-     *    prior written permission.
      *
      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
      * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -165,7 +162,7 @@
                 array("page", true)
             );
 
-            $Route = $this->getMock('Brickoo\Routing\Interfaces\Route');
+            $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
             $Route->expects($this->any())
                   ->method("getName")
                   ->will($this->returnValue($routeName));
@@ -186,8 +183,8 @@
                   ->will($this->returnValue($defaultValues));
 
             $routeValuesMap = array(
-                array("news.get.articles", true),
-                array("unknown.route.name", false)
+                array($routeName, null, true),
+                array("unknown.route.name", null, false)
             );
 
             $Router = $this->getMock('Brickoo\Routing\Interfaces\Router');
@@ -196,7 +193,7 @@
                    ->will($this->returnValueMap($routeValuesMap));
             $Router->expects($this->any())
                    ->method("getRoute")
-                   ->with($routeName)
+                   ->with($routeName, null)
                    ->will($this->returnValue($Route));
 
             return $Router;
@@ -210,7 +207,7 @@
             $RegexGenerator = $this->getMock('Brickoo\Routing\Route\Interfaces\RegexGenerator');
             $RegexGenerator->expects($this->once())
                            ->method("generatePathRegex")
-                           ->with($this->isInstanceOf('Brickoo\Routing\Interfaces\Route'))
+                           ->with($this->isInstanceOf('Brickoo\Routing\Route\Interfaces\Route'))
                            ->will($this->returnValue("~^/articles/([a-zA-Z][\w\-]+)/([0-9]+)$~"));
 
             return $RegexGenerator;

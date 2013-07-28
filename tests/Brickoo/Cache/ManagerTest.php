@@ -13,9 +13,6 @@
      * 2. Redistributions in binary form must reproduce the above copyright
      *    notice, this list of conditions and the following disclaimer in the
      *    documentation and/or other materials provided with the distribution.
-     * 3. Neither the name of Brickoo nor the names of its contributors may be used
-     *    to endorse or promote products derived from this software without specific
-     *    prior written permission.
      *
      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
      * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -93,12 +90,13 @@
             $cachedContent = "some cached content";
 
             $Provider = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider');
-            $Provider->expects($this->once())
+            $Provider->expects($this->any())
                      ->method("get")
                      ->with($cacheIdentifier)
                      ->will($this->returnValue($cachedContent));
 
             $CacheManager = new Manager($this->buildProviderPoolMock($Provider));
+            $this->assertEquals($cachedContent, $CacheManager->get($cacheIdentifier));
             $this->assertEquals($cachedContent, $CacheManager->get($cacheIdentifier));
         }
 
@@ -156,11 +154,9 @@
         public function testDeleteCachedContent() {
             $cacheIdentifier = "someIdentifier";
 
-            $ProviderPool = $this->buildProviderPool($cacheIdentifier, "delete", "apc");
+            $ProviderPool = $this->buildProviderPool("delete");
             $CacheManager = new Manager($ProviderPool);
-            $this->assertEquals("apc", $ProviderPool->key());
             $this->assertSame($CacheManager, $CacheManager->delete($cacheIdentifier));
-            $this->assertEquals("apc", $ProviderPool->key());
         }
 
         /**
@@ -177,11 +173,9 @@
          * @covers Brickoo\Cache\Manager::flush
          */
         public function testFlushCachedContent() {
-            $ProviderPool = $this->buildProviderPool(null, "flush", "apc");
+            $ProviderPool = $this->buildProviderPool("flush");
             $CacheManager = new Manager($ProviderPool);
-            $this->assertEquals("apc", $ProviderPool->key());
             $this->assertSame($CacheManager, $CacheManager->flush());
-            $this->assertEquals("apc", $ProviderPool->key());
         }
 
         /**
@@ -255,39 +249,37 @@
         }
 
         /**
-         * Returns a pre-configured ProviderPool object.
-         * @param string $cacheIdentifier
+         * Returns a pre-configured ProviderPool object with two providers.
          * @param string $calledMethod has to be delete or flush
-         * @param string $selectedProvider has to be memcache or apc
          * @return \Brickoo\Cache\Interfaces\ProviderPool
          */
-        private function buildProviderPool($cacheIdentifier, $calledMethod, $selectedProvider) {
-            if ((! in_array($calledMethod, array("delete", "flush")))
-                || (! in_array($selectedProvider, array("memcache", "apc")))
-            ){
+        private function buildProviderPool($calledMethod) {
+            if (! in_array($calledMethod, array("delete", "flush"))) {
                 throw new \InvalidArgumentException("Invalid arguments provider to buildProviderPool method.");
             }
 
             $Memcache = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider');
-            $builder = $Memcache->expects($this->once())->method($calledMethod);
-            if ($cacheIdentifier !== null) {
-                $builder = $builder->with($cacheIdentifier);
-            }
-            $builder->will($this->returnSelf());
+            $Memcache->expects($this->any())
+                     ->method("isReady")
+                     ->will($this->returnValue(true));
+
+            $Memcache->expects($this->any())
+                     ->method($calledMethod)
+                     ->will($this->returnSelf());
 
             $APC = $this->getMock('Brickoo\Cache\Provider\Interfaces\Provider');
-            $builder = $APC->expects($this->once())->method($calledMethod);
-            if ($cacheIdentifier !== null) {
-                $builder = $builder->with($cacheIdentifier);
-            }
-            $builder->will($this->returnSelf());
+            $APC->expects($this->any())
+                ->method("isReady")
+                ->will($this->returnValue(true));
 
-            $ProviderPool = new \Brickoo\Cache\ProviderPool(array(
+            $APC->expects($this->any())
+                ->method($calledMethod)
+                ->will($this->returnSelf());
+
+            return new \Brickoo\Cache\ProviderPool(array(
                 "memcache" => $Memcache,
                 "apc" => $APC,
             ));
-            $ProviderPool->select($selectedProvider);
-            return $ProviderPool;
         }
 
         /**

@@ -13,9 +13,6 @@
      * 2. Redistributions in binary form must reproduce the above copyright
      *    notice, this list of conditions and the following disclaimer in the
      *    documentation and/or other materials provided with the distribution.
-     * 3. Neither the name of Brickoo nor the names of its contributors may be used
-     *    to endorse or promote products derived from this software without specific
-     *    prior written permission.
      *
      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
      * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -35,7 +32,7 @@
     /**
      * Collection
      *
-     * Defines a collection of route objects.
+     * Defines an iterable route collection providing available routes.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -49,7 +46,7 @@
 
         /**
          * Adds routes to the current collection.
-         * @param array $routes the routes implementing \Brickoo\Routing\Interfaces\Route to add
+         * @param array $routes values implementing \Brickoo\Routing\Route\Interfaces\Route
          * @throws \Brickoo\Routing\Route\Exceptions\DuplicateRouteException if a route does already exist
          * @return \Brickoo\Routing\Interfaces\RouteCollection
          */
@@ -66,7 +63,7 @@
          * @param string $name the route to return
          * @throws \InvalidArgumentException if an argument is invalid
          * @throws \Brickoo\Routing\Route\Exceptions\RouteNotFound if the route is not available
-         * @return \Bricko\Routing\Interfaces\Route
+         * @return \Bricko\Routing\Route\Interfaces\Route
          */
         public function getRoute($routeName);
 
@@ -77,5 +74,31 @@
          * @return boolean check result
          */
         public function hasRoute($routeName);
+
+        /**
+         * Returns the route collection (unique) name.
+         * @throws \UnexpectedValueException if the name is not set
+         * @return string collection name
+         */
+        public function getName();
+
+        /**
+         * Checks if the name is set.
+         * @return boolean check result
+         */
+        public function hasName();
+
+        /**
+         * Returns the routes common path.
+         * @throws \UnexpectedValueException if the path is not set
+         * @return string the routes common path
+         */
+        public function getPath();
+
+        /**
+         * Checks if the path is set.
+         * @return boolean check result
+         */
+        public function hasPath();
 
     }

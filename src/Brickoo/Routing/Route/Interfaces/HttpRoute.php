@@ -13,9 +13,6 @@
      * 2. Redistributions in binary form must reproduce the above copyright
      *    notice, this list of conditions and the following disclaimer in the
      *    documentation and/or other materials provided with the distribution.
-     * 3. Neither the name of Brickoo nor the names of its contributors may be used
-     *    to endorse or promote products derived from this software without specific
-     *    prior written permission.
      *
      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
      * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -30,31 +27,33 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Routing\Collector\Exceptions;
+    namespace Brickoo\Routing\Route\Interfaces;
 
     /**
-     * RouteCollectionExpected
+     * HttpRoute
      *
-     * Exception throwed if a value is not an expected route collection.
+     * Defines a http route for handling routeable requests.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class RouteCollectionExpected extends \Exception {
+    interface HttpRoute extends Route {
 
         /**
-         * Class constructor.
-         * Calls the parent Exception constructor.
-         * @param string $name the route name already existing
-         * @return void
+         * Returns the http method(s) allowed listening to.
+         * @return string the http methods allowed as a regular expression
          */
-        public function __construct($wrongValue) {
-            if (is_object($wrongValue)) {
-                $valueType = "[object] ". get_class($wrongValue);
-            }
-            else {
-                $valueType = gettype($wrongValue);
-            }
-            parent::__construct(sprintf('Route collection expected, type `%s` given.', $valueType));
-        }
+        public function getMethod();
+
+        /**
+         * Returns the hostname(s) allowed listening to.
+         * @return string the hostnames allowed as a regular expression
+         */
+        public function getHostname();
+
+        /**
+         * Returns the scheme allowed listening to.
+         * @return string the scheme allowed as a regular expression
+         */
+        public function getScheme();
 
     }

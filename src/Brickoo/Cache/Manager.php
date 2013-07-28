@@ -13,9 +13,6 @@
      * 2. Redistributions in binary form must reproduce the above copyright
      *    notice, this list of conditions and the following disclaimer in the
      *    documentation and/or other materials provided with the distribution.
-     * 3. Neither the name of Brickoo nor the names of its contributors may be used
-     *    to endorse or promote products derived from this software without specific
-     *    prior written permission.
      *
      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
      * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -94,29 +91,27 @@
         public function delete($identifier) {
             Argument::IsString($identifier);
 
-            $providerEntryKey = $this->ProviderPool->key();
-
             $this->ProviderPool->rewind();
             while ($this->ProviderPool->valid()) {
-                $this->ProviderPool->current()->delete($identifier);
+                if ($this->ProviderPool->current()->isReady()) {
+                    $this->ProviderPool->current()->delete($identifier);
+                }
                 $this->ProviderPool->next();
             }
 
-            $this->ProviderPool->select($providerEntryKey);
             return $this;
         }
 
         /** {@inheritDoc} */
         public function flush() {
-            $providerEntryKey = $this->ProviderPool->key();
-
             $this->ProviderPool->rewind();
             while ($this->ProviderPool->valid()) {
-                $this->ProviderPool->current()->flush();
+                if ($this->ProviderPool->current()->isReady()) {
+                    $this->ProviderPool->current()->flush();
+                }
                 $this->ProviderPool->next();
             }
 
-            $this->ProviderPool->select($providerEntryKey);
             return $this;
         }
 
@@ -126,25 +121,24 @@
          * @return \Brickoo\Cache\Provider\Interfaces\Provider
          */
         private function getProvider() {
+            if ($this->Provider !== null) {
+                return $this->Provider;
+            }
+
+            if ($this->ProviderPool->isEmpty()) {
+                throw new Exceptions\ProviderNotFound();
+            }
+
+            $this->ProviderPool->rewind();
+            while ($this->Provider === null && $this->ProviderPool->valid()) {
+                if ($this->ProviderPool->current()->isReady()) {
+                    $this->Provider = $this->ProviderPool->current();
+                }
+                $this->ProviderPool->next();
+            }
+
             if ($this->Provider === null) {
-                if ($this->ProviderPool->isEmpty()) {
-                    throw new Exceptions\ProviderNotFound();
-                }
-
-                $this->ProviderPool->rewind();
-                while ($this->Provider === null && $this->ProviderPool->valid()) {
-                    if ($this->ProviderPool->current()->isReady()) {
-                        $this->Provider = $this->ProviderPool->current();
-                        $readyProviderEntryKey = $this->ProviderPool->key();
-                    }
-                    $this->ProviderPool->next();
-                }
-
-                if ($this->Provider === null) {
-                    throw new Exceptions\ProviderNotReady();
-                }
-
-                $this->ProviderPool->select($readyProviderEntryKey);
+                throw new Exceptions\ProviderNotReady();
             }
 
             return $this->Provider;

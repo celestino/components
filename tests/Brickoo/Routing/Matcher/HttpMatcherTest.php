@@ -13,9 +13,6 @@
      * 2. Redistributions in binary form must reproduce the above copyright
      *    notice, this list of conditions and the following disclaimer in the
      *    documentation and/or other materials provided with the distribution.
-     * 3. Neither the name of Brickoo nor the names of its contributors may be used
-     *    to endorse or promote products derived from this software without specific
-     *    prior written permission.
      *
      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
      * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -58,24 +55,78 @@
         }
 
         /**
-         * @covers Brickoo\Routing\Matcher\HttpMatcher::matches
+         * @covers Brickoo\Routing\Matcher\HttpMatcher::matchesCollection
+         */
+        public function testMatchesCollectionWithPath() {
+            $RegexGenerator = $this->getRegexGeneratorStub();
+            $Request = $this->getRequestStub();
+
+            $RouteCollection = $this->getMock("Brickoo\Routing\Route\Interfaces\Collection");
+            $RouteCollection->expects($this->any())
+                            ->method("hasPath")
+                            ->will($this->returnValue(true));
+            $RouteCollection->expects($this->any())
+                            ->method("getPath")
+                            ->will($this->returnValue("/articles"));
+
+            $RouteMatcher = new HttpMatcher($Request, $RegexGenerator);
+            $this->assertTrue($RouteMatcher->matchesCollection($RouteCollection));
+        }
+
+        /**
+         * @covers Brickoo\Routing\Matcher\HttpMatcher::matchesCollection
+         */
+        public function testMatchesCollectionWithoutPath() {
+            $RegexGenerator = $this->getRegexGeneratorStub();
+            $Request = $this->getRequestStub();
+
+            $RouteCollection = $this->getMock("Brickoo\Routing\Route\Interfaces\Collection");
+            $RouteCollection->expects($this->any())
+                            ->method("hasPath")
+                            ->will($this->returnValue(false));
+
+            $RouteMatcher = new HttpMatcher($Request, $RegexGenerator);
+            $this->assertTrue($RouteMatcher->matchesCollection($RouteCollection));
+        }
+
+        /**
+         * @covers Brickoo\Routing\Matcher\HttpMatcher::matchesCollection
+         */
+        public function testMatchesCollectionFails() {
+            $RegexGenerator = $this->getRegexGeneratorStub();
+            $Request = $this->getRequestStub();
+
+            $RouteCollection = $this->getMock("Brickoo\Routing\Route\Interfaces\Collection");
+            $RouteCollection->expects($this->any())
+                            ->method("hasPath")
+                            ->will($this->returnValue(true));
+            $RouteCollection->expects($this->any())
+                            ->method("getPath")
+                            ->will($this->returnValue("/undefined"));
+
+            $RouteMatcher = new HttpMatcher($Request, $RegexGenerator);
+            $this->assertFalse($RouteMatcher->matchesCollection($RouteCollection));
+        }
+
+        /**
+         * @covers Brickoo\Routing\Matcher\HttpMatcher::matchesRoute
          * @covers Brickoo\Routing\Matcher\HttpMatcher::isAllowedRoute
          * @covers Brickoo\Routing\Matcher\HttpMatcher::isMatchingRoute
          */
-        public function testMatchesCompleteWorkflow() {
+        public function testMatchesRouteCompleteWorkflow() {
             $Request = $this->getRequestStub();
             $RegexGenerator = $this->getRegexGeneratorStub();
             $Route = $this->getRouteFixture();
 
             $RouteMatcher = new HttpMatcher($Request, $RegexGenerator);
-            $this->assertTrue($RouteMatcher->matches($Route));
+            $this->assertTrue($RouteMatcher->matchesRoute($Route));
         }
 
         /**
-         * @covers Brickoo\Routing\Matcher\HttpMatcher::matches
+         * @covers Brickoo\Routing\Matcher\HttpMatcher::matchesRoute
          * @covers Brickoo\Routing\Matcher\HttpMatcher::isAllowedRoute
          */
-        public function testMatchesRequestNotAllowed() {
+        public function testMatchesRouteRequestNotAllowed() {
             $RegexGenerator = $this->getRegexGeneratorStub();
             $Request = $this->getMock('Brickoo\Http\Interfaces\Request');
             $Request->expects($this->any())
@@ -85,12 +136,12 @@
             $Route = $this->getRestrictedRouteFixture();
 
             $RouteMatcher = new HttpMatcher($Request, $RegexGenerator);
-            $this->assertFalse($RouteMatcher->matches($Route));
+            $this->assertFalse($RouteMatcher->matchesRoute($Route));
         }
 
         /**
-         * @covers Brickoo\Routing\Matcher\HttpMatcher::getParameters
          * @covers Brickoo\Routing\Matcher\HttpMatcher::getRouteParameters
+         * @covers Brickoo\Routing\Matcher\HttpMatcher::collectRouteParameters
          */
         public function testGetRouteRulesParameters() {
             $expectedParameters = array(
@@ -102,8 +153,8 @@
             $Route = $this->getRouteFixture();
 
             $RouteMatcher = new HttpMatcher($Request, $RegexGenerator);
-            $this->assertTrue($RouteMatcher->matches($Route));
-            $this->assertEquals($expectedParameters, $RouteMatcher->getParameters());
+            $this->assertTrue($RouteMatcher->matchesRoute($Route));
+            $this->assertEquals($expectedParameters, $RouteMatcher->getRouteParameters());
         }
 
         /**
@@ -149,10 +200,10 @@
 
         /**
          * Returns a route complete configured fixture.
-         * @return \Brickoo\Routing\Interfaces\Route
+         * @return \Brickoo\Routing\Route\Interfaces\HttpRoute
          */
         private function getRouteFixture() {
-            return new \Brickoo\Routing\Route(
+            return new \Brickoo\Routing\Route\HttpRoute(
                 "articles", "/articles/{articleName}/{pageNumber}", "MyBlog", "displayArticle",
                 array("articleName" => "[\w\-]+", "pageNumber" => "[0-9]+"), array("pageNumber" => 1)
             );
@@ -160,10 +211,10 @@
 
         /**
          * Returns a restricted to GET requests route fixture.
-         * @return \Brickoo\Routing\Interfaces\Route
+         * @return \Brickoo\Routing\Route\Interfaces\HttpRoute
          */
         private function getRestrictedRouteFixture() {
-            return new \Brickoo\Routing\Route(
+            return new \Brickoo\Routing\Route\HttpRoute(
                 "articles", "/articles/{articleName}/{pageNumber}", "MyBlog", "displayArticle",
                 array("articleName" => "[\w\-]+", "pageNumber" => "[0-9]+"), array("pageNumber" => 1),
                 "GET"

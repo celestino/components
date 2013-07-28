@@ -13,9 +13,6 @@
      * 2. Redistributions in binary form must reproduce the above copyright
      *    notice, this list of conditions and the following disclaimer in the
      *    documentation and/or other materials provided with the distribution.
-     * 3. Neither the name of Brickoo nor the names of its contributors may be used
-     *    to endorse or promote products derived from this software without specific
-     *    prior written permission.
      *
      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
      * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -49,7 +46,7 @@
         /** {@inheritDoc} */
         public function getCondition() {
             return function(\Brickoo\Event\Interfaces\Event $Event, \Brickoo\Event\Interfaces\Manager $EventManager) {
-                return ($Event->getName() == \Brickoo\Error\Events::EXCEPTION) && ($Event instanceof \Brickoo\Error\Event\Interfaces\ExceptionEvent);
+                return ($Event instanceof \Brickoo\Error\Event\Interfaces\ExceptionEvent);
             };
         }
 

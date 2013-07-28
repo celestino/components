@@ -13,9 +13,6 @@
      * 2. Redistributions in binary form must reproduce the above copyright
      *    notice, this list of conditions and the following disclaimer in the
      *    documentation and/or other materials provided with the distribution.
-     * 3. Neither the name of Brickoo nor the names of its contributors may be used
-     *    to endorse or promote products derived from this software without specific
-     *    prior written permission.
      *
      * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
      * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -52,11 +49,12 @@
             $RouteCollector = new EventCollector($EventManager);
             $this->assertInstanceOf('Brickoo\Routing\Collector\Interfaces\Collector',$RouteCollector);
             $this->assertAttributeSame($EventManager, 'EventManager', $RouteCollector);
+            $this->assertAttributeEquals(array(), "collections", $RouteCollector);
         }
 
         /**
          * @covers Brickoo\Routing\Collector\EventCollector::collect
-         * @covers Brickoo\Routing\Collector\EventCollector::getRouteCollection
+         * @covers Brickoo\Routing\Collector\EventCollector::extractRouteCollections
          */
         public function testCollectRouteCollection() {
             $RouteCollection = $this->getMock('Brickoo\Routing\Route\Interfaces\Collection');
@@ -69,39 +67,8 @@
                          ->will($this->returnValue($EventResponseCollection));
 
             $RouteCollector = new EventCollector($EventManager);
-            $this->assertEquals($RouteCollection, $RouteCollector->collect());
-        }
-
-        /**
-         * @covers Brickoo\Routing\Collector\EventCollector::collect
-         * @covers Brickoo\Routing\Collector\EventCollector::getRouteCollection
-         * @covers Brickoo\Routing\Collector\EventCollector::getMergedRouteCollection
-         */
-        public function testCollectManyRouteCollections() {
-            $Route1 = $this->getMock('Brickoo\Routing\Interfaces\Route');
-            $Route1->expects($this->any())
-                   ->method('getName')
-                   ->will($this->returnValue('test.route.1'));
-
-            $Route2 = $this->getMock('Brickoo\Routing\Interfaces\Route');
-            $Route2->expects($this->any())
-                   ->method('getName')
-                   ->will($this->returnValue('test.route.2'));
-
-            $EventResponseCollection = new \Brickoo\Event\Response\Collection(array(
-                new \Brickoo\Routing\Route\Collection(array($Route1)),
-                new \Brickoo\Routing\Route\Collection(array($Route2))
-            ));
-
-            $EventManager = $this->getMock('Brickoo\Event\Interfaces\Manager');
-            $EventManager->expects($this->once())
-                         ->method('collect')
-                         ->with($this->isInstanceOf('Brickoo\Event\Interfaces\Event'))
-                         ->will($this->returnValue($EventResponseCollection));
-
-            $RouteCollector = new EventCollector($EventManager);
-            $this->assertInstanceOf('Brickoo\Routing\Route\Interfaces\Collection', ($FoundCollection = $RouteCollector->collect()));
-            $this->assertEquals(array('test.route.1' => $Route1, 'test.route.2' => $Route2), $FoundCollection->getRoutes());
+            $this->assertSame($RouteCollector, $RouteCollector->collect());
+            $this->assertAttributeEquals(array($RouteCollection), "collections", $RouteCollector);
         }
 
         /**
@@ -109,7 +76,7 @@
          * @covers Brickoo\Routing\Collector\Exceptions\RoutesNotAvailable
          * @expectedException Brickoo\Routing\Collector\Exceptions\RoutesNotAvailable
          */
-        public function testCollectThrowsRoutesNotAvailable() {
+        public function testCollectWithEmptyEventResponseThrowsRoutesNotAvailable() {
             $EventResponseCollection = $this->getMock('Brickoo\Event\Response\Interfaces\Collection');
             $EventResponseCollection->expects($this->any())
                                     ->method('isEmpty')
@@ -127,14 +94,11 @@
 
         /**
          * @covers Brickoo\Routing\Collector\EventCollector::collect
-         * @covers Brickoo\Routing\Collector\EventCollector::getRouteCollection
-         * @covers Brickoo\Routing\Collector\EventCollector::getMergedRouteCollection
-         * @covers Brickoo\Routing\Collector\Exceptions\RouteCollectionExpected
-         * @expectedException Brickoo\Routing\Collector\Exceptions\RouteCollectionExpected
+         * @covers Brickoo\Routing\Collector\Exceptions\RoutesNotAvailable
+         * @expectedException Brickoo\Routing\Collector\Exceptions\RoutesNotAvailable
          */
-        public function testCollectThrowsRouteCollectionExpectedException() {
-            $unexpectedValue = "someString";
-            $EventResponseCollection = new \Brickoo\Event\Response\Collection(array($unexpectedValue));
+        public function testCollectWithoutCollectionsThrowsRoutesNotAvailable() {
+            $EventResponseCollection = new \Brickoo\Event\Response\Collection(array("some-value"));
 
             $EventManager = $this->getMock('Brickoo\Event\Interfaces\Manager');
             $EventManager->expects($this->once())
@@ -147,24 +111,11 @@
         }
 
         /**
-         * @covers Brickoo\Routing\Collector\EventCollector::collect
-         * @covers Brickoo\Routing\Collector\EventCollector::getRouteCollection
-         * @covers Brickoo\Routing\Collector\EventCollector::getMergedRouteCollection
-         * @covers Brickoo\Routing\Collector\Exceptions\RouteCollectionExpected
-         * @expectedException Brickoo\Routing\Collector\Exceptions\RouteCollectionExpected
+         * covers Brickoo\Routing\Collector\EventCollector::getIterator
          */
-        public function testCollectThrowsRouteCollectionExpectedExceptionWhileTryingToMerge() {
-            $unexpectedValue = new \stdClass();
-            $EventResponseCollection = new \Brickoo\Event\Response\Collection(array($unexpectedValue, $unexpectedValue));
-
-            $EventManager = $this->getMock('Brickoo\Event\Interfaces\Manager');
-            $EventManager->expects($this->once())
-                         ->method('collect')
-                         ->with($this->isInstanceOf('Brickoo\Event\Interfaces\Event'))
-                         ->will($this->returnValue($EventResponseCollection));
-
-            $RouteCollector = new EventCollector($EventManager);
-            $RouteCollector->collect();
+        public function testGetCollectionsIterator() {
+            $RouteCollector = new EventCollector($this->getMock('Brickoo\Event\Interfaces\Manager'));
+            $this->assertInstanceOf('ArrayIterator', $RouteCollector->getIterator());
         }
 
     }
