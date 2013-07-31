@@ -34,9 +34,6 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    // require the PHPUnit autoloader
-    require_once ('PHPUnit/Autoload.php');
-
     // set the default timezone
     date_default_timezone_set('UTC');
 
