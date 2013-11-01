@@ -1,9 +1,9 @@
 
 ##Brickoo [![Build Status](https://secure.travis-ci.org/brickoo/brickoo.png?branch=master)](http://travis-ci.org/brickoo/brickoo)
-Brickoo focus on simplicity of highly flexible components having well defined interfaces for customization.
+Brickoo focus on simplicity of well designed and highly flexible components.
 
 ###Requirements
-PHP 5.3.3 or any later version required.
+PHP 5.4 or any later version required.
 
 
 ###Installation
@@ -20,9 +20,9 @@ Brickoo is an open source project. If you would like to contribute to Brickoo, p
 
 
 ###Requests
-Most of the implementations are strongly closed. This could be opened if the reason does increase the usability for everybody. Project specific requests may be rejected.
+Most of the implementations are strongly closed. They could be opened if the reason does increase the usability for everybody. Project specific requests may be rejected.
 
 
 ###License
-The files in this archive are released under the new BSD license.
+The files in this archive are released under the BSD-2-Clause license.
 You can find a copy of this [license](http://brickoo.com/#license) in the LICENSE file included.
