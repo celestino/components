@@ -30,42 +30,44 @@
 namespace Brickoo\Cache;
 
 /**
- * Events
+ * AdapterPool
  *
- * Defines the cache events.
+ * Defines an adapter pool.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Events {
+interface AdapterPool {
 
     /**
-     * Asks for a cached content.
-     * @var string
+     * Selects a pool entry by its identifier.
+     * @param string|integer $identifier the pool entry identifier
+     * @throws \InvalidArgumentException
+     * @throws \Brickoo\Cache\Exception\PoolIndentifierDoesNotExist
+     * @return \Brickoo\Cache\AdapterPool
      */
-    const GET = "brickoo.cache.get";
+    public function select($identifier);
 
     /**
-     * Notifies that the content has to be cached.
-     * @var string
+     * Checks if a pool adapter entry exists.
+     * @param string|integer $identifier the pool adapter identifier
+     * @throws \InvalidArgumentException
+     * @return boolean check result
      */
-    const SET = "brickoo.cache.set";
+    public function has($identifier);
 
     /**
-     * Asks for a cached content otherwise a callback should be executed.
-     * @var string
+     * Removes a pool adapter entry by its identifier.
+     * @param string|integer $identifier the pool adapter identifier
+     * @throws \InvalidArgumentException
+     * @throws \Brickoo\Cache\Exception\PoolIndentifierDoesNotExist
+     * @return \Brickoo\Cache\AdapterPool
      */
-    const CALLBACK = "brickoo.cache.callback";
+    public function remove($identifier);
 
     /**
-     * Notifies that some cached content has to be deleted.
-     * @var string
+     * Checks if the pool has none entries.
+     * @return boolean check result
      */
-    const DELETE = "brickoo.cache.delete";
-
-    /**
-     * Notifies that all cached content has to be flushed.
-     * @var string
-     */
-    const FLUSH = "brickoo.cache.flush";
+    public function isEmpty();
 
 }

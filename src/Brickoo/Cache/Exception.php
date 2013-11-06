@@ -30,42 +30,11 @@
 namespace Brickoo\Cache;
 
 /**
- * Events
+ * Exception
  *
- * Defines the cache events.
+ * Defines a caching exception.
+ * Used to catch all exceptions from this component.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Events {
-
-    /**
-     * Asks for a cached content.
-     * @var string
-     */
-    const GET = "brickoo.cache.get";
-
-    /**
-     * Notifies that the content has to be cached.
-     * @var string
-     */
-    const SET = "brickoo.cache.set";
-
-    /**
-     * Asks for a cached content otherwise a callback should be executed.
-     * @var string
-     */
-    const CALLBACK = "brickoo.cache.callback";
-
-    /**
-     * Notifies that some cached content has to be deleted.
-     * @var string
-     */
-    const DELETE = "brickoo.cache.delete";
-
-    /**
-     * Notifies that all cached content has to be flushed.
-     * @var string
-     */
-    const FLUSH = "brickoo.cache.flush";
-
-}
+class Exception extends \Exception {}

@@ -27,45 +27,46 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Cache;
+namespace Brickoo\Cache\Adapter;
+
+use Brickoo\Cache\Adapter,
+    Brickoo\Validator\Argument;
 
 /**
- * Events
+ * DoNothingAdapter
  *
- * Defines the cache events.
+ * This adapter can be used if the caching should be turned off but must behave as expected.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Events {
+class DoNothingAdapter implements Adapter {
 
-    /**
-     * Asks for a cached content.
-     * @var string
-     */
-    const GET = "brickoo.cache.get";
+    /** {@inheritDoc} */
+    public function get($identifier) {
+        Argument::IsString($identifier);
+    }
 
-    /**
-     * Notifies that the content has to be cached.
-     * @var string
-     */
-    const SET = "brickoo.cache.set";
+    /** {@inheritDoc} */
+    public function set($identifier, $content, $lifetime) {
+        Argument::IsString($identifier);
+        Argument::IsInteger($lifetime);
+        return $this;
+    }
 
-    /**
-     * Asks for a cached content otherwise a callback should be executed.
-     * @var string
-     */
-    const CALLBACK = "brickoo.cache.callback";
+    /** {@inheritDoc} */
+    public function delete($identifier) {
+        Argument::IsString($identifier);
+        return $this;
+    }
 
-    /**
-     * Notifies that some cached content has to be deleted.
-     * @var string
-     */
-    const DELETE = "brickoo.cache.delete";
+    /** {@inheritDoc} */
+    public function flush() {
+        return $this;
+    }
 
-    /**
-     * Notifies that all cached content has to be flushed.
-     * @var string
-     */
-    const FLUSH = "brickoo.cache.flush";
+    /** {@inheritDoc} */
+    public function isReady() {
+        return true;
+    }
 
 }

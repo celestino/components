@@ -27,45 +27,37 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Cache;
+namespace Brickoo\Cache\Event;
+
+use Brickoo\Cache\Event\AbstractEvent,
+    Brickoo\Cache\Event\Events,
+    Brickoo\Validator\Argument;
 
 /**
- * Events
+ * StoreEvent
  *
- * Defines the cache events.
+ * Implements a content caching event.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Events {
+class StoreEvent extends AbstractEvent {
 
     /**
-     * Asks for a cached content.
-     * @var string
+     * Overrides the parent class constructor.
+     * Calls the parent constructor.
+     * @param string $identifier the cache content identifier
+     * @paran mixed $content the content to cache
+     * @param integer $cacheLifetime the maix. cache lifetime for the content
+     * @return void
      */
-    const GET = "brickoo.cache.get";
-
-    /**
-     * Notifies that the content has to be cached.
-     * @var string
-     */
-    const SET = "brickoo.cache.set";
-
-    /**
-     * Asks for a cached content otherwise a callback should be executed.
-     * @var string
-     */
-    const CALLBACK = "brickoo.cache.callback";
-
-    /**
-     * Notifies that some cached content has to be deleted.
-     * @var string
-     */
-    const DELETE = "brickoo.cache.delete";
-
-    /**
-     * Notifies that all cached content has to be flushed.
-     * @var string
-     */
-    const FLUSH = "brickoo.cache.flush";
+    public function __construct($identifier, $content, $cacheLifetime = 60) {
+        Argument::IsString($identifier);
+        Argument::IsInteger($cacheLifetime);
+        parent::__construct(Events::SET, null, array(
+            self::PARAM_IDENTIFIER => $identifier,
+            self::PARAM_CONTENT => $content,
+            self::PARAM_LIFETIME => $cacheLifetime
+        ));
+    }
 
 }

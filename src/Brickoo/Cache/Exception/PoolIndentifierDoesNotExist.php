@@ -27,45 +27,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Cache;
+namespace Brickoo\Cache\Exception;
+
+use Brickoo\Cache\Exception;
 
 /**
- * Events
+ * PoolIndentifierDoesNotExist
  *
- * Defines the cache events.
+ * Exception throwed if trying to access a not available caching adapter pool entry
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Events {
+class PoolIndentifierDoesNotExist extends Exception {
 
     /**
-     * Asks for a cached content.
-     * @var string
+     * Calls the parent \Exception constructor.
+     * @param string $entryKey the adapter pool key which is not available.
+     * @param \Exception $previousException
+     * @return void
      */
-    const GET = "brickoo.cache.get";
-
-    /**
-     * Notifies that the content has to be cached.
-     * @var string
-     */
-    const SET = "brickoo.cache.set";
-
-    /**
-     * Asks for a cached content otherwise a callback should be executed.
-     * @var string
-     */
-    const CALLBACK = "brickoo.cache.callback";
-
-    /**
-     * Notifies that some cached content has to be deleted.
-     * @var string
-     */
-    const DELETE = "brickoo.cache.delete";
-
-    /**
-     * Notifies that all cached content has to be flushed.
-     * @var string
-     */
-    const FLUSH = "brickoo.cache.flush";
+    public function __construct($entryKey, \Exception $previousException = null) {
+        parent::__construct(sprintf('The adapter pool entry `%s` is not available.', $entryKey), 0, $previousException);
+    }
 
 }

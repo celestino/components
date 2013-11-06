@@ -27,45 +27,30 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Cache;
+namespace Brickoo\Cache\Event;
+
+use Brickoo\Cache\Event\AbstractEvent,
+    Brickoo\Cache\Event\Events,
+    Brickoo\Validator\Argument;
 
 /**
- * Events
+ * DeleteEvent
  *
- * Defines the cache events.
+ * Implements an event for deleting cached data.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Events {
+class DeleteEvent extends AbstractEvent {
 
     /**
-     * Asks for a cached content.
-     * @var string
+     * Overrides the parent class constructor.
+     * Calls parent constructor.
+     * @param string $identifier
+     * @return void
      */
-    const GET = "brickoo.cache.get";
-
-    /**
-     * Notifies that the content has to be cached.
-     * @var string
-     */
-    const SET = "brickoo.cache.set";
-
-    /**
-     * Asks for a cached content otherwise a callback should be executed.
-     * @var string
-     */
-    const CALLBACK = "brickoo.cache.callback";
-
-    /**
-     * Notifies that some cached content has to be deleted.
-     * @var string
-     */
-    const DELETE = "brickoo.cache.delete";
-
-    /**
-     * Notifies that all cached content has to be flushed.
-     * @var string
-     */
-    const FLUSH = "brickoo.cache.flush";
+    public function __construct($identifier) {
+        Argument::IsString($identifier);
+        parent::__construct(Events::DELETE, null, array(self::PARAM_IDENTIFIER => $identifier));
+    }
 
 }

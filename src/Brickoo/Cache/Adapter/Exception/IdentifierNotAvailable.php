@@ -27,45 +27,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Cache;
+namespace Brickoo\Cache\Provider\Exception;
+
+use Brickoo\Cache\Exception;
 
 /**
- * Events
+ * IdentifierNotAvailable
  *
- * Defines the cache events.
+ * Exception throwed if trying to access a not available identifier.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Events {
+class IdentifierNotAvailable extends Exception {
 
     /**
-     * Asks for a cached content.
-     * @var string
+     * Calls the parent exception constructor.
+     * @param string $identifier the identifier which is not available.
+     * @param \Exception $previousException
+     * @return void
      */
-    const GET = "brickoo.cache.get";
-
-    /**
-     * Notifies that the content has to be cached.
-     * @var string
-     */
-    const SET = "brickoo.cache.set";
-
-    /**
-     * Asks for a cached content otherwise a callback should be executed.
-     * @var string
-     */
-    const CALLBACK = "brickoo.cache.callback";
-
-    /**
-     * Notifies that some cached content has to be deleted.
-     * @var string
-     */
-    const DELETE = "brickoo.cache.delete";
-
-    /**
-     * Notifies that all cached content has to be flushed.
-     * @var string
-     */
-    const FLUSH = "brickoo.cache.flush";
+    public function __construct($identifier, \Exception $previousException = null) {
+        parent::__construct(sprintf('The identifier `%s` is not available.', $identifier), 0, $previousException);
+    }
 
 }

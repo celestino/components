@@ -27,45 +27,88 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Cache;
+namespace Brickoo\Cache\Event;
+
+use Brickoo\Event\Event,
+    Brickoo\Validator\Argument;
 
 /**
- * Events
+ * AbstractEvent
  *
- * Defines the cache events.
+ * Implements an abstract cache event definition.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Events {
+class AbstractEvent extends Event {
 
     /**
-     * Asks for a cached content.
+     * Cache event identifier parameter.
      * @var string
      */
-    const GET = "brickoo.cache.get";
+    const PARAM_IDENTIFIER = "id";
 
     /**
-     * Notifies that the content has to be cached.
+     * Cache event content parameter
      * @var string
      */
-    const SET = "brickoo.cache.set";
+    const PARAM_CONTENT = "content";
 
     /**
-     * Asks for a cached content otherwise a callback should be executed.
+     * Cache event callback parameter.
      * @var string
      */
-    const CALLBACK = "brickoo.cache.callback";
+    const PARAM_CALLBACK = "callback";
 
     /**
-     * Notifies that some cached content has to be deleted.
+     * Cache event callback arguments parameter.
      * @var string
      */
-    const DELETE = "brickoo.cache.delete";
+    const PARAM_CALLBACK_ARGS = "callbackArguments";
 
     /**
-     * Notifies that all cached content has to be flushed.
+     * Cache event content lifetime parameter.
      * @var string
      */
-    const FLUSH = "brickoo.cache.flush";
+    const PARAM_LIFETIME = "lifetime";
+
+    /**
+     * Returns the cache identifier.
+     * @return string the cache identifier
+     */
+    public function getIdentifier() {
+        return $this->getParam(self::PARAM_IDENTIFIER);
+    }
+
+    /**
+     * Returns the content to cache.
+     * @return mixed the content to cache
+     */
+    public function getContent() {
+        return $this->getParam(self::PARAM_CONTENT);
+    }
+
+    /**
+     * Returns the callback for fresh content pull.
+     * @return callable the callback
+     */
+    public function getCallback() {
+        return $this->getParam(self::PARAM_CALLBACK);
+    }
+
+    /**
+     * Returns the callback arguments needed to be passed.
+     * @return array the callback arguments
+     */
+    public function getCallbackArguments() {
+        return $this->getParam(self::PARAM_CALLBACK_ARGS);
+    }
+
+    /**
+     * Returns the maximum cache lifetime for fresh content pulls.
+     * @return integer the cache lifetime
+     */
+    public function getLifetime() {
+        return $this->getParam(self::PARAM_LIFETIME);
+    }
 
 }

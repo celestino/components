@@ -30,42 +30,51 @@
 namespace Brickoo\Cache;
 
 /**
- * Events
+ * Adapter
  *
- * Defines the cache events.
+ * Defines a caching adapter.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Events {
+Interface Adapter {
 
     /**
-     * Asks for a cached content.
-     * @var string
-     */
-    const GET = "brickoo.cache.get";
+    * Returns the cached content from the matching dentifier.
+    * @param string $identifier the identifier to retrieve the content from
+    * @throws \InvalidArgumentException if an argument is not valid
+    * @return mixed the cached content or boolean false on failure
+    */
+    public function get($identifier);
 
     /**
-     * Notifies that the content has to be cached.
-     * @var string
+     * Sets the content holded by the given identifier.
+     * If the identifer already exists the content will be replaced.
+     * @param string $identifier the identifier which should hold the content
+     * @param mixed $content the content which should be cached
+     * @param integer $lifetime the lifetime of the cached content in seconds
+     * @throws \InvalidArgumentException if an argument is not valid
+     * @return \Brickoo\Cache\Adapter
      */
-    const SET = "brickoo.cache.set";
+    public function set($identifier, $content, $lifetime);
 
     /**
-     * Asks for a cached content otherwise a callback should be executed.
-     * @var string
+     * Deletes the cached content holded by the identifier.
+     * @param string $identifier the content identifer to remove
+     * @throws \InvalidArgumentException if an argument is not valid
+     * @return \Brickoo\Cache\Adapter
      */
-    const CALLBACK = "brickoo.cache.callback";
+    public function delete($identifier);
 
     /**
-     * Notifies that some cached content has to be deleted.
-     * @var string
+     * Flushes the cached values by removing (or flag as removed) any content holded.
+     * @return \Brickoo\Cache\Adapter
      */
-    const DELETE = "brickoo.cache.delete";
+    public function flush();
 
     /**
-     * Notifies that all cached content has to be flushed.
-     * @var string
+     * Checks if the adapter is ready.
+     * @return boolean check result
      */
-    const FLUSH = "brickoo.cache.flush";
+    public function isReady();
 
 }

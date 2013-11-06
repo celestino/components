@@ -27,45 +27,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Cache;
+namespace Brickoo\Cache\Event;
+
+use Brickoo\Cache\Parameters,
+    Brickoo\Event\Event;
 
 /**
- * Events
+ * FlushEvent
  *
- * Defines the cache events.
+ * Implements an event for flushing all cached data.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Events {
+class FlushEvent extends Event implements Parameters {
 
     /**
-     * Asks for a cached content.
-     * @var string
+     * Overrides the parent class constructor.
+     * @return void
      */
-    const GET = "brickoo.cache.get";
-
-    /**
-     * Notifies that the content has to be cached.
-     * @var string
-     */
-    const SET = "brickoo.cache.set";
-
-    /**
-     * Asks for a cached content otherwise a callback should be executed.
-     * @var string
-     */
-    const CALLBACK = "brickoo.cache.callback";
-
-    /**
-     * Notifies that some cached content has to be deleted.
-     * @var string
-     */
-    const DELETE = "brickoo.cache.delete";
-
-    /**
-     * Notifies that all cached content has to be flushed.
-     * @var string
-     */
-    const FLUSH = "brickoo.cache.flush";
+    public function __construct() {
+        parent::__construct(Events::FLUSH);
+    }
 
 }

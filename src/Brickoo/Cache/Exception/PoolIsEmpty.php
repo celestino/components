@@ -27,45 +27,25 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Cache;
+namespace Brickoo\Cache\Exception;
+
+use Brickoo\Cache\Exception;
 
 /**
- * Events
+ * PoolIsEmpty
  *
- * Defines the cache events.
+ * Implements caching management for an adapter pool.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
-class Events {
-
-    /**
-     * Asks for a cached content.
-     * @var string
-     */
-    const GET = "brickoo.cache.get";
+class PoolIsEmpty extends Exception {
 
     /**
-     * Notifies that the content has to be cached.
-     * @var string
+     * Calls the parent constructor.
+     * @param \Exception $previousException
+     * @return void
      */
-    const SET = "brickoo.cache.set";
-
-    /**
-     * Asks for a cached content otherwise a callback should be executed.
-     * @var string
-     */
-    const CALLBACK = "brickoo.cache.callback";
-
-    /**
-     * Notifies that some cached content has to be deleted.
-     * @var string
-     */
-    const DELETE = "brickoo.cache.delete";
-
-    /**
-     * Notifies that all cached content has to be flushed.
-     * @var string
-     */
-    const FLUSH = "brickoo.cache.flush";
+    public function __construct(\Exception $previousException = null) {
+        parent::__construct("The cache pool is empty.", 0, $previousException);
+    }
 
 }
