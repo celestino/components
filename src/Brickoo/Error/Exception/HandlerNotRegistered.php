@@ -27,44 +27,29 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Error\Event;
+namespace Brickoo\Error\Exception;
 
-use Brickoo\Event\GenericEvent,
-    Brickoo\Error\Events,
-    Brickoo\Validator\Argument;
+use Brickoo\Error\Exception;
 
 /**
- * ErrorEvent
+ * HandlerNotRegistered
  *
- * Implementation of an error event.
+ * Exception throwed by an error handler class if trying to unregister
+ * an unregistered error handler instance.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class ErrorEvent extends GenericEvent {
-
-    /**
-     * Error event message parameter.
-     * @var string
-     */
-    const PARAM_ERROR_MESSAGE = "errorMessage";
+class HandlerNotRegistered extends Exception {
 
     /**
      * Class constructor.
-     * Calls the parent constructor.
-     * @param string $errorMessage
+     * Calls the parent Exception constructor.
+     * @param string $handlerName the handler name not registered
+     * @param \Exception $previousException
      * @return void
      */
-    public function __construct($errorMessage) {
-        Argument::IsString($errorMessage);
-        parent::__construct(Events::ERROR, null, [self::PARAM_ERROR_MESSAGE => $errorMessage]);
-    }
-
-    /**
-     * Returns the message containing the error occurred.
-     * @return string the error message
-     */
-    public function getErrorMessage() {
-        return $this->getParam(self::PARAM_ERROR_MESSAGE);
+    public function __construct($handlerName, \Exception $previousException = null) {
+        parent::__construct(sprintf('The `%s` is not registered.', $handlerName), 0, $previousException);
     }
 
 }

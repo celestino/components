@@ -27,44 +27,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Error\Event;
-
-use Brickoo\Event\GenericEvent,
-    Brickoo\Error\Events,
-    Brickoo\Validator\Argument;
+namespace Brickoo\Error;
 
 /**
- * ErrorEvent
+ * Exception
  *
- * Implementation of an error event.
+ * Defines an error exception.
+ * Used to catch all exceptions from this component.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class ErrorEvent extends GenericEvent {
-
-    /**
-     * Error event message parameter.
-     * @var string
-     */
-    const PARAM_ERROR_MESSAGE = "errorMessage";
-
-    /**
-     * Class constructor.
-     * Calls the parent constructor.
-     * @param string $errorMessage
-     * @return void
-     */
-    public function __construct($errorMessage) {
-        Argument::IsString($errorMessage);
-        parent::__construct(Events::ERROR, null, [self::PARAM_ERROR_MESSAGE => $errorMessage]);
-    }
-
-    /**
-     * Returns the message containing the error occurred.
-     * @return string the error message
-     */
-    public function getErrorMessage() {
-        return $this->getParam(self::PARAM_ERROR_MESSAGE);
-    }
-
-}
+class Exception extends \Exception {}

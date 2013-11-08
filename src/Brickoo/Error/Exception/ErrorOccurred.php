@@ -27,44 +27,30 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Error\Event;
+namespace Brickoo\Error\Exception;
 
-use Brickoo\Event\GenericEvent,
-    Brickoo\Error\Events,
-    Brickoo\Validator\Argument;
+use Brickoo\Error\Exception;
 
 /**
- * ErrorEvent
+ * ErrorOccurred
  *
- * Implementation of an error event.
+ * Expected Exception throwed by the ErrorHandler class if errors should be converted to exceptions.
+ * @see Brickoo\Error\ErrorHandler
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class ErrorEvent extends GenericEvent {
-
-    /**
-     * Error event message parameter.
-     * @var string
-     */
-    const PARAM_ERROR_MESSAGE = "errorMessage";
+class ErrorOccurred extends Exception {
 
     /**
      * Class constructor.
-     * Calls the parent constructor.
-     * @param string $errorMessage
+     * Calls the parent Exception constructor.
+     * @param string $errorMessage the message passed by the error handler
+     * @param integer $errorCode the error code passed by the error handler
+     * @param \Exception $previousException
      * @return void
      */
-    public function __construct($errorMessage) {
-        Argument::IsString($errorMessage);
-        parent::__construct(Events::ERROR, null, [self::PARAM_ERROR_MESSAGE => $errorMessage]);
-    }
-
-    /**
-     * Returns the message containing the error occurred.
-     * @return string the error message
-     */
-    public function getErrorMessage() {
-        return $this->getParam(self::PARAM_ERROR_MESSAGE);
+    public function __construct($errorMessage, $errorCode, \Exception $previousException = null) {
+        parent::__construct($errorMessage, $errorCode, $previousException);
     }
 
 }

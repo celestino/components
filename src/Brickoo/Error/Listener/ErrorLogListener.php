@@ -27,44 +27,40 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Error\Event;
+namespace Brickoo\Error\Listener;
 
-use Brickoo\Event\GenericEvent,
+use Brickoo\Event\Listener,
+    Brickoo\Event\Event,
+    Brickoo\Event\EventDispatcher,
     Brickoo\Error\Events,
-    Brickoo\Validator\Argument;
+    Brickoo\Error\Event\ErrorEvent,
+    Brickoo\Log\Event\LogEvent,
+    Brickoo\Log\Logger;
 
-/**
- * ErrorEvent
- *
- * Implementation of an error event.
- * @author Celestino Diaz <celestino.diaz@gmx.de>
- */
+class ErrorLogListener implements Listener {
 
-class ErrorEvent extends GenericEvent {
-
-    /**
-     * Error event message parameter.
-     * @var string
-     */
-    const PARAM_ERROR_MESSAGE = "errorMessage";
-
-    /**
-     * Class constructor.
-     * Calls the parent constructor.
-     * @param string $errorMessage
-     * @return void
-     */
-    public function __construct($errorMessage) {
-        Argument::IsString($errorMessage);
-        parent::__construct(Events::ERROR, null, [self::PARAM_ERROR_MESSAGE => $errorMessage]);
+    /** {@inheritDoc} */
+    public function getEventName() {
+        return Events::ERROR;
     }
 
-    /**
-     * Returns the message containing the error occurred.
-     * @return string the error message
-     */
-    public function getErrorMessage() {
-        return $this->getParam(self::PARAM_ERROR_MESSAGE);
+    /** {@inheritDoc} */
+    public function getPriority() {
+        return 0;
+    }
+
+    /** {@inheritDoc} */
+    public function getCondition() {
+        return function(Event $event, EventDispatcher $eventDispatcher) {
+            return ($event instanceof ErrorEvent);
+        };
+    }
+
+    /** {@inheritDoc} */
+    public function getCallback() {
+        return function(Event $event, EventDispatcher $eventDispatcher) {
+            return $eventDispatcher->notify(new LogEvent([$event->getErrorMessage()], Logger::SEVERITY_ERROR));
+        };
     }
 
 }
