@@ -16,15 +16,7 @@
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <!-- path to the brickoo library -->
             <directory suffix=".php">../src/Brickoo</directory>
-            <exclude>
-                <!-- exclude interfaces from code coverage -->
-                <directory suffix=".php">../src/Brickoo/*/Interfaces</directory>
-                <directory suffix=".php">../src/Brickoo/*/*/Interfaces</directory>
-                <directory suffix=".php">../src/Brickoo/*/*/*/Interfaces</directory>
-                <directory suffix=".php">../src/Brickoo/*/*/*/*/Interfaces</directory>
-            </exclude>
         </whitelist>
     </filter>
 </phpunit>
