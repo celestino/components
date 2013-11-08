@@ -29,8 +29,7 @@
 
 namespace Brickoo\Cache\Event;
 
-use Brickoo\Event\Event,
-    Brickoo\Validator\Argument;
+use Brickoo\Event\GenericEvent;
 
 /**
  * AbstractEvent
@@ -39,7 +38,7 @@ use Brickoo\Event\Event,
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class AbstractEvent extends Event {
+abstract class AbstractEvent extends GenericEvent {
 
     /**
      * Cache event identifier parameter.
