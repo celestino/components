@@ -27,53 +27,72 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Log\Event;
+namespace Brickoo\Log;
 
-use Brickoo\Event\GenericEvent,
+use Brickoo\Event\Event,
+    Brickoo\Event\EventDispatcher,
+    Brickoo\Event\Listener,
+    Brickoo\Log\Logger,
     Brickoo\Validator\Argument;
 
 /**
- * LogEvent
+ * Listener
  *
- * Implementation of a log event which holds logs messages and their severity.
+ * Implements an event listener for log events.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class LogEvent extends GenericEvent {
+class LogListener implements Listener {
+
+    /** @var \Brickoo\Log\Logger */
+    protected $logger;
+
+    /** @var integer */
+    protected $listenerPriority;
 
     /**
-     * Event parameters.
-     * @var string
-     */
-    const PARAM_LOG_MESSAGES = "messages";
-    const PARAM_LOG_SEVERITY = "severity";
-
-    /**
-     * Class constructor.
-     * Calls the parent constructor.
-     * @param array $messages
-     * @param integer $severity
+     * Classs constructor.
+     * @param \Brickoo\Log\Logger $logger
+     * @param integer $priority the priority level
      * @return void
      */
-    public function __construct(array $messages, $severity) {
-        Argument::IsInteger($severity);
-        parent::__construct(Events::LOG, null, [self::PARAM_LOG_MESSAGES => $messages, self::PARAM_LOG_SEVERITY => $severity]);
+    public function __construct(Logger $logger, $priority = 0) {
+        Argument::IsInteger($priority);
+
+        $this->logger = $logger;
+        $this->listenerPriority = $priority;
+    }
+
+    /** {@inheritDoc} */
+    public function getEventName() {
+        return Events::LOG;
+    }
+
+    /** {@inheritDoc} */
+    public function getPriority() {
+        return $this->listenerPriority;
+    }
+
+    /** {@inheritDoc} */
+    public function getCondition() {
+        return function(Event $event, EventDispatcher $eventDispatcher) {
+            return ($event instanceof LogEvent);
+        };
+    }
+
+    /** {@inheritDoc} */
+    public function getCallback() {
+        return [$this, "handleLogEvent"];
     }
 
     /**
-     * Returns the messages to log.
-     * @return array the log messages
+     * Handle the event to log messages.
+     * @param \Brickoo\Log\Event\LogEvent $logEvent
+     * @param \Brickoo\Event\EventDispatcher $eventDispatcher
+     * @return void
      */
-    public function getMessages() {
-        return $this->getParam(self::PARAM_LOG_MESSAGES);
-    }
-
-    /**
-     * Returns the severity level.
-     * @return integer the severity level
-     */
-    public function getSeverity() {
-        return $this->getParam(self::PARAM_LOG_SEVERITY);
+    public function handleLogEvent(LogEvent $logEvent, EventDispatcher $eventDispatcher) {
+        $this->logger->log($logEvent->getMessages(), $logEvent->getSeverity());
     }
 
 }

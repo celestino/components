@@ -27,33 +27,21 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Log;
+namespace Brickoo\Log\Event;
 
 /**
- * Logger
+ * Events
  *
- * Describes an object to store log messages.
+ * Holds the log events.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-interface Logger {
-
-    const SEVERITY_EMERGENCY    = 0;
-    const SEVERITY_ALERT        = 1;
-    const SEVERITY_CRITICAL     = 2;
-    const SEVERITY_ERROR        = 3;
-    const SEVERITY_WARNING      = 4;
-    const SEVERITY_NOTICE       = 5;
-    const SEVERITY_INFO         = 6;
-    const SEVERITY_DEBUG        = 7;
+class Events {
 
     /**
-     * Sends the log messages using log handler assigned.
-     * @param array|string $messages the messages to store
-     * @param integer $severity the severity level
-     * @throws \InvalidArgumentException if an argument is not valid
-     * @return \Brickoo\Log\Logger
+     * Event for logging some data.
+     * @var string
      */
-    public function log($messages, $severity);
+    const LOG = "brickoo.event.log";
 
 }

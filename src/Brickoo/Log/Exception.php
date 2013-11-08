@@ -30,30 +30,11 @@
 namespace Brickoo\Log;
 
 /**
- * Logger
+ * Exception
  *
- * Describes an object to store log messages.
+ * Defines a log component exception.
+ * Used to catch all exceptions from this component.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-interface Logger {
-
-    const SEVERITY_EMERGENCY    = 0;
-    const SEVERITY_ALERT        = 1;
-    const SEVERITY_CRITICAL     = 2;
-    const SEVERITY_ERROR        = 3;
-    const SEVERITY_WARNING      = 4;
-    const SEVERITY_NOTICE       = 5;
-    const SEVERITY_INFO         = 6;
-    const SEVERITY_DEBUG        = 7;
-
-    /**
-     * Sends the log messages using log handler assigned.
-     * @param array|string $messages the messages to store
-     * @param integer $severity the severity level
-     * @throws \InvalidArgumentException if an argument is not valid
-     * @return \Brickoo\Log\Logger
-     */
-    public function log($messages, $severity);
-
-}
+class Exception extends \Exception {}
