@@ -29,105 +29,65 @@
 
     namespace Brickoo\Event;
 
-    use Brickoo\Validator\Argument;
-
     /**
-     * Events class which is passed to an listener as argument.
-     * Contains the event name, caller and parameters.
+     * Event
+     *
+     * Defines an event holding corresponding parameters and sender reference.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Event implements Interfaces\Event {
-
-        /** @var string */
-        private $name;
-
-        /** @var array */
-        private $params;
-
-        /** @var object */
-        private $Sender;
-
-        /** @var boolean */
-        private $stopped;
+    interface Event {
 
         /**
-         * Class constructor.
-         * @param string $name the event name
-         * @param object $Sender the sender object
-         * @param array $parameters the parameters to add to the event
-         * @throws \InvalidArgumentException if an argument is invalid
-         * @return void
+         * Returns the sender object reference which triggered the event.
+         * @return object the sender object reference or null if not set
          */
-        public function __construct($name, $Sender = null, array $parameters = array()) {
-            Argument::IsString($name);
+        public function getSender();
 
-            if ($Sender !== null) {
-                Argument::IsObject($Sender);
-            }
+        /**
+         * Stops the event of been called by other listeners.
+         * @return \Brickooo\Event\Interfaces\Event
+         */
+        public function stop();
 
-            $this->name = $name;
-            $this->Sender = $Sender;
-            $this->params = $parameters;
-            $this->stopped = false;
-        }
+        /**
+         * Checks if the event has been stopped.
+         * @return boolean check result
+         */
+        public function isStopped();
 
-        /** {@inheritDoc} */
-        public function getSender() {
-            return $this->Sender;
-        }
+        /**
+         * Returns the event name.
+         * @return string the event name
+         */
+        public function getName();
 
-        /** {@inheritDoc} */
-        public function stop() {
-            $this->stopped = true;
-            return $this;
-        }
+        /**
+         * Returns the event parameters.
+         * @return array the assigned event parameters
+         */
+        public function getParams();
 
-        /** {@inheritDoc} */
-        public function isStopped() {
-            return ($this->stopped === true);
-        }
+        /**
+         * Returns the parameter value of the identifier.
+         * If the parameter does not exist, the default value is returned.
+         * @param string $identifier the identifier to return the value from
+         * @return mixed the parmeter value or null if not set
+         */
+        public function getParam($identifier, $defaultValue = null);
 
-        /** {@inheritDoc} */
-        public function getName() {
-            return $this->name;
-        }
+        /**
+         * Checks if the identifier is a available event parameter.
+         * @param string $identifier the identifier to check the avaibility
+         * @return boolean check result
+         */
+        public function hasParam($identifier);
 
-        /** {@inheritDoc} */
-        public function getParams() {
-            return $this->params;
-        }
-
-        /** {@inheritDoc} */
-        public function getParam($identifier) {
-            Argument::IsString($identifier);
-
-            if (! $this->hasParam($identifier)) {
-                return null;
-            }
-
-            return $this->params[$identifier];
-        }
-
-        /** {@inheritDoc} */
-        public function hasParam($identifier) {
-            Argument::IsString($identifier);
-            return isset($this->params[$identifier]);
-        }
-
-        /** {@inheritDoc} */
-        public function hasParams() {
-            $containsAllParameters = true;
-            if (($arguments = func_get_args())) {
-                foreach ($arguments as $argument) {
-                    if (! $this->hasParam($argument)) {
-                        $containsAllParameters = false;
-                        break;
-                    }
-                }
-            }
-
-            return $containsAllParameters;
-        }
+        /**
+         * Checks if the arguments are available event parameters.
+         * @param string any number of arguments to check
+         * @return boolean check result
+         */
+        public function hasParams();
 
     }
