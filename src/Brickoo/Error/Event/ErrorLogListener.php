@@ -29,19 +29,17 @@
 
 namespace Brickoo\Error\Listener;
 
-use Brickoo\Error\Events,
-    Brickoo\Error\Event\ExceptionEvent,
-    Brickoo\Event\Event,
+use Brickoo\Event\Event,
     Brickoo\Event\EventDispatcher,
     Brickoo\Event\Listener,
     Brickoo\Log\Event\LogEvent,
     Brickoo\Log\Logger;
 
-class ExceptionLogListener implements Listener {
+class ErrorLogListener implements Listener {
 
     /** {@inheritDoc} */
     public function getEventName() {
-        return Events::EXCEPTION;
+        return Events::ERROR;
     }
 
     /** {@inheritDoc} */
@@ -52,40 +50,15 @@ class ExceptionLogListener implements Listener {
     /** {@inheritDoc} */
     public function getCondition() {
         return function(Event $event, EventDispatcher $eventDispatcher) {
-            return ($event instanceof ExceptionEvent);
+            return ($event instanceof ErrorEvent);
         };
     }
 
     /** {@inheritDoc} */
     public function getCallback() {
         return function(Event $event, EventDispatcher $eventDispatcher) {
-            return $EventManager->notify(new LogEvent($this->getExceptionMessage($event->getException()), Logger::SEVERITY_CRITICAL));
+            return $eventDispatcher->notify(new LogEvent([$event->getErrorMessage()], Logger::SEVERITY_ERROR));
         };
-    }
-
-    /**
-     * Returns the exceptions messages.
-     * @param \Exception $exception
-     * @return array the exception messages
-     */
-    private function getExceptionMessage(\Exception $exception) {
-        $messages = [$this->generateLogMessage($exception)];
-        if ($previousException = $exception->getPrevious()) {
-            $messages = array_merge($messages, $this->getExceptionMessage($previousException));
-        }
-        return $messages;
-    }
-
-    /**
-     * Returns a well formed exception message.
-     * @param \Exception $exception
-     * @return string the formed exception message
-     */
-    private function generateLogMessage(\Exception $exception) {
-        return sprintf(
-            "[#%s] Uncaught Exception: %s -=- Message: %s",
-            $exception->getCode(), get_class($exception), $exception->getMessage()
-        );
     }
 
 }
