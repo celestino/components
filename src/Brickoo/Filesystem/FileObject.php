@@ -1,172 +1,180 @@
 <?php
 
-    /*
-     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
-     * All rights reserved.
-     *
-     * Redistribution and use in source and binary forms, with or without
-     * modification, are permitted provided that the following conditions
-     * are met:
-     *
-     * 1. Redistributions of source code must retain the above copyright
-     *    notice, this list of conditions and the following disclaimer.
-     * 2. Redistributions in binary form must reproduce the above copyright
-     *    notice, this list of conditions and the following disclaimer in the
-     *    documentation and/or other materials provided with the distribution.
-     *
-     * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-     * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-     * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-     * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-     * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-     * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-     * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-     * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-     * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-     * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-     * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-     */
+/*
+ * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
-    namespace Brickoo\Filesystem;
+namespace Brickoo\Filesystem;
 
-    use Brickoo\Validator\Argument;
+use Brickoo\Validator\Argument;
+
+/**
+ * FileObject
+ *
+ * Implements an OOP wrapper for handling file operations.
+ * The SplFileObject has not an implementation for changing or just close
+ * and open the location anytime within an instance, that`s the reason why did this version has been created.
+ * The resource handle is created and closed by the FileObject,
+ * that`s the reason why fopen() and fclose() are not supported as magic method.
+ * This class does not implement all functions available for file handling,
+ * BUT(!) you can use any file function which expects the resource handle as first argument.
+ * @author Celestino Diaz <celestino.diaz@gmx.de>
+ */
+
+class FileObject {
+
+    /** @var string */
+    private $mode;
+
+    /** @var resource */
+    private $handle;
 
     /**
-     * FileObject
-     *
-     * Implements an OOP wrapper for handling file operations.
-     * The SplFileObject has not an implementation for changing or just close
-     * and open the location anytime within an instance, that`s the reason why did this version has been created.
-     * The resource handle is created and closed by the FileObject,
-     * that`s the reason why fopen() and fclose() are not supported as magic method.
-     * This class does not implement all functions available for file handling,
-     * BUT(!) you can use any file function which expects the resource handle as first argument.
-     * Examples:
-     * <code>
-     *     // Not implemented fseek() and fread() but supported, notify the handle handle is not passed !
-     *     $content = "";
-     *     $FileObject =  new Brickoo\Filesystem\FileObject();
-     *     $FileObject->open("/path/to/file.txt", "r");
-     *     $FileObject->fseek(100);
-     *     $content .= $FileObject->fread(1024);
-     *     $FileObject->close();
-     *     var_dump($content);
-     *
-     *     // Not implemented feof() but supported, reading a file until end of file
-     *     $content = "";
-     *     $FileObject =  new Brickoo\Filesystem\FileObject();
-     *     $FileObject->open("/path/to/file.txt", "r");
-     *     while(! $FileObject->feof()) {
-     *         $content .= $FileObject->read(1024);
-     *     }
-     *     $FileObject->close();
-     *     var_dump($content);
-     * </code>
-     * @author Celestino Diaz <celestino.diaz@gmx.de>
+     * Opens the file to create the handle of a resource.
+     * @see http://www.php.net/manual/en/function.fopen.php
+     * @param string $filename the file name of the resource to open
+     * @param string $mode the mode to use for opening the resource
+     * @param boolean $useIncludePath flag to also use the include path as search location
+     * @param resource|null $context the context created to use
+     * @throws \InvalidArgumentException if an argument is not valid
+     * @throws \Brickoo\Filesystem\Exception\UnableToCreateHandle if the handle can not be created
+     * @throws \Brickoo\Filesystem\Exception\HandleAlreadyExists if the handle has been created and not closed
+     * @return \Brickoo\Filesystem\FileObject
      */
-
-    class FileObject implements Interfaces\FileObject {
-
-        /** @var string */
-        private $mode;
-
-        /** @var resource */
-        private $handle;
-
-        /** {@inheritDoc} */
-        public function open($filename, $mode, $useIncludePath = false, $context = null) {
-            if ($this->hasHandle()) {
-                throw new Exceptions\HandleAlreadyExists();
-            }
-
-            Argument::IsString($filename);
-            Argument::IsString($mode);
-            Argument::IsBoolean($useIncludePath);
-
-            if ($context !== null && (! $handle = @fopen($filename, $mode, $useIncludePath, $context))) {
-                throw new Exceptions\UnableToCreateHandle($filename, $mode);
-            }
-
-            if ($context == null && (! $handle = @fopen($filename, $mode, $useIncludePath))) {
-                throw new Exceptions\UnableToCreateHandle($filename, $mode);
-            }
-
-            $this->handle = $handle;
-            $this->mode = $mode;
-            return $this;
+    public function open($filename, $mode, $useIncludePath = false, $context = null) {
+        if ($this->hasHandle()) {
+            throw new Exceptions\HandleAlreadyExists();
         }
 
-        /** {@inheritDoc} */
-        public function write($data) {
-            if ($this->mode == "r") {
-                throw new Exceptions\InvalidModeOperation($this->mode, "write");
-            }
+        Argument::IsString($filename);
+        Argument::IsString($mode);
+        Argument::IsBoolean($useIncludePath);
 
-            return fwrite($this->getHandle(), $data);
+        if ($context !== null && (! $handle = @fopen($filename, $mode, $useIncludePath, $context))) {
+            throw new Exceptions\UnableToCreateHandle($filename, $mode);
         }
 
-        /** {@inheritDoc} */
-        public function read($bytes) {
-            Argument::IsInteger($bytes);
-
-            if (preg_match("~^[waxc]$~", $this->mode)) {
-                throw new Exceptions\InvalidModeOperation($this->mode, "read");
-            }
-
-            return fread($this->getHandle(), $bytes);
+        if ($context == null && (! $handle = @fopen($filename, $mode, $useIncludePath))) {
+            throw new Exceptions\UnableToCreateHandle($filename, $mode);
         }
 
-        /** {@inheritDoc} */
-        public function close() {
-            fclose($this->getHandle());
-            $this->handle = null;
-            return $this;
+        $this->handle = $handle;
+        $this->mode = $mode;
+        return $this;
+    }
+
+    /**
+     * Writes the data to the file.
+     * @param mixed $data the data to write
+     * @throws \Brickoo\Filesystem\Exception\HandleNotAvailable if the handle is not initialized
+     * @throws \Brickoo\Filesystem\Exception\InvalidModeOperation if the current mode does not support write operations
+     * @return integer the bytes written
+     */
+    public function write($data) {
+        if ($this->mode == "r") {
+            throw new Exceptions\InvalidModeOperation($this->mode, "write");
         }
 
-        /**
-         * Removes the resource handle if available.
-         * @return void
-         */
-        public function __destruct() {
-            if ($this->hasHandle()) {
-                $this->close();
-            }
+        return fwrite($this->getHandle(), $data);
+    }
+
+    /**
+     * Reads the passed bytes of data from the file location.
+     * @param integer the amount of bytes to read from
+     * @throws \InvalidArgumentException if the argument is not valid
+     * @throws \Brickoo\Filesystem\Exception\HandleNotAvailable if the handle is not initialized
+     * @throws \Brickoo\Filesystem\Exception\InvalidModeOperation if the current mode does not support read operations
+     * @return string the readed content
+     */
+    public function read($bytes) {
+        Argument::IsInteger($bytes);
+
+        if (preg_match("~^[waxc]$~", $this->mode)) {
+            throw new Exceptions\InvalidModeOperation($this->mode, "read");
         }
 
-        /**
-         * Checks if a handle has been created.
-         * @return boolean check result
-         */
-        private function hasHandle() {
-            return is_resource($this->handle);
-        }
+        return fread($this->getHandle(), $bytes);
+    }
 
-        /**
-         * Returns the resoruce file handle.
-         * @throws \Brickoo\Filesystem\Exceptions\HandleNotAvailable
-         * @return resource file handle
-         */
-        private function getHandle() {
-            if (! $this->hasHandle()) {
-                throw new Exceptions\HandleNotAvailable();
-            }
+    /**
+     * Closes the the data handler and frees the ressource.
+     * @throws \Brickoo\Filesystem\Exception\HandleNotAvailable if the handle is not initialized
+     * @return \Brickoo\Filesystem\FileObject
+     */
+    public function close() {
+        fclose($this->getHandle());
+        $this->handle = null;
+        return $this;
+    }
 
-            return $this->handle;
-        }
-
-        /**
-         * Provides the posibility to call not implemented file functions.
-         * @param string $function the function name to call
-         * @param array $arguments the arguments to pass
-         * @throws \BadMethodCallException if the trying to call fopen() or fclose()
-         * @return mixed the called function return value
-         */
-        public function __call($function, array $arguments) {
-            if (($function == "fopen") || ($function == "fclose")) {
-                throw new \BadMethodCallException(
-                    sprintf("The method `%s` is not allowed to be called.", $function)
-                );
-            }
-            return call_user_func_array($function, array_merge(array($this->handle), $arguments));
+    /**
+     * Removes the resource handle if available.
+     * @return void
+     */
+    public function __destruct() {
+        if ($this->hasHandle()) {
+            $this->close();
         }
     }
+
+    /**
+     * Checks if a handle has been created.
+     * @return boolean check result
+     */
+    private function hasHandle() {
+        return is_resource($this->handle);
+    }
+
+    /**
+     * Returns the resoruce file handle.
+     * @throws \Brickoo\Filesystem\Exception\HandleNotAvailable
+     * @return resource file handle
+     */
+    private function getHandle() {
+        if (! $this->hasHandle()) {
+            throw new Exceptions\HandleNotAvailable();
+        }
+
+        return $this->handle;
+    }
+
+    /**
+     * Provides the posibility to call not implemented file functions.
+     * @param string $function the function name to call
+     * @param array $arguments the arguments to pass
+     * @throws \BadMethodCallException if the trying to call fopen() or fclose()
+     * @return mixed the called function return value
+     */
+    public function __call($function, array $arguments) {
+        if (($function == "fopen") || ($function == "fclose")) {
+            throw new \BadMethodCallException(
+                sprintf("The method `%s` is not allowed to be called.", $function)
+            );
+        }
+        return call_user_func_array($function, array_merge(array($this->handle), $arguments));
+    }
+
+}
