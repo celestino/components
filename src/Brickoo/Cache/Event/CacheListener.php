@@ -27,45 +27,65 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Cache;
+namespace Brickoo\Cache\Event;
+
+use Brickoo\Event\Listener,
+    Brickoo\Validator\Argument;
 
 /**
- * Events
+ * CacheListener
  *
- * Defines the cache events.
+ * Implements a listener for caching related events.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Events {
+class CacheListener implements Listener {
+
+    private $eventName;
+
+    private $listenerPriority;
+
+    private $callback;
+
+    private $condition;
 
     /**
-     * Asks for a cached content.
-     * @var string
+     * Class constructor.
+     * Initializes the event listener.
+     * @param string $eventName
+     * @param integer $priority
+     * @param callable $condition
+     * @param callable $callback
+     * @return void
      */
-    const GET = "brickoo.cache.get";
+    public function __construct($eventName, $priority, callable $condition, callable $callback) {
+        Argument::IsString($eventName);
+        Argument::IsInteger($priority);
 
-    /**
-     * Notifies that the content has to be cached.
-     * @var string
-     */
-    const SET = "brickoo.cache.set";
+        $this->eventName = $eventName;
+        $this->listenerPriority = $priority;
+        $this->condition = $condition;
+        $this->callback = $callback;
+    }
 
-    /**
-     * Asks for a cached content otherwise a callback should be executed.
-     * @var string
-     */
-    const CALLBACK = "brickoo.cache.callback";
+    /** {@inheritDoc} */
+    public function getEventName() {
+        return $this->eventName;
+    }
 
-    /**
-     * Notifies that some cached content has to be deleted.
-     * @var string
-     */
-    const DELETE = "brickoo.cache.delete";
+    /** {@inheritDoc} */
+    public function getPriority() {
+        return $this->listenerPriority;
+    }
 
-    /**
-     * Notifies that all cached content has to be flushed.
-     * @var string
-     */
-    const FLUSH = "brickoo.cache.flush";
+    /** {@inheritDoc} */
+    public function getCallback() {
+        return $this->callback;
+    }
+
+    /** {@inheritDoc} */
+    public function getCondition() {
+        return $this->condition;
+    }
 
 }

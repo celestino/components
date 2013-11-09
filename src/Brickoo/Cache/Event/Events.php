@@ -30,20 +30,42 @@
 namespace Brickoo\Cache\Event;
 
 /**
- * FlushEvent
+ * Events
  *
- * Implements an event for flushing all cached data.
+ * Defines the cache events.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class FlushEvent extends AbstractEvent {
+class Events {
 
     /**
-     * Overrides the parent class constructor.
-     * @return void
+     * Asks for a cached content.
+     * @var string
      */
-    public function __construct() {
-        parent::__construct(Events::FLUSH);
-    }
+    const GET = "brickoo.event.cache.get";
+
+    /**
+     * Notifies that the content has to be cached.
+     * @var string
+     */
+    const SET = "brickoo.event.cache.set";
+
+    /**
+     * Asks for a cached content otherwise a callback should be executed.
+     * @var string
+     */
+    const CALLBACK = "brickoo.event.cache.callback";
+
+    /**
+     * Notifies that some cached content has to be deleted.
+     * @var string
+     */
+    const DELETE = "brickoo.event.cache.delete";
+
+    /**
+     * Notifies that all cached content has to be flushed.
+     * @var string
+     */
+    const FLUSH = "brickoo.event.cache.flush";
 
 }

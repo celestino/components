@@ -27,23 +27,23 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Cache;
+namespace Brickoo\Cache\Event;
 
-use Brickoo\Cache\Event,
+use Brickoo\Cache\CacheManager,
+    Brickoo\Event\Event,
     Brickoo\Event\EventDispatcher,
     Brickoo\Event\ListenerAggregate,
-    Brickoo\Event\Listener as EventListener,
     Brickoo\Validator\Argument;
 
 /**
- * EventListener
+ * CacheManagerListener
  *
  * Implements the attachment of cache listeners to an event dispatcher
- * having a cache manager as dependency for event based cache operations.
+ * having a cache manager as dependency for event processing cache operations.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class EventListener implements ListenerAggregate {
+class CacheManagerListener implements ListenerAggregate {
 
     /** @var \Brickoo\Cache\CacheManager */
     private $cacheManager;
@@ -66,31 +66,46 @@ class EventListener implements ListenerAggregate {
 
     /** {@inheritDoc} */
     public function attachListeners(EventDispatcher $dispatcher) {
-        $dispatcher->attach(new EventListener(
+        $dispatcher->attach(new CacheListener(
             Events::GET,
-            array($this, "handleRetrieveEvent"),
-            $this->listenerPriority
+            $this->listenerPriority,
+            [$this, "isEventSupported"],
+            [$this, "handleRetrieveEvent"]
         ));
-        $dispatcher->attach(new EventListener(
+        $dispatcher->attach(new CacheListener(
             Events::CALLBACK,
-            array($this, "handleRetrieveByCallbackEvent"),
-            $this->listenerPriority
+            $this->listenerPriority,
+            [$this, "isEventSupported"],
+            [$this, "handleRetrieveByCallbackEvent"]
         ));
-        $dispatcher->attach(new EventListener(
+        $dispatcher->attach(new CacheListener(
             Events::SET,
-            array($this, "handleStoreEvent"),
-            $this->listenerPriority
+            $this->listenerPriority,
+            [$this, "isEventSupported"],
+            [$this, "handleStoreEvent"]
         ));
-        $dispatcher->attach(new EventListener(
+        $dispatcher->attach(new CacheListener(
             Events::DELETE,
-            array($this, "handleDeleteEvent"),
-            $this->listenerPriority
+            $this->listenerPriority,
+            [$this, "isEventSupported"],
+            [$this, "handleDeleteEvent"]
         ));
-        $dispatcher->attach(new EventListener(
+        $dispatcher->attach(new CacheListener(
             Events::FLUSH,
-            array($this, "handleFlushEvent"),
-            $this->listenerPriority
+            $this->listenerPriority,
+            [$this, "isEventSupported"],
+            [$this, "handleFlushEvent"]
         ));
+    }
+
+    /**
+     * Checks if the event is supported.
+     * @param \Brickoo\Event\Event $event
+     * @param \Brickoo\Event\EventDispatcher $eventDispatcher
+     * @return boolean check result
+     */
+    public function isEventSupported(Event $event, EventDispatcher $eventDispatcher) {
+        return  ($event instanceof AbstractEvent);
     }
 
     /**
@@ -99,7 +114,7 @@ class EventListener implements ListenerAggregate {
      * @param \Brickoo\Event\EventDispatcher $Dispatcher
      * @return mixed the cached content
      */
-    public function handleRetrieveEvent(Event\RetrieveEvent $Event, EventDispatcher $Dispatcher) {
+    public function handleRetrieveEvent(RetrieveEvent $Event, EventDispatcher $Dispatcher) {
         return $this->cacheManager->get($Event->getIdentifier());
     }
 
@@ -110,7 +125,7 @@ class EventListener implements ListenerAggregate {
      * @param \Brickoo\Event\EventDispatcher $Dispatcher
      * @return mixed the cached content
      */
-    public function handleRetrieveByCallbackEvent(Event\RetrieveByCallbackEvent $Event, EventDispatcher $Dispatcher) {
+    public function handleRetrieveByCallbackEvent(RetrieveByCallbackEvent $Event, EventDispatcher $Dispatcher) {
         return $this->cacheManager->getByCallback(
             $Event->getIdentifier(),
             $Event->getCallback(),
@@ -125,7 +140,7 @@ class EventListener implements ListenerAggregate {
      * @param \Brickoo\Event\EventDispatcher $Dispatcher
      * @return void
      */
-    public function handleStoreEvent(Event\StoreEvent $Event, EventDispatcher $Dispatcher) {
+    public function handleStoreEvent(StoreEvent $Event, EventDispatcher $Dispatcher) {
         $this->cacheManager->set($Event->getIdentifier(), $Event->getContent(), $Event->getLifetime());
     }
 
@@ -136,7 +151,7 @@ class EventListener implements ListenerAggregate {
      * @param \Brickoo\Event\EventDispatcher $Dispatcher
      * @return void
      */
-    public function handleCacheEventDelete(Event\DeleteEvent $Event, EventDispatcher $Dispatcher) {
+    public function handleCacheEventDelete(DeleteEvent $Event, EventDispatcher $Dispatcher) {
         $this->cacheManager->delete($Event->getIdentifier());
     }
 
@@ -146,7 +161,7 @@ class EventListener implements ListenerAggregate {
      * @param \Brickoo\Event\EventDispatcher $Dipatcher
      * @return void
      */
-    public function handleCacheEventFlush(Event\FlushEvent $Event, EventDispatcher $Dispatcher) {
+    public function handleCacheEventFlush(FlushEvent $Event, EventDispatcher $Dispatcher) {
         $this->cacheManager->flush();
     }
 
