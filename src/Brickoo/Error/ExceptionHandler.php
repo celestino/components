@@ -73,7 +73,7 @@ class ExceptionHandler {
      */
     public function register() {
         if ($this->isRegistered()) {
-            throw new Exception\DuplicateHandlerRegistration("ExceptionHandler");
+            throw new Exception\DuplicateHandlerRegistrationException("ExceptionHandler");
         }
 
         set_exception_handler(array($this, "handleException"));
@@ -89,7 +89,7 @@ class ExceptionHandler {
      */
     public function unregister() {
         if (! $this->isRegistered()) {
-            throw new Exception\HandlerNotRegistered("ExceptionHandler");
+            throw new Exception\HandlerNotRegisteredException("ExceptionHandler");
         }
 
         restore_exception_handler();

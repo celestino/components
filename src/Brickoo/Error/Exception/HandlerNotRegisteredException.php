@@ -32,25 +32,24 @@ namespace Brickoo\Error\Exception;
 use Brickoo\Error\Exception;
 
 /**
- * ErrorOccurred
+ * HandlerNotRegisteredException
  *
- * Expected Exception throwed by the ErrorHandler class if errors should be converted to exceptions.
- * @see Brickoo\Error\ErrorHandler
+ * Exception throwed by an error handler class if trying to unregister
+ * an unregistered error handler instance.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class ErrorOccurred extends Exception {
+class HandlerNotRegisteredException extends Exception {
 
     /**
      * Class constructor.
      * Calls the parent Exception constructor.
-     * @param string $errorMessage the message passed by the error handler
-     * @param integer $errorCode the error code passed by the error handler
+     * @param string $handlerName the handler name not registered
      * @param \Exception $previousException
      * @return void
      */
-    public function __construct($errorMessage, $errorCode, \Exception $previousException = null) {
-        parent::__construct($errorMessage, $errorCode, $previousException);
+    public function __construct($handlerName, \Exception $previousException = null) {
+        parent::__construct(sprintf('The `%s` is not registered.', $handlerName), 0, $previousException);
     }
 
 }

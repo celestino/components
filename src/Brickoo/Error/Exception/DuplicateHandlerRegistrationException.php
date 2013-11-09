@@ -32,24 +32,23 @@ namespace Brickoo\Error\Exception;
 use Brickoo\Error\Exception;
 
 /**
- * HandlerNotRegistered
+ * DuplicateHandlerRegistrationException
  *
- * Exception throwed by an error handler class if trying to unregister
- * an unregistered error handler instance.
+ * Exception throwed by an error handler class if trying to register the instance twice.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class HandlerNotRegistered extends Exception {
+class DuplicateHandlerRegistrationException extends Exception {
 
     /**
      * Class constructor.
-     * Calls the parent Exception constructor.
-     * @param string $handlerName the handler name not registered
+     * Calls the parent exception constructor.
+     * @param string $handlerName the handler name already registered
      * @param \Exception $previousException
      * @return void
      */
     public function __construct($handlerName, \Exception $previousException = null) {
-        parent::__construct(sprintf('The `%s` is not registered.', $handlerName), 0, $previousException);
+        parent::__construct(sprintf('The `%s` is already registered.', $handlerName), 0, $previousException);
     }
 
 }

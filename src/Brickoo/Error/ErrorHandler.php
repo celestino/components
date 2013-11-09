@@ -63,7 +63,7 @@ class ErrorHandler {
     public function __construct(EventDispatcher $eventDispatcher, $convertToException = true) {
         Argument::IsBoolean($convertToException);
 
-        $this->EventDispatcher = $EventDispatcher;
+        $this->EventDispatcher = $eventDispatcher;
         $this->convertToException = $convertToException;
         $this->isRegistered = false;
     }
@@ -88,7 +88,6 @@ class ErrorHandler {
 
         set_error_handler(array($this, "handleError"));
         $this->isRegistered = true;
-
         return $this;
     }
 
@@ -99,12 +98,11 @@ class ErrorHandler {
      */
     public function unregister() {
         if (! $this->isRegistered()) {
-            throw new Exception\HandlerNotRegistered("ErrorHandler");
+            throw new Exception\HandlerNotRegisteredException("ErrorHandler");
         }
 
         restore_error_handler();
         $this->isRegistered = false;
-
         return $this;
     }
 
@@ -133,7 +131,7 @@ class ErrorHandler {
         $message = sprintf("%s in %s on line %s", $errorMessage, $errorFile, $errorLine);
 
         if ($this->convertToException) {
-            throw new Exception\ErrorOccurred($message, $errorCode);
+            throw new Exception\ErrorOccurredException($message, $errorCode);
         }
         else {
             $this->EventDispatcher->notify(new ErrorEvent($message));
