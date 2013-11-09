@@ -27,22 +27,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Event;
+namespace Brickoo\Event\Exception;
+
+use Brickoo\Event\Exception;
 
 /**
- * ListenerAggregate
+ * InfiniteEventLoopException
  *
- * Describes an object which has listeners for attaching to an event dispatcher.
+ * Throwed if an infinite event loop is detected.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-interface ListenerAggregate {
+class InfiniteEventLoopException extends Exception {
 
     /**
-     * Attaches the listeners to the event dispatcher.
-     * @param \Brickoo\Event\EventDispatcher $eventDispatcher
+     * Calls the parent exception constructor.
+     * @param string $eventName the event which has an infinite loop
+     * @param \Exception $previousException
      * @return void
      */
-    public function attachListeners(\Brickoo\Event\EventDispatcher $eventDispatcher);
+    public function __construct($eventName, \Exception $previousException = null) {
+        parent::__construct(sprintf('The event `%s` has an infinite loop.', $eventName), 0, $previousException);
+    }
 
 }

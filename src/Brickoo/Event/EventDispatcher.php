@@ -29,7 +29,15 @@
 
 namespace Brickoo\Event;
 
-use Brickoo\Validator\Argument;
+use Brickoo\Event\Event,
+    Brickoo\Event\EventProcessor,
+    Brickoo\Event\Listener,
+    Brickoo\Event\ListenerAggregate,
+    Brickoo\Event\ListenerCollection,
+    Brickoo\Event\ResponseCollection,
+    Brickoo\Event\Exception\InfiniteEventLoopException,
+    Brickoo\Memory\Container,
+    Brickoo\Validator\Argument;
 
 /**
  * EventDispatcher
@@ -64,148 +72,143 @@ class EventDispatcher {
      */
     const BEHAVIOUR_CALL_ALL_LISTENERS_COLLECT_RESPONSES = 4;
 
-    /** @var \Brickoo\Event\Process\Interfaces\Processor */
-    private $Processor;
+    /** @var \Brickoo\Event\EventProcessor */
+    private $processor;
 
-    /** @var \Brickoo\Event\Listener\Interfaces\Collection */
-    private $ListenerCollection;
+    /** @var \Brickoo\Event\ListenerCollection */
+    private $listenerCollection;
 
-    /** @var \Brickoo\Memory\Interfaces\Container */
-    private $EventList;
+    /** @var \Brickoo\Memory\Container */
+    private $eventList;
 
     /**
      * Class constructor.
      * Injects a listener collection for adding event listeners,
      * a processor to process the event triggered and a list to remember running events.
-     * @param \Brickoo\Event\Interfaces\Processor $Processor
-     * @param \Brickoo\Event\Listener\Interfaces\Collection $ListenerCollection
-     * @param \Brickoo\Memory\Interfaces\Container $EventList
+     * @param \Brickoo\Event\EventProcessor $processor
+     * @param \Brickoo\Event\ListenerCollection $listenerCollection
+     * @param \Brickoo\Memory\Container $eventList
      * @return void
      */
-    public function __construct(
-        \Brickoo\Event\Process\Interfaces\Processor $Processor,
-        \Brickoo\Event\Listener\Interfaces\Collection $ListenerCollection,
-        \Brickoo\Memory\Interfaces\Container $EventList
-    ){
-        $this->Processor  = $Processor;
-        $this->ListenerCollection = $ListenerCollection;
-        $this->EventList = $EventList;
+    public function __construct(EventProcessor $processor, ListenerCollection $listenerCollection, Container $eventList) {
+        $this->processor  = $processor;
+        $this->listenerCollection = $listenerCollection;
+        $this->eventList = $eventList;
     }
 
     /**
      * Adds a listener to an event.
-     * @param \Brickoo\Event\Interfaces\Listener $Listener the listener to attach
+     * @param \Brickoo\Event\Listener $listener the listener to attach
      * @return string the listener unique identifier
      */
-    public function attach(\Brickoo\Event\Interfaces\Listener $Listener) {
-      return $this->ListenerCollection->add($Listener, $Listener->getPriority());
+    public function attach(Listener $listener) {
+      return $this->listenerCollection->add($listener, $listener->getPriority());
     }
 
     /**
      * Calls the listener with himself to attach the aggregated listeners.
-     * @param \Brickoo\Event\Interfaces\ListenerAggregate $Listener
-     * @return \Brickoo\Event\Interfaces\Manager
+     * @param \Brickoo\Event\ListenerAggregate $listener
+     * @return \Brickoo\Event\EventDispatcher
      */
-    public function attachAggregatedListeners(\Brickoo\Event\Interfaces\ListenerAggregate $Listener) {
-        $Listener->attachListeners($this);
+    public function attachAggregatedListeners(ListenerAggregate $listener) {
+        $listener->attachListeners($this);
         return $this;
     }
 
     /**
-         * Removes the event listener.
-         * @param string $listenerUID the listener unique identifier
-         * @throws \InvalidArgumentException if an argument is not valid
-         * @return \Brickoo\Event\Interfaces\Manager
-         */
+     * Removes the event listener.
+     * @param string $listenerUID the listener unique identifier
+     * @throws \InvalidArgumentException
+     * @return \Brickoo\Event\EventDispatcher
+     */
     public function detach($listenerUID) {
         Argument::IsString($listenerUID);
-        $this->ListenerCollection->remove($listenerUID);
+        $this->listenerCollection->remove($listenerUID);
         return $this;
     }
 
     /**
-         * Notify all event listeners.
-         * @param \Brickoo\Event\Interfaces\Event $Event the executed event
-         * @throws \Brickoo\Event\Exceptions\InfiniteEventLoop if an infinite loop is detected
-         * @return \Brickoo\Event\Interfaces\Manager
-         */
-    public function notify(\Brickoo\Event\Interfaces\Event $Event) {
-        $this->process($Event, self::BEHAVIOUR_CALL_ALL_LISTENERS);
+     * Notify all event listeners.
+     * @param \Brickoo\Event\Event $event the executed event
+     * @throws \Brickoo\Event\Exception\InfiniteEventLoopException
+     * @return \Brickoo\Event\EventDispatcher
+     */
+    public function notify(Event $event) {
+        $this->process($event, self::BEHAVIOUR_CALL_ALL_LISTENERS);
         return $this;
     }
 
     /**
-         * Notifies the event with the highest priority.
-         * @param \Brickoo\Event\Interfaces\Event $Event the executed event
-         * @throws \Brickoo\Event\Exceptions\InfiniteEventLoop if an infinite loop is detected
-         * @return \Brickoo\Event\Interfaces\Manager
-         */
-    public function notifyOnce(\Brickoo\Event\Interfaces\Event $Event) {
-        $this->process($Event, self::BEHAVIOUR_CALL_ONLY_HIGHEST_PRIORITY_LISTENER);
+     * Notifies the event with the highest priority.
+     * @param \Brickoo\Event\Event $event the executed event
+     * @throws \Brickoo\Event\Exception\InfiniteEventLoopException
+     * @return \Brickoo\Event\EventDispatcher
+     */
+    public function notifyOnce(Event $event) {
+        $this->process($event, self::BEHAVIOUR_CALL_ONLY_HIGHEST_PRIORITY_LISTENER);
         return $this;
     }
 
     /**
-         * Asks all event listeners until one listener returns a response.
-         * @param \Brickoo\Event\Interfaces\Event $Event the exectued
-         * @throws \Brickoo\Event\Exceptions\InfiniteEventLoop if an infinite loop is detected
-         * @return \Brickoo\Event\Response\Interfaces\Collection containing the response
-         */
-    public function ask(\Brickoo\Event\Interfaces\Event $Event) {
-        return new Response\ResponseCollection(
-            $this->process($Event, self::BEHAVIOUR_CALL_UNTIL_LISTENER_RESPONSE)
+     * Asks all event listeners until one listener returns a response.
+     * @param \Brickoo\Event\Event $event the exectued
+     * @throws \Brickoo\Event\Exception\InfiniteEventLoopException
+     * @return \Brickoo\Event\ResponseCollection containing the response
+     */
+    public function ask(Event $event) {
+        return new ResponseCollection(
+            $this->process($event, self::BEHAVIOUR_CALL_UNTIL_LISTENER_RESPONSE)
         );
     }
 
     /**
-         * Collects all responses returned by the event listeners.
-         * @param \Brickoo\Event\Interfaces\Event $Event
-         * @throws \Brickoo\Event\Exceptions\InfiniteEventLoop if an infinite loop is detected
-         * @return \Brickoo\Event\Response\Interfaces\Collection containing the collected responses
-         */
-    public function collect(\Brickoo\Event\Interfaces\Event $Event) {
-        return new Response\ResponseCollection(
-            $this->process($Event, self::BEHAVIOUR_CALL_ALL_LISTENERS_COLLECT_RESPONSES)
+     * Collects all responses returned by the event listeners.
+     * @param \Brickoo\Event\Event $event
+     * @throws \Brickoo\Event\Exception\InfiniteEventLoopException
+     * @return \Brickoo\Event\ResponseCollection containing the collected responses
+     */
+    public function collect(Event $event) {
+        return new ResponseCollection(
+            $this->process($event, self::BEHAVIOUR_CALL_ALL_LISTENERS_COLLECT_RESPONSES)
         );
     }
 
     /**
      * Process the event by calling the event listeners with the requested behaviour.
-     * @param \Brickoo\Event\Interfaces\Event $Event the event to processed
+     * @param \Brickoo\Event\Event $event the event to processed
      * @param integer $behaviourControlFlag the behaviour control flag
-     * @throws \Brickoo\Event\Exceptions\InfiniteEventLoop if an infinite loop is detected
-     * @return array the listener responses otherwise null on failure
+     * @throws \Brickoo\Event\Exception\InfiniteEventLoopException
+     * @return array the listener responses otherwise
      */
-    private function process(\Brickoo\Event\Interfaces\Event $Event, $behaviourControlFlag) {
-        $response = array();
-        $eventName = $Event->getName();
+    private function process(Event $event, $behaviourControlFlag) {
+        $eventName = $event->getName();
 
-        if (! $this->ListenerCollection->hasListeners($eventName)) {
-            return $response;
+        if (! $this->listenerCollection->hasListeners($eventName)) {
+            return [];
         }
 
-        if ($this->EventList->has($eventName)) {
-            throw new Exceptions\InfiniteEventLoop($eventName);
+        if ($this->eventList->has($eventName)) {
+            throw new InfiniteEventLoopException($eventName);
         }
 
-        $this->EventList->set($eventName, time());
-        $response = $this->getEventListenersResponse($Event, $behaviourControlFlag);
-        $this->EventList->delete($eventName);
+        $this->eventList->set($eventName, time());
+        $responses = $this->getEventListenersResponses($event, $behaviourControlFlag);
+        $this->eventList->delete($eventName);
 
-        return $response;
+        return $responses;
     }
 
     /**
-     * Returns the event listeners response(s).
-     * @param \Brickoo\Event\Interfaces\Event $Event the event to processed
+     * Returns the event listeners responses.
+     * @param \Brickoo\Event\Event $event the event to processed
      * @param integer $behaviourControlFlag the behaviour control flag
      * @return mixed the returned response or array the collected responses
      */
-    private function getEventListenersResponse(\Brickoo\Event\Interfaces\Event $Event, $behaviourControlFlag) {
+    private function getEventListenersResponses(Event $event, $behaviourControlFlag) {
         $collectedResponses = array();
 
-        foreach ($this->ListenerCollection->getListeners($Event->getName()) as $Listener) {
-            $response = $this->Processor->handle($this, $Event, $Listener);
+        foreach ($this->listenerCollection->getListeners($event->getName()) as $listener) {
+            $response = $this->processor->handle($this, $event, $listener);
 
             if ((($behaviourControlFlag & self::BEHAVIOUR_CALL_UNTIL_LISTENER_RESPONSE) == $behaviourControlFlag)
                 && ($response !== null)
@@ -214,7 +217,7 @@ class EventDispatcher {
                 break;
             }
 
-            if ($Event->isStopped() || (($behaviourControlFlag & self::BEHAVIOUR_CALL_ONLY_HIGHEST_PRIORITY_LISTENER) == $behaviourControlFlag)) {
+            if ($event->isStopped() || (($behaviourControlFlag & self::BEHAVIOUR_CALL_ONLY_HIGHEST_PRIORITY_LISTENER) == $behaviourControlFlag)) {
                 break;
             }
 

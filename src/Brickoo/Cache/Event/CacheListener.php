@@ -29,63 +29,141 @@
 
 namespace Brickoo\Cache\Event;
 
-use Brickoo\Event\Listener,
+use Brickoo\Cache\CacheManager,
+    Brickoo\Event\Event,
+    Brickoo\Event\EventDispatcher,
+    Brickoo\Event\GenericListener,
+    Brickoo\Event\ListenerAggregate,
     Brickoo\Validator\Argument;
 
 /**
- * CacheListener
+ * CacheManagerListener
  *
- * Implements a listener for caching related events.
+ * Implements the attachment of cache listeners to an event dispatcher
+ * having a cache manager as dependency for event processing cache operations.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class CacheListener implements Listener {
+class CacheManagerListener implements ListenerAggregate {
 
-    private $eventName;
+    /** @var \Brickoo\Cache\CacheManager */
+    private $cacheManager;
 
+    /** @var integer */
     private $listenerPriority;
-
-    private $callback;
-
-    private $condition;
 
     /**
      * Class constructor.
-     * Initializes the event listener.
-     * @param string $eventName
-     * @param integer $priority
-     * @param callable $condition
-     * @param callable $callback
+     * @param \Brickoo\Cache\CacheManager $cacheManager
+     * @param integer $priority the listener priority
      * @return void
      */
-    public function __construct($eventName, $priority, callable $condition, callable $callback) {
-        Argument::IsString($eventName);
+    public function __construct(CacheManager $cacheManager, $priority = 0) {
         Argument::IsInteger($priority);
 
-        $this->eventName = $eventName;
+        $this->cacheManager = $cacheManager;
         $this->listenerPriority = $priority;
-        $this->condition = $condition;
-        $this->callback = $callback;
     }
 
     /** {@inheritDoc} */
-    public function getEventName() {
-        return $this->eventName;
+    public function attachListeners(EventDispatcher $dispatcher) {
+        $dispatcher->attach(new GenericListener(
+            Events::GET,
+            $this->listenerPriority,
+            [$this, "handleRetrieveEvent"],
+            [$this, "isEventSupported"]
+        ));
+        $dispatcher->attach(new GenericListener(
+            Events::CALLBACK,
+            $this->listenerPriority,
+            [$this, "handleRetrieveByCallbackEvent"],
+            [$this, "isEventSupported"]
+        ));
+        $dispatcher->attach(new GenericListener(
+            Events::SET,
+            $this->listenerPriority,
+            [$this, "handleStoreEvent"],
+            [$this, "isEventSupported"]
+        ));
+        $dispatcher->attach(new GenericListener(
+            Events::DELETE,
+            $this->listenerPriority,
+            [$this, "handleDeleteEvent"],
+            [$this, "isEventSupported"]
+        ));
+        $dispatcher->attach(new GenericListener(
+            Events::FLUSH,
+            $this->listenerPriority,
+            [$this, "handleFlushEvent"],
+            [$this, "isEventSupported"]
+        ));
     }
 
-    /** {@inheritDoc} */
-    public function getPriority() {
-        return $this->listenerPriority;
+    /**
+     * Checks if the event is supported.
+     * @param \Brickoo\Event\Event $event
+     * @param \Brickoo\Event\EventDispatcher $eventDispatcher
+     * @return boolean check result
+     */
+    public function isEventSupported(Event $event, EventDispatcher $eventDispatcher) {
+        return  ($event instanceof AbstractEvent);
     }
 
-    /** {@inheritDoc} */
-    public function getCallback() {
-        return $this->callback;
+    /**
+     * Handle the event to retrieve the cached content from the injected cache manager.
+     * @param \Brickoo\Cache\Event\RetrieveEvent $Event
+     * @param \Brickoo\Event\EventDispatcher $Dispatcher
+     * @return mixed the cached content
+     */
+    public function handleRetrieveEvent(RetrieveEvent $Event, EventDispatcher $Dispatcher) {
+        return $this->cacheManager->get($Event->getIdentifier());
     }
 
-    /** {@inheritDoc} */
-    public function getCondition() {
-        return $this->condition;
+    /**
+     * Handle the event to retrieve the cached content from the injected cache manager
+     * with a callback used as a fallback.
+     * @param \Brickoo\Cache\Event\RetrieveByCallbackEvent $Event
+     * @param \Brickoo\Event\EventDispatcher $Dispatcher
+     * @return mixed the cached content
+     */
+    public function handleRetrieveByCallbackEvent(RetrieveByCallbackEvent $Event, EventDispatcher $Dispatcher) {
+        return $this->cacheManager->getByCallback(
+            $Event->getIdentifier(),
+            $Event->getCallback(),
+            $Event->getCallbackArguments(),
+            $Event->getLifetime()
+        );
+    }
+
+    /**
+     * Handle the event to cache content.
+     * @param \Brickoo\Cache\Event\StoreEvent $Event
+     * @param \Brickoo\Event\EventDispatcher $Dispatcher
+     * @return void
+     */
+    public function handleStoreEvent(StoreEvent $Event, EventDispatcher $Dispatcher) {
+        $this->cacheManager->set($Event->getIdentifier(), $Event->getContent(), $Event->getLifetime());
+    }
+
+    /**
+     * Handle the event to delete the cached content holded by the identifier
+     * through the injected cache manager.
+     * @param \Brickoo\Cache\Event\DeleteEvent $Event
+     * @param \Brickoo\Event\EventDispatcher $Dispatcher
+     * @return void
+     */
+    public function handleCacheEventDelete(DeleteEvent $Event, EventDispatcher $Dispatcher) {
+        $this->cacheManager->delete($Event->getIdentifier());
+    }
+
+    /**
+     * Handle to flush the cache content through the injected cache manager.
+     * @param \Brickoo\Cache\Event\FlushEvent $Event
+     * @param \Brickoo\Event\EventDispatcher $Dipatcher
+     * @return void
+     */
+    public function handleCacheEventFlush(FlushEvent $Event, EventDispatcher $Dispatcher) {
+        $this->cacheManager->flush();
     }
 
 }

@@ -29,6 +29,8 @@
 
 namespace Brickoo\Event;
 
+use Brickoo\Event\Exception\ResponseNotAvailableException;
+
 /**
  * Collection
  *
@@ -53,12 +55,12 @@ class ResponseCollection implements \Countable {
     /**
      * Returns the first response from the collection stack.
      * The response will be removed from the list.
-     * @throws \Brickoo\Event\Response\Exceptions\ResponseNotAvailable
+     * @throws \Brickoo\Event\Exception\ResponseNotAvailableException
      * @return mixed the first collected response
      */
     public function shift() {
         if ($this->isEmpty()) {
-            throw new Exceptions\ResponseNotAvailable();
+            throw new ResponseNotAvailableException();
         }
         return array_shift($this->responsesContainer);
     }
@@ -66,24 +68,24 @@ class ResponseCollection implements \Countable {
     /**
      * Returns the last response from the collection stack.
      * The response will be removed from the list.
-     * @throws \Brickoo\Event\Response\Exceptions\ResponseNotAvailable
+     * @throws \Brickoo\Event\Exception\ResponseNotAvailableException
      * @return mixed the last collected response
      */
     public function pop() {
         if ($this->isEmpty()) {
-            throw new Exceptions\ResponseNotAvailable();
+            throw new ResponseNotAvailableException();
         }
         return array_pop($this->responsesContainer);
     }
 
     /**
      * Returns all listened responses.
-     * @throws \Brickoo\Event\Response\Exceptions\ResponseNotAvailable
+     * @throws \Brickoo\Event\Exception\ResponseNotAvailableException
      * @return array the collected responses
      */
     public function getAll() {
         if ($this->isEmpty()) {
-            throw new Exceptions\ResponseNotAvailable();
+            throw new ResponseNotAvailableException();
         }
         return $this->responsesContainer;
     }

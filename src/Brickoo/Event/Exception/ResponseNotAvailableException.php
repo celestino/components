@@ -32,22 +32,21 @@ namespace Brickoo\Event\Exception;
 use Brickoo\Event\Exception;
 
 /**
- * ListenerNotAvailable
+ * ResponseNotAvailableException
  *
- * Throwed if trying to retrieve an unavailable listener.
+ * Throwed if trying to retrieve an unavailable event response.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class ListenerNotAvailable extends Exception {
+class ResponseNotAvailableException extends Exception {
 
     /**
      * Calls the parent exception constructor.
-     * @param string $listenerUID the listener unique identifier not available
      * @param \Exception $previousException
      * @return void
      */
-    public function __construct($listenerUID, \Exception $previousException = null) {
-        parent::__construct(sprintf('The listener with the UID `%s` is not available.', $listenerUID), 0, $previousException);
+    public function __construct(\Exception $previousException = null) {
+        parent::__construct("An event response is not available.", 0, $previousException);
     }
 
 }

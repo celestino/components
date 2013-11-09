@@ -46,7 +46,7 @@
 
         /**
          * Stops the event of been called by other listeners.
-         * @return \Brickooo\Event\Interfaces\Event
+         * @return \Brickooo\Event\Event
          */
         public function stop();
 

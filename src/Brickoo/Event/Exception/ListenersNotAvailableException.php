@@ -32,22 +32,22 @@ namespace Brickoo\Event\Exception;
 use Brickoo\Event\Exception;
 
 /**
- * InfiniteEventLoop
+ * ListenersNotAvailableException
  *
- * Throwed if an infinite event loop is detected.
+ * Throwed if trying to retrieve unavailable listeners for an event.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class InfiniteEventLoop extends Exception {
+class ListenersNotAvailableException extends Exception {
 
     /**
      * Calls the parent exception constructor.
-     * @param string $eventName the event which has an infinite loop
+     * @param string $eventName the event which has not a listener queue
      * @param \Exception $previousException
      * @return void
      */
     public function __construct($eventName, \Exception $previousException = null) {
-        parent::__construct(sprintf('The event `%s` has an infinite loop.', $eventName), 0, $previousException);
+        parent::__construct(sprintf('The listeners for the event `%s` are not available.', $eventName), 0, $previousException);
     }
 
 }

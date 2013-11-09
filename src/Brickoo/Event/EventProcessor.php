@@ -29,6 +29,10 @@
 
 namespace Brickoo\Event;
 
+use Brickoo\Event\Event,
+    Brickoo\Event\EventDispatcher,
+    Brickoo\Event\Listener;
+
 /**
  * EventProcessor
  *
@@ -41,31 +45,29 @@ class EventProcessor {
 
     /**
      * Handles the event by calling the corresponding listener.
-     * @param \Brickoo\Event\EventDispatcher $EventDispatcher
-     * @param \Brickoo\Event\Event $Event the executed event
-     * @param \Brickoo\Event\Listener $Listener the listener to execute
-     * @throws \Brickoo\Event\Exception\InfiniteEventLoop
+     * @param \Brickoo\Event\EventDispatcher $eventDispatcher
+     * @param \Brickoo\Event\Event $event the executed event
+     * @param \Brickoo\Event\Listener $listener the listener to execute
      * @return mixed the event listener response or null if no response has been returned by the listener
      */
-    public function handle(EventDispatcher $EventDispatcher, Event $Event, Listener $Listener) {
-        if ($this->hasValidCondition($EventDispatcher, $Event, $Listener)) {
-             return call_user_func_array($Listener->getCallback(), array($Event, $EventDispatcher));
+    public function handle(EventDispatcher $eventDispatcher, Event $event, Listener $listener) {
+        if ($this->hasValidCondition($eventDispatcher, $event, $listener)) {
+             return call_user_func_array($listener->getCallback(), array($event, $eventDispatcher));
         }
     }
 
     /**
      * Checks if event does match the spected condition of a listener.
-     * @param \Brickoo\Event\EventDispatcher $EventDispatcher
-     * @param \Brickoo\Event\Event $Event the executed event
-     * @param \Brickoo\Event\Listener $Listener the listener to execute
+     * @param \Brickoo\Event\EventDispatcher $eventDispatcher
+     * @param \Brickoo\Event\Event $event the executed event
+     * @param \Brickoo\Event\Listener $listener the listener to execute
      * @return boolean check result
      */
-    private function hasValidCondition(EventDispatcher $EventManager, Event $Event, Listener $Listener) {
-        if (($condition = $Listener->getCondition()) === null) {
+    private function hasValidCondition(EventDispatcher $eventManager, Event $event, Listener $listener) {
+        if (($condition = $listener->getCondition()) === null) {
             return true;
         }
-
-        return (boolean)call_user_func_array($condition, array($Event, $EventManager));
+        return (boolean)call_user_func_array($condition, array($event, $eventManager));
     }
 
 }

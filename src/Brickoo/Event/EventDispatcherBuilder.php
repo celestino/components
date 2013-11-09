@@ -29,7 +29,9 @@
 
 namespace Brickoo\Event;
 
-use Brickoo\Memory\Container,
+use Brickoo\Event\EventProcessor,
+    Brickoo\Event\ListenerCollection,
+    Brickoo\Memory\Container,
     Brickoo\Validator\Argument,
     Brickoo\Validator\Constraint\TraversableContainsInstancesOf;
 
@@ -42,13 +44,13 @@ use Brickoo\Memory\Container,
 
 class EventDispatcherBuilder {
 
-    /** @var \Brickoo\Event\EventeventProcessor */
+    /** @var \Brickoo\Event\EventProcessor */
     private $eventProcessor;
 
     /** @var \Brickoo\Event\ListenerCollection */
     private $listenerCollection;
 
-    /** @var \Brickoo\Memory\Interfaces\Container */
+    /** @var \Brickoo\Memory\Container */
     private $eventList;
 
     /** @var \Traversable|array */
@@ -59,7 +61,7 @@ class EventDispatcherBuilder {
      * @return void
      */
     public function __construct() {
-        $this->listeners = array();
+        $this->listeners = [];
     }
 
     /**
@@ -67,7 +69,7 @@ class EventDispatcherBuilder {
      * @param \Brickoo\Event\EventProcessor $eventProcessor
      * @return \Brickoo\Event\EventDispatcherBuilder
      */
-    public function setEventeventProcessor(\Brickoo\Event\EventProcessor $eventProcessor) {
+    public function setEventeventProcessor(EventProcessor $eventProcessor) {
         $this->eventProcessor = $eventProcessor;
         return $this;
     }
@@ -77,17 +79,17 @@ class EventDispatcherBuilder {
      * @param \Brickoo\Event\ListenerCollection $listenerCollection
      * @return \Brickoo\Event\EventDispatcherBuilder
      */
-    public function setListenerCollection(\Brickoo\Event\ListenerCollection $listenerCollection) {
+    public function setListenerCollection(ListenerCollection $listenerCollection) {
         $this->listenerCollection = $listenerCollection;
         return $this;
     }
 
     /**
      * Sets the event memory list dependency.
-     * @param \Brickoo\Memory\Interfaces\Container $eventList
+     * @param \Brickoo\Memory\Container $eventList
      * @return \Brickoo\Event\EventDispatcherBuilder
      */
-    public function setEventList(\Brickoo\Memory\Interfaces\Container $eventList) {
+    public function setEventList(Container $eventList) {
         $this->eventList = $eventList;
         return $this;
     }
@@ -101,8 +103,7 @@ class EventDispatcherBuilder {
     public function setListeners($listeners) {
         Argument::IsTraversable($listeners);
 
-        $Constraint = new TraversableContainsInstancesOf('Brickoo\Event\Interfaces\Listener');
-        if (! $Constraint->assert($listeners)) {
+        if (! (new TraversableContainsInstancesOf("Brickoo\\Event\\Interfaces\\Listener"))->assert($listeners)) {
             throw new \InvalidArgumentException("The traversable must contain Event\Listeners only.");
         }
 
@@ -111,13 +112,12 @@ class EventDispatcherBuilder {
     }
 
     /**
-     * Builds the event dispatcher based on the configuration or
-     * default implementations.
+     * Builds the event dispatcher based on the configuration or default implementations.
      * @return \Brickoo\Event\EventDispatcher
      */
     public function build() {
         $EventDispatcher = new EventDispatcher(
-            $this->getEventeventProcessor(), $this->getListenerCollection(), $this->getEventList()
+            $this->getEventProcessor(), $this->getListenerCollection(), $this->getEventList()
         );
         $this->attachListeners($EventDispatcher);
         return $EventDispatcher;
@@ -128,11 +128,10 @@ class EventDispatcherBuilder {
      * If it does not exists it will be created using the framework implementation.
      * @return \Brickoo\Event\EventProcessor
      */
-    private function getEventeventProcessor() {
+    private function getEventProcessor() {
         if ($this->eventProcessor === null) {
             $this->eventProcessor = new EventProcessor();
         }
-
         return $this->eventProcessor;
     }
 
@@ -145,7 +144,6 @@ class EventDispatcherBuilder {
         if ($this->listenerCollection === null) {
             $this->listenerCollection = new ListenerCollection();
         }
-
         return $this->listenerCollection;
     }
 
@@ -158,18 +156,17 @@ class EventDispatcherBuilder {
         if ($this->eventList === null) {
             $this->eventList = new Container();
         }
-
         return $this->eventList;
     }
 
     /**
      * Attach the configured event listeners to the event manager.
-     * @param \Brickoo\Event\EventDispatcher $EventDispatcher
+     * @param \Brickoo\Event\EventDispatcher $eventDispatcher
      * @return \Brickoo\Event\EventDispatcherBuilder
      */
-    private function attachListeners(EventDispatcher $EventDispatcher) {
+    private function attachListeners(EventDispatcher $eventDispatcher) {
         foreach ($this->listeners as $Listener) {
-            $EventDispatcher->attach($Listener);
+            $eventDispatcher->attach($Listener);
         }
         return $this;
     }

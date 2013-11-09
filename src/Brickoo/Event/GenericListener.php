@@ -27,27 +27,65 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Event\Exception;
+namespace Brickoo\Event;
 
-use Brickoo\Event\Exception;
+use Brickoo\Event\Listener,
+    Brickoo\Validator\Argument;
 
 /**
- * ListenersNotAvailable
+ * GenericListener
  *
- * Throwed if trying to retrieve unavailable listeners for an event.
+ * Implements a generic listener.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class ListenersNotAvailable extends Exception {
+class GenericListener implements Listener {
+
+    private $eventName;
+
+    private $listenerPriority;
+
+    private $callback;
+
+    private $condition;
 
     /**
-     * Calls the parent exception constructor.
-     * @param string $eventName the event which has not a listener queue
-     * @param \Exception $previousException
+     * Class constructor.
+     * Initializes the event listener.
+     * @param string $eventName
+     * @param integer $priority
+     * @param callable $callback
+     * @param callable|null $condition
      * @return void
      */
-    public function __construct($eventName, \Exception $previousException = null) {
-        parent::__construct(sprintf('The listeners for the event `%s` are not available.', $eventName), 0, $previousException);
+    public function __construct($eventName, $priority, callable $callback, callable $condition = null) {
+        Argument::IsString($eventName);
+        Argument::IsInteger($priority);
+
+        $this->eventName = $eventName;
+        $this->listenerPriority = $priority;
+        $this->condition = $condition;
+        $this->callback = $callback;
+    }
+
+    /** {@inheritDoc} */
+    public function getEventName() {
+        return $this->eventName;
+    }
+
+    /** {@inheritDoc} */
+    public function getPriority() {
+        return $this->listenerPriority;
+    }
+
+    /** {@inheritDoc} */
+    public function getCallback() {
+        return $this->callback;
+    }
+
+    /** {@inheritDoc} */
+    public function getCondition() {
+        return $this->condition;
     }
 
 }

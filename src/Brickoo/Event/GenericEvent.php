@@ -29,7 +29,8 @@
 
 namespace Brickoo\Event;
 
-use Brickoo\Validator\Argument;
+use Brickoo\Event\Event,
+    Brickoo\Validator\Argument;
 
 /**
  * Implements a generic event which can be used or extended by any component.

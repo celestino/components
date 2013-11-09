@@ -29,7 +29,10 @@
 
 namespace Brickoo\Event;
 
-use Brickoo\Validator\Argument;
+use Brickoo\Event\Listener,
+    Brickoo\Event\ListenerQueue,
+    Brickoo\Event\Exception\ListenerNotAvailableException,
+    Brickoo\Validator\Argument;
 
 /**
  * ListenerCollection
@@ -54,20 +57,17 @@ class ListenerCollection {
     /**
      * Adds a listener to the memory.
      * @param \Brickoo\Event\Listener $Listener
-     * @param integer $priority the queue priority of the listener, executed descending
      * @throws \InvalidArgumentException
      * @return string the listener queue unique identifier
      */
-    public function add(\Brickoo\Event\Listener $Listener, $priority) {
-        Argument::IsInteger($priority);
-
+    public function add(Listener $Listener) {
         if (! $this->hasListeners(($eventName = $Listener->getEventName()))) {
-            $this->listenerQueues[$eventName] = new Queue();
+            $this->listenerQueues[$eventName] = new ListenerQueue();
         }
 
         $listenerUID = spl_object_hash($Listener);
         $this->listeners[$listenerUID] = $Listener;
-        $this->listenerQueues[$eventName]->insert($listenerUID, $priority);
+        $this->listenerQueues[$eventName]->insert($listenerUID, $Listener->getPriority());
 
         return $listenerUID;
     }
@@ -76,14 +76,14 @@ class ListenerCollection {
      * Returns the listener matching the unqiue identifier.
      * @param string $listenerUID the listener unqiue identifier
      * @throws \InvalidArgumentException
-     * @throws \Brickoo\Event\Exception\ListenerNotAvailable
+     * @throws \Brickoo\Event\Exception\ListenerNotAvailableException
      * @return \Brickoo\Event\Listener
      */
     public function get($listenerUID) {
         Argument::IsString($listenerUID);
 
         if (! $this->has($listenerUID)) {
-            throw new Exception\ListenerNotAvailable($listenerUID);
+            throw new ListenerNotAvailableException($listenerUID);
         }
 
         return $this->listeners[$listenerUID];
@@ -104,14 +104,14 @@ class ListenerCollection {
      * Removes the listener by its unique identifier.
      * @param string $listenerUID the listener unique identifier
      * @throws \InvalidArgumentException
-     * @throws \Brickoo\Event\Exception\ListenerNotAvailable
+     * @throws \Brickoo\Event\Exception\ListenerNotAvailableException
      * @return \Brickoo\Event\ListenerCollection
      */
     public function remove($listenerUID) {
         Argument::IsString($listenerUID);
 
         if (! $this->has($listenerUID)) {
-            throw new Exception\ListenerNotAvailable($listenerUID);
+            throw new ListenerNotAvailableException($listenerUID);
         }
 
         $eventName = $this->get($listenerUID)->getEventName();
@@ -125,14 +125,14 @@ class ListenerCollection {
      * Returns the listeners responsible for an event.
      * @param string $eventName the event name to retrieve the queue from
      * @throws \InvalidArgumentException
-     * @throws \Brickoo\Event\Exception\ListenersNotAvailable
+     * @throws \Brickoo\Event\Exception\ListenersNotAvailableException
      * @return \Brickoo\Event\ListenerQueue
      */
     public function getListeners($eventName) {
         Argument::IsString($eventName);
 
         if (! $this->hasListeners($eventName)) {
-            throw new Exception\ListenersNotAvailable($eventName);
+            throw new ListenersNotAvailableException($eventName);
         }
 
         return $this->collectEventListeners($eventName);
@@ -162,8 +162,8 @@ class ListenerCollection {
         $CleanedListenerQueue = new Queue();
         while ($ListenerQueue->valid()) {
             $listener = $ListenerQueue->extract();
-            if ($listener['data'] != $listenerUID) {
-                $CleanedListenerQueue->insert($listener['data'], $listener['priority']);
+            if ($listener["data"] != $listenerUID) {
+                $CleanedListenerQueue->insert($listener["data"], $listener["priority"]);
             }
         }
 
