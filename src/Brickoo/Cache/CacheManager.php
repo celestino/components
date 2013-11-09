@@ -159,7 +159,7 @@ class CacheManager {
         }
 
         if ($this->adapterPoolIterator->isEmpty()) {
-            throw new Exception\AdapterNotFound();
+            throw new Exception\AdapterNotFoundException();
         }
 
         $this->adapterPoolIterator->rewind();
@@ -171,7 +171,7 @@ class CacheManager {
         }
 
         if ($this->adapter === null) {
-            throw new Exception\AdapterNotReady();
+            throw new Exception\AdapterNotReadyException();
         }
 
         return $this->adapter;

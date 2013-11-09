@@ -32,13 +32,12 @@ namespace Brickoo\Cache\Exception;
 use Brickoo\Cache\Exception;
 
 /**
- * AdapterNotReady
+ * AdapterNotReadyException
  *
  * Exception throwed if no caching adapter has been ready.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
-class AdapterNotReady extends Exception {
+class AdapterNotReadyException extends Exception {
 
     /**
      * Calls the parent \Exception constructor.

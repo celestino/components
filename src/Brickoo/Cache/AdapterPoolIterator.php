@@ -75,7 +75,7 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
      */
     public function isCurrentReady() {
         if ($this->isEmpty()) {
-            throw new Exception\PoolIsEmpty();
+            throw new Exception\PoolIsEmptyException();
         }
 
         return $this->current()->isReady();
@@ -120,7 +120,7 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
         Argument::IsStringOrInteger($adapterIdentifier);
 
         if (! $this->has($adapterIdentifier)) {
-            throw new Exception\PoolIndentifierDoesNotExist($adapterIdentifier);
+            throw new Exception\PoolIndentifierDoesNotExistException($adapterIdentifier);
         }
 
         $this->currentAdapterIdentifier = array_search($adapterIdentifier, $this->mappingKeys, true);
@@ -130,7 +130,7 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
     /** {@inheritDoc} */
     public function remove($adapterIdentifier) {
         if (! $this->has($adapterIdentifier)) {
-            throw new Exception\PoolIndentifierDoesNotExist($adapterIdentifier);
+            throw new Exception\PoolIndentifierDoesNotExistException($adapterIdentifier);
         }
 
         //

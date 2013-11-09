@@ -32,21 +32,22 @@ namespace Brickoo\Cache\Exception;
 use Brickoo\Cache\Exception;
 
 /**
- * AdapterNotFound
+ * PoolIndentifierDoesNotExistException
  *
- * Exception throwed if none caching adapter could been found.
+ * Exception throwed if trying to access a not available caching adapter pool entry
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class AdapterNotFound extends Exception {
+class PoolIndentifierDoesNotExistException extends Exception {
 
     /**
      * Calls the parent \Exception constructor.
+     * @param string $entryKey the adapter pool key which is not available.
      * @param \Exception $previousException
      * @return void
      */
-    public function __construct(\Exception $previousException = null) {
-        parent::__construct("Could not found an adapter.", 0, $previousException);
+    public function __construct($entryKey, \Exception $previousException = null) {
+        parent::__construct(sprintf('The adapter pool entry `%s` is not available.', $entryKey), 0, $previousException);
     }
 
 }

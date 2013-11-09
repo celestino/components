@@ -32,12 +32,12 @@ namespace Brickoo\Cache\Exception;
 use Brickoo\Cache\Exception;
 
 /**
- * PoolIsEmpty
+ * PoolIsEmptyException
  *
  * Implements caching management for an adapter pool.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class PoolIsEmpty extends Exception {
+class PoolIsEmptyException extends Exception {
 
     /**
      * Calls the parent constructor.
