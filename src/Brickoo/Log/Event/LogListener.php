@@ -33,6 +33,7 @@ use Brickoo\Event\Event,
     Brickoo\Event\EventDispatcher,
     Brickoo\Event\Listener,
     Brickoo\Log\Logger,
+    Brickoo\Log\Event\LogEvent,
     Brickoo\Validator\Argument;
 
 /**

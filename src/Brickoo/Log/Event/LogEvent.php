@@ -30,6 +30,7 @@
 namespace Brickoo\Log\Event;
 
 use Brickoo\Event\GenericEvent,
+    Brickoo\Log\Event\Events,
     Brickoo\Validator\Argument;
 
 /**
