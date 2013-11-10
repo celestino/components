@@ -32,23 +32,23 @@ namespace Brickoo\Loader\Exception;
 use Brickoo\Loader\Exception;
 
 /**
- * DuplicateClassRegistration
+ * FileDoesNotExistException
  *
- * Exception throwed if trying to register a class again.
+ * Exception throwed by the Autoloader class if trying to load a file which does not exist.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class DuplicateClassRegistration extends Exception {
+class FileDoesNotExistException extends Exception {
 
     /**
      * Class constructor.
-     * Calls the parent Exception constructor.
-     * @param string $className the class already registered
+     * Calls the parent exception constructor.
+     * @param string $filepath the filepath which does not exists
      * @param \Exception $previousException
      * @return void
      */
-    public function __construct($className, \Exception $previousException = null) {
-        parent::__construct(sprintf("The class `%s` is already registered.", $className), 0, $previousException);
+    public function __construct($filepath, \Exception $previousException = null) {
+        parent::__construct(sprintf("File does not exists `%s`.", $filepath), 0 , $previousException);
     }
 
 }

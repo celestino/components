@@ -32,24 +32,24 @@ namespace Brickoo\Loader\Exception;
 use Brickoo\Loader\Exception;
 
 /**
- * NamespaceNotRegistered
+ * DuplicateNamespaceRegistrationException
  *
- * Exception throwed by the Autoloader class if trying to unregister a namespace
- * which has not been registered before.
+ * Exception throwed if trying to register a namespace
+ * which has been already registered.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class NamespaceNotRegistered extends Exception {
+class DuplicateNamespaceRegistrationException extends Exception {
 
     /**
      * Class constructor.
      * Calls the parent Exception constructor.
-     * @param string $namespace the namespace tried to unregister
+     * @param string $namespace the namespace trying to register
      * @param \Exception $previousException
      * @return void
      */
     public function __construct($namespace, \Exception $previousException = null) {
-        parent::__construct(sprintf("The namespace `%s` is not registered.", $namespace), 0, $previousException);
+        parent::__construct(sprintf("The namespace`%s` is already registered.", $namespace), 0, $previousException);
     }
 
 }

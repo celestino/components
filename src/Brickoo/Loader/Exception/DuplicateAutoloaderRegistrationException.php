@@ -32,13 +32,13 @@ namespace Brickoo\Loader\Exception;
 use Brickoo\Loader\Exception;
 
 /**
- * DuplicateAutoloaderRegistration
+ * DuplicateAutoloaderRegistrationException
  *
  * Exception throwed if trying to register the autoloader again.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class DuplicateAutoloaderRegistration extends Exception {
+class DuplicateAutoloaderRegistrationException extends Exception {
 
     /**
      * Class constructor.

@@ -29,6 +29,9 @@
 
 namespace Brickoo\Loader;
 
+use Brickoo\Loader\Exception\DuplicateAutoloaderRegistrationException,
+    Brickoo\Loader\Exception\AutoloaderNotRegisteredException;
+
 /**
  * Autoloader
  *
@@ -57,13 +60,13 @@ abstract class Autoloader {
 
     /**
      * Register the autoloader.
-     * @throws \Brickoo\Loader\Exception\DuplicateAutoloaderRegistration
+     * @throws \Brickoo\Loader\Exception\DuplicateAutoloaderRegistrationException
      * @return \Brickoo\Loader\Autoloader
      */
     public function register() {
         if ($this->isRegistered) {
-            require_once "Exceptions".DIRECTORY_SEPARATOR."DuplicateAutoloaderRegistration.php";
-            throw new Exceptions\DuplicateAutoloaderRegistration();
+            require_once "Exception".DIRECTORY_SEPARATOR."DuplicateAutoloaderRegistrationException.php";
+            throw new DuplicateAutoloaderRegistrationException();
         }
 
         spl_autoload_register(array($this, 'load'), true, $this->prependAutoloader);
@@ -74,13 +77,13 @@ abstract class Autoloader {
 
     /**
      * Unregister the autoloader.
-     * @throws \Brickoo\Loader\Exception\AutoloaderNotRegistered
+     * @throws \Brickoo\Loader\Exception\AutoloaderNotRegisteredException
      * @return \Brickoo\Loader\Autoloader
      */
     public function unregister() {
         if (! $this->isRegistered) {
-            require_once "Exceptions".DIRECTORY_SEPARATOR."AutoloaderNotRegistered.php";
-            throw new Exceptions\AutoloaderNotRegistered();
+            require_once "Exception".DIRECTORY_SEPARATOR."AutoloaderNotRegisteredException.php";
+            throw new AutoloaderNotRegisteredException();
         }
 
         spl_autoload_unregister(array($this, "load"));

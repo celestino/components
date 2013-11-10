@@ -32,13 +32,13 @@ namespace Brickoo\Loader\Exception;
 use Brickoo\Loader\Exception;
 
 /**
- * DirectoryDoesNotExist
+ * DirectoryDoesNotExistException
  *
  * Exception throwed if trying to access a directory which does not exist.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class DirectoryDoesNotExist extends Exception {
+class DirectoryDoesNotExistException extends Exception {
 
     /**
      * Class constructor.

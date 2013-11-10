@@ -32,13 +32,13 @@ namespace Brickoo\Loader\Exception;
 use Brickoo\Loader\Exception;
 
 /**
- * ClassNotRegistered
+ * ClassNotRegisteredException
  *
  * Exception throwed if trying to unregister a class without beeing registered before.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class ClassNotRegistered extends Exception {
+class ClassNotRegisteredException extends Exception {
 
     /**
      * Class constructor.

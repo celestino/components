@@ -29,6 +29,11 @@
 
 namespace Brickoo\Loader;
 
+use Brickoo\Loader\Exception\ClassNotRegisteredException,
+    Brickoo\Loader\Exception\DuplicateClassRegistrationException,
+    Brickoo\Loader\Exception\FileDoesNotExistException;
+
+
 /**
  * ListAutoloader
  *
@@ -57,8 +62,8 @@ class ListAutoloader extends Autoloader {
      * @param string $className the class to register
      * @param string $location the absoulte location path to the class
      * @throws \InvalidArgumentException if an argument is not valid
-     * @throws \Brickoo\Loader\Exception\FileDoesNotExist if the file does not exist
-     * @throws \Brickoo\Loader\Exception\DuplicateClassRegistration if the class is already registered
+     * @throws \Brickoo\Loader\Exception\FileDoesNotExistException
+     * @throws \Brickoo\Loader\Exception\DuplicateClassRegistrationException
      * @return \Brickoo\Loader\ListAutoloader
      */
     public function registerClass($className, $location) {
@@ -67,13 +72,13 @@ class ListAutoloader extends Autoloader {
         }
 
         if (! file_exists($location)) {
-            require_once "Exception".DIRECTORY_SEPARATOR."FileDoesNotExist.php";
-            throw new Exception\FileDoesNotExist($location);
+            require_once "Exception".DIRECTORY_SEPARATOR."FileDoesNotExistException.php";
+            throw new FileDoesNotExistException($location);
         }
 
         if ($this->isClassRegistered($className)) {
-            require_once "Exception".DIRECTORY_SEPARATOR."DuplicateClassRegistration.php";
-            throw new Exception\DuplicateClassRegistration($className);
+            require_once "Exception".DIRECTORY_SEPARATOR."DuplicateClassRegistrationException.php";
+            throw new DuplicateClassRegistrationException($className);
         }
 
         $this->classes[$className] = $location;
@@ -84,7 +89,7 @@ class ListAutoloader extends Autoloader {
      * Unregister the class available by the given name.
      * @param string $class the class to unregister from autoloader
      * @throws \InvalidArgumentException if an argument is not valid
-     * @throws \Brickoo\Loader\Exception\ClassNotRegistered if the namespace is not registered
+     * @throws \Brickoo\Loader\Exception\ClassNotRegisteredException
      * @return \Brickoo\Loader\ListAutoloader
      */
     public function unregisterClass($className) {
@@ -93,7 +98,8 @@ class ListAutoloader extends Autoloader {
         }
 
         if (! $this->isClassRegistered($className)) {
-            throw new Exception\ClassNotRegistered($className);
+            require_once "Exception".DIRECTORY_SEPARATOR."ClassNotRegisteredException.php";
+            throw new ClassNotRegisteredException($className);
         }
 
         unset($this->classes[$className]);
@@ -135,8 +141,8 @@ class ListAutoloader extends Autoloader {
         $classFilePath = $this->classes[$className];
 
         if ((! file_exists($classFilePath))) {
-            require_once "Exception".DIRECTORY_SEPARATOR."FileDoesNotExist.php";
-            throw new Exception\FileDoesNotExist($classFilePath);
+            require_once "Exception".DIRECTORY_SEPARATOR."FileDoesNotExistException.php";
+            throw new FileDoesNotExistException($classFilePath);
         }
 
         require $classFilePath;

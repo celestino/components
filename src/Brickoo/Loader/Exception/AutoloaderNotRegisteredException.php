@@ -32,13 +32,13 @@ namespace Brickoo\Loader\Exception;
 use Brickoo\Loader\Exception;
 
 /**
- * AutoloaderNotRegistered
+ * AutoloaderNotRegisteredException
  *
  * Exception throwed if trying to unregister an autoloader without beeing registered before.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class AutoloaderNotRegistered extends Exception {
+class AutoloaderNotRegisteredException extends Exception {
 
     /**
      * Class constructor.

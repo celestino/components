@@ -29,6 +29,11 @@
 
 namespace Brickoo\Loader;
 
+use Brickoo\Loader\Exception\DirectoryDoesNotExistException,
+    Brickoo\Loader\Exception\DuplicateNamespaceRegistrationException,
+    Brickoo\Loader\Exception\FileDoesNotExistException,
+    Brickoo\Loader\Exception\NamespaceNotRegisteredException;
+
 /**
  * NamespaceAutoloader
  *
@@ -57,8 +62,8 @@ class NamespaceAutoloader extends Autoloader {
      * @param string $namespace the namespace to register
      * @param string $namespacePath the absolute path to the namespace
      * @throws \InvalidArgumentException if an argument is not valid
-     * @throws \Brickoo\Loader\Exception\DirectoryDoesNotExist if the namespace mapped as directory does not exist
-     * @throws \Brickoo\Loader\Exception\DuplicateNamespaceRegistration if the namespace is already registered
+     * @throws \Brickoo\Loader\Exception\DirectoryDoesNotExistException
+     * @throws \Brickoo\Loader\Exception\DuplicateNamespaceRegistrationException
      * @return \Brickoo\Loader\NamespaceAutoloader
      */
     public function registerNamespace($namespace, $includePath) {
@@ -67,13 +72,13 @@ class NamespaceAutoloader extends Autoloader {
         }
 
         if (! is_dir($includePath)) {
-            require_once "Exception".DIRECTORY_SEPARATOR."DirectoryDoesNotExist.php";
-            throw new Exception\DirectoryDoesNotExist($includePath);
+            require_once "Exception".DIRECTORY_SEPARATOR."DirectoryDoesNotExistException.php";
+            throw new DirectoryDoesNotExistException($includePath);
         }
 
         if ($this->isNamespaceRegistered($namespace)) {
-            require_once "Exception".DIRECTORY_SEPARATOR."DuplicateNamespaceRegistration.php";
-            throw new Exception\DuplicateNamespaceRegistration($namespace);
+            require_once "Exception".DIRECTORY_SEPARATOR."DuplicateNamespaceRegistrationException.php";
+            throw new DuplicateNamespaceRegistrationException($namespace);
         }
 
         $this->namespaces[$namespace] = rtrim($includePath, '/\\');
@@ -85,13 +90,13 @@ class NamespaceAutoloader extends Autoloader {
      * Unregister the namespace available by the given name.
      * @param string $namespace the name of the namespace to remove
      * @throws \InvalidArgumentException if an argument is not valid
-     * @throws \Brickoo\Loader\Exception\NamespaceNotRegistered if the namespace is not registered
+     * @throws \Brickoo\Loader\Exception\NamespaceNotRegisteredException
      * @return \Brickoo\Loader\NamespaceAutoloader
      */
     public function unregisterNamespace($namespace) {
         if (! $this->isNamespaceRegistered($namespace)) {
-            require_once "Exception".DIRECTORY_SEPARATOR."NamespaceNotRegistered.php";
-            throw new Exception\NamespaceNotRegistered($namespace);
+            require_once "Exception".DIRECTORY_SEPARATOR."NamespaceNotRegisteredException.php";
+            throw new NamespaceNotRegisteredException($namespace);
         }
 
         unset($this->namespaces[$namespace]);
@@ -132,8 +137,8 @@ class NamespaceAutoloader extends Autoloader {
         }
 
         if ((! file_exists($absolutePath))) {
-            require_once "Exception".DIRECTORY_SEPARATOR."FileDoesNotExist.php";
-            throw new Exception\FileDoesNotExist($absolutePath);
+            require_once "Exception".DIRECTORY_SEPARATOR."FileDoesNotExistException.php";
+            throw new FileDoesNotExistException($absolutePath);
         }
 
         require ($absolutePath);
