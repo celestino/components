@@ -29,7 +29,9 @@
 
 namespace Brickoo\Error\Listener;
 
-use Brickoo\Event\Event,
+use Brickoo\Error\Event\ErrorEvent,
+    Brickoo\Error\Event\Events,
+    Brickoo\Event\Event,
     Brickoo\Event\EventDispatcher,
     Brickoo\Event\Listener,
     Brickoo\Log\Event\LogEvent,

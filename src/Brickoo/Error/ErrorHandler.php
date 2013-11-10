@@ -31,6 +31,9 @@ namespace Brickoo\Error;
 
 use Brickoo\Event\EventDispatcher,
     Brickoo\Error\Event\ErrorEvent,
+    Brickoo\Error\Exception\DuplicateHandlerRegistrationException,
+    Brickoo\Error\Exception\ErrorOccurredException,
+    Brickoo\Error\Exception\HandlerNotRegisteredException,
     Brickoo\Validator\Argument;
 
 /**
@@ -78,12 +81,12 @@ class ErrorHandler {
 
     /**
      * Registers the instance as error handler.
-     * @throws \Brickoo\Error\Exceptions\DuplicateHandlerRegistration if the instance is already registred
+     * @throws \Brickoo\Error\Exception\DuplicateHandlerRegistrationException
      * @return \Brickoo\Error\ErrorHandler
      */
     public function register() {
         if ($this->isRegistered()) {
-            throw new Exceptions\DuplicateHandlerRegistration("ErrorHandler");
+            throw new DuplicateHandlerRegistrationException("ErrorHandler");
         }
 
         set_error_handler(array($this, "handleError"));
@@ -93,12 +96,12 @@ class ErrorHandler {
 
     /**
      * Unregisters the instance as error handler by restoring previous error handler.
-     * @throws \Brickoo\Error\Exceptions\HandlerNotRegistered if the instance is not registred as an error handler
+     * @throws \Brickoo\Error\Exception\HandlerNotRegisteredException
      * @return \Brickoo\Error\ErrorHandler
      */
     public function unregister() {
         if (! $this->isRegistered()) {
-            throw new Exception\HandlerNotRegisteredException("ErrorHandler");
+            throw new HandlerNotRegisteredException("ErrorHandler");
         }
 
         restore_error_handler();
@@ -124,14 +127,14 @@ class ErrorHandler {
      * @param string $errorMessage the error message
      * @param string $errorFile the error file name
      * @param integer $errorLine the error line number
-     * @throws \Brickoo\Error\Exceptions\ErrorOccurred if the instance is configured to todo
+     * @throws \Brickoo\Error\Exception\ErrorOccurredException if the instance is configured to todo
      * @return boolean true to block php error message forwarding
      */
     public function handleError($errorCode, $errorMessage, $errorFile, $errorLine) {
         $message = sprintf("%s in %s on line %s", $errorMessage, $errorFile, $errorLine);
 
         if ($this->convertToException) {
-            throw new Exception\ErrorOccurredException($message, $errorCode);
+            throw new ErrorOccurredException($message, $errorCode);
         }
         else {
             $this->EventDispatcher->notify(new ErrorEvent($message));

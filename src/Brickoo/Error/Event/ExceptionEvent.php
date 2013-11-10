@@ -29,7 +29,8 @@
 
 namespace Brickoo\Error\Event;
 
-use Brickoo\Event\GenericEvent;
+use Brickoo\Error\Event\Events,
+    Brickoo\Event\GenericEvent;
 
 /**
  * ExceptionEvent

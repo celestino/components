@@ -30,6 +30,8 @@
 namespace Brickoo\Error;
 
 use Brickoo\Error\Event\ExceptionEvent,
+    Brickoo\Error\Exception\DuplicateHandlerRegistrationException,
+    Brickoo\Error\Exception\HandlerNotRegisteredException,
     Brickoo\Event\EventDispatcher;
 
 /**
@@ -73,7 +75,7 @@ class ExceptionHandler {
      */
     public function register() {
         if ($this->isRegistered()) {
-            throw new Exception\DuplicateHandlerRegistrationException("ExceptionHandler");
+            throw new DuplicateHandlerRegistrationException("ExceptionHandler");
         }
 
         set_exception_handler(array($this, "handleException"));
@@ -89,7 +91,7 @@ class ExceptionHandler {
      */
     public function unregister() {
         if (! $this->isRegistered()) {
-            throw new Exception\HandlerNotRegisteredException("ExceptionHandler");
+            throw new HandlerNotRegisteredException("ExceptionHandler");
         }
 
         restore_exception_handler();
