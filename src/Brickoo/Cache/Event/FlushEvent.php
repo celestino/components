@@ -29,6 +29,9 @@
 
 namespace Brickoo\Cache\Event;
 
+use Brickoo\Cache\Event\AbstractEvent,
+    Brickoo\Cache\Event\Events;
+
 /**
  * FlushEvent
  *

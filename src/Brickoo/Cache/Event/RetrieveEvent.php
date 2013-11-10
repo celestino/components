@@ -29,7 +29,9 @@
 
 namespace Brickoo\Cache\Event;
 
-use Brickoo\Validator\Argument;
+use Brickoo\Cache\Event\AbstractEvent,
+    Brickoo\Cache\Event\Events,
+    Brickoo\Validator\Argument;
 
 /**
  * RetrieveEvent

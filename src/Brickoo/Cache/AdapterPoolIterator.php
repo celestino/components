@@ -29,7 +29,10 @@
 
 namespace Brickoo\Cache;
 
-use Brickoo\Validator\Constraint\TraversableContainsInstancesOf,
+use Brickoo\Cache\AdapterPool,
+    Brickoo\Cache\Exception\PoolIndentifierDoesNotExistException,
+    Brickoo\Cache\Exception\PoolIsEmptyException,
+    Brickoo\Validator\Constraint\TraversableContainsInstancesOf,
     Brickoo\Validator\Argument;
 
 /**
@@ -48,7 +51,7 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
     private $mappingKeys;
 
     /** @var integer */
-    private $currentAdapterIdentifier;
+    private $currentPointerPosition;
 
     /**
      * Class constructor.
@@ -65,17 +68,17 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
 
         $this->poolEntries = array_values($poolEntries);
         $this->mappingKeys = array_keys($poolEntries);
-        $this->currentAdapterIdentifier = 0;
+        $this->currentPointerPosition = 0;
     }
 
      /**
      * Checks if the current pool adapter entry is ready.
-     * @throws \Brickoo\Cache\Exception\PoolIsEmpty
+     * @throws \Brickoo\Cache\Exception\PoolIsEmptyException
      * @return boolean check result
      */
     public function isCurrentReady() {
         if ($this->isEmpty()) {
-            throw new Exception\PoolIsEmptyException();
+            throw new PoolIsEmptyException();
         }
 
         return $this->current()->isReady();
@@ -86,7 +89,7 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
      * @return \Brickoo\Cache\Adapter
      */
     public function current() {
-        return $this->poolEntries[$this->currentAdapterIdentifier];
+        return $this->poolEntries[$this->currentPointerPosition];
     }
 
     /**
@@ -94,25 +97,25 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
      * @return string the current pool key
      */
     public function key() {
-        if (isset($this->mappingKeys[$this->currentAdapterIdentifier])) {
-            return $this->mappingKeys[$this->currentAdapterIdentifier];
+        if (isset($this->mappingKeys[$this->currentPointerPosition])) {
+            return $this->mappingKeys[$this->currentPointerPosition];
         }
-        return (string)$this->currentAdapterIdentifier;
+        return (string)$this->currentPointerPosition;
     }
 
     /** {@inheritDoc} */
     public function next() {
-        $this->currentAdapterIdentifier++;
+        $this->currentPointerPosition++;
     }
 
     /** {@inheritDoc} */
     public function rewind() {
-        $this->currentAdapterIdentifier = 0;
+        $this->currentPointerPosition = 0;
     }
 
     /** {@inheritDoc} */
     public function valid() {
-        return isset($this->poolEntries[$this->currentAdapterIdentifier]);
+        return isset($this->poolEntries[$this->currentPointerPosition]);
     }
 
     /** {@inheritDoc} */
@@ -120,20 +123,31 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
         Argument::IsStringOrInteger($adapterIdentifier);
 
         if (! $this->has($adapterIdentifier)) {
-            throw new Exception\PoolIndentifierDoesNotExistException($adapterIdentifier);
+            throw new PoolIndentifierDoesNotExistException($adapterIdentifier);
         }
 
-        $this->currentAdapterIdentifier = array_search($adapterIdentifier, $this->mappingKeys, true);
+        $this->currentPointerPosition = $this->getMappingPosition($adapterIdentifier);
         return $this;
     }
 
     /** {@inheritDoc} */
     public function remove($adapterIdentifier) {
         if (! $this->has($adapterIdentifier)) {
-            throw new Exception\PoolIndentifierDoesNotExistException($adapterIdentifier);
+            throw new PoolIndentifierDoesNotExistException($adapterIdentifier);
         }
 
-        //
+        $mappingPosition = $this->getMappingPosition($adapterIdentifier);
+        unset($this->poolEntries[$mappingPosition]);
+        unset($this->mappingKeys[$mappingPosition]);
+
+        $this->poolEntries = array_values($this->poolEntries);
+        $this->mappingKeys = array_values($this->mappingKeys);
+
+        if ($this->currentPointerPosition > 0 && $this->currentPointerPosition > $mappingPosition) {
+            --$this->currentPointerPosition;
+        }
+
+        return $this;
     }
 
     /** {@inheritDoc} */
@@ -150,6 +164,10 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
     /** {@inheritDoc} */
     public function count() {
         return count($this->poolEntries);
+    }
+
+    private function getMappingPosition($adapterIdentifier) {
+        return array_search($adapterIdentifier, $this->mappingKeys, true);
     }
 
 }

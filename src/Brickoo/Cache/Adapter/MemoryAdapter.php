@@ -29,7 +29,8 @@
 
 namespace Brickoo\Cache\Adapter;
 
-use Brickoo\Validator\Argument;
+use Brickoo\Cache\Adapter,
+    Brickoo\Validator\Argument;
 
 /**
  * MemoryAdapter
@@ -57,7 +58,7 @@ class MemoryAdapter implements Adapter {
         Argument::IsString($identifier);
 
         if (! array_key_exists($identifier, $this->cacheValues)) {
-            throw new Exception\IdentifierNotAvailable($identifier);
+            return null;
         }
 
         return $this->cacheValues[$identifier];
@@ -75,7 +76,7 @@ class MemoryAdapter implements Adapter {
         Argument::IsString($identifier);
 
         if (! array_key_exists($identifier, $this->cacheValues)) {
-            throw new Exception\IdentifierNotAvailable($identifier);
+            return null;
         }
 
         unset($this->cacheValues[$identifier]);

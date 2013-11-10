@@ -29,7 +29,8 @@
 
 namespace Brickoo\Cache\Provider;
 
-use Brickoo\Validator\Argument;
+use Brickoo\Cache\Adapter,
+    Brickoo\Validator\Argument;
 
 /**
  * MemcacheAdapter
@@ -38,7 +39,7 @@ use Brickoo\Validator\Argument;
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class MemcacheAdapter implements Interfaces\Provider {
+class MemcacheAdapter implements Adapter {
 
     /** @var \Memcache */
     private $memcache;

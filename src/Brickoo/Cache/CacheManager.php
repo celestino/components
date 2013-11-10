@@ -29,7 +29,8 @@
 
 namespace Brickoo\Cache;
 
-use Brickoo\Validator\Argument;
+use Brickoo\Cache\AdapterPoolIterator,
+    Brickoo\Validator\Argument;
 
 /**
  * CacheManager

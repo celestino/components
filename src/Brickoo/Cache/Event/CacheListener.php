@@ -30,6 +30,11 @@
 namespace Brickoo\Cache\Event;
 
 use Brickoo\Cache\CacheManager,
+    Brickoo\Cache\Event\Events,
+    Brickoo\Cache\Event\DeleteEvent,
+    Brickoo\Cache\Event\FlushEvent,
+    Brickoo\Cache\Event\RetrieveByCallbackEvent,
+    Brickoo\Cache\Event\RetrieveEvent,
     Brickoo\Event\Event,
     Brickoo\Event\EventDispatcher,
     Brickoo\Event\GenericListener,

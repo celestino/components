@@ -30,7 +30,7 @@
 namespace Brickoo\Cache\Adapter;
 
 use Brickoo\Cache\Adapter,
-    Brickoo\Filesystem\fileObject,
+    Brickoo\Filesystem\FileObject,
     Brickoo\Validator\Argument;
 
 /**
@@ -69,7 +69,7 @@ class FilesystemAdapter implements Adapter {
      * @throws \InvalidArgumentException if an argument is not valid
      * @return void
      */
-    public function __construct(fileObject $fileObject, $cacheDirectory, $serializeCacheContent = true, $cacheFileNameSuffix = ".cache") {
+    public function __construct(FileObject $fileObject, $cacheDirectory, $serializeCacheContent = true, $cacheFileNameSuffix = ".cache") {
         Argument::IsString($cacheDirectory);
         Argument::IsBoolean($serializeCacheContent);
         Argument::IsString($cacheFileNameSuffix);
@@ -94,14 +94,14 @@ class FilesystemAdapter implements Adapter {
         $cacheFilePath = $this->getCacheFilePath($identifier);
 
         if (! is_readable($cacheFilePath)) {
-            return false;
+            return null;
         }
 
         $expirationDate = $this->fileObject->open($cacheFilePath, "r")->read(self::LIFETIME_BYTES_LENGTH);
 
         if (strtotime($expirationDate) < time()) {
             $this->fileObject->close();
-            return false;
+            return null;
         }
 
         $cachedContent = $this->fileObject->read(filesize($cacheFilePath) - self::LIFETIME_BYTES_LENGTH);

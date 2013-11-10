@@ -39,11 +39,11 @@ namespace Brickoo\Cache;
 Interface Adapter {
 
     /**
-    * Returns the cached content from the matching dentifier.
-    * @param string $identifier the identifier to retrieve the content from
-    * @throws \InvalidArgumentException if an argument is not valid
-    * @return mixed the cached content or boolean false on failure
-    */
+     * Returns the cached content from the matching dentifier.
+     * @param string $identifier the identifier to retrieve the content from
+     * @throws \InvalidArgumentException if an argument is not valid
+     * @return mixed the cached content or boolean false on failure
+     */
     public function get($identifier);
 
     /**
