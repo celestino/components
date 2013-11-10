@@ -32,13 +32,13 @@ namespace Brickoo\Filesystem\Exception;
 use Brickoo\Filesystem\Exception;
 
 /**
- * UnableToCreateHandle
+ * UnableToCreateHandleException
  *
  * Exception throwed if a resource handle could not be created.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class UnableToCreateHandle extends Exception {
+class UnableToCreateHandleException extends Exception {
 
     /**
      * Class constructor.

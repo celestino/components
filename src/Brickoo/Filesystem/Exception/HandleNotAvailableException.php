@@ -32,13 +32,13 @@ namespace Brickoo\Filesystem\Exception;
 use Brickoo\Filesystem\Exception;
 
 /**
- * HandleNotAvailable
+ * HandleNotAvailableException
  *
  * Exception throwed if trying to access a handle which is not available.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class HandleNotAvailable extends Exception {
+class HandleNotAvailableException extends Exception {
 
     /**
      * Class constructor.

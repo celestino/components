@@ -29,7 +29,11 @@
 
 namespace Brickoo\Filesystem;
 
-use Brickoo\Validator\Argument;
+use Brickoo\Filesystem\Exception\HandleAlreadyExistsException,
+    Brickoo\Filesystem\Exception\HandleNotAvailableException,
+    Brickoo\Filesystem\Exception\InvalidModeOperationException,
+    Brickoo\Filesystem\Exception\UnableToCreateHandleException,
+    Brickoo\Validator\Argument;
 
 /**
  * FileObject
@@ -59,14 +63,14 @@ class FileObject {
      * @param string $mode the mode to use for opening the resource
      * @param boolean $useIncludePath flag to also use the include path as search location
      * @param resource|null $context the context created to use
-     * @throws \InvalidArgumentException if an argument is not valid
-     * @throws \Brickoo\Filesystem\Exception\UnableToCreateHandle if the handle can not be created
-     * @throws \Brickoo\Filesystem\Exception\HandleAlreadyExists if the handle has been created and not closed
+     * @throws \InvalidArgumentException
+     * @throws \Brickoo\Filesystem\Exception\UnableToCreateHandleException
+     * @throws \Brickoo\Filesystem\Exception\HandleAlreadyExistsException
      * @return \Brickoo\Filesystem\FileObject
      */
     public function open($filename, $mode, $useIncludePath = false, $context = null) {
         if ($this->hasHandle()) {
-            throw new Exceptions\HandleAlreadyExists();
+            throw new HandleAlreadyExistsException();
         }
 
         Argument::IsString($filename);
@@ -74,11 +78,11 @@ class FileObject {
         Argument::IsBoolean($useIncludePath);
 
         if ($context !== null && (! $handle = @fopen($filename, $mode, $useIncludePath, $context))) {
-            throw new Exceptions\UnableToCreateHandle($filename, $mode);
+            throw new UnableToCreateHandleException($filename, $mode);
         }
 
         if ($context == null && (! $handle = @fopen($filename, $mode, $useIncludePath))) {
-            throw new Exceptions\UnableToCreateHandle($filename, $mode);
+            throw new UnableToCreateHandleException($filename, $mode);
         }
 
         $this->handle = $handle;
@@ -89,13 +93,13 @@ class FileObject {
     /**
      * Writes the data to the file.
      * @param mixed $data the data to write
-     * @throws \Brickoo\Filesystem\Exception\HandleNotAvailable if the handle is not initialized
-     * @throws \Brickoo\Filesystem\Exception\InvalidModeOperation if the current mode does not support write operations
+     * @throws \Brickoo\Filesystem\Exception\HandleNotAvailableException
+     * @throws \Brickoo\Filesystem\Exception\InvalidModeOperationException
      * @return integer the bytes written
      */
     public function write($data) {
         if ($this->mode == "r") {
-            throw new Exceptions\InvalidModeOperation($this->mode, "write");
+            throw new InvalidModeOperationException($this->mode, "write");
         }
 
         return fwrite($this->getHandle(), $data);
@@ -105,15 +109,15 @@ class FileObject {
      * Reads the passed bytes of data from the file location.
      * @param integer the amount of bytes to read from
      * @throws \InvalidArgumentException if the argument is not valid
-     * @throws \Brickoo\Filesystem\Exception\HandleNotAvailable if the handle is not initialized
-     * @throws \Brickoo\Filesystem\Exception\InvalidModeOperation if the current mode does not support read operations
+     * @throws \Brickoo\Filesystem\Exception\HandleNotAvailableException
+     * @throws \Brickoo\Filesystem\Exception\InvalidModeOperationException
      * @return string the readed content
      */
     public function read($bytes) {
         Argument::IsInteger($bytes);
 
         if (preg_match("~^[waxc]$~", $this->mode)) {
-            throw new Exceptions\InvalidModeOperation($this->mode, "read");
+            throw new InvalidModeOperationException($this->mode, "read");
         }
 
         return fread($this->getHandle(), $bytes);
@@ -121,7 +125,7 @@ class FileObject {
 
     /**
      * Closes the the data handler and frees the ressource.
-     * @throws \Brickoo\Filesystem\Exception\HandleNotAvailable if the handle is not initialized
+     * @throws \Brickoo\Filesystem\Exception\HandleNotAvailableException
      * @return \Brickoo\Filesystem\FileObject
      */
     public function close() {
@@ -150,12 +154,12 @@ class FileObject {
 
     /**
      * Returns the resoruce file handle.
-     * @throws \Brickoo\Filesystem\Exception\HandleNotAvailable
+     * @throws \Brickoo\Filesystem\Exception\HandleNotAvailableException
      * @return resource file handle
      */
     private function getHandle() {
         if (! $this->hasHandle()) {
-            throw new Exceptions\HandleNotAvailable();
+            throw new HandleNotAvailableException();
         }
 
         return $this->handle;

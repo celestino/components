@@ -32,13 +32,13 @@ namespace Brickoo\Filesystem\Exception;
 use Brickoo\Filesystem\Exception;
 
 /**
- * HandleAlreadyExists
+ * HandleAlreadyExistsException
  *
  * Exception throwed if trying to create a new handle while one already exists.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class HandleAlreadyExists extends Exception {
+class HandleAlreadyExistsException extends Exception {
 
     /**
      * Class constructor.
