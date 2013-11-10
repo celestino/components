@@ -29,7 +29,10 @@
 
 namespace Brickoo\Network;
 
-use Brickoo\Validator\Argument;
+use Brickoo\Network\Exception\HandleAlreadyExistsException,
+    Brickoo\Network\Exception\HandleNotAvailableException,
+    Brickoo\Network\Exception\UnableToCreateHandleException,
+    Brickoo\Validator\Argument;
 
 /**
  * Client
@@ -56,13 +59,13 @@ class Client {
      * @param integer $connectionType (persistent:1, async:2, default:4)
      * @param resource|null $content the stream context to use
      * @throws \InvalidArgumentException
-     * @throws \Brickoo\Network\Exception\HandleAlreadyExists
-     * @throws \Brickoo\Network\Exception\UnableToCreateHandle
+     * @throws \Brickoo\Network\Exception\HandleAlreadyExistsException
+     * @throws \Brickoo\Network\Exception\UnableToCreateHandleException
      * @return \Brickoo\Network\Client
      */
     public function open($hostname, $port, $timeout, $connectionType = STREAM_CLIENT_CONNECT, $context = null) {
         if ($this->hasHandle()) {
-            throw new Exception\HandleAlreadyExists();
+            throw new HandleAlreadyExistsException();
         }
 
         Argument::IsString($hostname);
@@ -71,11 +74,11 @@ class Client {
         Argument::IsInteger($connectionType);
 
         if ($context !== null && (! $handle = @stream_socket_client($hostname .":". $port, $errorCode, $errorMessage, $timeout, $connectionType, $context))) {
-            throw new Exception\UnableToCreateHandle($hostname, $port, $errorCode, $errorMessage);
+            throw new UnableToCreateHandleException($hostname, $port, $errorCode, $errorMessage);
         }
 
         if ($context == null && (! $handle = @stream_socket_client($hostname .":". $port, $errorCode, $errorMessage, $timeout, $connectionType))) {
-            throw new Exception\UnableToCreateHandle($hostname, $port, $errorCode, $errorMessage);
+            throw new UnableToCreateHandleException($hostname, $port, $errorCode, $errorMessage);
         }
 
         $this->handle = $handle;
@@ -85,7 +88,7 @@ class Client {
     /**
      * Sends a message through the connection previously created
      * @param string $data the data to write
-     * @throws \Brickoo\Network\Exception\HandleNotAvailable
+     * @throws \Brickoo\Network\Exception\HandleNotAvailableException
      * @return integer the bytes written
      */
     public function write($data) {
@@ -96,7 +99,7 @@ class Client {
      * Reads the response returned by the connection.
      * @param integer $bytes the number of bytes to read
      * @throws \InvalidArgumentException
-     * @throws \Brickoo\Network\Exception\HandleNotAvailable
+     * @throws \Brickoo\Network\Exception\HandleNotAvailableException
      * @return string the connection response
      */
     public function read($bytes) {
@@ -106,7 +109,7 @@ class Client {
 
     /**
      * Closes the data handle and frees the holded ressource.
-     * @throws \Brickoo\Network\Exception\HandleNotAvailable
+     * @throws \Brickoo\Network\Exception\HandleNotAvailableException
      * @return \Brickoo\Network\Client
      */
     public function close() {
@@ -127,12 +130,12 @@ class Client {
 
     /**
      * Returns the current used handle.
-     * @throws \Brickoo\Network\Exception\HandleNotAvailable
+     * @throws \Brickoo\Network\Exception\HandleNotAvailableException
      * @return resource the resource handle
      */
     private function getHandle() {
         if (! $this->hasHandle()) {
-            throw new Exception\HandleNotAvailable();
+            throw new HandleNotAvailableException();
         }
 
         return $this->handle;
@@ -150,7 +153,7 @@ class Client {
      * Provides the possibility to call not implemented socket functions.
      * @param string $function the function name to call
      * @param array $arguments the arguments to pass
-     * @throws \BadMethodCallException if the trying to call fopen() or fclose()
+     * @throws \BadMethodCallException if the trying to call fclose()
      * @return mixed the called function return value
      */
     public function __call($function, array $arguments) {

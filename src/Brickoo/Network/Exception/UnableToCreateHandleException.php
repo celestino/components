@@ -32,22 +32,29 @@ namespace Brickoo\Network\Exception;
 use Brickoo\Network\Exception;
 
 /**
- * HandleNotAvailable
+ * UnableToCreateHandleException
  *
- * Exception throwed if trying to access a not created handle.
+ * Exception throwed if a resource handle could not be created for a network connection.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class HandleNotAvailable extends Exception {
+class UnableToCreateHandleException extends Exception {
 
     /**
      * Class constructor.
      * Calls the parent Exception constructor.
+     * @param string $hostname the hostname the handle could not be created for.
+     * @param integer $port the port number tryed to use for the connection
+     * @param integer $errorCode the error code throwed
+     * @param string $errorMessage the error message throwed
      * @param \Exception $previousException
      * @return void
      */
-    public function __construct(\Exception $previousException = null) {
-        parent::__construct("The resource handle is not available.", 0, $previousException);
+    public function __construct($hostname, $port, $errorCode, $errorMessage, \Exception $previousException = null) {
+        parent::__construct(sprintf(
+            "The resource handle for the location `%s` and port number `%d` could not be created. Error: [#%d] %s ",
+            $hostname, $port, $errorCode, $errorMessage
+        ), 0, $previousException);
     }
 
 }
