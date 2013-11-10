@@ -38,15 +38,15 @@
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class Request implements Interfaces\Request {
+    class Request {
 
-        /** @var \Brickoo\Http\Message\Interfaces\Header */
+        /** @var \Brickoo\Http\MessageHeader */
         private $Header;
 
-        /** @var \Brickoo\Http\Message\Interfaces\Body */
+        /** @var \Brickoo\Http\MessageBody */
         private $Body;
 
-        /** @var \Brickoo\Http\Request\Interfaces\Uri */
+        /** @var \Brickoo\Http\Uri */
         private $Uri;
 
         /** @var string */
