@@ -29,7 +29,11 @@
 
 namespace Brickoo\Memory;
 
-use Brickoo\Validator\Argument;
+use Brickoo\Memory\Exception\DuplicateRegistrationException,
+    Brickoo\Memory\Exception\IdentifierLockedException,
+    Brickoo\Memory\Exception\IdentifierNotRegisteredException,
+    Brickoo\Memory\Exception\ReadonlyModeException,
+    Brickoo\Validator\Argument;
 
 /**
  * Registry
@@ -85,14 +89,14 @@ class Registry extends Locker {
      * Returns the registered value from the given identifier.
      * @param string|integer $identifier the identifier so retrieve the value from
      * @throws \InvalidArgumentException if the identifier is not valid
-     * @throws \Brickoo\Memory\Exception\IdentifierNotRegisteredException if the identifier is not registered
+     * @throws \Brickoo\Memory\Exception\IdentifierNotRegisteredException
      * @return mixed the value of the registered identifier
      */
     public function get($identifier) {
         Argument::IsStringOrInteger($identifier);
 
         if (! $this->isRegistered($identifier)) {
-            throw new Exception\IdentifierNotRegisteredException($identifier);
+            throw new IdentifierNotRegisteredException($identifier);
         }
 
         return $this->registrations[$identifier];
@@ -104,19 +108,19 @@ class Registry extends Locker {
      * as an reference the changes applys to the registerd objects as well.
      * @param string|integer $identifier the identifier to register
      * @param mixed $value the identifier value to reguister with
-     * @throws \Brickoo\Memory\Exception\DuplicateRegistrationException the identifier is already registered
-     * @throws \Brickoo\Memory\Exception\ReadonlyModeException if the mode is currently read only
+     * @throws \Brickoo\Memory\Exception\DuplicateRegistrationException
+     * @throws \Brickoo\Memory\Exception\ReadonlyModeException
      * @return \Brickoo\Memory\Registry
      */
     public function register($identifier, $value) {
         Argument::IsStringOrInteger($identifier);
 
         if ($this->isReadOnly()) {
-            throw new Exception\ReadonlyModeException();
+            throw new ReadonlyModeException();
         }
 
         if ($this->isRegistered($identifier)) {
-            throw new Exception\DuplicateRegistrationException($identifier);
+            throw new DuplicateRegistrationException($identifier);
         }
 
         $this->registrations[$identifier] = $value;
@@ -128,19 +132,19 @@ class Registry extends Locker {
      * If the identifer ist not registered it will be registered.
      * @param string|integer $identifier the identifier to register
      * @param mixed $value the identifier value to register
-     * @throws \Brickoo\Memory\Exception\ReadonlyModeException if the mode is currently read only
-     * @throws \Brickoo\Memory\Exception\IdentifierLockedException if the identifier is locked
+     * @throws \Brickoo\Memory\Exception\ReadonlyModeException
+     * @throws \Brickoo\Memory\Exception\IdentifierLockedException
      * @return \Brickoo\Memory\Registry
      */
     public function override($identifier, $value) {
         Argument::IsStringOrInteger($identifier);
 
         if ($this->isReadOnly()) {
-            throw new Exception\ReadonlyModeException();
+            throw new ReadonlyModeException();
         }
 
         if ($this->isLocked($identifier)) {
-            throw new Exception\IdentifierLockedException($identifier);
+            throw new IdentifierLockedException($identifier);
         }
 
         $this->registrations[$identifier] = $value;
@@ -150,24 +154,24 @@ class Registry extends Locker {
     /**
      * Unregister the indentifier and his value.
      * @param string|integer $identifier the identifier to unregister
-     * @throws \Brickoo\Memory\Exception\ReadonlyModeException if the mode is currently read only
-     * @throws \Brickoo\Memory\Exception\IdentifierLockedException if the identifier is locked
-     * @throws \Brickoo\Memory\Exception\IdentifierNotRegisteredException if the identifier is not registered
+     * @throws \Brickoo\Memory\Exception\ReadonlyModeException
+     * @throws \Brickoo\Memory\Exception\IdentifierLockedException
+     * @throws \Brickoo\Memory\Exception\IdentifierNotRegisteredException
      * @return \Brickoo\Memory\Registry
      */
     public function unregister($identifier) {
         Argument::IsStringOrInteger($identifier);
 
         if ($this->isReadOnly()) {
-            throw new Exception\ReadonlyModeException();
+            throw new ReadonlyModeException();
         }
 
         if ($this->isLocked($identifier)) {
-            throw new Exception\IdentifierLockedException($identifier);
+            throw new IdentifierLockedException($identifier);
         }
 
         if (! $this->isRegistered($identifier)) {
-            throw new Exception\IdentifierNotRegisteredException($identifier);
+            throw new IdentifierNotRegisteredException($identifier);
         }
 
         unset ($this->registrations[$identifier]);
@@ -181,7 +185,6 @@ class Registry extends Locker {
      */
     public function isRegistered($identifier) {
         Argument::IsStringOrInteger($identifier);
-
         return array_key_exists($identifier, $this->registrations);
     }
 

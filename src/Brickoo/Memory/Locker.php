@@ -29,7 +29,10 @@
 
 namespace Brickoo\Memory;
 
-use Brickoo\Validator\Argument;
+use Brickoo\Memory\Exception\LockFailedException,
+    Brickoo\Memory\Exception\UnlockFailedException,
+    Brickoo\Validator\Argument;
+
 
 /**
  * Locker
@@ -68,7 +71,7 @@ abstract class Locker implements \Countable {
         Argument::IsStringOrInteger($identifier);
 
         if ((! $this->isIdentifierAvailable($identifier)) || $this->isLocked($identifier)) {
-            throw new Exception\LockFailedException($identifier);
+            throw new LockFailedException($identifier);
         }
 
         $this->locked[$identifier] = ($unlockKey = uniqid($identifier));
@@ -88,7 +91,7 @@ abstract class Locker implements \Countable {
         Argument::IsString($unlockKey);
 
         if(! $this->isLocked($identifier) || ($this->locked[$identifier] !== $unlockKey)) {
-            throw new Exception\UnlockFailedException($identifier);
+            throw new UnlockFailedException($identifier);
         }
 
         unset($this->locked[$identifier]);
