@@ -151,8 +151,7 @@ class Container implements \ArrayAccess, \IteratorAggregate, \Countable {
      */
     public function has($offset) {
         Argument::IsStringOrInteger($offset);
-
-        return isset($this->container[$offset]);
+        return isset($this->offsetExists($offset));
     }
 
     /**
@@ -164,7 +163,7 @@ class Container implements \ArrayAccess, \IteratorAggregate, \Countable {
         Argument::IsStringOrInteger($offset);
 
         if ($this->has($offset)) {
-            unset($this->container[$offset]);
+            $this->offsetUnset($offset);
         }
 
         return $this;
@@ -205,7 +204,6 @@ class Container implements \ArrayAccess, \IteratorAggregate, \Countable {
      */
     public function fromArray(array $container) {
         $this->container = $container;
-
         return $this;
     }
 
@@ -215,25 +213,6 @@ class Container implements \ArrayAccess, \IteratorAggregate, \Countable {
      */
     public function toArray() {
         return $this->container;
-    }
-
-    /**
-     * Magic function to retrieve a value from offset.
-     * @param string|integer $offset the offset to retrieve the value from
-     * @return mixed the offset value
-     */
-    public function __get($offset) {
-        return $this->offsetGet($offset);
-    }
-
-    /**
-     * Magic function to set an ofset-value pair.
-     * @param string|integer $offset the offset to set
-     * @param mixed $value the value of the offset
-     * @return void
-     */
-    public function __set($offset, $value) {
-        $this->offsetSet($offset, $value);
     }
 
 }
