@@ -37,7 +37,7 @@ use Brickoo\Event\Listener,
 /**
  * ListenerCollection
  *
- * Implementes an event listener collection.
+ * Implements an event listener collection.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -57,7 +57,6 @@ class ListenerCollection {
     /**
      * Adds a listener to the memory.
      * @param \Brickoo\Event\Listener $Listener
-     * @throws \InvalidArgumentException
      * @return string the listener queue unique identifier
      */
     public function add(Listener $Listener) {

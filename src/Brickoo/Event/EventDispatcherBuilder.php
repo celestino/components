@@ -29,7 +29,8 @@
 
 namespace Brickoo\Event;
 
-use Brickoo\Event\EventProcessor,
+use Brickoo\Event\EventDispatcher,
+    Brickoo\Event\EventProcessor,
     Brickoo\Event\ListenerCollection,
     Brickoo\Memory\Container,
     Brickoo\Validator\Argument,
@@ -69,7 +70,7 @@ class EventDispatcherBuilder {
      * @param \Brickoo\Event\EventProcessor $eventProcessor
      * @return \Brickoo\Event\EventDispatcherBuilder
      */
-    public function setEventeventProcessor(EventProcessor $eventProcessor) {
+    public function setEventProcessor(EventProcessor $eventProcessor) {
         $this->eventProcessor = $eventProcessor;
         return $this;
     }
@@ -104,7 +105,7 @@ class EventDispatcherBuilder {
         Argument::IsTraversable($listeners);
 
         if (! (new TraversableContainsInstancesOf("Brickoo\\Event\\Interfaces\\Listener"))->assert($listeners)) {
-            throw new \InvalidArgumentException("The traversable must contain Event\Listeners only.");
+            throw new \InvalidArgumentException("The traversable must contain Event\\Listeners only.");
         }
 
         $this->listeners = $listeners;
