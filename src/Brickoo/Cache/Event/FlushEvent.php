@@ -29,7 +29,7 @@
 
 namespace Brickoo\Cache\Event;
 
-use Brickoo\Cache\Event\AbstractEvent,
+use Brickoo\Cache\Event\CacheEvent,
     Brickoo\Cache\Event\Events;
 
 /**
@@ -39,7 +39,7 @@ use Brickoo\Cache\Event\AbstractEvent,
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class FlushEvent extends AbstractEvent {
+class FlushEvent extends CacheEvent {
 
     /**
      * Overrides the parent class constructor.

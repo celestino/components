@@ -29,7 +29,7 @@
 
 namespace Brickoo\Cache\Event;
 
-use Brickoo\Cache\Event\AbstractEvent,
+use Brickoo\Cache\Event\CacheEvent,
     Brickoo\Cache\Event\Events,
     Brickoo\Validator\Argument;
 
@@ -40,7 +40,7 @@ use Brickoo\Cache\Event\AbstractEvent,
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class RetrieveEvent extends AbstractEvent {
+class RetrieveEvent extends CacheEvent {
 
     /**
      * Overrides the parent class constructor.

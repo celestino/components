@@ -111,7 +111,7 @@ class CacheManagerListener implements ListenerAggregate {
      * @return boolean check result
      */
     public function isEventSupported(Event $event, EventDispatcher $eventDispatcher) {
-        return  ($event instanceof AbstractEvent);
+        return  ($event instanceof CacheEvent);
     }
 
     /**

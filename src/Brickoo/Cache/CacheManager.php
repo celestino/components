@@ -159,23 +159,30 @@ class CacheManager {
             return $this->adapter;
         }
 
-        if ($this->adapterPoolIterator->isEmpty()) {
+        $this->attachReadyAdapter();
+
+        if ($this->adapter === null) {
             throw new Exception\AdapterNotFoundException();
         }
 
-        $this->adapterPoolIterator->rewind();
-        while ($this->adapter === null && $this->adapterPoolIterator->valid()) {
-            if ($this->adapterPoolIterator->isCurrentReady()) {
-                $this->adapter = $this->adapterPoolIterator->current();
-            }
-            $this->adapterPoolIterator->next();
-        }
-
-        if ($this->adapter === null) {
-            throw new Exception\AdapterNotReadyException();
-        }
-
         return $this->adapter;
+    }
+
+    /**
+     * Attach a ready adapter to the class variable.
+     * @return \Brickoo\Cache\CacheManager
+     */
+    private function attachReadyAdapter() {
+        if (! $this->adapterPoolIterator->isEmpty()) {
+            $this->adapterPoolIterator->rewind();
+            while ($this->adapter === null && $this->adapterPoolIterator->valid()) {
+                if ($this->adapterPoolIterator->isCurrentReady()) {
+                    $this->adapter = $this->adapterPoolIterator->current();
+                }
+                $this->adapterPoolIterator->next();
+            }
+        }
+        return $this;
     }
 
 }

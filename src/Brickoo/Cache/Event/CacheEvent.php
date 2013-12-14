@@ -32,13 +32,13 @@ namespace Brickoo\Cache\Event;
 use Brickoo\Event\GenericEvent;
 
 /**
- * AbstractEvent
+ * CacheEvent
  *
- * Implements an abstract cache event definition.
+ * Implements a cache event definition.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-abstract class AbstractEvent extends GenericEvent {
+class CacheEvent extends GenericEvent {
 
     /**
      * Cache event identifier parameter.
