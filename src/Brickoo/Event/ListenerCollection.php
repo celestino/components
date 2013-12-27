@@ -50,8 +50,8 @@ class ListenerCollection {
     private $listeners;
 
     public function __construct() {
-        $this->listenerQueues = array();
-        $this->listeners = array();
+        $this->listenerQueues = [];
+        $this->listeners = [];
     }
 
     /**
@@ -176,7 +176,7 @@ class ListenerCollection {
      * @return array the collected event listeners ordered by priority.
      */
     private function collectEventListeners($eventName) {
-        $listeners = array();
+        $listeners = [];
         $ListenersQueue = clone $this->listenerQueues[$eventName];
 
         foreach ($ListenersQueue as $listenerUID) {

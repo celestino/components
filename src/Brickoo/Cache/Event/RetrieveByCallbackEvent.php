@@ -50,7 +50,7 @@ class RetrieveByCallbackEvent extends CacheEvent {
      * @param array $callbackArguments the callback arguments
      * @param integer $cacheLifetime the max. cache lifetime for the fresh loaded content
      */
-    public function __construct($identifier, callable $callback, array $callbackArguments = array(), $cacheLifetime = 60) {
+    public function __construct($identifier, callable $callback, array $callbackArguments = [], $cacheLifetime = 60) {
         Argument::IsString($identifier);
         Argument::IsInteger($cacheLifetime);
         parent::__construct(Events::GET, null, array(

@@ -60,7 +60,7 @@ class GenericEvent implements Event {
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function __construct($name, $sender = null, array $parameters = array()) {
+    public function __construct($name, $sender = null, array $parameters = []) {
         Argument::IsString($name);
 
         if ($sender !== null) {

@@ -52,7 +52,7 @@ class ListAutoloader extends Autoloader {
      * @param boolean $prepend flag to prepend or append to the PHP autoloader list
      * @return void
      */
-    public function __construct(array $classes = array(), $prepend = true) {
+    public function __construct(array $classes = [], $prepend = true) {
         $this->classes = $classes;
         parent::__construct($prepend);
     }

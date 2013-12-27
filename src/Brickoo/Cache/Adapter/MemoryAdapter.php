@@ -50,7 +50,7 @@ class MemoryAdapter implements Adapter {
      * @return void
      */
     public function __construct() {
-        $this->cacheValues = array();
+        $this->cacheValues = [];
     }
 
     /** {@inheritDoc} */
@@ -90,7 +90,7 @@ class MemoryAdapter implements Adapter {
 
     /** {@inheritDoc} */
     public function flush() {
-        $this->cacheValues = array();
+        $this->cacheValues = [];
         return $this;
     }
 

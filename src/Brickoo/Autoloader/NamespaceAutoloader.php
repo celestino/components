@@ -52,7 +52,7 @@ class NamespaceAutoloader extends Autoloader {
      * @param boolean $prepend flag to prepend or append to the PHP autoloader list
      * @return void
      */
-    public function __construct(array $namespaces = array(), $prepend = true) {
+    public function __construct(array $namespaces = [], $prepend = true) {
         $this->namespaces = $namespaces;
         parent::__construct($prepend);
     }

@@ -205,7 +205,7 @@ class EventDispatcher {
      * @return mixed the returned response or array the collected responses
      */
     private function getEventListenersResponses(Event $event, $behaviourControlFlag) {
-        $collectedResponses = array();
+        $collectedResponses = [];
 
         foreach ($this->listenerCollection->getListeners($event->getName()) as $listener) {
             $response = $this->processor->handle($this, $event, $listener);
