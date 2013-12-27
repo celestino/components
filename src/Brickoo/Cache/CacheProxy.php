@@ -30,15 +30,16 @@
 namespace Brickoo\Cache;
 
 use Brickoo\Cache\AdapterPoolIterator,
+    Brickoo\Cache\Exception\AdapterNotFoundException,
     Brickoo\Validator\Argument;
 
 /**
- * CacheManager
+ * CacheProxy
  *
- * Implements caching management for an iterable adapter pool.
+ * Implements caching proxy for handling an iterable adapter pool.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class CacheManager {
+class CacheProxy {
 
     /** @var \Brickoo\Cache\Adapter */
     private $adapter;
@@ -64,8 +65,7 @@ class CacheManager {
      * @param array $callbackArguments the arguments to pass forward to the callback
      * @param integer $lifetime the lifetime of the cached content in seconds
      * @throws \InvalidArgumentException if an argument is not valid
-     * @throws \Brickoo\Cache\Exception\AdapterNotFound
-     * @throws \Brickoo\Cache\Exception\AdapterNotReady
+     * @throws \Brickoo\Cache\Exception\AdapterNotFoundException
      * @return mixed the cached content
      */
     public function getByCallback($identifier, callable $callback, array $callbackArguments, $lifetime) {
@@ -83,8 +83,7 @@ class CacheManager {
      * Returns the cached content holded by the identifier.
      * @param string $identifier the identifier to retrieve the content
      * @throws \InvalidArgumentException if an argument is not valid
-     * @throws \Brickoo\Cache\Exception\AdapterNotFound
-     * @throws \Brickoo\Cache\Exception\AdapterNotReady
+     * @throws \Brickoo\Cache\Exception\AdapterNotFoundException
      * @return mixed the cached content
      */
     public function get($identifier) {
@@ -100,9 +99,8 @@ class CacheManager {
      * @param mixed $content the content to cache
      * @param integer $lifetime the lifetime of the cached content
      * @throws \InvalidArgumentException if an argument is not valid
-     * @throws \Brickoo\Cache\Exception\AdapterNotFound
-     * @throws \Brickoo\Cache\Exception\AdapterNotReady
-     * @return \Brickoo\Cache\CacheManager
+     * @throws \Brickoo\Cache\Exception\AdapterNotFoundException
+     * @return \Brickoo\Cache\CacheProxy
      */
     public function set($identifier, $content, $lifetime) {
         Argument::IsString($identifier);
@@ -117,7 +115,7 @@ class CacheManager {
      * Removes the local cached content.
      * @param string $identifier the identifier which holds the content
      * @throws \InvalidArgumentException if an argument is not valid
-     * @return \Brickoo\Cache\CacheManager
+     * @return \Brickoo\Cache\CacheProxy
      */
     public function delete($identifier) {
         Argument::IsString($identifier);
@@ -135,7 +133,7 @@ class CacheManager {
 
     /**
      * Flushes the cache holded by all ready adapters.
-     * @return \Brickoo\Cache\CacheManager
+     * @return \Brickoo\Cache\CacheProxy
      */
     public function flush() {
         $this->adapterPoolIterator->rewind();
@@ -151,7 +149,7 @@ class CacheManager {
 
     /**
      * Returns a ready adapter entry from the adapter pool.
-     * @throws \Brickoo\Cache\Exception\AdapterNotReady
+     * @throws \Brickoo\Cache\Exception\AdapterNotFoundException
      * @return \Brickoo\Cache\Adapter
      */
     private function getAdapter() {
@@ -162,7 +160,7 @@ class CacheManager {
         $this->attachReadyAdapter();
 
         if ($this->adapter === null) {
-            throw new Exception\AdapterNotFoundException();
+            throw new AdapterNotFoundException();
         }
 
         return $this->adapter;
@@ -170,7 +168,7 @@ class CacheManager {
 
     /**
      * Attach a ready adapter to the class variable.
-     * @return \Brickoo\Cache\CacheManager
+     * @return \Brickoo\Cache\CacheProxy
      */
     private function attachReadyAdapter() {
         if (! $this->adapterPoolIterator->isEmpty()) {

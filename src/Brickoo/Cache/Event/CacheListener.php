@@ -29,7 +29,7 @@
 
 namespace Brickoo\Cache\Event;
 
-use Brickoo\Cache\CacheManager,
+use Brickoo\Cache\CacheProxy,
     Brickoo\Cache\Event\Events,
     Brickoo\Cache\Event\DeleteEvent,
     Brickoo\Cache\Event\FlushEvent,
@@ -51,7 +51,7 @@ use Brickoo\Cache\CacheManager,
 
 class CacheManagerListener implements ListenerAggregate {
 
-    /** @var \Brickoo\Cache\CacheManager */
+    /** @var \Brickoo\Cache\CacheProxy */
     private $cacheManager;
 
     /** @var integer */
@@ -59,11 +59,11 @@ class CacheManagerListener implements ListenerAggregate {
 
     /**
      * Class constructor.
-     * @param \Brickoo\Cache\CacheManager $cacheManager
+     * @param \Brickoo\Cache\CacheProxy $cacheManager
      * @param integer $priority the listener priority
      * @return void
      */
-    public function __construct(CacheManager $cacheManager, $priority = 0) {
+    public function __construct(CacheProxy $cacheManager, $priority = 0) {
         Argument::IsInteger($priority);
 
         $this->cacheManager = $cacheManager;
