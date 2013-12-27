@@ -27,28 +27,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Loader\Exception;
+namespace Brickoo\Autoloader\Exception;
 
-use Brickoo\Loader\Exception;
+use Brickoo\Autoloader\Exception;
 
 /**
- * FileDoesNotExistException
+ * DirectoryDoesNotExistException
  *
- * Exception throwed by the Autoloader class if trying to load a file which does not exist.
+ * Exception throwed if trying to access a directory which does not exist.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class FileDoesNotExistException extends Exception {
+class DirectoryDoesNotExistException extends Exception {
 
     /**
      * Class constructor.
-     * Calls the parent exception constructor.
-     * @param string $filepath the filepath which does not exists
+     * Calls the parent Exception constructor.
+     * @param string $directory the directory which does not exists
      * @param \Exception $previousException
      * @return void
      */
-    public function __construct($filepath, \Exception $previousException = null) {
-        parent::__construct(sprintf("File does not exists `%s`.", $filepath), 0 , $previousException);
+    public function __construct($directory, \Exception $previousException = null) {
+        parent::__construct(sprintf("Directory `%s` does not exists or is not readable.", $directory), 0, $previousException);
     }
 
 }

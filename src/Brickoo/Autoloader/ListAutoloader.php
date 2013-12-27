@@ -27,11 +27,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Loader;
+namespace Brickoo\Autoloader;
 
-use Brickoo\Loader\Exception\ClassNotRegisteredException,
-    Brickoo\Loader\Exception\DuplicateClassRegistrationException,
-    Brickoo\Loader\Exception\FileDoesNotExistException;
+use Brickoo\Autoloader\Exception\ClassNotRegisteredException,
+    Brickoo\Autoloader\Exception\DuplicateClassRegistrationException,
+    Brickoo\Autoloader\Exception\FileDoesNotExistException;
 
 
 /**
@@ -62,9 +62,9 @@ class ListAutoloader extends Autoloader {
      * @param string $className the class to register
      * @param string $location the absoulte location path to the class
      * @throws \InvalidArgumentException if an argument is not valid
-     * @throws \Brickoo\Loader\Exception\FileDoesNotExistException
-     * @throws \Brickoo\Loader\Exception\DuplicateClassRegistrationException
-     * @return \Brickoo\Loader\ListAutoloader
+     * @throws \Brickoo\Autoloader\Exception\FileDoesNotExistException
+     * @throws \Brickoo\Autoloader\Exception\DuplicateClassRegistrationException
+     * @return \Brickoo\Autoloader\ListAutoloader
      */
     public function registerClass($className, $location) {
         if ((! is_string($className)) || empty($className) || (! is_string($location))) {
@@ -89,8 +89,8 @@ class ListAutoloader extends Autoloader {
      * Unregister the class available by the given name.
      * @param string $class the class to unregister from autoloader
      * @throws \InvalidArgumentException if an argument is not valid
-     * @throws \Brickoo\Loader\Exception\ClassNotRegisteredException
-     * @return \Brickoo\Loader\ListAutoloader
+     * @throws \Brickoo\Autoloader\Exception\ClassNotRegisteredException
+     * @return \Brickoo\Autoloader\ListAutoloader
      */
     public function unregisterClass($className) {
         if (! is_string($className)) {

@@ -27,12 +27,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Loader;
+namespace Brickoo\Autoloader;
 
-use Brickoo\Loader\Exception\DirectoryDoesNotExistException,
-    Brickoo\Loader\Exception\DuplicateNamespaceRegistrationException,
-    Brickoo\Loader\Exception\FileDoesNotExistException,
-    Brickoo\Loader\Exception\NamespaceNotRegisteredException;
+use Brickoo\Autoloader\Exception\DirectoryDoesNotExistException,
+    Brickoo\Autoloader\Exception\DuplicateNamespaceRegistrationException,
+    Brickoo\Autoloader\Exception\FileDoesNotExistException,
+    Brickoo\Autoloader\Exception\NamespaceNotRegisteredException;
 
 /**
  * NamespaceAutoloader
@@ -62,9 +62,9 @@ class NamespaceAutoloader extends Autoloader {
      * @param string $namespace the namespace to register
      * @param string $namespacePath the absolute path to the namespace
      * @throws \InvalidArgumentException if an argument is not valid
-     * @throws \Brickoo\Loader\Exception\DirectoryDoesNotExistException
-     * @throws \Brickoo\Loader\Exception\DuplicateNamespaceRegistrationException
-     * @return \Brickoo\Loader\NamespaceAutoloader
+     * @throws \Brickoo\Autoloader\Exception\DirectoryDoesNotExistException
+     * @throws \Brickoo\Autoloader\Exception\DuplicateNamespaceRegistrationException
+     * @return \Brickoo\Autoloader\NamespaceAutoloader
      */
     public function registerNamespace($namespace, $includePath) {
         if ((! is_string($namespace)) || (! $namespace = trim($namespace)) || (! is_string($includePath))) {
@@ -90,8 +90,8 @@ class NamespaceAutoloader extends Autoloader {
      * Unregister the namespace available by the given name.
      * @param string $namespace the name of the namespace to remove
      * @throws \InvalidArgumentException if an argument is not valid
-     * @throws \Brickoo\Loader\Exception\NamespaceNotRegisteredException
-     * @return \Brickoo\Loader\NamespaceAutoloader
+     * @throws \Brickoo\Autoloader\Exception\NamespaceNotRegisteredException
+     * @return \Brickoo\Autoloader\NamespaceAutoloader
      */
     public function unregisterNamespace($namespace) {
         if (! $this->isNamespaceRegistered($namespace)) {

@@ -27,27 +27,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Loader\Exception;
+namespace Brickoo\Autoloader\Exception;
 
-use Brickoo\Loader\Exception;
+use Brickoo\Autoloader\Exception;
 
 /**
- * DuplicateAutoloaderRegistrationException
+ * ClassNotRegisteredException
  *
- * Exception throwed if trying to register the autoloader again.
+ * Exception throwed if trying to unregister a class without beeing registered before.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class DuplicateAutoloaderRegistrationException extends Exception {
+class ClassNotRegisteredException extends Exception {
 
     /**
      * Class constructor.
      * Calls the parent Exception constructor.
+     * @param string $className the class not registered
      * @param \Exception $previousException
      * @return void
      */
-    public function __construct(\Exception $previousException = null) {
-        parent::__construct("Autoloader instance already registered.", 0, $previousException);
+    public function __construct($className, \Exception $previousException = null) {
+        parent::__construct(sprintf("The class `%s` is not registered", $className), 0, $previousException);
     }
 
 }

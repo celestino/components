@@ -27,10 +27,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Loader;
+namespace Brickoo\Autoloader;
 
-use Brickoo\Loader\Exception\DuplicateAutoloaderRegistrationException,
-    Brickoo\Loader\Exception\AutoloaderNotRegisteredException;
+use Brickoo\Autoloader\Exception\DuplicateAutoloaderRegistrationException,
+    Brickoo\Autoloader\Exception\AutoloaderNotRegisteredException;
 
 /**
  * Autoloader
@@ -60,8 +60,8 @@ abstract class Autoloader {
 
     /**
      * Register the autoloader.
-     * @throws \Brickoo\Loader\Exception\DuplicateAutoloaderRegistrationException
-     * @return \Brickoo\Loader\Autoloader
+     * @throws \Brickoo\Autoloader\Exception\DuplicateAutoloaderRegistrationException
+     * @return \Brickoo\Autoloader\Autoloader
      */
     public function register() {
         if ($this->isRegistered) {
@@ -77,8 +77,8 @@ abstract class Autoloader {
 
     /**
      * Unregister the autoloader.
-     * @throws \Brickoo\Loader\Exception\AutoloaderNotRegisteredException
-     * @return \Brickoo\Loader\Autoloader
+     * @throws \Brickoo\Autoloader\Exception\AutoloaderNotRegisteredException
+     * @return \Brickoo\Autoloader\Autoloader
      */
     public function unregister() {
         if (! $this->isRegistered) {
@@ -97,7 +97,7 @@ abstract class Autoloader {
      * Commomly this is the autoload callback function registered.
      * @param string $className the class to load
      * @throws \InvalidArgumentException if an argument is not valid
-     * @throws \Brickoo\Loader\Exception\FileDoesNotExist throws an exception if the file does not exists
+     * @throws \Brickoo\Autoloader\Exception\FileDoesNotExist throws an exception if the file does not exists
      * @return boolean true on success false on failure
      */
     abstract public function load($className);

@@ -27,9 +27,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Loader\Exception;
+namespace Brickoo\Autoloader\Exception;
 
-use Brickoo\Loader\Exception;
+use Brickoo\Autoloader\Exception;
 
 /**
  * DuplicateClassRegistrationException

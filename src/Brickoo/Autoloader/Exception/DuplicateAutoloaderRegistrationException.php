@@ -27,29 +27,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Loader\Exception;
+namespace Brickoo\Autoloader\Exception;
 
-use Brickoo\Loader\Exception;
+use Brickoo\Autoloader\Exception;
 
 /**
- * DuplicateNamespaceRegistrationException
+ * DuplicateAutoloaderRegistrationException
  *
- * Exception throwed if trying to register a namespace
- * which has been already registered.
+ * Exception throwed if trying to register the autoloader again.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class DuplicateNamespaceRegistrationException extends Exception {
+class DuplicateAutoloaderRegistrationException extends Exception {
 
     /**
      * Class constructor.
      * Calls the parent Exception constructor.
-     * @param string $namespace the namespace trying to register
      * @param \Exception $previousException
      * @return void
      */
-    public function __construct($namespace, \Exception $previousException = null) {
-        parent::__construct(sprintf("The namespace`%s` is already registered.", $namespace), 0, $previousException);
+    public function __construct(\Exception $previousException = null) {
+        parent::__construct("Autoloader instance already registered.", 0, $previousException);
     }
 
 }
