@@ -27,51 +27,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Template;
+namespace Brickoo\Template\Exception;
 
-use Brickoo\Template\Template,
-    Brickoo\Template\Exception\RenderingAbortedException,
-    Brickoo\Validator\Argument;
+use Brickoo\Template\Exception;
 
 /**
- * PhpTemplate
+ * RenderingAbortedException
  *
- * Implements a PHP based template.
+ * Exception throwed by a template during rendering.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class PhpTemplate implements Template {
-
-    /** @var array */
-    protected $templateVars;
+class RenderingAbortedException extends Exception {
 
     /**
      * Class constructor.
-     * @param string $templateFile the php template to use
-     * @param array $templateVars the template variables to make accessible
-     * @throws \InvalidArgumentException if an argument is not valid
+     * Calls the parent Exception constructor.
+     * @param \Exception $previousException the previous exception throwed
      * @return void
      */
-    public function __construct($templateFile, array $templateVars = []) {
-        Argument::IsString($templateFile);
-        $this->templateFile = $templateFile;
-        $this->templateVars = $templateVars;
-    }
-
-    /** {@inheritDoc} */
-    public function render() {
-        try {
-            extract($this->templateVars, EXTR_SKIP);
-            ob_start();
-            require ($this->templateFile);
-            $output = ob_get_contents();
-            ob_end_clean();
-        }
-        catch (\Exception $Exception) {
-            throw new RenderingAbortedException($Exception);
-        }
-
-        return $output;
+    public function __construct(\Exception $previousException) {
+        parent::__construct("Exception during template rendering throwed.", 0, $previousException);
     }
 
 }

@@ -29,49 +29,20 @@
 
 namespace Brickoo\Template;
 
-use Brickoo\Template\Template,
-    Brickoo\Template\Exception\RenderingAbortedException,
-    Brickoo\Validator\Argument;
-
 /**
- * PhpTemplate
+ * Template
  *
- * Implements a PHP based template.
+ * Describes a template which does return a rendered content.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class PhpTemplate implements Template {
-
-    /** @var array */
-    protected $templateVars;
+interface Template {
 
     /**
-     * Class constructor.
-     * @param string $templateFile the php template to use
-     * @param array $templateVars the template variables to make accessible
-     * @throws \InvalidArgumentException if an argument is not valid
-     * @return void
+     * Renders the template to retrieve the content.
+     * @throws \Brickoo\Template\Exception\RenderingAbortedException
+     * @return string the rendered template
      */
-    public function __construct($templateFile, array $templateVars = []) {
-        Argument::IsString($templateFile);
-        $this->templateFile = $templateFile;
-        $this->templateVars = $templateVars;
-    }
-
-    /** {@inheritDoc} */
-    public function render() {
-        try {
-            extract($this->templateVars, EXTR_SKIP);
-            ob_start();
-            require ($this->templateFile);
-            $output = ob_get_contents();
-            ob_end_clean();
-        }
-        catch (\Exception $Exception) {
-            throw new RenderingAbortedException($Exception);
-        }
-
-        return $output;
-    }
+    public function render();
 
 }
