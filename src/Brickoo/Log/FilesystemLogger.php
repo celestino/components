@@ -29,7 +29,7 @@
 
 namespace Brickoo\Log;
 
-use Brickoo\Filesystem\FileObject,
+use Brickoo\Filesystem\File,
     Brickoo\Log\Logger,
     Brickoo\Validator\Argument;
 
@@ -45,7 +45,7 @@ class FilesystemLogger implements Logger {
     /** @var array */
     private $severityDescription;
 
-    /** @var \Brickoo\Filesystem\fileObject */
+    /** @var \Brickoo\Filesystem\File */
     private $fileObject;
 
     /** @var string */
@@ -53,11 +53,11 @@ class FilesystemLogger implements Logger {
 
     /**
     * Class constructor.
-    * @param \Brickoo\Filesystem\FileObject $fileObject
+    * @param \Brickoo\Filesystem\File $fileObject
     * @param string $logsDirectory the directory to store the log messages
     * @return void
     */
-    public function __construct(FileObject $fileObject, $logsDirectory) {
+    public function __construct(File $fileObject, $logsDirectory) {
         Argument::IsString($logsDirectory);
 
         $this->fileObject = $fileObject;

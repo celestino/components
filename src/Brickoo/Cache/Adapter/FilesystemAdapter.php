@@ -30,7 +30,7 @@
 namespace Brickoo\Cache\Adapter;
 
 use Brickoo\Cache\Adapter,
-    Brickoo\Filesystem\FileObject,
+    Brickoo\Filesystem\File,
     Brickoo\Validator\Argument;
 
 /**
@@ -62,14 +62,14 @@ class FilesystemAdapter implements Adapter {
 
     /**
      * Class constructor.
-     * @param \Brickoo\Filesystem\FileObject $fileObject
+     * @param \Brickoo\Filesystem\File $fileObject
      * @param string $cacheDirectory the directory used for the cache operations
      * @param boolean $serializeCacheContent flag to serialize the content cached
      * @param string $cacheFileNameSuffix the sufffix to add to caching file names
      * @throws \InvalidArgumentException if an argument is not valid
      * @return void
      */
-    public function __construct(FileObject $fileObject, $cacheDirectory, $serializeCacheContent = true, $cacheFileNameSuffix = ".cache") {
+    public function __construct(File $fileObject, $cacheDirectory, $serializeCacheContent = true, $cacheFileNameSuffix = ".cache") {
         Argument::IsString($cacheDirectory);
         Argument::IsBoolean($serializeCacheContent);
         Argument::IsString($cacheFileNameSuffix);

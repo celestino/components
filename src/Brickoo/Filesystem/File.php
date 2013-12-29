@@ -40,15 +40,15 @@ use Brickoo\Filesystem\Exception\HandleAlreadyExistsException,
  *
  * Implements an OOP wrapper for handling file operations.
  * The SplFileObject has not an implementation for changing or just close
- * and open the location anytime within an instance, that`s the reason why did this version has been created.
- * The resource handle is created and closed by the FileObject,
+ * and open the location anytime within an instance, that`s the reason why this version has been created.
+ * The resource handle is created and closed by the instance,
  * that`s the reason why fopen() and fclose() are not supported as magic method.
  * This class does not implement all functions available for file handling,
  * BUT(!) you can use any file function which expects the resource handle as first argument.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class FileObject {
+class File {
 
     /** @var string */
     private $mode;
@@ -66,7 +66,7 @@ class FileObject {
      * @throws \InvalidArgumentException
      * @throws \Brickoo\Filesystem\Exception\UnableToCreateHandleException
      * @throws \Brickoo\Filesystem\Exception\HandleAlreadyExistsException
-     * @return \Brickoo\Filesystem\FileObject
+     * @return \Brickoo\Filesystem\File
      */
     public function open($filename, $mode, $useIncludePath = false, $context = null) {
         if ($this->hasHandle()) {
@@ -116,7 +116,7 @@ class FileObject {
     public function read($bytes) {
         Argument::IsInteger($bytes);
 
-        if (preg_match("~^[waxc]$~", $this->mode)) {
+        if (! $this->isReadMode()) {
             throw new InvalidModeOperationException($this->mode, "read");
         }
 
@@ -124,9 +124,30 @@ class FileObject {
     }
 
     /**
+     * Read a line of the file.
+     * @throws InvalidModeOperationException
+     * @return string the readed line
+     */
+    public function readLine() {
+        if (! $this->isReadMode()) {
+            throw new InvalidModeOperationException($this->mode, "read");
+        }
+
+        return fgets($this->getHandle());
+    }
+
+    /**
+     * Check if the end of file has been reached.
+     * @return boolean check result
+     */
+    public function isEndOfFile() {
+        return feof($this->getHandle());
+    }
+
+    /**
      * Closes the the data handler and frees the ressource.
      * @throws \Brickoo\Filesystem\Exception\HandleNotAvailableException
-     * @return \Brickoo\Filesystem\FileObject
+     * @return \Brickoo\Filesystem\File
      */
     public function close() {
         fclose($this->getHandle());
@@ -163,6 +184,14 @@ class FileObject {
         }
 
         return $this->handle;
+    }
+
+    /**
+     * Checks if the file mode is readable.
+     * @return boolean check result
+     */
+    private function isReadMode() {
+        return preg_match("~^[waxc]$~", $this->mode) == 1;
     }
 
     /**
