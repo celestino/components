@@ -56,7 +56,7 @@ abstract class Locker implements \Countable {
      * @return void
      */
     public function __construct() {
-        $this->locked = array();
+        $this->locked = [];
     }
 
     /**

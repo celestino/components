@@ -194,7 +194,7 @@ class Container implements \ArrayAccess, \IteratorAggregate, \Countable {
      * @return \Brickoo\Memory\Container
      */
     public function flush() {
-        $this->container = array();
+        $this->container = [];
         return $this;
     }
 
