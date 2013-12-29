@@ -29,43 +29,30 @@
 
 namespace Brickoo\Http;
 
-use Brickoo\Memory\Container,
-    Brickoo\Validator\Argument;
-
 /**
- * Query
+ * Header
  *
- * Implements a http query parameters container.
+ * Defines a http header.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
-class Query extends Container {
-
-    /**
-     * Converts the query parameters to a request query string.
-     * The query string is encoded as of the RFC3986.
-     * @return string the query string
-     */
-    public function toString() {
-        return str_replace("+", "%20", http_build_query($this->toArray()));
-    }
+interface Header {
 
     /**
-     * Imports the query parameters from the extracted key/value pairs.
-     * @param strin $query the query to extract the pairs from
-     * @throws \InvalidArgumentException if the argument is not valid
-     * @return \Brickoo\Http\Query
+     * Returns the header name.
+     * @return string the header name
      */
-    public function fromString($query) {
-        Argument::IsString($query);
+    public function getName();
 
-        if (($position = strpos($query, "?")) !== false) {
-            $query = substr($query, $position + 1);
-        }
+    /**
+     * Returns the hader value.
+     * @return string the header value
+     */
+    public function getValue();
 
-        parse_str(rawurldecode($query), $importedQueryParameters);
-        $this->fromArray($importedQueryParameters);
-        return $this;
-    }
+    /**
+     * Returns a string representation of the header.
+     * @return string the string representation
+     */
+    public function toString();
 
 }

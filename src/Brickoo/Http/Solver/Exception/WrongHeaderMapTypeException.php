@@ -27,45 +27,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http;
+namespace Brickoo\Http\Solver\Exception;
 
-use Brickoo\Memory\Container,
-    Brickoo\Validator\Argument;
+use Brickoo\Http\Solver\Exception;
 
 /**
- * Query
+ * WrongHeaderMapTypeException
  *
- * Implements a http query parameters container.
+ * Exception throwed if a header map returns a wrong type..
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Query extends Container {
+class WrongHeaderMapTypeException extends Exception {
 
     /**
-     * Converts the query parameters to a request query string.
-     * The query string is encoded as of the RFC3986.
-     * @return string the query string
+     * Class constructor.
+     * Calls the parent exception constructor.
+     * @param string $headerMap retruned header map type
+     * @param \Exception $previousException
+     * @return void
      */
-    public function toString() {
-        return str_replace("+", "%20", http_build_query($this->toArray()));
-    }
-
-    /**
-     * Imports the query parameters from the extracted key/value pairs.
-     * @param strin $query the query to extract the pairs from
-     * @throws \InvalidArgumentException if the argument is not valid
-     * @return \Brickoo\Http\Query
-     */
-    public function fromString($query) {
-        Argument::IsString($query);
-
-        if (($position = strpos($query, "?")) !== false) {
-            $query = substr($query, $position + 1);
-        }
-
-        parse_str(rawurldecode($query), $importedQueryParameters);
-        $this->fromArray($importedQueryParameters);
-        return $this;
+    public function __construct($headerMap, \Exception $previousException = null) {
+        parent::__construct(sprintf("The header map has the type `%s`, an array is spected.", gettype($headerMap)), 0 , $previousException);
     }
 
 }

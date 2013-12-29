@@ -29,43 +29,58 @@
 
 namespace Brickoo\Http;
 
-use Brickoo\Memory\Container,
-    Brickoo\Validator\Argument;
+use Brickoo\Validator\Argument;
 
 /**
- * Query
+ * Authority
  *
- * Implements a http query parameters container.
+ * Implements the http uri authority part.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
+class Authority {
 
-class Query extends Container {
+    /** @var string */
+    private $hostname;
+
+    /** @var integer */
+    private $portNumber;
 
     /**
-     * Converts the query parameters to a request query string.
-     * The query string is encoded as of the RFC3986.
-     * @return string the query string
+     * Class constructor.
+     * @param string $hostname
+     * @param integer $portNumber
+     * @return void
      */
-    public function toString() {
-        return str_replace("+", "%20", http_build_query($this->toArray()));
+    public function __construct($hostname, $portNumber = 80) {
+        Argument::IsString($hostname);
+        Argument::IsInteger($portNumber);
+
+        $this->hostname = $hostname;
+        $this->portNumber = $portNumber;
     }
 
     /**
-     * Imports the query parameters from the extracted key/value pairs.
-     * @param strin $query the query to extract the pairs from
-     * @throws \InvalidArgumentException if the argument is not valid
-     * @return \Brickoo\Http\Query
+     * Returns the hostname.
+     * @return string the hostname
      */
-    public function fromString($query) {
-        Argument::IsString($query);
+    public function getHostname() {
+        return $this->hostname;
+    }
 
-        if (($position = strpos($query, "?")) !== false) {
-            $query = substr($query, $position + 1);
-        }
+    /**
+     * Returns the port number.
+     * @return integer port number
+     */
+    public function getPortNumber() {
+        return $this->portNumber;
+    }
 
-        parse_str(rawurldecode($query), $importedQueryParameters);
-        $this->fromArray($importedQueryParameters);
-        return $this;
+    /**
+     * Returns the authority string representation.
+     * @return string the authority representation
+     */
+    public function toString() {
+        return sprintf("%s:%d", $this->hostname, $this->portNumber);
     }
 
 }

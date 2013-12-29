@@ -29,43 +29,57 @@
 
 namespace Brickoo\Http;
 
-use Brickoo\Memory\Container,
+use Brickoo\Http\Exception\InvalidHttpVersionException,
     Brickoo\Validator\Argument;
 
 /**
- * Query
+ * Version
  *
- * Implements a http query parameters container.
+ * Describes the http version.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Query extends Container {
+Class Version {
+
+    /** http versions */
+    const HTTP_1_0 = "HTTP/1.0";
+    const HTTP_1_1 = "HTTP/1.1";
+    const HTTP_2_0 = "HTTP/2.0";
+
+    /** @var string */
+    private $version;
 
     /**
-     * Converts the query parameters to a request query string.
-     * The query string is encoded as of the RFC3986.
-     * @return string the query string
+     * Class constructor.
+     * @param string $version the http version
+     * @throws \InvalidArgumentException
+     * @return void
      */
-    public function toString() {
-        return str_replace("+", "%20", http_build_query($this->toArray()));
+    public function __construct($version) {
+        Argument::IsString($version);
+
+        if (! $this->isValid($version)) {
+            throw new InvalidHttpVersionException($version);
+        }
+
+        $this->version = $version;
     }
 
     /**
-     * Imports the query parameters from the extracted key/value pairs.
-     * @param strin $query the query to extract the pairs from
-     * @throws \InvalidArgumentException if the argument is not valid
-     * @return \Brickoo\Http\Query
+     * Returns the string representation of the http version.
+     * @return string the version representation
      */
-    public function fromString($query) {
-        Argument::IsString($query);
+    public function toString() {
+        return $this->version;
+    }
 
-        if (($position = strpos($query, "?")) !== false) {
-            $query = substr($query, $position + 1);
-        }
-
-        parse_str(rawurldecode($query), $importedQueryParameters);
-        $this->fromArray($importedQueryParameters);
-        return $this;
+    /**
+     * Checks if the version is valid.
+     * @param string $version
+     * @return boolean check result
+     */
+    private function isValid($version) {
+        return in_array($version, [self::HTTP_1_0, self::HTTP_1_1, self::HTTP_2_0]);
     }
 
 }

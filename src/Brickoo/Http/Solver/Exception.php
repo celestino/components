@@ -27,45 +27,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http;
+namespace Brickoo\Http\Solver;
 
-use Brickoo\Memory\Container,
-    Brickoo\Validator\Argument;
+use Brickoo\Http\Exception;
 
 /**
- * Query
+ * Exception
  *
- * Implements a http query parameters container.
+ * Defines a http\solver component exception.
+ * Used to catch all exceptions from this component.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Query extends Container {
-
-    /**
-     * Converts the query parameters to a request query string.
-     * The query string is encoded as of the RFC3986.
-     * @return string the query string
-     */
-    public function toString() {
-        return str_replace("+", "%20", http_build_query($this->toArray()));
-    }
-
-    /**
-     * Imports the query parameters from the extracted key/value pairs.
-     * @param strin $query the query to extract the pairs from
-     * @throws \InvalidArgumentException if the argument is not valid
-     * @return \Brickoo\Http\Query
-     */
-    public function fromString($query) {
-        Argument::IsString($query);
-
-        if (($position = strpos($query, "?")) !== false) {
-            $query = substr($query, $position + 1);
-        }
-
-        parse_str(rawurldecode($query), $importedQueryParameters);
-        $this->fromArray($importedQueryParameters);
-        return $this;
-    }
-
-}
+class Exception extends Exception {}

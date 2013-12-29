@@ -27,42 +27,49 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http;
+namespace Brickoo\Http\Solver;
 
-use Brickoo\Http\Request;
+use Brickoo\Http\MessageHeader;
 
 /**
- * RequestUtils
+ * ClientIpSolver
  *
- * Implements a collection of utils methods related to the http request.
+ * Implements a client ip solver.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class RequestUtils {
+class ClientIpSolver {
 
-    /** @var \Brickoo\Http\Request */
-    private $request;
+    /** @var \Brickoo\Http\MessageHeader */
+    private $headers;
+
+    /** @var array */
+    private $proxyServers;
+
+    /** @var array */
+    private $serverVars;
 
     /**
      * Class constructor.
-     * @param \Brickoo\Http\Request $request
+     * @param \Brickoo\Http\MessageHeader $headers
+     * @param array $serverVars the server variables
+     * @param array $proxyServers the reverse proxys to recognize
      * @return void
      */
-    public function __construct(Request $request) {
-        $this->request = $request;
+    public function __construct(MessageHeader $headers, array $serverVars = [], array $proxyServers =  array()) {
+        $this->headers = $headers;
+        $this->serverVars = $serverVars;
+        $this->proxyServers = $proxyServers;
     }
 
     /**
      * Returns the client ip adress.
-     * Passing a list of reverse proxys,
-     * a deeper look into the request headers will be made.
-     * @param array $proxyServers the reverse proxys to recognize
-     * @return string the client ip otherwise null
+     * @return string the client ip
      */
-    public function getClientIp(array $proxyServers = null) {
+    public function getClientIp() {
         $remoteAddressIsFromReversProxy = (
-            ($remoteAddress = $this->request->getServerVar("REMOTE_ADDR"))
-            && in_array($remoteAddress, $proxyServers)
+            ($remoteAddress = $this->getServerVar("REMOTE_ADDR"))
+            && in_array($remoteAddress, $this->proxyServers)
         );
 
         if ($remoteAddressIsFromReversProxy) {
@@ -70,14 +77,15 @@ class RequestUtils {
                 return $forwardedIp;
             }
 
-            if (($headerClientIp = $this->request->getHeader()->get("Client-Ip")) &&
-                filter_var($headerClientIp, FILTER_VALIDATE_IP)
+            if ($this->headers->hasHeader("Client-Ip")
+                && ($headerClientIp = $this->headers->getHeader("Client-Ip"))
+                && filter_var($headerClientIp, FILTER_VALIDATE_IP)
             ){
                 return $headerClientIp;
             }
         }
 
-        return $remoteAddress;
+        return $remoteAddress ?: "";
     }
 
     /**
@@ -87,7 +95,9 @@ class RequestUtils {
     private function getForwardedClientIp() {
         $clientIp = null;
 
-        if ($forwardedIps = $this->request->getHeader()->get("X-Forwarded-For")) {
+        if ($this->headers->hasHeader("X-Forwarded-For")
+            && ($forwardedIps = $this->headers->getHeader("X-Forwarded-For")->getValue())
+        ){
             $forwardedIps = array_filter(
                 preg_split("/[\s]*,[\s]*/", $forwardedIps),
                 function($ip){return filter_var($ip, FILTER_VALIDATE_IP);}
@@ -102,16 +112,16 @@ class RequestUtils {
     }
 
     /**
-     * Checks if the request is using the https scheme.
-     * @return boolean check result
+     * Returns the server variable value.
+     * @param stŕing $key
+     * @param mixed $defaultValue
+     * @return mixed the server variable value otherwise the default value
      */
-    public function isSecureConnection() {
-        if ($httpsForwarded = $this->request->getHeader()->get("X-Forwarded-Proto")) {
-            return (strtolower($httpsForwarded) == "https");
+    private function getServerVar($key, $defaultValue = null) {
+        if (isset($this->serverVars[$key])) {
+            return $this->serverVars[$key];
         }
-
-        $secureMode = $this->request->getServerVar("HTTPS");
-        return ($secureMode !== null) && (strtolower($secureMode) != "off" && $secureMode != "0");
+        return $defaultValue;
     }
 
 }

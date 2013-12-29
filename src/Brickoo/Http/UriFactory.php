@@ -29,43 +29,51 @@
 
 namespace Brickoo\Http;
 
-use Brickoo\Memory\Container,
-    Brickoo\Validator\Argument;
+use Brickoo\Http\Authority,
+    Brickoo\Http\Query,
+    Brickoo\Http\Uri,
+    Brickoo\Http\Solver\UriSolver;
 
 /**
- * Query
+ * UriFactory
  *
- * Implements a http query parameters container.
+ * Implements a http uri factory.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Query extends Container {
+class UriFactory {
 
     /**
-     * Converts the query parameters to a request query string.
-     * The query string is encoded as of the RFC3986.
-     * @return string the query string
+     * Creates a request uri instance.
+     * @param \Brickoo\Http\Solver\UriSolver $uriSolver
+     * @return \Brickoo\Http\Uri
      */
-    public function toString() {
-        return str_replace("+", "%20", http_build_query($this->toArray()));
+    public function create(UriSolver $uriSolver) {
+        return new Uri(
+            $uriSolver->getScheme(),
+            $this->createAuthority($uriSolver),
+            $uriSolver->getPath(),
+            $this->createQuery($uriSolver),
+            $uriSolver->getFragment()
+       );
     }
 
     /**
-     * Imports the query parameters from the extracted key/value pairs.
-     * @param strin $query the query to extract the pairs from
-     * @throws \InvalidArgumentException if the argument is not valid
+     * Creates the authority dependency.
+     * @param \Brickoo\Http\Solver\UriSolver $uriSolver
+     * @return \Brickoo\Http\Authority
+     */
+    private function createAuthority(UriSolver $uriSolver) {
+        return new Authority($uriSolver->getHostname(), $uriSolver->getPort());
+    }
+
+    /**
+     * Creates the query dependency.
+     * @param \Brickoo\Http\Solver\UriSolver $uriSolver
      * @return \Brickoo\Http\Query
      */
-    public function fromString($query) {
-        Argument::IsString($query);
-
-        if (($position = strpos($query, "?")) !== false) {
-            $query = substr($query, $position + 1);
-        }
-
-        parse_str(rawurldecode($query), $importedQueryParameters);
-        $this->fromArray($importedQueryParameters);
-        return $this;
+    private function createQuery(UriSolver $uriSolver) {
+        return (new Query())->fromString($uriSolver->getQueryString());
     }
 
 }

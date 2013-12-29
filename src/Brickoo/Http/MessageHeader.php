@@ -29,27 +29,83 @@
 
 namespace Brickoo\Http;
 
-use Brickoo\Memory\Container;
+use Brickoo\Http\Header,
+    Brickoo\Http\Exception\HeaderNotFoundException,
+    Brickoo\Memory\Container,
+    Brickoo\Validator\Argument;
 
 /**
  * MessageHeader
  *
- * Implements a http message header container.
+ * Implements a http message header.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
 class MessageHeader extends Container {
 
     /**
+     * Sets a header using the header name as storage key.
+     * @param \Brickoo\Http\Header $header
+     * @return \Brickoo\Http\MessageHeader
+     */
+    public function setHeader(Header $header) {
+        $this->set($header->getName(), $header);
+        return $this;
+    }
+
+    /**
+     * Checks if the header is available.
+     * @param string $headerName
+     * @throws \InvalidArgumentException
+     * @return boolean check result
+     */
+    public function hasHeader($headerName) {
+        Argument::IsString($headerName);
+        return $this->has($headerName);
+    }
+
+    /**
+     * Returns the header by its name.
+     * @param string $headerName
+     * @throws \Brickoo\Http\Exception\HeaderNotFoundException
+     * @return \Brickoo\Http\Header
+     */
+    public function getHeader($headerName) {
+        Argument::IsString($headerName);
+        if (! $this->hasHeader($headerName)) {
+            throw new HeaderNotFoundException($headerName);
+        }
+        return $this->get($headerName);
+    }
+
+    /**
+     * Removes the header by its name.
+     * @param string $headerName
+     * @throws \InvalidArgumentException
+     * @throws \Brickoo\Http\Exception\HeaderNotFoundException
+     * @return \Brickoo\Http\MessageHeader
+     */
+    public function removeHeader($headerName) {
+        Argument::IsString($headerName);
+        if (! $this->hasHeader($headerName)) {
+            throw new HeaderNotFoundException($headerName);
+        }
+
+        $this->delete($headerName);
+        return $this;
+    }
+
+    /**
      * Sends the message headers to the output buffer.
-     * @param callable $callback this argument should only be used for testing purposes
+     * Argument added for for unit testing purposes
+     * @param callable $callback
      * @return \Brickoo\Http\MessageHeader
      */
     public function send($callback = null) {
         $function = (is_callable($callback) ? $callback : "header");
 
-        $header = $this->normalizeHeaders($this->toArray());
-        foreach($header as $key => $value) {
+        $headers = $this->normalizeHeaders($this->aggregateHeaders());
+        foreach($headers as $key => $value) {
             call_user_func($function, sprintf("%s: %s", $key, $value));
         }
 
@@ -63,59 +119,23 @@ class MessageHeader extends Container {
     public function toString() {
         $headerString = "";
 
-        $header = $this->normalizeHeaders($this->toArray());
-        foreach($header as $key => $value) {
+        $headers = $this->normalizeHeaders($this->aggregateHeaders());
+        foreach($headers as $key => $value) {
             $headerString .= sprintf("%s: %s\r\n", $key, $value);
         }
 
         return $headerString;
     }
 
-    /**
-     * Imports the headers from the request.
-     * @return \Brickoo\Http\MessageHeader
-     */
-    public function importFromRequest() {
-        $headers = array();
-        $includeExceptions = array("CONTENT_TYPE", "CONTENT_LENGTH");
+    private function aggregateHeaders() {
+        $aggregatedHeaders = [];
 
-        foreach ($_SERVER as $key => $value) {
-            if (substr($key, 0, 5) == "HTTP_") {
-                $headers[substr($key, 5)] = $value;
-            }
-            elseif (in_array($key, $includeExceptions)){
-                $headers[$key] = $value;
-            }
+        $headers = $this->getIterator();
+        foreach ($headers as $header) {
+            $aggregatedHeaders[$header->getName()] = $header->getValue();
         }
 
-        if (function_exists("apache_request_headers") && ($apacheHeaders = apache_request_headers())) {
-            $headers = array_merge($headers, $apacheHeaders);
-        }
-
-        $this->fromArray($this->normalizeHeaders($headers));
-        return $this;
-    }
-
-    /**
-     * Imports the headery by extracting the header values from string.
-     * @param string $headers the headers to extract the key/value pairs from
-     * @throws \InvalidArgumentException
-     * @return \Brickoo\Http\MessageHeader
-     */
-    public function importFromString($headers) {
-        Argument::IsString($headers);
-
-        $importedHeaders = array();
-        $fields = explode("\r\n", preg_replace("/\x0D\x0A[\x09\x20]+/", " ", $headers));
-
-        foreach ($fields as $field) {
-            if (preg_match("/(?<name>[^:]+): (?<value>.+)/m", $field, $match)) {
-                $importedHeaders[$match["name"]] = trim($match["value"]);
-            }
-        }
-
-        $this->fromArray($this->normalizeHeaders($importedHeaders));
-        return $this;
+        return $aggregatedHeaders;
     }
 
     /**
@@ -124,7 +144,7 @@ class MessageHeader extends Container {
      * @return array the normalized headers
      */
     private function normalizeHeaders(array $headers) {
-        $normalizedHeaders = array();
+        $normalizedHeaders = [];
 
         foreach ($headers as $headerName => $headerValue) {
             $headerName = str_replace(" ", "-", ucwords(

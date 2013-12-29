@@ -10,7 +10,8 @@
  *
  * 1. Redistributions of source code must retain the above copyright
  *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
+ * 2. Redistributionscd ..
+ *  in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
  *
@@ -29,43 +30,58 @@
 
 namespace Brickoo\Http;
 
-use Brickoo\Memory\Container,
+use Brickoo\Http\Exception\InvalidHttpMethodException,
     Brickoo\Validator\Argument;
 
 /**
- * Query
+ * Method
  *
- * Implements a http query parameters container.
+ * Describes a http method.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Query extends Container {
+Class Method {
+
+    /** http methods */
+    const HEAD = "HEAD";
+    const OPTIONS = "OPTIONS";
+    const TRACE = "TRACE";
+    const CONNECT = "CONNECT";
+    const GET = "GET";
+    const POST = "POST";
+    const PUT = "PUT";
+    const PATCH = "PATCH";
+    const DELETE = "DELETE";
+
+
+    /** @var string */
+    private $method;
 
     /**
-     * Converts the query parameters to a request query string.
-     * The query string is encoded as of the RFC3986.
-     * @return string the query string
+     * Class constructor
+     * @param string $method the http method
+     * @return void
      */
-    public function toString() {
-        return str_replace("+", "%20", http_build_query($this->toArray()));
+    public function __construct($method) {
+        Argument::IsString($method);
+
+        if (! $this->isValid($method)) {
+            throw new InvalidHttpMethodException($method);
+        }
+
+        $this->method = $method;
     }
 
     /**
-     * Imports the query parameters from the extracted key/value pairs.
-     * @param strin $query the query to extract the pairs from
-     * @throws \InvalidArgumentException if the argument is not valid
-     * @return \Brickoo\Http\Query
+     * Returns the method string representation in uppercase.
+     * return string the method representation
      */
-    public function fromString($query) {
-        Argument::IsString($query);
+    public function toString() {
+        return $this->method;
+    }
 
-        if (($position = strpos($query, "?")) !== false) {
-            $query = substr($query, $position + 1);
-        }
-
-        parse_str(rawurldecode($query), $importedQueryParameters);
-        $this->fromArray($importedQueryParameters);
-        return $this;
+    private function isValid($method) {
+        return defined("static::".$method);
     }
 
 }

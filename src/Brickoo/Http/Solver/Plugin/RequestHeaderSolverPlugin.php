@@ -27,45 +27,33 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http;
+namespace Brickoo\Http\Solver\Plugin;
 
-use Brickoo\Memory\Container,
-    Brickoo\Validator\Argument;
+use Brickoo\Http\Solver\HeaderSolverPlugin;
 
 /**
- * Query
+ * RequestHeaderSolverPlugin
  *
- * Implements a http query parameters container.
+ * Implements a http header solver.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Query extends Container {
+class RequestHeaderSolverPlugin implements HeaderSolverPlugin {
 
-    /**
-     * Converts the query parameters to a request query string.
-     * The query string is encoded as of the RFC3986.
-     * @return string the query string
-     */
-    public function toString() {
-        return str_replace("+", "%20", http_build_query($this->toArray()));
-    }
-
-    /**
-     * Imports the query parameters from the extracted key/value pairs.
-     * @param strin $query the query to extract the pairs from
-     * @throws \InvalidArgumentException if the argument is not valid
-     * @return \Brickoo\Http\Query
-     */
-    public function fromString($query) {
-        Argument::IsString($query);
-
-        if (($position = strpos($query, "?")) !== false) {
-            $query = substr($query, $position + 1);
+    /** {@inheritDoc} */
+    public function getHeaders() {
+        $headers = [];
+        foreach ($_SERVER as $key => $value) {
+            if (substr($key, 0, 5) == "HTTP_") {
+                $headers[substr($key, 5)] = $value;
+            }
         }
 
-        parse_str(rawurldecode($query), $importedQueryParameters);
-        $this->fromArray($importedQueryParameters);
-        return $this;
+        if (function_exists("apache_request_headers") && ($apacheHeaders = apache_request_headers())) {
+            $headers = array_merge($headers, $apacheHeaders);
+        }
+
+       return $headers;
     }
 
 }

@@ -27,45 +27,51 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http;
+namespace Brickoo\Http\Header;
 
-use Brickoo\Memory\Container,
+use Brickoo\Http\Header,
     Brickoo\Validator\Argument;
 
 /**
- * Query
+ * GenericHeader
  *
- * Implements a http query parameters container.
+ * Implements a generic header.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
+class GenericHeader implements Header {
 
-class Query extends Container {
+    /** @var string */
+    protected $headerName;
+
+    /** @var string */
+    protected $headerValue;
 
     /**
-     * Converts the query parameters to a request query string.
-     * The query string is encoded as of the RFC3986.
-     * @return string the query string
+     * Class constructor.
+     * @param string $headerName
+     * @param string $headerValue
+     * @return void
      */
-    public function toString() {
-        return str_replace("+", "%20", http_build_query($this->toArray()));
+    public function __construct($headerName, $headerValue) {
+        Argument::IsString($headerName);
+        Argument::IsString($headerValue);
+        $this->headerName = $headerName;
+        $this->headerValue = $headerValue;
     }
 
-    /**
-     * Imports the query parameters from the extracted key/value pairs.
-     * @param strin $query the query to extract the pairs from
-     * @throws \InvalidArgumentException if the argument is not valid
-     * @return \Brickoo\Http\Query
-     */
-    public function fromString($query) {
-        Argument::IsString($query);
+    /** {@inheritDoc} */
+    public function getName() {
+        return $this->headerName;
+    }
 
-        if (($position = strpos($query, "?")) !== false) {
-            $query = substr($query, $position + 1);
-        }
+    /** {@inheritDoc} */
+    public function getValue() {
+        return $this->headerValue;
+    }
 
-        parse_str(rawurldecode($query), $importedQueryParameters);
-        $this->fromArray($importedQueryParameters);
-        return $this;
+    /** {@inheritDoc} */
+    public function toString() {
+        return sprintf("%s: %s", ucfirst($this->getName()), $this->getValue());
     }
 
 }

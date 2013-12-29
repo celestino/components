@@ -27,45 +27,45 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http;
+namespace Brickoo\Http\Solver\Plugin;
 
-use Brickoo\Memory\Container,
-    Brickoo\Validator\Argument;
+use Brickoo\Validator\Argument;
 
 /**
- * Query
+ * StringHeaderSolverPlugin
  *
- * Implements a http query parameters container.
+ * Implements a http header solver.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Query extends Container {
+class StringHeaderSolverPlugin implements HeaderSolverPlugin {
+
+    /** @var string */
+    private $headers;
 
     /**
-     * Converts the query parameters to a request query string.
-     * The query string is encoded as of the RFC3986.
-     * @return string the query string
+     * Class constructor.
+     * @param string $headers the message headers as string
+     * @return void
      */
-    public function toString() {
-        return str_replace("+", "%20", http_build_query($this->toArray()));
+    public function __construct($headers) {
+        Argument::IsString($headers);
+        $this->headers = $headers;
     }
 
-    /**
-     * Imports the query parameters from the extracted key/value pairs.
-     * @param strin $query the query to extract the pairs from
-     * @throws \InvalidArgumentException if the argument is not valid
-     * @return \Brickoo\Http\Query
-     */
-    public function fromString($query) {
-        Argument::IsString($query);
+    /** {@inheritDoc} */
+    public function getHeaders() {
+        $extractedHeaders = [];
+        $fields = explode("\r\n", preg_replace("/\x0D\x0A[\x09\x20]+/", " ", $this->headers));
 
-        if (($position = strpos($query, "?")) !== false) {
-            $query = substr($query, $position + 1);
+        foreach ($fields as $field) {
+            $matches = [];
+            if (preg_match("/(?<name>[^:]+): (?<value>.+)/m", $field, $matches) == 1) {
+                $extractedHeaders[$matches["name"]] = trim($matches["value"]);
+            }
         }
 
-        parse_str(rawurldecode($query), $importedQueryParameters);
-        $this->fromArray($importedQueryParameters);
-        return $this;
+        return $extractedHeaders;
     }
 
 }

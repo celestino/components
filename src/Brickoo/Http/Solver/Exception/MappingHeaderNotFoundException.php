@@ -27,45 +27,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http;
+namespace Brickoo\Http\Solver\Exception;
 
-use Brickoo\Memory\Container,
-    Brickoo\Validator\Argument;
+use Brickoo\Http\Solver\Exception;
 
 /**
- * Query
+ * MappingHeaderNotFoundException
  *
- * Implements a http query parameters container.
+ * Exception throwed if a header mapping class could not be found.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Query extends Container {
+class MappingHeaderNotFoundException extends Exception {
 
     /**
-     * Converts the query parameters to a request query string.
-     * The query string is encoded as of the RFC3986.
-     * @return string the query string
+     * Class constructor.
+     * Calls the parent exception constructor.
+     * @param string $headerName the header mapping not found
+     * @param \Exception $previousException
+     * @return void
      */
-    public function toString() {
-        return str_replace("+", "%20", http_build_query($this->toArray()));
-    }
-
-    /**
-     * Imports the query parameters from the extracted key/value pairs.
-     * @param strin $query the query to extract the pairs from
-     * @throws \InvalidArgumentException if the argument is not valid
-     * @return \Brickoo\Http\Query
-     */
-    public function fromString($query) {
-        Argument::IsString($query);
-
-        if (($position = strpos($query, "?")) !== false) {
-            $query = substr($query, $position + 1);
-        }
-
-        parse_str(rawurldecode($query), $importedQueryParameters);
-        $this->fromArray($importedQueryParameters);
-        return $this;
+    public function __construct($headerName, \Exception $previousException = null) {
+        parent::__construct(sprintf("The header mapping for `%s` could not be found.", $headerName), 0 , $previousException);
     }
 
 }

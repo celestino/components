@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http\Message;
+namespace Brickoo\Http;
 
 use Brickoo\Validator\Argument;
 
@@ -49,10 +49,8 @@ class MessageBody {
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function __construct($content = null) {
-        if ($content !== null) {
-            Argument::IsString($content);
-        }
+    public function __construct($content = "") {
+        Argument::IsString($content);
         $this->content = $content;
     }
 
@@ -88,7 +86,7 @@ class MessageBody {
      * Imports the content from input source.
      * @return \Brickoo\Http\Message\MessageBody
      */
-    public function importInput() {
+    public function importFromInput() {
         $this->content = file_get_contents("php://input");
         return $this;
     }
