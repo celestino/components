@@ -32,7 +32,7 @@ namespace Brickoo\Cache;
 use Brickoo\Cache\AdapterPool,
     Brickoo\Cache\Exception\PoolIndentifierDoesNotExistException,
     Brickoo\Cache\Exception\PoolIsEmptyException,
-    Brickoo\Validation\Constraint\TraversableContainsInstancesOf,
+    Brickoo\Validation\Constraint\ContainsInstancesOfConstraint,
     Brickoo\Validation\Argument;
 
 /**
@@ -60,7 +60,7 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
      * @return void
      */
     public function __construct(array $poolEntries) {
-        if (! (new TraversableContainsInstancesOf("\\Brickoo\\Cache\\Adapter"))->assert($poolEntries)) {
+        if (! (new ContainsInstancesOfConstraint("\\Brickoo\\Cache\\Adapter"))->assert($poolEntries)) {
             throw new \InvalidArgumentException(
                 "The pool entries must be instances implementing \\Brickoo\\Cache\\Adapter interface."
             );

@@ -34,7 +34,7 @@ use Brickoo\Event\EventDispatcher,
     Brickoo\Event\ListenerCollection,
     Brickoo\Memory\Container,
     Brickoo\Validation\Argument,
-    Brickoo\Validation\Constraint\TraversableContainsInstancesOf;
+    Brickoo\Validation\Constraint\ContainsInstancesOfConstraint;
 
 /**
  * EventDispatcherBuilder
@@ -104,7 +104,7 @@ class EventDispatcherBuilder {
     public function setListeners($listeners) {
         Argument::IsTraversable($listeners);
 
-        if (! (new TraversableContainsInstancesOf("Brickoo\\Event\\Interfaces\\Listener"))->assert($listeners)) {
+        if (! (new ContainsInstancesOfConstraint("Brickoo\\Event\\Interfaces\\Listener"))->assert($listeners)) {
             throw new \InvalidArgumentException("The traversable must contain Event\\Listeners only.");
         }
 

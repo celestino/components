@@ -55,7 +55,7 @@ class Argument {
     }
 
     /**
-     * Checks if the arguments is an integer.
+     * Checks if the argument is an integer.
      * @param float $argument the argument to check
      * @throws \InvalidArgumentException if the validation fails
      * @return boolean check result
@@ -139,7 +139,7 @@ class Argument {
     }
 
     /**
-     * Checks if a the argument is traversable.
+     * Checks if the argument is traversable.
      * @param string $argument the argument to validate
      * @throws \InvalidArgumentException if the validation fails
      * @return boolean check result
@@ -153,7 +153,7 @@ class Argument {
     }
 
     /**
-     * Checks if a argument is callable.
+     * Checks if the argument is callable.
      * @param mixed $argument the argument to validate
      * @throws \InvalidArgumentException if the validation fails
      * @return boolean check result
@@ -181,8 +181,8 @@ class Argument {
     }
 
     /**
-     * Throws an \invalidArgumentException describing the argument and adding a helpful error message.
-     * @param mixed $argument the arguments which is invalid
+     * Throws an \InvalidArgumentException describing the argument and adding a helpful error message.
+     * @param mixed $argument the arguments which are invalid
      * @param string $errorMessage the error message to attach
      * @throws \InvalidArgumentException
      * @return void
