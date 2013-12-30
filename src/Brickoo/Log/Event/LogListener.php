@@ -34,7 +34,7 @@ use Brickoo\Event\Event,
     Brickoo\Event\Listener,
     Brickoo\Log\Logger,
     Brickoo\Log\Event\LogEvent,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * Listener

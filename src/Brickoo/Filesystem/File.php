@@ -33,7 +33,7 @@ use Brickoo\Filesystem\Exception\HandleAlreadyExistsException,
     Brickoo\Filesystem\Exception\HandleNotAvailableException,
     Brickoo\Filesystem\Exception\InvalidModeOperationException,
     Brickoo\Filesystem\Exception\UnableToCreateHandleException,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * FileObject

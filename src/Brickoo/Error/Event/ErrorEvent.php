@@ -31,7 +31,7 @@ namespace Brickoo\Error\Event;
 
 use Brickoo\Error\Event\Events,
     Brickoo\Event\GenericEvent,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * ErrorEvent

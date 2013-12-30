@@ -32,7 +32,7 @@ namespace Brickoo\Network;
 use Brickoo\Network\Exception\HandleAlreadyExistsException,
     Brickoo\Network\Exception\HandleNotAvailableException,
     Brickoo\Network\Exception\UnableToCreateHandleException,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * Client

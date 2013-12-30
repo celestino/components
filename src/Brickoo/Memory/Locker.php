@@ -31,7 +31,7 @@ namespace Brickoo\Memory;
 
 use Brickoo\Memory\Exception\LockFailedException,
     Brickoo\Memory\Exception\UnlockFailedException,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 
 /**

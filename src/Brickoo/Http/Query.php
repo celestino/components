@@ -30,7 +30,7 @@
 namespace Brickoo\Http;
 
 use Brickoo\Memory\Container,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * Query

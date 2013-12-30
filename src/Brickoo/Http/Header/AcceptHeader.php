@@ -30,7 +30,7 @@
 namespace Brickoo\Http\Header;
 
 use Brickoo\Http\Header\GenericHeader,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * AcceptHeader

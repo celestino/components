@@ -30,7 +30,7 @@
 namespace Brickoo\Event;
 
 use Brickoo\Event\Listener,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * GenericListener

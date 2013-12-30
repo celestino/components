@@ -31,7 +31,7 @@ namespace Brickoo\Session;
 
 use SessionHandler,
     Brickoo\Session\Exception\SessionAlreadyStartedException,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * SessionManager

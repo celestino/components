@@ -33,7 +33,7 @@ use Brickoo\Memory\Exception\DuplicateRegistrationException,
     Brickoo\Memory\Exception\IdentifierLockedException,
     Brickoo\Memory\Exception\IdentifierNotRegisteredException,
     Brickoo\Memory\Exception\ReadonlyModeException,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * Registry

@@ -33,8 +33,8 @@ use Brickoo\Event\EventDispatcher,
     Brickoo\Event\EventProcessor,
     Brickoo\Event\ListenerCollection,
     Brickoo\Memory\Container,
-    Brickoo\Validator\Argument,
-    Brickoo\Validator\Constraint\TraversableContainsInstancesOf;
+    Brickoo\Validation\Argument,
+    Brickoo\Validation\Constraint\TraversableContainsInstancesOf;
 
 /**
  * EventDispatcherBuilder

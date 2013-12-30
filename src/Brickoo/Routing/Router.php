@@ -34,7 +34,7 @@ use Brickoo\Routing\ExecutableRoute,
     Brickoo\Routing\RouteCollector,
     Brickoo\Routing\Exception\NoMatchingRouteFoundException,
     Brickoo\Routing\Exception\RouteNotFoundException,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * Router

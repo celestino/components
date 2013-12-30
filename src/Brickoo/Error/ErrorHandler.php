@@ -34,7 +34,7 @@ use Brickoo\Event\EventDispatcher,
     Brickoo\Error\Exception\DuplicateHandlerRegistrationException,
     Brickoo\Error\Exception\ErrorOccurredException,
     Brickoo\Error\Exception\HandlerNotRegisteredException,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * ErrorHandler

@@ -27,50 +27,23 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Validator\Constraint;
-
-    use Brickoo\Validator\Argument;
+    namespace Brickoo\Validation\Constraint\Interfaces;
 
     /**
-     * TraversableContainsInstancesOf
+     * Constraint
      *
-     * Asserts that an array or traversable contains just values of the expected instance type.
+     * Describes an assertion for an expected value.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class TraversableContainsInstancesOf implements Interfaces\Constraint {
-
-        /** @var string */
-        private $expectedInstanceOf;
+    interface Constraint {
 
         /**
-         * Class constructor.
-         * @param string $expectedType the values expected type
+         * Asserts that the value matches the expected assertion.
+         * @param mixed $value the value to assert the expectation
          * @throws \InvalidArgumentException if an argument is not valid.
-         * @return void
+         * @return boolean check result
          */
-        public function __construct($expectedInstanceType) {
-            Argument::IsString($expectedInstanceType);
-            $this->expectedInstanceOf = $expectedInstanceType;
-        }
-
-        /**
-         * {@inheritDoc}
-         * @param array|Traversable $compareFrom the traversable values to compare
-         */
-        public function assert($compareFrom) {
-            Argument::IsTraversable($compareFrom);
-
-            $result = true;
-
-            foreach ($compareFrom as $value) {
-                if (! $value instanceof $this->expectedInstanceOf) {
-                    $result = false;
-                    break;
-                }
-            }
-
-            return $result;
-        }
+        public function assert($value);
 
     }

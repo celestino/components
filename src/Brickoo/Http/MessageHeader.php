@@ -32,7 +32,7 @@ namespace Brickoo\Http;
 use Brickoo\Http\Header,
     Brickoo\Http\Exception\HeaderNotFoundException,
     Brickoo\Memory\Container,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * MessageHeader

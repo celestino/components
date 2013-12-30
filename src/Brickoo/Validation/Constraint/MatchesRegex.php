@@ -27,23 +27,40 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Validator\Constraint\Interfaces;
+    namespace Brickoo\Validation\Constraint;
+
+    use Brickoo\Validation\Argument;
 
     /**
-     * Constraint
+     * MatchesRegex
      *
-     * Describes an assertion for an expected value.
+     * Asserts that a string matches a regular expression.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    interface Constraint {
+    class MatchesRegex implements Interfaces\Constraint {
+
+        /** @var string */
+        private $regularExpression;
 
         /**
-         * Asserts that the value matches the expected assertion.
-         * @param mixed $value the value to assert the expectation
-         * @throws \InvalidArgumentException if an argument is not valid.
-         * @return boolean check result
+         * Class constructor.
+         * @param string $regularExpression the regular expression to use
+         * @throws \InvalidArgumentException if an argument is not valid
+         * @return void
          */
-        public function assert($value);
+        public function __construct($regularExpression) {
+            Argument::IsString($regularExpression);
+            $this->regularExpression = $regularExpression;
+        }
+
+        /**
+         * {@inheritDoc}
+         * @param string $compareWith the value to compare with the regex
+         */
+        public function assert($compareWith) {
+            Argument::IsString($compareWith);
+            return (preg_match_all($this->regularExpression, $compareWith, $matches) != 0);
+        }
 
     }

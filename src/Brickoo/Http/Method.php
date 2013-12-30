@@ -31,7 +31,7 @@
 namespace Brickoo\Http;
 
 use Brickoo\Http\Exception\InvalidHttpMethodException,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * Method

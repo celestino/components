@@ -31,7 +31,7 @@ namespace Brickoo\Log;
 
 use Brickoo\Filesystem\File,
     Brickoo\Log\Logger,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * Filesystem

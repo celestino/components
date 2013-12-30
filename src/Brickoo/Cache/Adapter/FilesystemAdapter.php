@@ -31,7 +31,7 @@ namespace Brickoo\Cache\Adapter;
 
 use Brickoo\Cache\Adapter,
     Brickoo\Filesystem\File,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * FilesystemAdapter

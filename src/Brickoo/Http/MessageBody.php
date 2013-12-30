@@ -29,7 +29,7 @@
 
 namespace Brickoo\Http;
 
-use Brickoo\Validator\Argument;
+use Brickoo\Validation\Argument;
 
 /**
  * MessageBody

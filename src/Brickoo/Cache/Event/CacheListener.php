@@ -39,7 +39,7 @@ use Brickoo\Cache\CacheProxy,
     Brickoo\Event\EventDispatcher,
     Brickoo\Event\GenericListener,
     Brickoo\Event\ListenerAggregate,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * CacheManagerListener

@@ -27,40 +27,53 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Validator\Constraint;
+    namespace Brickoo\Validation\Constraint;
 
-    use Brickoo\Validator\Argument;
+    use Brickoo\Validation\Argument;
 
     /**
-     * MatchesRegex
+     * TraversableContainsCharacters
      *
-     * Asserts that a string matches a regular expression.
+     * Asserts that an array or traversable contains values with characters of an expected type.
+     * @see http://www.php.net/manual/de/ref.ctype.php
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class MatchesRegex implements Interfaces\Constraint {
+    class TraversableContainsCharacters implements Interfaces\Constraint {
 
         /** @var string */
-        private $regularExpression;
+        private $cTypeFunctionName;
 
         /**
          * Class constructor.
-         * @param string $regularExpression the regular expression to use
-         * @throws \InvalidArgumentException if an argument is not valid
+         * @param string $expectedType the values expected type
+         * @throws \InvalidArgumentException if an argument is not valid.
          * @return void
          */
-        public function __construct($regularExpression) {
-            Argument::IsString($regularExpression);
-            $this->regularExpression = $regularExpression;
+        public function __construct($expectedType) {
+            Argument::IsString($expectedType);
+            Argument::IsFunctionAvailable($cTypeFunctionName = "ctype_". $expectedType);
+
+            $this->cTypeFunctionName = $cTypeFunctionName;
         }
 
         /**
          * {@inheritDoc}
-         * @param string $compareWith the value to compare with the regex
+         * @param array $compareFrom the traversable values to compare
          */
-        public function assert($compareWith) {
-            Argument::IsString($compareWith);
-            return (preg_match_all($this->regularExpression, $compareWith, $matches) != 0);
+        public function assert($compareFrom) {
+            Argument::IsTraversable($compareFrom);
+
+            $result = true;
+
+            foreach ($compareFrom as $value) {
+                if (! call_user_func($this->cTypeFunctionName, $value)) {
+                    $result = false;
+                    break;
+                }
+            }
+
+            return $result;
         }
 
     }

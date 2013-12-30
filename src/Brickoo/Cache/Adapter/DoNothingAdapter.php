@@ -30,7 +30,7 @@
 namespace Brickoo\Cache\Adapter;
 
 use Brickoo\Cache\Adapter,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * DoNothingAdapter

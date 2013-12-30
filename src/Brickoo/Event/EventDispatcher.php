@@ -37,7 +37,7 @@ use Brickoo\Event\Event,
     Brickoo\Event\ResponseCollection,
     Brickoo\Event\Exception\InfiniteEventLoopException,
     Brickoo\Memory\Container,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * EventDispatcher

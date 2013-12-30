@@ -31,7 +31,7 @@ namespace Brickoo\Log\Handler;
 
 use Brickoo\Log\Logger,
     Brickoo\Network\Client,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * Syslog

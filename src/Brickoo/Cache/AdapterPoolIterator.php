@@ -32,8 +32,8 @@ namespace Brickoo\Cache;
 use Brickoo\Cache\AdapterPool,
     Brickoo\Cache\Exception\PoolIndentifierDoesNotExistException,
     Brickoo\Cache\Exception\PoolIsEmptyException,
-    Brickoo\Validator\Constraint\TraversableContainsInstancesOf,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Constraint\TraversableContainsInstancesOf,
+    Brickoo\Validation\Argument;
 
 /**
  * AdapterPoolIterator

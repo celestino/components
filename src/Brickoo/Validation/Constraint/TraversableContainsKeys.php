@@ -27,9 +27,9 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Validator\Constraint;
+    namespace Brickoo\Validation\Constraint;
 
-    use Brickoo\Validator\Argument;
+    use Brickoo\Validation\Argument;
 
     /**
      * TraversableContainsKeys

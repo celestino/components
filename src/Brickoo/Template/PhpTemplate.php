@@ -31,7 +31,7 @@ namespace Brickoo\Template;
 
 use Brickoo\Template\Template,
     Brickoo\Template\Exception\RenderingAbortedException,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * PhpTemplate

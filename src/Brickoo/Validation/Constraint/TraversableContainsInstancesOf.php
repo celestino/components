@@ -27,22 +27,21 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Brickoo\Validator\Constraint;
+    namespace Brickoo\Validation\Constraint;
 
-    use Brickoo\Validator\Argument;
+    use Brickoo\Validation\Argument;
 
     /**
-     * TraversableContainsCharacters
+     * TraversableContainsInstancesOf
      *
-     * Asserts that an array or traversable contains values with characters of an expected type.
-     * @see http://www.php.net/manual/de/ref.ctype.php
+     * Asserts that an array or traversable contains just values of the expected instance type.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class TraversableContainsCharacters implements Interfaces\Constraint {
+    class TraversableContainsInstancesOf implements Interfaces\Constraint {
 
         /** @var string */
-        private $cTypeFunctionName;
+        private $expectedInstanceOf;
 
         /**
          * Class constructor.
@@ -50,16 +49,14 @@
          * @throws \InvalidArgumentException if an argument is not valid.
          * @return void
          */
-        public function __construct($expectedType) {
-            Argument::IsString($expectedType);
-            Argument::IsFunctionAvailable($cTypeFunctionName = "ctype_". $expectedType);
-
-            $this->cTypeFunctionName = $cTypeFunctionName;
+        public function __construct($expectedInstanceType) {
+            Argument::IsString($expectedInstanceType);
+            $this->expectedInstanceOf = $expectedInstanceType;
         }
 
         /**
          * {@inheritDoc}
-         * @param array $compareFrom the traversable values to compare
+         * @param array|Traversable $compareFrom the traversable values to compare
          */
         public function assert($compareFrom) {
             Argument::IsTraversable($compareFrom);
@@ -67,7 +64,7 @@
             $result = true;
 
             foreach ($compareFrom as $value) {
-                if (! call_user_func($this->cTypeFunctionName, $value)) {
+                if (! $value instanceof $this->expectedInstanceOf) {
                     $result = false;
                     break;
                 }

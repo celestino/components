@@ -32,7 +32,7 @@ namespace Brickoo\Http;
 
 use Brickoo\Http\Authority,
     Brickoo\Http\Query,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * Uri

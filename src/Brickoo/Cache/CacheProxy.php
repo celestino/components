@@ -31,7 +31,7 @@ namespace Brickoo\Cache;
 
 use Brickoo\Cache\AdapterPoolIterator,
     Brickoo\Cache\Exception\AdapterNotFoundException,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * CacheProxy

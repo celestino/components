@@ -37,7 +37,7 @@ use ArrayIterator,
     RegexIterator,
     Brickoo\Routing\RouteCollection,
     Brickoo\Routing\RouteCollector,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * FileCollector

@@ -31,7 +31,7 @@ namespace Brickoo\Routing;
 
 use Brickoo\Routing\Exception\DuplicateRouteException,
     Brickoo\Routing\Exception\RouteNotFoundException,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * Collection

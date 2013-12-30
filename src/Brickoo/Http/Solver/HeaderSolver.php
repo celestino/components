@@ -36,7 +36,7 @@ use Brickoo\Http\Header\GenericHeader,
     Brickoo\Http\Solver\Exception\HeaderClassNotFoundException,
     Brickoo\Http\Solver\Exception\MappingHeaderNotFoundException,
     Brickoo\Http\Solver\Exception\WrongHeaderMapTypeException,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * HeaderSolver

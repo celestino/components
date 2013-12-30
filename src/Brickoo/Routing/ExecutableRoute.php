@@ -32,7 +32,7 @@ namespace Brickoo\Routing\Route;
 use ReflectionClass,
     Brickoo\Routing\Route,
     Brickoo\Routing\Exception\ParameterNotAvailableException,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * ExecutableRoute

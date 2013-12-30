@@ -29,7 +29,7 @@
 
 namespace Brickoo\Session;
 
-use Brickoo\Validator\Argument;
+use Brickoo\Validation\Argument;
 
 /**
  * SessionContainer

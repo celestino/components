@@ -29,7 +29,7 @@
 
 namespace Brickoo\Http\Solver\Plugin;
 
-use Brickoo\Validator\Argument;
+use Brickoo\Validation\Argument;
 
 /**
  * StringHeaderSolverPlugin

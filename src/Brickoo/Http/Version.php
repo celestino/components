@@ -30,7 +30,7 @@
 namespace Brickoo\Http;
 
 use Brickoo\Http\Exception\InvalidHttpVersionException,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * Version

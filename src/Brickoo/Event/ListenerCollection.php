@@ -32,7 +32,7 @@ namespace Brickoo\Event;
 use Brickoo\Event\Listener,
     Brickoo\Event\ListenerQueue,
     Brickoo\Event\Exception\ListenerNotAvailableException,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * ListenerCollection

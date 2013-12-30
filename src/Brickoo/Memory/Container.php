@@ -31,7 +31,7 @@
 namespace Brickoo\Memory;
 
 use ArrayIterator,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * Container

@@ -30,7 +30,7 @@
 namespace Brickoo\Routing\Route;
 
 use Brickoo\Routing\Route\GenericRoute,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * HttpRoute

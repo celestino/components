@@ -34,7 +34,7 @@ use Brickoo\Routing\Route,
     Brickoo\Routing\Router,
     Brickoo\Routing\Exception\PathNotValidException,
     Brickoo\Routing\Exception\RouteRequiredParametersMissingException,
-    Brickoo\Validator\Argument;
+    Brickoo\Validation\Argument;
 
 /**
  * RouteUriBuilder
