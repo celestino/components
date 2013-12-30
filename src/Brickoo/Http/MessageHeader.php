@@ -119,7 +119,7 @@ class MessageHeader extends Container {
     public function toString() {
         $headerString = "";
 
-        $headers = $this->normalizeHeaders($this->aggregateHeaders());
+        $headers = $this->normalizeHeaders($this->transformToArray());
         foreach($headers as $key => $value) {
             $headerString .= sprintf("%s: %s\r\n", $key, $value);
         }
@@ -127,7 +127,11 @@ class MessageHeader extends Container {
         return $headerString;
     }
 
-    private function aggregateHeaders() {
+    /**
+     * Transforms the headers to an array of key/value pairs.
+     * @return array the transformed headers
+     */
+    private function transformToArray() {
         $aggregatedHeaders = [];
 
         $headers = $this->getIterator();
