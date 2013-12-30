@@ -27,21 +27,32 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Routing;
+namespace Brickoo\Routing\Exception;
+
+use Brickoo\Routing\Exception;
 
 /**
- * Events
+ * PathNotValidException
  *
- * Holds the routing events.
+ * Exception throwed if the uri builder could not generate a valid route path.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Events {
+class PathNotValidException extends Exception {
 
     /**
-     * Event asking for collectable routing routes.
-     * @var string
+     * Class constructor.
+     * Calls the parent Exception constructor.
+     * @param string $routeName the route name
+     * @param string $invalidPath the path which is not valid
+     * @param \Exception $previousException
+     * @return void
      */
-    const COLLECT_ROUTES = 'brickoo.routing.collect.routes';
+    public function __construct($routeName, $invalidPath, \Exception $previousException = null) {
+        parent::__construct(
+            sprintf("The path `%s` is invalid for the route `%s`.", $invalidPath, $routeName),
+            0, $previousException
+        );
+    }
 
 }

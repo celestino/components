@@ -27,21 +27,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Routing;
+namespace Brickoo\Routing\Exception;
+
+use Brickoo\Routing\Exception;
 
 /**
- * Events
+ * RouteNotFoundException
  *
- * Holds the routing events.
+ * Exception throwed if the route could not be found.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Events {
+class RouteNotFoundException extends Exception {
 
     /**
-     * Event asking for collectable routing routes.
-     * @var string
+     * Class constructor.
+     * Calls the parent Exception constructor.
+     * @param string $name the route which could not be found.
+     * @param \Exception $previousException
+     * @return void
      */
-    const COLLECT_ROUTES = 'brickoo.routing.collect.routes';
+    public function __construct($name, \Excpetion $previousExcpetion = null) {
+        parent::__construct(sprintf("The route `%s` could not be found.", $name), 0, $previousExcpetion);
+    }
 
 }

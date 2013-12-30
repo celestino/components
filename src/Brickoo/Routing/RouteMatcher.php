@@ -30,18 +30,33 @@
 namespace Brickoo\Routing;
 
 /**
- * Events
+ * RouteMatcher
  *
- * Holds the routing events.
+ * Defines a route matcher.
+ * If the route does match, the route rules paramaters can be retrieved.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Events {
+interface RouteMatcher {
 
     /**
-     * Event asking for collectable routing routes.
-     * @var string
+     * Check if a route collection matches the request at all.
+     * @param \Brickoo\Routing\RouteCollection $RouteCollection
+     * @return boolean check result
      */
-    const COLLECT_ROUTES = 'brickoo.routing.collect.routes';
+    public function matchesCollection(\Brickoo\Routing\RouteCollection $RouteCollection);
+
+    /**
+     * Checks if a route matches the complete request.
+     * @param \Brickoo\Routing\Route $Route
+     * @return boolean check result
+     */
+    public function matchesRoute(\Brickoo\Routing\Route $Route);
+
+    /**
+     * Returns the routing parameters and values from the last matched route.
+     * @return array the parameters list as parameter/value pairs
+     */
+    public function getRouteParameters();
 
 }

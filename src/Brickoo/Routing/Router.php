@@ -1,149 +1,175 @@
 <?php
 
-    /*
-     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
-     * All rights reserved.
-     *
-     * Redistribution and use in source and binary forms, with or without
-     * modification, are permitted provided that the following conditions
-     * are met:
-     *
-     * 1. Redistributions of source code must retain the above copyright
-     *    notice, this list of conditions and the following disclaimer.
-     * 2. Redistributions in binary form must reproduce the above copyright
-     *    notice, this list of conditions and the following disclaimer in the
-     *    documentation and/or other materials provided with the distribution.
-     *
-     * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-     * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-     * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-     * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-     * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-     * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-     * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-     * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-     * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-     * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-     * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-     */
+/*
+ * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
-    namespace Brickoo\Routing;
+namespace Brickoo\Routing;
 
-    use Brickoo\Validator\Argument;
+use Brickoo\Routing\ExecutableRoute,
+    Brickoo\Routing\RouteCollector,
+    Brickoo\Routing\RouteCollector,
+    Brickoo\Routing\Exception\NoMatchingRouteFoundException,
+    Brickoo\Routing\Exception\RouteNotFoundException,
+    Brickoo\Validator\Argument;
+
+/**
+ * Router
+ *
+ * Router which can return an executable matching route
+ * and any route available based on its unique name.
+ * For collecting the availables routes a route collector is used..
+ * @author Celestino Diaz <celestino.diaz@gmx.de>
+ */
+
+class Router implements Interfaces\Router {
+
+    /**  @var \Brickoo\Routing\ExecutableRoute */
+    private $executableRoute;
+
+    /** @var \Brickoo\Routing\RouteMatcher */
+    private $routeMatcher;
+
+    /** @var \Brickoo\Routing\RouteCollector */
+    private $routeCollector;
+
+    /** @var \ArrayIterator */
+    private $routeCollectorIterator;
 
     /**
-     * Router
-     *
-     * Router which can return the request matching executable route
-     * and any route available based on the unique name
-     * For collecting the availables routes a collector is used
-     * which does provide the available routes as collection.
-     * @author Celestino Diaz <celestino.diaz@gmx.de>
+    * Class constructor.
+    * @param \Brickoo\Routing\RouteCollector $routeCollector
+    * @param \Brickoo\Routing\RouteMatcher $routeMatcher
+    * @return void
+    */
+    public function __construct(RouteCollector $routeCollector, RouteMatcher $routeMatcher) {
+        $this->routeCollector = $routeCollector;
+        $this->routeMatcher = $routeMatcher;
+    }
+
+    /**
+     * Returns the route having the given unique name.
+     * @param string $routeName the route unique name
+     * @param string $collectionName the route collections name
+     * @throws \InvalidArgumentException if an argument is not valid
+     * @throws \Brickoo\Routing\Exception\RouteNotFoundException
+     * @return \Brickoo\Routing\Route
      */
+    public function getRoute($routeName, $collectionName = "") {
+        Argument::IsString($routeName);
+        Argument::IsString($collectionName);
 
-    class Router implements Interfaces\Router {
-
-        /**  @var \Brickoo\Routing\Interfaces\Executable */
-        private $Executable;
-
-        /** @var \Brickoo\Routing\Matcher\Interfaces\Matcher */
-        private $Matcher;
-
-        /** @var \Brickoo\Routing\Collector\Interfaces\Collector */
-        private $Collector;
-
-        /** @var \ArrayIterator */
-        private $CollectorIterator;
-
-        /**
-        * Class constructor.
-        * @param \Brickoo\Routing\Route\Interfaces\Collector $Collector
-        * @param \Brickoo\Routing\Route\Interfaces\Matcher $Matcher
-        * @return void
-        */
-        public function __construct(
-            \Brickoo\Routing\Collector\Interfaces\Collector $Collector,
-            \Brickoo\Routing\Matcher\Interfaces\Matcher $Matcher
-        ){
-            $this->Collector = $Collector;
-            $this->Matcher = $Matcher;
+        $route = null;
+        foreach ($this->getRouteCollectorIterator() as $routeCollection) {
+            if ($this->isCollectionResponsible($routeName, $collectionName, $routeCollection)) {
+                $route = $routeCollection->getRoute($routeName);
+                break;
+            }
         }
 
-        /** {@inheritDoc} */
-        public function getRoute($routeName, $collectionName = null) {
-            if ($collectionName !== null) {
-                Argument::IsString($collectionName);
-            }
-            Argument::IsString($routeName);
+        if ($route === null) {
+            throw new RouteNotFoundException($routeName);
+        }
 
-            $Route = null;
-            foreach ($this->getCollectorIterator() as $RouteCollection) {
-                if (($collectionName === null || ($RouteCollection->hasName() && $RouteCollection->getName() == $collectionName))
-                    && $RouteCollection->hasRoute($routeName)
-                ){
-                    $Route = $RouteCollection->getRoute($routeName);
+        return $route;
+    }
+
+    /**
+     * Checks if the route is available.
+     * @param string $routeName the route unique name
+     * @param string $collectionName the route collections name
+     * @throws \InvalidArgumentException if an argument is not valid
+     * @return boolean check result
+     */
+    public function hasRoute($routeName, $collectionName = "") {
+        Argument::IsString($collectionName);
+        Argument::IsString($routeName);
+
+        try {
+            $route = $this->getRoute($routeName, $collectionName);
+        }
+        catch (RouteNotFoundException $exception) {
+            return false;
+        }
+
+        return ($route instanceof \Brickoo\Routing\Route);
+    }
+
+    /**
+     * Returns the matching executable route.
+     * @throws \Brickoo\Routing\Exception\NoMatchingRouteFoundException
+     * @return \Brickoo\Routing\ExecutableRoute
+     */
+    public function getExecutableRoute() {
+        if ($this->executableRoute instanceof ExecutableRoute) {
+            return $this->executableRoute;
+        }
+
+        foreach ($this->getRouteCollectorIterator() as $routeCollection) {
+            if (! $this->routeMatcher->matchesCollection($routeCollection)) {
+                continue;
+            }
+
+            foreach ($routeCollection->getRoutes() as $route) {
+                if ($this->routeMatcher->matchesRoute($route)) {
+                    $this->executableRoute = new ExecutableRoute($route, $this->routeMatcher->getRouteParameters());
                     break;
                 }
             }
-
-            if ($Route === null) {
-                throw new Route\Exceptions\RouteNotFound($routeName);
-            }
-
-            return $Route;
         }
 
-        /** {@inheritDoc} */
-        public function hasRoute($routeName, $collectionName = null) {
-            if ($collectionName !== null) {
-                Argument::IsString($collectionName);
-            }
-            Argument::IsString($routeName);
-
-            try {
-                $Route = $this->getRoute($routeName, $collectionName);
-            }
-            catch (Route\Exceptions\RouteNotFound $Exception) {
-                return false;
-            }
-
-            return ($Route instanceof \Brickoo\Routing\Route\Interfaces\Route);
+        if (! $this->executableRoute instanceof ExecutableRoute) {
+            throw new NoMatchingRouteFoundException();
         }
 
-        /** {@inheritDoc} */
-        public function getExecutable() {
-            if ($this->Executable === null) {
-                foreach ($this->getCollectorIterator() as $RouteCollection) {
-                    if (! $this->Matcher->matchesCollection($RouteCollection)) {
-                        continue;
-                    }
-
-                    foreach ($RouteCollection->getRoutes() as $Route) {
-                        if ($this->Matcher->matchesRoute($Route)) {
-                            $this->Executable = new Route\Executable($Route, $this->Matcher->getRouteParameters());
-                            break;
-                        }
-                    }
-                }
-
-                if ($this->Executable === null) {
-                    throw new Exceptions\NoMatchingRouteFound();
-                }
-            }
-
-            return $this->Executable;
-        }
-
-        /**
-         * Returns an iterator from collector containing the route collections.
-         * @return \ArrayIterator the route collections iterator
-         */
-        private function getCollectorIterator() {
-            if ($this->CollectorIterator === null) {
-                $this->CollectorIterator = $this->Collector->collect()->getIterator();
-            }
-
-            return $this->CollectorIterator;
-        }
-
+        return $this->EexecutableRouteecutable;
     }
+
+    /**
+     * Checks if the route collection is responsible for the requested route and collection.
+     * @param string $routeName
+     * @param string $collectionName
+     * @param \Brickoo\Routing\RouteCollection $routeCollection
+     * @return boolean check result
+     */
+    private function isCollectionResponsible($routeName, $collectionName, RouteCollection $routeCollection) {
+        return ((empty($collectionName) || $routeCollection->getName() == $collectionName)
+               && $routeCollection->hasRoute($routeName));
+    }
+
+    /**
+     * Returns an iterator from the route collector.
+     * @return \ArrayIterator the route collection iterator
+     */
+    private function getRouteCollectorIterator() {
+        if ($this->routeCollectorIterator === null) {
+            $this->routeCollectorIterator = $this->routeCollector->collect()->getIterator();
+        }
+
+        return $this->routeCollectorIterator;
+    }
+
+}

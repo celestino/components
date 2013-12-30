@@ -30,18 +30,11 @@
 namespace Brickoo\Routing;
 
 /**
- * Events
+ * Exception
  *
- * Holds the routing events.
+ * Defines a routing exception.
+ * Used to catch all exceptions from this component.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Events {
-
-    /**
-     * Event asking for collectable routing routes.
-     * @var string
-     */
-    const COLLECT_ROUTES = 'brickoo.routing.collect.routes';
-
-}
+class Exception extends \Exception {}

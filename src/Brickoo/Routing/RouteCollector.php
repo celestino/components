@@ -29,19 +29,21 @@
 
 namespace Brickoo\Routing;
 
+use IteratorAggregate;
+
 /**
- * Events
+ * RouteCollector
  *
- * Holds the routing events.
+ * Defines a route collector for iterable route collections.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Events {
+interface RouteCollector extends IteratorAggregate {
 
     /**
-     * Event asking for collectable routing routes.
-     * @var string
+     * Collects the routing routes.
+     * @return \Brickoo\Routing\RouteCollector
      */
-    const COLLECT_ROUTES = 'brickoo.routing.collect.routes';
+    public function collect();
 
 }

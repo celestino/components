@@ -1,103 +1,113 @@
 <?php
 
-    /*
-     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
-     * All rights reserved.
-     *
-     * Redistribution and use in source and binary forms, with or without
-     * modification, are permitted provided that the following conditions
-     * are met:
-     *
-     * 1. Redistributions of source code must retain the above copyright
-     *    notice, this list of conditions and the following disclaimer.
-     * 2. Redistributions in binary form must reproduce the above copyright
-     *    notice, this list of conditions and the following disclaimer in the
-     *    documentation and/or other materials provided with the distribution.
-     *
-     * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-     * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-     * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-     * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-     * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-     * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-     * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-     * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-     * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-     * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-     * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-     */
+/*
+ * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
-    namespace Brickoo\Routing\Route;
+namespace Brickoo\Routing\Route;
 
-    use Brickoo\Validator\Argument;
+use Brickoo\Routing\Route\GenericRoute,
+    Brickoo\Validator\Argument;
+
+/**
+ * HttpRoute
+ *
+ * Implements a http route which can be configured to match http requests.
+ * @author Celestino Diaz <celestino.diaz@gmx.de>
+ */
+
+class HttpRoute extends GenericRoute {
+
+    /** @var string */
+    private $method;
+
+    /** @var string */
+    private $scheme;
+
+    /** @var string */
+    private $hostname;
 
     /**
-     * HttpRoute
-     *
-     * Implents a http route which can be configured to match http requests.
-     * @author Celestino Diaz <celestino.diaz@gmx.de>
+     * Returns the http method(s) allowed listening to.
+     * @return string the http methods allowed as a regular expression
      */
-
-    class HttpRoute extends Route implements Interfaces\HttpRoute {
-
-        /** @var string */
-        private $method;
-
-        /** @var string */
-        private $scheme;
-
-        /** @var string */
-        private $hostname;
-
-        /**
-         * Class constructor.
-         * @param string $name
-         * @param string $path
-         * @param string $controller
-         * @param string $action
-         * @param array $rules
-         * @param array $defaultValues
-         * @param string $method
-         * @param string $scheme
-         * @param string $hostname
-         * @return void
-         */
-        public function __construct(
-            $name, $path, $controller, $action,
-            array $rules = array(), array $defaultValues = array(),
-            $method = ".*", $scheme = ".*", $hostname = ".*"
-        ){
-            Argument::IsString($name);
-            Argument::IsString($path);
-            Argument::IsString($controller);
-            Argument::IsString($action);
-            Argument::IsString($method);
-            Argument::IsString($scheme);
-
-            $this->name = $name;
-            $this->path = $path;
-            $this->controller = $controller;
-            $this->action = $action;
-            $this->method = $method;
-            $this->scheme = $scheme;
-            $this->hostname = $hostname;
-            $this->rules = $rules;
-            $this->defaultValues = $defaultValues;
-        }
-
-        /** {@inheritDoc} */
-        public function getMethod() {
-            return $this->method;
-        }
-
-        /** {@inheritDoc} */
-        public function getScheme() {
-            return $this->scheme;
-        }
-
-        /** {@inheritDoc} */
-        public function getHostname() {
-            return $this->hostname;
-        }
-
+    public function getMethod() {
+        return $this->method;
     }
+
+    /**
+     * Sets the route method listening to.
+     * @param string $method
+     * @throws \InvalidArgumentException
+     * @return \Brickoo\Routing\Route\HttpRoute
+     */
+    public function setMethod($method) {
+        Argument::IsString($method);
+        $this->method = strtoupper($method);
+        return $this;
+    }
+
+    /**
+     * Returns the scheme allowed listening to.
+     * @return string the scheme allowed as a regular expression
+     */
+    public function getScheme() {
+        return $this->scheme;
+    }
+
+    /**
+     * Sets the scheme required.
+     * @param string $scheme
+     * @throws \InvalidArgumentException
+     * @return \Brickoo\Routing\Route\HttpRoute
+     */
+    public function setScheme($scheme) {
+        Argument::IsString($scheme);
+        $this->scheme = $scheme;
+        return $this;
+    }
+
+    /**
+     * Returns the hostname(s) allowed listening to.
+     * @return string the hostnames allowed as a regular expression
+     */
+    public function getHostname() {
+        return $this->hostname;
+    }
+
+    /**
+     * Sets the hostname listening to.
+     * @param string $hostname
+     * @throws \InvalidArgumentException
+     * @return \Brickoo\Routing\Route\HttpRoute
+     */
+    public function setHostname($hostname) {
+        Argument::IsString($hostname);
+        $this->hostname = $hostname;
+        return $this;
+    }
+
+}

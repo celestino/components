@@ -27,21 +27,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Routing;
+namespace Brickoo\Routing\Exception;
+
+use Brickoo\Routing\Exception;
 
 /**
- * Events
+ * NoMatchingRouteFoundException
  *
- * Holds the routing events.
+ * Exception throwed if the router does not found a matching route.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Events {
+class NoMatchingRouteFoundException extends Exception {
 
     /**
-     * Event asking for collectable routing routes.
-     * @var string
+     * Class constructor.
+     * Calls the parent Exception constructor.
+     * @param \Exception $previousException
+     * @return void
      */
-    const COLLECT_ROUTES = 'brickoo.routing.collect.routes';
+    public function __construct(\Exception $previousException = null) {
+        parent::__construct("No matching route could be found.", 0, $previousException);
+    }
 
 }
