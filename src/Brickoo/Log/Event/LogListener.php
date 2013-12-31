@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Log;
+namespace Brickoo\Log\Event;
 
 use Brickoo\Event\Event,
     Brickoo\Event\EventDispatcher,

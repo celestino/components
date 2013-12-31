@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Log\Handler;
+namespace Brickoo\Log;
 
 use Brickoo\Log\Logger,
     Brickoo\Network\Client,

@@ -63,14 +63,14 @@ class FilesystemLogger implements Logger {
         $this->fileObject = $fileObject;
         $this->logsDirectory = rtrim($logsDirectory, "\\/") . DIRECTORY_SEPARATOR;
         $this->severityDescription = array(
-            Log\Logger::SEVERITY_EMERGENCY    => "Emergency",
-            Log\Logger::SEVERITY_ALERT        => "Alert",
-            Log\Logger::SEVERITY_CRITICAL     => "Critical",
-            Log\Logger::SEVERITY_ERROR        => "Error",
-            Log\Logger::SEVERITY_WARNING      => "Warning",
-            Log\Logger::SEVERITY_NOTICE       => "Notice",
-            Log\Logger::SEVERITY_INFO         => "Info",
-            Log\Logger::SEVERITY_DEBUG        => "Debug"
+            Logger::SEVERITY_EMERGENCY    => "Emergency",
+            Logger::SEVERITY_ALERT        => "Alert",
+            Logger::SEVERITY_CRITICAL     => "Critical",
+            Logger::SEVERITY_ERROR        => "Error",
+            Logger::SEVERITY_WARNING      => "Warning",
+            Logger::SEVERITY_NOTICE       => "Notice",
+            Logger::SEVERITY_INFO         => "Info",
+            Logger::SEVERITY_DEBUG        => "Debug"
         );
     }
 
