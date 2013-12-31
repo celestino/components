@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Error\Listener;
+namespace Brickoo\Error\Event;
 
 use Brickoo\Error\Event\Events,
     Brickoo\Error\Event\ExceptionEvent,
