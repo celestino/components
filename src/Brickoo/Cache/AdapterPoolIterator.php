@@ -60,7 +60,7 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
      * @return void
      */
     public function __construct(array $poolEntries) {
-        if (! (new ContainsInstancesOfConstraint("\\Brickoo\\Cache\\Adapter"))->assert($poolEntries)) {
+        if (! (new ContainsInstancesOfConstraint("\\Brickoo\\Cache\\Adapter"))->matches($poolEntries)) {
             throw new \InvalidArgumentException(
                 "The pool entries must be instances implementing \\Brickoo\\Cache\\Adapter interface."
             );

@@ -104,7 +104,7 @@ class EventDispatcherBuilder {
     public function setListeners($listeners) {
         Argument::IsTraversable($listeners);
 
-        if (! (new ContainsInstancesOfConstraint("Brickoo\\Event\\Interfaces\\Listener"))->assert($listeners)) {
+        if (! (new ContainsInstancesOfConstraint("Brickoo\\Event\\Interfaces\\Listener"))->matches($listeners)) {
             throw new \InvalidArgumentException("The traversable must contain Event\\Listeners only.");
         }
 
