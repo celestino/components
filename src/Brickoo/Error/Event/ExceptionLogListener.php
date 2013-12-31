@@ -30,7 +30,7 @@
 namespace Brickoo\Error\Listener;
 
 use Brickoo\Error\Event\Events,
- Brickoo\Error\Event\ExceptionEvent,
+    Brickoo\Error\Event\ExceptionEvent,
     Brickoo\Event\Event,
     Brickoo\Event\EventDispatcher,
     Brickoo\Event\Listener,
