@@ -96,23 +96,6 @@ class MessageHeader extends Container {
     }
 
     /**
-     * Sends the message headers to the output buffer.
-     * Argument added for for unit testing purposes
-     * @param callable $callback
-     * @return \Brickoo\Http\MessageHeader
-     */
-    public function send($callback = null) {
-        $function = (is_callable($callback) ? $callback : "header");
-
-        $headers = $this->normalizeHeaders($this->aggregateHeaders());
-        foreach($headers as $key => $value) {
-            call_user_func($function, sprintf("%s: %s", $key, $value));
-        }
-
-        return $this;
-    }
-
-    /**
      * Coverts message headers to a request header string.
      * @return string the representation of the message headers
      */
@@ -129,9 +112,10 @@ class MessageHeader extends Container {
 
     /**
      * Transforms the headers to an array of key/value pairs.
+     * @override Container::toArray
      * @return array the transformed headers
      */
-    private function transformToArray() {
+    public function toArray() {
         $aggregatedHeaders = [];
 
         $headers = $this->getIterator();

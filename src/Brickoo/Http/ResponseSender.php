@@ -27,28 +27,23 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http\Exception;
+namespace Brickoo\Http;
 
-use Brickoo\Http\Exception;
+use Brickoo\Http\Response;
 
 /**
- * StatusCodeUnknownException
+ * Response
  *
- * Exception throwed if the response status code is unknown.
+ * Describes a http response sender.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class StatusCodeUnknown extends Exception {
+interface ResponseSender {
 
     /**
-     * Class constructor.
-     * Calls the parent Exception constructor.
-     * @param string $statusCode the unknown status code
-     * @param \Exception $previousException
+     * Sends the http response.
      * @return void
      */
-    public function __construct($statusCode, \Exception $previousException = null) {
-        parent::__construct(sprintf("The response status code `%s` is unknown.", $statusCode), 0, $previousException);
-    }
+    public function send(Response $response);
 
 }

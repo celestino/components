@@ -27,60 +27,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http;
+namespace Brickoo\Http\Exception;
 
-use Brickoo\Validation\Argument;
+use Brickoo\Http\Exception;
 
 /**
- * MessageBody
+ * StatusCodeUnknownException
  *
- * Implements a http message body.
+ * Exception throwed if the response status code is unknown.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class MessageBody {
-
-    /** @var string */
-    protected $content;
+class StatusCodeUnknownException extends Exception {
 
     /**
      * Class constructor.
-     * @param string $content the body content
-     * @throws \InvalidArgumentException
+     * Calls the parent Exception constructor.
+     * @param string $statusCode the unknown status code
+     * @param \Exception $previousException
      * @return void
      */
-    public function __construct($content = "") {
-        Argument::IsString($content);
-        $this->content = $content;
-    }
-
-    /**
-     * Returns the message body.
-     * @return string the body
-     */
-    public function getContent() {
-        return $this->content;
-    }
-
-    /**
-     * Sets the content of the message body.
-     * @param string $content the body content to set
-     * @throws \InvalidArgumentException
-     * @return \Brickoo\Http\MessageBody
-     */
-    public function setContent($content) {
-        Argument::IsString($content);
-        $this->content = $content;
-        return $this;
-    }
-
-    /**
-     * Imports the content from input source.
-     * @return \Brickoo\Http\Message\MessageBody
-     */
-    public function importFromInput() {
-        $this->content = file_get_contents("php://input");
-        return $this;
+    public function __construct($statusCode, \Exception $previousException = null) {
+        parent::__construct(sprintf("The response status code `%s` is unknown.", $statusCode), 0, $previousException);
     }
 
 }
