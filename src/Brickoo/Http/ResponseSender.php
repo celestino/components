@@ -42,6 +42,7 @@ interface ResponseSender {
 
     /**
      * Sends the http response.
+     * @param \Brickoo\Http\Response $response
      * @return void
      */
     public function send(Response $response);

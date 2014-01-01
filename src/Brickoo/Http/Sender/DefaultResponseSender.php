@@ -27,9 +27,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http;
+namespace Brickoo\Http\Sender;
 
-use Brickoo\Http\Response,
+use Brickoo\Http\MessageBody,
+    Brickoo\Http\MessageHeader,
+    Brickoo\Http\Response,
     Brickoo\Http\ResponseSender;
 
 /**
