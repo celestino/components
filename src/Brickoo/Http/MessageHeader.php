@@ -102,7 +102,7 @@ class MessageHeader extends Container {
     public function toString() {
         $headerString = "";
 
-        $headers = $this->normalizeHeaders($this->transformToArray());
+        $headers = $this->normalizeHeaders($this->toArray());
         foreach($headers as $key => $value) {
             $headerString .= sprintf("%s: %s\r\n", $key, $value);
         }

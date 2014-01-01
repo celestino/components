@@ -29,9 +29,8 @@
 
 namespace Brickoo\Http;
 
-use Brickoo\Http\MessageBody,
-    Brickoo\Http\MessageHeader,
-    Brickoo\Http\Method,
+use Brickoo\Http\Method,
+    Brickoo\Http\Message,
     Brickoo\Http\Uri,
     Brickoo\Http\Version;
 
@@ -44,11 +43,8 @@ use Brickoo\Http\MessageBody,
 
 class Request {
 
-    /** @var \Brickoo\Http\MessageHeader */
-    private $header;
-
-    /** @var \Brickoo\Http\MessageBody */
-    private $body;
+    /** @var \Brickoo\Http\Message */
+    private $message;
 
     /** @var \Brickoo\Http\Uri */
     private $uri;
@@ -64,49 +60,76 @@ class Request {
      * @param \Brickoo\Http\Method $method
      * @param \Brickoo\Http\Version $version
      * @param \Brickoo\Http\Uri $uri
-     * @param \Brickoo\Http\MessageHeader $header
-     * @param \Brickoo\Http\MessageBody $body
+     * @param \Brickoo\Http\Message $message
      * @return void
      */
-    public function __construct(Method $method, Version $version, Uri $uri, MessageHeader $header, MessageBody $body) {
-        $this->header = $header;
-        $this->body = $body;
-        $this->uri = $uri;
+    public function __construct(Method $method, Version $version, Uri $uri, Message $message) {
         $this->method = $method;
         $this->version = $version;
+        $this->uri = $uri;
+        $this->message = $message;
     }
 
-    /** {@inheritDoc} */
-    public function getHeader() {
-        return $this->header;
-    }
-
-    /** {@inheritDoc} */
-    public function getBody() {
-        return $this->body;
-    }
-
-    /** {@inheritDoc} */
+    /**
+     * Returns the request Uri.
+     * @return \Brickoo\Http\Uri
+     */
     public function getUri() {
         return $this->uri;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Returns the request query part.
+     * @return \Brickoo\Http\Query
+     */
     public function getQuery() {
         return $this->uri->getQuery();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Returns the http method.
+     * @return \Brickoo\Http\Method
+     */
     public function getMethod() {
         return $this->method;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Returns the http version.
+     * @return \Brickoo\Http\Version
+     */
     public function getVersion() {
         return $this->version;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Returns the http message.
+     * @return \Brickoo\Http\Message
+     */
+    public function getMessage() {
+        return $this->message;
+    }
+
+    /**
+     * Returns the message header.
+     * @return \Brickoo\Http\MessageHeader
+     */
+    public function getHeader() {
+        return $this->message->getHeader();
+    }
+
+    /**
+     * Returns the message body.
+     * @return \Brickoo\Http\MessageBody
+     */
+    public function getBody() {
+        return $this->message->getBody();
+    }
+
+    /**
+     * Retruns the request string representation.
+     * @return string the request representation
+     */
     public function toString() {
         $queryString = (($queryString = $this->getQuery()->toString()) ? "?". $queryString : "");
 

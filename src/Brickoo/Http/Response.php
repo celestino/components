@@ -29,8 +29,7 @@
 
 namespace Brickoo\Http;
 
-use Brickoo\Http\MessageBody,
-    Brickoo\Http\MessageHeader,
+use Brickoo\Http\Message,
     Brickoo\Http\Version,
     Brickoo\Http\Exception\StatusCodeUnknownException,
     Brickoo\Validation\Argument;
@@ -101,25 +100,21 @@ class Response {
     /** @var integer */
     protected $status;
 
-    /** @var \Brickoo\Http\MessageHeader */
-    protected $messageHeader;
-
-    /** @var \Brickoo\Http\MessageBody */
-    protected $messageBody;
-
     /** @var \Brickoo\Http\version */
     protected $version;
+
+    /** @var \Brickoo\Http\Message */
+    protected $message;
 
     /**
      * Class constructor.
      * @param number $status
-     * @param \Brickoo\Http\MessageHeader $header
-     * @param \Brickoo\Http\MessageBody $messageBody
      * @param \Brickoo\Http\Version
-     * @throws Exceptions\StatusCodeUnknown
+     * @param \Brickoo\Http\Message $message
+     * @throws \Brickoo\Http\Exception\StatusCodeUnknown
      * @return void
      */
-    public function __construct($status, MessageHeader $messageHeader, MessageBody $messageBody, Version $version) {
+    public function __construct($status, Version $version, Message $message) {
         Argument::IsInteger($status);
 
         if (! array_key_exists($status, $this->statusPhrases)) {
@@ -127,9 +122,8 @@ class Response {
         }
 
         $this->status = $status;
-        $this->messageHeader = $messageHeader;
-        $this->messageBody = $messageBody;
         $this->version = $version;
+        $this->message = $message;
     }
 
     /**
@@ -149,22 +143,6 @@ class Response {
     }
 
     /**
-     * Returns the response message header.
-     * @return \Brickoo\Http\MessageHeader
-     */
-    public function getHeader() {
-        return $this->messageHeader;
-    }
-
-    /**
-     * Returns the response message body.
-     * @return \Brickoo\Http\MessageBody
-     */
-    public function getBody() {
-        return $this->messageBody;
-    }
-
-    /**
      * Returns the response http version.
      * @return \Brickoo\Http\Version
      */
@@ -172,7 +150,34 @@ class Response {
         return $this->version;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Returns the response message.
+     * @return \Brickoo\Http\Message
+     */
+    public function getMessage() {
+        return $this->message;
+    }
+
+    /**
+     * Returns the response message header.
+     * @return \Brickoo\Http\MessageHeader
+     */
+    public function getHeader() {
+        return $this->message->getHeader();
+    }
+
+    /**
+     * Returns the response message body.
+     * @return \Brickoo\Http\MessageBody
+     */
+    public function getBody() {
+        return $this->message->getBody();
+    }
+
+    /**
+     * Returns a string response representation.
+     * @return string the response representation
+     */
     public function toString() {
         $response  = sprintf("%s %d %s\r\n", $this->version->toString(), $this->getStatus(), $this->getStatusPhrase());
         $response .= $this->getHeader()->toString();

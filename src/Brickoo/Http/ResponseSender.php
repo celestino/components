@@ -29,22 +29,74 @@
 
 namespace Brickoo\Http;
 
-use Brickoo\Http\Response;
+use Brickoo\Http\MessageBody,
+    Brickoo\Http\MessageHeader,
+    Brickoo\Http\Response;
 
 /**
- * Response
+ * ResponseSender
  *
- * Describes a http response sender.
+ * Implements a default response sender using php output functions.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-interface ResponseSender {
+class ResponseSender {
 
     /**
      * Sends the http response.
-     * @param \Brickoo\Http\Response $response
+     * @param \Brickoo\Http\Response
+     * @param callable $callback this argument should only be used for testing purposes
      * @return void
      */
-    public function send(Response $response);
+    public function send(Response $response, $callback = null) {
+        $this->sendStatus(
+            $response->getStatus(),
+            $response->getStatusPhrase(),
+            $response->getVersion()->toString(),
+            $callback
+        );
+        $this->sendMessageHeader($response->getHeader(), $callback);
+        $this->sendMessageBody($response->getBody());
+    }
+
+
+
+    /**
+     * Sends the message headers to the output buffer.
+     * Argument added for for unit testing purposes
+     * @param \Brickoo\Http\MessageHeader $messageHeader
+     * @param callable $callback
+     * @return void
+     */
+    public function sendMessageHeader(MessageHeader $messageHeader, $callback = null) {
+        $function = (is_callable($callback) ? $callback : "header");
+        foreach($messageHeader->toArray() as $key => $value) {
+            call_user_func($function, sprintf("%s: %s", $key, $value));
+        }
+    }
+
+    /**
+     * Sends the body to the output buffer.
+     * @param \Brickoo\Http\MessageBody $messageBody
+     * @return \Brickoo\Http\MessageBody
+     */
+    public function sendMessageBody(MessageBody $messageBody) {
+        echo $messageBody->getContent();
+    }
+
+    /**
+     * Sends the status headers line to the output buffer.
+     * @param integer $statusCode
+     * @param string $statusPhrase
+     * @param string $httpVersion
+     * @param string $callback the callback to use for sending the status line
+     * @return void
+     */
+    private function sendStatus($statusCode, $statusPhrase, $httpVersion, $callback) {
+        $function = (is_callable($callback) ? $callback : "header");
+        call_user_func($function, sprintf(
+            "%s %d %s", $httpVersion, $statusCode, $statusPhrase
+        ));
+    }
 
 }
