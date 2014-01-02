@@ -108,7 +108,7 @@ class Response {
 
     /**
      * Class constructor.
-     * @param number $status
+     * @param integer $status
      * @param \Brickoo\Http\Version
      * @param \Brickoo\Http\Message $message
      * @throws \Brickoo\Http\Exception\StatusCodeUnknown
