@@ -27,16 +27,21 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http\Solver;
-
-use Brickoo\Http\Exception;
+namespace Brickoo\Http\Resolver;
 
 /**
- * Exception
+ * HeaderResolverPlugin
  *
- * Defines a http\solver component exception.
- * Used to catch all exceptions from this component.
+ * Describes a http header solver plugin.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Exception extends Exception {}
+interface HeaderResolverPlugin {
+
+    /**
+     * Returns the headers as key/value pairs.
+     * @return array the headers
+     */
+    public function getHeaders();
+
+}

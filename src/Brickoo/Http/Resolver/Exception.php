@@ -27,33 +27,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http\Solver\Plugin;
+namespace Brickoo\Http\Resolver;
 
-use Brickoo\Http\Solver\HeaderSolverPlugin;
+use Brickoo\Http\Exception;
 
 /**
- * RequestHeaderSolverPlugin
+ * Exception
  *
- * Implements a http header solver.
+ * Defines a http\solver component exception.
+ * Used to catch all exceptions from this component.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class RequestHeaderSolverPlugin implements HeaderSolverPlugin {
-
-    /** {@inheritDoc} */
-    public function getHeaders() {
-        $headers = [];
-        foreach ($_SERVER as $key => $value) {
-            if (substr($key, 0, 5) == "HTTP_") {
-                $headers[substr($key, 5)] = $value;
-            }
-        }
-
-        if (function_exists("apache_request_headers") && ($apacheHeaders = apache_request_headers())) {
-            $headers = array_merge($headers, $apacheHeaders);
-        }
-
-       return $headers;
-    }
-
-}
+class Exception extends Exception {}

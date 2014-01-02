@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http\Solver;
+namespace Brickoo\Http\Resolver;
 
 use Brickoo\Http\MessageHeader;
 
@@ -38,7 +38,7 @@ use Brickoo\Http\MessageHeader;
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class UriSolver {
+class UriResolver {
 
     /** @var \Brickoo\Http\MessageHeader */
     private $header;

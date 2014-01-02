@@ -27,9 +27,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http\Solver\Exception;
+namespace Brickoo\Http\Resolver\Exception;
 
-use Brickoo\Http\Solver\Exception;
+use Brickoo\Http\Resolver\Exception;
 
 /**
  * FileIsNotReadableException

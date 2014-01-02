@@ -27,45 +27,33 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http\Solver\Plugin;
+namespace Brickoo\Http\Resolver\Plugin;
 
-use Brickoo\Validation\Argument;
+use Brickoo\Http\Resolver\HeaderResolverPlugin;
 
 /**
- * StringHeaderSolverPlugin
+ * RequestHeaderResolverPlugin
  *
  * Implements a http header solver.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class StringHeaderSolverPlugin implements HeaderSolverPlugin {
-
-    /** @var string */
-    private $headers;
-
-    /**
-     * Class constructor.
-     * @param string $headers the message headers as string
-     * @return void
-     */
-    public function __construct($headers) {
-        Argument::IsString($headers);
-        $this->headers = $headers;
-    }
+class RequestHeaderResolverPlugin implements HeaderResolverPlugin {
 
     /** {@inheritDoc} */
     public function getHeaders() {
-        $extractedHeaders = [];
-        $fields = explode("\r\n", preg_replace("/\x0D\x0A[\x09\x20]+/", " ", $this->headers));
-
-        foreach ($fields as $field) {
-            $matches = [];
-            if (preg_match("/(?<name>[^:]+): (?<value>.+)/m", $field, $matches) == 1) {
-                $extractedHeaders[$matches["name"]] = trim($matches["value"]);
+        $headers = [];
+        foreach ($_SERVER as $key => $value) {
+            if (substr($key, 0, 5) == "HTTP_") {
+                $headers[substr($key, 5)] = $value;
             }
         }
 
-        return $extractedHeaders;
+        if (function_exists("apache_request_headers") && ($apacheHeaders = apache_request_headers())) {
+            $headers = array_merge($headers, $apacheHeaders);
+        }
+
+       return $headers;
     }
 
 }

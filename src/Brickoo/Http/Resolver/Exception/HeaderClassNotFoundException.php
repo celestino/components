@@ -27,21 +27,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http\Solver;
+namespace Brickoo\Http\Resolver\Exception;
+
+use Brickoo\Http\Resolver\Exception;
 
 /**
- * HeaderSolverPlugin
+ * HeaderClassNotFoundException
  *
- * Describes a http header solver plugin.
+ * Exception throwed if a header class could not be found.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-interface HeaderSolverPlugin {
+class HeaderClassNotFoundException extends Exception {
 
     /**
-     * Returns the headers as key/value pairs.
-     * @return array the headers
+     * Class constructor.
+     * Calls the parent exception constructor.
+     * @param string $headerClass the header class not found
+     * @param \Exception $previousException
+     * @return void
      */
-    public function getHeaders();
+    public function __construct($headerClass, \Exception $previousException = null) {
+        parent::__construct(sprintf("The header class `%s` could not be found.", $headerClass), 0 , $previousException);
+    }
 
 }

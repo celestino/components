@@ -32,7 +32,7 @@ namespace Brickoo\Http;
 use Brickoo\Http\Authority,
     Brickoo\Http\Query,
     Brickoo\Http\Uri,
-    Brickoo\Http\Solver\UriSolver;
+    Brickoo\Http\Resolver\UriResolver;
 
 /**
  * UriFactory
@@ -45,35 +45,35 @@ class UriFactory {
 
     /**
      * Creates a request uri instance.
-     * @param \Brickoo\Http\Solver\UriSolver $uriSolver
+     * @param \Brickoo\Http\Resolver\UriResolver $uriResolver
      * @return \Brickoo\Http\Uri
      */
-    public function create(UriSolver $uriSolver) {
+    public function create(UriResolver $uriResolver) {
         return new Uri(
-            $uriSolver->getScheme(),
-            $this->createAuthority($uriSolver),
-            $uriSolver->getPath(),
-            $this->createQuery($uriSolver),
-            $uriSolver->getFragment()
+            $uriResolver->getScheme(),
+            $this->createAuthority($uriResolver),
+            $uriResolver->getPath(),
+            $this->createQuery($uriResolver),
+            $uriResolver->getFragment()
        );
     }
 
     /**
      * Creates the authority dependency.
-     * @param \Brickoo\Http\Solver\UriSolver $uriSolver
+     * @param \Brickoo\Http\Resolver\UriResolver $uriResolver
      * @return \Brickoo\Http\Authority
      */
-    private function createAuthority(UriSolver $uriSolver) {
-        return new Authority($uriSolver->getHostname(), $uriSolver->getPort());
+    private function createAuthority(UriResolver $uriResolver) {
+        return new Authority($uriResolver->getHostname(), $uriResolver->getPort());
     }
 
     /**
      * Creates the query dependency.
-     * @param \Brickoo\Http\Solver\UriSolver $uriSolver
+     * @param \Brickoo\Http\Resolver\UriResolver $uriResolver
      * @return \Brickoo\Http\Query
      */
-    private function createQuery(UriSolver $uriSolver) {
-        return (new Query())->fromString($uriSolver->getQueryString());
+    private function createQuery(UriResolver $uriResolver) {
+        return (new Query())->fromString($uriResolver->getQueryString());
     }
 
 }

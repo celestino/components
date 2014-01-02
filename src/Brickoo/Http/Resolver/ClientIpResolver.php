@@ -27,18 +27,18 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http\Solver;
+namespace Brickoo\Http\Resolver;
 
 use Brickoo\Http\MessageHeader;
 
 /**
- * ClientIpSolver
+ * ClientIpResolver
  *
  * Implements a client ip solver.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class ClientIpSolver {
+class ClientIpResolver {
 
     /** @var \Brickoo\Http\MessageHeader */
     private $headers;

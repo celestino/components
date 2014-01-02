@@ -27,25 +27,25 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http\Solver;
+namespace Brickoo\Http\Resolver;
 
 use Brickoo\Http\Header\GenericHeader,
-    Brickoo\Http\Solver\HeaderSolverPlugin,
-    Brickoo\Http\Solver\Exception\FileDoesNotExistException,
-    Brickoo\Http\Solver\Exception\FileIsNotReadableException,
-    Brickoo\Http\Solver\Exception\HeaderClassNotFoundException,
-    Brickoo\Http\Solver\Exception\MappingHeaderNotFoundException,
-    Brickoo\Http\Solver\Exception\WrongHeaderMapTypeException,
+    Brickoo\Http\Resolver\HeaderResolverPlugin,
+    Brickoo\Http\Resolver\Exception\FileDoesNotExistException,
+    Brickoo\Http\Resolver\Exception\FileIsNotReadableException,
+    Brickoo\Http\Resolver\Exception\HeaderClassNotFoundException,
+    Brickoo\Http\Resolver\Exception\MappingHeaderNotFoundException,
+    Brickoo\Http\Resolver\Exception\WrongHeaderMapTypeException,
     Brickoo\Validation\Argument;
 
 /**
- * HeaderSolver
+ * HeaderResolver
  *
  * Implements a http header solver.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class HeaderSolver {
+class HeaderResolver {
 
     /** @var string */
     private $headerMapFile;
@@ -53,18 +53,18 @@ class HeaderSolver {
     /** @var array */
     private $headerMap;
 
-    /** @var \Brickoo\Http\Solver\HeaderSolverPlugin */
+    /** @var \Brickoo\Http\Resolver\HeaderResolverPlugin */
     private $headersPlugin;
 
     /**
      * Class constructor.
      * @param string $headerMapFile a file containing a header file map
-     * @param \Brickoo\Http\Solver\HeaderSolverPlugin $headersPlugin
-     * @throws \Brickoo\Http\Solver\Exception\FileDoesNotExistException
-     * @throws \Brickoo\Http\Solver\Exception\FileIsNotReadableException
+     * @param \Brickoo\Http\Resolver\HeaderResolverPlugin $headersPlugin
+     * @throws \Brickoo\Http\Resolver\Exception\FileDoesNotExistException
+     * @throws \Brickoo\Http\Resolver\Exception\FileIsNotReadableException
      * @return void
      */
-    public function __construct($headerMapFile, HeaderSolverPlugin $headersPlugin) {
+    public function __construct($headerMapFile, HeaderResolverPlugin $headersPlugin) {
         Argument::IsString($headerMapFile);
 
         if (! file_exists($headerMapFile)) {
@@ -100,8 +100,8 @@ class HeaderSolver {
 
     /**
      * Loads the header map into memory.
-     * @throws \Brickoo\Http\Solver\Exception\WrongHeaderMapTypeException
-     * @return \Brickoo\Http\Solver\RequestHeaderSolver
+     * @throws \Brickoo\Http\Resolver\Exception\WrongHeaderMapTypeException
+     * @return \Brickoo\Http\Resolver\RequestHeaderResolver
      */
     private function loadHeaderMap() {
         $headerMap = include $this->headerMapFile;
@@ -137,7 +137,7 @@ class HeaderSolver {
     /**
      * Returns the header mapping class name.
      * @param string $headerName
-     * @throws \Brickoo\Http\Solver\Exception\MappingHeaderNotFoundException
+     * @throws \Brickoo\Http\Resolver\Exception\MappingHeaderNotFoundException
      * @return string the mapping header class
      */
     private function getMappingHeaderClass($headerName) {
@@ -151,8 +151,8 @@ class HeaderSolver {
      * Creates a header instance from a mapping class.
      * @param string $headerClass
      * @param string $headerValue
-     * @throws \Brickoo\Httpp\Solver\Exception\HeaderClassNotFoundException
-     * @return \Brickoo\Http\Solver\headerClass
+     * @throws \Brickoo\Http\Resolver\Exception\HeaderClassNotFoundException
+     * @return \Brickoo\Http\Resolver\headerClass
      */
     private function createMappingHeader($headerClass, $headerValue) {
         if (! class_exists($headerClass)) {

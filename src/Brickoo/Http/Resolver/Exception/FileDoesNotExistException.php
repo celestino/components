@@ -27,28 +27,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http\Solver\Exception;
+namespace Brickoo\Http\Resolver\Exception;
 
-use Brickoo\Http\Solver\Exception;
+use Brickoo\Http\Resolver\Exception;
 
 /**
- * HeaderClassNotFoundException
+ * FileDoesNotExistException
  *
- * Exception throwed if a header class could not be found.
+ * Exception throwed if a file does not exist.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class HeaderClassNotFoundException extends Exception {
+class FileDoesNotExistException extends Exception {
 
     /**
      * Class constructor.
      * Calls the parent exception constructor.
-     * @param string $headerClass the header class not found
+     * @param string $filepath the filepath which does not exist
      * @param \Exception $previousException
      * @return void
      */
-    public function __construct($headerClass, \Exception $previousException = null) {
-        parent::__construct(sprintf("The header class `%s` could not be found.", $headerClass), 0 , $previousException);
+    public function __construct($filepath, \Exception $previousException = null) {
+        parent::__construct(sprintf("File `%s` does not exists.", $filepath), 0 , $previousException);
     }
 
 }
