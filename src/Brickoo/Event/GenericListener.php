@@ -64,8 +64,8 @@ class GenericListener implements Listener {
 
         $this->eventName = $eventName;
         $this->listenerPriority = $priority;
-        $this->condition = $condition;
         $this->callback = $callback;
+        $this->condition = $condition;
     }
 
     /** {@inheritDoc} */
