@@ -53,12 +53,12 @@ class RetrieveByCallbackEvent extends CacheEvent {
     public function __construct($identifier, callable $callback, array $callbackArguments = [], $cacheLifetime = 60) {
         Argument::IsString($identifier);
         Argument::IsInteger($cacheLifetime);
-        parent::__construct(Events::GET, null, array(
+        parent::__construct(Events::CALLBACK, null, [
             self::PARAM_IDENTIFIER => $identifier,
             self::PARAM_CALLBACK => $callback,
             self::PARAM_CALLBACK_ARGS => $callbackArguments,
             self::PARAM_LIFETIME => $cacheLifetime
-        ));
+        ]);
     }
 
 }

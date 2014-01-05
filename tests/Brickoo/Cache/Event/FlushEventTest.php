@@ -27,30 +27,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Cache\Event;
+namespace Brickoo\Tests\Cache;
 
-use Brickoo\Cache\Event\CacheEvent,
-    Brickoo\Cache\Events,
-    Brickoo\Validation\Argument;
+use Brickoo\Cache\Events,
+    Brickoo\Cache\Event\FlushEvent,
+    PHPUnit_Framework_TestCase;
 
 /**
- * DeleteEvent
+ * FlushEventTest
  *
- * Implements an event for deleting cached data.
+ * Test suite for the FlushEvent class.
+ * @see Brickoo\Cache\Event\FlushEvent
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class DeleteEvent extends CacheEvent {
+class FlushEventTest extends PHPUnit_Framework_TestCase {
 
-    /**
-     * Overrides the parent class constructor.
-     * Calls parent constructor.
-     * @param string $identifier
-     * @return void
-     */
-    public function __construct($identifier) {
-        Argument::IsString($identifier);
-        parent::__construct(Events::DELETE, null, [self::PARAM_IDENTIFIER => $identifier]);
+    /** @covers Brickoo\Cache\Event\FlushEvent::__construct */
+    public function testConstructorInitializesProperties() {
+        $event = new FlushEvent();
+        $this->assertInstanceOf("\\Brickoo\\Cache\\Event\\CacheEvent", $event);
+        $this->assertAttributeEquals(Events::FLUSH, "name", $event);
     }
 
 }

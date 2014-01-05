@@ -27,30 +27,37 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Cache\Event;
+namespace Brickoo\Tests\Cache;
 
-use Brickoo\Cache\Event\CacheEvent,
-    Brickoo\Cache\Events,
-    Brickoo\Validation\Argument;
+use Brickoo\Cache\Events,
+    Brickoo\Cache\Event\RetrieveEvent,
+    PHPUnit_Framework_TestCase;
 
 /**
- * DeleteEvent
+ * RetrieveEventTest
  *
- * Implements an event for deleting cached data.
+ * Test suite for the RetrieveEvent class.
+ * @see Brickoo\Cache\Event\RetrieveEvent
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class DeleteEvent extends CacheEvent {
+class RetrieveEventTest extends PHPUnit_Framework_TestCase {
+
+    /** @covers Brickoo\Cache\Event\RetrieveEvent::__construct */
+    public function testConstructorInitializesProperties() {
+        $identifier = "some_identifier";
+        $event = new RetrieveEvent($identifier);
+        $this->assertInstanceOf("\\Brickoo\\Cache\\Event\\CacheEvent", $event);
+        $this->assertAttributeEquals(Events::GET, "name", $event);
+        $this->assertAttributeEquals([RetrieveEvent::PARAM_IDENTIFIER => $identifier], "params", $event);
+    }
 
     /**
-     * Overrides the parent class constructor.
-     * Calls parent constructor.
-     * @param string $identifier
-     * @return void
+     * @covers Brickoo\Cache\Event\RetrieveEvent::__construct
+     * @expectedException \InvalidArgumentException
      */
-    public function __construct($identifier) {
-        Argument::IsString($identifier);
-        parent::__construct(Events::DELETE, null, [self::PARAM_IDENTIFIER => $identifier]);
+    public function testConstructorThrowsExceptionForInvalidArgument() {
+        $event = new RetrieveEvent(["wrongType"]);
     }
 
 }
