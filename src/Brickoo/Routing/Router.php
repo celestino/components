@@ -31,7 +31,7 @@ namespace Brickoo\Routing;
 
 use Brickoo\Routing\ExecutableRoute,
     Brickoo\Routing\RouteCollector,
-    Brickoo\Routing\RouteCollector,
+    Brickoo\Routing\RouteCollection,
     Brickoo\Routing\Exception\NoMatchingRouteFoundException,
     Brickoo\Routing\Exception\RouteNotFoundException,
     Brickoo\Validation\Argument;
@@ -45,7 +45,7 @@ use Brickoo\Routing\ExecutableRoute,
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Router implements Interfaces\Router {
+class Router {
 
     /**  @var \Brickoo\Routing\ExecutableRoute */
     private $executableRoute;
