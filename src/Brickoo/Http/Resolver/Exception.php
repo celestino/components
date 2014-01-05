@@ -29,14 +29,14 @@
 
 namespace Brickoo\Http\Resolver;
 
-use Brickoo\Http\Exception;
+use Brickoo\Http\Exception as HttpException;
 
 /**
  * Exception
  *
- * Defines a http\solver component exception.
+ * Defines a http\resolver component exception.
  * Used to catch all exceptions from this component.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Exception extends Exception {}
+class Exception extends HttpException {}

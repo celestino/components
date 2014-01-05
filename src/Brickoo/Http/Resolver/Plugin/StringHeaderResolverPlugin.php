@@ -29,7 +29,8 @@
 
 namespace Brickoo\Http\Resolver\Plugin;
 
-use Brickoo\Validation\Argument;
+use Brickoo\Http\Resolver\HeaderResolverPlugin,
+    Brickoo\Validation\Argument;
 
 /**
  * StringHeaderResolverPlugin
