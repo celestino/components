@@ -191,7 +191,7 @@ class File {
      * @return boolean check result
      */
     private function isReadMode() {
-        return preg_match("~^[waxc]$~", $this->mode) == 1;
+        return preg_match("~^[waxc]$~", $this->mode) == 0;
     }
 
     /**
