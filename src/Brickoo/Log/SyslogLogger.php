@@ -72,19 +72,6 @@ class SyslogLogger implements Logger {
     const FACILITY_USER_6            = 22;
     const FACILITY_USER_7            = 23;
 
-    /**
-     * Declaration of the severity constants.
-     * @var integer
-     */
-    const SEVERITY_EMERGENCY        = 0;
-    const SEVERITY_ALERT            = 1;
-    const SEVERITY_CRITICAL         = 2;
-    const SEVERITY_ERROR            = 3;
-    const SEVERITY_WARNING          = 4;
-    const SEVERITY_NOTICE           = 5;
-    const SEVERITY_INFO             = 6;
-    const SEVERITY_DEBUG            = 7;
-
     /** @var \Brickoo\Network\Client */
     private $networkClient;
 
