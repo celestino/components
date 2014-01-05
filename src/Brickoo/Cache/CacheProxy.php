@@ -36,7 +36,7 @@ use Brickoo\Cache\AdapterPoolIterator,
 /**
  * CacheProxy
  *
- * Implements caching proxy for handling an iterable adapter pool.
+ * Implements caching proxy for handling a cache pool.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 class CacheProxy {
@@ -75,7 +75,6 @@ class CacheProxy {
         if ((!$content = $this->get($identifier)) && ($content = call_user_func_array($callback, $callbackArguments))) {
             $this->set($identifier, $content, $lifetime);
         }
-
         return $content;
     }
 
@@ -88,7 +87,6 @@ class CacheProxy {
      */
     public function get($identifier) {
         Argument::IsString($identifier);
-
         return $this->getAdapter()->get($identifier);
     }
 
@@ -105,7 +103,6 @@ class CacheProxy {
     public function set($identifier, $content, $lifetime) {
         Argument::IsString($identifier);
         Argument::IsInteger($lifetime);
-
         $this->getAdapter()->set($identifier, $content, $lifetime);
         return $this;
     }
@@ -119,7 +116,6 @@ class CacheProxy {
      */
     public function delete($identifier) {
         Argument::IsString($identifier);
-
         $this->adapterPoolIterator->rewind();
         while ($this->adapterPoolIterator->valid()) {
             if ($this->adapterPoolIterator->isCurrentReady()) {
@@ -127,7 +123,6 @@ class CacheProxy {
             }
             $this->adapterPoolIterator->next();
         }
-
         return $this;
     }
 
@@ -143,44 +138,40 @@ class CacheProxy {
             }
             $this->adapterPoolIterator->next();
         }
-
         return $this;
     }
 
     /**
      * Returns a ready adapter entry from the adapter pool.
-     * @throws \Brickoo\Cache\Exception\AdapterNotFoundException
      * @return \Brickoo\Cache\Adapter
      */
     private function getAdapter() {
         if ($this->adapter !== null) {
             return $this->adapter;
         }
-
-        $this->attachReadyAdapter();
-
-        if ($this->adapter === null) {
-            throw new AdapterNotFoundException();
-        }
-
+        $this->adapter = $this->getReadyAdapter();
         return $this->adapter;
     }
 
     /**
-     * Attach a ready adapter to the class variable.
-     * @return \Brickoo\Cache\CacheProxy
+     * Returns a ready adapter.
+     * @throws \Brickoo\Cache\Exception\AdapterNotFoundException
+     * @return \Brickoo\Cache\Adapter
      */
-    private function attachReadyAdapter() {
-        if (! $this->adapterPoolIterator->isEmpty()) {
-            $this->adapterPoolIterator->rewind();
-            while ($this->adapter === null && $this->adapterPoolIterator->valid()) {
-                if ($this->adapterPoolIterator->isCurrentReady()) {
-                    $this->adapter = $this->adapterPoolIterator->current();
-                }
-                $this->adapterPoolIterator->next();
+    private function getReadyAdapter() {
+        $adapter = null;
+        $this->adapterPoolIterator->rewind();
+        while ($adapter === null && $this->adapterPoolIterator->valid()) {
+            if ($this->adapterPoolIterator->isCurrentReady()) {
+                $adapter = $this->adapterPoolIterator->current();
             }
+            $this->adapterPoolIterator->next();
         }
-        return $this;
+
+        if ($adapter === null) {
+            throw new AdapterNotFoundException();
+        }
+        return $adapter;
     }
 
 }

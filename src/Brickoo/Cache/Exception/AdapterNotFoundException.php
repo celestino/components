@@ -46,7 +46,7 @@ class AdapterNotFoundException extends Exception {
      * @return void
      */
     public function __construct(\Exception $previousException = null) {
-        parent::__construct("Could not found an adapter.", 0, $previousException);
+        parent::__construct("Could not found a ready adapter.", 0, $previousException);
     }
 
 }

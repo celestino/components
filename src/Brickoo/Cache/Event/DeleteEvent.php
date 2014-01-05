@@ -30,7 +30,7 @@
 namespace Brickoo\Cache\Event;
 
 use Brickoo\Cache\Event\CacheEvent,
-    Brickoo\Cache\Event\Events,
+    Brickoo\Cache\Events,
     Brickoo\Validation\Argument;
 
 /**

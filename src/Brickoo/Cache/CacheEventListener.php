@@ -27,14 +27,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Cache\Event;
+namespace Brickoo\Cache;
 
 use Brickoo\Cache\CacheProxy,
-    Brickoo\Cache\Event\Events,
+    Brickoo\Cache\Events,
+    Brickoo\Cache\Event\CacheEvent,
     Brickoo\Cache\Event\DeleteEvent,
     Brickoo\Cache\Event\FlushEvent,
     Brickoo\Cache\Event\RetrieveByCallbackEvent,
     Brickoo\Cache\Event\RetrieveEvent,
+    Brickoo\Cache\Event\StoreEvent,
     Brickoo\Event\Event,
     Brickoo\Event\EventDispatcher,
     Brickoo\Event\GenericListener,
@@ -42,32 +44,32 @@ use Brickoo\Cache\CacheProxy,
     Brickoo\Validation\Argument;
 
 /**
- * CacheManagerListener
+ * CacheEventListener
  *
- * Implements the attachment of cache listeners to an event dispatcher
- * having a cache manager as dependency for event processing cache operations.
+ * Implements the handling of cache event listeners.
+ * having a cache proxy as dependency for event processing cache operations.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class CacheManagerListener implements ListenerAggregate {
+class CacheEventListener implements ListenerAggregate {
 
     /** @var \Brickoo\Cache\CacheProxy */
-    private $cacheManager;
+    private $cacheProxy;
 
     /** @var integer */
     private $listenerPriority;
 
     /**
      * Class constructor.
-     * @param \Brickoo\Cache\CacheProxy $cacheManager
-     * @param integer $priority the listener priority
+     * @param \Brickoo\Cache\CacheProxy $cacheProxy
+     * @param integer $listenerPriority the listener priority
      * @return void
      */
-    public function __construct(CacheProxy $cacheManager, $priority = 0) {
-        Argument::IsInteger($priority);
+    public function __construct(CacheProxy $cacheProxy, $listenerPriority = 0) {
+        Argument::IsInteger($listenerPriority);
 
-        $this->cacheManager = $cacheManager;
-        $this->listenerPriority = $priority;
+        $this->cacheProxy = $cacheProxy;
+        $this->listenerPriority = $listenerPriority;
     }
 
     /** {@inheritDoc} */
@@ -115,24 +117,24 @@ class CacheManagerListener implements ListenerAggregate {
     }
 
     /**
-     * Handle the event to retrieve the cached content from the injected cache manager.
+     * Handle the event to retrieve the cached content from the injected cache proxy.
      * @param \Brickoo\Cache\Event\RetrieveEvent $Event
      * @param \Brickoo\Event\EventDispatcher $Dispatcher
      * @return mixed the cached content
      */
     public function handleRetrieveEvent(RetrieveEvent $Event, EventDispatcher $Dispatcher) {
-        return $this->cacheManager->get($Event->getIdentifier());
+        return $this->cacheProxy->get($Event->getIdentifier());
     }
 
     /**
-     * Handle the event to retrieve the cached content from the injected cache manager
+     * Handle the event to retrieve the cached content from the injected cache proxy
      * with a callback used as a fallback.
      * @param \Brickoo\Cache\Event\RetrieveByCallbackEvent $Event
      * @param \Brickoo\Event\EventDispatcher $Dispatcher
      * @return mixed the cached content
      */
     public function handleRetrieveByCallbackEvent(RetrieveByCallbackEvent $Event, EventDispatcher $Dispatcher) {
-        return $this->cacheManager->getByCallback(
+        return $this->cacheProxy->getByCallback(
             $Event->getIdentifier(),
             $Event->getCallback(),
             $Event->getCallbackArguments(),
@@ -147,28 +149,28 @@ class CacheManagerListener implements ListenerAggregate {
      * @return void
      */
     public function handleStoreEvent(StoreEvent $Event, EventDispatcher $Dispatcher) {
-        $this->cacheManager->set($Event->getIdentifier(), $Event->getContent(), $Event->getLifetime());
+        $this->cacheProxy->set($Event->getIdentifier(), $Event->getContent(), $Event->getLifetime());
     }
 
     /**
      * Handle the event to delete the cached content holded by the identifier
-     * through the injected cache manager.
+     * through the injected cache proxy.
      * @param \Brickoo\Cache\Event\DeleteEvent $Event
      * @param \Brickoo\Event\EventDispatcher $Dispatcher
      * @return void
      */
-    public function handleCacheEventDelete(DeleteEvent $Event, EventDispatcher $Dispatcher) {
-        $this->cacheManager->delete($Event->getIdentifier());
+    public function handleDeleteEvent(DeleteEvent $Event, EventDispatcher $Dispatcher) {
+        $this->cacheProxy->delete($Event->getIdentifier());
     }
 
     /**
-     * Handle to flush the cache content through the injected cache manager.
+     * Handle to flush the cache content through the injected cache proxy.
      * @param \Brickoo\Cache\Event\FlushEvent $Event
      * @param \Brickoo\Event\EventDispatcher $Dipatcher
      * @return void
      */
-    public function handleCacheEventFlush(FlushEvent $Event, EventDispatcher $Dispatcher) {
-        $this->cacheManager->flush();
+    public function handleFlushEvent(FlushEvent $Event, EventDispatcher $Dispatcher) {
+        $this->cacheProxy->flush();
     }
 
 }

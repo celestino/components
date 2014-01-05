@@ -36,7 +36,7 @@ use Brickoo\Cache\Adapter,
 /**
  * FilesystemAdapter
  *
- * Provides caching operations based on files.
+ * Provides caching operations based on filesystem.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -45,10 +45,7 @@ class FilesystemAdapter implements Adapter {
     /** @var string */
     const LIFETIME_FORMAT = "YmdHis";
 
-    /** @var integer */
-    const LIFETIME_BYTES_LENGTH = 14;
-
-    /** @var \Brickoo\System\FileObject */
+    /** @var \Brickoo\Filesystem\File */
     private $fileObject;
 
     /** @var string */
@@ -80,39 +77,27 @@ class FilesystemAdapter implements Adapter {
         $this->cacheFileNameSuffix = $cacheFileNameSuffix;
     }
 
-    /**
-     * @param string $identifier the cache identifier.
-     * @return string the cache file path
-     */
-    private function getCacheFilePath($identifier) {
-        return $this->cacheDirectory . $identifier .$this->cacheFileNameSuffix;
-    }
-
     /** {@inheritDoc} */
     public function get($identifier) {
         Argument::IsString($identifier);
+        $timestampBytesLength = strlen(date(self::LIFETIME_FORMAT));
         $cacheFilePath = $this->getCacheFilePath($identifier);
 
-        if (! is_readable($cacheFilePath)) {
-            return null;
-        }
-
-        $expirationDate = $this->fileObject->open($cacheFilePath, "r")->read(self::LIFETIME_BYTES_LENGTH);
+        $expirationDate = $this->fileObject->open($cacheFilePath, "r")
+            ->read($timestampBytesLength);
 
         if (strtotime($expirationDate) < time()) {
             $this->fileObject->close();
             return null;
         }
 
-        $cachedContent = $this->fileObject->read(filesize($cacheFilePath) - self::LIFETIME_BYTES_LENGTH);
+        $cachedContent = $this->fileObject->read(filesize($cacheFilePath) - $timestampBytesLength);
         $this->fileObject->close();
 
         return ($this->serializeCacheContent ? unserialize($cachedContent) : $cachedContent);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     public function set($identifier, $content, $lifetime) {
         Argument::IsString($identifier);
         Argument::IsInteger($lifetime);
@@ -124,25 +109,21 @@ class FilesystemAdapter implements Adapter {
         $this->fileObject->open($this->getCacheFilePath($identifier), "w")
                          ->write(date(self::LIFETIME_FORMAT, (time()+ $lifetime)) . $content);
         $this->fileObject->close();
-
         return $this;
     }
 
     /** {@inheritDoc} */
     public function delete($identifier) {
         Argument::IsString($identifier);
-
         if (file_exists(($fileName = $this->getCacheFilePath($identifier)))) {
             unlink($fileName);
         }
-
         return $this;
     }
 
     /** {@inheritDoc} */
     public function flush() {
         $DirectoryIterator = new \DirectoryIterator($this->cacheDirectory);
-
         foreach ($DirectoryIterator as $FileInfo) {
             if ($FileInfo->isFile()
                 && ($fileName = $FileInfo->getFilename())
@@ -151,13 +132,21 @@ class FilesystemAdapter implements Adapter {
                 unlink($FileInfo->getPath() . DIRECTORY_SEPARATOR . $fileName);
             }
         }
-
         return $this;
     }
 
     /** {@inheritDoc} */
     public function isReady() {
         return (is_writable($this->cacheDirectory) && is_readable($this->cacheDirectory));
+    }
+
+    /**
+     * Returns the cache file path for a unique identifier.
+     * @param string $identifier the cache identifier.
+     * @return string the cache file path
+     */
+    private function getCacheFilePath($identifier) {
+        return $this->cacheDirectory . $identifier .$this->cacheFileNameSuffix;
     }
 
 }

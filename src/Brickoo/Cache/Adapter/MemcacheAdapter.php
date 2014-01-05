@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Cache\Provider;
+namespace Brickoo\Cache\Adapter;
 
 use Brickoo\Cache\Adapter,
     Brickoo\Validation\Argument;
@@ -56,7 +56,6 @@ class MemcacheAdapter implements Adapter {
      */
     public function __construct(\Memcache $memcache, $cacheCompression = MEMCACHE_COMPRESSED) {
         Argument::IsInteger($cacheCompression);
-
         $this->memcache = $memcache;
         $this->cacheCompression = $cacheCompression;
     }
@@ -71,7 +70,6 @@ class MemcacheAdapter implements Adapter {
     public function set($identifier, $content, $lifetime) {
         Argument::IsString($identifier);
         Argument::IsInteger($lifetime);
-
         $this->memcache->set($identifier, $content, $this->cacheCompression, $lifetime);
         return $this;
     }
@@ -79,7 +77,6 @@ class MemcacheAdapter implements Adapter {
     /** {@inheritDoc} */
     public function delete($identifier) {
         Argument::IsString($identifier);
-
         $this->memcache->delete($identifier);
         return $this;
     }
@@ -104,9 +101,8 @@ class MemcacheAdapter implements Adapter {
      */
     public function __call($method, array $arguments) {
         if (! method_exists($this->memcache, $method)) {
-            throw new \BadMethodCallException(sprintf('The memcache method `%s` is not defined.', $method));
+            throw new \BadMethodCallException(sprintf("The memcache method `%s` is not defined.", $method));
         }
-
         return call_user_func_array(array($this->memcache, $method), $arguments);
     }
 

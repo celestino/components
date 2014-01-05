@@ -61,9 +61,10 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
      */
     public function __construct(array $poolEntries) {
         if (! (new ContainsInstancesOfConstraint("\\Brickoo\\Cache\\Adapter"))->matches($poolEntries)) {
-            throw new \InvalidArgumentException(
-                "The pool entries must be instances implementing \\Brickoo\\Cache\\Adapter interface."
-            );
+            throw new \InvalidArgumentException(sprintf(
+                "%s: The pool entries must be instances implementing \\Brickoo\\Cache\\Adapter interface.",
+                __CLASS__
+            ));
         }
 
         $this->poolEntries = array_values($poolEntries);
@@ -77,18 +78,18 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
      * @return boolean check result
      */
     public function isCurrentReady() {
-        if ($this->isEmpty()) {
-            throw new PoolIsEmptyException();
-        }
-
         return $this->current()->isReady();
     }
 
     /**
      * {@inheritDoc}
+     * @throws \Brickoo\Cache\Exception\PoolIsEmptyException
      * @return \Brickoo\Cache\Adapter
      */
     public function current() {
+        if ($this->isEmpty() || (!isset($this->poolEntries[$this->currentPointerPosition]))) {
+            throw new PoolIsEmptyException();
+        }
         return $this->poolEntries[$this->currentPointerPosition];
     }
 
@@ -143,7 +144,7 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
         $this->poolEntries = array_values($this->poolEntries);
         $this->mappingKeys = array_values($this->mappingKeys);
 
-        if ($this->currentPointerPosition > 0 && $this->currentPointerPosition > $mappingPosition) {
+        if ($this->currentPointerPosition > 0 && $this->currentPointerPosition >= $mappingPosition) {
             --$this->currentPointerPosition;
         }
 

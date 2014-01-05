@@ -27,71 +27,49 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Cache\Adapter;
+namespace Brickoo\Tests\Cache\Adapter;
 
-use Brickoo\Cache\Adapter,
-    Brickoo\Validation\Argument;
+use Brickoo\Cache\Adapter\DoNothingAdapter,
+    PHPUnit_Framework_TestCase;
 
 /**
- * MemoryAdapter
+ * DoNothingAdapterTest
  *
- * Implements a memory cache apdater for handling runtime cache operations.
- * Currently the cached content does not expire.
+ * Test suite for the DoNothing class.
+ * @see Brickoo\Cache\Adapter\DoNothingAdapter
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class MemoryAdapter implements Adapter {
+class DoNothingAdapterTest extends PHPUnit_Framework_TestCase {
 
-    /** @var array */
-    private $cacheValues;
-
-    /**
-     * Class constructor.
-     * @return void
-     */
-    public function __construct() {
-        $this->cacheValues = [];
+    /** @covers Brickoo\Cache\Adapter\DoNothingAdapter::get */
+    public function testGetReturnsNull() {
+        $doNothingAdapter = new DoNothingAdapter();
+        $this->assertNull($doNothingAdapter->get('whatever'));
     }
 
-    /** {@inheritDoc} */
-    public function get($identifier) {
-        Argument::IsString($identifier);
-        if (! array_key_exists($identifier, $this->cacheValues)) {
-            return null;
-        }
-        return $this->cacheValues[$identifier];
+    /** @covers Brickoo\Cache\Adapter\DoNothingAdapter::set */
+    public function testSetCacheContent() {
+        $doNothingAdapter = new DoNothingAdapter();
+        $this->assertSame($doNothingAdapter, $doNothingAdapter->set('whatever', 'non cached content', 60));
     }
 
-    /** {@inheritDoc} */
-    public function set($identifier, $content, $lifetime = 0) {
-        Argument::IsString($identifier);
-        $this->cacheValues[$identifier] = $content;
-        return $this;
+    /** @covers Brickoo\Cache\Adapter\DoNothingAdapter::delete */
+    public function testDeleteDoesNothing() {
+        $doNothingAdapter = new DoNothingAdapter();
+        $this->assertSame($doNothingAdapter, $doNothingAdapter->delete('whatever'));
     }
 
-    /** {@inheritDoc} */
-    public function delete($identifier) {
-        Argument::IsString($identifier);
-        if (array_key_exists($identifier, $this->cacheValues)) {
-            unset($this->cacheValues[$identifier]);
-        }
-        return $this;
+    /** @covers Brickoo\Cache\Adapter\DoNothingAdapter::flush */
+    public function testFlushDoesNothing() {
+        $doNothingAdapter = new DoNothingAdapter();
+        $this->assertSame($doNothingAdapter, $doNothingAdapter->flush());
     }
 
-    /** {@inheritDoc} */
-    public function has($identifier) {
-        return array_key_exists($identifier, $this->cacheValues);
-    }
-
-    /** {@inheritDoc} */
-    public function flush() {
-        $this->cacheValues = [];
-        return $this;
-    }
-
-    /** {@inheritDoc} */
-    public function isReady() {
-        return true;
+    /** @covers Brickoo\Cache\Adapter\DoNothingAdapter::isReady */
+    public function testIsReadyReturnsAlwaysTrue() {
+        $doNothingAdapter = new DoNothingAdapter();
+        $this->assertTrue($doNothingAdapter->isReady());
     }
 
 }
