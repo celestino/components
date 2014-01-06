@@ -27,40 +27,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Error\Event;
+namespace Brickoo\Error;
 
-use Brickoo\Error\Event\ErrorEvent,
-    Brickoo\Error\Event\Events,
-    Brickoo\Event\Event,
-    Brickoo\Event\EventDispatcher,
-    Brickoo\Event\Listener,
-    Brickoo\Log\Event\LogEvent,
-    Brickoo\Log\Logger;
+/**
+ * Events
+ *
+ * Holds the error related events.
+ * @author Celestino Diaz <celestino.diaz@gmx.de>
+ */
 
-class ErrorLogListener implements Listener {
+class Events {
 
-    /** {@inheritDoc} */
-    public function getEventName() {
-        return Events::ERROR;
-    }
+    /**
+     * Notifies that an error occured.
+     * @var string
+     */
+    const ERROR = "brickoo.event.error";
 
-    /** {@inheritDoc} */
-    public function getPriority() {
-        return 0;
-    }
-
-    /** {@inheritDoc} */
-    public function getCondition() {
-        return function(Event $event, EventDispatcher $eventDispatcher) {
-            return ($event instanceof ErrorEvent);
-        };
-    }
-
-    /** {@inheritDoc} */
-    public function getCallback() {
-        return function(Event $event, EventDispatcher $eventDispatcher) {
-            return $eventDispatcher->notify(new LogEvent([$event->getErrorMessage()], Logger::SEVERITY_ERROR));
-        };
-    }
+    /**
+     * Notifies that an exception occured.
+     * @var string
+     */
+    const EXCEPTION = "brickoo.event.exception";
 
 }

@@ -54,7 +54,7 @@ class ErrorHandler {
     private $isRegistered;
 
     /** @var \Brickoo\Event\EventDispatcher */
-    private $EventDispatcher;
+    private $eventDispatcher;
 
     /**
      * Class constructor.
@@ -65,8 +65,7 @@ class ErrorHandler {
      */
     public function __construct(EventDispatcher $eventDispatcher, $convertToException = true) {
         Argument::IsBoolean($convertToException);
-
-        $this->EventDispatcher = $eventDispatcher;
+        $this->eventDispatcher = $eventDispatcher;
         $this->convertToException = $convertToException;
         $this->isRegistered = false;
     }
@@ -88,7 +87,6 @@ class ErrorHandler {
         if ($this->isRegistered()) {
             throw new DuplicateHandlerRegistrationException("ErrorHandler");
         }
-
         set_error_handler(array($this, "handleError"));
         $this->isRegistered = true;
         return $this;
@@ -103,7 +101,6 @@ class ErrorHandler {
         if (! $this->isRegistered()) {
             throw new HandlerNotRegisteredException("ErrorHandler");
         }
-
         restore_error_handler();
         $this->isRegistered = false;
         return $this;
@@ -132,14 +129,10 @@ class ErrorHandler {
      */
     public function handleError($errorCode, $errorMessage, $errorFile, $errorLine) {
         $message = sprintf("%s in %s on line %s", $errorMessage, $errorFile, $errorLine);
-
         if ($this->convertToException) {
             throw new ErrorOccurredException($message, $errorCode);
         }
-        else {
-            $this->EventDispatcher->notify(new ErrorEvent($message));
-        }
-
+        $this->eventDispatcher->notify(new ErrorEvent($message));
         return true;
     }
 

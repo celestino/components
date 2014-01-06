@@ -70,17 +70,15 @@ class ExceptionHandler {
 
     /**
      * Registers the instance as exception handler.
-     * @throws \Brickoo\Error\Exception\DuplicateHandlerRegistration
+     * @throws \Brickoo\Error\Exception\DuplicateHandlerRegistrationException
      * @return \Brickoo\Error\ExceptionHandler
      */
     public function register() {
         if ($this->isRegistered()) {
             throw new DuplicateHandlerRegistrationException("ExceptionHandler");
         }
-
         set_exception_handler(array($this, "handleException"));
         $this->isRegistered = true;
-
         return $this;
     }
 
@@ -93,10 +91,8 @@ class ExceptionHandler {
         if (! $this->isRegistered()) {
             throw new HandlerNotRegisteredException("ExceptionHandler");
         }
-
         restore_exception_handler();
         $this->isRegistered = false;
-
         return $this;
     }
 

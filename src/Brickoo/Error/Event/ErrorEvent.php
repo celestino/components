@@ -29,7 +29,7 @@
 
 namespace Brickoo\Error\Event;
 
-use Brickoo\Error\Event\Events,
+use Brickoo\Error\Events,
     Brickoo\Event\GenericEvent,
     Brickoo\Validation\Argument;
 
