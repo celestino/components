@@ -27,12 +27,13 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Tests\Brickoo\Loader\Fixture;
+    namespace Brickoo\Tests\Autoloader\Assets;
 
     /**
-     * Autoloader
+     * ListLoadableClass
      *
-     * Concrete implementation for the abstract autoloader class.
+     * Test class for the ListAutoloader.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
-    class AutoloaderConcrete extends \Brickoo\Loader\Autoloader {}
+
+    class ListLoadableClass {}

@@ -94,7 +94,7 @@ class ListAutoloader extends Autoloader {
      */
     public function unregisterClass($className) {
         if (! is_string($className)) {
-            throw new \InvalidArgumentException(sprintf("The class name `%s` is not valid", $className));
+            throw new \InvalidArgumentException(sprintf("The class name `%s` is not valid", json_encode($className)));
         }
 
         if (! $this->isClassRegistered($className)) {
@@ -114,7 +114,7 @@ class ListAutoloader extends Autoloader {
      */
     public function isClassRegistered($className) {
         if (! is_string($className)) {
-            throw new \InvalidArgumentException(sprintf("The class name `%s` is not valid", $className));
+            throw new \InvalidArgumentException(sprintf("The class name `%s` is not valid", json_encode($className)));
         }
 
         return isset($this->classes[$className]);
@@ -131,7 +131,7 @@ class ListAutoloader extends Autoloader {
     /** {@inheritDoc} */
     public function load($className) {
         if (! is_string($className)) {
-            throw new \InvalidArgumentException(sprintf("The class name `%s` is not valid", $className));
+            throw new \InvalidArgumentException(sprintf("The class name `%s` is not valid", json_encode($className)));
         }
 
         if (! $this->isClassRegistered($className)) {

@@ -27,13 +27,13 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Tests\Brickoo\Loader\Assets;
+    namespace Brickoo\Tests\Autoloader\Assets;
 
     /**
-     * ListLoadableClass
+     * NamespaceLoadableClass
      *
-     * Test class for the ListAutoloader.
+     * Test class for the NamespaceAutoloader.
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
-    class ListLoadableClass {}
+    class NamespaceLoadableClass {}
