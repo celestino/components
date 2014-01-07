@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2014, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
 
     namespace Tests\Brickoo\Routing\Route;
 
-    use Brickoo\Routing\Route\RegexGenerator;
+    use Brickoo\Routing\Route\RoutePathRegexGenerator;
 
     /**
      * RegexGeneratorTest
@@ -46,7 +46,7 @@
          */
         public function testConstructor() {
             $aliases = array("articles" => "test-case");
-            $RegexGenerator = new RegexGenerator($aliases);
+            $RegexGenerator = new RoutePathRegexGenerator($aliases);
             $this->assertInstanceOf('Brickoo\Routing\Route\Interfaces\RegexGenerator', $RegexGenerator);
             $this->assertAttributeEquals($aliases, "aliases", $RegexGenerator);
         }
@@ -65,7 +65,7 @@
                              "(?<format>(\.html|\.json)?)".
                              "$~i";
             $aliases = array("articles" => "artikeln");
-            $RegexGenerator = new RegexGenerator($aliases);
+            $RegexGenerator = new RoutePathRegexGenerator($aliases);
             $this->assertEquals($expectedRegex, $RegexGenerator->generatePathRegex($this->getRouteFixture()));
         }
 
@@ -82,7 +82,7 @@
                 "articles", "/articles/{articleName}", "MyBlog", "displayArticle"
             );
 
-            $RegexGenerator = new RegexGenerator($aliases);
+            $RegexGenerator = new RoutePathRegexGenerator($aliases);
             $this->assertEquals($expectedRegex, $RegexGenerator->generatePathRegex($Route));
         }
 

@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2014, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -193,7 +193,7 @@
          * @covers Brickoo\Session\Session::start
          * @covers Brickoo\Session\Session::checkSessionStart
          * @covers Brickoo\Session\Exceptions\SessionAlreadyStarted
-         * @expectedException Brickoo\Session\Exceptions\SessionAlreadyStarted
+         * @expectedException Brickoo\Session\Exceptions\SessionAlreadyStartedException
          */
         public function testStartSessionTwiceThrowsException() {
             $Session = $this->Session;

@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2014, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
 
     namespace Tests\Brickoo\Session;
 
-    use Brickoo\Session\Container;
+    use Brickoo\Session\SessionContainer;
 
     /**
      * ContainerTest
@@ -54,7 +54,7 @@
          */
         public function setUp() {
             $_SESSION = array("my_namespace.test_property" => "some value");
-            $this->Container = new Container("my_namespace");
+            $this->Container = new SessionContainer("my_namespace");
         }
 
         /**
@@ -63,7 +63,7 @@
         public function testConstructor() {
             $this->assertInstanceOf(
                 "Brickoo\Session\Interfaces\Container",
-                $Container = new Container("some_namespace")
+                $Container = new SessionContainer("some_namespace")
             );
         }
 
@@ -72,7 +72,7 @@
          * @expectedException InvalidArgumentException
          */
         public function testConstructArgumentException() {
-            $Container = new Container(array("wrongType"));
+            $Container = new SessionContainer(array("wrongType"));
         }
 
         /**

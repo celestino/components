@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2014, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
 
     namespace Tests\Brickoo\Routing\Matcher;
 
-    use Brickoo\Routing\Matcher\HttpMatcher;
+    use Brickoo\Routing\Matcher\HttpRouteMatcher;
 
     /**
      * HttpMatcherTest
@@ -48,7 +48,7 @@
             $Request = $this->getRequestStub();
             $RegexGenerator = $this->getRegexGeneratorStub();
 
-            $RouteMatcher = new HttpMatcher($Request, $RegexGenerator);
+            $RouteMatcher = new HttpRouteMatcher($Request, $RegexGenerator);
             $this->assertInstanceOf('Brickoo\Routing\Matcher\Interfaces\Matcher',$RouteMatcher);
             $this->assertAttributeSame($Request, "Request", $RouteMatcher);
             $this->assertAttributeSame($RegexGenerator, "RegexGenerator", $RouteMatcher);
@@ -69,7 +69,7 @@
                             ->method("getPath")
                             ->will($this->returnValue("/articles"));
 
-            $RouteMatcher = new HttpMatcher($Request, $RegexGenerator);
+            $RouteMatcher = new HttpRouteMatcher($Request, $RegexGenerator);
             $this->assertTrue($RouteMatcher->matchesCollection($RouteCollection));
         }
 
@@ -85,7 +85,7 @@
                             ->method("hasPath")
                             ->will($this->returnValue(false));
 
-            $RouteMatcher = new HttpMatcher($Request, $RegexGenerator);
+            $RouteMatcher = new HttpRouteMatcher($Request, $RegexGenerator);
             $this->assertTrue($RouteMatcher->matchesCollection($RouteCollection));
         }
 
@@ -104,7 +104,7 @@
                             ->method("getPath")
                             ->will($this->returnValue("/undefined"));
 
-            $RouteMatcher = new HttpMatcher($Request, $RegexGenerator);
+            $RouteMatcher = new HttpRouteMatcher($Request, $RegexGenerator);
             $this->assertFalse($RouteMatcher->matchesCollection($RouteCollection));
         }
 
@@ -118,7 +118,7 @@
             $RegexGenerator = $this->getRegexGeneratorStub();
             $Route = $this->getRouteFixture();
 
-            $RouteMatcher = new HttpMatcher($Request, $RegexGenerator);
+            $RouteMatcher = new HttpRouteMatcher($Request, $RegexGenerator);
             $this->assertTrue($RouteMatcher->matchesRoute($Route));
         }
 
@@ -135,7 +135,7 @@
 
             $Route = $this->getRestrictedRouteFixture();
 
-            $RouteMatcher = new HttpMatcher($Request, $RegexGenerator);
+            $RouteMatcher = new HttpRouteMatcher($Request, $RegexGenerator);
             $this->assertFalse($RouteMatcher->matchesRoute($Route));
         }
 
@@ -152,7 +152,7 @@
             $Request = $this->getRequestStub();
             $Route = $this->getRouteFixture();
 
-            $RouteMatcher = new HttpMatcher($Request, $RegexGenerator);
+            $RouteMatcher = new HttpRouteMatcher($Request, $RegexGenerator);
             $this->assertTrue($RouteMatcher->matchesRoute($Route));
             $this->assertEquals($expectedParameters, $RouteMatcher->getRouteParameters());
         }

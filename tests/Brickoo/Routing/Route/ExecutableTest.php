@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2014, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
 
     namespace Tests\Brickoo\Routing\Route;
 
-    use Brickoo\Routing\Route\Executable;
+    use Brickoo\Routing\Route\ExecutableRoute;
 
     /**
      * ExecutableTest
@@ -47,7 +47,7 @@
         public function testConstructor() {
             $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
             $parameters = array('name' => 'test');
-            $Executable = new Executable($Route, $parameters);
+            $Executable = new ExecutableRoute($Route, $parameters);
             $this->assertInstanceOf('Brickoo\Routing\Route\Interfaces\Executable', $Executable);
             $this->assertAttributeSame($Route, 'Route', $Executable);
             $this->assertAttributeSame($parameters, 'parameters', $Executable);
@@ -59,7 +59,7 @@
          */
         public function testGetRoute() {
             $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
-            $Executable = new Executable($Route);
+            $Executable = new ExecutableRoute($Route);
             $this->assertSame($Route, $Executable->getRoute());
         }
 
@@ -70,7 +70,7 @@
             $expectedParameters = array('param' => 'the parameter value');
 
             $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
-            $Executable = new Executable($Route, $expectedParameters);
+            $Executable = new ExecutableRoute($Route, $expectedParameters);
             $this->assertEquals($expectedParameters, $Executable->getParameters());
         }
 
@@ -81,7 +81,7 @@
             $parameters = array('param' => 'the parameter value');
 
             $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
-            $Executable = new Executable($Route, $parameters);
+            $Executable = new ExecutableRoute($Route, $parameters);
             $this->assertEquals($parameters['param'], $Executable->getParameter('param'));
         }
 
@@ -91,18 +91,18 @@
          */
         public function testGetParameterThrowsInvalidArgumentException() {
             $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
-            $Executable = new Executable($Route);
+            $Executable = new ExecutableRoute($Route);
             $Executable->getParameter(array('wrongType'));
         }
 
         /**
          * @covers Brickoo\Routing\Route\Executable::getParameter
          * @covers Brickoo\Routing\Route\Exceptions\ParameterNotAvailable
-         * @expectedException Brickoo\Routing\Route\Exceptions\ParameterNotAvailable
+         * @expectedException Brickoo\Routing\Route\Exceptions\ParameterNotAvailableException
          */
         public function testGetParameterThrowsParameterNotAvailableException() {
             $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
-            $Executable = new Executable($Route);
+            $Executable = new ExecutableRoute($Route);
             $Executable->getParameter('not.available');
         }
 
@@ -113,7 +113,7 @@
             $parameters = array('param' => 'the parameter value');
 
             $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
-            $Executable = new Executable($Route, $parameters);
+            $Executable = new ExecutableRoute($Route, $parameters);
             $this->assertFalse($Executable->hasParameter('nots.available'));
             $this->assertTrue($Executable->hasParameter('param'));
         }
@@ -124,7 +124,7 @@
          */
         public function testHasParameterThrowsInvalidArgumentException() {
             $Route = $this->getMock('Brickoo\Routing\Route\Interfaces\Route');
-            $Executable = new Executable($Route);
+            $Executable = new ExecutableRoute($Route);
             $Executable->hasParameter(array('wrongType'));
         }
 
@@ -142,7 +142,7 @@
                   ->method('getAction')
                   ->will($this->returnValue('returnText'));
 
-            $Executable = new Executable($Route);
+            $Executable = new ExecutableRoute($Route);
             $this->assertEquals("ExecutableController::returnText executed.", $Executable->execute());
         }
 
@@ -162,7 +162,7 @@
                   ->method('getAction')
                   ->will($this->returnValue('returnText'));
 
-            $Executable = new Executable($Route);
+            $Executable = new ExecutableRoute($Route);
             $Executable->execute();
             $this->assertAttributeEquals(true, "hasBeenExecuted", $Executable);
             $Executable->execute();

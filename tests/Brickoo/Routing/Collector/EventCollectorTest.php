@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2014, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
 
     namespace Tests\Brickoo\Routing\Collector;
 
-    use Brickoo\Routing\Collector\EventCollector;
+    use Brickoo\Routing\Collector\EventRouteCollector;
 
     /**
      * EventCollectorTest
@@ -46,7 +46,7 @@
          */
         public function testConstructor() {
             $EventManager = $this->getMock('Brickoo\Event\Interfaces\Manager');
-            $RouteCollector = new EventCollector($EventManager);
+            $RouteCollector = new EventRouteCollector($EventManager);
             $this->assertInstanceOf('Brickoo\Routing\Collector\Interfaces\Collector',$RouteCollector);
             $this->assertAttributeSame($EventManager, 'EventManager', $RouteCollector);
             $this->assertAttributeEquals(array(), "collections", $RouteCollector);
@@ -66,7 +66,7 @@
                          ->with($this->isInstanceOf('Brickoo\Event\Interfaces\Event'))
                          ->will($this->returnValue($EventResponseCollection));
 
-            $RouteCollector = new EventCollector($EventManager);
+            $RouteCollector = new EventRouteCollector($EventManager);
             $this->assertSame($RouteCollector, $RouteCollector->collect());
             $this->assertAttributeEquals(array($RouteCollection), "collections", $RouteCollector);
         }
@@ -88,7 +88,7 @@
                          ->with($this->isInstanceOf('Brickoo\Event\Interfaces\Event'))
                          ->will($this->returnValue($EventResponseCollection));
 
-            $RouteCollector = new EventCollector($EventManager);
+            $RouteCollector = new EventRouteCollector($EventManager);
             $RouteCollector->collect();
         }
 
@@ -106,7 +106,7 @@
                          ->with($this->isInstanceOf('Brickoo\Event\Interfaces\Event'))
                          ->will($this->returnValue($EventResponseCollection));
 
-            $RouteCollector = new EventCollector($EventManager);
+            $RouteCollector = new EventRouteCollector($EventManager);
             $RouteCollector->collect();
         }
 
@@ -114,7 +114,7 @@
          * covers Brickoo\Routing\Collector\EventCollector::getIterator
          */
         public function testGetCollectionsIterator() {
-            $RouteCollector = new EventCollector($this->getMock('Brickoo\Event\Interfaces\Manager'));
+            $RouteCollector = new EventRouteCollector($this->getMock('Brickoo\Event\Interfaces\Manager'));
             $this->assertInstanceOf('ArrayIterator', $RouteCollector->getIterator());
         }
 

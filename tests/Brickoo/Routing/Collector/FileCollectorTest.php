@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2014, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
 
     namespace Tests\Brickoo\Routing\Collector;
 
-    use Brickoo\Routing\Collector\FileCollector;
+    use Brickoo\Routing\Collector\FileRouteCollector;
 
     /**
      * FileCollectorTest
@@ -49,7 +49,7 @@
             $routingFilename = "routes.php";
             $searchRecursively = true;
 
-            $FileCollector = new FileCollector($routingPath, $routingFilename, $searchRecursively);
+            $FileCollector = new FileRouteCollector($routingPath, $routingFilename, $searchRecursively);
             $this->assertInstanceOf('Brickoo\Routing\Collector\Interfaces\Collector',$FileCollector);
             $this->assertAttributeEquals($routingPath, "routingPath", $FileCollector);
             $this->assertAttributeEquals($routingFilename, "routingFilename", $FileCollector);
@@ -62,7 +62,7 @@
          * @expectedException InvalidArgumentException
          */
         public function testEmptyRoutePathThrowsArgumentException() {
-            $FileCollector = new FileCollector("", "routes.php");
+            $FileCollector = new FileRouteCollector("", "routes.php");
         }
 
         /**
@@ -70,7 +70,7 @@
          * @expectedException InvalidArgumentException
          */
         public function testEmptyRouteFilenameThrowsArgumentException() {
-            $FileCollector = new FileCollector(__DIR__, "");
+            $FileCollector = new FileRouteCollector(__DIR__, "");
         }
 
         /**
@@ -83,7 +83,7 @@
             $routingFilename = "routes.php";
             $searchRecursively = false;
 
-            $FileCollector = new FileCollector($routingPath, $routingFilename, $searchRecursively);
+            $FileCollector = new FileRouteCollector($routingPath, $routingFilename, $searchRecursively);
             $this->assertSame($FileCollector, $FileCollector->collect());
             $this->assertAttributeCount(1, "collections", $FileCollector);
         }
@@ -98,7 +98,7 @@
             $routingFilename = "routes.php";
             $searchRecursively = true;
 
-            $FileCollector = new FileCollector($routingPath, $routingFilename, $searchRecursively);
+            $FileCollector = new FileRouteCollector($routingPath, $routingFilename, $searchRecursively);
             $this->assertSame($FileCollector, $FileCollector->collect());
             $this->assertAttributeCount(2, "collections", $FileCollector);
         }
@@ -114,7 +114,7 @@
             $routingFilename = "nothing_available.php";
             $searchRecursively = false;
 
-            $FileCollector = new FileCollector($routingPath, $routingFilename, $searchRecursively);
+            $FileCollector = new FileRouteCollector($routingPath, $routingFilename, $searchRecursively);
             $FileCollector->collect();
         }
 
@@ -126,7 +126,7 @@
             $routingFilename = "nothing_available.php";
             $searchRecursively = false;
 
-            $FileCollector = new FileCollector($routingPath, $routingFilename, $searchRecursively);
+            $FileCollector = new FileRouteCollector($routingPath, $routingFilename, $searchRecursively);
             $this->assertInstanceOf('ArrayIterator', $FileCollector->getIterator());
         }
 

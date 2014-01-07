@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2014, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -66,7 +66,7 @@
         /**
          * @covers Brickoo\Template\PhpTemplate::render
          * @covers Brickoo\Template\Exceptions\RenderingAborted
-         * @expectedException Brickoo\Template\Exceptions\RenderingAborted
+         * @expectedException Brickoo\Template\Exceptions\RenderingAbortedException
          */
         public function testRenderThrowsRenderingAbortedException() {
             $Template = new PhpTemplate(__DIR__ ."/assets/ExceptionThrowingTemplate.php");

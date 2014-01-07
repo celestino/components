@@ -1,7 +1,7 @@
 <?php
 
     /*
-     * Copyright (c) 2011-2013, Celestino Diaz <celestino.diaz@gmx.de>.
+     * Copyright (c) 2011-2014, Celestino Diaz <celestino.diaz@gmx.de>.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
 
     namespace Tests\Brickoo\Filesystem;
 
-    use Brickoo\Filesystem\FileObject;
+    use Brickoo\Filesystem\File;
 
     /**
      * FileObjectTest
@@ -41,7 +41,7 @@
     class FileObjectTest extends \PHPUnit_Framework_TestCase {
 
         public function testImplementingInterface() {
-            $FileObject = new FileObject();
+            $FileObject = new File();
             $this->assertInstanceOf('Brickoo\Filesystem\Interfaces\FileObject', $FileObject);
         }
 
@@ -50,7 +50,7 @@
          * @covers Brickoo\Filesystem\FileObject::__destruct
          */
         public function testOpenFile() {
-            $FileObject = new FileObject();
+            $FileObject = new File();
             $FileObject->open("php://memory", "r");
             $this->assertAttributeEquals("r", "mode", $FileObject);
             $this->assertAttributeInternalType("resource", "handle", $FileObject);
@@ -62,7 +62,7 @@
          * @expectedException Brickoo\Filesystem\Exceptions\HandleAlreadyExists
          */
         public function testOpenTwiceThrowsHandleAlreadyExistsException() {
-            $FileObject = new FileObject();
+            $FileObject = new File();
             $FileObject->open("php://memory", "r");
             $FileObject->open("php://memory", "r");
         }
@@ -73,7 +73,7 @@
          * @expectedException Brickoo\Filesystem\Exceptions\UnableToCreateHandle
          */
         public function testOpenFailureThrowsUnableToCreateHandleException() {
-            $FileObject = new FileObject();
+            $FileObject = new File();
             $FileObject->open("php://path/does/not/exist", "r");
         }
 
@@ -90,7 +90,7 @@
               )
             ));
 
-            $FileObject = new FileObject();
+            $FileObject = new File();
             $FileObject->open("http://localhost:12345", "w", false, $context);
         }
 
@@ -102,7 +102,7 @@
          */
         public function testWriteAndReadOperations() {
             $expectedData = "The written data.";
-            $FileObject = new FileObject();
+            $FileObject = new File();
             $FileObject->open("php://memory", "r+");
             $this->assertEquals(strlen($expectedData), $FileObject->write($expectedData));
             $FileObject->fseek(0);
@@ -116,7 +116,7 @@
          * @expectedException Brickoo\Filesystem\Exceptions\HandleNotAvailable
          */
         public function testReadThrowsHandleNotAvailableException() {
-            $FileObject = new FileObject();
+            $FileObject = new File();
             $FileObject->read(1);
         }
 
@@ -126,7 +126,7 @@
          * @expectedException Brickoo\Filesystem\Exceptions\InvalidModeOperation
          */
         public function testReadThrowsInvalidModeOperationException() {
-            $FileObject = new FileObject();
+            $FileObject = new File();
             $FileObject->open("php://memory", "w")
                        ->read(1);
         }
@@ -136,7 +136,7 @@
          * @expectedException InvalidArgumentException
          */
         public function testReadThrowsArgumentException() {
-            $FileObject = new FileObject();
+            $FileObject = new File();
             $FileObject->open("php://memory", "r")
                        ->read('wrongType');
         }
@@ -148,7 +148,7 @@
          * @expectedException Brickoo\Filesystem\Exceptions\HandleNotAvailable
          */
         public function testWriteThrowsHandleNotAvailableException() {
-            $FileObject = new FileObject();
+            $FileObject = new File();
             $FileObject->write("throws exception");
         }
 
@@ -158,7 +158,7 @@
          * @expectedException Brickoo\Filesystem\Exceptions\InvalidModeOperation
          */
         public function testWriteThrowsInvalidModeOperationException() {
-            $FileObject = new FileObject();
+            $FileObject = new File();
             $FileObject->open("php://memory", "r")
                        ->write("throws exception");
         }
@@ -167,7 +167,7 @@
          * @covers Brickoo\Filesystem\FileObject::close
          */
         public function testClose() {
-            $FileObject = new FileObject();
+            $FileObject = new File();
             $FileObject->open("php://memory", "r");
             $this->assertAttributeInternalType("resource","handle", $FileObject);
             $FileObject->close();
@@ -181,7 +181,7 @@
          * @expectedException Brickoo\Filesystem\Exceptions\HandleNotAvailable
          */
         public function testCloseHandleException() {
-            $FileObject = new FileObject();
+            $FileObject = new File();
             $FileObject->close();
         }
 
@@ -192,7 +192,7 @@
         public function test__call() {
             $expectedData = 'Some data to test with magic functions.';
 
-            $FileObject = new FileObject();
+            $FileObject = new File();
             $FileObject->open("php://memory", "w+");
 
             $this->assertEquals(strlen($expectedData), $FileObject->fwrite($expectedData)); // magic
@@ -210,7 +210,7 @@
          * @expectedException BadMethodCallException
          */
         public function testFOPENThrowsBadMethodCallException() {
-            $FileObject = new FileObject();
+            $FileObject = new File();
             $FileObject->fopen();
         }
 
@@ -219,7 +219,7 @@
          * @expectedException BadMethodCallException
          */
         public function testFCLOSEThrowsBadMethodCallException() {
-            $FileObject = new FileObject();
+            $FileObject = new File();
             $FileObject->fclose();
         }
 
