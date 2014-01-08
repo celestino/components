@@ -56,6 +56,17 @@ class EventRecursionDepthList extends Container {
     }
 
     /**
+     * Adds an unique event to the list.
+     * @param string $eventName
+     * @return \Brickoo\Event\EventRecursionDepthList
+     */
+    public function addEvent($eventName) {
+        Argument::IsString($eventName);
+        $this->set($eventName, 0);
+        return $this;
+    }
+
+    /**
      * Returns the current event recursion depth.
      * @param string $eventName
      * @return integer the event recursion depth

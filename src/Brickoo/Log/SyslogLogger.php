@@ -34,9 +34,9 @@ use Brickoo\Log\Logger,
     Brickoo\Validation\Argument;
 
 /**
- * Syslog
+ * SyslogLogger
  *
- * Logs to a common syslog server over an udp protocol socket connection
+ * Logs to a common syslog server over an udp socket connection
  * @link http://tools.ietf.org/html/rfc3164
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */

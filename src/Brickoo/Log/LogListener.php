@@ -27,19 +27,20 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Log\Event;
+namespace Brickoo\Log;
 
 use Brickoo\Event\Event,
     Brickoo\Event\EventDispatcher,
     Brickoo\Event\Listener,
+    Brickoo\Log\Events,
     Brickoo\Log\Logger,
-    Brickoo\Log\Event\LogEvent,
+    Brickoo\Log\LogEvent,
     Brickoo\Validation\Argument;
 
 /**
- * Listener
+ * LogListener
  *
- * Implements an event listener for log events.
+ * Implements a log event listener.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -88,7 +89,7 @@ class LogListener implements Listener {
 
     /**
      * Handle the event to log messages.
-     * @param \Brickoo\Log\Event\LogEvent $logEvent
+     * @param \Brickoo\Log\LogEvent $logEvent
      * @param \Brickoo\Event\EventDispatcher $eventDispatcher
      * @return void
      */

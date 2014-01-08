@@ -27,10 +27,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Log\Event;
+namespace Brickoo\Log;
 
 use Brickoo\Event\GenericEvent,
-    Brickoo\Log\Event\Events,
+    Brickoo\Log\Events,
     Brickoo\Validation\Argument;
 
 /**

@@ -27,21 +27,44 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Log\Event;
+namespace Brickoo\Tests\Log;
+
+use Brickoo\Log\Logger,
+    Brickoo\Log\LogEvent;
 
 /**
- * Events
+ * LogEventTest
  *
- * Holds the log events.
+ * Test suite for the LogEvent class.
+    * @see Brickoo\Log\LogEvent
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Events {
+class LogEventTest extends \PHPUnit_Framework_TestCase {
 
     /**
-     * Event for logging some data.
-     * @var string
+     * @covers Brickoo\Log\LogEvent::__construct
+     * @expectedException \InvalidArgumentException
      */
-    const LOG = "brickoo.event.log";
+    public function testConstructorInvalidSeverityThrowsException() {
+        $logEvent = new LogEvent([], "wrongType");
+    }
+
+    /**
+     * @covers Brickoo\Log\LogEvent::__construct
+     * @covers Brickoo\Log\LogEvent::getMessages
+     */
+    public function testGetMessages() {
+        $messages = ["first message", "second message"];
+        $logEvent = new LogEvent($messages, Logger::SEVERITY_ALERT);
+        $this->assertEquals($messages, $logEvent->getMessages());
+    }
+
+    /** @covers Brickoo\Log\LogEvent::getSeverity */
+    public function testGetSeverity() {
+        $severity = Logger::SEVERITY_EMERGENCY;
+        $logEvent = new LogEvent([], $severity);
+        $this->assertEquals($severity, $logEvent->getSeverity());
+    }
 
 }

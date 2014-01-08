@@ -42,15 +42,8 @@ use Brickoo\Cache\CacheProxy,
 
 class CacheProxyTest extends PHPUnit_Framework_TestCase {
 
-    /** @covers Brickoo\Cache\CacheProxy::__construct */
-    public function testConstructorInitializeTheProperties() {
-        $adapterPool = $this->getAdapterPoolIteratorStub();
-        $cacheProxy = new CacheProxy($adapterPool);
-        $this->assertAttributeEquals(null, "adapter", $cacheProxy);
-        $this->assertAttributeSame($adapterPool, "adapterPoolIterator", $cacheProxy);
-    }
-
     /**
+     * @covers Brickoo\Cache\CacheProxy::__construct
      * @covers Brickoo\Cache\CacheProxy::getByCallback
      * @covers Brickoo\Cache\CacheProxy::getAdapter
      * @covers Brickoo\Cache\CacheProxy::getReadyAdapter

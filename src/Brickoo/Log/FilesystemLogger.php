@@ -46,21 +46,21 @@ class FilesystemLogger implements Logger {
     private $severityDescription;
 
     /** @var \Brickoo\Filesystem\File */
-    private $fileObject;
+    private $file;
 
     /** @var string */
     private $logsDirectory;
 
     /**
     * Class constructor.
-    * @param \Brickoo\Filesystem\File $fileObject
+    * @param \Brickoo\Filesystem\File $file
     * @param string $logsDirectory the directory to store the log messages
     * @return void
     */
-    public function __construct(File $fileObject, $logsDirectory) {
+    public function __construct(File $file, $logsDirectory) {
         Argument::IsString($logsDirectory);
 
-        $this->fileObject = $fileObject;
+        $this->file = $file;
         $this->logsDirectory = rtrim($logsDirectory, "\\/") . DIRECTORY_SEPARATOR;
         $this->severityDescription = array(
             Logger::SEVERITY_EMERGENCY    => "Emergency",
@@ -85,8 +85,8 @@ class FilesystemLogger implements Logger {
         $logMessage = $this->convertToLogMessage($messages, $severity);
         $location = $this->logsDirectory . date("Y-m-d") . ".log";
 
-        $this->fileObject->open($location, "a")->write($logMessage);
-        $this->fileObject->close();
+        $this->file->open($location, "a")->write($logMessage);
+        $this->file->close();
     }
 
     /**
