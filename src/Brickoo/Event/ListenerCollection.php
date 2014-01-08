@@ -32,6 +32,7 @@ namespace Brickoo\Event;
 use Brickoo\Event\Listener,
     Brickoo\Event\ListenerQueue,
     Brickoo\Event\Exception\ListenerNotAvailableException,
+    Brickoo\Event\Exception\ListenersNotAvailableException,
     Brickoo\Validation\Argument;
 
 /**
@@ -156,9 +157,9 @@ class ListenerCollection {
      */
     private function removeListenerFromQueue($eventName, $listenerUID) {
         $ListenerQueue = $this->listenerQueues[$eventName];
-        $ListenerQueue->setExtractFlags(Queue::EXTR_BOTH);
+        $ListenerQueue->setExtractFlags(ListenerQueue::EXTR_BOTH);
 
-        $CleanedListenerQueue = new Queue();
+        $CleanedListenerQueue = new ListenerQueue();
         while ($ListenerQueue->valid()) {
             $listener = $ListenerQueue->extract();
             if ($listener["data"] != $listenerUID) {

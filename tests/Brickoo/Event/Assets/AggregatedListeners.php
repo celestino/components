@@ -1,15 +1,20 @@
 <?php
 
-    namespace Tests\Brickoo\Event\Assets;
+namespace Brickoo\Tests\Event\Assets;
 
-    use Brickoo\Event\Listener;
+use Brickoo\Event\Event,
+    Brickoo\Event\EventDispatcher,
+    Brickoo\Event\GenericListener,
+    Brickoo\Event\ListenerAggregate;
 
-    class AggregatedListeners implements \Brickoo\Event\Interfaces\ListenerAggregate {
+class AggregatedListeners implements ListenerAggregate {
 
-        public function attachListeners(\Brickoo\Event\Interfaces\Manager $EventManager) {
-            $EventManager->attach(new Listener('test.event', array($this, 'listenerCallback'), 123));
-        }
-
-        public function listenerCallback(\Brickoo\Event\Interfaces\Event $Event, Brickoo\Event\Interfaces\Manager $EventManager) {}
-
+    public function attachListeners(EventDispatcher $eventManager) {
+        $eventManager->attach(new GenericListener(
+            "test.event", 100, [$this, "listenerCallback"]
+        ));
     }
+
+    public function listenerCallback(Event $event, EventDispatcher $eventDispatcher) {}
+
+}

@@ -33,27 +33,37 @@ use Brickoo\Event\Event,
     Brickoo\Event\EventDispatcher,
     Brickoo\Event\Listener;
 
+
 /**
  * EventProcessor
  *
- * Implements an event processor for validating listeners
- * and executing the responsible listeners callbacks.
+ * Implements an event processor for listeners with conditions and executable callbacks.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
 class EventProcessor {
 
+    /** @var array */
+    private $responses;
+
     /**
-     * Handles the event by calling the corresponding listener.
-     * @param \Brickoo\Event\EventDispatcher $eventDispatcher
-     * @param \Brickoo\Event\Event $event the executed event
-     * @param \Brickoo\Event\Listener $listener the listener to execute
-     * @return mixed the event listener response or null if no response has been returned by the listener
+     * Process the event by calling the corresponding listener.
+     * @param \Brickoo\Event\EventDispatcher
+     * @param \Brickoo\Event\Event $event
+     * @param array instancesOf \Brickoo\Event\Listener $listeners
+     * @return array the event listeners responses
      */
-    public function handle(EventDispatcher $eventDispatcher, Event $event, Listener $listener) {
-        if ($this->hasValidCondition($eventDispatcher, $event, $listener)) {
-             return call_user_func_array($listener->getCallback(), array($event, $eventDispatcher));
+    public function process(EventDispatcher $eventDispatcher, Event $event, array $listeners) {
+        $this->responses = [];
+        foreach ($listeners as $listener) {
+            if ($this->isValidEventCondition($eventDispatcher, $event, $listener)) {
+                 $this->collectEventListenerResponse($eventDispatcher, $event, $listener);
+            }
+            if ($event->isStopped()) {
+                break;
+            }
         }
+        return $this->responses;
     }
 
     /**
@@ -63,11 +73,24 @@ class EventProcessor {
      * @param \Brickoo\Event\Listener $listener the listener to execute
      * @return boolean check result
      */
-    private function hasValidCondition(EventDispatcher $eventManager, Event $event, Listener $listener) {
+    private function isValidEventCondition(EventDispatcher $eventManager, Event $event, Listener $listener) {
         if (($condition = $listener->getCondition()) === null) {
             return true;
         }
         return (boolean)call_user_func_array($condition, array($event, $eventManager));
+    }
+
+    /**
+     * Returns the event listeners responses.
+     * @param \Brickoo\Event\EventDispatcher $evetnDispatcher
+     * @param \Brickoo\Event\Event $event
+     * @param \Brickoo\Event\Listener $listener
+     * @return mixed the returned response or array the collected responses
+     */
+    private function collectEventListenerResponse(EventDispatcher $eventDispatcher, Event $event, $listener) {
+        if ($response = call_user_func_array($listener->getCallback(), array($event, $eventDispatcher))) {
+            $this->responses[] = $response;
+        }
     }
 
 }

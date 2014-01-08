@@ -31,46 +31,22 @@ namespace Brickoo\Event;
 
 use Brickoo\Event\Event,
     Brickoo\Event\EventProcessor,
+    Brickoo\Event\EventRecursionDepthList,
     Brickoo\Event\Listener,
     Brickoo\Event\ListenerAggregate,
     Brickoo\Event\ListenerCollection,
     Brickoo\Event\ResponseCollection,
-    Brickoo\Event\Exception\InfiniteEventLoopException,
-    Brickoo\Memory\Container,
+    Brickoo\Event\Exception\MaxRecursionDepthReachedException,
     Brickoo\Validation\Argument;
 
 /**
  * EventDispatcher
  *
- * Implements methods for handling events and their listeners.
+ * Implements methods for dispatching events and handling event listeners.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
 class EventDispatcher {
-
-    /**
-     * Flag to call all event listeners.
-     * @var integer
-     */
-    const BEHAVIOUR_CALL_ALL_LISTENERS = 0;
-
-    /**
-     * Flag to call only the listener with the highest priority.
-     * @var integer
-     */
-    const BEHAVIOUR_CALL_ONLY_HIGHEST_PRIORITY_LISTENER = 1;
-
-    /**
-     * Flag to call listeners until a response (!null) is returned.
-     * @var integer
-     */
-    const BEHAVIOUR_CALL_UNTIL_LISTENER_RESPONSE = 2;
-
-    /**
-     * Flag to call all event listeners and collect responses (!null).
-     * @var integer
-     */
-    const BEHAVIOUR_CALL_ALL_LISTENERS_COLLECT_RESPONSES = 4;
 
     /** @var \Brickoo\Event\EventProcessor */
     private $processor;
@@ -78,8 +54,8 @@ class EventDispatcher {
     /** @var \Brickoo\Event\ListenerCollection */
     private $listenerCollection;
 
-    /** @var \Brickoo\Memory\Container */
-    private $eventList;
+    /** @var \Brickoo\Event\EventRecursionDepthList */
+    private $eventRecursionDepthList;
 
     /**
      * Class constructor.
@@ -87,18 +63,18 @@ class EventDispatcher {
      * a processor to process the event triggered and a list to remember running events.
      * @param \Brickoo\Event\EventProcessor $processor
      * @param \Brickoo\Event\ListenerCollection $listenerCollection
-     * @param \Brickoo\Memory\Container $eventList
+     * @param \Brickoo\Event\EventRecursionDepthList $eventRecursionDepthList
      * @return void
      */
-    public function __construct(EventProcessor $processor, ListenerCollection $listenerCollection, Container $eventList) {
+    public function __construct(EventProcessor $processor, ListenerCollection $listenerCollection, EventRecursionDepthList $eventRecursionDepthList) {
         $this->processor  = $processor;
         $this->listenerCollection = $listenerCollection;
-        $this->eventList = $eventList;
+        $this->eventRecursionDepthList = $eventRecursionDepthList;
     }
 
     /**
      * Adds a listener to an event.
-     * @param \Brickoo\Event\Listener $listener the listener to attach
+     * @param \Brickoo\Event\Listener $listener
      * @return string the listener unique identifier
      */
     public function attach(Listener $listener) {
@@ -130,105 +106,48 @@ class EventDispatcher {
     /**
      * Notify all event listeners.
      * @param \Brickoo\Event\Event $event the executed event
-     * @throws \Brickoo\Event\Exception\InfiniteEventLoopException
+     * @throws \Brickoo\Event\Exception\MaxRecursionDepthReachedException
      * @return \Brickoo\Event\EventDispatcher
      */
     public function notify(Event $event) {
-        $this->process($event, self::BEHAVIOUR_CALL_ALL_LISTENERS);
+        $this->dispatch($event);
         return $this;
-    }
-
-    /**
-     * Notifies the event with the highest priority.
-     * @param \Brickoo\Event\Event $event the executed event
-     * @throws \Brickoo\Event\Exception\InfiniteEventLoopException
-     * @return \Brickoo\Event\EventDispatcher
-     */
-    public function notifyOnce(Event $event) {
-        $this->process($event, self::BEHAVIOUR_CALL_ONLY_HIGHEST_PRIORITY_LISTENER);
-        return $this;
-    }
-
-    /**
-     * Asks all event listeners until one listener returns a response.
-     * @param \Brickoo\Event\Event $event the exectued
-     * @throws \Brickoo\Event\Exception\InfiniteEventLoopException
-     * @return \Brickoo\Event\ResponseCollection containing the response
-     */
-    public function ask(Event $event) {
-        return new ResponseCollection(
-            $this->process($event, self::BEHAVIOUR_CALL_UNTIL_LISTENER_RESPONSE)
-        );
     }
 
     /**
      * Collects all responses returned by the event listeners.
+     * If recursion is made the returned responses will be a
+     * response collection, the responses should be merged into one response collection.
      * @param \Brickoo\Event\Event $event
-     * @throws \Brickoo\Event\Exception\InfiniteEventLoopException
+     * @throws \Brickoo\Event\Exception\MaxRecursionDepthReachedException
      * @return \Brickoo\Event\ResponseCollection containing the collected responses
      */
     public function collect(Event $event) {
-        return new ResponseCollection(
-            $this->process($event, self::BEHAVIOUR_CALL_ALL_LISTENERS_COLLECT_RESPONSES)
-        );
+        return new ResponseCollection($this->dispatch($event));
     }
 
     /**
-     * Process the event by calling the event listeners with the requested behaviour.
+     * Process the event by calling the event listeners with the requested event.
      * @param \Brickoo\Event\Event $event the event to processed
-     * @param integer $behaviourControlFlag the behaviour control flag
-     * @throws \Brickoo\Event\Exception\InfiniteEventLoopException
-     * @return array the listener responses otherwise
+     * @param callable $condition the condition to execute after each listener response
+     * @throws \Brickoo\Event\Exception\MaxRecursionDepthReachedException
+     * @return array the listener responses
      */
-    private function process(Event $event, $behaviourControlFlag) {
+    private function dispatch(Event $event) {
         $eventName = $event->getName();
 
         if (! $this->listenerCollection->hasListeners($eventName)) {
             return [];
         }
 
-        if ($this->eventList->has($eventName)) {
-            throw new InfiniteEventLoopException($eventName);
+        if ($this->eventRecursionDepthList->isDepthLimitReached($eventName)) {
+            throw new MaxRecursionDepthReachedException($eventName, $this->eventRecursionDepthList->getRecursionDepth($eventName));
         }
 
-        $this->eventList->set($eventName, time());
-        $responses = $this->getEventListenersResponses($event, $behaviourControlFlag);
-        $this->eventList->delete($eventName);
-
+        $this->eventRecursionDepthList->increaseDepth($eventName);
+        $responses = $this->processor->process($this, $event, $this->listenerCollection->getListeners($eventName));
+        $this->eventRecursionDepthList->decreaseDepth($eventName);
         return $responses;
-    }
-
-    /**
-     * Returns the event listeners responses.
-     * @param \Brickoo\Event\Event $event the event to processed
-     * @param integer $behaviourControlFlag the behaviour control flag
-     * @return mixed the returned response or array the collected responses
-     */
-    private function getEventListenersResponses(Event $event, $behaviourControlFlag) {
-        $collectedResponses = [];
-
-        foreach ($this->listenerCollection->getListeners($event->getName()) as $listener) {
-            $response = $this->processor->handle($this, $event, $listener);
-
-            if ((($behaviourControlFlag & self::BEHAVIOUR_CALL_UNTIL_LISTENER_RESPONSE) == $behaviourControlFlag)
-                && ($response !== null)
-            ){
-                $collectedResponses[] = $response;
-                break;
-            }
-
-            if ($event->isStopped() || (($behaviourControlFlag & self::BEHAVIOUR_CALL_ONLY_HIGHEST_PRIORITY_LISTENER) == $behaviourControlFlag)) {
-                break;
-            }
-
-            if (($behaviourControlFlag & self::BEHAVIOUR_CALL_ALL_LISTENERS_COLLECT_RESPONSES) == $behaviourControlFlag
-                && ($response !== null)
-            ){
-                $collectedResponses[] = $response;
-            }
-        }
-
-        return $collectedResponses;
     }
 
 }

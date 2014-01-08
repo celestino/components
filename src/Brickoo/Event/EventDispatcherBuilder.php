@@ -31,8 +31,8 @@ namespace Brickoo\Event;
 
 use Brickoo\Event\EventDispatcher,
     Brickoo\Event\EventProcessor,
+    Brickoo\Event\EventRecursionDepthList,
     Brickoo\Event\ListenerCollection,
-    Brickoo\Memory\Container,
     Brickoo\Validation\Argument,
     Brickoo\Validation\Constraint\ContainsInstancesOfConstraint;
 
@@ -51,8 +51,8 @@ class EventDispatcherBuilder {
     /** @var \Brickoo\Event\ListenerCollection */
     private $listenerCollection;
 
-    /** @var \Brickoo\Memory\Container */
-    private $eventList;
+    /** @var \Brickoo\Event\EventRecursionDepthList */
+    private $eventRecursionDepthList;
 
     /** @var \Traversable|array */
     private $listeners;
@@ -86,12 +86,12 @@ class EventDispatcherBuilder {
     }
 
     /**
-     * Sets the event memory list dependency.
-     * @param \Brickoo\Memory\Container $eventList
+     * Sets the event recursion list dependency.
+     * @param \Brickoo\Event\EventRecursionDepthList $eventRecursionDepthList
      * @return \Brickoo\Event\EventDispatcherBuilder
      */
-    public function setEventList(Container $eventList) {
-        $this->eventList = $eventList;
+    public function setEventRecursionDepthList(EventRecursionDepthList $eventRecursionDepthList) {
+        $this->eventRecursionDepthList = $eventRecursionDepthList;
         return $this;
     }
 
@@ -104,7 +104,7 @@ class EventDispatcherBuilder {
     public function setListeners($listeners) {
         Argument::IsTraversable($listeners);
 
-        if (! (new ContainsInstancesOfConstraint("Brickoo\\Event\\Listener"))->matches($listeners)) {
+        if (! (new ContainsInstancesOfConstraint("\\Brickoo\\Event\\Listener"))->matches($listeners)) {
             throw new \InvalidArgumentException("The traversable must contain Event\\Listeners only.");
         }
 
@@ -149,15 +149,14 @@ class EventDispatcherBuilder {
     }
 
     /**
-     * Returns the configured memory event list dependency.
-     * If it does not exists it will be created using the framework implementation.
-     * @return \Brickoo\Memory\Container
+     * Returns the configured event recursion list dependency.
+     * @return \Brickoo\Event\EventRecursionDepthList
      */
     private function getEventList() {
-        if ($this->eventList === null) {
-            $this->eventList = new Container();
+        if ($this->eventRecursionDepthList === null) {
+            $this->eventRecursionDepthList = new EventRecursionDepthList();
         }
-        return $this->eventList;
+        return $this->eventRecursionDepthList;
     }
 
     /**

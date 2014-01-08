@@ -32,22 +32,23 @@ namespace Brickoo\Event\Exception;
 use Brickoo\Event\Exception;
 
 /**
- * InfiniteEventLoopException
+ * MaxRecursionDepthReachedException
  *
  * Throwed if an infinite event loop is detected.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class InfiniteEventLoopException extends Exception {
+class MaxRecursionDepthReachedException extends Exception {
 
     /**
      * Calls the parent exception constructor.
      * @param string $eventName the event which has an infinite loop
+     * @param integer $recursionDepth the max recursion depth reached
      * @param \Exception $previousException
      * @return void
      */
-    public function __construct($eventName, \Exception $previousException = null) {
-        parent::__construct(sprintf('The event `%s` has an infinite loop.', $eventName), 0, $previousException);
+    public function __construct($eventName, $recursionDepth, \Exception $previousException = null) {
+        parent::__construct(sprintf('The event `%s` reached a recursion depth of %d.', $eventName, $recursionDepth), 0, $previousException);
     }
 
 }

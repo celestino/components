@@ -80,13 +80,9 @@ class ResponseCollection implements \Countable {
 
     /**
      * Returns all listened responses.
-     * @throws \Brickoo\Event\Exception\ResponseNotAvailableException
      * @return array the collected responses
      */
     public function getAll() {
-        if ($this->isEmpty()) {
-            throw new ResponseNotAvailableException();
-        }
         return $this->responsesContainer;
     }
 

@@ -27,7 +27,7 @@
      * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      */
 
-    namespace Tests\Brickoo\Event\Builder;
+    namespace Brickoo\Tests\Event\Builder;
 
     use Brickoo\Event\Builder\EventManagerBuilder;
 

@@ -27,65 +27,39 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Event;
+namespace Brickoo\Tests\Event\Listener;
 
-use Brickoo\Event\Listener,
-    Brickoo\Validation\Argument;
+use Brickoo\Event\ListenerQueue,
+    PHPUnit_Framework_TestCase;
 
 /**
- * GenericListener
+ * ListenerQueueTest
  *
- * Implements a generic listener.
+ * Test suite for the ListenerQueue class.
+ * @see Brickoo\Event\ListenerQueue
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class GenericListener implements Listener {
+class ListenerQueueTest extends PHPUnit_Framework_TestCase {
 
-    private $eventName;
-
-    private $priority;
-
-    private $callback;
-
-    private $condition;
-
-    /**
-     * Class constructor.
-     * Initializes the event listener.
-     * @param string $eventName
-     * @param integer $priority
-     * @param callable $callback
-     * @param callable|null $condition
-     * @return void
-     */
-    public function __construct($eventName, $priority, callable $callback, callable $condition = null) {
-        Argument::IsString($eventName);
-        Argument::IsInteger($priority);
-
-        $this->eventName = $eventName;
-        $this->priority = $priority;
-        $this->callback = $callback;
-        $this->condition = $condition;
+    /** @covers Brickoo\Event\ListenerQueue::__construct */
+    public function testConstructor() {
+        $this->assertAttributeEquals(PHP_INT_MAX, 'serial', new ListenerQueue());
     }
 
-    /** {@inheritDoc} */
-    public function getEventName() {
-        return $this->eventName;
-    }
+    /** @covers Brickoo\Event\ListenerQueue::insert */
+    public function testInsertionOfQueuedValues() {
+        $listenerQueue = new ListenerQueue();
+        $listenerQueue->insert('A', 100);
+        $listenerQueue->insert('B', 100);
+        $listenerQueue->insert('C', 200);
 
-    /** {@inheritDoc} */
-    public function getPriority() {
-        return $this->priority;
-    }
-
-    /** {@inheritDoc} */
-    public function getCallback() {
-        return $this->callback;
-    }
-
-    /** {@inheritDoc} */
-    public function getCondition() {
-        return $this->condition;
+        $queue = clone $listenerQueue;
+        $values = array();
+        foreach ($queue as $value) {
+            $values[] = $value;
+        }
+        $this->assertEquals(array('C', 'A', 'B'), $values);
     }
 
 }
