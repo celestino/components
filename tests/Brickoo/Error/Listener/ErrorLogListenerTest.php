@@ -102,7 +102,7 @@ class ErrorLogListenerListenerTest extends PHPUnit_Framework_TestCase {
         $eventDispatcher = $this->getEventDispatcherStub();
         $eventDispatcher->expects($this->once())
                         ->method("notify")
-                        ->with($this->isInstanceOf("\\Brickoo\\Log\\Event\\LogEvent"))
+                        ->with($this->isInstanceOf("\\Brickoo\\Log\\LogEvent"))
                         ->will($this->returnValue($eventDispatcher));
 
         $errorLogListener = new ErrorLogListener();

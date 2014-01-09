@@ -34,7 +34,7 @@ use Brickoo\Error\Events,
     Brickoo\Event\Event,
     Brickoo\Event\EventDispatcher,
     Brickoo\Event\Listener,
-    Brickoo\Log\Event\LogEvent,
+    Brickoo\Log\LogEvent,
     Brickoo\Log\Logger;
 
 class ExceptionLogListener implements Listener {
