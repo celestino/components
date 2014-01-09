@@ -220,7 +220,7 @@ class SessionManager {
      * Checks if the session has been started.
      * If the session has been started something
      * is going wrong, throws an exception
-     * @throws Exceptions\SessionAlreadyStarted
+     * @throws \Brickoo\Session\Exception\SessionAlreadyStartedException
      * @return void
      */
     private function checkSessionStart() {
