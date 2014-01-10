@@ -29,7 +29,7 @@
 
 namespace Brickoo\Http;
 
-use Brickoo\Http\Header,
+use Brickoo\Http\HttpHeader,
     Brickoo\Http\Exception\HeaderNotFoundException,
     Brickoo\Memory\Container,
     Brickoo\Validation\Argument;
@@ -45,10 +45,10 @@ class MessageHeader extends Container {
 
     /**
      * Sets a header using the header name as storage key.
-     * @param \Brickoo\Http\Header $header
+     * @param \Brickoo\Http\HttpHeader $header
      * @return \Brickoo\Http\MessageHeader
      */
-    public function setHeader(Header $header) {
+    public function setHeader(HttpHeader $header) {
         $this->set($header->getName(), $header);
         return $this;
     }
@@ -68,7 +68,7 @@ class MessageHeader extends Container {
      * Returns the header by its name.
      * @param string $headerName
      * @throws \Brickoo\Http\Exception\HeaderNotFoundException
-     * @return \Brickoo\Http\Header
+     * @return \Brickoo\Http\HttpHeader
      */
     public function getHeader($headerName) {
         Argument::IsString($headerName);

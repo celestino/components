@@ -116,7 +116,7 @@ class HeaderResolver {
      * Returns the corresponding header instance.
      * @param string $headerName
      * @param string $headerValue
-     * @return \Brickoo\Http\Header
+     * @return \Brickoo\Http\HttpHeader
      */
     private function getHeader($headerName, $headerValue) {
         if ($this->hasMappingHeaderClass($headerName)) {

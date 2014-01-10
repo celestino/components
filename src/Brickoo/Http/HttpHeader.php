@@ -29,49 +29,30 @@
 
 namespace Brickoo\Http;
 
-use Brickoo\Http\MessageBody,
-    Brickoo\Http\MessageHeader;
-
 /**
- * ResponseSender
+ * HttpHeader
  *
- * Implements a default response sender using php output functions.
+ * Defines a http header.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
-class Message {
-
-    /** @var \Brickoo\Http\MessageHeader */
-    private $messageHeader;
-
-    /** @var \Brickoo\Http\MessageBody */
-    private $messageBody;
+interface HttpHeader {
 
     /**
-     * Class constructor.
-     * @param \Brickoo\Http\MessageHeader $messageHeader
-     * @param \Brickoo\Http\MessageBody $messageBody
-     * @return void
+     * Returns the header name.
+     * @return string the header name
      */
-    public function __construct(MessageHeader $messageHeader, MessageBody $messageBody) {
-        $this->messageHeader = $messageHeader;
-        $this->messageBody = $messageBody;
-    }
+    public function getName();
 
     /**
-     * Returns the message header.
-     * @return \Brickoo\Http\MessageHeader
+     * Returns the hader value.
+     * @return string the header value
      */
-    public function getHeader() {
-        return $this->messageHeader;
-    }
+    public function getValue();
 
     /**
-     * Returns the message body.
-     * @return \Brickoo\Http\MessageBody
+     * Returns a string representation of the header.
+     * @return string the string representation
      */
-    public function getBody() {
-        return $this->messageBody;
-    }
+    public function toString();
 
 }

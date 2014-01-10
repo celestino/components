@@ -29,58 +29,49 @@
 
 namespace Brickoo\Http;
 
-use Brickoo\Validation\Argument;
+use Brickoo\Http\MessageBody,
+    Brickoo\Http\MessageHeader;
 
 /**
- * Authority
+ * HttpMessage
  *
- * Implements the http uri authority part.
+ * Implements a http message.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class Authority {
 
-    /** @var string */
-    private $hostname;
+class HttpMessage {
 
-    /** @var integer */
-    private $portNumber;
+    /** @var \Brickoo\Http\MessageHeader */
+    private $messageHeader;
+
+    /** @var \Brickoo\Http\MessageBody */
+    private $messageBody;
 
     /**
      * Class constructor.
-     * @param string $hostname
-     * @param integer $portNumber
+     * @param \Brickoo\Http\MessageHeader $messageHeader
+     * @param \Brickoo\Http\MessageBody $messageBody
      * @return void
      */
-    public function __construct($hostname, $portNumber = 80) {
-        Argument::IsString($hostname);
-        Argument::IsInteger($portNumber);
-
-        $this->hostname = $hostname;
-        $this->portNumber = $portNumber;
+    public function __construct(MessageHeader $messageHeader, MessageBody $messageBody) {
+        $this->messageHeader = $messageHeader;
+        $this->messageBody = $messageBody;
     }
 
     /**
-     * Returns the hostname.
-     * @return string the hostname
+     * Returns the message header.
+     * @return \Brickoo\Http\MessageHeader
      */
-    public function getHostname() {
-        return $this->hostname;
+    public function getHeader() {
+        return $this->messageHeader;
     }
 
     /**
-     * Returns the port number.
-     * @return integer port number
+     * Returns the message body.
+     * @return \Brickoo\Http\MessageBody
      */
-    public function getPortNumber() {
-        return $this->portNumber;
-    }
-
-    /**
-     * Returns the authority string representation.
-     * @return string the authority representation
-     */
-    public function toString() {
-        return sprintf("%s:%d", $this->hostname, $this->portNumber);
+    public function getBody() {
+        return $this->messageBody;
     }
 
 }

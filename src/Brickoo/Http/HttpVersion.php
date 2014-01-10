@@ -33,13 +33,13 @@ use Brickoo\Http\Exception\InvalidHttpVersionException,
     Brickoo\Validation\Argument;
 
 /**
- * Version
+ * HttpVersion
  *
  * Describes the http version.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-Class Version {
+Class HttpVersion {
 
     /** http versions */
     const HTTP_1_0 = "HTTP/1.0";

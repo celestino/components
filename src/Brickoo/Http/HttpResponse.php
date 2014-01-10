@@ -29,19 +29,19 @@
 
 namespace Brickoo\Http;
 
-use Brickoo\Http\Message,
-    Brickoo\Http\Version,
+use Brickoo\Http\HttpMessage,
+    Brickoo\Http\HttpVersion,
     Brickoo\Http\Exception\StatusCodeUnknownException,
     Brickoo\Validation\Argument;
 
 /**
- * Response
+ * HttpResponse
  *
  * Implements a http response.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Response {
+class HttpResponse {
 
     /**
      * Holds the corresponding status code phrases.
@@ -100,21 +100,21 @@ class Response {
     /** @var integer */
     protected $status;
 
-    /** @var \Brickoo\Http\version */
+    /** @var \Brickoo\Http\HttpVersion */
     protected $version;
 
-    /** @var \Brickoo\Http\Message */
+    /** @var \Brickoo\Http\HttpMessage */
     protected $message;
 
     /**
      * Class constructor.
      * @param integer $status
-     * @param \Brickoo\Http\Version
-     * @param \Brickoo\Http\Message $message
+     * @param \Brickoo\Http\HttpVersion
+     * @param \Brickoo\Http\HttpMessage $message
      * @throws \Brickoo\Http\Exception\StatusCodeUnknown
      * @return void
      */
-    public function __construct($status, Version $version, Message $message) {
+    public function __construct($status, HttpVersion $version, HttpMessage $message) {
         Argument::IsInteger($status);
 
         if (! array_key_exists($status, $this->statusPhrases)) {
@@ -144,7 +144,7 @@ class Response {
 
     /**
      * Returns the response http version.
-     * @return \Brickoo\Http\Version
+     * @return \Brickoo\Http\HttpVersion
      */
     public function getVersion() {
         return $this->version;
@@ -152,7 +152,7 @@ class Response {
 
     /**
      * Returns the response message.
-     * @return \Brickoo\Http\Message
+     * @return \Brickoo\Http\HttpMessage
      */
     public function getMessage() {
         return $this->message;

@@ -29,13 +29,13 @@
 
     namespace Tests\Brickoo\Http;
 
-    use Brickoo\Http\Response;
+    use Brickoo\Http\HttpResponse;
 
     /**
      * ResponseTest
      *
      * Test suite for the Response class.
-     * @see Brickoo\Http\Response
+     * @see Brickoo\Http\HttpResponse
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */
 
@@ -50,7 +50,7 @@
             $status = 201;
             $version = "HTTP/1.1";
 
-            $Response = new Response($Header, $Body, $status, $version);
+            $Response = new HttpResponse($Header, $Body, $status, $version);
             $this->assertInstanceOf('Brickoo\Http\Interfaces\Response', $Response);
             $this->assertAttributeSame($Header, "Header", $Response);
             $this->assertAttributeSame($Body, "Body", $Response);
@@ -67,7 +67,7 @@
             $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
             $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
             $status = 999;
-            $Response = new Response($Header, $Body, $status);
+            $Response = new HttpResponse($Header, $Body, $status);
         }
 
         /**
@@ -77,7 +77,7 @@
             $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
             $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
 
-            $Response = new Response($Header, $Body);
+            $Response = new HttpResponse($Header, $Body);
             $this->assertSame($Header, $Response->getHeader());
         }
 
@@ -88,7 +88,7 @@
             $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
             $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
 
-            $Response = new Response($Header, $Body);
+            $Response = new HttpResponse($Header, $Body);
             $this->assertSame($Body, $Response->getBody());
         }
 
@@ -100,7 +100,7 @@
             $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
             $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
 
-            $Response = new Response($Header, $Body, $expectedStatus);
+            $Response = new HttpResponse($Header, $Body, $expectedStatus);
             $this->assertEquals($expectedStatus, $Response->getStatus());
         }
 
@@ -112,7 +112,7 @@
             $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
             $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
 
-            $Response = new Response($Header, $Body, 200, $expectedVersion);
+            $Response = new HttpResponse($Header, $Body, 200, $expectedVersion);
             $this->assertEquals($expectedVersion, $Response->getVersion());
         }
 
@@ -133,7 +133,7 @@
             $Body->expects($this->once())
                  ->method("send");
 
-            $Response = new Response($Header, $Body, 201, "HTTP/1.1");
+            $Response = new HttpResponse($Header, $Body, 201, "HTTP/1.1");
             $Response->send(function ($statusLine) {echo $statusLine. "\r\n";});
         }
 
@@ -156,7 +156,7 @@
                  ->method("getContent")
                  ->will($this->returnValue("test case content"));
 
-            $Response = new Response($Header, $Body, 200, "HTTP/1.1");
+            $Response = new HttpResponse($Header, $Body, 200, "HTTP/1.1");
             $this->assertEquals($expectedOutput, $Response->toString());
         }
 

@@ -29,7 +29,7 @@
 
 namespace Brickoo\Http\Header;
 
-use Brickoo\Http\Header,
+use Brickoo\Http\HttpHeader,
     Brickoo\Validation\Argument;
 
 /**
@@ -38,7 +38,7 @@ use Brickoo\Http\Header,
  * Implements a generic header.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class GenericHeader implements Header {
+class GenericHeader implements HttpHeader {
 
     /** @var string */
     protected $headerName;

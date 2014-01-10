@@ -31,7 +31,7 @@ namespace Brickoo\Http;
 
 use Brickoo\Http\MessageBody,
     Brickoo\Http\MessageHeader,
-    Brickoo\Http\Response;
+    Brickoo\Http\HttpResponse;
 
 /**
  * ResponseSender
@@ -44,11 +44,12 @@ class ResponseSender {
 
     /**
      * Sends the http response.
-     * @param \Brickoo\Http\Response
+     * @param \Brickoo\Http\HttpResponse
      * @param callable $callback this argument should only be used for testing purposes
      * @return void
      */
-    public function send(Response $response, $callback = null) {
+    public function send(HttpResponse $response, $callback = null) {
+        $this->checkStatusAllowsMessageBodyContent($response);
         $this->sendStatus(
             $response->getStatus(),
             $response->getStatusPhrase(),
@@ -99,4 +100,21 @@ class ResponseSender {
         ));
     }
 
+    /**
+     * Checks if the status code dooes allow message body content.
+     * @param \Brickoo\Http\HttpResponse $response
+     * @throws StatusCodeDoesNotAllowMessageBodyException
+     * @return \Brickoo\Http\ResponseSender
+     */
+    private function checkStatusAllowsMessageBodyContent(HttpResponse $response) {
+        $statusCode = $response->getStatus();
+        if ((($statusCode >= 100 && $statusCode <= 199)
+                || ($statusCode == 204)
+                || ($statusCode == 304))
+            && ($response->getBody()->getContent() != "")
+        ){
+            throw new StatusCodeDoesNotAllowMessageBodyException($statusCode);
+        }
+        return $this;
+    }
 }

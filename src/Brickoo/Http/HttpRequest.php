@@ -29,41 +29,41 @@
 
 namespace Brickoo\Http;
 
-use Brickoo\Http\Method,
-    Brickoo\Http\Message,
+use Brickoo\Http\HttpMethod,
+    Brickoo\Http\HttpMessage,
     Brickoo\Http\Uri,
-    Brickoo\Http\Version;
+    Brickoo\Http\HttpVersion;
 
 /**
- * Request
+ * HttpRequest
  *
  * Implements a http request.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Request {
+class HttpRequest {
 
-    /** @var \Brickoo\Http\Message */
+    /** @var \Brickoo\Http\HttpMessage */
     private $message;
 
     /** @var \Brickoo\Http\Uri */
     private $uri;
 
-    /** @var \Brickoo\Http\Method */
+    /** @var \Brickoo\Http\HttpMethod */
     private $method;
 
-    /** @var \Brickoo\Http\Version */
+    /** @var \Brickoo\Http\HttpVersion */
     private $version;
 
     /**
      * Class constructor.
-     * @param \Brickoo\Http\Method $method
-     * @param \Brickoo\Http\Version $version
+     * @param \Brickoo\Http\HttpMethod $method
+     * @param \Brickoo\Http\HttpVersion $version
      * @param \Brickoo\Http\Uri $uri
-     * @param \Brickoo\Http\Message $message
+     * @param \Brickoo\Http\HttpMessage $message
      * @return void
      */
-    public function __construct(Method $method, Version $version, Uri $uri, Message $message) {
+    public function __construct(HttpMethod $method, HttpVersion $version, Uri $uri, HttpMessage $message) {
         $this->method = $method;
         $this->version = $version;
         $this->uri = $uri;
@@ -80,7 +80,7 @@ class Request {
 
     /**
      * Returns the request query part.
-     * @return \Brickoo\Http\Query
+     * @return \Brickoo\Http\UriQuery
      */
     public function getQuery() {
         return $this->uri->getQuery();
@@ -88,7 +88,7 @@ class Request {
 
     /**
      * Returns the http method.
-     * @return \Brickoo\Http\Method
+     * @return \Brickoo\Http\HttpMethod
      */
     public function getMethod() {
         return $this->method;
@@ -96,7 +96,7 @@ class Request {
 
     /**
      * Returns the http version.
-     * @return \Brickoo\Http\Version
+     * @return \Brickoo\Http\HttpVersion
      */
     public function getVersion() {
         return $this->version;
@@ -104,7 +104,7 @@ class Request {
 
     /**
      * Returns the http message.
-     * @return \Brickoo\Http\Message
+     * @return \Brickoo\Http\HttpMessage
      */
     public function getMessage() {
         return $this->message;

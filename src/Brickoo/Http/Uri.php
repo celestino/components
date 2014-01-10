@@ -30,8 +30,8 @@
 
 namespace Brickoo\Http;
 
-use Brickoo\Http\Authority,
-    Brickoo\Http\Query,
+use Brickoo\Http\UriAuthority,
+    Brickoo\Http\UriQuery,
     Brickoo\Validation\Argument;
 
 /**
@@ -46,13 +46,13 @@ class Uri {
     /** @var string */
     private $scheme;
 
-    /** @var \Brickoo\Http\Authority */
+    /** @var \Brickoo\Http\UriAuthority */
     private $authority;
 
     /** @var string */
     private $path;
 
-    /** @var \Brickoo\Http\Query */
+    /** @var \Brickoo\Http\UriQuery */
     private $query;
 
     /** @var string */
@@ -61,13 +61,13 @@ class Uri {
     /**
      * Class constructor.
      * @param string $scheme the uri protocol scheme
-     * @param \Brickoo\Http\Authority $authority
+     * @param \Brickoo\Http\UriAuthority $authority
      * @param string $path the uri path
-     * @param \Brickoo\Http\Query $Query
+     * @param \Brickoo\Http\UriQuery $Query
      * @param string $fragment
      * @return void
      */
-    public function __construct($scheme, Authority $authority, $path, Query $query, $fragment) {
+    public function __construct($scheme, UriAuthority $authority, $path, UriQuery $query, $fragment) {
         Argument::IsString($scheme);
         Argument::IsString($path);
         Argument::IsString($fragment);
@@ -89,7 +89,7 @@ class Uri {
 
     /**
      * Returns the uri authority component.
-     * @return \Brickoo\Http\Authority
+     * @return \Brickoo\Http\UriAuthority
      */
     public function getAuthority() {
         return $this->authority;
@@ -105,7 +105,7 @@ class Uri {
 
     /**
      * Returns the uri query component.
-     * @return \Brickoo\Http\Query
+     * @return \Brickoo\Http\UriQuery
      */
     public function getQuery() {
         return $this->query;
