@@ -29,7 +29,7 @@
 
 namespace Brickoo\Routing\Matcher;
 
-use Brickoo\Http\Request,
+use Brickoo\Http\HttpRequest,
     Brickoo\Routing\Route,
     Brickoo\Routing\RouteCollection,
     Brickoo\Routing\RouteMatcher,
@@ -45,7 +45,7 @@ use Brickoo\Http\Request,
 
 class HttpRouteMatcher implements RouteMatcher {
 
-    /** @var \Brickoo\Http\Request */
+    /** @var \Brickoo\Http\HttpRequest */
     private $request;
 
     /** @var \Brickoo\Routing\RoutePathRegexGenerator */
@@ -59,11 +59,11 @@ class HttpRouteMatcher implements RouteMatcher {
 
     /**
      * Class constructor
-     * @param \Brickoo\Http\Request $request
+     * @param \Brickoo\Http\HttpRequest $request
      * @param \Brickoo\Routing\RoutePathRegexGenerator $regexGenerator
      * @return void
      */
-    public function __construct(Request $request, RoutePathRegexGenerator $regexGenerator) {
+    public function __construct(HttpRequest $request, RoutePathRegexGenerator $regexGenerator) {
         $this->request = $request;
         $this->regexGenerator = $regexGenerator;
     }
