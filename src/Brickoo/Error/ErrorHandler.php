@@ -29,8 +29,8 @@
 
 namespace Brickoo\Error;
 
-use Brickoo\Event\EventDispatcher,
-    Brickoo\Error\Event\ErrorEvent,
+use Brickoo\Messaging\MessageDispatcher,
+    Brickoo\Error\Message\ErrorMessage,
     Brickoo\Error\Exception\DuplicateHandlerRegistrationException,
     Brickoo\Error\Exception\ErrorOccurredException,
     Brickoo\Error\Exception\HandlerNotRegisteredException,
@@ -53,19 +53,19 @@ class ErrorHandler {
     /** @var boolean */
     private $isRegistered;
 
-    /** @var \Brickoo\Event\EventDispatcher */
-    private $eventDispatcher;
+    /** @var \Brickoo\Messaging\MessageDispatcher */
+    private $messageDispatcher;
 
     /**
      * Class constructor.
      * Initializes the error handler.
-     * @param \Brickoo\Event\EventDispatcher $eventDispatcher
+     * @param \Brickoo\Messaging\MessageDispatcher $messageDispatcher
      * @param boolean $convertToException flag to convert errors to exceptions
      * @return void
      */
-    public function __construct(EventDispatcher $eventDispatcher, $convertToException = true) {
+    public function __construct(MessageDispatcher $messageDispatcher, $convertToException = true) {
         Argument::IsBoolean($convertToException);
-        $this->eventDispatcher = $eventDispatcher;
+        $this->messageDispatcher = $messageDispatcher;
         $this->convertToException = $convertToException;
         $this->isRegistered = false;
     }
@@ -118,13 +118,12 @@ class ErrorHandler {
 
     /**
      * Handles the error reported by the user or system.
-     * Notifies a log event if the event manager ist set containing the exception message.
      * Converts the error to an exception if configured.
      * @param integer $errorCode the error code number
      * @param string $errorMessage the error message
      * @param string $errorFile the error file name
      * @param integer $errorLine the error line number
-     * @throws \Brickoo\Error\Exception\ErrorOccurredException if the instance is configured to todo
+     * @throws \Brickoo\Error\Exception\ErrorOccurredException
      * @return boolean true to block php error message forwarding
      */
     public function handleError($errorCode, $errorMessage, $errorFile, $errorLine) {
@@ -132,7 +131,7 @@ class ErrorHandler {
         if ($this->convertToException) {
             throw new ErrorOccurredException($message, $errorCode);
         }
-        $this->eventDispatcher->notify(new ErrorEvent($message));
+        $this->messageDispatcher->dispatch(new ErrorMessage($message));
         return true;
     }
 

@@ -30,16 +30,16 @@
 namespace Brickoo\Routing;
 
 /**
- * Events
+ * Messages
  *
  * Holds the routing events.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Events {
+class Messages {
 
     /**
-     * Event asking for collectable routing routes.
+     * Message asking for collectable routing routes.
      * @var string
      */
     const COLLECT_ROUTES = 'brickoo.routing.collect.routes';

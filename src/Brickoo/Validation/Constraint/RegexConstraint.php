@@ -33,7 +33,7 @@ use Brickoo\Validation\Constraint,
     Brickoo\Validation\Argument;
 
 /**
- * MatchesRegex
+ * RegexConstraint
  *
  * Constraint to assert that a string matches a regular expression.
  * @author Celestino Diaz <celestino.diaz@gmx.de>

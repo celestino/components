@@ -42,22 +42,23 @@ use Brickoo\Error\ErrorHandler,
 
 class ErrorHandlerTest extends PHPUnit_Framework_TestCase {
 
-    /** @covers Brickoo\Error\ErrorHandler::__construct */
-    public function testConstructorInitializesProperties() {
-        $eventDispatcher = $this->getEventDispatcherStub();
-        $errorHandler = new ErrorHandler($eventDispatcher, true);
-        $this->assertAttributeSame($eventDispatcher, "eventDispatcher", $errorHandler);
-        $this->assertAttributeEquals(true, "convertToException", $errorHandler);
-        $this->assertAttributeEquals(false, "isRegistered", $errorHandler);
+    /**
+     * @covers Brickoo\Error\ErrorHandler::__construct
+     * @expectedException \InvalidArgumentException
+     */
+    public function testConstructor() {
+        $messageDispatcher = $this->getMessageDispatcherStub();
+        $errorHandler = new ErrorHandler($messageDispatcher, "wrongType");
     }
 
     /**
+     * @covers Brickoo\Error\ErrorHandler::__construct
      * @covers Brickoo\Error\ErrorHandler::register
      * @covers Brickoo\Error\ErrorHandler::isRegistered
      * @covers Brickoo\Error\ErrorHandler::unregister
      */
     public function testRegisterAndUnregisterProcess() {
-        $errorHandler = new ErrorHandler($this->getEventDispatcherStub());
+        $errorHandler = new ErrorHandler($this->getMessageDispatcherStub());
         $this->assertSame($errorHandler, $errorHandler->register());
         $this->assertAttributeEquals(true, "isRegistered", $errorHandler);
         $this->assertSame($errorHandler, $errorHandler->unregister());
@@ -70,7 +71,7 @@ class ErrorHandlerTest extends PHPUnit_Framework_TestCase {
      * @expectedException Brickoo\Error\Exception\DuplicateHandlerRegistrationException
      */
     public function testRegisterDuplicateRegistrationThrowsException() {
-        $errorHandler = new ErrorHandler($this->getEventDispatcherStub());
+        $errorHandler = new ErrorHandler($this->getMessageDispatcherStub());
         $errorHandler->register();
         $errorHandler->register();
         $errorHandler->unregister();
@@ -82,19 +83,19 @@ class ErrorHandlerTest extends PHPUnit_Framework_TestCase {
      * @expectedException Brickoo\Error\Exception\HandlerNotRegisteredException
      */
     public function testUnregisterNotRegisteredHandlerThrowsException() {
-        $errorHandler = new ErrorHandler($this->getEventDispatcherStub());
+        $errorHandler = new ErrorHandler($this->getMessageDispatcherStub());
         $errorHandler->unregister();
     }
 
     /** @covers Brickoo\Error\ErrorHandler::handleError */
-    public function testHandleErrorEventNotification() {
-        $eventDispatcher = $this->getEventDispatcherStub();
-        $eventDispatcher->expects($this->once())
-                        ->method("notify")
-                        ->with($this->isInstanceOf("\\Brickoo\\Error\\Event\\ErrorEvent"))
+    public function testHandleErrorMessageNotification() {
+        $messageDispatcher = $this->getMessageDispatcherStub();
+        $messageDispatcher->expects($this->once())
+                        ->method("dispatch")
+                        ->with($this->isInstanceOf("\\Brickoo\\Error\\Message\\ErrorMessage"))
                         ->will($this->returnValue(null));
 
-        $errorHandler = new ErrorHandler($eventDispatcher, false);
+        $errorHandler = new ErrorHandler($messageDispatcher, false);
         $errorHandler->handleError(\E_ALL, "message", "file", 0);
     }
 
@@ -104,13 +105,13 @@ class ErrorHandlerTest extends PHPUnit_Framework_TestCase {
      * @expectedException Brickoo\Error\Exception\ErrorOccurredException
      */
     public function testHandleErrorConvertingToException() {
-        $errorHandler = new ErrorHandler($this->getEventDispatcherStub(), true);
+        $errorHandler = new ErrorHandler($this->getMessageDispatcherStub(), true);
         $errorHandler->handleError(\E_ALL, "message", "file", 0);
     }
 
     /** @covers Brickoo\Error\ErrorHandler::__destruct */
     public function testDestructorUnregister() {
-        $errorHandler = new ErrorHandler($this->getEventDispatcherStub());
+        $errorHandler = new ErrorHandler($this->getMessageDispatcherStub());
         $errorHandler->register();
         $errorHandler->__destruct();
         $this->assertAttributeEquals(false, "isRegistered", $errorHandler);
@@ -118,10 +119,10 @@ class ErrorHandlerTest extends PHPUnit_Framework_TestCase {
 
     /**
      * Returns an event manager stub.
-     * @return \Brickoo\Event\EventDispatcher
+     * @return \Brickoo\Messaging\MessageDispatcher
      */
-    private function getEventDispatcherStub() {
-        return $this->getMockBuilder("\\Brickoo\\Event\\EventDispatcher")
+    private function getMessageDispatcherStub() {
+        return $this->getMockBuilder("\\Brickoo\\Messaging\\MessageDispatcher")
             ->disableOriginalConstructor()
             ->getMock();
     }

@@ -80,6 +80,11 @@ Class HttpMethod {
         return $this->method;
     }
 
+    /**
+     * Checks if the method is valid.
+     * @param string $method
+     * @return boolean result
+     */
     private function isValid($method) {
         return defined("static::".$method);
     }

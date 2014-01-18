@@ -29,16 +29,16 @@
 
 namespace Brickoo\Error;
 
-use Brickoo\Error\Event\ExceptionEvent,
+use Brickoo\Error\Message\ExceptionMessage,
     Brickoo\Error\Exception\DuplicateHandlerRegistrationException,
     Brickoo\Error\Exception\HandlerNotRegisteredException,
-    Brickoo\Event\EventDispatcher;
+    Brickoo\Messaging\MessageDispatcher;
 
 /**
  * ExceptionHandler
  *
  * Handles user defined or system exception.
- * Exceptions can be logged through the log event which is triggered if exceptions occured.
+ * Exceptions can be logged through the log message which is triggered if exceptions occured.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -47,16 +47,16 @@ class ExceptionHandler {
     /** @var boolean */
     private $isRegistered;
 
-    /** @var \Brickoo\Event\EventDispatcher */
-    private $eventDispatcher;
+    /** @var \Brickoo\Messaging\MessageDispatcher */
+    private $messageDispatcher;
 
     /**
      * Class constructor.
-     * @param \Brickoo\Event\EventDispatcher $eventDispatcher
+     * @param \Brickoo\Messaging\MessageDispatcher $messageDispatcher
      * @return void
      */
-    public function __construct(EventDispatcher $eventDispatcher) {
-        $this->eventDispatcher = $eventDispatcher;
+    public function __construct(MessageDispatcher $messageDispatcher) {
+        $this->messageDispatcher = $messageDispatcher;
         $this->isRegistered = false;
     }
 
@@ -108,12 +108,12 @@ class ExceptionHandler {
 
     /**
      * Handles the exception throwed by the user or system.
-     * Notifies a log event containing the exception message.
+     * Dispatch a log message containing the exception message.
      * @param \Exception $Exception the exception throwed
      * @return \Brickoo\Error\ExceptionHandler
      */
     public function handleException(\Exception $exception) {
-        $this->eventDispatcher->notify(new ExceptionEvent($exception));
+        $this->messageDispatcher->dispatch(new ExceptionMessage($exception));
         return $this;
     }
 

@@ -11,7 +11,18 @@
     bootstrap="bootstrap.php">
     <testsuites>
         <testsuite name="BrickOO Test Suite">
-            <directory>./Brickoo</directory>
+            <directory>./Brickoo/Autoloader</directory>
+            <directory>./Brickoo/Cache</directory>
+            <directory>./Brickoo/Error</directory>
+            <directory>./Brickoo/Messaging</directory>
+            <directory>./Brickoo/Filesystem</directory>
+            <directory>./Brickoo/Http</directory>
+            <directory>./Brickoo/Log</directory>
+            <directory>./Brickoo/Memory</directory>
+            <directory>./Brickoo/Network</directory>
+            <directory>./Brickoo/Session</directory>
+            <directory>./Brickoo/Template</directory>
+            <directory>./Brickoo/Validation</directory>
         </testsuite>
     </testsuites>
     <filter>

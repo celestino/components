@@ -35,7 +35,7 @@ use ArrayIterator,
 
 
 /**
- * EventRouteCollector
+ * CallbackRouteCollector
  *
  * Implementation of a route collection based on callback call.
  * @author Celestino Diaz <celestino.diaz@gmx.de>

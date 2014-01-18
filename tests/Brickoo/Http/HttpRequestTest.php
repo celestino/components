@@ -27,9 +27,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Tests\Brickoo\Http;
+namespace Brickoo\Tests\Http;
 
-use Brickoo\Http\HttpRequest,
+use Brickoo\Http\HttpMethod,
+    Brickoo\Http\HttpRequest,
+    Brickoo\Http\HttpVersion,
     PHPUnit_Framework_TestCase;
 
 /**
@@ -44,183 +46,219 @@ class HttpRequestTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Http\HttpRequest::__construct
-     * @covers Brickoo\Http\HttpRequest::getHeader
-     */
-    public function testGetHeaderDependency() {
-        $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
-        $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
-        $Uri = $this->getMock('\Brickoo\Http\HttpRequest\Interfaces\Uri');
-
-        $Request = new HttpRequest($Header, $Body, $Uri);
-        $this->assertSame($Header, $Request->getHeader());
-    }
-
-    /**
-     * @covers Brickoo\Http\HttpRequest::getBody
-     */
-    public function testGetBodyDependency() {
-        $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
-        $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
-        $Uri = $this->getMock('\Brickoo\Http\HttpRequest\Interfaces\Uri');
-
-        $Request = new HttpRequest($Header, $Body, $Uri);
-        $this->assertSame($Body, $Request->getBody());
-    }
-
-    /**
      * @covers Brickoo\Http\HttpRequest::getUri
      */
-    public function testGetUriDependency() {
-        $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
-        $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
-        $Uri = $this->getMock('\Brickoo\Http\HttpRequest\Interfaces\Uri');
-
-        $Request = new HttpRequest($Header, $Body, $Uri);
-        $this->assertSame($Uri, $Request->getUri());
+    public function testGetUri() {
+        $uri = $this->getHttpUriStub();
+        $httpRequest = new HttpRequest(
+            $this->getHttpMethodStub(),
+            $this->getHttpVersionStub(),
+            $uri,
+            $this->getHttpMessageStub()
+        );
+        $this->assertSame($uri, $httpRequest->getUri());
     }
 
-    /**
-     * @covers Brickoo\Http\HttpRequest::getQuery
-     */
-    public function testGetQuery() {
-        $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
-        $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
-
-        $Query = $this->getMock('Brickoo\Http\HttpRequest\Interfaces\Query');
-        $Uri = $this->getMock('\Brickoo\Http\HttpRequest\Interfaces\Uri');
-        $Uri->expects($this->once())
+    /** @covers Brickoo\Http\HttpRequest::getQuery */
+    public function testGetUriQuery() {
+        $query = $this->getMock("\\Brickoo\\Http\\UriQuery");
+        $uri = $this->getHttpUriStub();
+        $uri->expects($this->once())
             ->method("getQuery")
-            ->will($this->returnValue($Query));
-
-        $Request = new HttpRequest($Header, $Body, $Uri);
-        $this->assertSame($Query, $Request->getQuery());
+            ->will($this->returnValue($query));
+        $httpRequest = new HttpRequest(
+            $this->getHttpMethodStub(),
+            $this->getHttpVersionStub(),
+            $uri,
+            $this->getHttpMessageStub()
+        );
+        $this->assertSame($query, $httpRequest->getQuery());
     }
 
-    /**
-     * @covers Brickoo\Http\HttpRequest::getMethod
-     */
+    /** @covers Brickoo\Http\HttpRequest::getMethod */
     public function testGetMethod() {
-        $Request = $this->getRequestFixture();
-        $this->assertEquals("GET", $Request->getMethod());
+        $method = $this->getHttpMethodStub();
+        $httpRequest = new HttpRequest(
+            $method,
+            $this->getHttpVersionStub(),
+            $this->getHttpUriStub(),
+            $this->getHttpMessageStub()
+        );
+        $this->assertSame($method, $httpRequest->getMethod());
     }
 
-    /**
-     * @covers Brickoo\Http\HttpRequest::getMethod
-     */
-    public function testGetMethodFromGlobalServerValue() {
-        $_SERVER["REQUEST_METHOD"] = "POST";
-
-        $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
-        $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
-        $Uri = $this->getMock('\Brickoo\Http\HttpRequest\Interfaces\Uri');
-
-        $Request = new HttpRequest($Header, $Body, $Uri);
-        $this->assertEquals("POST", $Request->getMethod());
-    }
-
-    /**
-     * @covers Brickoo\Http\HttpRequest::getVersion
-     */
+    /** @covers Brickoo\Http\HttpRequest::getVersion */
     public function testGetVersion() {
-        $Request = $this->getRequestFixture();
-        $this->assertEquals(HttpRequest::HTTP_VERSION_1_1, $Request->getVersion());
+        $version = $this->getHttpVersionStub();
+        $httpRequest = new HttpRequest(
+            $this->getHttpMethodStub(),
+            $version,
+            $this->getHttpUriStub(),
+            $this->getHttpMessageStub()
+        );
+        $this->assertSame($version, $httpRequest->getVersion());
     }
 
-    /**
-     * @covers Brickoo\Http\HttpRequest::getVersion
-     */
-    public function testGetVersionFromGlobalServerValue() {
-        $_SERVER["SERVER_PROTOCOL"] = HttpRequest::HTTP_VERSION_1;
-
-        $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
-        $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
-        $Uri = $this->getMock('\Brickoo\Http\HttpRequest\Interfaces\Uri');
-
-        $Request = new HttpRequest($Header, $Body, $Uri);
-        $this->assertEquals(HttpRequest::HTTP_VERSION_1, $Request->getVersion());
+    /** @covers Brickoo\Http\HttpRequest::getMessage */
+    public function testGetMessage() {
+        $message = $this->getHttpMessageStub();
+        $httpRequest = new HttpRequest(
+            $this->getHttpMethodStub(),
+            $this->getHttpVersionStub(),
+            $this->getHttpUriStub(),
+            $message
+        );
+        $this->assertSame($message, $httpRequest->getMessage());
     }
 
-    /**
-     * @covers Brickoo\Http\HttpRequest::getServerVar
-     */
-    public function testGetServerVariable() {
-        $_SERVER["UNIT"] = "TEST";
-        $Request = $this->getRequestFixture();
-        $this->assertEquals("TEST", $Request->getServerVar("UNIT"));
+    /** @covers Brickoo\Http\HttpRequest::getHeader */
+    public function testGetHeader() {
+        $header = $this->getHttpMessageHeaderStub();
+        $message = $this->getHttpMessageStub();
+        $message->expects($this->once())
+                ->method("getHeader")
+                ->will($this->returnValue($header));
+        $httpRequest = new HttpRequest(
+            $this->getHttpMethodStub(),
+            $this->getHttpVersionStub(),
+            $this->getHttpUriStub(),
+            $message
+        );
+        $this->assertSame($header, $httpRequest->getHeader());
     }
 
-    /**
-     * @covers Brickoo\Http\HttpRequest::getServerVar
-     */
-    public function testGetServerVariableDefaultValue() {
-        $Request = $this->getRequestFixture();
-        $this->assertEquals("TEST", $Request->getServerVar("UNIT", "TEST"));
+    /** @covers Brickoo\Http\HttpRequest::getBody */
+    public function testGetBody() {
+        $body = $this->getHttpMessageBodyStub();
+        $message = $this->getHttpMessageStub();
+        $message->expects($this->once())
+                ->method("getBody")
+                ->will($this->returnValue($body));
+        $httpRequest = new HttpRequest(
+            $this->getHttpMethodStub(),
+            $this->getHttpVersionStub(),
+            $this->getHttpUriStub(),
+            $message
+        );
+        $this->assertSame($body, $httpRequest->getBody());
     }
 
-    /**
-     * @covers Brickoo\Http\HttpRequest::toString
-     */
+    /** @covers Brickoo\Http\HttpRequest::toString */
     public function testRequestToString() {
-        $method = "GET";
-        $version = HttpRequest::HTTP_VERSION_1_1;
+        $methodString = HttpMethod::GET;
+        $versionString = HttpVersion::HTTP_1_1;
         $bodyString = "test content";
         $headerString = "UNIT: TEST";
         $queryString = "key=value1";
         $urlPath = "/path/to/script";
 
-        $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
-        $Header->expects($this->any())
+        $method = $this->getHttpMethodStub();
+        $method->expects($this->any())
+               ->method("toString")
+               ->will($this->returnValue($methodString));
+
+        $version = $this->getHttpVersionStub();
+        $version->expects($this->any())
+                ->method("toString")
+                ->will($this->returnValue($versionString));
+
+        $header = $this->getHttpMessageHeaderStub();
+        $header->expects($this->any())
                ->method("toString")
                ->will($this->returnValue($headerString));
 
-        $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
-        $Body->expects($this->any())
+        $body = $this->getMock("\\Brickoo\\Http\\MessageBody");
+        $body->expects($this->any())
              ->method("getContent")
              ->will($this->returnValue($bodyString));
 
-        $Query = $this->getMock('Brickoo\Http\HttpRequest\Interfaces\Query');
-        $Query->expects($this->any())
+        $message = $this->getHttpMessageStub();
+        $message->expects($this->any())
+                ->method("getHeader")
+                ->will($this->returnValue($header));
+        $message->expects($this->any())
+                ->method("getBody")
+                ->will($this->returnValue($body));
+
+        $query = $this->getMock("\\Brickoo\\Http\\UriQuery");
+        $query->expects($this->any())
               ->method("toString")
               ->will($this->returnValue($queryString));
 
-        $Uri = $this->getMock('\Brickoo\Http\HttpRequest\Interfaces\Uri');
-        $Uri->expects($this->any())
+        $uri = $this->getHttpUriStub();
+        $uri->expects($this->any())
             ->method("getQuery")
-            ->will($this->returnValue($Query));
-        $Uri->expects($this->any())
+            ->will($this->returnValue($query));
+        $uri->expects($this->any())
             ->method("getPath")
             ->will($this->returnValue($urlPath));
 
-        $expectedValue = sprintf(
-            "%s %s %s\r\n", $method, $urlPath ."?". $queryString, $version
+
+        $expectedValue = sprintf("%s %s %s\r\n",
+            $methodString, $urlPath ."?". $queryString, $versionString
         );
         $expectedValue .= $headerString ."\r\n\r\n". $bodyString;
 
-        $Request = new HttpRequest($Header, $Body, $Uri, $method, $version);
+        $Request = new HttpRequest($method, $version, $uri, $message);
         $this->assertEquals($expectedValue, $Request->toString());
     }
 
     /**
-     * Returns a http request fixture.
-     * @return \Brickoo\Http\HttpRequest
+     * Returns a http method stub.
+     * @return \Brickoo\Http\HttpMethod
      */
-    private function getRequestFixture() {
-        $Header = $this->getMock('Brickoo\Http\Message\Interfaces\Header');
-        $Body = $this->getMock('Brickoo\Http\Message\Interfaces\Body');
-        $Uri = $this->getMock('\Brickoo\Http\HttpRequest\Interfaces\Uri');
-        $method = "GET";
-        $version = HttpRequest::HTTP_VERSION_1_1;
-
-        return new HttpRequest($Header, $Body, $Uri, $method, $version);
-
+    private function getHttpMethodStub() {
+        return $this->getMockBuilder("\\Brickoo\\Http\\HttpMethod")
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     /**
-     *
-     * @return \Brickoo\Http\HttpMetho
+     * Returns a http version stub.
+     * @return \Brickoo\Http\HttpVersion
      */
-    private function getHttpMethod() {
-        return $this->getMockBuilder("\\Brickoo\\Http\\HttpMethod")
+    private function getHttpVersionStub() {
+        return $this->getMockBuilder("\\Brickoo\\Http\\HttpVersion")
+            ->disableOriginalConstructor()
+            ->getMock();
+    }
+
+    /**
+     * Returns a http uri stub.
+     * @return \Brickoo\Http\Uri
+     */
+    private function getHttpUriStub() {
+        return $this->getMockBuilder("\\Brickoo\\Http\\Uri")
+            ->disableOriginalConstructor()
+            ->getMock();
+    }
+
+    /**
+     * Returns a http message stub.
+     * @return \Brickoo\Http\HttpMessage
+     */
+    private function getHttpMessageStub() {
+        return $this->getMockBuilder("\\Brickoo\\Http\\HttpMessage")
+            ->disableOriginalConstructor()
+            ->getMock();
+    }
+
+    /**
+     * Returns a http message header stub.
+     * @return \Brickoo\Http\MessageHeader
+     */
+    private function getHttpMessageHeaderStub() {
+        return $this->getMockBuilder("\\Brickoo\\Http\\MessageHeader")
+            ->disableOriginalConstructor()
+            ->getMock();
+    }
+
+    /**
+     * Returns a http message body stub.
+     * @return \Brickoo\Http\MessageBody
+     */
+    private function getHttpMessageBodyStub() {
+        return $this->getMockBuilder("\\Brickoo\\Http\\MessageBody")
             ->disableOriginalConstructor()
             ->getMock();
     }

@@ -42,20 +42,14 @@ use Brickoo\Error\ExceptionHandler,
 
 class ExceptionHandlerTest extends PHPUnit_Framework_TestCase {
 
-    /** @covers Brickoo\Error\ExceptionHandler::__construct */
-    public function testExceptionHandlerConstructor() {
-        $eventDispatcher = $this->getEventDispatcherStub();
-        $exceptionHandler = new ExceptionHandler($eventDispatcher);
-        $this->assertAttributeSame($eventDispatcher, "eventDispatcher", $exceptionHandler);
-    }
-
     /**
+     * @covers Brickoo\Error\ExceptionHandler::__construct
      * @covers Brickoo\Error\ExceptionHandler::register
      * @covers Brickoo\Error\ExceptionHandler::isRegistered
      * @covers Brickoo\Error\ExceptionHandler::unregister
      */
     public function testRegisterAndUnregisterProcess() {
-        $exceptionHandler = new ExceptionHandler($this->getEventDispatcherStub());
+        $exceptionHandler = new ExceptionHandler($this->getMessageDispatcherStub());
         $this->assertSame($exceptionHandler, $exceptionHandler->register());
         $this->assertAttributeEquals(true, "isRegistered", $exceptionHandler);
         $this->assertSame($exceptionHandler, $exceptionHandler->unregister());
@@ -68,7 +62,7 @@ class ExceptionHandlerTest extends PHPUnit_Framework_TestCase {
      * @expectedException Brickoo\Error\Exception\DuplicateHandlerRegistrationException
      */
     public function testRegisterDuplicateRegistrationException() {
-        $exceptionHandler = new ExceptionHandler($this->getEventDispatcherStub());
+        $exceptionHandler = new ExceptionHandler($this->getMessageDispatcherStub());
         $exceptionHandler->register();
         $exceptionHandler->register();
         $exceptionHandler->unregister();
@@ -80,25 +74,25 @@ class ExceptionHandlerTest extends PHPUnit_Framework_TestCase {
      * @expectedException Brickoo\Error\Exception\HandlerNotRegisteredException
      */
     public function testUnregisterNotregisteredHandlerThrowsException() {
-        $exceptionHandler = new ExceptionHandler($this->getEventDispatcherStub());
+        $exceptionHandler = new ExceptionHandler($this->getMessageDispatcherStub());
         $exceptionHandler->unregister();
     }
 
     /** @covers Brickoo\Error\ExceptionHandler::handleException */
-    public function testHandleExceptionExecutesEventNotification() {
-        $eventDispatcher = $this->getEventDispatcherStub();
-        $eventDispatcher->expects($this->once())
-                     ->method("notify")
-                     ->with($this->isInstanceOf("\\Brickoo\\Error\\Event\\ExceptionEvent"))
+    public function testHandleExceptionExecutesMessageNotification() {
+        $messageDispatcher = $this->getMessageDispatcherStub();
+        $messageDispatcher->expects($this->once())
+                     ->method("dispatch")
+                     ->with($this->isInstanceOf("\\Brickoo\\Error\\Message\\ExceptionMessage"))
                      ->will($this->returnValue(null));
 
-        $exceptionHandler = new ExceptionHandler($eventDispatcher);
+        $exceptionHandler = new ExceptionHandler($messageDispatcher);
         $exceptionHandler->handleException(new \Exception("test case exception throwed", 123));
     }
 
     /** @covers Brickoo\Error\ExceptionHandler::__destruct */
     public function testDestructorUnregister() {
-        $exceptionHandler = new ExceptionHandler($this->getEventDispatcherStub());
+        $exceptionHandler = new ExceptionHandler($this->getMessageDispatcherStub());
         $exceptionHandler->register();
         $exceptionHandler->__destruct();
         $this->assertAttributeEquals(false, "isRegistered", $exceptionHandler);
@@ -106,10 +100,10 @@ class ExceptionHandlerTest extends PHPUnit_Framework_TestCase {
 
     /**
      * Returns an event manager stub.
-     * @return \Brickoo\Event\EventDispatcher
+     * @return \Brickoo\Messaging\MessageDispatcher
      */
-    private function getEventDispatcherStub() {
-        return $this->getMockBuilder("\\Brickoo\\Event\\EventDispatcher")
+    private function getMessageDispatcherStub() {
+        return $this->getMockBuilder("\\Brickoo\\Messaging\\MessageDispatcher")
             ->disableOriginalConstructor()
             ->getMock();
     }

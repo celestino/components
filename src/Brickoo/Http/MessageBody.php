@@ -74,13 +74,4 @@ class MessageBody {
         return $this;
     }
 
-    /**
-     * Imports the content from input source.
-     * @return \Brickoo\Http\Message\MessageBody
-     */
-    public function importFromInput() {
-        $this->content = file_get_contents("php://input");
-        return $this;
-    }
-
 }
