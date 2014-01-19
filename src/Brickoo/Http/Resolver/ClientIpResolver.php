@@ -53,7 +53,7 @@ class ClientIpResolver {
      * Class constructor.
      * @param \Brickoo\Http\MessageHeader $headers
      * @param array $serverVars the server variables
-     * @param array $proxyServers the reverse proxys to recognize
+     * @param array $proxyServers the proxies to recognize
      * @return void
      */
     public function __construct(MessageHeader $headers, array $serverVars = [], array $proxyServers =  array()) {
@@ -78,7 +78,7 @@ class ClientIpResolver {
             }
 
             if ($this->headers->hasHeader("Client-Ip")
-                && ($headerClientIp = $this->headers->getHeader("Client-Ip"))
+                && ($headerClientIp = $this->headers->getHeader("Client-Ip")->getValue())
                 && filter_var($headerClientIp, FILTER_VALIDATE_IP)
             ){
                 return $headerClientIp;
