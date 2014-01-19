@@ -2,7 +2,7 @@
 <phpunit
     stopOnError="false"
     stopOnFailure="false"
-    strict="true"
+    strict="false"
     verbose="true"
     colors="true"
     convertErrorsToExceptions="true"
