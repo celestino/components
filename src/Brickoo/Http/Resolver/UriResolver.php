@@ -83,7 +83,6 @@ class UriResolver {
         if ($this->header->hasHeader("Host")) {
             return $this->header->getHeader("Host")->getValue();
         }
-
         return $this->getServerVar("SERVER_NAME", $this->getServerVar("SERVER_ADDR", "localhost"));
     }
 
@@ -95,7 +94,6 @@ class UriResolver {
         if ($this->header->hasHeader("X-Forwarded-Port")) {
             return (int)$this->header->getHeader("X-Forwarded-Port")->getValue();
         }
-
         return (int)$this->getServerVar("SERVER_PORT", 80);
     }
 
@@ -107,7 +105,6 @@ class UriResolver {
         if ((! $requestPath = $this->getServerVar("REQUEST_URI")) && (! $requestPath = $this->getServerVar("ORIG_PATH_INFO"))) {
             $requestPath = $this->getIISRequestUri();
         }
-
         return "/". trim(rawurldecode(parse_url($requestPath, PHP_URL_PATH)), "/");
     }
 
@@ -145,7 +142,7 @@ class UriResolver {
         }
 
         if ($this->header->hasHeader("X-Rewrite-Url")) {
-            return $this->header->getHeader("X-Rewrite-Url");
+            return $this->header->getHeader("X-Rewrite-Url")->getValue();
         }
     }
 
