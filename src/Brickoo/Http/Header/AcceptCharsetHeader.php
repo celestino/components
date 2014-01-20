@@ -40,6 +40,8 @@ use Brickoo\Http\Header\GenericHeader,
  */
 class AcceptCharsetHeader extends GenericHeader {
 
+    use \Brickoo\Http\Header\CommonAcceptRoutines;
+
     /** @var array */
     private $acceptCharsets;
 
@@ -50,20 +52,8 @@ class AcceptCharsetHeader extends GenericHeader {
      */
     public function __construct($headerValue = "") {
         Argument::IsString($headerValue);
-        $this->headerName = "Accept-Charset";
-        $this->headerValue = $headerValue;
+        parent::__construct("Accept-Charset", $headerValue);
         $this->acceptCharsets = [];
-    }
-
-    /**
-     * Returns the accepted charsets.
-     * @return array the accepted charsets
-     */
-    public function getCharsets() {
-        if (empty($this->acceptCharsets)) {
-            $this->getAcceptCharsets();
-        }
-        return $this->acceptCharsets;
     }
 
     /**
@@ -78,9 +68,18 @@ class AcceptCharsetHeader extends GenericHeader {
 
         $this->getCharsets();
         $this->acceptCharsets[$acceptCharset] = $quality;
-        $this->buildValue();
-
+        $this->headerValue = $this->buildValue($this->acceptCharsets);
         return $this;
+    }
+    /**
+     * Returns the accepted charsets.
+     * @return array the accepted charsets
+     */
+    public function getCharsets() {
+        if (empty($this->acceptCharsets)) {
+            $this->acceptCharsets = $this->getHeaderValues($this->getValue());
+        }
+        return $this->acceptCharsets;
     }
 
     /**
@@ -90,61 +89,7 @@ class AcceptCharsetHeader extends GenericHeader {
      */
     public function isCharsetSupported($charset) {
         Argument::IsString($charset);
-        return array_key_exists($charset, $this->getAcceptCharsets());
-    }
-
-    /**
-     * Builds the header value by the accepted charsets.
-     * @return \Brickoo\Http\Header\AcceptCharsetHeader
-     */
-    private function buildValue() {
-        if (! empty($this->acceptCharsets)) {
-            $values = [];
-            arsort($this->acceptCharsets);
-            foreach ($this->acceptCharsets as $charset => $quality) {
-                $values[] = $charset.($quality < 1 ? sprintf(";q=%.1f", $quality) : "");
-            }
-            $this->headerValue = implode(", ", $values);
-        }
-        return $this;
-    }
-
-    /**
-     * Returns the accept charsets supported by the request client.
-     * @return array the charsets sorted by priority descending
-     */
-    private function getAcceptCharsets() {
-        if (empty($this->acceptCharsets) && ($acceptEncodingHeader = $this->getValue())) {
-            $this->acceptCharsets = $this->getAcceptHeaderByRegex(
-                "~^(?<charset>[a-z0-9\-\*]+)\s*(\;\s*q\=(?<quality>(0\.\d{1,5}|1\.0|[01])))?$~i",
-                "charset",
-                $acceptEncodingHeader
-            );
-        }
-
-        return $this->acceptCharsets;
-    }
-
-    /**
-     * Returns the accept header value sorted by quality.
-     * @param string $regex the regular expression to use
-     * @param string $keyName the key name to assign the quality to
-     * @param string $acceptHeader the accept header to retireve the values from
-     * @return array the result containing the header values
-     */
-    private function getAcceptHeaderByRegex($regex, $keyName, $acceptHeader) {
-        $results = [];
-        $fields = explode(",", $acceptHeader);
-
-        foreach ($fields as $field) {
-            if (preg_match($regex, trim($field), $matches) && isset($matches[$keyName])) {
-                $matches["quality"] = (isset($matches["quality"]) ? $matches["quality"] : 1);
-                $results[trim($matches[$keyName])] = (float)$matches["quality"];
-            }
-        }
-
-        arsort($results);
-        return $results;
+        return array_key_exists($charset, $this->getCharsets());
     }
 
 }

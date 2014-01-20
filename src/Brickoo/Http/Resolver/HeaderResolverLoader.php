@@ -27,28 +27,21 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http\Resolver\Exception;
-
-use Brickoo\Http\Resolver\Exception;
+namespace Brickoo\Http\Resolver;
 
 /**
- * MappingHeaderNotFoundException
+ * HeaderResolverLoader
  *
- * Exception throwed if a header mapping class could not be found.
+ * Describes a http header solver load.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class MappingHeaderNotFoundException extends Exception {
+interface HeaderResolverLoader {
 
     /**
-     * Class constructor.
-     * Calls the parent exception constructor.
-     * @param string $headerName the header mapping not found
-     * @param \Exception $previousException
-     * @return void
+     * Returns the loaded headers as key/value pairs.
+     * @return array the headers
      */
-    public function __construct($headerName, \Exception $previousException = null) {
-        parent::__construct(sprintf("The header mapping for `%s` could not be found.", $headerName), 0 , $previousException);
-    }
+    public function getHeaders();
 
 }

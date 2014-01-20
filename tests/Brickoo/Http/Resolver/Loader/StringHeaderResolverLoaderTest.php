@@ -27,21 +27,38 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http\Resolver;
+namespace Brickoo\Tests\Http\Resolver\Loader;
+
+use Brickoo\Http\Resolver\Loader\StringHeaderResolverLoader,
+    PHPUnit_Framework_TestCase;
 
 /**
- * HeaderResolverPlugin
+ * StringHeaderResolverLoaderTest
  *
- * Describes a http header solver plugin.
+ * Test suite for the StringHeaderResolverLoader class.
+ * @see Brickoo\Http\Resolver\StringHeaderResolverLoader
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-interface HeaderResolverPlugin {
+class StringHeaderResolverLoaderTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * Returns the headers as key/value pairs.
-     * @return array the headers
+     * @covers  Brickoo\Http\Resolver\Loader\StringHeaderResolverLoader::__construct
+     * @expectedException \InvalidArgumentException
      */
-    public function getHeaders();
+    public function testConstructorInvalidHeaderStringThrowsException() {
+        new StringHeaderResolverLoader(["wrongType"]);
+    }
+
+    /**
+     * @covers  Brickoo\Http\Resolver\Loader\StringHeaderResolverLoader::__construct
+     * @covers  Brickoo\Http\Resolver\Loader\StringHeaderResolverLoader::getHeaders
+     */
+    public function testGetHeadersFromString() {
+        $expectedHeaders = ["Accept" => "*/*", "Connection" => "keep-alive"];
+        $stringHeaderResolverLoader = new StringHeaderResolverLoader("Accept: */*\r\nConnection: keep-alive\r\n");
+        $this->assertEquals($expectedHeaders, $stringHeaderResolverLoader->getHeaders());
+        //
+    }
 
 }

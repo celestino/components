@@ -27,46 +27,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http\Resolver\Plugin;
+namespace Brickoo\Tests\Http;
 
-use Brickoo\Http\Resolver\HeaderResolverPlugin,
-    Brickoo\Validation\Argument;
+use Brickoo\Http\Header\AcceptHeader,
+    PHPUnit_Framework_TestCase;
 
 /**
- * StringHeaderResolverPlugin
+ * AcceptHeaderTest
  *
- * Implements a http header solver.
+ * Test suite for the AcceptHeader class.
+ * @see Brickoo\Http\HeaderAcceptHeader
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class StringHeaderResolverPlugin implements HeaderResolverPlugin {
-
-    /** @var string */
-    private $headers;
+class AcceptHeaderTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * Class constructor.
-     * @param string $headers the message headers as string
-     * @return void
+     * @covers Brickoo\Http\Header\AcceptHeader::__construct
+     * @expectedException \InvalidArgumentException
      */
-    public function __construct($headers) {
-        Argument::IsString($headers);
-        $this->headers = $headers;
-    }
-
-    /** {@inheritDoc} */
-    public function getHeaders() {
-        $extractedHeaders = [];
-        $fields = explode("\r\n", preg_replace("/\x0D\x0A[\x09\x20]+/", " ", $this->headers));
-
-        foreach ($fields as $field) {
-            $matches = [];
-            if (preg_match("/(?<name>[^:]+): (?<value>.+)/m", $field, $matches) == 1) {
-                $extractedHeaders[$matches["name"]] = trim($matches["value"]);
-            }
-        }
-
-        return $extractedHeaders;
+    public function testConstructorInvalidHeaderValueThrowsException() {
+        new AcceptHeader(["wrongType"]);
     }
 
 }

@@ -27,33 +27,30 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http\Resolver\Plugin;
+namespace Brickoo\Tests\Http\Resolver\Loader;
 
-use Brickoo\Http\Resolver\HeaderResolverPlugin;
+use Brickoo\Http\Resolver\Loader\RequestHeaderResolverLoader,
+    PHPUnit_Framework_TestCase;
 
 /**
- * RequestHeaderResolverPlugin
+ * RequestHeaderResolverLoader
  *
- * Implements a http header solver.
+ * Test suite for the RequestHeaderResolverLoader class.
+ * @see Brickoo\Http\Resolver\RequestHeaderResolverLoader
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class RequestHeaderResolverPlugin implements HeaderResolverPlugin {
+class RequestHeaderResolverLoaderTest extends PHPUnit_Framework_TestCase {
 
-    /** {@inheritDoc} */
-    public function getHeaders() {
-        $headers = [];
-        foreach ($_SERVER as $key => $value) {
-            if (substr($key, 0, 5) == "HTTP_") {
-                $headers[substr($key, 5)] = $value;
-            }
+    public function testGetHeadersFromGlobalServerValues() {
+        if (! function_exists("apache_request_headers")) {
+            require_once realpath(__DIR__) ."/Assets/requiredFunctions.php";
         }
 
-        if (function_exists("apache_request_headers") && ($apacheHeaders = apache_request_headers())) {
-            $headers = array_merge($headers, $apacheHeaders);
-        }
-
-       return $headers;
+        $expectedHeaders = ["CONNECTION" => "keep-alive"];
+        $_SERVER["HTTP_CONNECTION"] = "keep-alive";
+        $requestHeaderResolverLoader = new RequestHeaderResolverLoader();
+        $this->assertEquals($expectedHeaders, $requestHeaderResolverLoader->getHeaders());
     }
 
 }

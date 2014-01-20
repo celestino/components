@@ -27,71 +27,45 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http\Header;
+namespace Brickoo\Http\Resolver\Loader;
 
-use Brickoo\Http\Header\GenericHeader,
+use Brickoo\Http\Resolver\HeaderResolverLoader,
     Brickoo\Validation\Argument;
 
 /**
- * AcceptHeader
+ * StringHeaderResolverLoader
  *
- * Implements an accept header.
+ * Implements a http header resolver loader based on a header string.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class AcceptHeader extends GenericHeader {
+class StringHeaderResolverLoader implements HeaderResolverLoader {
 
-    use \Brickoo\Http\Header\CommonAcceptRoutines;
-
-    /** @var array */
-    private $acceptTypes;
+    /** @var string */
+    private $headers;
 
     /**
      * Class constructor.
-     * @param string $headerValue
+     * @param string $headers the message headers as string
      * @return void
      */
-    public function __construct($headerValue = "") {
-        Argument::IsString($headerValue);
-        parent::__construct("Accept", $headerValue);
-        $this->acceptTypes = [];
+    public function __construct($headers) {
+        Argument::IsString($headers);
+        $this->headers = $headers;
     }
 
-    /**
-     * Sets an accept type with its quality.
-     * @param string $acceptType
-     * @param float $quality
-     * @return \Brickoo\Http\Header\AcceptHeader
-     */
-    public function setType($acceptType, $quality = 1.0) {
-        Argument::IsString($acceptType);
-        Argument::IsFloat($quality);
+    /** {@inheritDoc} */
+    public function getHeaders() {
+        $extractedHeaders = [];
+        $fields = explode("\r\n", preg_replace("/\x0D\x0A[\x09\x20]+/", " ", $this->headers));
 
-        $this->getTypes();
-        $this->acceptTypes[$acceptType] = $quality;
-        $this->headerValue = $this->buildValue($this->acceptTypes);
-        return $this;
-    }
-
-    /**
-     * Returns the accepted types.
-     * @return array the accepted types
-     */
-    public function getTypes() {
-        if (empty($this->acceptTypes)) {
-            $this->acceptTypes = $this->getHeaderValues($this->getValue());
+        foreach ($fields as $field) {
+            $matches = [];
+            if (preg_match("/(?<name>[^:]+): (?<value>.+)/m", $field, $matches) == 1) {
+                $extractedHeaders[$matches["name"]] = trim($matches["value"]);
+            }
         }
-        return $this->acceptTypes;
-    }
-
-    /**
-     * Checks if the passed type is supported.
-     * @param string $type the type to check
-     * @return boolean check result
-     */
-    public function isTypeSupported($type) {
-        Argument::IsString($type);
-        return array_key_exists($type, $this->getTypes());
+        return $extractedHeaders;
     }
 
 }
