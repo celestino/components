@@ -85,7 +85,6 @@ class RoutePathRegexGenerator  {
                 break;
             }
         }
-
         return $routePath;
     }
 

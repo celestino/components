@@ -30,6 +30,7 @@
 namespace Brickoo\Routing;
 
 use Brickoo\Routing\ExecutableRoute,
+    Brickoo\Routing\Route,
     Brickoo\Routing\RouteCollector,
     Brickoo\Routing\RouteCollection,
     Brickoo\Routing\Exception\NoMatchingRouteFoundException,
@@ -84,7 +85,8 @@ class Router {
 
         $route = null;
         foreach ($this->getRouteCollectorIterator() as $routeCollection) {
-            if ($this->isCollectionResponsible($routeName, $collectionName, $routeCollection)) {
+            if ($this->isCollectionResponsible($routeName, $collectionName, $routeCollection)
+                && $routeCollection->hasRoute($routeName)) {
                 $route = $routeCollection->getRoute($routeName);
                 break;
             }
@@ -115,11 +117,11 @@ class Router {
             return false;
         }
 
-        return ($route instanceof \Brickoo\Routing\Route);
+        return ($route instanceof Route);
     }
 
     /**
-     * Returns the matching executable route.
+     * Returns the executable route.
      * @throws \Brickoo\Routing\Exception\NoMatchingRouteFoundException
      * @return \Brickoo\Routing\ExecutableRoute
      */
@@ -128,24 +130,46 @@ class Router {
             return $this->executableRoute;
         }
 
-        foreach ($this->getRouteCollectorIterator() as $routeCollection) {
-            if (! $this->routeMatcher->matchesCollection($routeCollection)) {
-                continue;
-            }
+        $this->executableRoute = $this->getMatchingExecutableRoute();
+        return $this->executableRoute;
+    }
 
-            foreach ($routeCollection->getRoutes() as $route) {
-                if ($this->routeMatcher->matchesRoute($route)) {
-                    $this->executableRoute = new ExecutableRoute($route, $this->routeMatcher->getRouteParameters());
-                    break;
-                }
+    /**
+     * Returns the matching executable route.
+     * @throws \Brickoo\Routing\Exception\NoMatchingRouteFoundException
+     * @return \Brickoo\Routing\ExecutableRoute
+     */
+    private function getMatchingExecutableRoute() {
+        $matchingRoute = null;
+
+        foreach ($this->getRouteCollectorIterator() as $routeCollection) {
+            if ($this->routeMatcher->matchesCollection($routeCollection)
+                && ($matchingRoute = $this->getMatchingRouteFromCollection($routeCollection))) {
+                break;
             }
         }
 
-        if (! $this->executableRoute instanceof ExecutableRoute) {
+        if (! $matchingRoute instanceof ExecutableRoute) {
             throw new NoMatchingRouteFoundException();
         }
 
-        return $this->EexecutableRouteecutable;
+        return $matchingRoute;
+    }
+
+    /**
+     * Returns the matching route from collection if available.
+     * @param \Brickoo\Routing\RouteCollection $routeCollection
+     * @return \Brickoo\Routing\Route otherwise null
+     */
+    private function getMatchingRouteFromCollection(RouteCollection $routeCollection) {
+        $matchingRoute = null;
+        foreach ($routeCollection->getRoutes() as $route) {
+            if ($this->routeMatcher->matchesRoute($route)) {
+                $matchingRoute = new ExeutableRoute($route, $this->routeMatcher->getRouteParameters());
+                break;
+            }
+        }
+        return $matchingRoute;
     }
 
     /**
@@ -157,7 +181,7 @@ class Router {
      */
     private function isCollectionResponsible($routeName, $collectionName, RouteCollection $routeCollection) {
         return ((empty($collectionName) || $routeCollection->getName() == $collectionName)
-               && $routeCollection->hasRoute($routeName));
+            && $routeCollection->hasRoute($routeName));
     }
 
     /**
@@ -168,7 +192,6 @@ class Router {
         if ($this->routeCollectorIterator === null) {
             $this->routeCollectorIterator = $this->routeCollector->collect()->getIterator();
         }
-
         return $this->routeCollectorIterator;
     }
 

@@ -32,7 +32,7 @@ namespace Brickoo\Routing;
 /**
  * Messages
  *
- * Holds the routing events.
+ * Holds the routing messages.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 

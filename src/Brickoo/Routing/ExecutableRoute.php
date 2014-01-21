@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Routing\Route;
+namespace Brickoo\Routing;
 
 use ReflectionClass,
     Brickoo\Routing\Route,
@@ -105,8 +105,8 @@ class ExecutableRoute {
     /**
      * Executes the route controller action.
      * This method allows to be called with any arguments
-     * which should be pass to the controller constructor.
-     * @return mixed the controller action returned response
+     * which should be forwarded to the controller constructor.
+     * @return mixed the controller returned response
      */
     public function execute() {
         $class = new ReflectionClass($this->route->getController());

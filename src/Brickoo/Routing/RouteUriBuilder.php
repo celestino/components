@@ -39,7 +39,7 @@ use Brickoo\Routing\Route,
 /**
  * RouteUriBuilder
  *
- * Implements a uri builder to create a route matching uri.
+ * Implements an uri builder to create a route matching uri.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -98,7 +98,7 @@ class RouteUriBuilder {
      * Returns the expected uri path to validate against the route path.
      * @param \Brickoo\Routing\Route $route
      * @param array $pathParameters the path parameters to use
-     * @throws \Brickoo\Routing\Exception\RouteRequiredParametersMissingExcetion
+     * @throws \Brickoo\Routing\Exception\RouteRequiredParametersMissingException
      * @return string the uri path expected
      */
     private function getExpectedRoutePath(Route $route, $pathParameters) {
