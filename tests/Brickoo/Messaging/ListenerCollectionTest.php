@@ -47,13 +47,13 @@ class ListenerCollectionTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Messaging\ListenerCollection::add
      */
     public function testAddingMessageListeners() {
-        $eventName = "test.add.listener";
+        $messageName = "test.add.listener";
         $priority = 100;
 
         $listener = $this->getMessageListenerStub();
         $listener->expects($this->once())
                  ->method("getMessageName")
-                 ->will($this->returnValue($eventName));
+                 ->will($this->returnValue($messageName));
         $listener->expects($this->once())
                  ->method("getPriority")
                  ->will($this->returnValue(0));
@@ -68,13 +68,13 @@ class ListenerCollectionTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Messaging\ListenerCollection::get */
     public function testGettingAMessageListener() {
-        $eventName = "test.add.listener";
+        $messageName = "test.add.listener";
         $priority = 100;
 
         $listener = $this->getMessageListenerStub();
         $listener->expects($this->once())
                  ->method("getMessageName")
-                 ->will($this->returnValue($eventName));
+                 ->will($this->returnValue($messageName));
 
         $listenerCollection = new ListenerCollection();
         $listenerUID = $listenerCollection->add($listener, $priority);
@@ -102,12 +102,12 @@ class ListenerCollectionTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Messaging\ListenerCollection::has */
     public function testHasMessageListener() {
-        $eventName = "test.add.listener";
+        $messageName = "test.add.listener";
 
         $listener = $this->getMessageListenerStub();
         $listener->expects($this->once())
                  ->method("getMessageName")
-                 ->will($this->returnValue($eventName));
+                 ->will($this->returnValue($messageName));
         $listener->expects($this->once())
                  ->method("getPriority")
                  ->will($this->returnValue(0));
@@ -133,12 +133,12 @@ class ListenerCollectionTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Messaging\ListenerCollection::removeListenerFromQueue
      */
     public function testRemovingMessageListener() {
-        $eventName = "test.add.listener";
+        $messageName = "test.add.listener";
 
         $listener = $this->getMessageListenerStub();
         $listener->expects($this->any())
                  ->method("getMessageName")
-                 ->will($this->returnValue($eventName));
+                 ->will($this->returnValue($messageName));
         $listener->expects($this->once())
                  ->method("getPriority")
                  ->will($this->returnValue(0));
@@ -146,7 +146,7 @@ class ListenerCollectionTest extends PHPUnit_Framework_TestCase {
         $listener2 = $this->getMessageListenerStub();
         $listener2->expects($this->any())
                   ->method("getMessageName")
-                  ->will($this->returnValue($eventName));
+                  ->will($this->returnValue($messageName));
         $listener2->expects($this->once())
                   ->method("getPriority")
                   ->will($this->returnValue(0));
@@ -183,12 +183,12 @@ class ListenerCollectionTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Messaging\ListenerCollection::collectMessageListeners
      */
     public function testGetListenersOrderedByPriority() {
-        $eventName = "test.add.listener";
+        $messageName = "test.add.listener";
 
         $listener = $this->getMessageListenerStub();
         $listener->expects($this->any())
                  ->method("getMessageName")
-                 ->will($this->returnValue($eventName));
+                 ->will($this->returnValue($messageName));
         $listener->expects($this->once())
                  ->method("getPriority")
                  ->will($this->returnValue(0));
@@ -196,7 +196,7 @@ class ListenerCollectionTest extends PHPUnit_Framework_TestCase {
         $listener2 = $this->getMessageListenerStub();
         $listener2->expects($this->any())
                   ->method("getMessageName")
-                  ->will($this->returnValue($eventName));
+                  ->will($this->returnValue($messageName));
         $listener2->expects($this->once())
                   ->method("getPriority")
                   ->will($this->returnValue(0));
@@ -205,7 +205,7 @@ class ListenerCollectionTest extends PHPUnit_Framework_TestCase {
         $listenerCollection->add($listener, 100);
         $listenerCollection->add($listener2, 500);
 
-        $this->assertEquals(array($listener2, $listener),$listenerCollection->getListeners($eventName));
+        $this->assertEquals(array($listener2, $listener),$listenerCollection->getListeners($messageName));
     }
 
     /**
@@ -229,22 +229,22 @@ class ListenerCollectionTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Messaging\ListenerCollection::hasListeners */
     public function testHasListeners() {
-        $eventName = "test.add.listener";
+        $messageName = "test.add.listener";
         $priority = 100;
 
         $listener = $this->getMessageListenerStub();
         $listener->expects($this->any())
                  ->method("getMessageName")
-                 ->will($this->returnValue($eventName));
+                 ->will($this->returnValue($messageName));
         $listener->expects($this->once())
                  ->method("getPriority")
                  ->will($this->returnValue(0));
 
         $listenerCollection = new ListenerCollection();
 
-        $this->assertFalse($listenerCollection->hasListeners($eventName));
+        $this->assertFalse($listenerCollection->hasListeners($messageName));
         $listenerUID = $listenerCollection->add($listener, $priority);
-        $this->assertTrue($listenerCollection->hasListeners($eventName));
+        $this->assertTrue($listenerCollection->hasListeners($messageName));
     }
 
     /**

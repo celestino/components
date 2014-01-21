@@ -50,9 +50,9 @@ class ErrorLogMessageListener implements Listener {
     }
 
     /** {@inheritDoc} */
-    public function handleMessage(Message $event, MessageDispatcher $eventDispatcher) {
-        if ($event instanceof ErrorMessage) {
-            $eventDispatcher->dispatch(new LogMessage([$event->getErrorMessage()], Logger::SEVERITY_ERROR));
+    public function handleMessage(Message $message, MessageDispatcher $messageDispatcher) {
+        if ($message instanceof ErrorMessage) {
+            $messageDispatcher->dispatch(new LogMessage([$message->getErrorMessage()], Logger::SEVERITY_ERROR));
         }
     }
 

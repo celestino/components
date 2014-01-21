@@ -47,7 +47,7 @@ class MessageListenerTest extends PHPUnit_Framework_TestCase {
      * @expectedException InvalidArgumentException
      */
     public function testConstructorInvalidPriorityArgumentThrowsException() {
-        $listener = new MessageListener("test.event", "wrongType", function(){});
+        $listener = new MessageListener("test.message", "wrongType", function(){});
     }
 
     /**
@@ -55,7 +55,7 @@ class MessageListenerTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Messaging\MessageListener::getMessageName
      */
     public function testGetMessageName() {
-        $messageName = "test.event";
+        $messageName = "test.message";
         $listener = new MessageListener($messageName, 0, function(){});
         $this->assertEquals($messageName, $listener->getMessageName());
     }
@@ -63,7 +63,7 @@ class MessageListenerTest extends PHPUnit_Framework_TestCase {
     /** @covers Brickoo\Messaging\MessageListener::getPriority */
     public function testGetPriority() {
         $priority = 100;
-        $listener = new MessageListener("test.event", $priority, function(){});
+        $listener = new MessageListener("test.message", $priority, function(){});
         $this->assertEquals($priority, $listener->getPriority());
     }
 
@@ -73,7 +73,7 @@ class MessageListenerTest extends PHPUnit_Framework_TestCase {
         $messageDispatcher = $this->getMockBuilder("\\Brickoo\\Messaging\\MessageDispatcher")
             ->disableOriginalConstructor()->getMock();
         $callback = function(){};
-        $listener = new MessageListener("test.event", 0, $callback);
+        $listener = new MessageListener("test.message", 0, $callback);
         $this->assertNull($listener->handleMessage($message, $messageDispatcher));
     }
 

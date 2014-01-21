@@ -77,7 +77,7 @@ class ErrorLogMessageListenerTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Returns an event dispatcher stub.
+     * Returns an message dispatcher stub.
      * @return \Brickoo\Messaging\MessageDispatcher
      */
     private function getMessageDispatcherStub() {

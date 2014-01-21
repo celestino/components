@@ -100,7 +100,7 @@ class CacheMessageListener implements ListenerAggregate {
     }
 
     /**
-     * Handle the event to retrieve the cached content from the injected cache proxy.
+     * Handle the message to retrieve the cached content from the injected cache proxy.
      *@param \Brickoo\Messaging\Message $message
      * @param \Brickoo\Messaging\MessageDispatcher $Dispatcher
      * @return mixed the cached content
@@ -112,7 +112,7 @@ class CacheMessageListener implements ListenerAggregate {
     }
 
     /**
-     * Handle the event to retrieve the cached content from the injected cache proxy
+     * Handle the message to retrieve the cached content from the injected cache proxy
      * with a callback used as a fallback.
      *@param \Brickoo\Messaging\Message $message
      * @param \Brickoo\Messaging\MessageDispatcher $Dispatcher
@@ -130,7 +130,7 @@ class CacheMessageListener implements ListenerAggregate {
     }
 
     /**
-     * Handle the event to cache content.
+     * Handle the message to cache content.
      * @param \Brickoo\Messaging\Message $message
      * @param \Brickoo\Messaging\MessageDispatcher $Dispatcher
      * @return void
@@ -142,7 +142,7 @@ class CacheMessageListener implements ListenerAggregate {
     }
 
     /**
-     * Handle the event to delete the cached content holded by the identifier
+     * Handle the message to delete the cached content holded by the identifier
      * through the injected cache proxy.
      * @param \Brickoo\Messaging\Message $message
      * @param \Brickoo\Messaging\MessageDispatcher $Dispatcher

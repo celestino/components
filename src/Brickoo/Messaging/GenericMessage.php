@@ -34,7 +34,7 @@ use Brickoo\Messaging\Message,
     Brickoo\Validation\Argument;
 
 /**
- * Implements a generic event which can be used or extended by any component.
+ * Implements a generic message which can be used or extended by any component.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -58,7 +58,7 @@ class GenericMessage implements Message {
     /**
      * @param string $name the message name
      * @param object $sender the sender object
-     * @param array $parameters the parameters to add to the event
+     * @param array $parameters the parameters to add to the message
      * @throws \InvalidArgumentException
      */
     public function __construct($name, $sender = null, array $parameters = []) {

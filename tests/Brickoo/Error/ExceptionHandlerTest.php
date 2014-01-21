@@ -99,7 +99,7 @@ class ExceptionHandlerTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Returns an event manager stub.
+     * Returns an message manager stub.
      * @return \Brickoo\Messaging\MessageDispatcher
      */
     private function getMessageDispatcherStub() {

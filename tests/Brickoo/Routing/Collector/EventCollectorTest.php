@@ -34,7 +34,7 @@
     /**
      * EventCollectorTest
      *
-     * Test suite for the route event based collector class.
+     * Test suite for the route message based collector class.
      * @see Brickoo\Routing\Collector\EventCollector
      * @author Celestino Diaz <celestino.diaz@gmx.de>
      */

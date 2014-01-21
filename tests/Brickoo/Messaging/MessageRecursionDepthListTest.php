@@ -51,7 +51,7 @@ class MessageRecursionDepthListTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Messaging\MessageRecursionDepthList::addMessage */
     public function testAddMessage() {
-        $messageName = "test.event";
+        $messageName = "test.message";
         $messageRecursionDepthList = new MessageRecursionDepthList();
         $this->assertSame($messageRecursionDepthList, $messageRecursionDepthList->addMessage($messageName));
         $this->assertAttributeEquals([$messageName => 0], "container", $messageRecursionDepthList);
@@ -69,7 +69,7 @@ class MessageRecursionDepthListTest extends PHPUnit_Framework_TestCase {
     /** @covers Brickoo\Messaging\MessageRecursionDepthList::getRecursionDepth */
     public function testGetRecursionDepthDefaultValue() {
         $messageRecursionDepthList = new MessageRecursionDepthList();
-        $this->assertEquals(0, $messageRecursionDepthList->getRecursionDepth("test.event"));
+        $this->assertEquals(0, $messageRecursionDepthList->getRecursionDepth("test.message"));
     }
 
     /**
@@ -83,7 +83,7 @@ class MessageRecursionDepthListTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Messaging\MessageRecursionDepthList::isDepthLimitReached */
     public function testIsDepthLimitReached() {
-        $messageName = "test.event";
+        $messageName = "test.message";
         $messageRecursionDepthList = new MessageRecursionDepthList(100);
         $messageRecursionDepthList->addMessage($messageName);
         $this->assertFalse($messageRecursionDepthList->isDepthLimitReached($messageName));
@@ -95,7 +95,7 @@ class MessageRecursionDepthListTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Messaging\MessageRecursionDepthList::increaseDepth */
     public function testIncreaseDepth() {
-        $messageName = "test.event";
+        $messageName = "test.message";
         $messageRecursionDepthList = new MessageRecursionDepthList();
         $this->assertSame($messageRecursionDepthList, $messageRecursionDepthList->increaseDepth($messageName));
         $this->assertEquals(1, $messageRecursionDepthList->getRecursionDepth($messageName));
@@ -105,7 +105,7 @@ class MessageRecursionDepthListTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Messaging\MessageRecursionDepthList::decreaseDepth */
     public function testDecreaseDepth() {
-        $messageName = "test.event";
+        $messageName = "test.message";
         $messageRecursionDepthList = new MessageRecursionDepthList();
         $this->assertSame($messageRecursionDepthList, $messageRecursionDepthList->increaseDepth($messageName));
         $this->assertEquals(1, $messageRecursionDepthList->getRecursionDepth($messageName));

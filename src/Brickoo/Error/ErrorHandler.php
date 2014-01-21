@@ -41,7 +41,7 @@ use Brickoo\Messaging\MessageDispatcher,
  *
  * Handles user defined and system errors of an expected error level.
  * Erros can be automaticly converted to exceptions.
- * Triggers an log event if an event manager is attached.
+ * Triggers an log message if a message dispatcher is attached.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
