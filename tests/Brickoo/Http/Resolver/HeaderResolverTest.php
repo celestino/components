@@ -65,7 +65,7 @@ class HeaderResolverTest extends PHPUnit_Framework_TestCase {
      * @expectedException \Brickoo\Http\Resolver\Exception\FileIsNotReadableException
      */
     public function testConstructorMapFileNotReadableThrowsException() {
-        $filename = sys_get_temp_dir()."/unreadable.map";
+        $filename = sys_get_temp_dir()."/brickoo_unittest_unreadable_".time().".map";
         file_put_contents($filename, "");
         @chmod($filename, "111");
         new HeaderResolver($filename, $this->getHeaderResolverLoaderStub());

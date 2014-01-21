@@ -40,6 +40,8 @@ use Brickoo\Http\Header\GenericHeader,
  */
 class AcceptLanguageHeader extends GenericHeader {
 
+    use \Brickoo\Http\Header\CommonAcceptRoutines;
+
     /** @var array */
     private $acceptLanguages;
 
@@ -49,9 +51,7 @@ class AcceptLanguageHeader extends GenericHeader {
      * @return void
      */
     public function __construct($headerValue = "") {
-        Argument::IsString($headerValue);
-        $this->headerName = "Accept-Language";
-        $this->headerValue = $headerValue;
+        parent::__construct("Accept-Language", $headerValue);
         $this->acceptLanguages = [];
     }
 
@@ -67,8 +67,7 @@ class AcceptLanguageHeader extends GenericHeader {
 
         $this->getLanguages();
         $this->acceptLanguages[$language] = $quality;
-        $this->buildValue();
-
+        $this->headerValue = $this->buildValue($this->acceptLanguages);
         return $this;
     }
 
@@ -78,7 +77,7 @@ class AcceptLanguageHeader extends GenericHeader {
      */
     public function getLanguages() {
         if (empty($this->acceptLanguages)) {
-            $this->getAcceptedLanguages();
+            $this->acceptLanguages = $this->getHeaderValues($this->getValue());
         }
         return $this->acceptLanguages;
     }
@@ -90,60 +89,7 @@ class AcceptLanguageHeader extends GenericHeader {
      */
     public function isLanguageSupported($language) {
         Argument::IsString($language);
-        return array_key_exists($language, $this->getAcceptedLanguages());
-    }
-
-    /**
-     * Builds the value from the actual accepted languages.
-     * @return \Brickoo\Http\Header\AcceptLanguageHeader
-     */
-    private function buildValue() {
-        if (! empty($this->acceptLanguages)) {
-            $values = [];
-            arsort($this->acceptLanguages);
-            foreach ($this->acceptLanguages as $language => $quality) {
-                $values[] = $language.($quality < 1 ? sprintf(";q=%.1f", $quality) : "");
-            }
-            $this->headerValue = implode(", ", $values);
-        }
-        return $this;
-    }
-
-    /**
-     * Returns the accept languages supported by the request client.
-     * @return array the languages sorted by priority descending
-     */
-    private function getAcceptedLanguages() {
-        if (empty($this->acceptLanguages) && ($acceptLanguageHeader = $this->getValue())) {
-            $this->acceptLanguages = $this->getAcceptLanguageHeaderByRegex(
-                "~^(?<language>[a-z\-\*]+)\s*(\;\s*q\=(?<quality>(0\.\d{1,5}|1\.0|[01])))?$~i",
-                "language",
-                $acceptLanguageHeader
-            );
-        }
-        return $this->acceptLanguages;
-    }
-
-    /**
-     * Returns the accept header value sorted by quality.
-     * @param string $regex the regular expression to use
-     * @param string $keyName the key name to assign the quality to
-     * @param string $acceptLanguageHeader the accept header to retrieve the values from
-     * @return array the result containing the header values
-     */
-    private function getAcceptLanguageHeaderByRegex($regex, $keyName, $acceptLanguageHeader) {
-        $results = [];
-        $fields = explode(",", $acceptLanguageHeader);
-
-        foreach ($fields as $field) {
-            if (preg_match($regex, trim($field), $matches) && isset($matches[$keyName])) {
-                $matches["quality"] = (isset($matches["quality"]) ? $matches["quality"] : 1);
-                $results[trim($matches[$keyName])] = (float)$matches["quality"];
-            }
-        }
-
-        arsort($results);
-        return $results;
+        return array_key_exists($language, $this->getLanguages());
     }
 
 }

@@ -40,6 +40,8 @@ use Brickoo\Http\Header\GenericHeader,
  */
 class AcceptEncodingHeader extends GenericHeader {
 
+    use \Brickoo\Http\Header\CommonAcceptRoutines;
+
     /** @var array */
     private $acceptEncodings;
 
@@ -49,9 +51,7 @@ class AcceptEncodingHeader extends GenericHeader {
      * @return void
      */
     public function __construct($headerValue = "") {
-        Argument::IsString($headerValue);
-        $this->headerName = "Accept-Encoding";
-        $this->headerValue = $headerValue;
+        parent::__construct("Accept-Encoding", $headerValue);
         $this->acceptEncodings = [];
     }
 
@@ -61,14 +61,13 @@ class AcceptEncodingHeader extends GenericHeader {
      * @param float $quality
      * @return \Brickoo\Http\Header\AcceptEncodingHeader
      */
-    public function setEncondig($acceptEncoding, $quality = 1.0) {
+    public function setEncoding($acceptEncoding, $quality = 1.0) {
         Argument::IsString($acceptEncoding);
         Argument::IsFloat($quality);
 
         $this->getEncodings();
         $this->acceptEncodings[$acceptEncoding] = $quality;
-        $this->buildValue();
-
+        $this->headerValue = $this->buildValue($this->acceptEncodings);
         return $this;
     }
 
@@ -78,7 +77,7 @@ class AcceptEncodingHeader extends GenericHeader {
      */
     public function getEncodings() {
         if (empty($this->acceptEncodings)) {
-            $this->getAcceptEncodings();
+            $this->acceptEncodings = $this->getHeaderValues($this->getValue());
         }
         return $this->acceptEncodings;
     }
@@ -90,60 +89,7 @@ class AcceptEncodingHeader extends GenericHeader {
      */
     public function isEncodingSupported($encoding) {
         Argument::IsString($encoding);
-        return array_key_exists($encoding, $this->getAcceptEncodings());
-    }
-
-    /**
-     * Builds the header value by the accepted encodings.
-     * @return \Brickoo\Http\Header\AcceptEncodingHeader
-     */
-    private function buildValue() {
-        if (! empty($this->acceptEncodings)) {
-            $values = [];
-            arsort($this->acceptEncodings);
-            foreach ($this->acceptEncodings as $acceptEncoding => $quality) {
-                $values[] = $acceptEncoding.($quality < 1 ? sprintf(";q=%.1f", $quality) : "");
-            }
-            $this->headerValue = implode(", ", $values);
-        }
-        return $this;
-    }
-
-    /**
-     * Returns the accept encodings supported by the request client.
-     * @return array the encondings sorted by priority descending
-     */
-    private function getAcceptEncodings() {
-        if (empty($this->acceptEncodings) && ($acceptEncodingHeader = $this->getValue())) {
-            $this->acceptEncodings = $this->getAcceptEncodingsHeaderByRegex(
-                "~^(?<encoding>[a-z\-\*]+)\s*(\;\s*q\=(?<quality>(0\.\d{1,5}|1\.0|[01])))?$~i",
-                "encoding",
-                $acceptEncodingHeader
-            );
-        }
-        return $this->acceptEncodings;
-    }
-
-    /**
-     * Returns the accept encoding header value sorted by quality.
-     * @param string $regex the regular expression to use
-     * @param string $keyName the key name to assign the quality to
-     * @param string $acceptHeader the accept header to retireve the values from
-     * @return array the result containing the header values
-     */
-    private function getAcceptEncodingsHeaderByRegex($regex, $keyName, $acceptHeader) {
-        $results = [];
-        $fields = explode(",", $acceptHeader);
-
-        foreach ($fields as $field) {
-            if (preg_match($regex, trim($field), $matches) && isset($matches[$keyName])) {
-                $matches["quality"] = (isset($matches["quality"]) ? $matches["quality"] : 1);
-                $results[trim($matches[$keyName])] = (float)$matches["quality"];
-            }
-        }
-
-        arsort($results);
-        return $results;
+        return array_key_exists($encoding, $this->getEncodings());
     }
 
 }

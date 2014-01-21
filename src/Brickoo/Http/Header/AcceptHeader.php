@@ -52,7 +52,6 @@ class AcceptHeader extends GenericHeader {
      * @return void
      */
     public function __construct($headerValue = "") {
-        Argument::IsString($headerValue);
         parent::__construct("Accept", $headerValue);
         $this->acceptTypes = [];
     }
