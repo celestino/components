@@ -121,10 +121,13 @@ class MessageDispatcherTest extends PHPUnit_Framework_TestCase {
 
         $message = $this->getMessageStub();
         $message->expects($this->any())
-              ->method("getName")
-              ->will($this->returnValue($messageName));
+                ->method("getName")
+                ->will($this->returnValue($messageName));
+        $message->expects($this->any())
+                ->method("getResponse")
+                ->will($this->returnValue($this->getMesageResponseStub()));
 
-        $messageDispatcher = $this->getMessageDispatcherFixture($messageName, $message);
+        $messageDispatcher = $this->getMessageDispatcherFixture($messageName);
         $this->assertSame($messageDispatcher, $messageDispatcher->dispatch($message));
     }
 
@@ -136,6 +139,9 @@ class MessageDispatcherTest extends PHPUnit_Framework_TestCase {
         $message->expects($this->any())
               ->method("getName")
               ->will($this->returnValue($messageName));
+        $message->expects($this->any())
+                ->method("getResponse")
+                ->will($this->returnValue($this->getMesageResponseStub()));
 
         $listenerCollection = $this->getListenerCollectionStub();
         $listenerCollection->expects($this->once())
@@ -165,9 +171,8 @@ class MessageDispatcherTest extends PHPUnit_Framework_TestCase {
                 ->method("isStopped")
                 ->will($this->returnValue(true));
         $message->expects($this->any())
-                ->method("setResponse")
-                ->with($this->isInstanceOf("\\Brickoo\\Messaging\\MessageResponseCollection"))
-                ->will($this->returnValue(true));
+                ->method("getResponse")
+                ->will($this->returnValue($this->getMesageResponseStub()));
 
         $listenerCollection = $this->getListenerCollectionStub();
 
@@ -210,6 +215,9 @@ class MessageDispatcherTest extends PHPUnit_Framework_TestCase {
         $message->expects($this->any())
               ->method("getName")
               ->will($this->returnValue($messageName));
+        $message->expects($this->any())
+                ->method("getResponse")
+                ->will($this->returnValue($this->getMesageResponseStub()));
 
         $messageRecursionDepthList = $this->getMessageRecursionDepthListStub();
         $messageRecursionDepthList->expects($this->once())
@@ -236,12 +244,9 @@ class MessageDispatcherTest extends PHPUnit_Framework_TestCase {
     /**
      * Returns an message dispatcher fixture configured with the arguments.
      * @param string $messageName the message name
-     * @param \Brickoo\Messaging\Message $message
-     * @param string|null $expectedResult the expected processor result
      * @return \Brickoo\Messaging\MessageDispatcher
      */
-    private function getMessageDispatcherFixture($messageName, Message $message, $expectedResult = null) {
-        $expectedResult = empty($expectedResult) ? [] : [$expectedResult];
+    private function getMessageDispatcherFixture($messageName) {
         $listener = $this->getListenerStub();
 
         $listenerCollection = $this->getListenerCollectionStub();
@@ -303,6 +308,14 @@ class MessageDispatcherTest extends PHPUnit_Framework_TestCase {
      */
         private function getMessageStub() {
         return $this->getMock("\\Brickoo\\Messaging\\Message");
+    }
+
+    /**
+     * Returns a messahe response collection stub.
+     * @return \Brickoo\Messaging\MessageResponseCollection
+     */
+    private function getMesageResponseStub() {
+        return $this->getMock("\\Brickoo\Messaging\\MessageResponseCollection");
     }
 
 }

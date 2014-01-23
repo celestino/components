@@ -51,8 +51,8 @@ class MessageResponseCollection implements Countable, IteratorAggregate {
      * @param array $responsesContainer the listeners responses
      * @return void
      */
-    public function __construct(array $responsesContainer) {
-        $this->responsesContainer = $responsesContainer;
+    public function __construct() {
+        $this->responsesContainer = array();
     }
 
     /**
@@ -79,6 +79,18 @@ class MessageResponseCollection implements Countable, IteratorAggregate {
             throw new ResponseNotAvailableException();
         }
         return array_pop($this->responsesContainer);
+    }
+
+    /**
+     * Push a reponse into the local container.
+     * @param mixed $response
+     * @return \Brickoo\Messaging\MessageResponseCollection
+     */
+    public function push($response) {
+        if ($response !== null) {
+            $this->responsesContainer[] = $response;
+        }
+        return $this;
     }
 
     /**

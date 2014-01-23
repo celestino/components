@@ -42,19 +42,26 @@ use Brickoo\Messaging\MessageResponseCollection,
 
 class MessageResponseCollectionTest extends PHPUnit_Framework_TestCase {
 
-    /** @covers Brickoo\Messaging\MessageResponseCollection::__construct */
-    public function testConstructor() {
-        $responsesContainer = array("response1", "response2");
-        $messageResponseCollection = new MessageResponseCollection($responsesContainer);
-        $this->assertAttributeEquals($responsesContainer, "responsesContainer", $messageResponseCollection);
+    /**
+     * @covers Brickoo\Messaging\MessageResponseCollection::__construct
+     * @covers Brickoo\Messaging\MessageResponseCollection::push
+     * @covers Brickoo\Messaging\MessageResponseCollection::count
+     */
+    public function testPushMessage() {
+        $messageResponseCollection = new MessageResponseCollection();
+        $this->assertSame($messageResponseCollection, $messageResponseCollection->push("msg"));
+        $this->assertSame($messageResponseCollection, $messageResponseCollection->push("msg"));
+        $this->assertEquals(2, $messageResponseCollection->count());
     }
 
     /** @covers Brickoo\Messaging\MessageResponseCollection::shift */
-    public function testShift() {
-        $responsesContainer = array("response1", "response2");
-        $messageResponseCollection = new MessageResponseCollection($responsesContainer);
-        $this->assertEquals("response1", $messageResponseCollection->shift());
-        $this->assertAttributeEquals(array("response2"), "responsesContainer", $messageResponseCollection);
+    public function testShiftMessageFromList() {
+        $messageResponseCollection = new MessageResponseCollection();
+        $this->assertSame($messageResponseCollection, $messageResponseCollection->push("msg1"));
+        $this->assertSame($messageResponseCollection, $messageResponseCollection->push("msg2"));
+        $this->assertEquals(2, $messageResponseCollection->count());
+        $this->assertEquals("msg1", $messageResponseCollection->shift());
+        $this->assertEquals(1, $messageResponseCollection->count());
     }
 
     /**
@@ -63,16 +70,18 @@ class MessageResponseCollectionTest extends PHPUnit_Framework_TestCase {
      * @expectedException Brickoo\Messaging\Exception\ResponseNotAvailableException
      */
     public function testShiftEmptyListThrowsResponseNotAvailableException() {
-        $messageResponseCollection = new MessageResponseCollection(array());
+        $messageResponseCollection = new MessageResponseCollection();
         $messageResponseCollection->shift();
     }
 
     /** @covers Brickoo\Messaging\MessageResponseCollection::pop */
-    public function testPop() {
-        $responsesContainer = array("response1", "response2");
-        $messageResponseCollection =  new MessageResponseCollection($responsesContainer);
-        $this->assertEquals("response2", $messageResponseCollection->pop());
-        $this->assertAttributeEquals(array("response1"), "responsesContainer", $messageResponseCollection);
+    public function testPopMessageFromList() {
+        $messageResponseCollection =  new MessageResponseCollection();
+        $this->assertSame($messageResponseCollection, $messageResponseCollection->push("msg1"));
+        $this->assertSame($messageResponseCollection, $messageResponseCollection->push("msg2"));
+        $this->assertEquals(2, $messageResponseCollection->count());
+        $this->assertEquals("msg2", $messageResponseCollection->pop());
+        $this->assertEquals(1, $messageResponseCollection->count());
     }
 
     /**
@@ -81,29 +90,23 @@ class MessageResponseCollectionTest extends PHPUnit_Framework_TestCase {
      * @expectedException Brickoo\Messaging\Exception\ResponseNotAvailableException
      */
     public function testPopEmptyListThrowsResponseNotAvailableException() {
-        $messageResponseCollection = new MessageResponseCollection(array());
+        $messageResponseCollection = new MessageResponseCollection();
         $messageResponseCollection->pop();
     }
 
     /** @covers Brickoo\Messaging\MessageResponseCollection::getIterator */
     public function testGetIterator() {
-        $messageResponseCollection =  new MessageResponseCollection(array());
+        $messageResponseCollection =  new MessageResponseCollection();
         $this->assertInstanceOf("\\ArrayIterator", $messageResponseCollection->getIterator());
     }
 
     /** @covers Brickoo\Messaging\MessageResponseCollection::isEmpty */
     public function testIsEmpty() {
-        $messageResponseCollection = new MessageResponseCollection(array());
+        $messageResponseCollection = new MessageResponseCollection();
         $this->assertTrue($messageResponseCollection->isEmpty());
 
-        $messageResponseCollection = new MessageResponseCollection(array("response"));
+        $messageResponseCollection->push("msg");
         $this->assertFalse($messageResponseCollection->isEmpty());
-    }
-
-    /** @covers Brickoo\Messaging\MessageResponseCollection::count */
-    public function testCount() {
-        $messageResponseCollection = new MessageResponseCollection(array("r1", "r2", "r3", "r4"));
-        $this->assertEquals(4, count($messageResponseCollection));
     }
 
 }

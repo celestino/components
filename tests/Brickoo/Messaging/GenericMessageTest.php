@@ -42,13 +42,10 @@ use Brickoo\Messaging\GenericMessage,
 class GenericMessageTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Messaging\GenericMessage::__construct */
-    public function testConstructor() {
+    public function testConstructorImplementsInterface() {
         $params = ["key" => "value"];
         $message = new GenericMessage("unittest", ($obj = new \stdClass()), $params);
-        $this->assertInstanceOf("\\Brickoo\\Messaging\\GenericMessage", $message);
-        $this->assertAttributeEquals("unittest", "name", $message);
-        $this->assertAttributeSame($obj, "sender", $message);
-        $this->assertAttributeEquals($params, "params", $message);
+        $this->assertInstanceOf("\\Brickoo\\Messaging\\Message", $message);
     }
 
     /**
@@ -117,31 +114,19 @@ class GenericMessageTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($message->hasParams("id", "name"));
     }
 
+    /** @covers Brickoo\Messaging\GenericMessage::getResponse */
+    public function testGetResponse() {
+        $message = new GenericMessage("test.message");
+        $this->assertInstanceOf("\\Brickoo\\Messaging\\MessageResponseCollection", $message->getResponse());
+    }
+
     /** @covers Brickoo\Messaging\GenericMessage::setResponse */
     public function testSetResponse() {
         $response = $this->getMockBuilder("\\Brickoo\\Messaging\\MessageResponseCollection")
             ->disableOriginalConstructor()->getMock();
         $message = new GenericMessage("test.message");
         $this->assertSame($message, $message->setResponse($response));
-    }
-
-    /** @covers Brickoo\Messaging\GenericMessage::getResponse */
-    public function testGetResponse() {
-        $response = $this->getMockBuilder("\\Brickoo\\Messaging\\MessageResponseCollection")
-            ->disableOriginalConstructor()->getMock();
-        $message = new GenericMessage("test.message");
-        $message->setResponse($response);
         $this->assertSame($response, $message->getResponse());
-    }
-
-    /**
-     * @covers Brickoo\Messaging\GenericMessage::getResponse
-     * @covers Brickoo\Messaging\Exception\ResponseNotAvailableException
-     * @expectedException Brickoo\Messaging\Exception\ResponseNotAvailableException
-     */
-    public function testGetResponseNotSetThrowsException() {
-        $message = new GenericMessage("test.message");
-        $message->getResponse();
     }
 
 }

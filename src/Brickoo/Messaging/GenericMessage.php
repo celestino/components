@@ -30,6 +30,7 @@
 namespace Brickoo\Messaging;
 
 use Brickoo\Messaging\Message,
+    Brickoo\Messaging\MessageResponseCollection,
     Brickoo\Messaging\Exception\ResponseNotAvailableException,
     Brickoo\Validation\Argument;
 
@@ -72,6 +73,7 @@ class GenericMessage implements Message {
         $this->sender = $sender;
         $this->params = $parameters;
         $this->stopped = false;
+        $this->response = new MessageResponseCollection();
     }
 
     /** {@inheritDoc} */
@@ -133,9 +135,6 @@ class GenericMessage implements Message {
 
     /** {@inheritDoc} */
     public function getResponse() {
-        if ($this->response === null) {
-            throw new ResponseNotAvailableException();
-        }
         return $this->response;
     }
 

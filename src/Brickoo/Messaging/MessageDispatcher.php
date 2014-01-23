@@ -115,7 +115,7 @@ class MessageDispatcher {
         }
 
         $this->messageRecursionDepthList->increaseDepth($messageName);
-        $message->setResponse($this->processMessage($message, $this->listenerCollection->getListeners($messageName)));
+        $this->processMessage($message, $this->listenerCollection->getListeners($messageName));
         $this->messageRecursionDepthList->decreaseDepth($messageName);
         return $this;
     }
@@ -128,16 +128,13 @@ class MessageDispatcher {
      * @return void
      */
     private function processMessage(Message $message, array $listeners) {
-        $responses = [];
+        $messageResponse = $message->getResponse();
         foreach ($listeners as $listener) {
-            if($response = $listener->handleMessage($message, $this)) {
-                $responses[] = $response;
-            }
+            $messageResponse->push($listener->handleMessage($message, $this));
             if ($message->isStopped()) {
                 break;
             }
         }
-        return new MessageResponseCollection($responses);
     }
 
 }
