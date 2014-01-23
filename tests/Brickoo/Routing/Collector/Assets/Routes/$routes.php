@@ -1,5 +1,7 @@
 <?php
 
-return new \Brickoo\Routing\Route\RouteCollection("routes", "/", array(
-    new \Brickoo\Routing\Route\Route("test.route.2", "/forum", "SomeController", "someAction")
-));
+$collection = new \Brickoo\Routing\RouteCollection("routes", "/");
+$collection->addRoutes([
+    new \Brickoo\Routing\Route\GenericRoute("test.route.2", "/", "SomeController", "someAction")
+]);
+return $collection;

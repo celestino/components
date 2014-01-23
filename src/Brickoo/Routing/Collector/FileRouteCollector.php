@@ -137,7 +137,7 @@ class FileRouteCollector implements RouteCollector {
 
         $Directory = new RecursiveDirectoryIterator($this->routingPath);
         $Iterator = new RecursiveIteratorIterator($Directory);
-        foreach (new RegexIterator($Iterator, "/^.*". $this->routingFilename ."$/i", RecursiveRegexIterator::MATCH) as $SplFileInfo) {
+        foreach (new RegexIterator($Iterator, "/^.*". $this->routingFilename ."$/i", RegexIterator::MATCH) as $SplFileInfo) {
             $collectedFilePaths[] = $SplFileInfo->getRealPath();
         }
 

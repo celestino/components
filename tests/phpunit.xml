@@ -10,7 +10,7 @@
     convertWarningsToExceptions="true"
     bootstrap="bootstrap.php">
     <testsuites>
-        <testsuite name="BrickOO Test Suite">
+        <testsuite name="BrickOO Test Suites">
             <directory>./Brickoo/Autoloader</directory>
             <directory>./Brickoo/Cache</directory>
             <directory>./Brickoo/Error</directory>
@@ -20,6 +20,7 @@
             <directory>./Brickoo/Log</directory>
             <directory>./Brickoo/Memory</directory>
             <directory>./Brickoo/Network</directory>
+            <directory>./Brickoo/Routing</directory>
             <directory>./Brickoo/Session</directory>
             <directory>./Brickoo/Template</directory>
             <directory>./Brickoo/Validation</directory>

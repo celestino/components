@@ -85,8 +85,7 @@ class Router {
 
         $route = null;
         foreach ($this->getRouteCollectorIterator() as $routeCollection) {
-            if ($this->isCollectionResponsible($routeName, $collectionName, $routeCollection)
-                && $routeCollection->hasRoute($routeName)) {
+            if ($this->isCollectionResponsible($routeName, $collectionName, $routeCollection)) {
                 $route = $routeCollection->getRoute($routeName);
                 break;
             }
@@ -165,7 +164,7 @@ class Router {
         $matchingRoute = null;
         foreach ($routeCollection->getRoutes() as $route) {
             if ($this->routeMatcher->matchesRoute($route)) {
-                $matchingRoute = new ExeutableRoute($route, $this->routeMatcher->getRouteParameters());
+                $matchingRoute = new ExecutableRoute($route, $this->routeMatcher->getRouteParameters());
                 break;
             }
         }

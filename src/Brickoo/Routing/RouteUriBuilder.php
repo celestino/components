@@ -87,7 +87,7 @@ class RouteUriBuilder {
         $expectedPath = $this->getExpectedRoutePath($route, $pathParameters);
 
         $matches = [];
-        if (! (preg_match_all($this->regexGenerator->generate($route), $expectedPath, $matches) === 0)) {
+        if (preg_match_all($this->regexGenerator->generate($route), $expectedPath, $matches) === 0) {
             throw new PathNotValidException($routeName, $expectedPath);
         }
 

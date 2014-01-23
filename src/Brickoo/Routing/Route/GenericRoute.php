@@ -30,7 +30,8 @@
 namespace Brickoo\Routing\Route;
 
 use Brickoo\Routing\Route,
-    Brickoo\Validation\Argument;
+    Brickoo\Validation\Argument,
+    UnexpectedValueException;
 
 /**
  * GenericRoute
@@ -114,7 +115,7 @@ class GenericRoute implements Route {
         Argument::IsString($parameter);
 
         if (! $this->hasRule($parameter)) {
-            throw new \UnexpectedValueException(
+            throw new UnexpectedValueException(
                 sprintf("The rule for `%s` does not exist.", $parameter)
             );
         }
@@ -149,7 +150,7 @@ class GenericRoute implements Route {
         Argument::IsString($parameter);
 
         if (!$this->hasDefaultValue($parameter)) {
-            throw new \UnexpectedValueException(
+            throw new UnexpectedValueException(
                 sprintf("The default vaule for the parameter `%s` does not exist.", $parameter)
             );
         }

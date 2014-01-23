@@ -29,18 +29,20 @@
 
 namespace Brickoo\Routing;
 
-use Brickoo\Routing\Exception\DuplicateRouteException,
+use ArrayIterator,
+    IteratorAggregate,
+    Brickoo\Routing\Exception\DuplicateRouteException,
     Brickoo\Routing\Exception\RouteNotFoundException,
     Brickoo\Validation\Argument;
 
 /**
- * Collection
+ * RouteCollection
  *
- * Implements an iterable route collection providing available routes.
+ * Implements an iterable route collection.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class RouteCollection {
+class RouteCollection implements IteratorAggregate {
 
     /** @var string */
     private $name;
@@ -113,11 +115,11 @@ class RouteCollection {
      * @return \Brickoo\Routing\Interfaces\RouteCollection
      */
     public function addRoutes(array $routes) {
-        foreach ($routes as $Route) {
-            if ($this->hasRoute(($routeName = $Route->getName()))) {
+        foreach ($routes as $route) {
+            if ($this->hasRoute(($routeName = $route->getName()))) {
                 throw new DuplicateRouteException($routeName);
             }
-            $this->routes[$routeName] = $Route;
+            $this->routes[$routeName] = $route;
         }
         return $this;
     }
@@ -164,7 +166,7 @@ class RouteCollection {
      * @return \ArrayIterator containing the collection routes
      */
     public function getIterator() {
-        return new \ArrayIterator($this->getRoutes());
+        return new ArrayIterator($this->getRoutes());
     }
 
 }

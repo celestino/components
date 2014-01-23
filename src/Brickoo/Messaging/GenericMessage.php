@@ -31,7 +31,6 @@ namespace Brickoo\Messaging;
 
 use Brickoo\Messaging\Message,
     Brickoo\Messaging\MessageResponseCollection,
-    Brickoo\Messaging\Exception\ResponseNotAvailableException,
     Brickoo\Validation\Argument;
 
 /**

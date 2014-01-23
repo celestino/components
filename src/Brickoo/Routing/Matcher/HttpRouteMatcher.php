@@ -82,7 +82,7 @@ class HttpRouteMatcher implements RouteMatcher {
         $this->pathParameters = null;
         $this->routeParameters = null;
 
-        if ($doesMatch = $this->isMatchingRoute($route)) {
+        if (($doesMatch = $this->isMatchingRoute($route))) {
             $this->routeParameters = $this->collectRouteParameters($route);
         }
 

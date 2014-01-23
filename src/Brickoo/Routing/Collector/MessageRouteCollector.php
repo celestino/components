@@ -32,6 +32,7 @@ namespace Brickoo\Routing\Collector;
 use ArrayIterator,
     Brickoo\Messaging\GenericMessage,
     Brickoo\Messaging\MessageDispatcher,
+    Brickoo\Messaging\MessageResponseCollection,
     Brickoo\Routing\Messages,
     Brickoo\Routing\RouteCollection,
     Brickoo\Routing\RouteCollector;
@@ -66,7 +67,7 @@ class MessageRouteCollector implements RouteCollector {
     public function collect() {
         $message = new GenericMessage(Messages::COLLECT_ROUTES, $this);
         $this->messageDispatcher->dispatch($message);
-        $this->collections = $this->extractRouteCollections($message);
+        $this->collections = $this->extractRouteCollections($message->getResponse());
         return $this;
     }
 
