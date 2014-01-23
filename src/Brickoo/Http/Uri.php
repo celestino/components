@@ -96,6 +96,14 @@ class Uri {
     }
 
     /**
+     * Returns the uri hostname.
+     * @return string the hostname
+     */
+    public function getHostname() {
+        return $this->authority->getHostname();
+    }
+
+    /**
      * Returns the uri path.
      * @return string the uri path
      */

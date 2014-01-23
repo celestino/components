@@ -83,6 +83,17 @@ class UriTest extends PHPUnit_Framework_TestCase {
         $this->assertSame($authority, $uri->getAuthority());
     }
 
+    /** @covers Brickoo\Http\Uri::getHostname */
+    public function testGetHostName() {
+        $hostname = "example.org";
+        $authority = $this->getUriAuthorityStub();
+        $authority->expects($this->any())
+                  ->method("getHostname")
+                  ->will($this->returnValue($hostname));
+        $uri = new Uri("https", $authority, "/", $this->getUriQueryStub(), "");
+        $this->assertEquals($hostname, $uri->getHostname());
+    }
+
     /** @covers Brickoo\Http\Uri::getPath */
     public function testGetPath() {
         $path = "/some/path";
