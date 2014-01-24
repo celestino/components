@@ -33,9 +33,7 @@ use Brickoo\Messaging\Listener,
     Brickoo\Messaging\ListenerAggregate,
     Brickoo\Messaging\ListenerCollection,
     Brickoo\Messaging\Message,
-    Brickoo\Messaging\MessageListener,
     Brickoo\Messaging\MessageRecursionDepthList,
-    Brickoo\Messaging\MessageResponseCollection,
     Brickoo\Messaging\Exception\MaxRecursionDepthReachedException,
     Brickoo\Validation\Argument;
 
@@ -128,9 +126,8 @@ class MessageDispatcher {
      * @return void
      */
     private function processMessage(Message $message, array $listeners) {
-        $messageResponse = $message->getResponse();
         foreach ($listeners as $listener) {
-            $messageResponse->push($listener->handleMessage($message, $this));
+            $listener->handleMessage($message, $this);
             if ($message->isStopped()) {
                 break;
             }

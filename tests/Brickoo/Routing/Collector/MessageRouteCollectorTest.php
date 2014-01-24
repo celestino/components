@@ -29,7 +29,10 @@
 
 namespace Brickoo\Tests\Routing\Collector;
 
-use Brickoo\Routing\RouteCollection,
+use Brickoo\Messaging\Message,
+    Brickoo\Messaging\MessageDispatcher,
+    Brickoo\Messaging\MessageListener,
+    Brickoo\Routing\Messages,
     Brickoo\Routing\Collector\MessageRouteCollector,
     PHPUnit_Framework_TestCase;
 
@@ -54,16 +57,10 @@ class MessageRouteCollectorTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Routing\Collector\MessageRouteCollector::extractRouteCollections
      */
     public function testCollectRouteCollection() {
-        $routeCollection = new RouteCollection();
-
-        $messageDispatcher = $this->getMessageDispatcherStub();
-        $messageDispatcher->expects($this->once())
-                          ->method("dispatch")
-                          ->with($this->isInstanceOf("\\Brickoo\\Messaging\\Message"));
-
-        $messageRouteCollector = new MessageRouteCollector($messageDispatcher);
+        $routeCollection = $this->getMock("\\Brickoo\\Routing\\RouteCollection");
+        $messageRouteCollector = new MessageRouteCollector($this->getMessageDispatcherFixture($routeCollection));
         $this->assertSame($messageRouteCollector, $messageRouteCollector->collect());
-        // $this->assertAttributeEquals(array($routeCollection), "collections", $messageRouteCollector);
+        $this->assertAttributeEquals([$routeCollection], "collections", $messageRouteCollector);
     }
 
     /** covers Brickoo\Routing\Collector\MessageRouteCollector::getIterator */
@@ -80,6 +77,25 @@ class MessageRouteCollectorTest extends PHPUnit_Framework_TestCase {
         return $this->getMockBuilder("\\Brickoo\\Messaging\\MessageDispatcher")
             ->disableOriginalConstructor()
             ->getMock();
+    }
+
+    /**
+     * Returns a message dispatcher fixture.
+     * @return \Brickoo\Messaging\MessageDispatcher
+     */
+    private function getMessageDispatcherFixture($routeCollection) {
+        $listener = new MessageListener(Messages::COLLECT_ROUTES, 0, function(Message $message) use ($routeCollection) {
+            $message->getResponse()->push($routeCollection);
+        });
+
+        $listenerCollection = $this->getMock("\\Brickoo\\Messaging\ListenerCollection");
+        $listenerCollection->expects($this->any())
+                           ->method("hasListeners")
+                           ->will($this->returnValue(true));
+        $listenerCollection->expects($this->any())
+                           ->method("getListeners")
+                           ->will($this->returnValue([$listener]));
+        return new MessageDispatcher($listenerCollection, $this->getMock("\\Brickoo\\Messaging\\MessageRecursionDepthList"));
     }
 
 }

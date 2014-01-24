@@ -88,8 +88,8 @@ class MessageRouteCollector implements RouteCollector {
     private function extractRouteCollections(MessageResponseCollection $messageResponseCollection) {
         $collections = [];
         while (! $messageResponseCollection->isEmpty()) {
-            if (($RouteCollection = $messageResponseCollection->shift()) instanceof RouteCollection) {
-                $collections[] = $RouteCollection;
+            if (($routeCollection = $messageResponseCollection->shift()) instanceof RouteCollection) {
+                $collections[] = $routeCollection;
             }
         }
         return $collections;
