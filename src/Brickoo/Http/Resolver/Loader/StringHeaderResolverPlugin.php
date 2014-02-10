@@ -29,17 +29,17 @@
 
 namespace Brickoo\Http\Resolver\Loader;
 
-use Brickoo\Http\Resolver\HeaderResolverLoader,
+use Brickoo\Http\Resolver\HeaderResolverPlugin,
     Brickoo\Validation\Argument;
 
 /**
- * StringHeaderResolverLoader
+ * StringHeaderResolverPlugin
  *
- * Implements a http header resolver loader based on a header string.
+ * Implements a http header resolver plugin based on a header string.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class StringHeaderResolverLoader implements HeaderResolverLoader {
+class StringHeaderResolverPlugin implements HeaderResolverPlugin {
 
     /** @var string */
     private $headers;

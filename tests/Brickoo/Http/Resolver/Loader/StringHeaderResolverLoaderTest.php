@@ -29,35 +29,35 @@
 
 namespace Brickoo\Tests\Http\Resolver\Loader;
 
-use Brickoo\Http\Resolver\Loader\StringHeaderResolverLoader,
+use Brickoo\Http\Resolver\Loader\StringHeaderResolverPlugin,
     PHPUnit_Framework_TestCase;
 
 /**
- * StringHeaderResolverLoaderTest
+ * StringHeaderResolverPluginTest
  *
- * Test suite for the StringHeaderResolverLoader class.
- * @see Brickoo\Http\Resolver\StringHeaderResolverLoader
+ * Test suite for the StringHeaderResolverPlugin class.
+ * @see Brickoo\Http\Resolver\StringHeaderResolverPlugin
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class StringHeaderResolverLoaderTest extends PHPUnit_Framework_TestCase {
+class StringHeaderResolverPluginTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * @covers  Brickoo\Http\Resolver\Loader\StringHeaderResolverLoader::__construct
+     * @covers  Brickoo\Http\Resolver\Loader\StringHeaderResolverPlugin::__construct
      * @expectedException \InvalidArgumentException
      */
     public function testConstructorInvalidHeaderStringThrowsException() {
-        new StringHeaderResolverLoader(["wrongType"]);
+        new StringHeaderResolverPlugin(["wrongType"]);
     }
 
     /**
-     * @covers  Brickoo\Http\Resolver\Loader\StringHeaderResolverLoader::__construct
-     * @covers  Brickoo\Http\Resolver\Loader\StringHeaderResolverLoader::getHeaders
+     * @covers  Brickoo\Http\Resolver\Loader\StringHeaderResolverPlugin::__construct
+     * @covers  Brickoo\Http\Resolver\Loader\StringHeaderResolverPlugin::getHeaders
      */
     public function testGetHeadersFromString() {
         $expectedHeaders = ["Accept" => "*/*", "Connection" => "keep-alive"];
-        $stringHeaderResolverLoader = new StringHeaderResolverLoader("Accept: */*\r\nConnection: keep-alive\r\n");
-        $this->assertEquals($expectedHeaders, $stringHeaderResolverLoader->getHeaders());
+        $stringHeaderResolverPlugin = new StringHeaderResolverPlugin("Accept: */*\r\nConnection: keep-alive\r\n");
+        $this->assertEquals($expectedHeaders, $stringHeaderResolverPlugin->getHeaders());
         //
     }
 

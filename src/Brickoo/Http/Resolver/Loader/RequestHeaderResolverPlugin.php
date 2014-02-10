@@ -29,16 +29,16 @@
 
 namespace Brickoo\Http\Resolver\Loader;
 
-use Brickoo\Http\Resolver\HeaderResolverLoader;
+use Brickoo\Http\Resolver\HeaderResolverPlugin;
 
 /**
- * RequestHeaderResolverLoader
+ * RequestHeaderResolverPlugin
  *
- * Implements a http header resolver loader based on the global server values.
+ * Implements a http header resolver plugin based on the global server values.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class RequestHeaderResolverLoader implements HeaderResolverLoader {
+class RequestHeaderResolverPlugin implements HeaderResolverPlugin {
 
     /** {@inheritDoc} */
     public function getHeaders() {

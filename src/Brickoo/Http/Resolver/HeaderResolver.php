@@ -31,7 +31,7 @@ namespace Brickoo\Http\Resolver;
 
 use Brickoo\Autoloader\Exception\FileDoesNotExistException as AutoloaderException,
     Brickoo\Http\Header\GenericHeader,
-    Brickoo\Http\Resolver\HeaderResolverLoader,
+    Brickoo\Http\Resolver\HeaderResolverPlugin,
     Brickoo\Http\Resolver\Exception\FileDoesNotExistException,
     Brickoo\Http\Resolver\Exception\FileIsNotReadableException,
     Brickoo\Http\Resolver\Exception\HeaderClassNotFoundException,
@@ -53,7 +53,7 @@ class HeaderResolver {
     /** @var array */
     private $headerMap;
 
-    /** @var \Brickoo\Http\Resolver\HeaderResolverLoader */
+    /** @var \Brickoo\Http\Resolver\HeaderResolverPlugin */
     private $headersLoader;
 
     /** @var array */
@@ -62,11 +62,11 @@ class HeaderResolver {
     /**
      * Class constructor.
      * @param string $headerMapFile a file containing a header file map
-     * @param \Brickoo\Http\Resolver\HeaderResolverLoader $headersLoader
+     * @param \Brickoo\Http\Resolver\HeaderResolverPlugin $headersLoader
      * @throws \Brickoo\Http\Resolver\Exception\FileIsNotReadableException
      * @return void
      */
-    public function __construct($headerMapFile, HeaderResolverLoader $headersLoader) {
+    public function __construct($headerMapFile, HeaderResolverPlugin $headersLoader) {
         Argument::IsString($headerMapFile);
 
         if (! file_exists($headerMapFile)) {

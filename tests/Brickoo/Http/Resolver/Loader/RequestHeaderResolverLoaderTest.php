@@ -29,18 +29,18 @@
 
 namespace Brickoo\Tests\Http\Resolver\Loader;
 
-use Brickoo\Http\Resolver\Loader\RequestHeaderResolverLoader,
+use Brickoo\Http\Resolver\Loader\RequestHeaderResolverPlugin,
     PHPUnit_Framework_TestCase;
 
 /**
- * RequestHeaderResolverLoader
+ * RequestHeaderResolverPlugin
  *
- * Test suite for the RequestHeaderResolverLoader class.
- * @see Brickoo\Http\Resolver\RequestHeaderResolverLoader
+ * Test suite for the RequestHeaderResolverPlugin class.
+ * @see Brickoo\Http\Resolver\RequestHeaderResolverPlugin
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class RequestHeaderResolverLoaderTest extends PHPUnit_Framework_TestCase {
+class RequestHeaderResolverPluginTest extends PHPUnit_Framework_TestCase {
 
     public function testGetHeadersFromGlobalServerValues() {
         if (! function_exists("apache_request_headers")) {
@@ -49,8 +49,8 @@ class RequestHeaderResolverLoaderTest extends PHPUnit_Framework_TestCase {
 
         $expectedHeaders = ["CONNECTION" => "keep-alive"];
         $_SERVER["HTTP_CONNECTION"] = "keep-alive";
-        $requestHeaderResolverLoader = new RequestHeaderResolverLoader();
-        $this->assertEquals($expectedHeaders, $requestHeaderResolverLoader->getHeaders());
+        $requestHeaderResolverPlugin = new RequestHeaderResolverPlugin();
+        $this->assertEquals($expectedHeaders, $requestHeaderResolverPlugin->getHeaders());
     }
 
 }

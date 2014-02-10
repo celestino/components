@@ -30,13 +30,13 @@
 namespace Brickoo\Http\Resolver;
 
 /**
- * HeaderResolverLoader
+ * HeaderResolverPlugin
  *
- * Describes a http header solver load.
+ * Describes a http header solver plugin.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-interface HeaderResolverLoader {
+interface HeaderResolverPlugin {
 
     /**
      * Returns the loaded headers as key/value pairs.
