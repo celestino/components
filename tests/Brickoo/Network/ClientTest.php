@@ -44,14 +44,15 @@ use Brickoo\Network\Client,
 class ClientTest extends PHPUnit_Framework_TestCase {
 
     /**
+     * @covers Brickoo\Network\Client::__construct
      * @covers Brickoo\Network\Client::open
      * @covers Brickoo\Network\Client::__destruct
      */
     public function testOpenNetworkConnection() {
-        $networkClient = new Client();
+        $networkClient = new Client($this->getConfigurationStub());
 
         try {
-            $networkClient->open("brickoo.com", 80, 10);
+            $networkClient->open();
         } catch(UnableToCreateHandleException $Exception) {
             $this->markTestSkipped($Exception->getMessage());
         }
@@ -65,15 +66,15 @@ class ClientTest extends PHPUnit_Framework_TestCase {
      * @expectedException Brickoo\Network\Exception\HandleAlreadyExistsException
      */
     public function testOpenSocketTwiceThrowsHandleExistsException() {
-        $networkClient = new Client();
+        $networkClient = new Client($this->getConfigurationStub());
 
         try {
-            $networkClient->open("brickoo.com", 80, 10);
+            $networkClient->open();
         } catch(UnableToCreateHandleExceptionException $Exception) {
             return $this->markTestSkipped($Exception->getMessage());
         }
 
-        $networkClient->open("brickoo.com", 80, 10);
+        $networkClient->open();
     }
 
     /**
@@ -82,25 +83,8 @@ class ClientTest extends PHPUnit_Framework_TestCase {
      * @expectedException Brickoo\Network\Exception\UnableToCreateHandleException
      */
     public function testOpenHandleException() {
-        $networkClient = new Client();
-        $networkClient->open("brickoo://failure", 80, 1);
-    }
-
-    /**
-     * @covers Brickoo\Network\Client::open
-     * @covers Brickoo\Network\Exception\UnableToCreateHandleException
-     * @expectedException Brickoo\Network\Exception\UnableToCreateHandleException
-     */
-    public function testOpenFileWithContextThrowsUnableToCreateHandleExceptionException() {
-        $context = stream_context_create(array(
-          'http'=>array(
-              'method'=>"GET",
-              'header'=>"Accept-language: en\r\n"
-          )
-        ));
-
-        $networkClient = new Client();
-        $networkClient->open("brickoo://failure", 80, 1, STREAM_CLIENT_CONNECT, $context);
+        $networkClient = new Client($this->getConfigurationStub("tcp://brickoo.com:111"));
+        $networkClient->open();
     }
 
     /**
@@ -112,8 +96,8 @@ class ClientTest extends PHPUnit_Framework_TestCase {
         $data = "GET / HTTP/1.0\r\n".
                 "Host: brickoo.com\r\n\r\n\r\n";
 
-        $networkClient = new Client();
-        $networkClient->open("brickoo.com", 80, 30);
+        $networkClient = new Client($this->getConfigurationStub());
+        $networkClient->open();
         $this->assertEquals(strlen($data), $networkClient->write($data));
     }
 
@@ -124,7 +108,7 @@ class ClientTest extends PHPUnit_Framework_TestCase {
      * @expectedException Brickoo\Network\Exception\HandleNotAvailableException
      */
     public function testWriteThrowsHandleNotAvailableException() {
-        $networkClient = new Client();
+        $networkClient = new Client($this->getConfigurationStub());
         $networkClient->write("failure");
     }
 
@@ -134,12 +118,12 @@ class ClientTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Network\Client::hasHandle
      */
     public function testReadFromStream() {
-        $expectedData = "HTTP/1.0 302 Found";
+        $expectedData = "HTTP/1.1 200 OK";
         $data = "GET / HTTP/1.0\r\n".
                 "Host: www.brickoo.com\r\n\r\n\r\n";
 
-        $networkClient = new Client();
-        $networkClient->open("www.brickoo.com", 80, 30);
+        $networkClient = new Client($this->getConfigurationStub());
+        $networkClient->open();
         $networkClient->write($data);
         $this->assertTrue(preg_match("~^HTTP\/1\.(0|1) [0-9]{3}~", $networkClient->read(strlen($expectedData))) == 1);
     }
@@ -151,14 +135,14 @@ class ClientTest extends PHPUnit_Framework_TestCase {
      * @expectedException Brickoo\Network\Exception\HandleNotAvailableException
      */
     public function testReadThrowsHandleNotAvailableException() {
-        $networkClient = new Client();
+        $networkClient = new Client($this->getConfigurationStub());
         $networkClient->read(1024);
     }
 
     /** @covers Brickoo\Network\Client::close */
     public function testCloseConnection() {
-        $networkClient = new Client();
-        $networkClient->open("brickoo.com", 80, 30);
+        $networkClient = new Client($this->getConfigurationStub());
+        $networkClient->open();
         $this->assertAttributeInternalType("resource", "handle", $networkClient);
         $networkClient->close();
         $this->assertAttributeEquals(null, "handle", $networkClient);
@@ -170,7 +154,7 @@ class ClientTest extends PHPUnit_Framework_TestCase {
      * @expectedException Brickoo\Network\Exception\HandleNotAvailableException
      */
     public function testCloseThrowsHandleNotAvailableException() {
-        $networkClient = new Client();
+        $networkClient = new Client($this->getConfigurationStub());
         $networkClient->close();
     }
 
@@ -179,8 +163,8 @@ class ClientTest extends PHPUnit_Framework_TestCase {
         $data = "GET / HTTP/1.0\r\n".
                 "Host: brickoo.com\r\n\r\n\r\n";
 
-        $networkClient = new Client();
-        $networkClient->open("brickoo.com", 80, 30);
+        $networkClient = new Client($this->getConfigurationStub());
+        $networkClient->open();
         $this->assertEquals(strlen($data), $networkClient->fwrite($data));
     }
 
@@ -189,8 +173,38 @@ class ClientTest extends PHPUnit_Framework_TestCase {
      * @expectedException BadMethodCallException
      */
     public function testCallCloseThrowsException() {
-        $networkClient = new Client();
+        $networkClient = new Client($this->getConfigurationStub());
         $networkClient->fclose();
+    }
+
+    /**
+     * Returns a client configuration stub.
+     * @return \Brickoo\Network\ClientConfiguration
+     */
+    private function getConfigurationStub($socketAdress = "brickoo.com:80") {
+        $configuration = $this->getMockBuilder("\\Brickoo\\Network\\ClientConfiguration")
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $configuration->expects($this->any())
+                      ->method("getSocketAdress")
+                      ->will($this->returnValue($socketAdress));
+        $configuration->expects($this->any())
+                      ->method("getAdress")
+                      ->will($this->returnValue("brickoo.com"));
+        $configuration->expects($this->any())
+                      ->method("getPort")
+                      ->will($this->returnValue(80));
+        $configuration->expects($this->any())
+                      ->method("getConnectionType")
+                      ->will($this->returnValue(STREAM_CLIENT_CONNECT));
+        $configuration->expects($this->any())
+                      ->method("getContextOptions")
+                      ->will($this->returnValue([]));
+        $configuration->expects($this->any())
+                      ->method("getConnectionTimeout")
+                      ->will($this->returnValue(10));
+        return $configuration;
     }
 
 }

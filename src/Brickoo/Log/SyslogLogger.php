@@ -78,15 +78,6 @@ class SyslogLogger implements Logger {
     /** @var string */
     private $hostname;
 
-    /** @var string */
-    private $serverAddress;
-
-    /** @var integer */
-    private $serverPort;
-
-    /** @var integer */
-    private $timeout;
-
     /** @var integer */
     private $facility;
 
@@ -94,25 +85,16 @@ class SyslogLogger implements Logger {
      * Class constructor.
      * @param \Brickoo\Network\Client $networkClient
      * @param string $hostname the hostname of the maschine running
-     * @param string $serverAddress the syslog server address
-     * @param integer $serverPort the serevr port, commonly 514
-     * @param integer $timeout the connection timeout, default 10 seconds
      * @param integer $facility the facility of the sending messages, default USER_0
      * @throws \InvalidArgumentException if an argument is not valid
      * @return void
      */
-    public function __construct(Client $networkClient, $hostname, $serverAddress, $serverPort = 514, $timeout = 10, $facility = self::FACILITY_USER_0) {
+    public function __construct(Client $networkClient, $hostname, $facility = self::FACILITY_USER_0) {
         Argument::IsString($hostname);
-        Argument::IsString($serverAddress);
-        Argument::IsInteger($serverPort);
-        Argument::IsInteger($timeout);
         Argument::IsInteger($facility);
 
         $this->networkClient = $networkClient;
         $this->hostname = $hostname;
-        $this->serverAddress = $serverAddress;
-        $this->serverPort = $serverPort;
-        $this->timeout = $timeout;
         $this->facility = $facility;
     }
 
@@ -134,11 +116,9 @@ class SyslogLogger implements Logger {
      * @return void
      */
     private function sendMessages(array $messages, $severity) {
-
-        $this->networkClient->open("udp://". $this->serverAddress, $this->serverPort, $this->timeout, STREAM_CLIENT_CONNECT);
+        $this->networkClient->open();
 
         $messageHeader = $this->getMessageHeader($severity);
-
         foreach ($messages as $message) {
             $this->networkClient->write($messageHeader ." ". $message);
         }

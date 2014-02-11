@@ -29,7 +29,8 @@
 
 namespace Brickoo\Network;
 
-use Brickoo\Network\Exception\HandleAlreadyExistsException,
+use Brickoo\Network\ClientConfiguration,
+    Brickoo\Network\Exception\HandleAlreadyExistsException,
     Brickoo\Network\Exception\HandleNotAvailableException,
     Brickoo\Network\Exception\UnableToCreateHandleException,
     Brickoo\Validation\Argument;
@@ -39,7 +40,7 @@ use Brickoo\Network\Exception\HandleAlreadyExistsException,
  *
  * Implements an OOP wrapper for handling socket operations.
  * The resource handle is created and closed by the Client,
- * that`s the reason why fsockopen() and fclose() are not supported as magic method.
+ * that is the reason why fclose() is not supported as magic method.
  * This class does not implement all functions available for socket handling,
  * BUT(!) you can use any socket function which expects the resource handle as first argument.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
@@ -50,35 +51,40 @@ class Client {
     /** @var resource */
     protected $handle;
 
+    /** @var \Brickoo\Network\ClientConfiguration */
+    protected $configuration;
+
+    /**
+     * Class constructor.
+     * @param \Brickoo\Network\ClientConfiguration $configuration
+     */
+    public function __construct(ClientConfiguration $configuration) {
+        $this->configuration = $configuration;
+    }
+
     /**
      * Opens a stream resource handle.
      * @see http://www.php.net/manual/en/function.stream-socket-client.php
-     * @param string $hostname the hostname to connect to e.g. "http://domain.com"
-     * @param integer $port the port number to use for the connection
-     * @param integer $timeout the timeout in seconds of the connection
-     * @param integer $connectionType (persistent:1, async:2, default:4)
-     * @param resource|null $content the stream context to use
-     * @throws \InvalidArgumentException
      * @throws \Brickoo\Network\Exception\HandleAlreadyExistsException
      * @throws \Brickoo\Network\Exception\UnableToCreateHandleException
-     * @return \Brickoo\Network\Client
+     * @return \Brickoo\Net work\Client
      */
-    public function open($hostname, $port, $timeout, $connectionType = STREAM_CLIENT_CONNECT, $context = null) {
+    public function open() {
         if ($this->hasHandle()) {
             throw new HandleAlreadyExistsException();
         }
 
-        Argument::IsString($hostname);
-        Argument::IsInteger($port);
-        Argument::IsInteger($timeout);
-        Argument::IsInteger($connectionType);
+        $errorCode = null;
+        $errorMessage = null;
 
-        if ($context !== null && (! $handle = @stream_socket_client($hostname .":". $port, $errorCode, $errorMessage, $timeout, $connectionType, $context))) {
-            throw new UnableToCreateHandleException($hostname, $port, $errorCode, $errorMessage);
-        }
-
-        if ($context == null && (! $handle = @stream_socket_client($hostname .":". $port, $errorCode, $errorMessage, $timeout, $connectionType))) {
-            throw new UnableToCreateHandleException($hostname, $port, $errorCode, $errorMessage);
+        if (! $handle = @stream_socket_client(
+            $this->configuration->getSocketAdress(),
+            $errorCode, $errorMessage,
+            $this->configuration->getConnectionTimeout(),
+            $this->configuration->getConnectionType(),
+            stream_context_create($this->configuration->getContextOptions())
+        )){
+            throw new UnableToCreateHandleException($this->configuration->getSocketAdress(), $errorCode, $errorMessage);
         }
 
         $this->handle = $handle;

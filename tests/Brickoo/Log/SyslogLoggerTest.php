@@ -50,9 +50,6 @@ class SyslogLoggerTest extends PHPUnit_Framework_TestCase {
      */
     public function testLog() {
         $hostname = "localhost";
-        $serverAddress = "someServer.com";
-        $serverPort = 1024;
-        $timeout = 60;
 
         $logMessage = "Message to log.";
         $expectedRegexMessage = "~^\<[0-9]+\>[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}\:[0-9]{2}\:[0-9]{2}\+[0-9]{2}\:[0-9]{2} ". $hostname ." ". $logMessage ."$~";
@@ -60,7 +57,6 @@ class SyslogLoggerTest extends PHPUnit_Framework_TestCase {
         $networkClient = $this->getNetworkClientStub();
         $networkClient->expects($this->once())
                      ->method("open")
-                     ->with("udp://". $serverAddress, $serverPort, $timeout, STREAM_CLIENT_CONNECT, null)
                      ->will($this->returnSelf());
         $networkClient->expects($this->once())
                      ->method("write")
@@ -68,7 +64,7 @@ class SyslogLoggerTest extends PHPUnit_Framework_TestCase {
         $networkClient->expects($this->once())
                      ->method("close");
 
-        $syslogLogger = new SyslogLogger($networkClient, $hostname, $serverAddress, $serverPort, $timeout);
+        $syslogLogger = new SyslogLogger($networkClient, $hostname);
         $this->assertNull($syslogLogger->log($logMessage, SyslogLogger::SEVERITY_INFO));
     }
 
