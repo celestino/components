@@ -29,6 +29,8 @@
 
 namespace Brickoo\Messaging;
 
+use SplPriorityQueue;
+
 /**
  * ListenerQueue
  *
@@ -36,7 +38,7 @@ namespace Brickoo\Messaging;
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class ListenerQueue extends \SplPriorityQueue {
+class ListenerQueue extends SplPriorityQueue {
 
     /**
      * Holds the priority extra serial to keep the

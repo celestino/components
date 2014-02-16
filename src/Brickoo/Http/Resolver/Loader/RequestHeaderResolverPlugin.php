@@ -49,8 +49,8 @@ class RequestHeaderResolverPlugin implements HeaderResolverPlugin {
             }
         }
 
-        if (function_exists("apache_request_headers")) {
-            $headers = array_merge($headers, apache_request_headers());
+        if (function_exists("apache_request_headers") && ($apacheHeaders = apache_request_headers())) {
+            $headers = array_merge($headers, $apacheHeaders);
         }
         return $headers;
     }

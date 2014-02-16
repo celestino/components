@@ -31,8 +31,7 @@ namespace Brickoo\Http;
 
 use Brickoo\Http\HttpMessage,
     Brickoo\Http\HttpStatus,
-    Brickoo\Http\HttpVersion,
-    Brickoo\Http\Exception\StatusCodeUnknownException;
+    Brickoo\Http\HttpVersion;
 
 /**
  * HttpResponse
@@ -57,7 +56,6 @@ class HttpResponse {
      * @param \Brickoo\Http\HttpStatus $status
      * @param \Brickoo\Http\HttpVersion
      * @param \Brickoo\Http\HttpMessage $message
-     * @throws \Brickoo\Http\Exception\StatusCodeUnknown
      * @return void
      */
     public function __construct(HttpStatus $status, HttpVersion $version, HttpMessage $message) {

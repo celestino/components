@@ -59,7 +59,7 @@ class MemcacheAdapterTest extends PHPUnit_Framework_TestCase {
     public function testSetCacheContentToStoreWithMemcache() {
         $cacheIdentifier = "identifier";
         $cacheContent = "some content to cache";
-        $cacheCompression = MEMCACHE_COMPRESSED;
+        $cacheCompression = false;
         $cacheLifetime = 60;
 
         $memcache = $this->getMemcacheStub();
