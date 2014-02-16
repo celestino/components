@@ -44,41 +44,25 @@ class HttpResponseTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Http\HttpResponse::__construct
-     * @covers Brickoo\Http\Exception\StatusCodeUnknownException
-     * @expectedException Brickoo\Http\Exception\StatusCodeUnknownException
-     */
-    public function testConstructorThrowsUnknownStatusException() {
-        new HttpResponse(999, $this->getHttpVersionStub(), $this->getHttpMessageStub());
-    }
-
-    /**
-     * @covers Brickoo\Http\HttpResponse::__construct
      * @covers Brickoo\Http\HttpResponse::getStatus
      */
     public function testGetStatus() {
-        $expectedStatus = 404;
+        $expectedStatus = $this->getHttpStatusStub();
         $httpResponse = new HttpResponse($expectedStatus, $this->getHttpVersionStub(), $this->getHttpMessageStub());
         $this->assertEquals($expectedStatus, $httpResponse->getStatus());
-    }
-
-    /** @covers Brickoo\Http\HttpResponse::getStatusPhrase */
-    public function testGetStatusPhrase() {
-        $expectedStatusPhrase = "OK";
-        $httpResponse = new HttpResponse(200, $this->getHttpVersionStub(), $this->getHttpMessageStub());
-        $this->assertEquals($expectedStatusPhrase, $httpResponse->getStatusPhrase());
     }
 
     /** @covers Brickoo\Http\HttpResponse::getVersion */
     public function testGetVersion() {
         $version = $this->getHttpVersionStub();
-        $httpResponse = new HttpResponse(200, $version, $this->getHttpMessageStub());
+        $httpResponse = new HttpResponse($this->getHttpStatusStub(), $version, $this->getHttpMessageStub());
         $this->assertSame($version, $httpResponse->getVersion());
     }
 
     /** @covers Brickoo\Http\HttpResponse::getMessage */
     public function testGetMessage() {
         $message = $this->getHttpMessageStub();
-        $httpResponse = new HttpResponse(200, $this->getHttpVersionStub(), $message);
+        $httpResponse = new HttpResponse($this->getHttpStatusStub(), $this->getHttpVersionStub(), $message);
         $this->assertSame($message, $httpResponse->getMessage());
     }
 
@@ -89,7 +73,7 @@ class HttpResponseTest extends PHPUnit_Framework_TestCase {
         $message->expects($this->any())
                 ->method("getHeader")
                 ->will($this->returnValue($header));
-        $httpResponse = new HttpResponse(200, $this->getHttpVersionStub(), $message);
+        $httpResponse = new HttpResponse($this->getHttpStatusStub(), $this->getHttpVersionStub(), $message);
         $this->assertSame($header, $httpResponse->getHeader());
     }
 
@@ -100,7 +84,7 @@ class HttpResponseTest extends PHPUnit_Framework_TestCase {
         $message->expects($this->any())
                 ->method("getBody")
                 ->will($this->returnValue($body));
-        $httpResponse = new HttpResponse(200, $this->getHttpVersionStub(), $message);
+        $httpResponse = new HttpResponse($this->getHttpStatusStub(), $this->getHttpVersionStub(), $message);
         $this->assertSame($body, $httpResponse->getBody());
     }
 
@@ -109,6 +93,11 @@ class HttpResponseTest extends PHPUnit_Framework_TestCase {
         $expectedOutput  = "HTTP/1.1 200 OK\r\n";
         $expectedOutput .= "Unit: TEST\r\n";
         $expectedOutput .= "\r\ntest case content";
+
+        $status = $this->getHttpStatusStub();
+        $status->expects($this->any())
+               ->method("toString")
+               ->will($this->returnValue("200 OK"));
 
         $version = $this->getHttpVersionStub();
         $version->expects($this->any())
@@ -133,8 +122,18 @@ class HttpResponseTest extends PHPUnit_Framework_TestCase {
                 ->method("getBody")
                 ->will($this->returnValue($body));
 
-        $httpResponse = new HttpResponse(200, $version, $message);
+        $httpResponse = new HttpResponse($status, $version, $message);
         $this->assertEquals($expectedOutput, $httpResponse->toString());
+    }
+
+    /**
+     * Returns a http status stub.
+     * @return \Brickoo\Http\HttpStatus
+     */
+    private function getHttpStatusStub() {
+        return $this->getMockBuilder("\\Brickoo\\Http\\HttpStatus")
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     /**

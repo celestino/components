@@ -61,6 +61,15 @@ class ResponseSenderTest extends PHPUnit_Framework_TestCase {
     public function testSendResponse() {
         $headerFunction = function(){};
 
+        $httpStatus = $this->getMockBuilder("\\Brickoo\\Http\\HttpStatus")
+            ->disableOriginalConstructor()->getMock();
+        $httpStatus->expects($this->any())
+                   ->method("getCode")
+                   ->will($this->returnValue(200));
+        $httpStatus->expects($this->any())
+                   ->method("toString")
+                   ->will($this->returnValue("200 OK"));
+
         $httpVersion = $this->getMockBuilder("\\Brickoo\\Http\\HttpVersion")
             ->disableOriginalConstructor()->getMock();
         $httpVersion->expects($this->any())
@@ -82,10 +91,7 @@ class ResponseSenderTest extends PHPUnit_Framework_TestCase {
             ->disableOriginalConstructor()->getMock();
         $httpResponse->expects($this->any())
                      ->method("getStatus")
-                     ->will($this->returnValue(200));
-        $httpResponse->expects($this->any())
-                     ->method("getStatusPhrase")
-                     ->will($this->returnValue("OK"));
+                     ->will($this->returnValue($httpStatus));
         $httpResponse->expects($this->any())
                      ->method("getVersion")
                      ->will($this->returnValue($httpVersion));
@@ -107,7 +113,13 @@ class ResponseSenderTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Http\Exception\StatusCodeDoesNotAllowMessageBodyException
      * @expectedException  Brickoo\Http\Exception\StatusCodeDoesNotAllowMessageBodyException
      */
-    public function testStatusDoesCOntentNotAllowThrowsException() {
+    public function testStatusDoesContentNotAllowThrowsException() {
+        $httpStatus = $this->getMockBuilder("\\Brickoo\\Http\\HttpStatus")
+            ->disableOriginalConstructor()->getMock();
+        $httpStatus->expects($this->any())
+                   ->method("getCode")
+                   ->will($this->returnValue(304));
+
         $messageBody = $this->getMockBuilder("\\Brickoo\\Http\\MessageBody")
             ->disableOriginalConstructor()->getMock();
         $messageBody->expects($this->any())
@@ -118,7 +130,7 @@ class ResponseSenderTest extends PHPUnit_Framework_TestCase {
             ->disableOriginalConstructor()->getMock();
         $httpResponse->expects($this->any())
                      ->method("getStatus")
-                     ->will($this->returnValue(304));
+                     ->will($this->returnValue($httpStatus));
         $httpResponse->expects($this->any())
                      ->method("getBody")
                      ->will($this->returnValue($messageBody));

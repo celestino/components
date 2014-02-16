@@ -63,8 +63,7 @@ class ResponseSender {
     public function send(HttpResponse $response) {
         $this->checkStatusAllowsMessageBodyContent($response);
         $this->sendStatus(
-            $response->getStatus(),
-            $response->getStatusPhrase(),
+            $response->getStatus()->toString(),
             $response->getVersion()->toString()
         );
         $this->sendMessageHeader($response->getHeader());
@@ -73,14 +72,13 @@ class ResponseSender {
 
     /**
      * Sends the status headers line to the output buffer.
-     * @param integer $statusCode
-     * @param string $statusPhrase
+     * @param string $httpStatus
      * @param string $httpVersion
      * @return void
      */
-    private function sendStatus($statusCode, $statusPhrase, $httpVersion) {
+    private function sendStatus($httpStatus, $httpVersion) {
         call_user_func($this->headerFunction, sprintf(
-            "%s %d %s", $httpVersion, $statusCode, $statusPhrase
+            "%s %s", $httpVersion, $httpStatus
         ));
     }
 
@@ -112,7 +110,7 @@ class ResponseSender {
      * @return \Brickoo\Http\ResponseSender
      */
     private function checkStatusAllowsMessageBodyContent(HttpResponse $response) {
-        $statusCode = $response->getStatus();
+        $statusCode = $response->getStatus()->getCode();
         if ((($statusCode >= 100 && $statusCode <= 199)
                 || ($statusCode == 204)
                 || ($statusCode == 304))
