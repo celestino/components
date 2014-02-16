@@ -2,6 +2,7 @@ language: php
 php:
   - 5.4
   - 5.5
+  - hhvm
 before_script:
-  - echo "extension=memcache.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
+  -  echo "extension=memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 script: phpunit -c ./tests/phpunit.xml --coverage-text
