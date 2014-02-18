@@ -53,7 +53,7 @@ class SuccessfullyResponseTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($expectedResponse, $response->toString());
     }
 
-    /* @covers Brickoo\Http\Response\SuccessfullyResponse::createMessageHeader */
+    /** @covers Brickoo\Http\Response\SuccessfullyResponse::createMessageHeader */
     public function testSuccessfullyResponseWithBodyContent() {
         $content = "success";
         $response = new SuccessfullyResponse($content);
@@ -62,7 +62,7 @@ class SuccessfullyResponseTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($expectedResponse, $response->toString());
     }
 
-    /* @covers Brickoo\Http\Response\SuccessfullyResponse::createMessageHeader */
+    /** @covers Brickoo\Http\Response\SuccessfullyResponse::createMessageHeader */
     public function testSuccessfullyResponseWithHeaders() {
         $content = "success";
         $response = new SuccessfullyResponse($content, [new GenericHeader("X-Unit-Test", "ok")]);
@@ -70,6 +70,14 @@ class SuccessfullyResponseTest extends PHPUnit_Framework_TestCase {
         $expectedResponse .= "X-Unit-Test: ok\r\n\r\n";
         $expectedResponse .= $content;
         $this->assertEquals($expectedResponse, $response->toString());
+    }
+
+    /**
+     * @covers Brickoo\Http\Response\SuccessfullyResponse::createMessageHeader
+     * @expectedException \InvalidArgumentException
+     */
+    public function testSuccessfullyResponseInvalidHeaderThrowsException() {
+        new SuccessfullyResponse("", ["wrongType"]);
     }
 
 }
