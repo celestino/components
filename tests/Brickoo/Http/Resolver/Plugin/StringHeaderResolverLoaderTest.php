@@ -27,30 +27,38 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Tests\Http\Resolver\Loader;
+namespace Brickoo\Tests\Http\Resolver\Plugin;
 
-use Brickoo\Http\Resolver\Loader\RequestHeaderResolverPlugin,
+use Brickoo\Http\Resolver\Plugin\StringHeaderResolverPlugin,
     PHPUnit_Framework_TestCase;
 
 /**
- * RequestHeaderResolverPlugin
+ * StringHeaderResolverPluginTest
  *
- * Test suite for the RequestHeaderResolverPlugin class.
- * @see Brickoo\Http\Resolver\RequestHeaderResolverPlugin
+ * Test suite for the StringHeaderResolverPlugin class.
+ * @see Brickoo\Http\Resolver\StringHeaderResolverPlugin
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class RequestHeaderResolverPluginTest extends PHPUnit_Framework_TestCase {
+class StringHeaderResolverPluginTest extends PHPUnit_Framework_TestCase {
 
-    public function testGetHeadersFromGlobalServerValues() {
-        if (! function_exists("apache_request_headers")) {
-            require_once realpath(__DIR__) ."/Assets/requiredFunctions.php";
-        }
+    /**
+     * @covers  Brickoo\Http\Resolver\Plugin\StringHeaderResolverPlugin::__construct
+     * @expectedException \InvalidArgumentException
+     */
+    public function testConstructorInvalidHeaderStringThrowsException() {
+        new StringHeaderResolverPlugin(["wrongType"]);
+    }
 
-        $expectedHeaders = ["CONNECTION" => "keep-alive"];
-        $_SERVER["HTTP_CONNECTION"] = "keep-alive";
-        $requestHeaderResolverPlugin = new RequestHeaderResolverPlugin();
-        $this->assertEquals($expectedHeaders, $requestHeaderResolverPlugin->getHeaders());
+    /**
+     * @covers  Brickoo\Http\Resolver\Plugin\StringHeaderResolverPlugin::__construct
+     * @covers  Brickoo\Http\Resolver\Plugin\StringHeaderResolverPlugin::getHeaders
+     */
+    public function testGetHeadersFromString() {
+        $expectedHeaders = ["Accept" => "*/*", "Connection" => "keep-alive"];
+        $stringHeaderResolverPlugin = new StringHeaderResolverPlugin("Accept: */*\r\nConnection: keep-alive\r\n");
+        $this->assertEquals($expectedHeaders, $stringHeaderResolverPlugin->getHeaders());
+        //
     }
 
 }

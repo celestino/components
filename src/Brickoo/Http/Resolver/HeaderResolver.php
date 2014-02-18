@@ -54,7 +54,7 @@ class HeaderResolver {
     private $headerMap;
 
     /** @var \Brickoo\Http\Resolver\HeaderResolverPlugin */
-    private $headersLoader;
+    private $resolverPlugin;
 
     /** @var array */
     private $loadedHeaders;
@@ -62,11 +62,11 @@ class HeaderResolver {
     /**
      * Class constructor.
      * @param string $headerMapFile a file containing a header file map
-     * @param \Brickoo\Http\Resolver\HeaderResolverPlugin $headersLoader
+     * @param \Brickoo\Http\Resolver\HeaderResolverPlugin $resolverPlugin
      * @throws \Brickoo\Http\Resolver\Exception\FileIsNotReadableException
      * @return void
      */
-    public function __construct($headerMapFile, HeaderResolverPlugin $headersLoader) {
+    public function __construct($headerMapFile, HeaderResolverPlugin $resolverPlugin) {
         Argument::IsString($headerMapFile);
 
         if (! file_exists($headerMapFile)) {
@@ -79,7 +79,7 @@ class HeaderResolver {
 
         $this->headerMap = [];
         $this->headerMapFile = $headerMapFile;
-        $this->headersLoader = $headersLoader;
+        $this->resolverPlugin = $resolverPlugin;
         $this->loadedHeaders = [];
     }
 
@@ -104,7 +104,7 @@ class HeaderResolver {
      */
     private function loadHeaders() {
         if (empty($this->loadedHeaders)) {
-            $this->loadedHeaders = $this->normalizeHeaders($this->headersLoader->getHeaders());
+            $this->loadedHeaders = $this->normalizeHeaders($this->resolverPlugin->getHeaders());
         }
         return $this;
     }

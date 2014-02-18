@@ -53,14 +53,14 @@ class HttpResponse {
 
     /**
      * Class constructor.
-     * @param \Brickoo\Http\HttpStatus $status
      * @param \Brickoo\Http\HttpVersion
+     * @param \Brickoo\Http\HttpStatus $status
      * @param \Brickoo\Http\HttpMessage $message
      * @return void
      */
-    public function __construct(HttpStatus $status, HttpVersion $version, HttpMessage $message) {
-        $this->status = $status;
+    public function __construct(HttpVersion $version, HttpStatus $status, HttpMessage $message) {
         $this->version = $version;
+        $this->status = $status;
         $this->message = $message;
     }
 
@@ -111,7 +111,11 @@ class HttpResponse {
     public function toString() {
         $response  = sprintf("%s %s\r\n", $this->getVersion()->toString(), $this->getStatus()->toString());
         $response .= $this->getHeader()->toString();
-        $response .= "\r\n" . $this->getBody()->getContent();
+
+        $statusCode = $this->getStatus()->getCode();
+        if (($statusCode > 199) && ($statusCode != 204) && ($statusCode != 304)) {
+            $response .= "\r\n" . $this->getBody()->getContent();
+        }
         return $response;
     }
 

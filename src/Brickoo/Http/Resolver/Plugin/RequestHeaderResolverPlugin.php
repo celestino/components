@@ -27,12 +27,32 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Http\Resolver\Plugin;
+
+use Brickoo\Http\Resolver\HeaderResolverPlugin;
+
 /**
- * RedirectResponse
+ * RequestHeaderResolverPlugin
  *
- * Implements a redirect response.
+ * Implements a http header resolver plugin based on the global server values.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class RedirectResponse {
-    //
+
+class RequestHeaderResolverPlugin implements HeaderResolverPlugin {
+
+    /** {@inheritDoc} */
+    public function getHeaders() {
+        $headers = [];
+        foreach ($_SERVER as $key => $value) {
+            if (substr($key, 0, 5) == "HTTP_") {
+                $headers[substr($key, 5)] = $value;
+            }
+        }
+
+        if (function_exists("apache_request_headers") && ($apacheHeaders = apache_request_headers())) {
+            $headers = array_merge($headers, $apacheHeaders);
+        }
+        return $headers;
+    }
+
 }

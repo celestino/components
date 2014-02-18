@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http\Resolver\Loader;
+namespace Brickoo\Http\Resolver\Plugin;
 
 use Brickoo\Http\Resolver\HeaderResolverPlugin,
     Brickoo\Validation\Argument;

@@ -27,38 +27,30 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Tests\Http\Resolver\Loader;
+namespace Brickoo\Tests\Http\Resolver\Plugin;
 
-use Brickoo\Http\Resolver\Loader\StringHeaderResolverPlugin,
+use Brickoo\Http\Resolver\Plugin\RequestHeaderResolverPlugin,
     PHPUnit_Framework_TestCase;
 
 /**
- * StringHeaderResolverPluginTest
+ * RequestHeaderResolverPlugin
  *
- * Test suite for the StringHeaderResolverPlugin class.
- * @see Brickoo\Http\Resolver\StringHeaderResolverPlugin
+ * Test suite for the RequestHeaderResolverPlugin class.
+ * @see Brickoo\Http\Resolver\RequestHeaderResolverPlugin
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class StringHeaderResolverPluginTest extends PHPUnit_Framework_TestCase {
+class RequestHeaderResolverPluginTest extends PHPUnit_Framework_TestCase {
 
-    /**
-     * @covers  Brickoo\Http\Resolver\Loader\StringHeaderResolverPlugin::__construct
-     * @expectedException \InvalidArgumentException
-     */
-    public function testConstructorInvalidHeaderStringThrowsException() {
-        new StringHeaderResolverPlugin(["wrongType"]);
-    }
+    public function testGetHeadersFromGlobalServerValues() {
+        if (! function_exists("apache_request_headers")) {
+            require_once realpath(__DIR__) ."/Assets/requiredFunctions.php";
+        }
 
-    /**
-     * @covers  Brickoo\Http\Resolver\Loader\StringHeaderResolverPlugin::__construct
-     * @covers  Brickoo\Http\Resolver\Loader\StringHeaderResolverPlugin::getHeaders
-     */
-    public function testGetHeadersFromString() {
-        $expectedHeaders = ["Accept" => "*/*", "Connection" => "keep-alive"];
-        $stringHeaderResolverPlugin = new StringHeaderResolverPlugin("Accept: */*\r\nConnection: keep-alive\r\n");
-        $this->assertEquals($expectedHeaders, $stringHeaderResolverPlugin->getHeaders());
-        //
+        $expectedHeaders = ["CONNECTION" => "keep-alive", "X-Unit-Test" => "ok"];
+        $_SERVER["HTTP_CONNECTION"] = "keep-alive";
+        $requestHeaderResolverPlugin = new RequestHeaderResolverPlugin();
+        $this->assertEquals($expectedHeaders, $requestHeaderResolverPlugin->getHeaders());
     }
 
 }

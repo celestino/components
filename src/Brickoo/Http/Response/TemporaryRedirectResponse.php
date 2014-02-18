@@ -27,32 +27,40 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Http\Resolver\Loader;
+namespace Brickoo\Http\Response;
 
-use Brickoo\Http\Resolver\HeaderResolverPlugin;
+use Brickoo\Http\HttpMessage,
+    Brickoo\Http\HttpResponse,
+    Brickoo\Http\HttpStatus,
+    Brickoo\Http\HttpVersion,
+    Brickoo\Http\MessageBody,
+    Brickoo\Http\MessageHeader,
+    Brickoo\Http\Header\GenericHeader;
 
 /**
- * RequestHeaderResolverPlugin
+ * TemporaryRedirectResponse
  *
- * Implements a http header resolver plugin based on the global server values.
+ * Implements a temporary redirect response.
+ * Request method remain the same.
+ * @link http://tools.ietf.org/html/rfc2616#section-10.3.8
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class RequestHeaderResolverPlugin implements HeaderResolverPlugin {
+class TemporaryRedirectResponse extends HttpResponse {
 
-    /** {@inheritDoc} */
-    public function getHeaders() {
-        $headers = [];
-        foreach ($_SERVER as $key => $value) {
-            if (substr($key, 0, 5) == "HTTP_") {
-                $headers[substr($key, 5)] = $value;
-            }
-        }
-
-        if (function_exists("apache_request_headers") && ($apacheHeaders = apache_request_headers())) {
-            $headers = array_merge($headers, $apacheHeaders);
-        }
-        return $headers;
+    /**
+     * Class constructor.
+     * @param String $location the redirect location
+     */
+    public function __construct($location) {
+        parent::__construct(
+            new HttpVersion(HttpVersion::HTTP_1_1),
+            new HttpStatus(307),
+            new HttpMessage(
+                (new MessageHeader())->setHeader(new GenericHeader("Location", $location)),
+                new MessageBody()
+            )
+        );
     }
 
 }

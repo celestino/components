@@ -48,21 +48,21 @@ class HttpResponseTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetStatus() {
         $expectedStatus = $this->getHttpStatusStub();
-        $httpResponse = new HttpResponse($expectedStatus, $this->getHttpVersionStub(), $this->getHttpMessageStub());
+        $httpResponse = new HttpResponse($this->getHttpVersionStub(), $expectedStatus, $this->getHttpMessageStub());
         $this->assertEquals($expectedStatus, $httpResponse->getStatus());
     }
 
     /** @covers Brickoo\Http\HttpResponse::getVersion */
     public function testGetVersion() {
         $version = $this->getHttpVersionStub();
-        $httpResponse = new HttpResponse($this->getHttpStatusStub(), $version, $this->getHttpMessageStub());
+        $httpResponse = new HttpResponse($version, $this->getHttpStatusStub(), $this->getHttpMessageStub());
         $this->assertSame($version, $httpResponse->getVersion());
     }
 
     /** @covers Brickoo\Http\HttpResponse::getMessage */
     public function testGetMessage() {
         $message = $this->getHttpMessageStub();
-        $httpResponse = new HttpResponse($this->getHttpStatusStub(), $this->getHttpVersionStub(), $message);
+        $httpResponse = new HttpResponse($this->getHttpVersionStub(), $this->getHttpStatusStub(), $message);
         $this->assertSame($message, $httpResponse->getMessage());
     }
 
@@ -73,7 +73,7 @@ class HttpResponseTest extends PHPUnit_Framework_TestCase {
         $message->expects($this->any())
                 ->method("getHeader")
                 ->will($this->returnValue($header));
-        $httpResponse = new HttpResponse($this->getHttpStatusStub(), $this->getHttpVersionStub(), $message);
+        $httpResponse = new HttpResponse($this->getHttpVersionStub(), $this->getHttpStatusStub(), $message);
         $this->assertSame($header, $httpResponse->getHeader());
     }
 
@@ -84,7 +84,7 @@ class HttpResponseTest extends PHPUnit_Framework_TestCase {
         $message->expects($this->any())
                 ->method("getBody")
                 ->will($this->returnValue($body));
-        $httpResponse = new HttpResponse($this->getHttpStatusStub(), $this->getHttpVersionStub(), $message);
+        $httpResponse = new HttpResponse($this->getHttpVersionStub(), $this->getHttpStatusStub(), $message);
         $this->assertSame($body, $httpResponse->getBody());
     }
 
@@ -95,6 +95,9 @@ class HttpResponseTest extends PHPUnit_Framework_TestCase {
         $expectedOutput .= "\r\ntest case content";
 
         $status = $this->getHttpStatusStub();
+        $status->expects($this->any())
+               ->method("getCode")
+               ->will($this->returnValue(200));
         $status->expects($this->any())
                ->method("toString")
                ->will($this->returnValue("200 OK"));
@@ -122,7 +125,7 @@ class HttpResponseTest extends PHPUnit_Framework_TestCase {
                 ->method("getBody")
                 ->will($this->returnValue($body));
 
-        $httpResponse = new HttpResponse($status, $version, $message);
+        $httpResponse = new HttpResponse($version, $status, $message);
         $this->assertEquals($expectedOutput, $httpResponse->toString());
     }
 
