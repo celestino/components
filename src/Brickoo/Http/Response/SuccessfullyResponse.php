@@ -56,7 +56,7 @@ class SuccessfullyResponse extends HttpResponse {
     public function __construct($bodyContent = "", array $messageHeaders= []) {
         parent::__construct(
             new HttpVersion(HttpVersion::HTTP_1_1),
-            new HttpStatus(200),
+            new HttpStatus(HttpStatus::CODE_OK),
             new HttpMessage(
                 $this->createMessageHeader($messageHeaders),
                 new MessageBody($bodyContent)

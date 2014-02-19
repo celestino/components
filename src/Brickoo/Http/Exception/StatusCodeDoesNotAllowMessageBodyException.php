@@ -49,7 +49,7 @@ class StatusCodeDoesNotAllowMessageBodyException extends Exception {
      * @return void
      */
     public function __construct($statusCode, \Exception $previousException = null) {
-        parent::__construct(sprintf("Thestatus code `%s` does not allow message body content.", $statusCode), 0, $previousException);
+        parent::__construct(sprintf("The status code `%s` does not allow message body content.", $statusCode), 0, $previousException);
     }
 
 }

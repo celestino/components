@@ -27,29 +27,46 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Tests\Http\Response;
+namespace Brickoo\Tests\Http;
 
-use Brickoo\Http\Response\SeeOtherRedirectResponse,
+use Brickoo\Http\HttpStatusCode,
     PHPUnit_Framework_TestCase;
 
 /**
- * SeeOtherRedirectResponseTest
+ * HttpStatusCode
  *
- * Test suite for the SeeOtherRedirectResponse class.
- * @see Brickoo\Http\Response\SeeOtherRedirectResponse
+ * Test suite for the HttpStatusCode class.
+ * @see Brickoo\Http\HttpStatusCode-
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class SeeOtherRedirectResponseTest extends PHPUnit_Framework_TestCase {
+class HttpStatusCodeTest extends PHPUnit_Framework_TestCase {
 
-    /** @covers Brickoo\Http\Response\SeeOtherRedirectResponse::__construct */
-    public function testRedirectResponse() {
-        $location = "http://brickoo.com/test";
-        $response =  new SeeOtherRedirectResponse($location);
+    /**
+     * @covers Brickoo\Http\HttpStatusCode::getPhrase
+     * @covers Brickoo\Http\HttpStatusCode::hasPhrase
+     */
+    public function testGetPhrase() {
+        $httpStatusCode = new HttpStatusCode();
+        $this->assertEquals("OK", $httpStatusCode->getPhrase(HttpStatusCode::CODE_OK));
+    }
 
-        $expectedResponse = "HTTP/1.1 303 See Other\r\n";
-        $expectedResponse .= sprintf("Location: %s\r\n\r\n", $location);
-        $this->assertEquals($expectedResponse, $response->toString());
+    /**
+     * @covers Brickoo\Http\HttpStatusCode::getPhrase
+     * @covers Brickoo\Http\HttpStatusCode::hasPhrase
+     * @covers Brickoo\Http\Exception\StatusCodeUnkownException
+     * @expectedException Brickoo\Http\Exception\StatusCodeUnkownException
+     */
+    public function testGetPhraseUnknownStatusCodeTHrowsException() {
+        $httpStatusCode = new HttpStatusCode();
+        $httpStatusCode->getPhrase(666);
+    }
+
+    /** @covers Brickoo\Http\HttpStatusCode::hasPhrase */
+    public function testHasPhrase() {
+        $httpStatusCode = new HttpStatusCode();
+        $this->assertTrue($httpStatusCode->hasPhrase(HttpStatusCode::CODE_OK));
+        $this->assertFalse($httpStatusCode->hasPhrase(666));
     }
 
 }

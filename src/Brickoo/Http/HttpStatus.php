@@ -29,7 +29,8 @@
 
 namespace Brickoo\Http;
 
-use Brickoo\Http\Exception\InvalidHttpStatusException,
+use Brickoo\Http\HttpStatusCode,
+    Brickoo\Http\Exception\InvalidHttpStatusException,
     Brickoo\Validation\Argument;
 
 /**
@@ -39,61 +40,7 @@ use Brickoo\Http\Exception\InvalidHttpStatusException,
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-Class HttpStatus {
-
-    /**
-     * Holds the corresponding status code phrases.
-     * 1xx: Informational - Request received, continuing process
-     * 2xx: Success - The action was successfully received, understood, and accepted
-     * 3xx: Redirection - Further action must be taken in order to complete the request
-     * 4xx: Client Error - The request contains bad syntax or cannot be fulfilled
-     * 5xx: Server Error - The server failed to fulfill an apparently valid request
-     * @link http://tools.ietf.org/html/rfc2616#page-40
-     * @var array
-     */
-    protected $statusPhrases = array(
-        100 => "Continue",
-        101 => "Switching Protocols",
-        200 => "OK",
-        201 => "Created",
-        202 => "Accepted",
-        203 => "Non-Authoritative Information",
-        204 => "No Content",
-        205 => "Reset Content",
-        206 => "Partial Content",
-        300 => "Multiple Choices",
-        301 => "Moved Permanently",
-        302 => "Found",
-        303 => "See Other",
-        304 => "Not Modified",
-        305 => "Use Proxy",
-        307 => "Temporary Redirect",
-        308 => "Permanent Redirect",
-        400 => "Bad Request",
-        401 => "Unauthorized",
-        402 => "Payment Required",
-        403 => "Forbidden",
-        404 => "Not Found",
-        405 => "Method Not Allowed",
-        406 => "Not Acceptable",
-        407 => "Proxy Authentication Required",
-        408 => "Request Time-out",
-        409 => "Conflict",
-        410 => "Gone",
-        411 => "Length Required",
-        412 => "Precondition Failed",
-        413 => "Request Entity Too Large",
-        414 => "Request-URI Too Large",
-        415 => "Unsupported Media Type",
-        416 => "Requested range not satisfiable",
-        417 => "Expectation Failed",
-        500 => "Internal Server Error",
-        501 => "Not Implemented",
-        502 => "Bad Gateway",
-        503 => "Service Unavailable",
-        504 => "Gateway Time-out",
-        505 => "HTTP Version not supported"
-    );
+Class HttpStatus extends HttpStatusCode {
 
     /** @var string */
     private $status;
@@ -128,7 +75,7 @@ Class HttpStatus {
      * @return string the status representation
      */
     public function toString() {
-        return sprintf("%d %s", $this->status, $this->statusPhrases[$this->status]);
+        return sprintf("%d %s", $this->status, $this->getPhrase($this->status));
     }
 
     /**
@@ -137,7 +84,7 @@ Class HttpStatus {
      * @return boolean check result
      */
     private function isValid($status) {
-        return array_key_exists($status, $this->statusPhrases);
+        return $this->hasPhrase($status);
     }
 
 }

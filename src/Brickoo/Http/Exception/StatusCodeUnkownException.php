@@ -27,29 +27,29 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Tests\Http\Response;
+namespace Brickoo\Http\Exception;
 
-use Brickoo\Http\Response\SeeOtherRedirectResponse,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Http\Exception;
 
 /**
- * SeeOtherRedirectResponseTest
+ * StatusCodeUnkownException
  *
- * Test suite for the SeeOtherRedirectResponse class.
- * @see Brickoo\Http\Response\SeeOtherRedirectResponse
+ * Exception throwed if the a status code does not have
+ * a corresponding status phrase.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class SeeOtherRedirectResponseTest extends PHPUnit_Framework_TestCase {
+class StatusCodeUnkownException extends Exception {
 
-    /** @covers Brickoo\Http\Response\SeeOtherRedirectResponse::__construct */
-    public function testRedirectResponse() {
-        $location = "http://brickoo.com/test";
-        $response =  new SeeOtherRedirectResponse($location);
-
-        $expectedResponse = "HTTP/1.1 303 See Other\r\n";
-        $expectedResponse .= sprintf("Location: %s\r\n\r\n", $location);
-        $this->assertEquals($expectedResponse, $response->toString());
+    /**
+     * Class constructor.
+     * Calls the parent Exception constructor.
+     * @param string $statusCode
+     * @param \Exception $previousException
+     * @return void
+     */
+    public function __construct($statusCode, \Exception $previousException = null) {
+        parent::__construct(sprintf("The status code `%s` does not have a phrase.", $statusCode), 0, $previousException);
     }
 
 }

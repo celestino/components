@@ -49,7 +49,7 @@ class InternalServerErrorResponse extends HttpResponse {
     public function __construct() {
         parent::__construct(
             new HttpVersion(HttpVersion::HTTP_1_1),
-            new HttpStatus(500),
+            new HttpStatus(HttpStatus::CODE_INTERBAL_SERVER_ERROR),
             new HttpMessage(new MessageHeader(), new MessageBody())
         );
     }

@@ -49,7 +49,7 @@ class BadRequestResponse extends HttpResponse {
     public function __construct() {
         parent::__construct(
             new HttpVersion(HttpVersion::HTTP_1_1),
-            new HttpStatus(400),
+            new HttpStatus(HttpStatus::CODE_BAD_REQUEST),
             new HttpMessage(new MessageHeader(), new MessageBody())
         );
     }

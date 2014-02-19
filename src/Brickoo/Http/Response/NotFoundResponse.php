@@ -49,7 +49,7 @@ class NotFoundResponse extends HttpResponse {
     public function __construct() {
         parent::__construct(
             new HttpVersion(HttpVersion::HTTP_1_1),
-            new HttpStatus(404),
+            new HttpStatus(HttpStatus::CODE_NOT_FOUND),
             new HttpMessage(new MessageHeader(), new MessageBody())
         );
     }

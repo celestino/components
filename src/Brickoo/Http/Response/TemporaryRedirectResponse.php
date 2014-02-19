@@ -55,7 +55,7 @@ class TemporaryRedirectResponse extends HttpResponse {
     public function __construct($location) {
         parent::__construct(
             new HttpVersion(HttpVersion::HTTP_1_1),
-            new HttpStatus(307),
+            new HttpStatus(HttpStatus::CODE_TEMPORARY_REDIRECT),
             new HttpMessage(
                 (new MessageHeader())->setHeader(new GenericHeader("Location", $location)),
                 new MessageBody()

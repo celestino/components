@@ -55,7 +55,7 @@ class SeeOtherRedirectResponse extends HttpResponse {
     public function __construct($location) {
         parent::__construct(
             new HttpVersion(HttpVersion::HTTP_1_1),
-            new HttpStatus(302),
+            new HttpStatus(HttpStatus::CODE_SEE_OTHER),
             new HttpMessage(
                 (new MessageHeader())->setHeader(new GenericHeader("Location", $location)),
                 new MessageBody()
