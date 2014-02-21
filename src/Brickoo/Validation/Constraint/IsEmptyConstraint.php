@@ -29,50 +29,20 @@
 
 namespace Brickoo\Validation\Constraint;
 
-use Brickoo\Validation\Constraint,
-    Brickoo\Validation\Argument;
+use Brickoo\Validation\Constraint;
 
 /**
- * ContainsInternalTypeConstraint
+ * IsEmptyConstraint
  *
- * Asserts that an array or traversable
- * contains just values of the expected type.
- * This class uses the php is_* comparisons functions.
+ * Constraint to assert that a value is empty (0, false, "", [], null).
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class ContainsInternalTypeConstraint implements Constraint {
+class IsEmptyConstraint implements Constraint {
 
-    /** @var string */
-    private $callFunctionName;
-
-    /**
-     * Class constructor.
-     * @param string $expectedType the values expected type
-     * @throws \InvalidArgumentException if an argument is not valid.
-     * @return void
-     */
-    public function __construct($expectedType) {
-        Argument::IsString($expectedType);
-        Argument::IsFunctionAvailable($callFunctionName = "is_". strtolower($expectedType));
-        $this->callFunctionName = $callFunctionName;
-    }
-
-    /**
-     * {@inheritDoc}
-     * @param array|Traversable $traversable
-     */
-    public function matches($traversable) {
-        Argument::IsTraversable($traversable);
-
-        $result = true;
-        foreach ($traversable as $value) {
-            if (! call_user_func($this->callFunctionName, $value)) {
-                $result = false;
-                break;
-            }
-        }
-        return $result;
+    /** {@inheritDoc} */
+    public function matches($value) {
+        return empty($value);
     }
 
 }

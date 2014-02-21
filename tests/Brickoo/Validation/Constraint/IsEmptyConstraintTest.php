@@ -27,52 +27,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Validation\Constraint;
+namespace Brickoo\Tests\Validation\Constraint;
 
-use Brickoo\Validation\Constraint,
-    Brickoo\Validation\Argument;
+use Brickoo\Validation\Constraint\IsEmptyConstraint,
+    PHPUnit_Framework_TestCase;
 
 /**
- * ContainsInternalTypeConstraint
+ * IsEmptyConstraint
  *
- * Asserts that an array or traversable
- * contains just values of the expected type.
- * This class uses the php is_* comparisons functions.
+ * Test suite for the IsEmptyConstraint class.
+ * @see Brickoo\Validation\IsEmptyConstraint
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class ContainsInternalTypeConstraint implements Constraint {
+class IsEmptyConstraintTest extends PHPUnit_Framework_TestCase {
 
-    /** @var string */
-    private $callFunctionName;
-
-    /**
-     * Class constructor.
-     * @param string $expectedType the values expected type
-     * @throws \InvalidArgumentException if an argument is not valid.
-     * @return void
-     */
-    public function __construct($expectedType) {
-        Argument::IsString($expectedType);
-        Argument::IsFunctionAvailable($callFunctionName = "is_". strtolower($expectedType));
-        $this->callFunctionName = $callFunctionName;
-    }
-
-    /**
-     * {@inheritDoc}
-     * @param array|Traversable $traversable
-     */
-    public function matches($traversable) {
-        Argument::IsTraversable($traversable);
-
-        $result = true;
-        foreach ($traversable as $value) {
-            if (! call_user_func($this->callFunctionName, $value)) {
-                $result = false;
-                break;
-            }
-        }
-        return $result;
+    /** @covers Brickoo\Validation\Constraint\IsEmptyConstraint::matches */
+    public function testMatchingValue() {
+        $isEmptyConstraint = new IsEmptyConstraint();
+        $this->assertTrue($isEmptyConstraint->matches(0));
+        $this->assertFalse($isEmptyConstraint->matches(1));
     }
 
 }

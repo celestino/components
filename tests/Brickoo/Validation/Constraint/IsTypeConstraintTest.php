@@ -27,52 +27,44 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Validation\Constraint;
+namespace Brickoo\Tests\Validation\Constraint;
 
-use Brickoo\Validation\Constraint,
-    Brickoo\Validation\Argument;
+use Brickoo\Validation\Constraint\IsTypeConstraint,
+    PHPUnit_Framework_TestCase;
 
 /**
- * ContainsInternalTypeConstraint
+ * IsTypeConstraintTest
  *
- * Asserts that an array or traversable
- * contains just values of the expected type.
- * This class uses the php is_* comparisons functions.
+ * Test suite for the IsTypeConstraint class.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class ContainsInternalTypeConstraint implements Constraint {
-
-    /** @var string */
-    private $callFunctionName;
+class IsTypeConstraintTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * Class constructor.
-     * @param string $expectedType the values expected type
-     * @throws \InvalidArgumentException if an argument is not valid.
-     * @return void
+     * @covers Brickoo\Validation\Constraint\IsTypeConstraint::__construct
+     * @expectedException InvalidArgumentException
      */
-    public function __construct($expectedType) {
-        Argument::IsString($expectedType);
-        Argument::IsFunctionAvailable($callFunctionName = "is_". strtolower($expectedType));
-        $this->callFunctionName = $callFunctionName;
+    public function testConstructorThrowsInvalidArgumentException() {
+        new IsTypeConstraint(["wrongType"]);
     }
 
     /**
-     * {@inheritDoc}
-     * @param array|Traversable $traversable
+     * @covers Brickoo\Validation\Constraint\IsTypeConstraint::__construct
+     * @expectedException InvalidArgumentException
      */
-    public function matches($traversable) {
-        Argument::IsTraversable($traversable);
+    public function testConstructorInvalidFunctionThrowsException() {
+        new IsTypeConstraint("notExists");
+    }
 
-        $result = true;
-        foreach ($traversable as $value) {
-            if (! call_user_func($this->callFunctionName, $value)) {
-                $result = false;
-                break;
-            }
-        }
-        return $result;
+    /**
+     * @covers Brickoo\Validation\Constraint\IsTypeConstraint::__construct
+     * @covers Brickoo\Validation\Constraint\IsTypeConstraint::matches
+     */
+    public function testMatchesValue() {
+        $isTypeConstraint = new IsTypeConstraint("string");
+        $this->assertTrue($isTypeConstraint->matches("ok"));
+        $this->assertFalse($isTypeConstraint->matches(["fail"]));
     }
 
 }
