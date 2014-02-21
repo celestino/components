@@ -38,6 +38,7 @@ use Brickoo\Autoloader\Exception\DirectoryDoesNotExistException,
  * NamespaceAutoloader
  *
  * Implementation of an autoloader to register namespaces based classes.
+ * The implementation can also load files coming from a default location.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -46,15 +47,49 @@ class NamespaceAutoloader extends Autoloader {
     /** @var array */
     private $namespaces;
 
+    /** @var string|null */
+    private $defaultLoaderPath;
+
     /**
      * Class constructor.
      * @param array $namespaces the namespaces to register as namespace => path structure.
      * @param boolean $prepend flag to prepend or append to the PHP autoloader list
+     * @param string|null $defaultPath the default path to load files not having a namespace registered
      * @return void
      */
-    public function __construct(array $namespaces = [], $prepend = true) {
-        $this->namespaces = $namespaces;
+    public function __construct(array $namespaces = [], $prepend = true, $defaultPath = null) {
         parent::__construct($prepend);
+        $this->namespaces = array();
+
+        foreach ($namespaces as $namespace => $includePath) {
+            $this->registerNamespace($namespace, $includePath);
+        }
+
+        if ($defaultPath !== null) {
+            $this->setDefaultLoaderPath($defaultPath);
+        }
+    }
+
+    /**
+     * Sets the default path to use if a namespace is not registered.
+     * The class namespace will be appended to the default path.
+     * @param string $defaultPath the default namespace path
+     * @throws \InvalidArgumentException
+     * @throws \Brickoo\Autoloader\Exception\DirectoryDoesNotExistException
+     * @return \Brickoo\Autoloader\NamespaceAutoloader
+     */
+    public function setDefaultLoaderPath($defaultPath) {
+        if (! is_string($defaultPath)) {
+            throw new \InvalidArgumentException("Invalid default path argument.");
+        }
+
+        if (! is_dir($defaultPath)) {
+            require_once "Exception".DIRECTORY_SEPARATOR."DirectoryDoesNotExistException.php";
+            throw new DirectoryDoesNotExistException($defaultPath);
+        }
+
+        $this->defaultLoaderPath = rtrim($defaultPath, "/\\");
+        return $this;
     }
 
     /**
@@ -68,7 +103,7 @@ class NamespaceAutoloader extends Autoloader {
      */
     public function registerNamespace($namespace, $includePath) {
         if ((! is_string($namespace)) || (! $namespace = trim($namespace)) || (! is_string($includePath))) {
-            throw new \InvalidArgumentException('Invalid arguments used.');
+            throw new \InvalidArgumentException("Invalid arguments used.");
         }
 
         if (! is_dir($includePath)) {
@@ -81,8 +116,7 @@ class NamespaceAutoloader extends Autoloader {
             throw new DuplicateNamespaceRegistrationException($namespace);
         }
 
-        $this->namespaces[$namespace] = rtrim($includePath, '/\\');
-
+        $this->namespaces[$namespace] = rtrim($includePath, "/\\");
         return $this;
     }
 
@@ -100,7 +134,6 @@ class NamespaceAutoloader extends Autoloader {
         }
 
         unset($this->namespaces[$namespace]);
-
         return $this;
     }
 
@@ -128,7 +161,7 @@ class NamespaceAutoloader extends Autoloader {
 
     /** {@inheritDoc} */
     public function load($className) {
-        if ((! is_string($className)) || (! $className = trim($className, '\\'))) {
+        if ((! is_string($className)) || (! $className = trim($className, "\\"))) {
             throw new \InvalidArgumentException("Invalid class argument used.");
         }
 
@@ -152,19 +185,36 @@ class NamespaceAutoloader extends Autoloader {
      */
     private function getAbsolutePath($className) {
         $namespaceDirectory = null;
+        $choosedNamespace = null;
 
         foreach($this->namespaces as $namespace => $directory) {
-            if (strpos($className, $namespace) === 0) {
+            if ((strpos($className, $namespace) === 0)
+                && (($choosedNamespace === null)
+                    || (strlen($choosedNamespace) < strlen($namespace)))
+            ){
+                $choosedNamespace = $namespace;
                 $namespaceDirectory = $directory;
-                break;
             }
         }
 
-        if ($namespaceDirectory === null) {
-            return null;
+        if ($namespaceDirectory !== null) {
+            return $namespaceDirectory . $this->getTranslatedClassPath($className);
         }
 
-        return $namespaceDirectory . DIRECTORY_SEPARATOR . str_replace(array('\\'), DIRECTORY_SEPARATOR, $className) .'.php';
+        if ($this->defaultLoaderPath !== null) {
+            return $this->defaultLoaderPath . $this->getTranslatedClassPath($className);
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns a translated namespaced class to fileystem path.
+     * @param string $className class including namespace
+     * @return string the translated class path
+     */
+    private function getTranslatedClassPath($className) {
+        return DIRECTORY_SEPARATOR . str_replace("\\", DIRECTORY_SEPARATOR, $className) .".php";
     }
 
 }

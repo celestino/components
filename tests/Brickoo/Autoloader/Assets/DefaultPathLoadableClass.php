@@ -30,10 +30,10 @@
 namespace Brickoo\Tests\Autoloader\Assets;
 
 /**
- * ListLoadableClass
+ * DefaultPathLoadableClass
  *
- * Test class for the ListAutoloader.
+ * Test class for the NamespaceAutoloader with default loader path set.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class ListLoadableClass {}
+class DefaultPathLoadableClass {}
