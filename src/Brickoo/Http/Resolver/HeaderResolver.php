@@ -29,14 +29,10 @@
 
 namespace Brickoo\Http\Resolver;
 
-use Brickoo\Autoloader\Exception\FileDoesNotExistException as AutoloaderException,
+use Brickoo\Autoloader\Exception\FileDoesNotExistException,
     Brickoo\Http\Header\GenericHeader,
     Brickoo\Http\Resolver\HeaderResolverPlugin,
-    Brickoo\Http\Resolver\Exception\FileDoesNotExistException,
-    Brickoo\Http\Resolver\Exception\FileIsNotReadableException,
-    Brickoo\Http\Resolver\Exception\HeaderClassNotFoundException,
-    Brickoo\Http\Resolver\Exception\WrongHeaderMapTypeException,
-    Brickoo\Validation\Argument;
+    Brickoo\Http\Resolver\Exception\HeaderClassNotFoundException;
 
 /**
  * HeaderResolver
@@ -46,9 +42,6 @@ use Brickoo\Autoloader\Exception\FileDoesNotExistException as AutoloaderExceptio
  */
 
 class HeaderResolver {
-
-    /** @var string */
-    private $headerMapFile;
 
     /** @var array */
     private $headerMap;
@@ -61,24 +54,12 @@ class HeaderResolver {
 
     /**
      * Class constructor.
-     * @param string $headerMapFile a file containing a header file map
+     * @param array $headerMap a map array containing the header nam as key and target class as value
      * @param \Brickoo\Http\Resolver\HeaderResolverPlugin $resolverPlugin
-     * @throws \Brickoo\Http\Resolver\Exception\FileIsNotReadableException
      * @return void
      */
-    public function __construct($headerMapFile, HeaderResolverPlugin $resolverPlugin) {
-        Argument::IsString($headerMapFile);
-
-        if (! file_exists($headerMapFile)) {
-            throw new FileDoesNotExistException($headerMapFile);
-        }
-
-        if (! is_readable($headerMapFile)) {
-            throw new FileIsNotReadableException($headerMapFile);
-        }
-
-        $this->headerMap = [];
-        $this->headerMapFile = $headerMapFile;
+    public function __construct(array $headerMap, HeaderResolverPlugin $resolverPlugin) {
+        $this->headerMap = $headerMap;
         $this->resolverPlugin = $resolverPlugin;
         $this->loadedHeaders = [];
     }
@@ -89,7 +70,6 @@ class HeaderResolver {
      */
     public function getHeaders() {
         $this->loadHeaders();
-        $this->loadHeaderMap();
 
         $headers = [];
         foreach ($this->loadedHeaders as $headerName => $headerValue) {
@@ -107,22 +87,6 @@ class HeaderResolver {
             $this->loadedHeaders = $this->normalizeHeaders($this->resolverPlugin->getHeaders());
         }
         return $this;
-    }
-
-    /**
-     * Loads the header map into memory.
-     * @throws \Brickoo\Http\Resolver\Exception\WrongHeaderMapTypeException
-     * @return \Brickoo\Http\Resolver\RequestHeaderResolver
-     */
-    private function loadHeaderMap() {
-        if (empty($this->headerMap)) {
-            $headerMap = include $this->headerMapFile;
-            if (! is_array($headerMap)) {
-                throw new WrongHeaderMapTypeException($headerMap);
-            }
-            $this->headerMap = $headerMap;
-        }
-        return  $this;
     }
 
     /**
@@ -158,7 +122,7 @@ class HeaderResolver {
         try {
             class_exists($headerClass);
         }
-        catch (AutoloaderException $exception) {
+        catch (FileDoesNotExistException $exception) {
             throw new HeaderClassNotFoundException($headerClass, $exception);
         }
         return new $headerClass($headerValue);

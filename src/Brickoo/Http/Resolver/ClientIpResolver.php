@@ -72,20 +72,30 @@ class ClientIpResolver {
             && in_array($remoteAddress, $this->proxyServers)
         );
 
-        if ($remoteAddressIsFromReversProxy) {
-            if(($forwardedIp = $this->getForwardedClientIp()) !== null) {
-                return $forwardedIp;
-            }
-
-            if ($this->headers->hasHeader("Client-Ip")
-                && ($headerClientIp = $this->headers->getHeader("Client-Ip")->getValue())
-                && filter_var($headerClientIp, FILTER_VALIDATE_IP)
-            ){
-                return $headerClientIp;
-            }
+        if ($remoteAddressIsFromReversProxy
+            && ($originalClientIp = $this->getOriginalClientIp())
+        ){
+            return $originalClientIp;
         }
 
         return $remoteAddress ?: "";
+    }
+
+    /**
+     * Returns the original client ip.
+     * @return string the original client ip otherwise null
+     */
+    private function getOriginalClientIp() {
+        if(($forwardedIp = $this->getForwardedClientIp()) !== null) {
+            return $forwardedIp;
+        }
+
+        if ($this->headers->hasHeader("Client-Ip")
+            && ($headerClientIp = $this->headers->getHeader("Client-Ip")->getValue())
+            && filter_var($headerClientIp, FILTER_VALIDATE_IP)
+        ){
+            return $headerClientIp;
+        }
     }
 
     /**

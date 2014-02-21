@@ -45,40 +45,44 @@ class ClientIpResolverTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Http\Resolver\ClientIpResolver::__construct
      * @covers Brickoo\Http\Resolver\ClientIpResolver::getClientIp
+     * @covers Brickoo\Http\Resolver\ClientIpResolver::getOriginalClientIp
      * @covers Brickoo\Http\Resolver\ClientIpResolver::getForwardedClientIp
      * @covers Brickoo\Http\Resolver\ClientIpResolver::getServerVar
      */
-    public function testgetClientIpCouldBeEmpty() {
+    public function testGetClientIpCouldBeEmpty() {
         $clientIpResolver = new ClientIpResolver($this->getMessageHeaderStub());
         $this->assertEquals("", $clientIpResolver->getClientIp());
     }
 
     /**
      * @covers Brickoo\Http\Resolver\ClientIpResolver::getClientIp
+     * @covers Brickoo\Http\Resolver\ClientIpResolver::getOriginalClientIp
      * @covers Brickoo\Http\Resolver\ClientIpResolver::getForwardedClientIp
      * @covers Brickoo\Http\Resolver\ClientIpResolver::getServerVar
      */
-    public function testgetClientIpCouldReturnsProxyIp() {
+    public function testGetClientIpCouldReturnProxyIp() {
         $clientIpResolver = new ClientIpResolver($this->getMessageHeaderStub(), ["REMOTE_ADDR" => "10.20.30.40"], ["10.20.30.40"]);
         $this->assertEquals("10.20.30.40", $clientIpResolver->getClientIp());
     }
 
     /**
      * @covers Brickoo\Http\Resolver\ClientIpResolver::getClientIp
+     * @covers Brickoo\Http\Resolver\ClientIpResolver::getOriginalClientIp
      * @covers Brickoo\Http\Resolver\ClientIpResolver::getForwardedClientIp
      * @covers Brickoo\Http\Resolver\ClientIpResolver::getServerVar
      */
-    public function testgetClientIpFromServerValue() {
+    public function testGetClientIpFromServerValue() {
         $clientIpResolver = new ClientIpResolver($this->getMessageHeaderStub(), ["REMOTE_ADDR" => "127.0.0.1"]);
         $this->assertEquals("127.0.0.1", $clientIpResolver->getClientIp());
     }
 
     /**
      * @covers Brickoo\Http\Resolver\ClientIpResolver::getClientIp
+     * @covers Brickoo\Http\Resolver\ClientIpResolver::getOriginalClientIp
      * @covers Brickoo\Http\Resolver\ClientIpResolver::getForwardedClientIp
      * @covers Brickoo\Http\Resolver\ClientIpResolver::getServerVar
      */
-    public function testgetClientIpFromClientIPHeader() {
+    public function testGetClientIpFromClientIPHeader() {
         $headerChecks = [["X-Forwarded-For", false], ["Client-Ip", true]];
         $messageHeader = $this->getMessageHeaderStub();
         $messageHeader->expects($this->any())
@@ -94,10 +98,11 @@ class ClientIpResolverTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Http\Resolver\ClientIpResolver::getClientIp
+     * @covers Brickoo\Http\Resolver\ClientIpResolver::getOriginalClientIp
      * @covers Brickoo\Http\Resolver\ClientIpResolver::getForwardedClientIp
      * @covers Brickoo\Http\Resolver\ClientIpResolver::getServerVar
      */
-    public function testgetClientIpForwarded() {
+    public function testGetClientIpForwarded() {
         $clientIpResolver = new ClientIpResolver(
             $this->getMessageHeaderMock("X-Forwarded-For", $this->getHeaderStub("127.0.0.1, 88.99.100.101")),
             ["REMOTE_ADDR" => "10.20.30.40"],

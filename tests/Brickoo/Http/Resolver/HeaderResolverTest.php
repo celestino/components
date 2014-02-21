@@ -44,55 +44,8 @@ class HeaderResolverTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Http\Resolver\HeaderResolver::__construct
-     * @expectedException \InvalidArgumentException
-     */
-    public function testConstructorInvalidMapTypeThrowsException() {
-        new HeaderResolver(["wrongType"], $this->getHeaderResolverPluginStub());
-    }
-
-    /**
-     * @covers Brickoo\Http\Resolver\HeaderResolver::__construct
-     * @covers Brickoo\Http\Resolver\Exception\FileDoesNotExistException
-     * @expectedException \Brickoo\Http\Resolver\Exception\FileDoesNotExistException
-     */
-    public function testConstructorMapFileDoesNotExistThrowsException() {
-        new HeaderResolver("doesNotExist.map", $this->getHeaderResolverPluginStub());
-    }
-
-    /**
-     * @covers Brickoo\Http\Resolver\HeaderResolver::__construct
-     * @covers Brickoo\Http\Resolver\Exception\FileIsNotReadableException
-     * @expectedException \Brickoo\Http\Resolver\Exception\FileIsNotReadableException
-     */
-    public function testConstructorMapFileNotReadableThrowsException() {
-        $filename = sys_get_temp_dir()."/brickoo_unittest_unreadable_".time().".map";
-        file_put_contents($filename, "");
-        @chmod($filename, "111");
-        new HeaderResolver($filename, $this->getHeaderResolverPluginStub());
-    }
-
-    /**
-     * @covers Brickoo\Http\Resolver\HeaderResolver::__construct
      * @covers Brickoo\Http\Resolver\HeaderResolver::getHeaders
      * @covers Brickoo\Http\Resolver\HeaderResolver::loadHeaders
-     * @covers Brickoo\Http\Resolver\HeaderResolver::loadHeaderMap
-     * @covers Brickoo\Http\Resolver\HeaderResolver::normalizeHeaders
-     * @covers Brickoo\Http\Resolver\Exception\WrongHeaderMapTypeException
-     * @expectedException \Brickoo\Http\Resolver\Exception\WrongHeaderMapTypeException
-     */
-    public function testGetHeadersInvalidMapFileThrowsException() {
-        $headerLoader = $this->getHeaderResolverPluginStub();
-        $headerLoader->expects($this->any())
-                     ->method("getHeaders")
-                     ->will($this->returnValue(array()));
-        $headerResolver = new HeaderResolver(realpath(__DIR__)."/Assets/invalidHeader.map", $headerLoader);
-        $headerResolver->getHeaders();
-    }
-
-    /**
-     * @covers Brickoo\Http\Resolver\HeaderResolver::getHeaders
-     * @covers Brickoo\Http\Resolver\HeaderResolver::loadHeaders
-     * @covers Brickoo\Http\Resolver\HeaderResolver::loadHeaderMap
      * @covers Brickoo\Http\Resolver\HeaderResolver::hasMappingHeaderClass
      * @covers Brickoo\Http\Resolver\HeaderResolver::getHeader
      * @covers Brickoo\Http\Resolver\HeaderResolver::createMappingHeader
@@ -100,6 +53,7 @@ class HeaderResolverTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Http\Resolver\HeaderResolver::normalizeHeaders
      */
     public function testGetHeadersWithValidMap() {
+        $headerMap = include realpath(__DIR__)."/Assets/validHeader.map";
         $headerLoader = $this->getHeaderResolverPluginStub();
         $headerLoader->expects($this->any())
                      ->method("getHeaders")
@@ -107,7 +61,7 @@ class HeaderResolverTest extends PHPUnit_Framework_TestCase {
                          "Accept" => "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
                          "Connection" => "keep-alive"
                      ]));
-        $headerResolver = new HeaderResolver(realpath(__DIR__)."/Assets/validHeader.map", $headerLoader);
+        $headerResolver = new HeaderResolver($headerMap, $headerLoader);
         $headers = $headerResolver->getHeaders();
         $this->assertInternalType("array", $headers);
         foreach ($headers as $header) {
@@ -119,9 +73,9 @@ class HeaderResolverTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers Brickoo\Http\Resolver\HeaderResolver::__construct
      * @covers Brickoo\Http\Resolver\HeaderResolver::getHeaders
      * @covers Brickoo\Http\Resolver\HeaderResolver::loadHeaders
-     * @covers Brickoo\Http\Resolver\HeaderResolver::loadHeaderMap
      * @covers Brickoo\Http\Resolver\HeaderResolver::hasMappingHeaderClass
      * @covers Brickoo\Http\Resolver\HeaderResolver::getHeader
      * @covers Brickoo\Http\Resolver\HeaderResolver::createMappingHeader
@@ -131,13 +85,14 @@ class HeaderResolverTest extends PHPUnit_Framework_TestCase {
      * @expectedException Brickoo\Http\Resolver\Exception\HeaderClassNotFoundException
      */
     public function testGetHeadersWithNotExistingHeaderThrowsException() {
+        $headerMap = include realpath(__DIR__)."/Assets/wrongHeader.map";
         $headerLoader = $this->getHeaderResolverPluginStub();
         $headerLoader->expects($this->any())
                      ->method("getHeaders")
                      ->will($this->returnValue([
                          "Accept" => "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
                      ]));
-        $headerResolver = new HeaderResolver(realpath(__DIR__)."/Assets/wrongHeader.map", $headerLoader);
+        $headerResolver = new HeaderResolver($headerMap, $headerLoader);
         $headerResolver->getHeaders();
     }
 
