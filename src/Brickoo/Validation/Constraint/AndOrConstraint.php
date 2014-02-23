@@ -43,6 +43,9 @@ class AndOrConstraint implements Constraint {
     /** @var array */
     private $constraints;
 
+    /** @var null|\Brickoo\Validation\Constraint */
+    private $failedConstraint;
+
     /**
      * Class constructor.
      * Can be called with multiple arguments of type array.
@@ -68,6 +71,14 @@ class AndOrConstraint implements Constraint {
     }
 
     /**
+     * Returns the last constraint which did not match.
+     * @return \Brickoo\Validation\constraint on unmatch otherwise null
+     */
+    public function getFailedConstraint() {
+        return $this->failedConstraint;
+    }
+
+    /**
      * Checks if a group of constraints do all match.
      * @param array $constraitGroup
      * @param mixed $value
@@ -77,11 +88,24 @@ class AndOrConstraint implements Constraint {
         $matches = true;
         foreach ($constraitGroup as $constrait) {
             if (! $constrait->matches($value)) {
+                $this->failedConstraint = $this->getConcreteFailedConstraint($constrait);
                 $matches = false;
                 break;
             }
         }
         return $matches;
+    }
+
+    /**
+     * Returns the concrete failed constraint.
+     * @param \Brickoo\Validation\Constraint $constraint
+     * @return \Brickoo\Validation\Constraint\AndOrConstraint
+     */
+    private function getConcreteFailedConstraint(Constraint $constraint) {
+        if ($constraint instanceof AndOrConstraint) {
+            return $constraint->getFailedConstraint();
+        }
+        return $constraint;
     }
 
 }

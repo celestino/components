@@ -38,7 +38,7 @@ use Brickoo\Validation\Constraint\AndOrConstraint,
  * AndOrConstraint
  *
  * Test suite for the AndOrConstraint class.
- * @see Brickoo\Validation\AndOrConstraint
+ * @see Brickoo\Validation\Constraint\AndOrConstraint
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -48,6 +48,7 @@ class AndOrConstraintTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Validation\Constraint\AndOrConstraint::__construct
      * @covers Brickoo\Validation\Constraint\AndOrConstraint::matches
      * @covers Brickoo\Validation\Constraint\AndOrConstraint::doesConstraitGroupMatch
+     * @covers Brickoo\Validation\Constraint\AndOrConstraint::getConcreteFailedConstraint
      */
     public function testMatchingValueWithConstraintGroupUsingAND() {
         $andOrConstraint = new AndOrConstraint([
@@ -61,6 +62,7 @@ class AndOrConstraintTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Validation\Constraint\AndOrConstraint::matches
      * @covers Brickoo\Validation\Constraint\AndOrConstraint::doesConstraitGroupMatch
+     * @covers Brickoo\Validation\Constraint\AndOrConstraint::getConcreteFailedConstraint
      */
     public function testMatchingValueWithConstraintGroupUsingOR() {
         $andOrConstraint = new AndOrConstraint(
@@ -70,6 +72,36 @@ class AndOrConstraintTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($andOrConstraint->matches("test"));
         $this->assertTrue($andOrConstraint->matches("otherString"));
         $this->assertFalse($andOrConstraint->matches(12345));
+    }
+
+    /**
+     * @covers Brickoo\Validation\Constraint\AndOrConstraint::getFailedConstraint
+     * @covers Brickoo\Validation\Constraint\AndOrConstraint::matches
+     * @covers Brickoo\Validation\Constraint\AndOrConstraint::doesConstraitGroupMatch
+     * @covers Brickoo\Validation\Constraint\AndOrConstraint::getConcreteFailedConstraint
+     */
+    public function testGetFailedConstrait() {
+        $andOrConstraint = new AndOrConstraint(
+            [$constrait = new IsTypeConstraint("string")]
+        );
+        $this->assertFalse($andOrConstraint->matches(12345));
+        $this->assertSame($constrait, $andOrConstraint->getFailedConstraint());
+    }
+
+    /**
+     * @covers Brickoo\Validation\Constraint\AndOrConstraint::getFailedConstraint
+     * @covers Brickoo\Validation\Constraint\AndOrConstraint::matches
+     * @covers Brickoo\Validation\Constraint\AndOrConstraint::doesConstraitGroupMatch
+     * @covers Brickoo\Validation\Constraint\AndOrConstraint::getConcreteFailedConstraint
+     */
+    public function testGetFailedConstraitFromNestedGroup() {
+        $andOrConstraint = new AndOrConstraint(
+            [new AndOrConstraint([
+                $constrait = new IsTypeConstraint("string")
+            ])]
+        );
+        $this->assertFalse($andOrConstraint->matches(12345));
+        $this->assertSame($constrait, $andOrConstraint->getFailedConstraint());
     }
 
 }
