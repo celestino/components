@@ -29,58 +29,32 @@
 
 namespace Brickoo\Tests\Http;
 
-use Brickoo\Http\Header\GenericHeader,
+use Brickoo\Http\Header\AuthorizationHeader,
     PHPUnit_Framework_TestCase;
 
 /**
- * GenericHeaderTest
+ * AuthorizationHeaderTest
  *
- * Test suite for the GenericHeader class.
- * @see Brickoo\Http\Header\GenericHeader
+ * Test suite for the AuthorizationHeader class.
+ * @see Brickoo\Http\Header\AuthorizationHeader
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class GenericHeaderTest extends PHPUnit_Framework_TestCase {
+class AuthorizationHeaderTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * @covers Brickoo\Http\Header\GenericHeader::__construct
-     * @expectedException \InvalidArgumentException
-     */
-    public function testConstructorInvalidHeaderNameThrowsException() {
-        new GenericHeader(["wrongType"], "some value");
-    }
-
-    /**
-     * @covers Brickoo\Http\Header\GenericHeader::__construct
+     * @covers Brickoo\Http\Header\AuthorizationHeader::__construct
      * @expectedException \InvalidArgumentException
      */
     public function testConstructorInvalidHeaderValueThrowsException() {
-        new GenericHeader("Accept", ["wrongType"]);
+        new AuthorizationHeader(["wrongType"]);
     }
 
-    /**
-     * @covers Brickoo\Http\Header\GenericHeader::__construct
-     * @covers Brickoo\Http\Header\GenericHeader::getName
-     */
-    public function testGetHeaderName() {
-        $headerName = "Accept";
-        $genericHeader = new GenericHeader($headerName, "*/*");
-        $this->assertEquals($headerName, $genericHeader->getName());
-    }
-
-    /** @covers Brickoo\Http\Header\GenericHeader::getValue */
-    public function testGetHeaderValue() {
-        $headerValue = "*/*";
-        $genericHeader = new GenericHeader("Accept", $headerValue);
-        $this->assertEquals($headerValue, $genericHeader->getValue());
-    }
-
-    /** @covers Brickoo\Http\Header\GenericHeader::toString */
+    /** @covers Brickoo\Http\Header\AuthorizationHeader::toString */
     public function testToString() {
-        $headerName = "Accept";
-        $headerValue = "*/*";
-        $genericHeader = new GenericHeader($headerName, $headerValue);
-        $this->assertEquals($headerName.": ".$headerValue, $genericHeader->toString());
+        $headerValue = "Basic ".  base64_encode("user:pwd");
+        $authorizationHeader = new AuthorizationHeader($headerValue);
+        $this->assertEquals("Authorization: ".$headerValue, $authorizationHeader->toString());
     }
 
 }
