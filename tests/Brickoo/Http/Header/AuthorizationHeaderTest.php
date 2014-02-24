@@ -50,7 +50,10 @@ class AuthorizationHeaderTest extends PHPUnit_Framework_TestCase {
         new AuthorizationHeader(["wrongType"]);
     }
 
-    /** @covers Brickoo\Http\Header\AuthorizationHeader::toString */
+    /**
+     * @covers Brickoo\Http\Header\AuthorizationHeader::__construct
+     * @covers Brickoo\Http\Header\AuthorizationHeader::toString
+     */
     public function testToString() {
         $headerValue = "Basic ".  base64_encode("user:pwd");
         $authorizationHeader = new AuthorizationHeader($headerValue);
