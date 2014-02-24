@@ -29,51 +29,49 @@
 
 namespace Brickoo\Http;
 
-use Brickoo\Http\Uri,
-    Brickoo\Http\UriAuthority,
-    Brickoo\Http\UriQuery,
-    Brickoo\Http\UriResolver;
-
 /**
- * UriFactory
+ * UriResolver
  *
- * Implements a http uri factory.
+ * Defines a resolver for an URI.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class UriFactory {
+interface UriResolver {
 
     /**
-     * Creates a request uri instance.
-     * @param \Brickoo\Http\UriResolver $uriResolver
-     * @return \Brickoo\Http\Uri
+     * Returns the request scheme.
+     * @return string the request scheme
      */
-    public function create(UriResolver $uriResolver) {
-        return new Uri(
-            $uriResolver->getScheme(),
-            $this->createAuthority($uriResolver),
-            $uriResolver->getPath(),
-            $this->createQuery($uriResolver),
-            $uriResolver->getFragment()
-       );
-    }
+    public function getScheme();
 
     /**
-     * Creates the authority dependency.
-     * @param \Brickoo\Http\UriResolver $uriResolver
-     * @return \Brickoo\Http\UriAuthority
+     * Returns the host name or address.
+     * @return string the host name or adress
      */
-    private function createAuthority(UriResolver $uriResolver) {
-        return new UriAuthority($uriResolver->getHostname(), $uriResolver->getPort());
-    }
+    public function getHostname();
 
     /**
-     * Creates the query dependency.
-     * @param \Brickoo\Http\UriResolver $uriResolver
-     * @return \Brickoo\Http\UriQuery
+     * Returns the uri port.
+     * @return integer the uri port
      */
-    private function createQuery(UriResolver $uriResolver) {
-        return (new UriQuery())->fromString($uriResolver->getQueryString());
-    }
+    public function getPort();
+
+    /**
+     * Returns the uri path.
+     * @return string the uri path
+     */
+    public function getPath();
+
+    /**
+     * Returns the uri query string.
+     * @return string the query string
+     */
+    public function getQueryString();
+
+    /**
+     * Returns the uri fragment.
+     * @return string the uri fragment
+     */
+    public function getFragment();
 
 }

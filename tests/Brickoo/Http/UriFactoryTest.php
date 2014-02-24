@@ -48,7 +48,7 @@ class UriFactoryTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Http\UriFactory::createQuery
      */
     public function testCreateUri() {
-        $uriResolver = $this->getMockBuilder("\\Brickoo\\Http\\Resolver\\UriResolver")
+        $uriResolver = $this->getMockBuilder("\\Brickoo\\Http\\UriResolver")
             ->disableOriginalConstructor()->getMock();
         $uriResolver->expects($this->any())
                     ->method("getScheme")

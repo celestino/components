@@ -29,16 +29,17 @@
 
 namespace Brickoo\Http\Resolver;
 
-use Brickoo\Http\MessageHeader;
+use Brickoo\Http\MessageHeader,
+    Brickoo\Http\UriResolver;
 
 /**
- * UriResolver
+ * HttpRequestUriResolver
  *
- * Implements a solver for a http request uri.
+ * Implements a resolver for a http request uri.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class UriResolver {
+class HttpRequestUriResolver implements UriResolver {
 
     /** @var \Brickoo\Http\MessageHeader */
     private $header;
@@ -57,10 +58,7 @@ class UriResolver {
         $this->serverValues = $serverValues;
     }
 
-    /**
-     * Returns the request scheme.
-     * @return string the request scheme
-     */
+    /** {@inheritDoc} */
     public function getScheme() {
         $isSecure = false;
 
@@ -75,10 +73,7 @@ class UriResolver {
         return "http". ($isSecure ? "s" : "");
     }
 
-    /**
-     * Returns the host name or address.
-     * @return string the host name or adress
-     */
+    /** {@inheritDoc} */
     public function getHostname() {
         if ($this->header->hasHeader("Host")) {
             return $this->header->getHeader("Host")->getValue();
@@ -86,10 +81,7 @@ class UriResolver {
         return $this->getServerVar("SERVER_NAME", $this->getServerVar("SERVER_ADDR", "localhost"));
     }
 
-    /**
-     * Returns the uri port.
-     * @return integer the uri port
-     */
+    /** {@inheritDoc} */
     public function getPort() {
         if ($this->header->hasHeader("X-Forwarded-Port")) {
             return (int)$this->header->getHeader("X-Forwarded-Port")->getValue();
@@ -97,10 +89,7 @@ class UriResolver {
         return (int)$this->getServerVar("SERVER_PORT", 80);
     }
 
-    /**
-     * Returns the uri path.
-     * @return string the uri path
-     */
+    /** {@inheritDoc} */
     public function getPath() {
         if ((! $requestPath = $this->getServerVar("REQUEST_URI")) && (! $requestPath = $this->getServerVar("ORIG_PATH_INFO"))) {
             $requestPath = $this->getIISRequestUri();
@@ -108,10 +97,7 @@ class UriResolver {
         return "/". trim(rawurldecode(parse_url($requestPath, PHP_URL_PATH)), "/");
     }
 
-    /**
-     * Returns the uri query string.
-     * @return string the query string
-     */
+    /** {@inheritDoc} */
     public function getQueryString() {
         if (! $queryString = $this->getServerVar("QUERY_STRING")) {
             $queryArray = [];
@@ -124,10 +110,7 @@ class UriResolver {
         return urldecode($queryString);
     }
 
-    /**
-     * Returns the uri fragment.
-     * @return string the uri fragment
-     */
+    /** {@inheritDoc} */
     public function getFragment() {
         return "";
     }

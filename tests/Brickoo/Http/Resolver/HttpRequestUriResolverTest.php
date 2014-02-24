@@ -29,115 +29,115 @@
 
 namespace Brickoo\Tests\Http\Resolver;
 
-use Brickoo\Http\Resolver\UriResolver,
+use Brickoo\Http\Resolver\HttpRequestUriResolver,
     PHPUnit_Framework_TestCase;
 
 /**
- * UriResolver
+ * HttpRequestUriResolverTest
  *
  * Test suite for the UriResolver class.
- * @see Brickoo\Http\Resolver\UriResolver
+ * @see Brickoo\Http\Resolver\HttpRequestUriResolver
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class UriResolverTest extends PHPUnit_Framework_TestCase {
+class HttpRequestUriResolverTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * @covers Brickoo\Http\Resolver\UriResolver::__construct
-     * @covers Brickoo\Http\Resolver\UriResolver::getScheme
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::__construct
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::getScheme
      */
     public function testGetSchemeFromForwardedProtocol() {
         $messageHeader = $this->getMessageHeaderMock("X-Forwarded-Proto", $this->getHeaderStub("HTTPS"));
-        $uriResolver = new UriResolver($messageHeader);
+        $uriResolver = new HttpRequestUriResolver($messageHeader);
         $this->assertEquals("https", $uriResolver->getScheme());
     }
 
     /**
-     * @covers Brickoo\Http\Resolver\UriResolver::getScheme
-     * @covers Brickoo\Http\Resolver\UriResolver::getServerVar
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::getScheme
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::getServerVar
      */
     public function testGetSchemeFromServerValues() {
-        $uriResolver = new UriResolver($this->getMessageHeaderStub(), ["HTTPS" => "on"]);
+        $uriResolver = new HttpRequestUriResolver($this->getMessageHeaderStub(), ["HTTPS" => "on"]);
         $this->assertEquals("https", $uriResolver->getScheme());
     }
 
     /**
-     * @covers Brickoo\Http\Resolver\UriResolver::__construct
-     * @covers Brickoo\Http\Resolver\UriResolver::getHostname
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::__construct
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::getHostname
      */
     public function testGetHostnameFromHeader() {
         $messageHeader = $this->getMessageHeaderMock("Host", $this->getHeaderStub("example.org"));
-        $uriResolver = new UriResolver($messageHeader);
+        $uriResolver = new HttpRequestUriResolver($messageHeader);
         $this->assertEquals("example.org", $uriResolver->getHostname());
     }
 
     /**
-     * @covers Brickoo\Http\Resolver\UriResolver::getHostname
-     * @covers Brickoo\Http\Resolver\UriResolver::getServerVar
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::getHostname
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::getServerVar
      */
     public function testGetHostnameFromServerValues() {
-        $uriResolver = new UriResolver($this->getMessageHeaderStub(), ["SERVER_NAME" => "example.org"]);
+        $uriResolver = new HttpRequestUriResolver($this->getMessageHeaderStub(), ["SERVER_NAME" => "example.org"]);
         $this->assertEquals("example.org", $uriResolver->getHostname());
     }
 
     /**
-     * @covers Brickoo\Http\Resolver\UriResolver::__construct
-     * @covers Brickoo\Http\Resolver\UriResolver::getPort
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::__construct
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::getPort
      */
     public function testGetPortFromForwardedPort() {
         $messageHeader = $this->getMessageHeaderMock("X-Forwarded-Port", $this->getHeaderStub(8080));
-        $uriResolver = new UriResolver($messageHeader);
+        $uriResolver = new HttpRequestUriResolver($messageHeader);
         $this->assertEquals(8080, $uriResolver->getPort());
     }
 
     /**
-     * @covers Brickoo\Http\Resolver\UriResolver::getPort
-     * @covers Brickoo\Http\Resolver\UriResolver::getServerVar
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::getPort
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::getServerVar
      */
     public function testGetPortFromServerValues() {
-        $uriResolver = new UriResolver($this->getMessageHeaderStub(), ["SERVER_PORT" => 8080]);
+        $uriResolver = new HttpRequestUriResolver($this->getMessageHeaderStub(), ["SERVER_PORT" => 8080]);
         $this->assertEquals(8080, $uriResolver->getPort());
     }
 
     /**
-     * @covers Brickoo\Http\Resolver\UriResolver::getPath
-     * @covers Brickoo\Http\Resolver\UriResolver::getIISRequestUri
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::getPath
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::getIISRequestUri
      */
     public function testGetPathWithourProviders() {
-        $uriResolver = new UriResolver($this->getMessageHeaderStub(), array());
+        $uriResolver = new HttpRequestUriResolver($this->getMessageHeaderStub(), array());
         $this->assertEquals("/", $uriResolver->getPath());
     }
 
     /**
-     * @covers Brickoo\Http\Resolver\UriResolver::getPath
-     * @covers Brickoo\Http\Resolver\UriResolver::getServerVar
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::getPath
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::getServerVar
      */
     public function testGetPathFromRequestUri() {
-        $uriResolver = new UriResolver($this->getMessageHeaderStub(), ["REQUEST_URI" => "/path/to/app"]);
+        $uriResolver = new HttpRequestUriResolver($this->getMessageHeaderStub(), ["REQUEST_URI" => "/path/to/app"]);
         $this->assertEquals("/path/to/app", $uriResolver->getPath());
     }
 
     /**
-     * @covers Brickoo\Http\Resolver\UriResolver::getPath
-     * @covers Brickoo\Http\Resolver\UriResolver::getServerVar
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::getPath
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::getServerVar
      */
     public function testGetPathFromOriginalPathInfo() {
-        $uriResolver = new UriResolver($this->getMessageHeaderStub(), ["ORIG_PATH_INFO" => "/path/to/app"]);
+        $uriResolver = new HttpRequestUriResolver($this->getMessageHeaderStub(), ["ORIG_PATH_INFO" => "/path/to/app"]);
         $this->assertEquals("/path/to/app", $uriResolver->getPath());
     }
 
     /**
-     * @covers Brickoo\Http\Resolver\UriResolver::getPath
-     * @covers Brickoo\Http\Resolver\UriResolver::getIISRequestUri
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::getPath
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::getIISRequestUri
      */
     public function testGetPathFromISSOriginalUrlHeader() {
-        $uriResolver = new UriResolver($this->getMessageHeaderMock("X-Original-Url", $this->getHeaderStub("/path/to/app")));
+        $uriResolver = new HttpRequestUriResolver($this->getMessageHeaderMock("X-Original-Url", $this->getHeaderStub("/path/to/app")));
         $this->assertEquals("/path/to/app", $uriResolver->getPath());
     }
 
     /**
-     * @covers Brickoo\Http\Resolver\UriResolver::getPath
-     * @covers Brickoo\Http\Resolver\UriResolver::getIISRequestUri
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::getPath
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::getIISRequestUri
      */
     public function testGetPathFromISSRewriteUrlHeader() {
         $headerChecks = [["X-Original-Url", false], ["X-Rewrite-Url", true]];
@@ -149,34 +149,34 @@ class UriResolverTest extends PHPUnit_Framework_TestCase {
                       ->method("getHeader")
                       ->with("X-Rewrite-Url")
                       ->will($this->returnValue($this->getHeaderStub("/path/to/app/")));
-        $uriResolver = new UriResolver($messageHeader);
+        $uriResolver = new HttpRequestUriResolver($messageHeader);
         $this->assertEquals("/path/to/app", $uriResolver->getPath());
     }
 
     /**
-     * @covers Brickoo\Http\Resolver\UriResolver::getQueryString
-     * @covers Brickoo\Http\Resolver\UriResolver::getServerVar
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::getQueryString
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::getServerVar
      */
     public function testGetQueryStringFromServerValue() {
-        $uriResolver = new UriResolver($this->getMessageHeaderStub(), ["QUERY_STRING" => "a=b&c=d"]);
+        $uriResolver = new HttpRequestUriResolver($this->getMessageHeaderStub(), ["QUERY_STRING" => "a=b&c=d"]);
         $this->assertEquals("a=b&c=d", $uriResolver->getQueryString());
     }
 
     /**
-     * @covers Brickoo\Http\Resolver\UriResolver::getQueryString
-     * @covers Brickoo\Http\Resolver\UriResolver::getServerVar
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::getQueryString
+     * @covers Brickoo\Http\Resolver\HttpRequestUriResolver::getServerVar
      */
     public function testGetQueryStringFromGlobalGetVariable() {
         $backupGlobalGet = $_GET;
         $_GET = ["a" => "b", "c" => "d"];
-        $uriResolver = new UriResolver($this->getMessageHeaderStub(), array());
+        $uriResolver = new HttpRequestUriResolver($this->getMessageHeaderStub(), array());
         $this->assertEquals("a=b&c=d", $uriResolver->getQueryString());
         $_GET = $backupGlobalGet;
     }
 
-    /** @covers Brickoo\Http\Resolver\UriResolver::getFragment */
+    /** @covers Brickoo\Http\Resolver\HttpRequestUriResolver::getFragment */
     public function testGetFragment() {
-        $uriResolver = new UriResolver($this->getMessageHeaderStub(), array());
+        $uriResolver = new HttpRequestUriResolver($this->getMessageHeaderStub(), array());
         $this->assertEquals("", $uriResolver->getFragment());
     }
 
