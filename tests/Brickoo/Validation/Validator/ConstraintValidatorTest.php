@@ -46,10 +46,21 @@ class ConstraintValidatorTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Validation\Validator\ConstraintValidator::__construct
+     * @expectedException \InvalidArgumentException
+     */
+    public function testConstructorThrowsInvalidArgumentsException() {
+        new ConstraintValidator(
+            new IsEqualToConstraint("12345"),
+            ["wrongType"]
+        );
+    }
+
+    /**
+     * @covers Brickoo\Validation\Validator\ConstraintValidator::__construct
      * @covers Brickoo\Validation\Validator\ConstraintValidator::isValid
      */
     public function testMatchingValueWithConstraints() {
-            $constraintValidator = new ConstraintValidator(
+        $constraintValidator = new ConstraintValidator(
             new IsEqualToConstraint("12345"),
             new IsTypeConstraint("string")
         );
@@ -62,7 +73,7 @@ class ConstraintValidatorTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Validation\Validator\ConstraintValidator::getFailedConstraint
      */
     public function testGetFailedConstraint() {
-            $constraintValidator = new ConstraintValidator(
+        $constraintValidator = new ConstraintValidator(
             new IsEqualToConstraint("12345"),
             ($constraint = new IsTypeConstraint("string"))
         );

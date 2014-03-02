@@ -31,7 +31,8 @@ namespace Brickoo\Validation\Validator;
 
 use Brickoo\Validation\Validator,
     Brickoo\Validation\Constraint\AndOrConstraint,
-    Brickoo\Validation\Constraint\ContainsInstancesOfConstraint;
+    Brickoo\Validation\Constraint\ContainsInstancesOfConstraint,
+    InvalidArgumentException;
 
 /**
  * Validator
@@ -50,10 +51,13 @@ class ConstraintValidator implements Validator {
      * Can get any number of paramters with the type Constraint.
      * All constraints must match to succeed validation.
      * @param Constraint ...params
+     * @throws \InvalidArgumentException
      */
     public function __construct() {
         $constraints = func_get_args();
-        (new ContainsInstancesOfConstraint("\\Brickoo\\Validation\\Constraint"))->matches($constraints);
+        if (! (new ContainsInstancesOfConstraint("\\Brickoo\\Validation\\Constraint"))->matches($constraints)) {
+            throw new InvalidArgumentException("Instances of \\Brickoo\\Validation\\Constraint expected.");
+        }
         $this->constraintGroup = new AndOrConstraint($constraints);
     }
 
