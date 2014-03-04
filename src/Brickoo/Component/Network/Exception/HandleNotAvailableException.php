@@ -27,15 +27,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Network\Exception;
+
+use Brickoo\Component\Network\Exception;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * HandleNotAvailableException
+ *
+ * Exception throwed if trying to access a not created handle.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class HandleNotAvailableException extends Exception {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Class constructor.
+     * Calls the parent Exception constructor.
+     * @param \Exception $previousException
+     * @return void
+     */
+    public function __construct(\Exception $previousException = null) {
+        parent::__construct("The resource handle is not available.", 0, $previousException);
+    }
+
+}

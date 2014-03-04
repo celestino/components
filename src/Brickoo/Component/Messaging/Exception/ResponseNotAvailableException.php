@@ -27,15 +27,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Messaging\Exception;
+
+use Brickoo\Component\Messaging\Exception;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * ResponseNotAvailableException
+ *
+ * Throwed if trying to retrieve an unavailable message response.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class ResponseNotAvailableException extends Exception {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Calls the parent exception constructor.
+     * @param \Exception $previousException
+     * @return void
+     */
+    public function __construct(\Exception $previousException = null) {
+        parent::__construct("A message response is not available.", 0, $previousException);
+    }
+
+}

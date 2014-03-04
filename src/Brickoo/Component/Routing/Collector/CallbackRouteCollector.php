@@ -27,15 +27,55 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Routing\Collector;
+
+use ArrayIterator,
+    Brickoo\Component\Routing\RouteCollector,
+    Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint;
+
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * CallbackRouteCollector
+ *
+ * Implementation of a route collection based on callback call.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class CallbackRouteCollector implements RouteCollector {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @var array */
+    private $collections;
+
+    /** @var callable */
+    private $callback;
+
+    /**
+     * Class constructor.
+     * @param callable $callback
+     * @return void
+     */
+    public function __construct(callable $callback) {
+        $this->callback  = $callback;
+        $this->collections = [];
+    }
+
+    /** {@inheritDoc} */
+    public function collect() {
+        if (($collections = call_user_func($this->callback))
+            && (new ContainsInstancesOfConstraint("\\Brickoo\\Component\\Routing\\RouteCollection"))->matches($collections)
+        ){
+            $this->collections = $collections;
+        }
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see IteratorAggregate::getIterator()
+     * @return \ArrayIterator containing the route collections
+     */
+    public function getIterator() {
+        return new ArrayIterator($this->collections);
+    }
+
+}

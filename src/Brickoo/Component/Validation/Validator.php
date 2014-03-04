@@ -1,5 +1,7 @@
 <?php
 
+namespace Brickoo\Component\Validation;
+
 /*
  * Copyright (c) 2011-2014, Celestino Diaz <celestino.diaz@gmx.de>.
  * All rights reserved.
@@ -27,15 +29,21 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Validation;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * Validator
+ *
+ * Defines a validator.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
+interface Validator {
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+    /**
+     * Validates the value against the concrete validator implementation.
+     * @param mixed $value
+     * @return boolean validation result
+     */
+    public function isValid($value);
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+}

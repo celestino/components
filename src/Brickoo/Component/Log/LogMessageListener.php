@@ -27,15 +27,56 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Log;
+
+use Brickoo\Component\Log\Messages,
+    Brickoo\Component\Log\Logger,
+    Brickoo\Component\Log\LogMessage,
+    Brickoo\Component\Messaging\Listener,
+    Brickoo\Component\Messaging\Message,
+    Brickoo\Component\Messaging\MessageDispatcher,
+    Brickoo\Component\Validation\Argument;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * LogMessageListener
+ *
+ * Implements a log message listener.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class LogMessageListener implements Listener {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @var \Brickoo\Component\Log\Logger */
+    protected $logger;
+
+    /** @var integer */
+    protected $listenerPriority;
+
+    /**
+     * @param \Brickoo\Component\Log\Logger $logger
+     * @param integer $priority the priority level
+     */
+    public function __construct(Logger $logger, $priority = 0) {
+        Argument::IsInteger($priority);
+        $this->logger = $logger;
+        $this->listenerPriority = $priority;
+    }
+
+    /** {@inheritDoc} */
+    public function getMessageName() {
+        return Messages::LOG;
+    }
+
+    /** {@inheritDoc} */
+    public function getPriority() {
+        return $this->listenerPriority;
+    }
+
+    /** {@inheritDoc} */
+    public function handleMessage(Message $message, MessageDispatcher $messageDispatcher) {
+        if ($message instanceof LogMessage) {
+            $this->logger->log($message->getMessages(), $message->getSeverity());
+        }
+    }
+
+}

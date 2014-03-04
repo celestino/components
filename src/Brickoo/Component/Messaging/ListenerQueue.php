@@ -27,15 +27,43 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Messaging;
+
+use SplPriorityQueue;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * ListenerQueue
+ *
+ * Implements a priority oriented queue for listeners.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class ListenerQueue extends SplPriorityQueue {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Holds the priority extra serial to keep the
+     * order of listeners registration with the same priority.
+     * @var integer
+     */
+    private $serial;
+
+    /**
+     * Class constructor.
+     * @return void
+     */
+    public function __construct() {
+        $this->serial = PHP_INT_MAX;
+    }
+
+    /**
+     * Inserts a listener identifier with his priority into the queue.
+     * @param string $listenerUID the listener unique idenitifier
+     * @param integer $priority the priority of the listener
+     * @return \Brickoo\Component\Messaging\ListenerQueue
+     */
+    public function insert($listenerUID, $priority) {
+        parent::insert($listenerUID, array($priority, $this->serial--));
+        return $this;
+    }
+
+}

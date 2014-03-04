@@ -27,15 +27,46 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Cache\Adapter;
+
+use Brickoo\Component\Cache\Adapter,
+    Brickoo\Component\Validation\Argument;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * DoNothingAdapter
+ *
+ * This adapter can be used if the caching should be turned off but must behave as expected.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class DoNothingAdapter implements Adapter {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** {@inheritDoc} */
+    public function get($identifier) {
+        Argument::IsString($identifier);
+    }
+
+    /** {@inheritDoc} */
+    public function set($identifier, $content, $lifetime) {
+        Argument::IsString($identifier);
+        Argument::IsInteger($lifetime);
+        return $this;
+    }
+
+    /** {@inheritDoc} */
+    public function delete($identifier) {
+        Argument::IsString($identifier);
+        return $this;
+    }
+
+    /** {@inheritDoc} */
+    public function flush() {
+        return $this;
+    }
+
+    /** {@inheritDoc} */
+    public function isReady() {
+        return true;
+    }
+
+}

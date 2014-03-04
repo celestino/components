@@ -27,15 +27,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Http\Response;
+
+use Brickoo\Component\Http\Response\NotFoundResponse,
+    PHPUnit_Framework_TestCase;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * NotFoundResponseTest
+ *
+ * Test suite for the NotFoundResponse class.
+ * @see Brickoo\Component\Http\Response\NotFoundResponse
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class NotFoundResponseTest extends PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @covers Brickoo\Component\Http\Response\NotFoundResponse::__construct */
+    public function testNotFoundResponse() {
+        $response = new NotFoundResponse();
+        $expectedResponse = "HTTP/1.1 404 Not Found\r\n\r\n";
+        $this->assertEquals($expectedResponse, $response->toString());
+    }
+
+}

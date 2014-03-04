@@ -27,15 +27,33 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Error;
+
+use Brickoo\Component\Error\Message\ExceptionMessage,
+    PHPUnit_Framework_TestCase;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * ExceptionMessageTest
+ *
+ * Test suite for the ExceptionMessage class.
+ * @see Brickoo\Component\Error\Message\ExceptionMessage
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class ExceptionMessageTest extends PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @covers Brickoo\Component\Error\Message\ExceptionMessage::__construct */
+    public function testContructor() {
+        $exception = new \Exception("Some test exception.");
+        $exceptionMessage = new ExceptionMessage($exception);
+        $this->assertInstanceOf("\\Brickoo\\Component\\Messaging\\Message", $exceptionMessage);
+    }
+
+    /** @covers Brickoo\Component\Error\Message\ExceptionMessage::getException */
+    public function testGetException() {
+        $exception = new \Exception("Some test exception.");
+        $exceptionMessage = new ExceptionMessage($exception);
+        $this->assertSame($exception, $exceptionMessage->getException());
+    }
+
+}

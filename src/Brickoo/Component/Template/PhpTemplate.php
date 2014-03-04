@@ -27,15 +27,51 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Template;
+
+use Brickoo\Component\Template\Template,
+    Brickoo\Component\Template\Exception\RenderingAbortedException,
+    Brickoo\Component\Validation\Argument;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * PhpTemplate
+ *
+ * Implements a PHP based template.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class PhpTemplate implements Template {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @var array */
+    protected $templateVars;
+
+    /**
+     * Class constructor.
+     * @param string $templateFile the php template to use
+     * @param array $templateVars the template variables to make accessible
+     * @throws \InvalidArgumentException if an argument is not valid
+     * @return void
+     */
+    public function __construct($templateFile, array $templateVars = []) {
+        Argument::IsString($templateFile);
+        $this->templateFile = $templateFile;
+        $this->templateVars = $templateVars;
+    }
+
+    /** {@inheritDoc} */
+    public function render() {
+        try {
+            extract($this->templateVars, EXTR_SKIP);
+            ob_start();
+            require ($this->templateFile);
+            $output = ob_get_contents();
+            ob_end_clean();
+        }
+        catch (\Exception $Exception) {
+            throw new RenderingAbortedException($Exception);
+        }
+
+        return $output;
+    }
+
+}

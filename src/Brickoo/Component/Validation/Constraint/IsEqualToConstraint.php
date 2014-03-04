@@ -27,15 +27,34 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Validation\Constraint;
+
+use Brickoo\Component\Validation\Constraint;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * IsEqualToConstraint
+ *
+ * Constraint to assert that a value equals an other without type check.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class IsEqualToConstraint implements Constraint {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @var mixed */
+    private $compareValue;
+
+    /**
+     * Class constructor.
+     * @param mixed $compareValue
+     * @return void
+     */
+    public function __construct($compareValue) {
+        $this->compareValue = $compareValue;
+    }
+
+    /** {@inheritDoc} */
+    public function matches($value) {
+        return $this->compareValue == $value;
+    }
+
+}

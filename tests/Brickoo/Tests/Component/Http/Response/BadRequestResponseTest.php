@@ -27,15 +27,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Http\Response;
+
+use Brickoo\Component\Http\Response\BadRequestResponse,
+    PHPUnit_Framework_TestCase;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * BadRequestResponseTest
+ *
+ * Test suite for the BadRequestResponse class.
+ * @see Brickoo\Component\Http\Response\BadRequestResponse
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class BadRequestResponseTest extends PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @covers Brickoo\Component\Http\Response\BadRequestResponse::__construct */
+    public function testBadRequestResponse() {
+        $response = new BadRequestResponse();
+        $expectedResponse = "HTTP/1.1 400 Bad Request\r\n\r\n";
+        $this->assertEquals($expectedResponse, $response->toString());
+    }
+
+}

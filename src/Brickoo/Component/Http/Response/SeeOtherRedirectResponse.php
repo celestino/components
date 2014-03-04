@@ -27,15 +27,40 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Http\Response;
+
+use Brickoo\Component\Http\HttpMessage,
+    Brickoo\Component\Http\HttpResponse,
+    Brickoo\Component\Http\HttpStatus,
+    Brickoo\Component\Http\HttpVersion,
+    Brickoo\Component\Http\MessageBody,
+    Brickoo\Component\Http\MessageHeader,
+    Brickoo\Component\Http\Header\GenericHeader;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * SeeOtherRedirectResponse
+ *
+ * Implements a redirect response.
+ * Request method may change by redirect.
+ * @link http://tools.ietf.org/html/rfc2616#section-10.3.4
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class SeeOtherRedirectResponse extends HttpResponse {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Class constructor.
+     * @param string $location the redirect location
+     */
+    public function __construct($location) {
+        parent::__construct(
+            new HttpVersion(HttpVersion::HTTP_1_1),
+            new HttpStatus(HttpStatus::CODE_SEE_OTHER),
+            new HttpMessage(
+                (new MessageHeader())->setHeader(new GenericHeader("Location", $location)),
+                new MessageBody()
+            )
+        );
+    }
+
+}

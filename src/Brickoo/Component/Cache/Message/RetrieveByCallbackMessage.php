@@ -27,15 +27,37 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Cache\Message;
+
+use Brickoo\Component\Cache\Message\CacheMessage,
+    Brickoo\Component\Cache\Messages,
+    Brickoo\Component\Validation\Argument;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * RetrieveByCallbackMessage
+ *
+ * Implements a message for retrieving cached data
+ * using a callback as fresh fallback loader.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class RetrieveByCallbackMessage extends CacheMessage {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * @param string $identifier the cache unique identifier
+     * @param callable $callback the callback for fresh loading
+     * @param array $callbackArguments the callback arguments
+     * @param integer $cacheLifetime the max. cache lifetime for the fresh loaded content
+     */
+    public function __construct($identifier, callable $callback, array $callbackArguments = [], $cacheLifetime = 60) {
+        Argument::IsString($identifier);
+        Argument::IsInteger($cacheLifetime);
+        parent::__construct(Messages::CALLBACK, null, [
+            self::PARAM_IDENTIFIER => $identifier,
+            self::PARAM_CALLBACK => $callback,
+            self::PARAM_CALLBACK_ARGS => $callbackArguments,
+            self::PARAM_LIFETIME => $cacheLifetime
+        ]);
+    }
+
+}

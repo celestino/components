@@ -27,15 +27,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Messaging\Exception;
+
+use Brickoo\Component\Messaging\Exception;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * ListenersNotAvailableException
+ *
+ * Throwed if trying to retrieve unavailable listeners for an message.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class ListenersNotAvailableException extends Exception {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Calls the parent exception constructor.
+     * @param string $messageName the message which has not a listener queue
+     * @param \Exception $previousException
+     * @return void
+     */
+    public function __construct($messageName, \Exception $previousException = null) {
+        parent::__construct(sprintf('The listeners for the message `%s` are not available.', $messageName), 0, $previousException);
+    }
+
+}

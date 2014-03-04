@@ -27,15 +27,47 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Cache;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * AdapterPool
+ *
+ * Defines an adapter pool.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+interface AdapterPool {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Selects a pool entry by its identifier.
+     * @param string|integer $identifier the pool entry identifier
+     * @throws \InvalidArgumentException
+     * @throws \Brickoo\Component\Cache\Exception\PoolIndentifierDoesNotExistException
+     * @return \Brickoo\Component\Cache\AdapterPool
+     */
+    public function select($identifier);
+
+    /**
+     * Checks if a pool adapter entry exists.
+     * @param string|integer $identifier the pool adapter identifier
+     * @throws \InvalidArgumentException
+     * @return boolean check result
+     */
+    public function has($identifier);
+
+    /**
+     * Removes a pool adapter entry by its identifier.
+     * @param string|integer $identifier the pool adapter identifier
+     * @throws \InvalidArgumentException
+     * @throws \Brickoo\Component\Cache\Exception\PoolIndentifierDoesNotExistException
+     * @return \Brickoo\Component\Cache\AdapterPool
+     */
+    public function remove($identifier);
+
+    /**
+     * Checks if the pool has none entries.
+     * @return boolean check result
+     */
+    public function isEmpty();
+
+}

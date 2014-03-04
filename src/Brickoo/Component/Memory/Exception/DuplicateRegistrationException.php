@@ -27,15 +27,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Memory\Exception;
+
+use Brickoo\Component\Memory\Exception;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * DuplicateRegistrationException
+ *
+ * Exception throwed by the Registry class if trying to register an registered identifier.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class DuplicateRegistrationException extends Exception {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Class constructor.
+     * Calls the parent Exception constructor.
+     * @param string $identifier the idetifier which is registered.
+     * @param \Exception $previousException
+     * @return void
+     */
+    public function __construct($identifier, \Exception $previousException = null) {
+        parent::__construct(sprintf("The identifier `%s` is already registered.", $identifier), 0, $previousException);
+    }
+
+}

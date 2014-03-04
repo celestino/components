@@ -27,15 +27,53 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Http;
+
+use Brickoo\Component\Http\Uri,
+    Brickoo\Component\Http\UriAuthority,
+    Brickoo\Component\Http\UriQuery,
+    Brickoo\Component\Http\UriResolver;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * UriFactory
+ *
+ * Implements a http uri factory.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class UriFactory {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Creates a request uri instance.
+     * @param \Brickoo\Component\Http\UriResolver $uriResolver
+     * @return \Brickoo\Component\Http\Uri
+     */
+    public function create(UriResolver $uriResolver) {
+        return new Uri(
+            $uriResolver->getScheme(),
+            $this->createAuthority($uriResolver),
+            $uriResolver->getPath(),
+            $this->createQuery($uriResolver),
+            $uriResolver->getFragment()
+       );
+    }
+
+    /**
+     * Creates the authority dependency.
+     * @param \Brickoo\Component\Http\UriResolver $uriResolver
+     * @return \Brickoo\Component\Http\UriAuthority
+     */
+    private function createAuthority(UriResolver $uriResolver) {
+        return new UriAuthority($uriResolver->getHostname(), $uriResolver->getPort());
+    }
+
+    /**
+     * Creates the query dependency.
+     * @param \Brickoo\Component\Http\UriResolver $uriResolver
+     * @return \Brickoo\Component\Http\UriQuery
+     */
+    private function createQuery(UriResolver $uriResolver) {
+        return (new UriQuery())->fromString($uriResolver->getQueryString());
+    }
+
+}

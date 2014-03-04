@@ -27,15 +27,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Validation\Constraint;
+
+use Brickoo\Component\Validation\Constraint\IsEmptyConstraint,
+    PHPUnit_Framework_TestCase;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * IsEmptyConstraint
+ *
+ * Test suite for the IsEmptyConstraint class.
+ * @see Brickoo\Component\Validation\IsEmptyConstraint
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class IsEmptyConstraintTest extends PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @covers Brickoo\Component\Validation\Constraint\IsEmptyConstraint::matches */
+    public function testMatchingValue() {
+        $isEmptyConstraint = new IsEmptyConstraint();
+        $this->assertTrue($isEmptyConstraint->matches(0));
+        $this->assertFalse($isEmptyConstraint->matches(1));
+    }
+
+}

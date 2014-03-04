@@ -10,7 +10,8 @@
  *
  * 1. Redistributions of source code must retain the above copyright
  *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
+ * 2. Redistributionscd ..
+ *  in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
  *
@@ -27,15 +28,65 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Http;
+
+use Brickoo\Component\Http\Exception\InvalidHttpMethodException,
+    Brickoo\Component\Validation\Argument;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * HttpMethod
+ *
+ * Describes a http method.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+Class HttpMethod {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** http methods */
+    const HEAD = "HEAD";
+    const OPTIONS = "OPTIONS";
+    const TRACE = "TRACE";
+    const CONNECT = "CONNECT";
+    const GET = "GET";
+    const POST = "POST";
+    const PUT = "PUT";
+    const PATCH = "PATCH";
+    const DELETE = "DELETE";
+
+
+    /** @var string */
+    private $method;
+
+    /**
+     * Class constructor
+     * @param string $method the http method
+     * @return void
+     */
+    public function __construct($method) {
+        Argument::IsString($method);
+
+        if (! $this->isValid($method)) {
+            throw new InvalidHttpMethodException($method);
+        }
+
+        $this->method = $method;
+    }
+
+    /**
+     * Returns the method string representation in uppercase.
+     * return string the method representation
+     */
+    public function toString() {
+        return $this->method;
+    }
+
+    /**
+     * Checks if the method is valid.
+     * @param string $method
+     * @return boolean result
+     */
+    private function isValid($method) {
+        return defined("static::".$method);
+    }
+
+}

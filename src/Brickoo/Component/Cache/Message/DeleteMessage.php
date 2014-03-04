@@ -27,15 +27,25 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Cache\Message;
+
+use Brickoo\Component\Cache\Message\CacheMessage,
+    Brickoo\Component\Cache\Messages,
+    Brickoo\Component\Validation\Argument;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * DeleteMessage
+ *
+ * Implements a message for deleting cached data.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class DeleteMessage extends CacheMessage {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @param string $identifier */
+    public function __construct($identifier) {
+        Argument::IsString($identifier);
+        parent::__construct(Messages::DELETE, null, [self::PARAM_IDENTIFIER => $identifier]);
+    }
+
+}

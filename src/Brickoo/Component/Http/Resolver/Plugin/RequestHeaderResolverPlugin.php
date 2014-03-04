@@ -27,15 +27,32 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Http\Resolver\Plugin;
+
+use Brickoo\Component\Http\Resolver\HeaderResolverPlugin;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * RequestHeaderResolverPlugin
+ *
+ * Implements a http header resolver plugin based on the global server values.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class RequestHeaderResolverPlugin implements HeaderResolverPlugin {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** {@inheritDoc} */
+    public function getHeaders() {
+        $headers = [];
+        foreach ($_SERVER as $key => $value) {
+            if (substr($key, 0, 5) == "HTTP_") {
+                $headers[substr($key, 5)] = $value;
+            }
+        }
+
+        if (function_exists("apache_request_headers") && ($apacheHeaders = apache_request_headers())) {
+            $headers = array_merge($headers, $apacheHeaders);
+        }
+        return $headers;
+    }
+
+}

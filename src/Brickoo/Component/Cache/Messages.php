@@ -27,15 +27,45 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Cache;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * Messages
+ *
+ * Defines the cache messages.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class Messages {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Asks for a cached content.
+     * @var string
+     */
+    const GET = "brickoo.message.cache.get";
+
+    /**
+     * Notifies that the content has to be cached.
+     * @var string
+     */
+    const SET = "brickoo.message.cache.set";
+
+    /**
+     * Asks for a cached content otherwise a callback should be executed.
+     * @var string
+     */
+    const CALLBACK = "brickoo.message.cache.callback";
+
+    /**
+     * Notifies that some cached content has to be deleted.
+     * @var string
+     */
+    const DELETE = "brickoo.message.cache.delete";
+
+    /**
+     * Notifies that all cached content has to be flushed.
+     * @var string
+     */
+    const FLUSH = "brickoo.message.cache.flush";
+
+}

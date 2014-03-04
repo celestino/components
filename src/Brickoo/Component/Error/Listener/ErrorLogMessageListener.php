@@ -27,15 +27,33 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
- * @author Celestino Diaz <celestino.diaz@gmx.de>
- */
+namespace Brickoo\Component\Error\Listener;
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+use Brickoo\Component\Error\Messages,
+    Brickoo\Component\Error\Message\ErrorMessage,
+    Brickoo\Component\Messaging\Listener,
+    Brickoo\Component\Messaging\Message,
+    Brickoo\Component\Messaging\MessageDispatcher,
+    Brickoo\Component\Log\Logger,
+    Brickoo\Component\Log\LogMessage;
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+class ErrorLogMessageListener implements Listener {
+
+    /** {@inheritDoc} */
+    public function getMessageName() {
+        return Messages::ERROR;
+    }
+
+    /** {@inheritDoc} */
+    public function getPriority() {
+        return 0;
+    }
+
+    /** {@inheritDoc} */
+    public function handleMessage(Message $message, MessageDispatcher $messageDispatcher) {
+        if ($message instanceof ErrorMessage) {
+            $messageDispatcher->dispatch(new LogMessage([$message->getErrorMessage()], Logger::SEVERITY_ERROR));
+        }
+    }
+
+}

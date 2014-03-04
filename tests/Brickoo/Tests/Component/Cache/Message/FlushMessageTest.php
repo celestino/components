@@ -27,15 +27,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Cache\Message;
+
+use Brickoo\Component\Cache\Messages,
+    Brickoo\Component\Cache\Message\FlushMessage,
+    PHPUnit_Framework_TestCase;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * FlushMessageTest
+ *
+ * Test suite for the FlushMessage class.
+ * @see Brickoo\Component\Cache\Message\FlushMessage
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class FlushMessageTest extends PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @covers Brickoo\Component\Cache\Message\FlushMessage::__construct */
+    public function testConstructor() {
+        $message = new FlushMessage();
+        $this->assertInstanceOf("\\Brickoo\\Component\\Cache\\Message\\CacheMessage", $message);
+    }
+
+}

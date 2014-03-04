@@ -27,15 +27,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Http\Header;
+
+use Brickoo\Component\Http\Header\GenericHeader;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * AuthorizationHeader
+ *
+ * Implements an authorization header.
+ * @link http://tools.ietf.org/html/rfc2616#section-14.8
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
+class AuthorizationHeader extends GenericHeader {
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+    /**
+     * Class constructor.
+     * @param string $headerValue
+     * @return void
+     */
+    public function __construct($headerValue) {
+        parent::__construct("Authorization", $headerValue);
+    }
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+}

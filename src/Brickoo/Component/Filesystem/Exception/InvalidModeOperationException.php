@@ -27,15 +27,32 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Filesystem\Exception;
+
+use Brickoo\Component\Filesystem\Exception;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * InvalidModeOperationException
+ *
+ * Exception throwed if trying to read or write with a mode that does not support the operation.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class InvalidModeOperationException extends Exception {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Class constructor.
+     * Calls the parent exception constructor.
+     * @param string $currentHandleMode the current resorce handle mode
+     * @param string $operationType the operation not accepted
+     * @param \Exception $previousException
+     * @return void
+     */
+    public function __construct($currentHandleMode, $operationType, \Exception $previousException = null) {
+        parent::__construct(
+            sprintf("The resource handle is using `%s` mode which is not compatible with %s operations", $currentHandleMode, $operationType),
+            0, $previousException
+        );
+    }
+
+}

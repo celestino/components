@@ -27,15 +27,53 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Validation\Constraint;
+
+use Brickoo\Component\Validation\Constraint,
+    Brickoo\Component\Validation\Argument;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * ContainsCharactersTypeConstraint
+ *
+ * Constraint to assert that an array or traversable
+ * contains only values with characters of an expected type.
+ * @see http://www.php.net/manual/de/ref.ctype.php
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class ContainsCharactersTypeConstraint implements Constraint {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @var string */
+    private $cTypeFunctionName;
+
+    /**
+     * Class constructor.
+     * @param string $expectedType the values expected type
+     * @throws \InvalidArgumentException if an argument is not valid.
+     * @return void
+     */
+    public function __construct($expectedType) {
+        Argument::IsString($expectedType);
+        Argument::IsFunctionAvailable($cTypeFunctionName = "ctype_". $expectedType);
+
+        $this->cTypeFunctionName = $cTypeFunctionName;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @param array|\Traversable $traversable
+     */
+    public function matches($traversable) {
+        Argument::IsTraversable($traversable);
+
+        $result = true;
+        foreach ($traversable as $value) {
+            if (! call_user_func($this->cTypeFunctionName, $value)) {
+                $result = false;
+                break;
+            }
+        }
+        return $result;
+    }
+
+}

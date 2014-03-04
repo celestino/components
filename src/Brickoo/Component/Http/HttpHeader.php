@@ -27,15 +27,32 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Http;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * HttpHeader
+ *
+ * Defines a http header.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
+interface HttpHeader {
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+    /**
+     * Returns the header name.
+     * @return string the header name
+     */
+    public function getName();
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Returns the hader value.
+     * @return string the header value
+     */
+    public function getValue();
+
+    /**
+     * Returns a string representation of the header.
+     * @return string the string representation
+     */
+    public function toString();
+
+}

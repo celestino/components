@@ -27,15 +27,31 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Http\Response;
+
+use Brickoo\Component\Http\HttpMessage,
+    Brickoo\Component\Http\HttpResponse,
+    Brickoo\Component\Http\HttpStatus,
+    Brickoo\Component\Http\HttpVersion,
+    Brickoo\Component\Http\MessageBody,
+    Brickoo\Component\Http\MessageHeader;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * NotFoundResponse
+ *
+ * Implements a resource not found response.
+ * @link http://tools.ietf.org/html/rfc2616#section-10.4.5
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class NotFoundResponse extends HttpResponse {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    public function __construct() {
+        parent::__construct(
+            new HttpVersion(HttpVersion::HTTP_1_1),
+            new HttpStatus(HttpStatus::CODE_NOT_FOUND),
+            new HttpMessage(new MessageHeader(), new MessageBody())
+        );
+    }
+
+}

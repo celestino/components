@@ -27,15 +27,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Http\Response;
+
+use Brickoo\Component\Http\Response\InternalServerErrorResponse,
+    PHPUnit_Framework_TestCase;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * InternalServerErrorResponseTest
+ *
+ * Test suite for the InternalServerErrorResponse class.
+ * @see Brickoo\Component\Http\Response\InternalServerErrorResponse
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class InternalServerErrorResponseTest extends PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @covers Brickoo\Component\Http\Response\InternalServerErrorResponse::__construct */
+    public function testInternalServerErrorResponse() {
+        $response = new InternalServerErrorResponse();
+        $expectedResponse = "HTTP/1.1 500 Internal Server Error\r\n\r\n";
+        $this->assertEquals($expectedResponse, $response->toString());
+    }
+
+}

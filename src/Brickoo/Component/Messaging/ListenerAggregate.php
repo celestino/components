@@ -27,15 +27,23 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Messaging;
+use Brickoo\Component\Messaging\MessageDispatcher;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * ListenerAggregate
+ *
+ * Describes an object which has listeners for attaching to a dispatcher.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+interface ListenerAggregate {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Attaches the listeners to a dispatcher.
+     * @param \Brickoo\Component\Messaging\MessageDispatcher $dispatcher
+     * @return void
+     */
+    public function attachListeners(MessageDispatcher $dispatcher);
+
+}

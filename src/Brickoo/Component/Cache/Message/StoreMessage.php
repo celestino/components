@@ -27,15 +27,34 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Cache\Message;
+
+use Brickoo\Component\Cache\Message\CacheMessage,
+    Brickoo\Component\Cache\Messages,
+    Brickoo\Component\Validation\Argument;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * StoreMessage
+ *
+ * Implements a content caching message.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class StoreMessage extends CacheMessage {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * @param string $identifier the cache content identifier
+     * @paran mixed $content the content to cache
+     * @param integer $cacheLifetime the maix. cache lifetime for the content
+     */
+    public function __construct($identifier, $content, $cacheLifetime = 60) {
+        Argument::IsString($identifier);
+        Argument::IsInteger($cacheLifetime);
+        parent::__construct(Messages::SET, null, array(
+            self::PARAM_IDENTIFIER => $identifier,
+            self::PARAM_CONTENT => $content,
+            self::PARAM_LIFETIME => $cacheLifetime
+        ));
+    }
+
+}

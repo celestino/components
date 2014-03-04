@@ -27,15 +27,39 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Messaging;
+
+use Brickoo\Component\Messaging\Message,
+    Brickoo\Component\Messaging\MessageDispatcher;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * Listener
+ *
+ * Describes a message listener for a specific message which has
+ * a queue priority and a message handle routine.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+interface Listener {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Returns the message name listening to.
+     * @return string the message name
+     */
+    public function getMessageName();
+
+    /**
+     * Returns the listener priority.
+     * @return integer the listener priority
+     */
+    public function getPriority();
+
+    /**
+     * Handles the listener message.
+     * @param \Brickoo\Component\Messaging\Message $message
+     * @param \Brickoo\Component\Messaging\MessageDispatcher $dispatcher
+     * @return mixed listener response
+     */
+    public function handleMessage(Message $message, MessageDispatcher $dispatcher);
+
+}

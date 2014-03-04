@@ -27,15 +27,45 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Cache\Message;
+
+use Brickoo\Component\Cache\Messages,
+    Brickoo\Component\Cache\Message\StoreMessage,
+    PHPUnit_Framework_TestCase;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * StoreMessageTest
+ *
+ * Test suite for the StoreMessage class.
+ * @see Brickoo\Component\Cache\Message\StoreMessage
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class StoreMessageTest extends PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @covers Brickoo\Component\Cache\Message\StoreMessage::__construct */
+    public function testConstructorInitializesProperties() {
+        $identifier = "some_identifier";
+        $content = "some cache content";
+        $lifetime = 60;
+        $message = new StoreMessage($identifier, $content, $lifetime);
+        $this->assertInstanceOf("\\Brickoo\\Component\\Cache\\Message\\CacheMessage", $message);
+    }
+
+    /**
+     * @covers Brickoo\Component\Cache\Message\StoreMessage::__construct
+     * @expectedException \InvalidArgumentException
+     */
+    public function testConstructorThrowsExceptionForInvalidIdentifierArgument() {
+        $message = new StoreMessage(["wrongType"], "content", 60);
+    }
+
+    /**
+     * @covers Brickoo\Component\Cache\Message\StoreMessage::__construct
+     * @expectedException \InvalidArgumentException
+     */
+    public function testConstructorThrowsExceptionForInvalidlifetimeArgument() {
+        $message = new StoreMessage("identifier", "content", ["wrongType"]);
+    }
+
+}

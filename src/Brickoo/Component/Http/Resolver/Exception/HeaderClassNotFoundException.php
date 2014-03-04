@@ -27,15 +27,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Http\Resolver\Exception;
+
+use Brickoo\Component\Http\Resolver\Exception;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * HeaderClassNotFoundException
+ *
+ * Exception throwed if a header class could not be found.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class HeaderClassNotFoundException extends Exception {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Class constructor.
+     * Calls the parent exception constructor.
+     * @param string $headerClass the header class not found
+     * @param \Exception $previousException
+     * @return void
+     */
+    public function __construct($headerClass, \Exception $previousException = null) {
+        parent::__construct(sprintf("The header class `%s` could not be found.", $headerClass), 0 , $previousException);
+    }
+
+}

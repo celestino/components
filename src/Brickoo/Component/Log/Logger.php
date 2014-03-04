@@ -27,15 +27,33 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Log;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * Logger
+ *
+ * Describes an object to store log messages.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+interface Logger {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    const SEVERITY_EMERGENCY    = 0;
+    const SEVERITY_ALERT        = 1;
+    const SEVERITY_CRITICAL     = 2;
+    const SEVERITY_ERROR        = 3;
+    const SEVERITY_WARNING      = 4;
+    const SEVERITY_NOTICE       = 5;
+    const SEVERITY_INFO         = 6;
+    const SEVERITY_DEBUG        = 7;
+
+    /**
+     * Sends the log messages using log handler assigned.
+     * @param array|string $messages the messages to store
+     * @param integer $severity the severity level
+     * @throws \InvalidArgumentException if an argument is not valid
+     * @return \Brickoo\Component\Log\Logger
+     */
+    public function log($messages, $severity);
+
+}

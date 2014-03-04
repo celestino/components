@@ -27,15 +27,51 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Http;
+
+use Brickoo\Component\Http\MessageBody,
+    Brickoo\Component\Http\MessageHeader;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * HttpMessage
+ *
+ * Implements a http message.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class HttpMessage {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @var \Brickoo\Component\Http\MessageHeader */
+    private $messageHeader;
+
+    /** @var \Brickoo\Component\Http\MessageBody */
+    private $messageBody;
+
+    /**
+     * Class constructor.
+     * @param \Brickoo\Component\Http\MessageHeader $messageHeader
+     * @param \Brickoo\Component\Http\MessageBody $messageBody
+     * @return void
+     */
+    public function __construct(MessageHeader $messageHeader, MessageBody $messageBody) {
+        $this->messageHeader = $messageHeader;
+        $this->messageBody = $messageBody;
+    }
+
+    /**
+     * Returns the message header.
+     * @return \Brickoo\Component\Http\MessageHeader
+     */
+    public function getHeader() {
+        return $this->messageHeader;
+    }
+
+    /**
+     * Returns the message body.
+     * @return \Brickoo\Component\Http\MessageBody
+     */
+    public function getBody() {
+        return $this->messageBody;
+    }
+
+}

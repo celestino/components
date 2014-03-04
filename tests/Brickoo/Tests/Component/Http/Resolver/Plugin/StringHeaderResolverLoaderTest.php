@@ -27,15 +27,38 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Http\Resolver\Plugin;
+
+use Brickoo\Component\Http\Resolver\Plugin\StringHeaderResolverPlugin,
+    PHPUnit_Framework_TestCase;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * StringHeaderResolverPluginTest
+ *
+ * Test suite for the StringHeaderResolverPlugin class.
+ * @see Brickoo\Component\Http\Resolver\StringHeaderResolverPlugin
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class StringHeaderResolverPluginTest extends PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * @covers  Brickoo\Component\Http\Resolver\Plugin\StringHeaderResolverPlugin::__construct
+     * @expectedException \InvalidArgumentException
+     */
+    public function testConstructorInvalidHeaderStringThrowsException() {
+        new StringHeaderResolverPlugin(["wrongType"]);
+    }
+
+    /**
+     * @covers  Brickoo\Component\Http\Resolver\Plugin\StringHeaderResolverPlugin::__construct
+     * @covers  Brickoo\Component\Http\Resolver\Plugin\StringHeaderResolverPlugin::getHeaders
+     */
+    public function testGetHeadersFromString() {
+        $expectedHeaders = ["Accept" => "*/*", "Connection" => "keep-alive"];
+        $stringHeaderResolverPlugin = new StringHeaderResolverPlugin("Accept: */*\r\nConnection: keep-alive\r\n");
+        $this->assertEquals($expectedHeaders, $stringHeaderResolverPlugin->getHeaders());
+        //
+    }
+
+}

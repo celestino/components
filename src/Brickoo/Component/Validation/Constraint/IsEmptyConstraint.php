@@ -27,15 +27,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Validation\Constraint;
+
+use Brickoo\Component\Validation\Constraint;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * IsEmptyConstraint
+ *
+ * Constraint to assert that a value is empty (0, false, "", [], null).
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class IsEmptyConstraint implements Constraint {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** {@inheritDoc} */
+    public function matches($value) {
+        return empty($value);
+    }
+
+}

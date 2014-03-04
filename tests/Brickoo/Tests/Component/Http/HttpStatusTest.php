@@ -27,15 +27,51 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Http;
+
+use Brickoo\Component\Http\HttpStatus,
+    PHPUnit_Framework_TestCase;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * HttpStatus
+ *
+ * Test suite for the HttpStatus class.
+ * @see Brickoo\Component\Http\HttpStatus-
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class HttpStatusTest extends PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * @covers Brickoo\Component\Http\HttpStatus::__construct
+     * @covers Brickoo\Component\Http\HttpStatus::isValid
+     */
+    public function testConstructor() {
+        $httpStatus = new HttpStatus(200);
+        $this->assertInstanceOf("\\Brickoo\\Component\\Http\HttpStatus", $httpStatus);
+    }
+
+    /** @covers Brickoo\Component\Http\HttpStatus::getCode */
+    public function testGetCode() {
+        $statusCode = 200;
+        $httpStatus = new HttpStatus($statusCode);
+        $this->assertEquals($statusCode, $httpStatus->getCode());
+    }
+
+    /**
+     * @covers Brickoo\Component\Http\HttpStatus::__construct
+     * @covers Brickoo\Component\Http\HttpStatus::isValid
+     * @covers Brickoo\Component\Http\Exception\InvalidHttpStatusException
+     * @expectedException Brickoo\Component\Http\Exception\InvalidHttpStatusException
+     */
+    public function testConstructorInvalidStatusThrowsException() {
+        new HttpStatus(666);
+    }
+
+    /** @covers Brickoo\Component\Http\HttpStatus::toString */
+    public function testStatusToStrimg() {
+        $httpStatus = new HttpStatus(200);
+        $this->assertEquals("200 OK", $httpStatus->toString());
+    }
+
+}

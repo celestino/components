@@ -27,15 +27,29 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Autoloader\Exception;
+
+use Brickoo\Component\Autoloader\Exception;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * NamespaceNotRegisteredException
+ *
+ * Exception throwed by the Autoloader class if trying to unregister a namespace
+ * which has not been registered before.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class NamespaceNotRegisteredException extends Exception {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Class constructor.
+     * Calls the parent Exception constructor.
+     * @param string $namespace the namespace tried to unregister
+     * @param \Exception $previousException
+     * @return void
+     */
+    public function __construct($namespace, \Exception $previousException = null) {
+        parent::__construct(sprintf("The namespace `%s` is not registered.", $namespace), 0, $previousException);
+    }
+
+}

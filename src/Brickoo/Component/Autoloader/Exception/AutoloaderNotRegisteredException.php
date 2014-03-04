@@ -27,15 +27,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Autoloader\Exception;
+
+use Brickoo\Component\Autoloader\Exception;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * AutoloaderNotRegisteredException
+ *
+ * Exception throwed if trying to unregister an autoloader without beeing registered before.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class AutoloaderNotRegisteredException extends Exception {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Class constructor.
+     * Calls the parent Exception constructor.
+     * @param \Exception $previousException
+     * @return void
+     */
+    public function __construct(\Exception $previousException = null) {
+        parent::__construct("This object is not registered as an autoloader", 0, $previousException);
+    }
+
+}

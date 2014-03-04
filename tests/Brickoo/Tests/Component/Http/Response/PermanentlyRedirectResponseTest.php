@@ -27,15 +27,29 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Http\Response;
+
+use Brickoo\Component\Http\Response\PermanentlyRedirectResponse,
+    PHPUnit_Framework_TestCase;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * PermanentlyRedirectResponseTest
+ *
+ * Test suite for the PermanentlyRedirectResponse class.
+ * @see Brickoo\Component\Http\Response\PermanentlyRedirectResponse
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class PermanentlyRedirectResponseTest extends PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @covers Brickoo\Component\Http\Response\PermanentlyRedirectResponse::__construct */
+    public function testRedirectResponse() {
+        $location = "http://brickoo.com/test";
+        $response = new PermanentlyRedirectResponse($location);
+
+        $expectedResponse = "HTTP/1.1 301 Moved Permanently\r\n";
+        $expectedResponse .= sprintf("Location: %s\r\n\r\n", $location);
+        $this->assertEquals($expectedResponse, $response->toString());
+    }
+
+}

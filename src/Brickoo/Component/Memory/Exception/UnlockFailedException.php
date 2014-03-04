@@ -27,15 +27,30 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Memory\Exception;
+
+use Brickoo\Component\Memory\Exception;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * UnlockFailedException
+ *
+ * Exception throwed by the Locker class if trying to unlock identifiers
+ * and any could not be unlocked.
+ * @see Brickoo\Component\Memory\Locker::unlock
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class UnlockFailedException extends \Exception {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Class constructor.
+     * Calls the parent Exception constructor.
+     * @parma string $identifier the identifier which are not locked
+     * @param \Exception $previousException
+     * @return void
+     */
+    public function __construct($identifier, \Exception $previousException = null) {
+        parent::__construct(sprintf("Unable to unlock `%s`, this identifier is not locked.", $identifier), 0, $previousException);
+    }
+
+}

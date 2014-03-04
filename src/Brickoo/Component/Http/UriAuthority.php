@@ -27,15 +27,60 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Http;
+
+use Brickoo\Component\Validation\Argument;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * UriAuthority
+ *
+ * Implements the http uri authority part.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
+class UriAuthority {
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+    /** @var string */
+    private $hostname;
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @var integer */
+    private $portNumber;
+
+    /**
+     * Class constructor.
+     * @param string $hostname
+     * @param integer $portNumber
+     * @return void
+     */
+    public function __construct($hostname, $portNumber = 80) {
+        Argument::IsString($hostname);
+        Argument::IsInteger($portNumber);
+
+        $this->hostname = $hostname;
+        $this->portNumber = $portNumber;
+    }
+
+    /**
+     * Returns the hostname.
+     * @return string the hostname
+     */
+    public function getHostname() {
+        return $this->hostname;
+    }
+
+    /**
+     * Returns the port number.
+     * @return integer port number
+     */
+    public function getPortNumber() {
+        return $this->portNumber;
+    }
+
+    /**
+     * Returns the authority string representation.
+     * @return string the authority representation
+     */
+    public function toString() {
+        return sprintf("%s:%d", $this->hostname, $this->portNumber);
+    }
+
+}

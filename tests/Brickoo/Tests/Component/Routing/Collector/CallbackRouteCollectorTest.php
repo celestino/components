@@ -27,15 +27,38 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Routing\Collector;
+
+use Brickoo\Component\Routing\RouteCollection,
+    Brickoo\Component\Routing\Collector\CallbackRouteCollector,
+    PHPUnit_Framework_TestCase;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * CallbackRouteCollectorTest
+ *
+ * Test suite for the route message based collector class.
+ * @see Brickoo\Component\Routing\Collector\CallbackRouteCollector
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class CallbackRouteCollectorTest extends PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * @covers Brickoo\Component\Routing\Collector\CallbackRouteCollector::__construct
+     * @covers Brickoo\Component\Routing\Collector\CallbackRouteCollector::collect
+     */
+    public function testCollectWithCallback() {
+        $routeCollection = new RouteCollection();
+        $callback = function() use ($routeCollection) {return [$routeCollection];};
+        $callbackCollector  =  new CallbackRouteCollector($callback);
+        $this->assertSame($callbackCollector, $callbackCollector->collect());
+        $this->assertAttributeEquals([$routeCollection], "collections", $callbackCollector);
+    }
+
+    /** @covers Brickoo\Component\Routing\Collector\CallbackRouteCollector::getIterator */
+    public function testGetIterator() {
+        $callbackCollector  =  new CallbackRouteCollector(function(){});
+        $this->assertInstanceOf("\\Iterator", $callbackCollector->getIterator());
+    }
+
+}

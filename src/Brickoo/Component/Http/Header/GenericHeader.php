@@ -27,15 +27,51 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Http\Header;
+
+use Brickoo\Component\Http\HttpHeader,
+    Brickoo\Component\Validation\Argument;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * GenericHeader
+ *
+ * Implements a generic header.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
+class GenericHeader implements HttpHeader {
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+    /** @var string */
+    protected $headerName;
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @var string */
+    protected $headerValue;
+
+    /**
+     * Class constructor.
+     * @param string $headerName
+     * @param string $headerValue
+     * @return void
+     */
+    public function __construct($headerName, $headerValue) {
+        Argument::IsString($headerName);
+        Argument::IsString($headerValue);
+        $this->headerName = $headerName;
+        $this->headerValue = $headerValue;
+    }
+
+    /** {@inheritDoc} */
+    public function getName() {
+        return $this->headerName;
+    }
+
+    /** {@inheritDoc} */
+    public function getValue() {
+        return $this->headerValue;
+    }
+
+    /** {@inheritDoc} */
+    public function toString() {
+        return sprintf("%s: %s", ucfirst($this->getName()), $this->getValue());
+    }
+
+}

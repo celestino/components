@@ -27,15 +27,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Autoloader\Exception;
+
+use Brickoo\Component\Autoloader\Exception;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * DirectoryDoesNotExistException
+ *
+ * Exception throwed if trying to access a directory which does not exist.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class DirectoryDoesNotExistException extends Exception {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Class constructor.
+     * Calls the parent Exception constructor.
+     * @param string $directory the directory which does not exists
+     * @param \Exception $previousException
+     * @return void
+     */
+    public function __construct($directory, \Exception $previousException = null) {
+        parent::__construct(sprintf("Directory `%s` does not exists or is not readable.", $directory), 0, $previousException);
+    }
+
+}

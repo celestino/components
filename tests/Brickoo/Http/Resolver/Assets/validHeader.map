@@ -1,5 +1,0 @@
-<?php
-
-return [
-    "Accept" => "\\Brickoo\\Http\\Header\\AcceptHeader"
-];

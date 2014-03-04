@@ -27,15 +27,39 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Error\Message;
+
+use Brickoo\Component\Error\Messages,
+    Brickoo\Component\Messaging\GenericMessage,
+    Brickoo\Component\Validation\Argument;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * ErrorMessage
+ *
+ * Implementation of an error message.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class ErrorMessage extends GenericMessage {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Error message parameter.
+     * @var string
+     */
+    const PARAM_ERROR_MESSAGE = "errorMessage";
+
+    /** @param string $errorMessage */
+    public function __construct($errorMessage) {
+        Argument::IsString($errorMessage);
+        parent::__construct(Messages::ERROR, null, [self::PARAM_ERROR_MESSAGE => $errorMessage]);
+    }
+
+    /**
+     * Returns the message containing the error occurred.
+     * @return string the error message
+     */
+    public function getErrorMessage() {
+        return $this->getParam(self::PARAM_ERROR_MESSAGE);
+    }
+
+}

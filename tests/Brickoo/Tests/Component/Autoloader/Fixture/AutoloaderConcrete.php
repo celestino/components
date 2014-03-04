@@ -27,15 +27,19 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Autoloader\Fixture;
+
+use Brickoo\Component\Autoloader\Autoloader;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * Autoloader
+ *
+ * Concrete implementation for the abstract autoloader class.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
+class AutoloaderConcrete extends Autoloader {
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+    /** {@inheritDoc} */
+    public function load($className) {}
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+}

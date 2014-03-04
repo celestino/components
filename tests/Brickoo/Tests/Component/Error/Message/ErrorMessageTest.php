@@ -27,15 +27,41 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Error\Message;
+
+use Brickoo\Component\Error\Message\ErrorMessage,
+    PHPUnit_Framework_TestCase;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * ErrorMessageTest
+ *
+ * Test suite for the ErrorMessage class.
+ * @see Brickoo\Component\Error\Message\ErrorMessage
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class ErrorMessageTest extends PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @covers Brickoo\Component\Error\Message\ErrorMessage::__construct */
+    public function testContructor() {
+        $errorMessage = "An error occurred.";
+        $message = new ErrorMessage($errorMessage);
+        $this->assertInstanceOf("\\Brickoo\\Component\\Messaging\\Message", $message);
+    }
+
+    /**
+     * @covers Brickoo\Component\Error\Message\ErrorMessage::__construct
+     * @expectedException InvalidArgumentException
+     */
+    public function testConstructorThrowsInvalidArgumentException() {
+        $message = new ErrorMessage(["wrongType"]);
+    }
+
+    /** @covers Brickoo\Component\Error\Message\ErrorMessage::getErrorMessage */
+    public function testGetErrorMessage() {
+        $errorMessage = "An error occurred.";
+        $message = new ErrorMessage($errorMessage);
+        $this->assertEquals($errorMessage, $message->getErrorMessage());
+    }
+
+}

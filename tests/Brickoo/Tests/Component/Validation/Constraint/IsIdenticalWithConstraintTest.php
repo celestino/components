@@ -27,15 +27,30 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Validation\Constraint;
+
+use Brickoo\Component\Validation\Constraint\IsIdenticalWithConstraint,
+    PHPUnit_Framework_TestCase;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * IsIdenticalWithConstraint
+ *
+ * Test suite for the IsIdenticalWithConstraint class.
+ * @see Brickoo\Component\Validation\IsIdenticalWithConstraint
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class IsIdenticalWithConstraintTest extends PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * @covers Brickoo\Component\Validation\Constraint\IsIdenticalWithConstraint::__construct
+     * @covers Brickoo\Component\Validation\Constraint\IsIdenticalWithConstraint::matches
+     */
+    public function testMatchingValue() {
+        $instance = new \stdClass();
+        $isIdenticalWithConstraint = new IsIdenticalWithConstraint($instance);
+        $this->assertTrue($isIdenticalWithConstraint->matches($instance));
+        $this->assertFalse($isIdenticalWithConstraint->matches(new \stdClass()));
+    }
+
+}

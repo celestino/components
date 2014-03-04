@@ -27,15 +27,36 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Routing;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * RouteMatcher
+ *
+ * Defines a route matcher.
+ * If the route does match, the route rules paramaters can be retrieved.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+interface RouteMatcher {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Check if a route collection matches the request at all.
+     * @param \Brickoo\Component\Routing\RouteCollection $RouteCollection
+     * @return boolean check result
+     */
+    public function matchesCollection(\Brickoo\Component\Routing\RouteCollection $RouteCollection);
+
+    /**
+     * Checks if a route matches the complete request.
+     * @param \Brickoo\Component\Routing\Route $Route
+     * @return boolean check result
+     */
+    public function matchesRoute(\Brickoo\Component\Routing\Route $Route);
+
+    /**
+     * Returns the routing parameters and values from the last matched route.
+     * @return array the parameters list as parameter/value pairs
+     */
+    public function getRouteParameters();
+
+}

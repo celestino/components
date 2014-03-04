@@ -27,15 +27,59 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Http;
+
+use Brickoo\Component\Http\Exception\InvalidHttpVersionException,
+    Brickoo\Component\Validation\Argument;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * HttpVersion
+ *
+ * Describes the http version.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+Class HttpVersion {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** http versions */
+    const HTTP_1_0 = "HTTP/1.0";
+    const HTTP_1_1 = "HTTP/1.1";
+    const HTTP_2_0 = "HTTP/2.0";
+
+    /** @var string */
+    private $version;
+
+    /**
+     * Class constructor.
+     * @param string $version the http version
+     * @throws \InvalidArgumentException
+     * @return void
+     */
+    public function __construct($version) {
+        Argument::IsString($version);
+
+        if (! $this->isValid($version)) {
+            throw new InvalidHttpVersionException($version);
+        }
+
+        $this->version = $version;
+    }
+
+    /**
+     * Returns the string representation of the http version.
+     * @return string the version representation
+     */
+    public function toString() {
+        return $this->version;
+    }
+
+    /**
+     * Checks if the version is valid.
+     * @param string $version
+     * @return boolean check result
+     */
+    private function isValid($version) {
+        return in_array($version, [self::HTTP_1_0, self::HTTP_1_1, self::HTTP_2_0]);
+    }
+
+}

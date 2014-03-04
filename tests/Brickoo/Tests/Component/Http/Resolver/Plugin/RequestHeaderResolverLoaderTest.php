@@ -27,15 +27,30 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Http\Resolver\Plugin;
+
+use Brickoo\Component\Http\Resolver\Plugin\RequestHeaderResolverPlugin,
+    PHPUnit_Framework_TestCase;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * RequestHeaderResolverPlugin
+ *
+ * Test suite for the RequestHeaderResolverPlugin class.
+ * @see Brickoo\Component\Http\Resolver\RequestHeaderResolverPlugin
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class RequestHeaderResolverPluginTest extends PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    public function testGetHeadersFromGlobalServerValues() {
+        if (! function_exists("apache_request_headers")) {
+            require_once realpath(__DIR__) ."/Assets/requiredFunctions.php";
+        }
+
+        $expectedHeaders = ["CONNECTION" => "keep-alive", "X-Unit-Test" => "ok"];
+        $_SERVER["HTTP_CONNECTION"] = "keep-alive";
+        $requestHeaderResolverPlugin = new RequestHeaderResolverPlugin();
+        $this->assertEquals($expectedHeaders, $requestHeaderResolverPlugin->getHeaders());
+    }
+
+}

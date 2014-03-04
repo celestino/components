@@ -27,15 +27,37 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Error\Message;
+
+use Brickoo\Component\Error\Messages,
+    Brickoo\Component\Messaging\GenericMessage;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * ExceptionMessage
+ *
+ * Implementation of an exception message.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class ExceptionMessage extends GenericMessage {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Exception message parameter.
+     * @var string
+     */
+    const PARAM_EXCEPTION = "exception";
+
+    /** @param \Exception $Exception */
+    public function __construct(\Exception $Exception) {
+        parent::__construct(Messages::EXCEPTION, null, [self::PARAM_EXCEPTION => $Exception]);
+    }
+
+    /**
+     * Returns the message containing the exception occurred.
+     * @return \Exception the exception occurred
+     */
+    public function getException() {
+        return $this->getParam(self::PARAM_EXCEPTION);
+    }
+
+}

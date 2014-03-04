@@ -27,15 +27,29 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Http\Response;
+
+use Brickoo\Component\Http\Response\TemporaryRedirectResponse,
+    PHPUnit_Framework_TestCase;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * TemporaryRedirectResponseTest
+ *
+ * Test suite for the TemporaryRedirectResponse class.
+ * @see Brickoo\Component\Http\Response\TemporaryRedirectResponse
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class TemporaryRedirectResponseTest extends PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @covers Brickoo\Component\Http\Response\TemporaryRedirectResponse::__construct */
+    public function testRedirectResponse() {
+        $location = "http://brickoo.com/test";
+        $response = new TemporaryRedirectResponse($location);
+
+        $expectedResponse = "HTTP/1.1 307 Temporary Redirect\r\n";
+        $expectedResponse .= sprintf("Location: %s\r\n\r\n", $location);
+        $this->assertEquals($expectedResponse, $response->toString());
+    }
+
+}

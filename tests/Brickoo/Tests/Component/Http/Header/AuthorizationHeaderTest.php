@@ -27,15 +27,37 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Http;
+
+use Brickoo\Component\Http\Header\AuthorizationHeader,
+    PHPUnit_Framework_TestCase;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * AuthorizationHeaderTest
+ *
+ * Test suite for the AuthorizationHeader class.
+ * @see Brickoo\Component\Http\Header\AuthorizationHeader
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class AuthorizationHeaderTest extends PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * @covers Brickoo\Component\Http\Header\AuthorizationHeader::__construct
+     * @expectedException \InvalidArgumentException
+     */
+    public function testConstructorInvalidHeaderValueThrowsException() {
+        new AuthorizationHeader(["wrongType"]);
+    }
+
+    /**
+     * @covers Brickoo\Component\Http\Header\AuthorizationHeader::__construct
+     * @covers Brickoo\Component\Http\Header\AuthorizationHeader::toString
+     */
+    public function testToString() {
+        $headerValue = "Basic ".  base64_encode("user:pwd");
+        $authorizationHeader = new AuthorizationHeader($headerValue);
+        $this->assertEquals("Authorization: ".$headerValue, $authorizationHeader->toString());
+    }
+
+}

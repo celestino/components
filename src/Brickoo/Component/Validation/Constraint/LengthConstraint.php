@@ -27,15 +27,47 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Validation\Constraint;
+
+use Brickoo\Component\Validation\Argument,
+    Brickoo\Component\Validation\Constraint;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * LengthConstraint
+ *
+ * Constraint to assert that the string value length
+ * is between a min and max length.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class LengthConstraint implements Constraint {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @var integer */
+    private $minLength;
+
+    /** @var integer */
+    private $maxLength;
+
+    /**
+     * Class constructor.
+     * @param integer $minLength
+     * @param Integer $maxLength
+     */
+    public function __construct($minLength, $maxLength = null) {
+        Argument::IsInteger($minLength);
+        Argument::IsInteger($maxLength);
+        $this->minLength = $minLength;
+        $this->maxLength = $maxLength;
+    }
+
+    /** {@inheritDoc} */
+    public function matches($value) {
+        Argument::IsString($value);
+        $valueLength = strlen($value);
+
+        return ($valueLength >= $this->minLength
+            && ($this->maxLength === null || $valueLength <= $this->maxLength)
+        );
+    }
+
+}

@@ -27,15 +27,33 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Http;
+
+use Brickoo\Component\Http\UriQuery,
+    PHPUnit_Framework_TestCase;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * UriQueryTest
+ *
+ * Test suite for the UriQuery class.
+ * @see Brickoo\Component\Http\UriQuery
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class UriQueryTest extends PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @covers Brickoo\Component\Http\UriQuery::toString */
+    public function testToString() {
+        $uriQuery = new UriQuery(["a" => "b 1", "c" => "d 2"]);
+        $this->assertEquals("a=b%201&c=d%202", $uriQuery->toString());
+    }
+
+    /** @covers Brickoo\Component\Http\UriQuery::fromString */
+    public function testFromString() {
+        $query = "?a=b%201&c=d%202";
+        $uriQuery = new UriQuery();
+        $this->assertSame($uriQuery, $uriQuery->fromString($query));
+        $this->assertEquals(["a" => "b 1", "c" => "d 2"], $uriQuery->toArray());
+    }
+
+}

@@ -27,15 +27,34 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Cache\Message;
+
+use Brickoo\Component\Cache\Messages,
+    Brickoo\Component\Cache\Message\DeleteMessage,
+    PHPUnit_Framework_TestCase;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * DeleteMessageTest
+ *
+ * Test suite for the DeleteMessage class.
+ * @see Brickoo\Component\Cache\Message\DeleteMessage
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class DeleteMessageTest extends PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @covers Brickoo\Component\Cache\Message\DeleteMessage::__construct */
+    public function testConstructor() {
+        $message = new DeleteMessage("identifier");
+        $this->assertInstanceOf("\\Brickoo\\Component\\Cache\\Message\\CacheMessage", $message);
+    }
+
+    /**
+     * @covers Brickoo\Component\Cache\Message\DeleteMessage::__construct
+     * @expectedException \InvalidArgumentException
+     */
+    public function testConstructorThrowsExceptionForInvalidArgument() {
+        $message = new DeleteMessage(["wrongType"]);
+    }
+
+}

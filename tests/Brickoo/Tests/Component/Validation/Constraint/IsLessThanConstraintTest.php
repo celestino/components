@@ -27,15 +27,29 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Validation\Constraint;
+
+use Brickoo\Component\Validation\Constraint\IsLessThanConstraint,
+    PHPUnit_Framework_TestCase;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * IsLessThanConstraint
+ *
+ * Test suite for the IsLessThanConstraint class.
+ * @see Brickoo\Component\Validation\IsLessThanConstraint
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class IsLessThanConstraintTest extends PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * @covers Brickoo\Component\Validation\Constraint\IsLessThanConstraint::__construct
+     * @covers Brickoo\Component\Validation\Constraint\IsLessThanConstraint::matches
+     */
+    public function testMatchingValue() {
+        $isEmptyConstraint = new IsLessThanConstraint(10);
+        $this->assertTrue($isEmptyConstraint->matches(1));
+        $this->assertFalse($isEmptyConstraint->matches(99));
+    }
+
+}

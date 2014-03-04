@@ -27,15 +27,44 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Http;
+
+use Brickoo\Component\Http\HttpVersion,
+    PHPUnit_Framework_TestCase;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * HttpVersion
+ *
+ * Test suite for the HttpVersion class.
+ * @see Brickoo\Component\Http\HttpVersion
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class HttpVersionTest extends PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * @covers Brickoo\Component\Http\HttpVersion::__construct
+     * @covers Brickoo\Component\Http\HttpVersion::isValid
+     */
+    public function testConstructor() {
+        $httpVersion = new HttpVersion(HttpVersion::HTTP_2_0);
+        $this->assertInstanceOf("\\Brickoo\\Component\\Http\HttpVersion", $httpVersion);
+    }
+
+    /**
+     * @covers Brickoo\Component\Http\HttpVersion::__construct
+     * @covers Brickoo\Component\Http\HttpVersion::isValid
+     * @covers Brickoo\Component\Http\Exception\InvalidHttpVersionException
+     * @expectedException Brickoo\Component\Http\Exception\InvalidHttpVersionException
+     */
+    public function testConstructorInvalidVersionThrowsException() {
+        new HttpVersion("v1.0.0");
+    }
+
+    /** @covers Brickoo\Component\Http\HttpVersion::toString */
+    public function testVersionToStrimg() {
+        $httpVersion = new HttpVersion(HttpVersion::HTTP_2_0);
+        $this->assertEquals(HttpVersion::HTTP_2_0, $httpVersion->toString());
+    }
+
+}

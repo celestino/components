@@ -27,15 +27,45 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Http;
+
+use Brickoo\Component\Memory\Container,
+    Brickoo\Component\Validation\Argument;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * UriQuery
+ *
+ * Implements a http query parameters container.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class UriQuery extends Container {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Converts the query parameters to a request query string.
+     * The query string is encoded as of the RFC3986.
+     * @return string the query string
+     */
+    public function toString() {
+        return str_replace("+", "%20", http_build_query($this->toArray()));
+    }
+
+    /**
+     * Imports the query parameters from the extracted key/value pairs.
+     * @param strin $query the query to extract the pairs from
+     * @throws \InvalidArgumentException if the argument is not valid
+     * @return \Brickoo\Component\Http\UriQuery
+     */
+    public function fromString($query) {
+        Argument::IsString($query);
+
+        if (($position = strpos($query, "?")) !== false) {
+            $query = substr($query, $position + 1);
+        }
+
+        parse_str(rawurldecode($query), $importedQueryParameters);
+        $this->fromArray($importedQueryParameters);
+        return $this;
+    }
+
+}

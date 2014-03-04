@@ -27,15 +27,51 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Http;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * UriResolver
+ *
+ * Defines a resolver for an URI.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+interface UriResolver {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Returns the request scheme.
+     * @return string the request scheme
+     */
+    public function getScheme();
+
+    /**
+     * Returns the host name or address.
+     * @return string the host name or adress
+     */
+    public function getHostname();
+
+    /**
+     * Returns the uri port.
+     * @return integer the uri port
+     */
+    public function getPort();
+
+    /**
+     * Returns the uri path.
+     * @return string the uri path
+     */
+    public function getPath();
+
+    /**
+     * Returns the uri query string.
+     * @return string the query string
+     */
+    public function getQueryString();
+
+    /**
+     * Returns the uri fragment.
+     * @return string the uri fragment
+     */
+    public function getFragment();
+
+}

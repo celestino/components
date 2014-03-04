@@ -27,15 +27,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Cache\Message;
+
+use Brickoo\Component\Cache\Message\CacheMessage,
+    Brickoo\Component\Cache\Messages;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * FlushMessage
+ *
+ * Implements a message for flushing all cached data.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class FlushMessage extends CacheMessage {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    public function __construct() {
+        parent::__construct(Messages::FLUSH);
+    }
+
+}

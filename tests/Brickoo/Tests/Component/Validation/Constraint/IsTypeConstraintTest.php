@@ -27,15 +27,44 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Validation\Constraint;
+
+use Brickoo\Component\Validation\Constraint\IsTypeConstraint,
+    PHPUnit_Framework_TestCase;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * IsTypeConstraintTest
+ *
+ * Test suite for the IsTypeConstraint class.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class IsTypeConstraintTest extends PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * @covers Brickoo\Component\Validation\Constraint\IsTypeConstraint::__construct
+     * @expectedException InvalidArgumentException
+     */
+    public function testConstructorThrowsInvalidArgumentException() {
+        new IsTypeConstraint(["wrongType"]);
+    }
+
+    /**
+     * @covers Brickoo\Component\Validation\Constraint\IsTypeConstraint::__construct
+     * @expectedException InvalidArgumentException
+     */
+    public function testConstructorInvalidFunctionThrowsException() {
+        new IsTypeConstraint("notExists");
+    }
+
+    /**
+     * @covers Brickoo\Component\Validation\Constraint\IsTypeConstraint::__construct
+     * @covers Brickoo\Component\Validation\Constraint\IsTypeConstraint::matches
+     */
+    public function testMatchesValue() {
+        $isTypeConstraint = new IsTypeConstraint("string");
+        $this->assertTrue($isTypeConstraint->matches("ok"));
+        $this->assertFalse($isTypeConstraint->matches(["fail"]));
+    }
+
+}

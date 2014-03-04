@@ -1,0 +1,20 @@
+<?php
+
+namespace Brickoo\Tests\Component\Messaging\Assets;
+
+use Brickoo\Component\Messaging\Message,
+    Brickoo\Component\Messaging\MessageDispatcher,
+    Brickoo\Component\Messaging\MessageListener,
+    Brickoo\Component\Messaging\ListenerAggregate;
+
+class AggregatedListeners implements ListenerAggregate {
+
+    public function attachListeners(MessageDispatcher $messageManager) {
+        $messageManager->attach(new MessageListener(
+            "test.message", 100, [$this, "listenerCallback"]
+        ));
+    }
+
+    public function listenerCallback(Message $message, MessageDispatcher $messageDispatcher) {}
+
+}

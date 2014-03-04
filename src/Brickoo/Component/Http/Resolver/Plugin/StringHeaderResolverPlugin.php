@@ -27,15 +27,45 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Http\Resolver\Plugin;
+
+use Brickoo\Component\Http\Resolver\HeaderResolverPlugin,
+    Brickoo\Component\Validation\Argument;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * StringHeaderResolverPlugin
+ *
+ * Implements a http header resolver plugin based on a header string.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class StringHeaderResolverPlugin implements HeaderResolverPlugin {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @var string */
+    private $headers;
+
+    /**
+     * Class constructor.
+     * @param string $headers the message headers as string
+     * @return void
+     */
+    public function __construct($headers) {
+        Argument::IsString($headers);
+        $this->headers = $headers;
+    }
+
+    /** {@inheritDoc} */
+    public function getHeaders() {
+        $extractedHeaders = [];
+        $fields = explode("\r\n", preg_replace("/\x0D\x0A[\x09\x20]+/", " ", $this->headers));
+
+        foreach ($fields as $field) {
+            $matches = [];
+            if (preg_match("/(?<name>[^:]+): (?<value>.+)/m", $field, $matches) == 1) {
+                $extractedHeaders[$matches["name"]] = trim($matches["value"]);
+            }
+        }
+        return $extractedHeaders;
+    }
+
+}

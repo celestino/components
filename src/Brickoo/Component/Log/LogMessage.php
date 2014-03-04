@@ -27,15 +27,51 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Log;
+
+use Brickoo\Component\Messaging\GenericMessage,
+    Brickoo\Component\Log\Messages,
+    Brickoo\Component\Validation\Argument;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * LogMessage
+ *
+ * Implementation of a log message which holds logs messages and their severity.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class LogMessage extends GenericMessage {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Message parameters.
+     * @var string
+     */
+    const PARAM_LOG_MESSAGES = "messages";
+    const PARAM_LOG_SEVERITY = "severity";
+
+    /**
+     * @param array $messages
+     * @param integer $severity
+     */
+    public function __construct(array $messages, $severity) {
+        Argument::IsInteger($severity);
+        parent::__construct(Messages::LOG, null, [self::PARAM_LOG_MESSAGES => $messages, self::PARAM_LOG_SEVERITY => $severity]);
+    }
+
+    /**
+     * Returns the messages to log.
+     * @return array the log messages
+     */
+    public function getMessages() {
+        return $this->getParam(self::PARAM_LOG_MESSAGES);
+    }
+
+    /**
+     * Returns the severity level.
+     * @return integer the severity level
+     */
+    public function getSeverity() {
+        return $this->getParam(self::PARAM_LOG_SEVERITY);
+    }
+
+}

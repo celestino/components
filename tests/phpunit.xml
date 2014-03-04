@@ -10,20 +10,20 @@
     convertWarningsToExceptions="true"
     bootstrap="bootstrap.php">
     <testsuites>
-        <testsuite name="BrickOO Test Suites">
-            <directory>./Brickoo/Autoloader</directory>
-            <directory>./Brickoo/Cache</directory>
-            <directory>./Brickoo/Error</directory>
-            <directory>./Brickoo/Messaging</directory>
-            <directory>./Brickoo/Filesystem</directory>
-            <directory>./Brickoo/Http</directory>
-            <directory>./Brickoo/Log</directory>
-            <directory>./Brickoo/Memory</directory>
-            <directory>./Brickoo/Network</directory>
-            <directory>./Brickoo/Routing</directory>
-            <directory>./Brickoo/Session</directory>
-            <directory>./Brickoo/Template</directory>
-            <directory>./Brickoo/Validation</directory>
+        <testsuite name="BrickOO Components">
+            <directory>./Brickoo/Tests/Component/Autoloader</directory>
+            <directory>./Brickoo/Tests/Component/Cache</directory>
+            <directory>./Brickoo/Tests/Component/Error</directory>
+            <directory>./Brickoo/Tests/Component/Messaging</directory>
+            <directory>./Brickoo/Tests/Component/Filesystem</directory>
+            <directory>./Brickoo/Tests/Component/Http</directory>
+            <directory>./Brickoo/Tests/Component/Log</directory>
+            <directory>./Brickoo/Tests/Component/Memory</directory>
+            <directory>./Brickoo/Tests/Component/Network</directory>
+            <directory>./Brickoo/Tests/Component/Routing</directory>
+            <directory>./Brickoo/Tests/Component/Session</directory>
+            <directory>./Brickoo/Tests/Component/Template</directory>
+            <directory>./Brickoo/Tests/Component/Validation</directory>
         </testsuite>
     </testsuites>
     <filter>

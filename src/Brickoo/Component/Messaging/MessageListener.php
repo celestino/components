@@ -27,15 +27,59 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Messaging;
+
+use Brickoo\Component\Messaging\Listener,
+    Brickoo\Component\Messaging\Message,
+    Brickoo\Component\Messaging\MessageDispatcher,
+    Brickoo\Component\Validation\Argument;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * MessageListener
+ *
+ * Implements a generic message listener.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class MessageListener implements Listener {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @var string */
+    private $messageName;
+
+    /** @var integer */
+    private $priority;
+
+    /** @var callable */
+    private $callback;
+
+    /**
+     * @param string $messageName
+     * @param integer $priority
+     * @param callable $callback
+     * @return void
+     */
+    public function __construct($messageName, $priority, callable $callback) {
+        Argument::IsString($messageName);
+        Argument::IsInteger($priority);
+
+        $this->messageName = $messageName;
+        $this->priority = $priority;
+        $this->callback = $callback;
+    }
+
+    /** {@inheritDoc} */
+    public function getMessageName() {
+        return $this->messageName;
+    }
+
+    /** {@inheritDoc} */
+    public function getPriority() {
+        return $this->priority;
+    }
+
+    /** {@inheritDoc} */
+    public function handleMessage(Message $message, MessageDispatcher $dispatcher) {
+        call_user_func_array($this->callback, [$message, $dispatcher]);
+    }
+
+}

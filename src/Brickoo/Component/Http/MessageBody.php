@@ -27,15 +27,51 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Http;
+
+use Brickoo\Component\Validation\Argument;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * MessageBody
+ *
+ * Implements a http message body.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class MessageBody {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @var string */
+    protected $content;
+
+    /**
+     * Class constructor.
+     * @param string $content the body content
+     * @throws \InvalidArgumentException
+     * @return void
+     */
+    public function __construct($content = "") {
+        Argument::IsString($content);
+        $this->content = $content;
+    }
+
+    /**
+     * Returns the message body.
+     * @return string the body
+     */
+    public function getContent() {
+        return $this->content;
+    }
+
+    /**
+     * Sets the content of the message body.
+     * @param string $content the body content to set
+     * @throws \InvalidArgumentException
+     * @return \Brickoo\Component\Http\MessageBody
+     */
+    public function setContent($content) {
+        Argument::IsString($content);
+        $this->content = $content;
+        return $this;
+    }
+
+}

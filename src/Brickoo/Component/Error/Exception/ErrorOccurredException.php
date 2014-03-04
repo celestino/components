@@ -27,15 +27,30 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Error\Exception;
+
+use Brickoo\Component\Error\Exception;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * ErrorOccurredException
+ *
+ * Expected Exception throwed by the ErrorHandler class if errors should be converted to exceptions.
+ * @see Brickoo\Component\Error\ErrorHandler
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class ErrorOccurredException extends Exception {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Class constructor.
+     * Calls the parent Exception constructor.
+     * @param string $errorMessage the message passed by the error handler
+     * @param integer $errorCode the error code passed by the error handler
+     * @param \Exception $previousException
+     * @return void
+     */
+    public function __construct($errorMessage, $errorCode, \Exception $previousException = null) {
+        parent::__construct($errorMessage, $errorCode, $previousException);
+    }
+
+}

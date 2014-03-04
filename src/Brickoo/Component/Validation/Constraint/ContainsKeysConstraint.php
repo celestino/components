@@ -27,15 +27,56 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Validation\Constraint;
+
+use Brickoo\Component\Validation\Constraint,
+    Brickoo\Component\Validation\Argument;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * TraversableContainsKeys
+ *
+ * Constrait to assert that an array or traversable contains expected keys.
+ * Does not have any effect if the traversable also contains other keys.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class ContainsKeysConstraint implements Constraint {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @var array */
+    private $expectedKeys;
+
+    /**
+     * Class constructor.
+     * @param array $expectedKeys the expected keys
+     * @throws \InvalidArgumentException if an argument is not valid.
+     * @return void
+     */
+    public function __construct(array $expectedKeys) {
+        $this->expectedKeys = $expectedKeys;
+    }
+
+
+    /**
+     * {@inheritDoc}
+     * @param array|Traversable $traversable
+     */
+    public function matches($traversable) {
+        Argument::IsTraversable($traversable);
+
+        $result = array_diff($this->expectedKeys, $this->getTraversableKeys($traversable));
+        return empty($result);
+    }
+
+    /**
+     * Returns the traversable contained keys as values.
+     * @param array|Traversable $traversable the traversable to return the keys from
+     * @return array the array keys as values
+     */
+    private function getTraversableKeys($traversable) {
+        if (is_array($traversable)) {
+            return array_keys($traversable);
+        }
+        return array_keys(iterator_to_array($traversable, true));
+    }
+
+}

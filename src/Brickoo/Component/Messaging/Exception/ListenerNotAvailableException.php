@@ -27,15 +27,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Messaging\Exception;
+
+use Brickoo\Component\Messaging\Exception;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * ListenerNotAvailableException
+ *
+ * Throwed if trying to retrieve an unavailable listener.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class ListenerNotAvailableException extends Exception {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Calls the parent exception constructor.
+     * @param string $listenerUID the listener unique identifier not available
+     * @param \Exception $previousException
+     * @return void
+     */
+    public function __construct($listenerUID, \Exception $previousException = null) {
+        parent::__construct(sprintf('The listener with the UID `%s` is not available.', $listenerUID), 0, $previousException);
+    }
+
+}

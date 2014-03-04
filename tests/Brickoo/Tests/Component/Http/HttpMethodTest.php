@@ -27,15 +27,44 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Http;
+
+use Brickoo\Component\Http\HttpMethod,
+    PHPUnit_Framework_TestCase;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * HttpMethod
+ *
+ * Test suite for the HttpMethod class.
+ * @see Brickoo\Component\Http\HttpMethod
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class HttpMethodTest extends PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * @covers Brickoo\Component\Http\HttpMethod::__construct
+     * @covers Brickoo\Component\Http\HttpMethod::isValid
+     */
+    public function testConstructor() {
+        $httpMethod = new HttpMethod(HttpMethod::PUT);
+        $this->assertInstanceOf("\\Brickoo\\Component\\Http\HttpMethod", $httpMethod);
+    }
+
+    /**
+     * @covers Brickoo\Component\Http\HttpMethod::__construct
+     * @covers Brickoo\Component\Http\HttpMethod::isValid
+     * @covers Brickoo\Component\Http\Exception\InvalidHttpMethodException
+     * @expectedException Brickoo\Component\Http\Exception\InvalidHttpMethodException
+     */
+    public function testConstructorInvalidVersionThrowsException() {
+        new HttpMethod("http/0.9");
+    }
+
+    /** @covers Brickoo\Component\Http\HttpMethod::toString */
+    public function testVersionToStrimg() {
+        $httpMethod = new HttpMethod(HttpMethod::OPTIONS);
+        $this->assertEquals(HttpMethod::OPTIONS, $httpMethod->toString());
+    }
+
+}

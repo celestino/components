@@ -27,15 +27,33 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Routing\Exception;
+
+use Brickoo\Component\Routing\Exception;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * RouteRequiredParametersMissingException
+ *
+ * Exception throwed if the uri builder is missing required parameters to generate the route path.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class RouteRequiredParametersMissingException extends Exception {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * Class constructor.
+     * Calls the parent Exception constructor.
+     * @param string $routeName the route name
+     * @param array $parametersMissed the parameters missed as array values
+     * @param \Exception $previousException
+     * @return void
+     */
+    public function __construct($routeName, array $parametersMissed, \Exception $previousException = null) {
+        parent::__construct(sprintf(
+            "The route `%s` requires missing parameter(s) `%s`.",
+            $routeName,
+            implode(", ", array_values($parametersMissed))
+        ), 0, $previousException);
+    }
+
+}

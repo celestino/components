@@ -27,15 +27,39 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Messaging\Listener;
+
+use Brickoo\Component\Messaging\ListenerQueue,
+    PHPUnit_Framework_TestCase;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * ListenerQueueTest
+ *
+ * Test suite for the ListenerQueue class.
+ * @see Brickoo\Component\Messaging\ListenerQueue
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class ListenerQueueTest extends PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @covers Brickoo\Component\Messaging\ListenerQueue::__construct */
+    public function testConstructor() {
+        $this->assertAttributeEquals(PHP_INT_MAX, 'serial', new ListenerQueue());
+    }
+
+    /** @covers Brickoo\Component\Messaging\ListenerQueue::insert */
+    public function testInsertionOfQueuedValues() {
+        $listenerQueue = new ListenerQueue();
+        $listenerQueue->insert('A', 100);
+        $listenerQueue->insert('B', 100);
+        $listenerQueue->insert('C', 200);
+
+        $queue = clone $listenerQueue;
+        $values = array();
+        foreach ($queue as $value) {
+            $values[] = $value;
+        }
+        $this->assertEquals(array('C', 'A', 'B'), $values);
+    }
+
+}

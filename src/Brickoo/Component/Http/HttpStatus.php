@@ -27,15 +27,64 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Http;
+
+use Brickoo\Component\Http\HttpStatusCode,
+    Brickoo\Component\Http\Exception\InvalidHttpStatusException,
+    Brickoo\Component\Validation\Argument;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * HttpStatus
+ *
+ * Describes the http status.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+Class HttpStatus extends HttpStatusCode {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /** @var string */
+    private $status;
+
+    /**
+     * Class constructor.
+     * @param string $status the http status
+     * @throws \InvalidArgumentException
+     * @throws \Brickoo\Component\Http\Exception\InvalidHttpStatusException
+     * @return void
+     */
+    public function __construct($status) {
+        Argument::IsInteger($status);
+
+        if (! $this->isValid($status)) {
+            throw new InvalidHttpStatusException($status);
+        }
+
+        $this->status = $status;
+    }
+
+    /**
+     * Returns the status code.
+     * @return integer the status code
+     */
+    public function getCode() {
+        return $this->status;
+    }
+
+    /**
+     * Returns the string representation of the http status.
+     * @return string the status representation
+     */
+    public function toString() {
+        return sprintf("%d %s", $this->status, $this->getPhrase($this->status));
+    }
+
+    /**
+     * Checks if the status is valid.
+     * @param string $status
+     * @return boolean check result
+     */
+    private function isValid($status) {
+        return $this->hasPhrase($status);
+    }
+
+}

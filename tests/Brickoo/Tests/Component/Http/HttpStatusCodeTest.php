@@ -27,15 +27,46 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Http;
+
+use Brickoo\Component\Http\HttpStatusCode,
+    PHPUnit_Framework_TestCase;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * HttpStatusCode
+ *
+ * Test suite for the HttpStatusCode class.
+ * @see Brickoo\Component\Http\HttpStatusCode-
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class HttpStatusCodeTest extends PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * @covers Brickoo\Component\Http\HttpStatusCode::getPhrase
+     * @covers Brickoo\Component\Http\HttpStatusCode::hasPhrase
+     */
+    public function testGetPhrase() {
+        $httpStatusCode = new HttpStatusCode();
+        $this->assertEquals("OK", $httpStatusCode->getPhrase(HttpStatusCode::CODE_OK));
+    }
+
+    /**
+     * @covers Brickoo\Component\Http\HttpStatusCode::getPhrase
+     * @covers Brickoo\Component\Http\HttpStatusCode::hasPhrase
+     * @covers Brickoo\Component\Http\Exception\StatusCodeUnkownException
+     * @expectedException Brickoo\Component\Http\Exception\StatusCodeUnkownException
+     */
+    public function testGetPhraseUnknownStatusCodeTHrowsException() {
+        $httpStatusCode = new HttpStatusCode();
+        $httpStatusCode->getPhrase(666);
+    }
+
+    /** @covers Brickoo\Component\Http\HttpStatusCode::hasPhrase */
+    public function testHasPhrase() {
+        $httpStatusCode = new HttpStatusCode();
+        $this->assertTrue($httpStatusCode->hasPhrase(HttpStatusCode::CODE_OK));
+        $this->assertFalse($httpStatusCode->hasPhrase(666));
+    }
+
+}

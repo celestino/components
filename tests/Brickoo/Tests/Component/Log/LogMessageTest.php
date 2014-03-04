@@ -27,15 +27,44 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Tests\Component\Log;
+
+use Brickoo\Component\Log\Logger,
+    Brickoo\Component\Log\LogMessage;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * LogMessageTest
+ *
+ * Test suite for the LogMessage class.
+    * @see Brickoo\Component\Log\LogMessage
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class LogMessageTest extends \PHPUnit_Framework_TestCase {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**
+     * @covers Brickoo\Component\Log\LogMessage::__construct
+     * @expectedException \InvalidArgumentException
+     */
+    public function testConstructorInvalidSeverityThrowsException() {
+        $logMessage = new LogMessage([], "wrongType");
+    }
+
+    /**
+     * @covers Brickoo\Component\Log\LogMessage::__construct
+     * @covers Brickoo\Component\Log\LogMessage::getMessages
+     */
+    public function testGetMessages() {
+        $messages = ["first message", "second message"];
+        $logMessage = new LogMessage($messages, Logger::SEVERITY_ALERT);
+        $this->assertEquals($messages, $logMessage->getMessages());
+    }
+
+    /** @covers Brickoo\Component\Log\LogMessage::getSeverity */
+    public function testGetSeverity() {
+        $severity = Logger::SEVERITY_EMERGENCY;
+        $logMessage = new LogMessage([], $severity);
+        $this->assertEquals($severity, $logMessage->getSeverity());
+    }
+
+}

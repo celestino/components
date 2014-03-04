@@ -27,15 +27,33 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace Brickoo\Component\Network\Exception;
+
+use Brickoo\Component\Network\Exception;
+
 /**
- * Bootstrap Brickoo unit tests.
- * Initializes the required autoloader.
+ * UnableToCreateHandleException
+ *
+ * Exception throwed if a resource handle could not be created for a network connection.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+class UnableToCreateHandleException extends Exception {
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
-$autoloader->register();
+    /**ŝ
+     * Class constructor.
+     * Calls the parent Exception constructor.
+     * @param string $socketAdress the socket adress
+     * @param integer $errorCode the error code throwed
+     * @param string $errorMessage the error message throwed
+     * @param \Exception $previousException
+     * @return void
+     */
+    public function __construct($socketAdress, $errorCode, $errorMessage, \Exception $previousException = null) {
+        parent::__construct(sprintf(
+            "The resource handle for the adress `%s` could not be created. Error: [#%d] %s ",
+            $socketAdress, $errorCode, $errorMessage
+        ), 0, $previousException);
+    }
+
+}
