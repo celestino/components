@@ -1,6 +1,6 @@
 
-##Brickoo [![Build Status](https://secure.travis-ci.org/brickoo/brickoo.png?branch=master)](http://travis-ci.org/brickoo/brickoo)
-Brickoo focus on simplicity of well designed and highly flexible components.
+##Brickoo [![Build Status](https://secure.travis-ci.org/brickoo/component.png)](http://travis-ci.org/brickoo/component)
+Brickoo focus on simplicity of well designed components.
 
 ###Requirements
 PHP 5.4 or any later version required.
@@ -11,16 +11,12 @@ Just copy the Brickoo source files to a location your application has read acces
 
 
 ###Testing
-Brickoo has been tested with PHPUnit 3.7.
+Brickoo has been tested with PHPUnit 4.0.
 
 
 ###Contributing
 Brickoo is an open source project. If you would like to contribute to Brickoo, please take a look at the
 [Coding Standards](http://brickoo.com/#coding_standards).
-
-
-###Requests
-Most of the implementations are strongly closed. They could be opened if the reason does increase the usability for everybody. Project specific requests may be rejected.
 
 
 ###License
