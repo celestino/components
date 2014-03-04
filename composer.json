@@ -1,7 +1,7 @@
 {
-    "name": "brickoo/brickoo",
-    "description": "BrickOO PHP components",
-    "keywords": ["framework", "components", "brickoo", "oop"],
+    "name": "brickoo/component",
+    "description": "BrickOO components",
+    "keywords": ["components", "brickoo", "oop", "api", "clean", "tested"],
     "homepage": "http://brickoo.com",
     "license": "BSD-2-Clause",
     "authors": [{
