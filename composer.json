@@ -1,19 +1,22 @@
 {
-    "name": "brickoo/component",
+    "name": "brickoo/components",
     "description": "BrickOO components",
     "keywords": ["components", "brickoo", "oop", "api", "clean", "tested"],
     "homepage": "http://brickoo.com",
     "license": "BSD-2-Clause",
     "authors": [{
-            "name": "Celestino Diaz",
-            "email": "celestino.diaz@gmx.de"
+        "name": "Celestino Diaz",
+        "email": "celestino.diaz@gmx.de"
     }],
+    "support": {
+        "issues": "https://github.com/brickoo/components/issues"
+    },
     "require": {
         "php": ">=5.4.0"
     },
     "autoload": {
         "psr-0": {
-            "Brickoo": "src/"
+            "Brickoo": "src"
         }
     }
 }
