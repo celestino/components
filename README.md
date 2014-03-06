@@ -1,5 +1,5 @@
 
-##Brickoo components [![Build Status](https://secure.travis-ci.org/brickoo/component.png)](http://travis-ci.org/brickoo/component)
+##Brickoo components [![Build Status](https://secure.travis-ci.org/brickoo/components.png)](http://travis-ci.org/brickoo/components)
 Brickoo components are designed with simplicity in mind.
 
 ###Requirements
