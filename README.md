@@ -1,13 +1,21 @@
 
-##Brickoo [![Build Status](https://secure.travis-ci.org/brickoo/component.png)](http://travis-ci.org/brickoo/component)
-Brickoo focus on simplicity of well designed components.
+##Brickoo components [![Build Status](https://secure.travis-ci.org/brickoo/component.png)](http://travis-ci.org/brickoo/component)
+Brickoo components are designed with simplicity in mind.
 
 ###Requirements
 PHP 5.4 or any later version required.
 
 
 ###Installation
-Just copy the Brickoo source files to a location your application has read access to.
+Get a copy of the components repository.
+
+`git clone https://github.com/brickoo/component.git`
+
+Installation using composer
+
+1. Get [Composer](http://getcomposer.org/)
+2. Require Brickoo components with `php composer.phar require brickoo/components v4.0.x`
+3. Install dependencies with `php composer.phar install
 
 
 ###Testing
