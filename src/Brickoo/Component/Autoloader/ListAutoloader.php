@@ -33,7 +33,6 @@ use Brickoo\Component\Autoloader\Exception\ClassNotRegisteredException,
     Brickoo\Component\Autoloader\Exception\DuplicateClassRegistrationException,
     Brickoo\Component\Autoloader\Exception\FileDoesNotExistException;
 
-
 /**
  * ListAutoloader
  *
@@ -55,6 +54,7 @@ class ListAutoloader extends Autoloader {
     public function __construct(array $classes = [], $prepend = true) {
         $this->classes = $classes;
         parent::__construct($prepend);
+        include_once "Exception.php";
     }
 
     /**
@@ -72,12 +72,12 @@ class ListAutoloader extends Autoloader {
         }
 
         if (! file_exists($location)) {
-            require_once "Exception".DIRECTORY_SEPARATOR."FileDoesNotExistException.php";
+            include_once "Exception".DIRECTORY_SEPARATOR."FileDoesNotExistException.php";
             throw new FileDoesNotExistException($location);
         }
 
         if ($this->isClassRegistered($className)) {
-            require_once "Exception".DIRECTORY_SEPARATOR."DuplicateClassRegistrationException.php";
+            include_once "Exception".DIRECTORY_SEPARATOR."DuplicateClassRegistrationException.php";
             throw new DuplicateClassRegistrationException($className);
         }
 
@@ -98,7 +98,7 @@ class ListAutoloader extends Autoloader {
         }
 
         if (! $this->isClassRegistered($className)) {
-            require_once "Exception".DIRECTORY_SEPARATOR."ClassNotRegisteredException.php";
+            include_once "Exception".DIRECTORY_SEPARATOR."ClassNotRegisteredException.php";
             throw new ClassNotRegisteredException($className);
         }
 
@@ -141,7 +141,7 @@ class ListAutoloader extends Autoloader {
         $classFilePath = $this->classes[$className];
 
         if ((! file_exists($classFilePath))) {
-            require_once "Exception".DIRECTORY_SEPARATOR."FileDoesNotExistException.php";
+            include_once "Exception".DIRECTORY_SEPARATOR."FileDoesNotExistException.php";
             throw new FileDoesNotExistException($classFilePath);
         }
 

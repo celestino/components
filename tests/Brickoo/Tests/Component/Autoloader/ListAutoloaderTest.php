@@ -37,7 +37,6 @@ use Brickoo\Component\Autoloader\ListAutoloader,
  * @see Brickoo\Component\Autoloader\ListAutoloader
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ListAutoloaderTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Autoloader\ListAutoloader::__construct */
@@ -144,7 +143,7 @@ class ListAutoloaderTest extends PHPUnit_Framework_TestCase {
     /** @covers Brickoo\Component\Autoloader\ListAutoloader::load */
     public function testLoadClass() {
         $listAutoloader = new ListAutoloader();
-        $listAutoloader->registerClass("ListLoadableClass", dirname(__FILE__) ."/Assets/ListLoadableClass.php");
+        $listAutoloader->registerClass("ListLoadableClass", dirname(__FILE__) . "/Assets/ListLoadableClass.php");
         $this->assertTrue($listAutoloader->load("ListLoadableClass"));
         $this->assertTrue(class_exists("Brickoo\Tests\Component\Autoloader\Assets\ListLoadableClass"));
     }

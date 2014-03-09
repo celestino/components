@@ -37,8 +37,7 @@ use Brickoo\Component\Autoloader\Exception\DirectoryDoesNotExistException,
 /**
  * NamespaceAutoloader
  *
- * Implementation of an autoloader to register namespaces based classes.
- * The implementation can also load files coming from a default location.
+ * Implementation of an autoloader to register namespaces based class loading.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -47,49 +46,23 @@ class NamespaceAutoloader extends Autoloader {
     /** @var array */
     private $namespaces;
 
-    /** @var string|null */
-    private $defaultLoaderPath;
-
     /**
      * Class constructor.
      * @param array $namespaces the namespaces to register as namespace => path structure.
      * @param boolean $prepend flag to prepend or append to the PHP autoloader list
-     * @param string|null $defaultPath the default path to load files not having a namespace registered
+     * @throws \InvalidArgumentException if an argument is not valid
+     * @throws \Brickoo\Component\Autoloader\Exception\DirectoryDoesNotExistException
+     * @throws \Brickoo\Component\Autoloader\Exception\DuplicateNamespaceRegistrationException
      * @return void
      */
-    public function __construct(array $namespaces = [], $prepend = true, $defaultPath = null) {
+    public function __construct(array $namespaces = [], $prepend = true) {
         parent::__construct($prepend);
         $this->namespaces = array();
 
         foreach ($namespaces as $namespace => $includePath) {
             $this->registerNamespace($namespace, $includePath);
         }
-
-        if ($defaultPath !== null) {
-            $this->setDefaultLoaderPath($defaultPath);
-        }
-    }
-
-    /**
-     * Sets the default path to use if a namespace is not registered.
-     * The class namespace will be appended to the default path.
-     * @param string $defaultPath the default namespace path
-     * @throws \InvalidArgumentException
-     * @throws \Brickoo\Component\Autoloader\Exception\DirectoryDoesNotExistException
-     * @return \Brickoo\Component\Autoloader\NamespaceAutoloader
-     */
-    public function setDefaultLoaderPath($defaultPath) {
-        if (! is_string($defaultPath)) {
-            throw new \InvalidArgumentException("Invalid default path argument.");
-        }
-
-        if (! is_dir($defaultPath)) {
-            require_once "Exception".DIRECTORY_SEPARATOR."DirectoryDoesNotExistException.php";
-            throw new DirectoryDoesNotExistException($defaultPath);
-        }
-
-        $this->defaultLoaderPath = rtrim($defaultPath, "/\\");
-        return $this;
+        include_once "Exception.php";
     }
 
     /**
@@ -102,7 +75,7 @@ class NamespaceAutoloader extends Autoloader {
      * @return \Brickoo\Component\Autoloader\NamespaceAutoloader
      */
     public function registerNamespace($namespace, $includePath) {
-        if ((! is_string($namespace)) || (! $namespace = trim($namespace)) || (! is_string($includePath))) {
+        if ((! is_string($namespace)) || (! $namespace = trim($namespace, "\\")) || (! is_string($includePath))) {
             throw new \InvalidArgumentException("Invalid arguments used.");
         }
 
@@ -174,13 +147,13 @@ class NamespaceAutoloader extends Autoloader {
             throw new FileDoesNotExistException($absolutePath);
         }
 
-        require ($absolutePath);
+        include ($absolutePath);
         return true;
     }
 
     /**
      * Returns the absolute path for the requested class.
-     * @param string $className the class to retrieve the path for
+     * @param string $className the class to retrieve the path from
      * @return string the absolute file path or null if the namespace is not registered
      */
     private function getAbsolutePath($className) {
@@ -188,10 +161,6 @@ class NamespaceAutoloader extends Autoloader {
 
         if ($namespacePath !== null) {
             return $namespacePath . $this->getTranslatedClassPath($className);
-        }
-
-        if ($this->defaultLoaderPath !== null) {
-            return $this->defaultLoaderPath . $this->getTranslatedClassPath($className);
         }
 
         return null;
@@ -212,7 +181,7 @@ class NamespaceAutoloader extends Autoloader {
                     || (strlen($choosedNamespace) < strlen($namespace)))
             ){
                 $choosedNamespace = $namespace;
-                $namespacePath = $path;
+                $namespacePath = substr($path, 0, strlen($namespace)*-1);
             }
         }
         return $namespacePath;

@@ -33,9 +33,10 @@
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
-require_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
+include_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/Autoloader.php');
+include_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
 
-$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader();
-$autoloader->registerNamespace('Brickoo', realpath(dirname(__FILE__)) .'/../src/');
+$autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader([
+    "Brickoo\\Component" => realpath(dirname(__FILE__)) ."/../src/Brickoo/Component"
+]);
 $autoloader->register();
