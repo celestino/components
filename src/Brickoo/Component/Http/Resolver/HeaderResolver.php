@@ -120,9 +120,11 @@ class HeaderResolver {
      */
     private function createMappingHeader($headerClass, $headerValue) {
         try {
-            class_exists($headerClass);
+            if (! class_exists($headerClass)) {
+                throw new Exception("Unable to load class.");
+            }
         }
-        catch (FileDoesNotExistException $exception) {
+        catch (\Exception $exception) {
             throw new HeaderClassNotFoundException($headerClass, $exception);
         }
         return new $headerClass($headerValue);
