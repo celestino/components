@@ -167,15 +167,11 @@ class NamespaceAutoloaderTest extends PHPUnit_Framework_TestCase {
         $this->assertFalse($namespaceAutoloader->load("Namespace\\not\\registred"));
     }
 
-    /**
-     * @covers Brickoo\Component\Autoloader\NamespaceAutoloader::load
-     * @covers Brickoo\Component\Autoloader\Exception\FileDoesNotExistException
-     * @expectedException Brickoo\Component\Autoloader\Exception\FileDoesNotExistException
-     */
-    public function testFileDoesNotExist() {
+    /** @covers Brickoo\Component\Autoloader\NamespaceAutoloader::load */
+    public function testLoadFileDoesNotExistReturnsFalse() {
         $namespaceAutoloader = new NamespaceAutoloader();
         $namespaceAutoloader->registerNamespace("Brickoo", dirname(__FILE__));
-        $namespaceAutoloader->load("Brickoo\\DoesNotExist");
+        $this->assertFalse($namespaceAutoloader->load("Brickoo\\DoesNotExist"));
     }
 
  }

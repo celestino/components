@@ -143,8 +143,7 @@ class NamespaceAutoloader extends Autoloader {
         }
 
         if ((! file_exists($absolutePath))) {
-            require_once "Exception".DIRECTORY_SEPARATOR."FileDoesNotExistException.php";
-            throw new FileDoesNotExistException($absolutePath);
+            return false;
         }
 
         include ($absolutePath);

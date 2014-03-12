@@ -131,7 +131,7 @@ class ListAutoloader extends Autoloader {
     /** {@inheritDoc} */
     public function load($className) {
         if (! is_string($className)) {
-            throw new \InvalidArgumentException(sprintf("The class name `%s` is not valid", json_encode($className)));
+            throw new \InvalidArgumentException(sprintf("The class name `%s` is not valid.", json_encode($className)));
         }
 
         if (! $this->isClassRegistered($className)) {
@@ -141,8 +141,7 @@ class ListAutoloader extends Autoloader {
         $classFilePath = $this->classes[$className];
 
         if ((! file_exists($classFilePath))) {
-            include_once "Exception".DIRECTORY_SEPARATOR."FileDoesNotExistException.php";
-            throw new FileDoesNotExistException($classFilePath);
+            return false;
         }
 
         require $classFilePath;

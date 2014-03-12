@@ -149,9 +149,9 @@ class ListAutoloaderTest extends PHPUnit_Framework_TestCase {
     }
 
     /** @covers Brickoo\Component\Autoloader\ListAutoloader::load */
-    public function testLoadClassIsNotResponsible() {
+    public function testLoadClassIsNotRegistered() {
         $listAutoloader = new ListAutoloader();
-        $this->assertFalse($listAutoloader->load("NotListenedClass"));
+        $this->assertFalse($listAutoloader->load("NoRegisteredClass"));
     }
 
     /**
@@ -163,14 +163,10 @@ class ListAutoloaderTest extends PHPUnit_Framework_TestCase {
         $listAutoloader->load(["wrongType"]);
     }
 
-    /**
-     * @covers Brickoo\Component\Autoloader\ListAutoloader::load
-     * @covers Brickoo\Component\Autoloader\Exception\FileDoesNotExistException
-     * @expectedException Brickoo\Component\Autoloader\Exception\FileDoesNotExistException
-     */
-    public function testLoadClassThrowsFileDoesNotExistException() {
+    /** @covers Brickoo\Component\Autoloader\ListAutoloader::load */
+    public function testLoadFileDoesNotExistReturnsFalse() {
         $listAutoloader = new ListAutoloader(array("Foo" => "FooDoesNotExists.php"));
-        $listAutoloader->load("Foo");
+        $this->assertFalse($listAutoloader->load("Foo"));
     }
 
 }
