@@ -138,31 +138,16 @@ class NamespaceAutoloader extends Autoloader {
             throw new \InvalidArgumentException("Invalid class argument used.");
         }
 
-        if (($absolutePath = $this->getAbsolutePath($className)) === null) {
+        if (($namespaceClassPath = $this->getNamespaceClassPath($className)) === null) {
             return false;
         }
 
-        if ((! file_exists($absolutePath))) {
+        if ((! file_exists($namespaceClassPath))) {
             return false;
         }
 
-        include ($absolutePath);
+        include ($namespaceClassPath);
         return true;
-    }
-
-    /**
-     * Returns the absolute path for the requested class.
-     * @param string $className the class to retrieve the path from
-     * @return string the absolute file path or null if the namespace is not registered
-     */
-    private function getAbsolutePath($className) {
-        $namespacePath = $this->getNamespaceClassPath($className);
-
-        if ($namespacePath !== null) {
-            return $namespacePath . $this->getTranslatedClassPath($className);
-        }
-
-        return null;
     }
 
     /**
@@ -171,7 +156,7 @@ class NamespaceAutoloader extends Autoloader {
      * @return string the namespace based path otherwise null
      */
     private function getNamespaceClassPath($className) {
-        $namespacePath = null;
+        $namespaceClassPath = null;
         $choosedNamespace = null;
 
         foreach($this->namespaces as $namespace => $path) {
@@ -180,10 +165,10 @@ class NamespaceAutoloader extends Autoloader {
                     || (strlen($choosedNamespace) < strlen($namespace)))
             ){
                 $choosedNamespace = $namespace;
-                $namespacePath = substr($path, 0, strlen($namespace)*-1);
+                $namespaceClassPath = $path . $this->getTranslatedClassPath(substr($className, strlen($namespace)));
             }
         }
-        return $namespacePath;
+        return $namespaceClassPath;
     }
 
     /**
