@@ -11,6 +11,7 @@
     bootstrap="bootstrap.php">
     <testsuites>
         <testsuite name="BrickOO Components">
+            <directory>./Brickoo/Tests/Component/Annotation</directory>
             <directory>./Brickoo/Tests/Component/Autoloader</directory>
             <directory>./Brickoo/Tests/Component/Cache</directory>
             <directory>./Brickoo/Tests/Component/Error</directory>
