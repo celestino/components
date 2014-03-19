@@ -100,14 +100,14 @@ class AnnotationDefinition {
 
     /**
      * Returns the required parameters.
-     * @return array the required paramaters
+     * @return array the required parameters
      */
     public function getRequiredParameters() {
         return $this->requiredParameters;
     }
 
     /**
-     * Checks if the annotation has required paramaters.
+     * Checks if the annotation has required parameters.
      * @return boolean check result
      */
     public function hasRequiredParameters() {
@@ -116,7 +116,7 @@ class AnnotationDefinition {
 
     /**
      * Returns the optional parameters.
-     * @return array the optional paramaters
+     * @return array the optional parameters
      */
     public function getOptionalParameters() {
         return $this->optionalParamaters;

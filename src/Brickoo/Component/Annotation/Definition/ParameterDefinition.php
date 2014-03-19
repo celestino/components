@@ -66,7 +66,7 @@ class ParameterDefinition {
 
     /**
      * Returns the parameter name.
-     * @return string the paramater name
+     * @return string the parameter name
      */
     public function getName() {
         return $this->name;
@@ -74,14 +74,14 @@ class ParameterDefinition {
 
     /**
      * Returns the parameter type.
-     * @return string the paramater type
+     * @return string the parameter type
      */
     public function getType() {
         return $this->type;
     }
 
     /**
-     * Checks if the paramater is required.
+     * Checks if the parameter is required.
      * @return boolean check result
      */
     public function isRequired() {

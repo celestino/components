@@ -175,7 +175,7 @@ class AnnotationParser {
     }
 
     /**
-     * Retruns the  paramaters values pairs.
+     * Retruns the  parameters values pairs.
      * @param string $valuesString
      * @param string $valuesRegex
      * @return array the parameters values pairs

@@ -52,7 +52,7 @@ class ExecutableRoute {
     /**
      * Class constructor.
      * @param \Brickoo\Component\Routing\Route $route the matching request route
-     * @param array $parameters the paramaters extracted from the request
+     * @param array $parameters the parameters extracted from the request
      * @return void
      */
     public function __construct(Route $route, array $parameters = []) {

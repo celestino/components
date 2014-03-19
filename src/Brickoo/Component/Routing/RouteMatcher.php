@@ -33,7 +33,7 @@ namespace Brickoo\Component\Routing;
  * RouteMatcher
  *
  * Defines a route matcher.
- * If the route does match, the route rules paramaters can be retrieved.
+ * If the route does match, the route rules parameters can be retrieved.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
