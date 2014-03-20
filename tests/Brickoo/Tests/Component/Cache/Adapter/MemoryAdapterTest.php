@@ -62,7 +62,7 @@ class MemoryAdapterTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Cache\Adapter\MemoryAdapter::set
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testSetIdentifierThrowsArgumentException() {
         $MemoryAdapter = new MemoryAdapter();
@@ -78,7 +78,7 @@ class MemoryAdapterTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Cache\Adapter\MemoryAdapter::get
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testGetIdentifierThrowsArgumentException() {
         $MemoryAdapter = new MemoryAdapter();
@@ -101,7 +101,7 @@ class MemoryAdapterTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Cache\Adapter\MemoryAdapter::delete
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testDeleteIdentifierThrowsArgumentException() {
         $MemoryAdapter = new MemoryAdapter();

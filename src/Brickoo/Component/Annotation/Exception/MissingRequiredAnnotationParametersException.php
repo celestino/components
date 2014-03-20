@@ -27,29 +27,30 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Http\Exception;
+namespace Brickoo\Component\Annotation\Exception;
 
-use Brickoo\Component\Http\Exception;
+use Brickoo\Component\Annotation\Exception;
 
 /**
- * StatusCodeUnkownException
+ * MissingRequiredAnnotationParametersException
  *
- * Exception throwed if the a status code does not have
- * a corresponding status phrase.
+ * Exception thrown if required annotation parameters are missed.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
-class StatusCodeUnkownException extends Exception {
+class MissingRequiredAnnotationParametersException extends Exception {
 
     /**
      * Class constructor.
-     * Calls the parent Exception constructor.
-     * @param string $statusCode
+     * Calls the parent exception constructor.
+     * @param string $annotationName
+     * @param array $annotationParameters
      * @param \Exception $previousException
-     * @return void
      */
-    public function __construct($statusCode, \Exception $previousException = null) {
-        parent::__construct(sprintf("The status code `%s` does not have a phrase.", $statusCode), 0, $previousException);
+    public function __construct($annotationName, array $annotationParameters, \Exception $previousException = null) {
+        parent::__construct(
+            sprintf("Annotation `%s` parameters (`%s`) missed.", $annotationName, implode("`, `", $annotationParameters)),
+            0 , $previousException
+        );
     }
 
 }

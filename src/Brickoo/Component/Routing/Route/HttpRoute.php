@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Routing\Route;
 
-use Brickoo\Component\Routing\Route\GenericRoute,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * HttpRoute

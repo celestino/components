@@ -1,21 +1,11 @@
 <?php
 
-    namespace Brickoo\Tests\Component\Validation\Constraint\Fixture;
+namespace Brickoo\Tests\Component\Validation\Constraint\Fixture;
 
-    class TraversableInstancesFixture implements \IteratorAggregate {
+class TraversableInstancesFixture implements \IteratorAggregate {
 
-        public $instance1 = null;
-        public $instance2 = null;
-        public $instance3 = null;
-
-        public function __construct() {
-            $this->instance1 = new \ArrayObject();
-            $this->instance2 = new \ArrayObject();
-            $this->instance3 = new \ArrayObject();
-        }
-
-        public function getIterator() {
-            return new \ArrayIterator($this);
-        }
-
+    public function getIterator() {
+        return new \ArrayIterator([new \ArrayObject(), new \ArrayObject(), new \ArrayObject()]);
     }
+
+}

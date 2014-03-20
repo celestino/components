@@ -30,6 +30,7 @@
 namespace Brickoo\Tests\Component\Cache;
 
 use Brickoo\Component\Cache\AdapterPoolIterator,
+    Brickoo\Component\Cache\Adapter\DoNothingAdapter,
     PHPUnit_Framework_TestCase;
 
 /**
@@ -44,7 +45,7 @@ class AdapterPoolIteratorTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Cache\AdapterPoolIterator::__construct */
     public function testConstructorInitializeProperties() {
-        $poolEntries = ["doNothing" => ($adapter = new \Brickoo\Component\Cache\Adapter\DoNothingAdapter())];
+        $poolEntries = ["doNothing" => ($adapter = new DoNothingAdapter())];
         $adapterPoolIterator = new AdapterPoolIterator($poolEntries);
         $this->assertAttributeContains("doNothing", "mappingKeys", $adapterPoolIterator);
         $this->assertAttributeContains($adapter, "poolEntries", $adapterPoolIterator);
@@ -56,14 +57,14 @@ class AdapterPoolIteratorTest extends PHPUnit_Framework_TestCase {
      */
     public function testWrongEntriesTypeThrowsInvalidArgumentException() {
         $poolEntries = ["someEntry" => "WRONG_VALUE"];
-        $adapterPoolIterator = new AdapterPoolIterator($poolEntries);
+        new AdapterPoolIterator($poolEntries);
     }
 
     /** @covers Brickoo\Component\Cache\AdapterPoolIterator::isCurrentReady */
     public function testIsCurrentReady() {
         $adapter = $this->getMock("\\Brickoo\\Component\\Cache\\Adapter");
         $adapter->expects($this->once())
-                ->method("isready")
+                ->method("isReady")
                 ->will($this->returnValue(true));
         $adapterPoolIterator = new AdapterPoolIterator(["adapter" => $adapter]);
         $this->assertTrue($adapterPoolIterator->isCurrentReady());
@@ -73,7 +74,7 @@ class AdapterPoolIteratorTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Cache\AdapterPoolIterator::isCurrentReady
      * @covers Brickoo\Component\Cache\AdapterPoolIterator::isEmpty
      * @covers Brickoo\Component\Cache\Exception\PoolIsEmptyException
-     * @expectedException Brickoo\Component\Cache\Exception\PoolIsEmptyException
+     * @expectedException \Brickoo\Component\Cache\Exception\PoolIsEmptyException
      */
     public function testIsCurrentReadyThrowsExceptionIfPoolIsEmpty() {
         $adapterPoolIterator = new AdapterPoolIterator([]);
@@ -107,7 +108,7 @@ class AdapterPoolIteratorTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Cache\AdapterPoolIterator::current
      * @covers Brickoo\Component\Cache\AdapterPoolIterator::isEmpty
      * @covers Brickoo\Component\Cache\Exception\PoolIsEmptyException
-     * @expectedException Brickoo\Component\Cache\Exception\PoolIsEmptyException
+     * @expectedException \Brickoo\Component\Cache\Exception\PoolIsEmptyException
      */
     public function testIteratorThrowsExceptionIfCurrentValueIsNotAvailable() {
         $adapter = $this->getMock("\\Brickoo\\Component\\Cache\\Adapter");
@@ -128,8 +129,8 @@ class AdapterPoolIteratorTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Cache\AdapterPoolIterator::select
      * @covers Brickoo\Component\Cache\AdapterPoolIterator::getMappingPosition
-     * @covers Brickoo\Component\Cache\Exception\PoolIndentifierDoesNotExistException
-     * @expectedException Brickoo\Component\Cache\Exception\PoolIndentifierDoesNotExistException
+     * @covers Brickoo\Component\Cache\Exception\PoolIdentifierDoesNotExistException
+     * @expectedException \Brickoo\Component\Cache\Exception\PoolIdentifierDoesNotExistException
      */
     public function testSelectThrowsExceptionIfAdapterDoesNotExist() {
         $adapterPoolIterator = new AdapterPoolIterator([]);
@@ -158,8 +159,8 @@ class AdapterPoolIteratorTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Cache\AdapterPoolIterator::remove
-     * @covers Brickoo\Component\Cache\Exception\PoolIndentifierDoesNotExistException
-     * @expectedException Brickoo\Component\Cache\Exception\PoolIndentifierDoesNotExistException
+     * @covers Brickoo\Component\Cache\Exception\PoolIdentifierDoesNotExistException
+     * @expectedException \Brickoo\Component\Cache\Exception\PoolIdentifierDoesNotExistException
      */
     public function testRemoveThrowsExceptionIfAdapterDoesNotExist() {
         $adapterPoolIterator = new AdapterPoolIterator([]);

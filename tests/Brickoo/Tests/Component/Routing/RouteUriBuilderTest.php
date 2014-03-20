@@ -45,7 +45,7 @@ class RouteUriBuilderTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Routing\RouteUriBuilder::__construct
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testConstructorThrowsInvalidArgumentException() {
         new RouteUriBuilder(["wrongType"], $this->getRouterStub(), $this->getRoutePathRegexGeneratorStub());
@@ -74,7 +74,7 @@ class RouteUriBuilderTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Routing\RouteUriBuilder::build
      * @covers Brickoo\Component\Routing\Exception\RouteNotFoundException
-     * @expectedException Brickoo\Component\Routing\Exception\RouteNotFoundException
+     * @expectedException \Brickoo\Component\Routing\Exception\RouteNotFoundException
      */
     public function testBuildThrowsRouteNotFoundException() {
         $routeName = "news.get.articles";
@@ -93,7 +93,7 @@ class RouteUriBuilderTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Routing\RouteUriBuilder::build
      * @covers Brickoo\Component\Routing\RouteUriBuilder::getExpectedRoutePath
      * @covers Brickoo\Component\Routing\Exception\PathNotValidException
-     * @expectedException Brickoo\Component\Routing\Exception\PathNotValidException
+     * @expectedException \Brickoo\Component\Routing\Exception\PathNotValidException
      */
     public function testBuildThrowsPathNotValidException() {
         $routeName = "news.get.articles";
@@ -110,7 +110,7 @@ class RouteUriBuilderTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Routing\RouteUriBuilder::build
      * @covers Brickoo\Component\Routing\RouteUriBuilder::getExpectedRoutePath
      * @covers Brickoo\Component\Routing\Exception\RouteRequiredParametersMissingException
-     * @expectedException Brickoo\Component\Routing\Exception\RouteRequiredParametersMissingException
+     * @expectedException \Brickoo\Component\Routing\Exception\RouteRequiredParametersMissingException
      */
     public function testBuildThrowsRequiredParametersMissingException() {
         $routeName = "news.get.articles";
@@ -125,7 +125,7 @@ class RouteUriBuilderTest extends PHPUnit_Framework_TestCase {
     /**
      * Returns a router mock object containing a configured route.
      * @param string $routeName the route name of the test case
-     * @return Brickoo\Component\Routing\Interfaces\Router
+     * @return \Brickoo\Component\Routing\Router
      */
     private function getRouterFixture($routeName) {
         $rulesValuesMap = array(
@@ -178,7 +178,7 @@ class RouteUriBuilderTest extends PHPUnit_Framework_TestCase {
 
     /**
      * Returns a regular route expression generator to validate the path.
-     * @return Brickoo\Component\Routing\Route\Interfaces\RegexGenerator
+     * @return \Brickoo\Component\Routing\RoutePathRegexGenerator
      */
     private function getRoutePathRegexGeneratorFixture() {
         $pathRegexGenerator = $this->getRoutePathRegexGeneratorStub();

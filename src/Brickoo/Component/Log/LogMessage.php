@@ -30,7 +30,6 @@
 namespace Brickoo\Component\Log;
 
 use Brickoo\Component\Messaging\GenericMessage,
-    Brickoo\Component\Log\Messages,
     Brickoo\Component\Validation\Argument;
 
 /**

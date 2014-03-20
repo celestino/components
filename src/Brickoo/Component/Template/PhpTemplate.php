@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Template;
 
-use Brickoo\Component\Template\Template,
-    Brickoo\Component\Template\Exception\RenderingAbortedException,
+use Brickoo\Component\Template\Exception\RenderingAbortedException,
     Brickoo\Component\Validation\Argument;
 
 /**
@@ -50,7 +49,6 @@ class PhpTemplate implements Template {
      * @param string $templateFile the php template to use
      * @param array $templateVars the template variables to make accessible
      * @throws \InvalidArgumentException if an argument is not valid
-     * @return void
      */
     public function __construct($templateFile, array $templateVars = []) {
         Argument::IsString($templateFile);

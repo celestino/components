@@ -29,11 +29,6 @@
 
 namespace Brickoo\Component\Http;
 
-use Brickoo\Component\Http\HttpMethod,
-    Brickoo\Component\Http\HttpMessage,
-    Brickoo\Component\Http\Uri,
-    Brickoo\Component\Http\HttpVersion;
-
 /**
  * HttpRequest
  *
@@ -61,7 +56,6 @@ class HttpRequest {
      * @param \Brickoo\Component\Http\HttpVersion $version
      * @param \Brickoo\Component\Http\Uri $uri
      * @param \Brickoo\Component\Http\HttpMessage $message
-     * @return void
      */
     public function __construct(HttpMethod $method, HttpVersion $version, Uri $uri, HttpMessage $message) {
         $this->method = $method;
@@ -127,7 +121,7 @@ class HttpRequest {
     }
 
     /**
-     * Retruns the request string representation.
+     * Returns the request string representation.
      * @return string the request representation
      */
     public function toString() {

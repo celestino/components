@@ -44,7 +44,7 @@ class RegistryTest extends PHPUnit_Framework_TestCase {
 
     /**
      * Holds an instance of the Registry class.
-     * @var object Registry
+     * @var \Brickoo\Component\Memory\Registry
      */
     public $registry;
 
@@ -88,7 +88,7 @@ class RegistryTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Memory\Registry::isIdentifierAvailable
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testIsIdentifierAvailableException() {
         $this->registry->isIdentifierAvailable(array("wrongType"));
@@ -103,7 +103,7 @@ class RegistryTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Memory\Registry::register
      * @covers Brickoo\Component\Memory\Registry::setReadOnly
      * @covers Brickoo\Component\Memory\Exception\ReadonlyModeException
-     * @expectedException Brickoo\Component\Memory\Exception\ReadonlyModeException
+     * @expectedException \Brickoo\Component\Memory\Exception\ReadonlyModeException
      */
     public function testRegisterReadonlyException() {
         $this->registry->setReadOnly(true);
@@ -113,7 +113,7 @@ class RegistryTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Memory\Registry::register
      * @covers Brickoo\Component\Memory\Exception\DuplicateRegistrationException
-     * @expectedException Brickoo\Component\Memory\Exception\DuplicateRegistrationException
+     * @expectedException \Brickoo\Component\Memory\Exception\DuplicateRegistrationException
      */
     public function testRegisterRegisteredException() {
         $this->registry->register("name", "john");
@@ -128,7 +128,7 @@ class RegistryTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Memory\Registry::get
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testGetRegisteredArgumentException() {
         $this->registry->get(array("wrongType"));
@@ -137,7 +137,7 @@ class RegistryTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Memory\Registry::get
      * @covers Brickoo\Component\Memory\Exception\IdentifierNotRegisteredException
-     * @expectedException Brickoo\Component\Memory\Exception\IdentifierNotRegisteredException
+     * @expectedException \Brickoo\Component\Memory\Exception\IdentifierNotRegisteredException
      */
     public function testGetRegisteredException() {
         $this->registry->get("name");
@@ -151,7 +151,7 @@ class RegistryTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Memory\Registry::override
      * @covers Brickoo\Component\Memory\Exception\IdentifierLockedException
-     * @expectedException Brickoo\Component\Memory\Exception\IdentifierLockedException
+     * @expectedException \Brickoo\Component\Memory\Exception\IdentifierLockedException
      */
     public function testOverrideLockException() {
         $this->registry->register("name", "john");
@@ -162,7 +162,7 @@ class RegistryTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Memory\Registry::override
      * @covers Brickoo\Component\Memory\Exception\ReadonlyModeException
-     * @expectedException Brickoo\Component\Memory\Exception\ReadonlyModeException
+     * @expectedException \Brickoo\Component\Memory\Exception\ReadonlyModeException
      */
     public function testOverrideReadonlyException() {
         $this->registry->register("name", "john");
@@ -179,7 +179,7 @@ class RegistryTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Memory\Registry::unregister
      * @covers Brickoo\Component\Memory\Exception\IdentifierNotRegisteredException
-     * @expectedException Brickoo\Component\Memory\Exception\IdentifierNotRegisteredException
+     * @expectedException \Brickoo\Component\Memory\Exception\IdentifierNotRegisteredException
      */
     public function testUnregisterException() {
         $this->registry->unregister("name");
@@ -188,7 +188,7 @@ class RegistryTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Memory\Registry::unregister
      * @covers Brickoo\Component\Memory\Exception\ReadonlyModeException
-     * @expectedException Brickoo\Component\Memory\Exception\ReadonlyModeException
+     * @expectedException \Brickoo\Component\Memory\Exception\ReadonlyModeException
      */
     public function testUnregisterReadonlyException() {
         $this->registry->register("name", "john");
@@ -199,7 +199,7 @@ class RegistryTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Memory\Registry::unregister
      * @covers Brickoo\Component\Memory\Exception\IdentifierLockedException
-     * @expectedException Brickoo\Component\Memory\Exception\IdentifierLockedException
+     * @expectedException \Brickoo\Component\Memory\Exception\IdentifierLockedException
      */
     public function testUnregisterLockedException() {
         $this->registry->register("name", "john");
@@ -229,7 +229,7 @@ class RegistryTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Memory\Registry::setReadOnly
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testSetReadOnlyException() {
         $this->registry->setReadOnly(array("wrongType"));

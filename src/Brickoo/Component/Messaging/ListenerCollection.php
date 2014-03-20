@@ -29,9 +29,7 @@
 
 namespace Brickoo\Component\Messaging;
 
-use Brickoo\Component\Messaging\Listener,
-    Brickoo\Component\Messaging\ListenerQueue,
-    Brickoo\Component\Messaging\Exception\ListenerNotAvailableException,
+use Brickoo\Component\Messaging\Exception\ListenerNotAvailableException,
     Brickoo\Component\Messaging\Exception\ListenersNotAvailableException,
     Brickoo\Component\Validation\Argument;
 
@@ -126,7 +124,7 @@ class ListenerCollection {
      * @param string $messageName the message name to retrieve the queue from
      * @throws \InvalidArgumentException
      * @throws \Brickoo\Component\Messaging\Exception\ListenersNotAvailableException
-     * @return \Brickoo\Component\Messaging\ListenerQueue
+     * @return array the collected message listeners ordered by priority.
      */
     public function getListeners($messageName) {
         Argument::IsString($messageName);

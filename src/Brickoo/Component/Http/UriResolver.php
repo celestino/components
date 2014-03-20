@@ -46,7 +46,7 @@ interface UriResolver {
 
     /**
      * Returns the host name or address.
-     * @return string the host name or adress
+     * @return string the host name or address
      */
     public function getHostname();
 

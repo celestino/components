@@ -53,7 +53,7 @@ Class HttpVersion {
      * Class constructor.
      * @param string $version the http version
      * @throws \InvalidArgumentException
-     * @return void
+     * @throws \Brickoo\Component\Http\Exception\InvalidHttpVersionException
      */
     public function __construct($version) {
         Argument::IsString($version);

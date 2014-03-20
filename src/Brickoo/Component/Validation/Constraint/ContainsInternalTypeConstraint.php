@@ -50,7 +50,6 @@ class ContainsInternalTypeConstraint implements Constraint {
      * Class constructor.
      * @param string $expectedType the values expected type
      * @throws \InvalidArgumentException if an argument is not valid.
-     * @return void
      */
     public function __construct($expectedType) {
         Argument::IsString($expectedType);
@@ -60,7 +59,7 @@ class ContainsInternalTypeConstraint implements Constraint {
 
     /**
      * {@inheritDoc}
-     * @param array|Traversable $traversable
+     * @param array|\Traversable $traversable
      */
     public function matches($traversable) {
         Argument::IsTraversable($traversable);

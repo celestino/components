@@ -63,7 +63,7 @@ class AnnotationReaderResultTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Annotation\AnnotationReaderResult::addCollection
      * @covers Brickoo\Component\Annotation\AnnotationReaderResult::isTargetTypeValid
      * @covers Brickoo\Component\Annotation\Exception\InvalidTargetTypeException
-     * @expectedException Brickoo\Component\Annotation\Exception\InvalidTargetTypeException
+     * @expectedException \Brickoo\Component\Annotation\Exception\InvalidTargetTypeException
      */
     public function testAddCollectionThrowsInvalidTypeException() {
         $annotationTarget = $this->getAnnotationTargetStub();
@@ -102,7 +102,7 @@ class AnnotationReaderResultTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Annotation\AnnotationReaderResult::getCollectionsByTargetType
      * @covers Brickoo\Component\Annotation\AnnotationReaderResult::isTargetTypeValid
      * @covers Brickoo\Component\Annotation\Exception\InvalidTargetTypeException
-     * @expectedException Brickoo\Component\Annotation\Exception\InvalidTargetTypeException
+     * @expectedException \Brickoo\Component\Annotation\Exception\InvalidTargetTypeException
      */
     public function testGetCollectionsByTargetTypeThrowsInvalidTypeException() {
         $annotationReaderResult = new AnnotationReaderResult();

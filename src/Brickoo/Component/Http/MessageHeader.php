@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Http;
 
-use Brickoo\Component\Http\HttpHeader,
-    Brickoo\Component\Http\Exception\HeaderNotFoundException,
+use Brickoo\Component\Http\Exception\HeaderNotFoundException,
     Brickoo\Component\Memory\Container,
     Brickoo\Component\Validation\Argument;
 

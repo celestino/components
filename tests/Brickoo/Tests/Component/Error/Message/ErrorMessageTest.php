@@ -51,10 +51,10 @@ class ErrorMessageTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Error\Message\ErrorMessage::__construct
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testConstructorThrowsInvalidArgumentException() {
-        $message = new ErrorMessage(["wrongType"]);
+        new ErrorMessage(["wrongType"]);
     }
 
     /** @covers Brickoo\Component\Error\Message\ErrorMessage::getErrorMessage */

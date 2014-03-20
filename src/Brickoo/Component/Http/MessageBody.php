@@ -47,7 +47,6 @@ class MessageBody {
      * Class constructor.
      * @param string $content the body content
      * @throws \InvalidArgumentException
-     * @return void
      */
     public function __construct($content = "") {
         Argument::IsString($content);

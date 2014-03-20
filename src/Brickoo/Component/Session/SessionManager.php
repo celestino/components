@@ -29,9 +29,9 @@
 
 namespace Brickoo\Component\Session;
 
-use SessionHandler,
-    Brickoo\Component\Session\Exception\SessionAlreadyStartedException,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Session\Exception\SessionAlreadyStartedException,
+    Brickoo\Component\Validation\Argument,
+    SessionHandler;
 
 /**
  * SessionManager
@@ -48,7 +48,6 @@ class SessionManager {
     /**
      * Class constructor.
      * @param SessionHandler $sessionHandler
-     * @return void
      */
     public function __construct(SessionHandler $sessionHandler = null) {
         if ($sessionHandler instanceof SessionHandler) {
@@ -122,20 +121,20 @@ class SessionManager {
      * @param string $path the request path to listen to
      * @param string $domain the domain to listen to
      * @param boolean $secure only should be sent while on https mode
-     * @param boolean $httponly restriction to the http protocol
+     * @param boolean $httpOnly restriction to the http protocol
      * @throws \InvalidArgumentException if an argument is not valid
      * @throws \Brickoo\Component\Session\Exception\SessionAlreadyStartedException
      * @return \Brickoo\Component\Session\SessionManager
      */
-    public function setCookieParams($lifetime, $path, $domain, $secure = false, $httponly = false) {
+    public function setCookieParams($lifetime, $path, $domain, $secure = false, $httpOnly = false) {
         Argument::IsInteger($lifetime);
         Argument::IsString($path);
         Argument::IsString($domain);
         Argument::IsBoolean($secure);
-        Argument::IsBoolean($httponly);
+        Argument::IsBoolean($httpOnly);
 
         $this->checkSessionStart();
-        session_set_cookie_params($lifetime, $path, $domain, $secure, $httponly);
+        session_set_cookie_params($lifetime, $path, $domain, $secure, $httpOnly);
         return $this;
     }
 
@@ -183,7 +182,7 @@ class SessionManager {
     }
 
     /**
-     * Stops the session by writting the current session values.
+     * Stops the session by writing the current session values.
      * @return \Brickoo\Component\Session\SessionManager
      */
     public function stop() {
@@ -198,6 +197,7 @@ class SessionManager {
      * the global $_SESSION variable should be cleared,
      * also the cookie (if used) should be expired.
      * This method is commonly used when logging-out an user.
+     * @param null|callable $callback
      * @return \Brickoo\Component\Session\SessionManager
      */
     public function destroy($callback = null) {

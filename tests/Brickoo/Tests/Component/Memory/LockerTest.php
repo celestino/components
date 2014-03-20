@@ -71,7 +71,7 @@ class LockerTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Memory\Locker::lock
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testLockArgumentException() {
         $this->lockerTestable->lock(array("wrongType"));
@@ -80,7 +80,7 @@ class LockerTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Memory\Locker::lock
      * @covers Brickoo\Component\Memory\Exception\LockFailedException::__construct
-     * @expectedException  Brickoo\Component\Memory\Exception\LockFailedException
+     * @expectedException \Brickoo\Component\Memory\Exception\LockFailedException
      */
     public function testLockFailedException() {
         $this->lockerTestable->lock("name");
@@ -90,7 +90,7 @@ class LockerTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Memory\Locker::unlock
      * @covers Brickoo\Component\Memory\Exception\UnlockFailedException::__construct
-     * @expectedException Brickoo\Component\Memory\Exception\UnlockFailedException
+     * @expectedException \Brickoo\Component\Memory\Exception\UnlockFailedException
      */
     public function testUnLockWrongUnlockKeyException() {
         $this->lockerTestable->lock("name");
@@ -99,7 +99,7 @@ class LockerTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Memory\Locker::unlock
-     * @expectedException  InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testUnlockInvalidArgumentException() {
         $this->lockerTestable->unlock(array("wrongType"), "invalidKey");
@@ -108,7 +108,7 @@ class LockerTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Memory\Locker::unlock
      * @covers Brickoo\Component\Memory\Exception\UnlockFailedException
-     * @expectedException Brickoo\Component\Memory\Exception\UnlockFailedException
+     * @expectedException \Brickoo\Component\Memory\Exception\UnlockFailedException
      */
     public function testUnlockFailedException() {
         $this->lockerTestable->unlock("notLocked", "invalidKey");
@@ -116,7 +116,7 @@ class LockerTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Memory\Locker::isLocked
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testIsLockedArgumentException() {
         $this->lockerTestable->isLocked(array("wrongType"));

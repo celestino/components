@@ -69,7 +69,7 @@ class MessageHeaderTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Http\MessageHeader::getHeader
      * @covers Brickoo\Component\Http\Exception\HeaderNotFoundException
-     * @expectedException Brickoo\Component\Http\Exception\HeaderNotFoundException
+     * @expectedException \Brickoo\Component\Http\Exception\HeaderNotFoundException
      */
     public function testGetHeaderWithMissingNameThrowsException() {
         $messageHeader = new MessageHeader();
@@ -102,7 +102,7 @@ class MessageHeaderTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Http\MessageHeader::removeHeader
      * @covers Brickoo\Component\Http\Exception\HeaderNotFoundException
-     * @expectedException Brickoo\Component\Http\Exception\HeaderNotFoundException
+     * @expectedException \Brickoo\Component\Http\Exception\HeaderNotFoundException
      */
     public function testRemoveHeaderWithMissingNameThrowsException() {
         $messageHeader = new MessageHeader();

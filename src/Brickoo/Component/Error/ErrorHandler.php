@@ -40,7 +40,7 @@ use Brickoo\Component\Messaging\MessageDispatcher,
  * ErrorHandler
  *
  * Handles user defined and system errors of an expected error level.
- * Erros can be automaticly converted to exceptions.
+ * Errors can be automatic converted to exceptions.
  * Triggers an log message if a message dispatcher is attached.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
@@ -61,7 +61,6 @@ class ErrorHandler {
      * Initializes the error handler.
      * @param \Brickoo\Component\Messaging\MessageDispatcher $messageDispatcher
      * @param boolean $convertToException flag to convert errors to exceptions
-     * @return void
      */
     public function __construct(MessageDispatcher $messageDispatcher, $convertToException = true) {
         Argument::IsBoolean($convertToException);

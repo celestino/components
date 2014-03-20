@@ -47,9 +47,9 @@ class HttpMessageTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\HttpMessage::getHeader
      */
     public function testGetHeader() {
-        $messagHeader = $this->getMessageHeaderStub();
-        $httpMessage = new HttpMessage($messagHeader, $this->getMessageBodyStub());
-        $this->assertSame($messagHeader, $httpMessage->getHeader());
+        $messageHeader = $this->getMessageHeaderStub();
+        $httpMessage = new HttpMessage($messageHeader, $this->getMessageBodyStub());
+        $this->assertSame($messageHeader, $httpMessage->getHeader());
     }
 
     /**
@@ -57,9 +57,9 @@ class HttpMessageTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\HttpMessage::getBody
      */
     public function testGetBody() {
-        $messagBody = $this->getMessageBodyStub();
-        $httpMessage = new HttpMessage($this->getMessageHeaderStub(), $messagBody);
-        $this->assertSame($messagBody, $httpMessage->getBody());
+        $messageBody = $this->getMessageBodyStub();
+        $httpMessage = new HttpMessage($this->getMessageHeaderStub(), $messageBody);
+        $this->assertSame($messageBody, $httpMessage->getBody());
     }
 
     /**

@@ -34,7 +34,7 @@ use Brickoo\Component\Error\Exception;
 /**
  * ErrorOccurredException
  *
- * Expected Exception throwed by the ErrorHandler class if errors should be converted to exceptions.
+ * Expected Exception thrown by the ErrorHandler class if errors should be converted to exceptions.
  * @see Brickoo\Component\Error\ErrorHandler
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
@@ -47,7 +47,6 @@ class ErrorOccurredException extends Exception {
      * @param string $errorMessage the message passed by the error handler
      * @param integer $errorCode the error code passed by the error handler
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($errorMessage, $errorCode, \Exception $previousException = null) {
         parent::__construct($errorMessage, $errorCode, $previousException);

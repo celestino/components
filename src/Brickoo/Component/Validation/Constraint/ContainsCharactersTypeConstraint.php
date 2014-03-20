@@ -50,7 +50,6 @@ class ContainsCharactersTypeConstraint implements Constraint {
      * Class constructor.
      * @param string $expectedType the values expected type
      * @throws \InvalidArgumentException if an argument is not valid.
-     * @return void
      */
     public function __construct($expectedType) {
         Argument::IsString($expectedType);

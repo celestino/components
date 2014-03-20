@@ -29,12 +29,7 @@
 
 namespace Brickoo\Component\Messaging;
 
-use Brickoo\Component\Messaging\Listener,
-    Brickoo\Component\Messaging\ListenerAggregate,
-    Brickoo\Component\Messaging\ListenerCollection,
-    Brickoo\Component\Messaging\Message,
-    Brickoo\Component\Messaging\MessageRecursionDepthList,
-    Brickoo\Component\Messaging\Exception\MaxRecursionDepthReachedException,
+use Brickoo\Component\Messaging\Exception\MaxRecursionDepthReachedException,
     Brickoo\Component\Validation\Argument;
 
 /**
@@ -57,7 +52,6 @@ class MessageDispatcher {
      * and a list to remember message recursion depth.
      * @param \Brickoo\Component\Messaging\ListenerCollection $listenerCollection
      * @param \Brickoo\Component\Messaging\MessageRecursionDepthList $messageRecursionDepthList
-     * @return void
      */
     public function __construct(ListenerCollection $listenerCollection, MessageRecursionDepthList $messageRecursionDepthList) {
         $this->listenerCollection = $listenerCollection;
@@ -122,7 +116,7 @@ class MessageDispatcher {
      * Process the message by calling the corresponding listener.
      * Creates the message response collection from the listener responses.
      * @param \Brickoo\Component\Messaging\Message $message
-     * @param array instancesOf \Brickoo\Component\Messaging\Listener $listeners
+     * @param array $listeners \Brickoo\Component\Messaging\Listener
      * @return void
      */
     private function processMessage(Message $message, array $listeners) {

@@ -34,7 +34,7 @@ use Brickoo\Component\Cache\Exception;
 /**
  * AdapterNotFoundException
  *
- * Exception throwed if none caching adapter could been found.
+ * Exception thrown if none caching adapter could been found.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -43,7 +43,6 @@ class AdapterNotFoundException extends Exception {
     /**
      * Calls the parent \Exception constructor.
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct(\Exception $previousException = null) {
         parent::__construct("Could not found a ready adapter.", 0, $previousException);

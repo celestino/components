@@ -29,9 +29,7 @@
 
 namespace Brickoo\Component\Cache;
 
-use Brickoo\Component\Cache\CacheProxy,
-    Brickoo\Component\Cache\Messages,
-    Brickoo\Component\Cache\Message\DeleteMessage,
+use Brickoo\Component\Cache\Message\DeleteMessage,
     Brickoo\Component\Cache\Message\FlushMessage,
     Brickoo\Component\Cache\Message\RetrieveByCallbackMessage,
     Brickoo\Component\Cache\Message\RetrieveMessage,
@@ -62,7 +60,6 @@ class CacheMessageListener implements ListenerAggregate {
      * Class constructor.
      * @param \Brickoo\Component\Cache\CacheProxy $cacheProxy
      * @param integer $listenerPriority the listener priority
-     * @return void
      */
     public function __construct(CacheProxy $cacheProxy, $listenerPriority = 0) {
         Argument::IsInteger($listenerPriority);
@@ -101,24 +98,23 @@ class CacheMessageListener implements ListenerAggregate {
 
     /**
      * Handle the message to retrieve the cached content from the injected cache proxy.
-     *@param \Brickoo\Component\Messaging\Message $message
-     * @param \Brickoo\Component\Messaging\MessageDispatcher $Dispatcher
-     * @return mixed the cached content
+     * @param \Brickoo\Component\Messaging\Message $message
+     * @return mixed the cached content otherwise null
      */
-    public function handleRetrieveMessage(Message $message, MessageDispatcher $Dispatcher) {
+    public function handleRetrieveMessage(Message $message) {
         if ($message instanceof RetrieveMessage) {
             return $this->cacheProxy->get($message->getIdentifier());
         }
+        return null;
     }
 
     /**
      * Handle the message to retrieve the cached content from the injected cache proxy
      * with a callback used as a fallback.
      *@param \Brickoo\Component\Messaging\Message $message
-     * @param \Brickoo\Component\Messaging\MessageDispatcher $Dispatcher
-     * @return mixed the cached content
+     * @return mixed the cached content otherwise null
      */
-    public function handleRetrieveByCallbackMessage(Message $message, MessageDispatcher $Dispatcher) {
+    public function handleRetrieveByCallbackMessage(Message $message) {
         if ($message instanceof RetrieveByCallbackMessage) {
             return $this->cacheProxy->getByCallback(
                 $message->getIdentifier(),
@@ -127,28 +123,27 @@ class CacheMessageListener implements ListenerAggregate {
                 $message->getLifetime()
             );
         }
+        return null;
     }
 
     /**
      * Handle the message to cache content.
      * @param \Brickoo\Component\Messaging\Message $message
-     * @param \Brickoo\Component\Messaging\MessageDispatcher $Dispatcher
      * @return void
      */
-    public function handleStoreMessage(Message $message, MessageDispatcher $Dispatcher) {
+    public function handleStoreMessage(Message $message) {
         if ($message instanceof StoreMessage) {
             $this->cacheProxy->set($message->getIdentifier(), $message->getContent(), $message->getLifetime());
         }
     }
 
     /**
-     * Handle the message to delete the cached content holded by the identifier
+     * Handle the message to delete the cached content hold by the identifier
      * through the injected cache proxy.
      * @param \Brickoo\Component\Messaging\Message $message
-     * @param \Brickoo\Component\Messaging\MessageDispatcher $Dispatcher
      * @return void
      */
-    public function handleDeleteMessage(Message $message, MessageDispatcher $Dispatcher) {
+    public function handleDeleteMessage(Message $message) {
         if ($message instanceof DeleteMessage) {
             $this->cacheProxy->delete($message->getIdentifier());
         }
@@ -157,10 +152,9 @@ class CacheMessageListener implements ListenerAggregate {
     /**
      * Handle to flush the cache content through the injected cache proxy.
      * @param \Brickoo\Component\Messaging\Message $message
-     * @param \Brickoo\Component\Messaging\MessageDispatcher $Dipatcher
      * @return void
      */
-    public function handleFlushMessage(Message $message, MessageDispatcher $Dispatcher) {
+    public function handleFlushMessage(Message $message) {
         if ($message instanceof FlushMessage) {
             $this->cacheProxy->flush();
         }

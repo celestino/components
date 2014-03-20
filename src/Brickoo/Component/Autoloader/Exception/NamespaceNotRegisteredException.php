@@ -34,7 +34,7 @@ use Brickoo\Component\Autoloader\Exception;
 /**
  * NamespaceNotRegisteredException
  *
- * Exception throwed by the Autoloader class if trying to unregister a namespace
+ * Exception thrown by the Autoloader class if trying to unregister a namespace
  * which has not been registered before.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
@@ -46,7 +46,6 @@ class NamespaceNotRegisteredException extends Exception {
      * Calls the parent Exception constructor.
      * @param string $namespace the namespace tried to unregister
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($namespace, \Exception $previousException = null) {
         parent::__construct(sprintf("The namespace `%s` is not registered.", $namespace), 0, $previousException);

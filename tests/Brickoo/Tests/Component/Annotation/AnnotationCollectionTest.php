@@ -82,7 +82,7 @@ class AnnotationCollectionTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Annotation\AnnotationCollection::shift
      * @covers Brickoo\Component\Annotation\Exception\AnnotationNotAvailableException
-     * @expectedException Brickoo\Component\Annotation\Exception\AnnotationNotAvailableException
+     * @expectedException \Brickoo\Component\Annotation\Exception\AnnotationNotAvailableException
      */
     public function testShiftWithEmptyCollectionThrowsException() {
         $collection = new AnnotationCollection($this->getAnnotationsTargetStub());
@@ -105,7 +105,7 @@ class AnnotationCollectionTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Annotation\AnnotationCollection::pop
      * @covers Brickoo\Component\Annotation\Exception\AnnotationNotAvailableException
-     * @expectedException Brickoo\Component\Annotation\Exception\AnnotationNotAvailableException
+     * @expectedException \Brickoo\Component\Annotation\Exception\AnnotationNotAvailableException
      */
     public function testPopWithEmptyCollectionThrowsException() {
         $collection = new AnnotationCollection($this->getAnnotationsTargetStub());

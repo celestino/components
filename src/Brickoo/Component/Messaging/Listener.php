@@ -29,9 +29,6 @@
 
 namespace Brickoo\Component\Messaging;
 
-use Brickoo\Component\Messaging\Message,
-    Brickoo\Component\Messaging\MessageDispatcher;
-
 /**
  * Listener
  *

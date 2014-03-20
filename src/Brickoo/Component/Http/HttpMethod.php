@@ -60,7 +60,7 @@ Class HttpMethod {
     /**
      * Class constructor
      * @param string $method the http method
-     * @return void
+     * @throws \Brickoo\Component\Http\Exception\InvalidHttpMethodException
      */
     public function __construct($method) {
         Argument::IsString($method);

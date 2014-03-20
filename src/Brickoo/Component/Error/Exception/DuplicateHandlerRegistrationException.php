@@ -34,7 +34,7 @@ use Brickoo\Component\Error\Exception;
 /**
  * DuplicateHandlerRegistrationException
  *
- * Exception throwed by an error handler class if trying to register the instance twice.
+ * Exception thrown by an error handler class if trying to register the instance twice.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -45,7 +45,6 @@ class DuplicateHandlerRegistrationException extends Exception {
      * Calls the parent exception constructor.
      * @param string $handlerName the handler name already registered
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($handlerName, \Exception $previousException = null) {
         parent::__construct(sprintf('The `%s` is already registered.', $handlerName), 0, $previousException);

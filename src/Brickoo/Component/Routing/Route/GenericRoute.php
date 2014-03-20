@@ -36,7 +36,7 @@ use Brickoo\Component\Routing\Route,
 /**
  * GenericRoute
  *
- * Implents a generic route.
+ * Implements a generic route.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -66,10 +66,7 @@ class GenericRoute implements Route {
      * @param string $path
      * @param string $controller
      * @param string $action
-     * @param array $rules
-     * @param array $defaultValues
      * @throws \InvalidArgumentException
-     * @return void
      */
     public function __construct($name, $path, $controller, $action) {
         Argument::IsString($name);

@@ -47,7 +47,7 @@ class PhpTemplateTest extends PHPUnit_Framework_TestCase {
      * @expectedException \InvalidArgumentException
      */
     public function testConstructorInvalidTemplateFileThrowsException() {
-        $Template = new PhpTemplate(["wrongtype"]);
+        new PhpTemplate(["wrongType"]);
     }
 
     /**
@@ -56,9 +56,6 @@ class PhpTemplateTest extends PHPUnit_Framework_TestCase {
      */
     public function testRender() {
         $templateFile = __DIR__ ."/assets/UnitTestTemplate.php";
-        $templateDirectory = realpath(dirname($templateFile));
-
-        $expectedDirectory = $templateDirectory . DIRECTORY_SEPARATOR;
         $expectedValue = "<html><head></head><body>test content</body></html>";
 
         $Template = new PhpTemplate($templateFile, array("content" => "test content"));
@@ -68,7 +65,7 @@ class PhpTemplateTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Template\PhpTemplate::render
      * @covers Brickoo\Component\Template\Exception\RenderingAbortedException
-     * @expectedException Brickoo\Component\Template\Exception\RenderingAbortedException
+     * @expectedException \Brickoo\Component\Template\Exception\RenderingAbortedException
      */
     public function testRenderThrowsRenderingAbortedException() {
         $Template = new PhpTemplate(__DIR__ ."/assets/ExceptionThrowingTemplate.php");

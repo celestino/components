@@ -34,7 +34,7 @@ use Brickoo\Component\Memory\Exception;
 /**
  * ReadonlyModeException
  *
- * Exception throwed by the Registry class if trying to execute an action while
+ * Exception thrown by the Registry class if trying to execute an action while
  * the Registry is in read only mode.
  * @see Brickoo\Component\Memory\Registry
  * @author Celestino Diaz <celestino.diaz@gmx.de>
@@ -46,10 +46,9 @@ class ReadonlyModeException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct(\Exception $previousException = null) {
-        parent::__construct("The Registry is on read only mode any modfications are not allowed.", 0, $previousException);
+        parent::__construct("The Registry is on read only mode any modifications are not allowed.", 0, $previousException);
     }
 
 }

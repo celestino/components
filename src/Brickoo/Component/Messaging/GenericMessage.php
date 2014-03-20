@@ -29,9 +29,7 @@
 
 namespace Brickoo\Component\Messaging;
 
-use Brickoo\Component\Messaging\Message,
-    Brickoo\Component\Messaging\MessageResponseCollection,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * Implements a generic message which can be used or extended by any component.

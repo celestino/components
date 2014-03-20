@@ -30,9 +30,6 @@
 namespace Brickoo\Component\Http;
 
 use InvalidArgumentException,
-    Brickoo\Component\Http\MessageBody,
-    Brickoo\Component\Http\MessageHeader,
-    Brickoo\Component\Http\HttpResponse,
     Brickoo\Component\Http\Exception\StatusCodeDoesNotAllowMessageBodyException;
 
 /**
@@ -47,10 +44,13 @@ class ResponseSender {
     /* @var string */
     private $headerFunction;
 
-    /** @param strign $headerFunction */
+    /**
+     * @param string $headerFunction
+     * @throws \InvalidArgumentException
+     */
     public function __construct($headerFunction = "header") {
         if (! is_callable($headerFunction)) {
-            throw new InvalidArgumentException("Header function must be callabel.");
+            throw new InvalidArgumentException("Header function must be callable.");
         }
         $this->headerFunction = $headerFunction;
     }

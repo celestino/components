@@ -34,7 +34,7 @@ use Brickoo\Component\Autoloader\Exception;
 /**
  * DuplicateNamespaceRegistrationException
  *
- * Exception throwed if trying to register a namespace
+ * Exception thrown if trying to register a namespace
  * which has been already registered.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
@@ -46,7 +46,6 @@ class DuplicateNamespaceRegistrationException extends Exception {
      * Calls the parent Exception constructor.
      * @param string $namespace the namespace trying to register
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($namespace, \Exception $previousException = null) {
         parent::__construct(sprintf("The namespace`%s` is already registered.", $namespace), 0, $previousException);

@@ -29,11 +29,6 @@
 
 namespace Brickoo\Component\Http;
 
-use Brickoo\Component\Http\Uri,
-    Brickoo\Component\Http\UriAuthority,
-    Brickoo\Component\Http\UriQuery,
-    Brickoo\Component\Http\UriResolver;
-
 /**
  * UriFactory
  *

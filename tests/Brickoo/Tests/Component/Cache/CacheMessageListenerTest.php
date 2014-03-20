@@ -58,7 +58,8 @@ class CacheMessageListenerTest extends PHPUnit_Framework_TestCase {
                           ->with($this->isInstanceOf("\\Brickoo\\Component\\Messaging\\Listener"));
 
         $cacheMessageListener = new CacheMessageListener($this->getCacheProxyStub());
-        $this->assertNull($cacheMessageListener->attachListeners($messageDispatcher));
+        $cacheMessageListener->attachListeners($messageDispatcher);
+        $this->assertInstanceOf("\\Brickoo\\Component\\Cache\\CacheMessageListener", $cacheMessageListener);
     }
 
     /** @covers Brickoo\Component\Cache\CacheMessageListener::handleRetrieveMessage */
@@ -141,7 +142,8 @@ class CacheMessageListenerTest extends PHPUnit_Framework_TestCase {
         );
 
         $cacheMessageListener = new CacheMessageListener($cacheProxy);
-        $this->assertNull($cacheMessageListener->handleStoreMessage($message, $this->getMessageDispatcherStub()));
+        $cacheMessageListener->handleStoreMessage($message, $this->getMessageDispatcherStub());
+        $this->assertInstanceOf("\\Brickoo\\Component\\Cache\\CacheMessageListener", $cacheMessageListener);
     }
 
     /** @covers Brickoo\Component\Cache\CacheMessageListener::handleDeleteMessage */
@@ -156,7 +158,8 @@ class CacheMessageListenerTest extends PHPUnit_Framework_TestCase {
 
         $message = new DeleteMessage($cacheIdentifier);
         $cacheMessageListener = new CacheMessageListener($cacheProxy);
-        $this->assertNull($cacheMessageListener->handleDeleteMessage($message, $this->getMessageDispatcherStub()));
+        $cacheMessageListener->handleDeleteMessage($message, $this->getMessageDispatcherStub());
+        $this->assertInstanceOf("\\Brickoo\\Component\\Cache\\CacheMessageListener", $cacheMessageListener);
     }
 
     /** @covers Brickoo\Component\Cache\CacheMessageListener::handleFlushMessage */
@@ -168,7 +171,8 @@ class CacheMessageListenerTest extends PHPUnit_Framework_TestCase {
 
         $message = new FlushMessage();
         $cacheMessageListener = new CacheMessageListener($cacheProxy);
-        $this->assertNull($cacheMessageListener->handleFlushMessage($message, $this->getMessageDispatcherStub()));
+        $cacheMessageListener->handleFlushMessage($message, $this->getMessageDispatcherStub());
+        $this->assertInstanceOf("\\Brickoo\\Component\\Cache\\CacheMessageListener", $cacheMessageListener);
     }
 
     /**

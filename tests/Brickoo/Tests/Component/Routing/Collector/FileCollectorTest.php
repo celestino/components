@@ -54,7 +54,7 @@ class FileRouteCollectorTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Routing\Collector\FileRouteCollector::__construct
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testEmptyRoutePathThrowsArgumentException() {
         new FileRouteCollector("", "routes.php");
@@ -62,7 +62,7 @@ class FileRouteCollectorTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Routing\Collector\FileRouteCollector::__construct
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testEmptyRouteFilenameThrowsArgumentException() {
         new FileRouteCollector(__DIR__, "");

@@ -34,7 +34,7 @@ use Brickoo\Component\Http\Exception;
 /**
  * StatusCodeDoesNotAllowMessageBodyException
  *
- * Exception throwed if the response has a message body
+ * Exception thrown if the response has a message body
  * which the status code does not allow.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
@@ -46,7 +46,6 @@ class StatusCodeDoesNotAllowMessageBodyException extends Exception {
      * Calls the parent Exception constructor.
      * @param string $statusCode
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($statusCode, \Exception $previousException = null) {
         parent::__construct(sprintf("The status code `%s` does not allow message body content.", $statusCode), 0, $previousException);

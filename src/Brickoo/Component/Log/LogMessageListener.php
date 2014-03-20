@@ -29,10 +29,7 @@
 
 namespace Brickoo\Component\Log;
 
-use Brickoo\Component\Log\Messages,
-    Brickoo\Component\Log\Logger,
-    Brickoo\Component\Log\LogMessage,
-    Brickoo\Component\Messaging\Listener,
+use Brickoo\Component\Messaging\Listener,
     Brickoo\Component\Messaging\Message,
     Brickoo\Component\Messaging\MessageDispatcher,
     Brickoo\Component\Validation\Argument;

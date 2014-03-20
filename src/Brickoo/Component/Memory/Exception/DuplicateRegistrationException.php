@@ -34,7 +34,7 @@ use Brickoo\Component\Memory\Exception;
 /**
  * DuplicateRegistrationException
  *
- * Exception throwed by the Registry class if trying to register an registered identifier.
+ * Exception thrown by the Registry class if trying to register an registered identifier.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -43,9 +43,8 @@ class DuplicateRegistrationException extends Exception {
     /**
      * Class constructor.
      * Calls the parent Exception constructor.
-     * @param string $identifier the idetifier which is registered.
+     * @param string $identifier the identifier which is registered.
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($identifier, \Exception $previousException = null) {
         parent::__construct(sprintf("The identifier `%s` is already registered.", $identifier), 0, $previousException);

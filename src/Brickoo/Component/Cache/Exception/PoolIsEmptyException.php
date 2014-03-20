@@ -42,7 +42,6 @@ class PoolIsEmptyException extends Exception {
     /**
      * Calls the parent constructor.
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct(\Exception $previousException = null) {
         parent::__construct("The cache pool is empty.", 0, $previousException);

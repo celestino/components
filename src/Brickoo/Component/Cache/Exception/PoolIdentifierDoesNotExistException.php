@@ -27,31 +27,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Annotation\Exception;
+namespace Brickoo\Component\Cache\Exception;
 
-use Brickoo\Component\Annotation\Exception;
+use Brickoo\Component\Cache\Exception;
 
 /**
- * MissingRequiredAnnotationParamatersException
+ * PoolIdentifierDoesNotExistException
  *
- * Exception throwed if required annotation parameters are missed.
+ * Exception thrown if trying to access a not available caching adapter pool entry
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class MissingRequiredAnnotationParamatersException extends Exception {
+
+class PoolIdentifierDoesNotExistException extends Exception {
 
     /**
-     * Class constructor.
-     * Calls the parent exception constructor.
-     * @param string $annotationName
-     * @param array $annotationParameters
+     * Calls the parent \Exception constructor.
+     * @param string $entryKey the adapter pool key which is not available.
      * @param \Exception $previousException
-     * @return void
      */
-    public function __construct($annotationName, array $annotationParameters, \Exception $previousException = null) {
-        parent::__construct(
-            sprintf("Annotation `%s` parameters (`%s`) missed.", $annotationName, implode("`, `", $annotationParameters)),
-            0 , $previousException
-        );
+    public function __construct($entryKey, \Exception $previousException = null) {
+        parent::__construct(sprintf('The adapter pool entry `%s` is not available.', $entryKey), 0, $previousException);
     }
 
 }

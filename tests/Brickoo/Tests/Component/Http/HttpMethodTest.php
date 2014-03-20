@@ -55,14 +55,14 @@ class HttpMethodTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\HttpMethod::__construct
      * @covers Brickoo\Component\Http\HttpMethod::isValid
      * @covers Brickoo\Component\Http\Exception\InvalidHttpMethodException
-     * @expectedException Brickoo\Component\Http\Exception\InvalidHttpMethodException
+     * @expectedException \Brickoo\Component\Http\Exception\InvalidHttpMethodException
      */
     public function testConstructorInvalidVersionThrowsException() {
         new HttpMethod("http/0.9");
     }
 
     /** @covers Brickoo\Component\Http\HttpMethod::toString */
-    public function testVersionToStrimg() {
+    public function testVersionToString() {
         $httpMethod = new HttpMethod(HttpMethod::OPTIONS);
         $this->assertEquals(HttpMethod::OPTIONS, $httpMethod->toString());
     }

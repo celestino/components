@@ -34,7 +34,7 @@ use Brickoo\Component\Memory\Exception;
 /**
  * LockerException
  *
- * Exception throwed by the Locker class if trying to lock some identifiers
+ * Exception thrown by the Locker class if trying to lock some identifiers
  * and none could be locked.
  * @see Brickoo\Component\Memory\Locker::lock
  * @author Celestino Diaz <celestino.diaz@gmx.de>
@@ -47,7 +47,6 @@ class LockFailedException extends Exception {
      * Calls the parent Exception constructor.
      * @param string $identifier the identifier which can not be locked
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($identifier, \Exception $previousException = null) {
         parent::__construct(sprintf("Unable to lock the identifier `%s`.", $identifier), 0, $previousException);

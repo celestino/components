@@ -47,10 +47,6 @@ class ListenerQueue extends SplPriorityQueue {
      */
     private $serial;
 
-    /**
-     * Class constructor.
-     * @return void
-     */
     public function __construct() {
         $this->serial = PHP_INT_MAX;
     }

@@ -34,7 +34,7 @@ use Brickoo\Component\Error\Exception;
 /**
  * HandlerNotRegisteredException
  *
- * Exception throwed by an error handler class if trying to unregister
+ * Exception thrown by an error handler class if trying to unregister
  * an unregistered error handler instance.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
@@ -46,7 +46,6 @@ class HandlerNotRegisteredException extends Exception {
      * Calls the parent Exception constructor.
      * @param string $handlerName the handler name not registered
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($handlerName, \Exception $previousException = null) {
         parent::__construct(sprintf('The `%s` is not registered.', $handlerName), 0, $previousException);

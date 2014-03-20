@@ -34,7 +34,7 @@ use Brickoo\Component\Messaging\Exception;
 /**
  * ListenersNotAvailableException
  *
- * Throwed if trying to retrieve unavailable listeners for an message.
+ * thrown if trying to retrieve unavailable listeners for an message.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -44,7 +44,6 @@ class ListenersNotAvailableException extends Exception {
      * Calls the parent exception constructor.
      * @param string $messageName the message which has not a listener queue
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($messageName, \Exception $previousException = null) {
         parent::__construct(sprintf('The listeners for the message `%s` are not available.', $messageName), 0, $previousException);

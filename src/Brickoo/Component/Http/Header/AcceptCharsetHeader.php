@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Http\Header;
 
-use Brickoo\Component\Http\Header\GenericHeader,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * AcceptCharsetHeader
@@ -40,7 +39,7 @@ use Brickoo\Component\Http\Header\GenericHeader,
  */
 class AcceptCharsetHeader extends GenericHeader {
 
-    use \Brickoo\Component\Http\Header\CommonAcceptRoutines;
+    use CommonAcceptRoutines;
 
     /** @var array */
     private $acceptCharsets;
@@ -48,7 +47,6 @@ class AcceptCharsetHeader extends GenericHeader {
     /**
      * Class constructor.
      * @param string $headerValue
-     * @return void
      */
     public function __construct($headerValue = "") {
         parent::__construct("Accept-Charset", $headerValue);

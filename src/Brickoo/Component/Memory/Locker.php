@@ -51,10 +51,6 @@ abstract class Locker implements \Countable {
      */
     protected $locked;
 
-    /**
-     * Class constructor.
-     * @return void
-     */
     public function __construct() {
         $this->locked = [];
     }

@@ -63,7 +63,7 @@ class IncludePathAutoloaderTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Autoloader\IncludePathAutoloader::__construct
      * @covers Brickoo\Component\Autoloader\IncludePathAutoloader::setIncludePath
      * @covers Brickoo\Component\Autoloader\Exception\DirectoryDoesNotExistException
-     * @expectedException Brickoo\Component\Autoloader\Exception\DirectoryDoesNotExistException
+     * @expectedException \Brickoo\Component\Autoloader\Exception\DirectoryDoesNotExistException
      */
     public function testSetIncludePathInvalidPathThrowsException() {
         new IncludePathAutoloader("./path/does/not/exist");
@@ -82,7 +82,7 @@ class IncludePathAutoloaderTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Autoloader\IncludePathAutoloader::load
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testLoadClassThrowsInvalidArgumentException() {
         $includePathAutoloader = new IncludePathAutoloader(__DIR__);
@@ -92,7 +92,7 @@ class IncludePathAutoloaderTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Autoloader\IncludePathAutoloader::load
      * @covers Brickoo\Component\Autoloader\Exception\FileDoesNotExistException
-     * @expectedException Brickoo\Component\Autoloader\Exception\FileDoesNotExistException
+     * @expectedException \Brickoo\Component\Autoloader\Exception\FileDoesNotExistException
      */
     public function testFileDoesNotExist() {
         $includePathAutoloader = new IncludePathAutoloader(__DIR__);

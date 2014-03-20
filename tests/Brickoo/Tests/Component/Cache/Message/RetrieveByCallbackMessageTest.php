@@ -29,8 +29,7 @@
 
 namespace Brickoo\Tests\Component\Cache\Message;
 
-use Brickoo\Component\Cache\Messages,
-    Brickoo\Component\Cache\Message\RetrieveByCallbackMessage,
+use Brickoo\Component\Cache\Message\RetrieveByCallbackMessage,
     PHPUnit_Framework_TestCase;
 
 /**
@@ -59,7 +58,7 @@ class RetrieveByCallbackMessageTest extends PHPUnit_Framework_TestCase {
      * @expectedException \InvalidArgumentException
      */
     public function testConstructorThrowsExceptionForInvalidIdentifierArgument() {
-        $message = new RetrieveByCallbackMessage(["wrongType"], function(){});
+        new RetrieveByCallbackMessage(["wrongType"], function(){});
     }
 
     /**
@@ -67,7 +66,7 @@ class RetrieveByCallbackMessageTest extends PHPUnit_Framework_TestCase {
      * @expectedException \InvalidArgumentException
      */
     public function testConstructorThrowsExceptionForInvalidLifetimeArgument() {
-        $message = new RetrieveByCallbackMessage(
+        new RetrieveByCallbackMessage(
             "identifier", function(){}, [], "invalidType"
         );
     }

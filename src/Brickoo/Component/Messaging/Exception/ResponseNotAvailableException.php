@@ -34,7 +34,7 @@ use Brickoo\Component\Messaging\Exception;
 /**
  * ResponseNotAvailableException
  *
- * Throwed if trying to retrieve an unavailable message response.
+ * thrown if trying to retrieve an unavailable message response.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -43,7 +43,6 @@ class ResponseNotAvailableException extends Exception {
     /**
      * Calls the parent exception constructor.
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct(\Exception $previousException = null) {
         parent::__construct("A message response is not available.", 0, $previousException);

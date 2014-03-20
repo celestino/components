@@ -34,7 +34,7 @@ use Brickoo\Component\Http\Exception;
 /**
  * InvalidHttpVersionException
  *
- * Exception throwed if the http version is not valid.
+ * Exception thrown if the http version is not valid.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -45,7 +45,6 @@ class InvalidHttpVersionException extends Exception {
      * Calls the parent Exception constructor.
      * @param string $version the invalid version
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($version, \Exception $previousException = null) {
         parent::__construct(sprintf("The version `%s` is not valid.", $version), 0, $previousException);

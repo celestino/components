@@ -29,11 +29,8 @@
 
 namespace Brickoo\Component\Annotation;
 
-use Brickoo\Component\Annotation\Annotation,
-    Brickoo\Component\Annotation\AnnotationCollection,
-    Brickoo\Component\Annotation\AnnotationTarget,
-    Brickoo\Component\Validation\Argument;
-
+use Brickoo\Component\Validation\Argument;
+    
 /**
  * AnnotationParser
  *

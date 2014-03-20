@@ -54,10 +54,10 @@ class HttpStatusCodeTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Http\HttpStatusCode::getPhrase
      * @covers Brickoo\Component\Http\HttpStatusCode::hasPhrase
-     * @covers Brickoo\Component\Http\Exception\StatusCodeUnkownException
-     * @expectedException Brickoo\Component\Http\Exception\StatusCodeUnkownException
+     * @covers Brickoo\Component\Http\Exception\StatusCodeUnknownException
+     * @expectedException \Brickoo\Component\Http\Exception\StatusCodeUnknownException
      */
-    public function testGetPhraseUnknownStatusCodeTHrowsException() {
+    public function testGetPhraseUnknownStatusCodeThrowsException() {
         $httpStatusCode = new HttpStatusCode();
         $httpStatusCode->getPhrase(666);
     }

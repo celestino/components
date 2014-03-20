@@ -34,7 +34,7 @@ use Brickoo\Component\Annotation\Exception;
 /**
  * FileDoesNotExistException
  *
- * Exception throwed if trying to load a file which does not exist.
+ * Exception thrown if trying to load a file which does not exist.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 class FileDoesNotExistException extends Exception {
@@ -44,7 +44,6 @@ class FileDoesNotExistException extends Exception {
      * Calls the parent exception constructor.
      * @param string $filename the filename which does not exists
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($filename, \Exception $previousException = null) {
         parent::__construct(sprintf("File does not exists `%s`.", $filename), 0 , $previousException);

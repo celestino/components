@@ -32,7 +32,7 @@ namespace Brickoo\Component\Session\Exception;
 /**
  * SessionAlreadyStartedException
  *
- * Exception throwed if trying to execute a task after the session has been started.
+ * Exception thrown if trying to execute a task after the session has been started.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -42,7 +42,6 @@ class SessionAlreadyStartedException extends \Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct(\Exception $previousException = null) {
         parent::__construct("Unable to execute command, session already started.", 0, $previousException);

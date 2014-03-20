@@ -44,14 +44,14 @@ interface RouteMatcher {
      * @param \Brickoo\Component\Routing\RouteCollection $RouteCollection
      * @return boolean check result
      */
-    public function matchesCollection(\Brickoo\Component\Routing\RouteCollection $RouteCollection);
+    public function matchesCollection(RouteCollection $RouteCollection);
 
     /**
      * Checks if a route matches the complete request.
      * @param \Brickoo\Component\Routing\Route $Route
      * @return boolean check result
      */
-    public function matchesRoute(\Brickoo\Component\Routing\Route $Route);
+    public function matchesRoute(Route $Route);
 
     /**
      * Returns the routing parameters and values from the last matched route.

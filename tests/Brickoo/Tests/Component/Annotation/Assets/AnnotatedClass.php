@@ -45,6 +45,8 @@ class AnnotatedClass {
     /**
      * @Route (path = "/list")
      */
-    public function listAction() {}
+    public function listAction() {
+        $this->property = "value";
+    }
 
 }

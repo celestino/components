@@ -34,7 +34,7 @@ use Brickoo\Component\Annotation\Exception;
 /**
  * InvalidTargetTypeException
  *
- * Exception throwed if using a invalid target type.
+ * Exception thrown if using a invalid target type.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 class InvalidTargetTypeException extends Exception {
@@ -42,9 +42,8 @@ class InvalidTargetTypeException extends Exception {
     /**
      * Class constructor.
      * Calls the parent exception constructor.
-     * @param integer $invalidTargetType
+     * @param integer $targetType
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($targetType, \Exception $previousException = null) {
         parent::__construct(sprintf("Invalid target type `%d`.", $targetType), 0 , $previousException);

@@ -30,8 +30,6 @@
 namespace Brickoo\Component\Routing;
 
 use Brickoo\Component\Routing\Route,
-    Brickoo\Component\Routing\RoutePathRegexGenerator,
-    Brickoo\Component\Routing\Router,
     Brickoo\Component\Routing\Exception\PathNotValidException,
     Brickoo\Component\Routing\Exception\RouteRequiredParametersMissingException,
     Brickoo\Component\Validation\Argument;
@@ -59,7 +57,6 @@ class RouteUriBuilder {
      * @param string $baseUrl the base url e.g. http://localhost:8080
      * @param \Brickoo\Component\Routing\Router $router
      * @param \Brickoo\Component\Routing\RoutePathRegexGenerator $regexGenerator
-     * @return void
      */
     public function __construct($baseUrl, Router $router, RoutePathRegexGenerator $regexGenerator) {
         Argument::IsString($baseUrl);
@@ -72,12 +69,10 @@ class RouteUriBuilder {
      * Builds an uri string based on the parameters provided.
      * @param string $routeName the route to use for the build
      * @param array $pathParameters the path parameters as key/value pairs
-     * @param string $queryParameters the query parameters
-     * @throws \InvalidArgumentException if an argument is not valid
-     * @throws \Brickoo\Component\Routing\Exception\RouteNotFoundException
-     * @throws \Brickoo\Component\Routing\Exception\RouteRequiredParametersMissingException
+     * @param string $queryString
      * @throws \Brickoo\Component\Routing\Exception\PathNotValidException
-     * @return string the builded uri
+     * @internal param string $queryParameters the query parameters
+     * @return string the built uri
      */
     public function build($routeName, array $pathParameters = [], $queryString = "") {
         Argument::IsString($routeName);

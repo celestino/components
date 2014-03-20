@@ -47,7 +47,6 @@ class StringHeaderResolverPlugin implements HeaderResolverPlugin {
     /**
      * Class constructor.
      * @param string $headers the message headers as string
-     * @return void
      */
     public function __construct($headers) {
         Argument::IsString($headers);

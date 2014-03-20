@@ -34,7 +34,7 @@ use Brickoo\Component\Http\Resolver\Exception;
 /**
  * HeaderClassNotFoundException
  *
- * Exception throwed if a header class could not be found.
+ * Exception thrown if a header class could not be found.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -45,7 +45,6 @@ class HeaderClassNotFoundException extends Exception {
      * Calls the parent exception constructor.
      * @param string $headerClass the header class not found
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($headerClass, \Exception $previousException = null) {
         parent::__construct(sprintf("The header class `%s` could not be found.", $headerClass), 0 , $previousException);

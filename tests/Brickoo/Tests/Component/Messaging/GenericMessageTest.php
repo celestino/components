@@ -91,7 +91,7 @@ class GenericMessageTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Messaging\GenericMessage::getParam
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testGetParamArgumentException() {
         $message = new GenericMessage("test.message");
@@ -100,7 +100,7 @@ class GenericMessageTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Messaging\GenericMessage::hasParam
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testHasParamArgumentException() {
         $message = new GenericMessage("test.message");
@@ -110,7 +110,7 @@ class GenericMessageTest extends PHPUnit_Framework_TestCase {
     /** @covers Brickoo\Component\Messaging\GenericMessage::hasParams */
     public function testHasParams() {
         $message = new GenericMessage("test.message", null, ["id" => 1, "name" => "tester"]);
-        $this->assertFalse($message->hasParams("unknowed", "notAvailable"));
+        $this->assertFalse($message->hasParams("unknown", "notAvailable"));
         $this->assertTrue($message->hasParams("id", "name"));
     }
 

@@ -88,7 +88,7 @@ class GenericRouteTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Routing\Route\GenericRoute::getRule
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testGetRuleThrowsArgumentException() {
         $this->getRouteFixture()->getRule(["wrongType"]);
@@ -96,7 +96,7 @@ class GenericRouteTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Routing\Route\GenericRoute::getRule
-     * @expectedException UnexpectedValueException
+     * @expectedException \UnexpectedValueException
      */
     public function testGetRuleThrowsUnexpectedException() {
         $this->getRouteFixture()->getRule("rule.does.not.exist");
@@ -118,7 +118,7 @@ class GenericRouteTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Routing\Route\GenericRoute::hasRule
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testHasRuleThrowsArgumentException() {
         $this->getRouteFixture()->hasRule(["wrongType"]);
@@ -145,17 +145,17 @@ class GenericRouteTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Routing\Route\GenericRoute::getDefaultValue
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
-    public function testGetDefaultValueThrowsArgumentExpception() {
+    public function testGetDefaultValueThrowsArgumentException() {
         $this->getRouteFixture()->getDefaultValue(["wrongType"]);
     }
 
     /**
      * @covers Brickoo\Component\Routing\Route\GenericRoute::getDefaultValue
-     * @expectedException UnexpectedValueException
+     * @expectedException \UnexpectedValueException
      */
-    public function testGetDefaultvalueThrowsUnexpectedValueException() {
+    public function testGetDefaultValueThrowsUnexpectedValueException() {
         $this->getRouteFixture()->getDefaultValue("rule.does.not.exist");
     }
 
@@ -168,9 +168,9 @@ class GenericRouteTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Routing\Route\GenericRoute::hasDefaultValue
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
-    public function testHasDefaultValueThrowsInvalidArgumentExcpetion() {
+    public function testHasDefaultValueThrowsInvalidArgumentException() {
         $this->getRouteFixture()->hasDefaultValue(["wrongType"]);
     }
 

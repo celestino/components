@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Annotation\Definition;
 
-use Brickoo\Component\Annotation\Definition\ParameterDefinition,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * AnnotationDefinition
@@ -50,7 +49,7 @@ class AnnotationDefinition {
     private $requiredParameters;
 
     /** @var array<ParameterDefinition> */
-    private $optionalParamaters;
+    private $optionalParameters;
 
     /**
      * Class constructor.
@@ -64,7 +63,7 @@ class AnnotationDefinition {
         $this->annotationName = $annotationName;
         $this->required = $required;
         $this->requiredParameters = [];
-        $this->optionalParamaters = [];
+        $this->optionalParameters = [];
     }
 
     /**
@@ -93,7 +92,7 @@ class AnnotationDefinition {
             $this->requiredParameters[] = $parameter;
         }
         else {
-            $this->optionalParamaters[] = $parameter;
+            $this->optionalParameters[] = $parameter;
         }
         return $this;
     }
@@ -119,7 +118,7 @@ class AnnotationDefinition {
      * @return array the optional parameters
      */
     public function getOptionalParameters() {
-        return $this->optionalParamaters;
+        return $this->optionalParameters;
     }
 
 }

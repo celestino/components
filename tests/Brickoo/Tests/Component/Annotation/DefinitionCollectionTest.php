@@ -82,7 +82,7 @@ class DefinitionCollectionTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Annotation\DefinitionCollection::shift
      * @covers Brickoo\Component\Annotation\Exception\AnnotationNotAvailableException
-     * @expectedException Brickoo\Component\Annotation\Exception\AnnotationNotAvailableException
+     * @expectedException \Brickoo\Component\Annotation\Exception\AnnotationNotAvailableException
      */
     public function testShiftWithEmptyCollectionThrowsException() {
         $definitionCollection = new DefinitionCollection($this->getTargetDefinitionStub());
@@ -105,7 +105,7 @@ class DefinitionCollectionTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Annotation\DefinitionCollection::pop
      * @covers Brickoo\Component\Annotation\Exception\AnnotationNotAvailableException
-     * @expectedException Brickoo\Component\Annotation\Exception\AnnotationNotAvailableException
+     * @expectedException \Brickoo\Component\Annotation\Exception\AnnotationNotAvailableException
      */
     public function testPopWithEmptyCollectionThrowsException() {
         $definitionCollection = new DefinitionCollection($this->getTargetDefinitionStub());

@@ -55,7 +55,6 @@ class DefinitionCollection  implements Countable, IteratorAggregate {
     /**
      * Class constructor.
      * @param \Brickoo\Component\Annotation\Definition\TargetDefinition $targetDefinition
-     * @return void
      */
     public function __construct(TargetDefinition $targetDefinition) {
         $this->targetDefinition = $targetDefinition;

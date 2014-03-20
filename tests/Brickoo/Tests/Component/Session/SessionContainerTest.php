@@ -60,10 +60,10 @@ class SessionContainerTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Session\SessionContainer::__construct
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testConstructArgumentException() {
-        $Container = new SessionContainer(array("wrongType"));
+        new SessionContainer(array("wrongType"));
     }
 
     /**

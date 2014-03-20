@@ -87,7 +87,7 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Session\SessionManager::checkSessionStart
      */
     public function testSessionIdRoutines() {
-        $sessionId = "testcase12345";
+        $sessionId = "testCase12345";
         $this->sessionManager->setId($sessionId);
         $this->assertEquals($sessionId, $this->sessionManager->getId());
     }
@@ -146,9 +146,9 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Session\SessionManager::setCacheLimiter
      */
     public function testCacheLimiterRoutines() {
-        $cacheLImiter = "testCase";
-        $this->assertSame($this->sessionManager, $this->sessionManager->setCacheLimiter($cacheLImiter));
-        $this->assertEquals($cacheLImiter, $this->sessionManager->getCacheLimiter());
+        $cacheLimiter = "testCase";
+        $this->assertSame($this->sessionManager, $this->sessionManager->setCacheLimiter($cacheLimiter));
+        $this->assertEquals($cacheLimiter, $this->sessionManager->getCacheLimiter());
     }
 
     /**
@@ -167,7 +167,7 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Session\SessionManager::start
      * @covers Brickoo\Component\Session\SessionManager::checkSessionStart
      * @covers Brickoo\Component\Session\Exception\SessionAlreadyStartedException
-     * @expectedException Brickoo\Component\Session\Exception\SessionAlreadyStartedException
+     * @expectedException \Brickoo\Component\Session\Exception\SessionAlreadyStartedException
      */
     public function testStartSessionTwiceThrowsException() {
         $this->sessionManager->start();

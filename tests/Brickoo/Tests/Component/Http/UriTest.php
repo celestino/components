@@ -46,7 +46,7 @@ class UriTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\Uri::__construct
      * @expectedException \InvalidArgumentException
      */
-    public function testConstructorInvalidSchemeThrowsExeption() {
+    public function testConstructorInvalidSchemeThrowsException() {
         new Uri(["wrongType"], $this->getUriAuthorityStub(), "/", $this->getUriQueryStub(), "");
     }
 
@@ -54,7 +54,7 @@ class UriTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\Uri::__construct
      * @expectedException \InvalidArgumentException
      */
-    public function testConstructorInvalidPathThrowsExeption() {
+    public function testConstructorInvalidPathThrowsException() {
         new Uri("http", $this->getUriAuthorityStub(), ["wrongType"], $this->getUriQueryStub(), "");
     }
 
@@ -62,7 +62,7 @@ class UriTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\Uri::__construct
      * @expectedException \InvalidArgumentException
      */
-    public function testConstructorInvalidFragmentThrowsExeption() {
+    public function testConstructorInvalidFragmentThrowsException() {
         new Uri("http", $this->getUriAuthorityStub(), "/", $this->getUriQueryStub(), ["wrongType"]);
     }
 

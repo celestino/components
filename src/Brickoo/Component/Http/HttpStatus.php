@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Http;
 
-use Brickoo\Component\Http\HttpStatusCode,
-    Brickoo\Component\Http\Exception\InvalidHttpStatusException,
+use Brickoo\Component\Http\Exception\InvalidHttpStatusException,
     Brickoo\Component\Validation\Argument;
 
 /**
@@ -50,7 +49,6 @@ Class HttpStatus extends HttpStatusCode {
      * @param string $status the http status
      * @throws \InvalidArgumentException
      * @throws \Brickoo\Component\Http\Exception\InvalidHttpStatusException
-     * @return void
      */
     public function __construct($status) {
         Argument::IsInteger($status);

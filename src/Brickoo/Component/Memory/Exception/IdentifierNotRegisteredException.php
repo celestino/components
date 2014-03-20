@@ -34,7 +34,7 @@ use Brickoo\Component\Memory\Exception;
 /**
  * IdentifierNotRegisteredException
  *
- * Exception throwed by the Registry class if trying to retrieve an not registered identifier.
+ * Exception thrown by the Registry class if trying to retrieve an not registered identifier.
  * @see Brickoo\Component\Memory\Registry:getRegistred
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
@@ -44,9 +44,8 @@ class IdentifierNotRegisteredException extends Exception {
     /**
      * Class constructor.
      * Calls the parent Exception constructor.
-     * @param string $identifier the identifier which is not registred.
+     * @param string $identifier the identifier which is not registered.
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($identifier, \Exception $previousException = null) {
         parent::__construct(sprintf("The identifier `%s` is not registered.", $identifier), 0, $previousException);

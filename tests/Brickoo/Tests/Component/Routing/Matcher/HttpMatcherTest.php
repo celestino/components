@@ -148,7 +148,8 @@ class HttpMatcherTest extends PHPUnit_Framework_TestCase {
 
     /**
      * Returns a request stub.
-     * @return \Brickoo\Component\Http\Interfaces\Request
+     * @param string $httpMethod
+     * @return \Brickoo\Component\Http\HttpRequest
      */
     private function getRequestStub($httpMethod = "GET") {
         $Uri = $this->getMockBuilder("\\Brickoo\\Component\\Http\\Uri")

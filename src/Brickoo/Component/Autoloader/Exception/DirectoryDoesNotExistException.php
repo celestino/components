@@ -34,7 +34,7 @@ use Brickoo\Component\Autoloader\Exception;
 /**
  * DirectoryDoesNotExistException
  *
- * Exception throwed if trying to access a directory which does not exist.
+ * Exception thrown if trying to access a directory which does not exist.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -45,7 +45,6 @@ class DirectoryDoesNotExistException extends Exception {
      * Calls the parent Exception constructor.
      * @param string $directory the directory which does not exists
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($directory, \Exception $previousException = null) {
         parent::__construct(sprintf("Directory `%s` does not exists or is not readable.", $directory), 0, $previousException);

@@ -49,7 +49,6 @@ class ListAutoloader extends Autoloader {
      * Class constructor.
      * @param array $classes the class to register as className, location pairs.
      * @param boolean $prepend flag to prepend or append to the PHP autoloader list
-     * @return void
      */
     public function __construct(array $classes = [], $prepend = true) {
         $this->classes = $classes;
@@ -87,7 +86,7 @@ class ListAutoloader extends Autoloader {
 
     /**
      * Unregister the class available by the given name.
-     * @param string $class the class to unregister from autoloader
+     * @param string $className the class to unregister from autoloader
      * @throws \InvalidArgumentException if an argument is not valid
      * @throws \Brickoo\Component\Autoloader\Exception\ClassNotRegisteredException
      * @return \Brickoo\Component\Autoloader\ListAutoloader

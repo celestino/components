@@ -34,7 +34,7 @@ use Brickoo\Component\Autoloader\Exception;
 /**
  * ClassNotRegisteredException
  *
- * Exception throwed if trying to unregister a class without beeing registered before.
+ * Exception thrown if trying to unregister a class without beeing registered before.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -45,7 +45,6 @@ class ClassNotRegisteredException extends Exception {
      * Calls the parent Exception constructor.
      * @param string $className the class not registered
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($className, \Exception $previousException = null) {
         parent::__construct(sprintf("The class `%s` is not registered", $className), 0, $previousException);

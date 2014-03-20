@@ -34,7 +34,7 @@ use Brickoo\Component\Memory\Exception;
 /**
  * IdentifierLockedException
  *
- * Exception throwed by the Registry class if trying to change an locked identifier.
+ * Exception thrown by the Registry class if trying to change an locked identifier.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -45,7 +45,6 @@ class IdentifierLockedException extends Exception {
      * Calls the parent Exception constructor.
      * @param string $identifier the identifier which is locked
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($identifier, \Exception $previousException = null) {
         parent::__construct(sprintf("The identifier `%s` is locked and can not be modified.", $identifier), 0, $previousException);

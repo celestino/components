@@ -74,8 +74,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase {
     }
 
     /** @covers Brickoo\Component\Memory\Container::getIterator */
-    public function testGetInterator() {
-        $this->assertInstanceOf("\Iterator", $this->container->getIterator());
+    public function testGetIterator() {
+        $this->assertInstanceOf("\\Iterator", $this->container->getIterator());
 
     }
 
@@ -102,11 +102,11 @@ class ContainerTest extends PHPUnit_Framework_TestCase {
     public function testHasContainerEntry() {
         $this->container["unit"] = "test";
         $this->assertTrue($this->container->has("unit"));
-        $this->assertFalse($this->container->has("undefinied"));
+        $this->assertFalse($this->container->has("undefined"));
     }
 
     /** @covers Brickoo\Component\Memory\Container::delete */
-    public function testDeleteContaierEntry() {
+    public function testDeleteContainerEntry() {
         $this->container["unit"] = "test";
         $this->assertSame($this->container, $this->container->delete("unit"));
         $this->assertAttributeEquals(array(), "container", $this->container);

@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Cache;
 
-use Brickoo\Component\Cache\AdapterPool,
-    Brickoo\Component\Cache\Exception\PoolIndentifierDoesNotExistException,
+use Brickoo\Component\Cache\Exception\PoolIdentifierDoesNotExistException,
     Brickoo\Component\Cache\Exception\PoolIsEmptyException,
     Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint,
     Brickoo\Component\Validation\Argument;
@@ -57,7 +56,6 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
      * Class constructor.
      * @param array $poolEntries
      * @throws \InvalidArgumentException if a pool entry does not match expected type
-     * @return void
      */
     public function __construct(array $poolEntries) {
         if (! (new ContainsInstancesOfConstraint("\\Brickoo\\Component\\Cache\\Adapter"))->matches($poolEntries)) {
@@ -124,7 +122,7 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
         Argument::IsStringOrInteger($adapterIdentifier);
 
         if (! $this->has($adapterIdentifier)) {
-            throw new PoolIndentifierDoesNotExistException($adapterIdentifier);
+            throw new PoolIdentifierDoesNotExistException($adapterIdentifier);
         }
 
         $this->currentPointerPosition = $this->getMappingPosition($adapterIdentifier);
@@ -134,7 +132,7 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
     /** {@inheritDoc} */
     public function remove($adapterIdentifier) {
         if (! $this->has($adapterIdentifier)) {
-            throw new PoolIndentifierDoesNotExistException($adapterIdentifier);
+            throw new PoolIdentifierDoesNotExistException($adapterIdentifier);
         }
 
         $mappingPosition = $this->getMappingPosition($adapterIdentifier);

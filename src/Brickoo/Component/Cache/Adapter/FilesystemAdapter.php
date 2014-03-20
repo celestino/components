@@ -64,7 +64,6 @@ class FilesystemAdapter implements Adapter {
      * @param boolean $serializeCacheContent flag to serialize the content cached
      * @param string $cacheFileNameSuffix the sufffix to add to caching file names
      * @throws \InvalidArgumentException if an argument is not valid
-     * @return void
      */
     public function __construct(File $fileObject, $cacheDirectory, $serializeCacheContent = true, $cacheFileNameSuffix = ".cache") {
         Argument::IsString($cacheDirectory);

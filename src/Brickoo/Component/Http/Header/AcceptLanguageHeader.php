@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Http\Header;
 
-use Brickoo\Component\Http\Header\GenericHeader,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * AcceptLanguageHeader
@@ -40,7 +39,7 @@ use Brickoo\Component\Http\Header\GenericHeader,
  */
 class AcceptLanguageHeader extends GenericHeader {
 
-    use \Brickoo\Component\Http\Header\CommonAcceptRoutines;
+    use CommonAcceptRoutines;
 
     /** @var array */
     private $acceptLanguages;
@@ -48,7 +47,6 @@ class AcceptLanguageHeader extends GenericHeader {
     /**
      * Class constructor.
      * @param string $headerValue
-     * @return void
      */
     public function __construct($headerValue = "") {
         parent::__construct("Accept-Language", $headerValue);

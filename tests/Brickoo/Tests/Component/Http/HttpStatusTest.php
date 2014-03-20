@@ -62,14 +62,14 @@ class HttpStatusTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\HttpStatus::__construct
      * @covers Brickoo\Component\Http\HttpStatus::isValid
      * @covers Brickoo\Component\Http\Exception\InvalidHttpStatusException
-     * @expectedException Brickoo\Component\Http\Exception\InvalidHttpStatusException
+     * @expectedException \Brickoo\Component\Http\Exception\InvalidHttpStatusException
      */
     public function testConstructorInvalidStatusThrowsException() {
         new HttpStatus(666);
     }
 
     /** @covers Brickoo\Component\Http\HttpStatus::toString */
-    public function testStatusToStrimg() {
+    public function testStatusToString() {
         $httpStatus = new HttpStatus(200);
         $this->assertEquals("200 OK", $httpStatus->toString());
     }

@@ -30,8 +30,6 @@
 namespace Brickoo\Component\Annotation;
 
 use ArrayIterator,
-    Brickoo\Component\Annotation\Annotation,
-    Brickoo\Component\Annotation\AnnotationTarget,
     Brickoo\Component\Annotation\Exception\AnnotationNotAvailableException,
     Brickoo\Component\Validation\Argument,
     Countable,
@@ -55,7 +53,6 @@ class AnnotationCollection  implements Countable, IteratorAggregate {
     /**
      * Class constructor.
      * @param \Brickoo\Component\Annotation\AnnotationTarget $annotationsTarget
-     * @return void
      */
     public function __construct(AnnotationTarget $annotationsTarget) {
         $this->annotationsTarget = $annotationsTarget;

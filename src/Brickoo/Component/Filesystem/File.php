@@ -76,6 +76,7 @@ class File {
         Argument::IsString($filename);
         Argument::IsString($mode);
         Argument::IsBoolean($useIncludePath);
+        $handle = null;
 
         if ($context !== null && (! $handle = @fopen($filename, $mode, $useIncludePath, $context))) {
             throw new UnableToCreateHandleException($filename, $mode);
@@ -107,11 +108,11 @@ class File {
 
     /**
      * Reads the passed bytes of data from the file location.
-     * @param integer the amount of bytes to read from
+     * @param integer $bytes the amount of bytes to read from
      * @throws \InvalidArgumentException if the argument is not valid
      * @throws \Brickoo\Component\Filesystem\Exception\HandleNotAvailableException
      * @throws \Brickoo\Component\Filesystem\Exception\InvalidModeOperationException
-     * @return string the readed content
+     * @return string the read content
      */
     public function read($bytes) {
         Argument::IsInteger($bytes);
@@ -126,7 +127,7 @@ class File {
     /**
      * Read a line of the file.
      * @throws InvalidModeOperationException
-     * @return string the readed line
+     * @return string the read line
      */
     public function readLine() {
         if (! $this->isReadMode()) {
@@ -145,7 +146,7 @@ class File {
     }
 
     /**
-     * Closes the the data handler and frees the ressource.
+     * Closes the the data handler and frees the resource.
      * @throws \Brickoo\Component\Filesystem\Exception\HandleNotAvailableException
      * @return \Brickoo\Component\Filesystem\File
      */
@@ -174,7 +175,7 @@ class File {
     }
 
     /**
-     * Returns the resoruce file handle.
+     * Returns the resource file handle.
      * @throws \Brickoo\Component\Filesystem\Exception\HandleNotAvailableException
      * @return resource file handle
      */
@@ -195,7 +196,7 @@ class File {
     }
 
     /**
-     * Provides the posibility to call not implemented file functions.
+     * Provides the possibility to call not implemented file functions.
      * @param string $function the function name to call
      * @param array $arguments the arguments to pass
      * @throws \BadMethodCallException if the trying to call fopen() or fclose()

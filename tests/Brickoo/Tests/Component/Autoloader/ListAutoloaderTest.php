@@ -60,7 +60,7 @@ class ListAutoloaderTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Autoloader\ListAutoloader::registerClass
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testRegisterClassThrowsInvalidArgumentException() {
         $listAutoloader = new ListAutoloader();
@@ -70,7 +70,7 @@ class ListAutoloaderTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Autoloader\ListAutoloader::registerClass
      * @covers Brickoo\Component\Autoloader\Exception\FileDoesNotExistException
-     * @expectedException Brickoo\Component\Autoloader\Exception\FileDoesNotExistException
+     * @expectedException \Brickoo\Component\Autoloader\Exception\FileDoesNotExistException
      */
     public function testRegisterClassThrowsFileDoesNotExistException() {
         $listAutoloader = new ListAutoloader();
@@ -80,7 +80,7 @@ class ListAutoloaderTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Autoloader\ListAutoloader::registerClass
      * @covers Brickoo\Component\Autoloader\Exception\DuplicateClassRegistrationException
-     * @expectedException Brickoo\Component\Autoloader\Exception\DuplicateClassRegistrationException
+     * @expectedException \Brickoo\Component\Autoloader\Exception\DuplicateClassRegistrationException
      */
     public function testRegisterClassThrowsDuplicateClassRegistrationException() {
         $listAutoloader = new ListAutoloader();
@@ -98,7 +98,7 @@ class ListAutoloaderTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Autoloader\ListAutoloader::unregisterClass
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testUnregisterClassThrowsInvalidArgumentException() {
         $listAutoloader = new ListAutoloader();
@@ -108,7 +108,7 @@ class ListAutoloaderTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Autoloader\ListAutoloader::unregisterClass
      * @covers Brickoo\Component\Autoloader\Exception\ClassNotRegisteredException
-     * @expectedException Brickoo\Component\Autoloader\Exception\ClassNotRegisteredException
+     * @expectedException \Brickoo\Component\Autoloader\Exception\ClassNotRegisteredException
      */
     public function testUnregisterClassThrowsClassNotRegisteredException() {
         $listAutoloader = new ListAutoloader();
@@ -125,7 +125,7 @@ class ListAutoloaderTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Autoloader\ListAutoloader::isClassRegistered
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testIsClassRegisteredThrowsInvalidArgumentException() {
         $listAutoloader = new ListAutoloader();
@@ -156,7 +156,7 @@ class ListAutoloaderTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Autoloader\ListAutoloader::load
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testLoadClassThrowsInvalidArgumentException() {
         $listAutoloader = new ListAutoloader();

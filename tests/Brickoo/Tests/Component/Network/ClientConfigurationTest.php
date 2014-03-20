@@ -44,11 +44,11 @@ class ClientConfigurationTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Network\ClientConfiguration::__construct
-     * @covers Brickoo\Component\Network\ClientConfiguration::getAdress
+     * @covers Brickoo\Component\Network\ClientConfiguration::getAddress
      */
     public function testGetAddress() {
         $configuration = $this->getConfigurationFixture();
-        $this->assertEquals("brickoo.com", $configuration->getAdress());
+        $this->assertEquals("brickoo.com", $configuration->getAddress());
     }
 
     /** @covers Brickoo\Component\Network\ClientConfiguration::getPort */
@@ -57,10 +57,10 @@ class ClientConfigurationTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(80, $configuration->getPort());
     }
 
-    /** @covers Brickoo\Component\Network\ClientConfiguration::getSocketAdress */
+    /** @covers Brickoo\Component\Network\ClientConfiguration::getSocketAddress */
     public function testGetSocketAddress() {
         $configuration = $this->getConfigurationFixture();
-        $this->assertEquals("brickoo.com:80", $configuration->getSocketAdress());
+        $this->assertEquals("brickoo.com:80", $configuration->getSocketAddress());
     }
 
     /** @covers Brickoo\Component\Network\ClientConfiguration::getConnectionType */

@@ -34,7 +34,7 @@ use Brickoo\Component\Annotation\Exception;
 /**
  * AnnotationNotAvailableException
  *
- * Exception throwed if trying to retrieve an annotation which does not exist.
+ * Exception thrown if trying to retrieve an annotation which does not exist.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 class AnnotationNotAvailableException extends Exception {
@@ -43,7 +43,6 @@ class AnnotationNotAvailableException extends Exception {
      * Class constructor.
      * Calls the parent exception constructor.
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct(\Exception $previousException = null) {
         parent::__construct("Annotation does not exists.", 0 , $previousException);

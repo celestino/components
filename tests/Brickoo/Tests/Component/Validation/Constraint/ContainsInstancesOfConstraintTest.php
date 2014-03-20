@@ -53,7 +53,7 @@ class ContainsInstancesOfConstraintTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint::__construct
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testContructorTraversableThrowsInvalidArgumentException() {
         new ContainsInstancesOfConstraint(["wrongType"]);
@@ -97,9 +97,9 @@ class ContainsInstancesOfConstraintTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint::matches
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
-    public function etstAsseertionThrowsInvalidArgumentException() {
+    public function testAssertionThrowsInvalidArgumentException() {
         $ContainsInstancesOfConstraint = new ContainsInstancesOfConstraint("Traversable");
         $ContainsInstancesOfConstraint->matches("wrongType");
     }

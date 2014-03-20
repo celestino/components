@@ -34,7 +34,7 @@ use Brickoo\Component\Autoloader\Exception;
 /**
  * AutoloaderNotRegisteredException
  *
- * Exception throwed if trying to unregister an autoloader without beeing registered before.
+ * Exception thrown if trying to unregister an autoloader without beeing registered before.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -44,7 +44,6 @@ class AutoloaderNotRegisteredException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct(\Exception $previousException = null) {
         parent::__construct("This object is not registered as an autoloader", 0, $previousException);

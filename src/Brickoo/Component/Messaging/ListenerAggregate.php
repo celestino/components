@@ -28,7 +28,6 @@
  */
 
 namespace Brickoo\Component\Messaging;
-use Brickoo\Component\Messaging\MessageDispatcher;
 
 /**
  * ListenerAggregate

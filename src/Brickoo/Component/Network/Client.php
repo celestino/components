@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Network;
 
-use Brickoo\Component\Network\ClientConfiguration,
-    Brickoo\Component\Network\Exception\HandleAlreadyExistsException,
+use Brickoo\Component\Network\Exception\HandleAlreadyExistsException,
     Brickoo\Component\Network\Exception\HandleNotAvailableException,
     Brickoo\Component\Network\Exception\UnableToCreateHandleException,
     Brickoo\Component\Validation\Argument;
@@ -67,7 +66,7 @@ class Client {
      * @see http://www.php.net/manual/en/function.stream-socket-client.php
      * @throws \Brickoo\Component\Network\Exception\HandleAlreadyExistsException
      * @throws \Brickoo\Component\Network\Exception\UnableToCreateHandleException
-     * @return \Brickoo\Net work\Client
+     * @return \Brickoo\Component\Network\Client
      */
     public function open() {
         if ($this->hasHandle()) {
@@ -78,13 +77,13 @@ class Client {
         $errorMessage = null;
 
         if (! $handle = @stream_socket_client(
-            $this->configuration->getSocketAdress(),
+            $this->configuration->getSocketAddress(),
             $errorCode, $errorMessage,
             $this->configuration->getConnectionTimeout(),
             $this->configuration->getConnectionType(),
             stream_context_create($this->configuration->getContextOptions())
         )){
-            throw new UnableToCreateHandleException($this->configuration->getSocketAdress(), $errorCode, $errorMessage);
+            throw new UnableToCreateHandleException($this->configuration->getSocketAddress(), $errorCode, $errorMessage);
         }
 
         $this->handle = $handle;

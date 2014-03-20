@@ -48,7 +48,6 @@ class RoutePathRegexGenerator  {
     /**
      * Class constructor.
      * @param array $aliases the routing aliases
-     * @return void
      */
     public function __construct(array $aliases = []) {
         $this->aliases = $aliases;
@@ -90,9 +89,10 @@ class RoutePathRegexGenerator  {
 
     /**
      * Replaces the route parameters with the rules defined.
-     * @param string $regex the regular expression to modify
+     * @param string $routePath the route path
      * @param array $parameters the dynamic parameters of the route
      * @param \Brickoo\Component\Routing\Route $route
+     * @internal param string $regex the regular expression to modify
      * @return void
      */
     private function replaceRoutePathWithRulesExpressions(&$routePath, array $parameters, Route $route) {

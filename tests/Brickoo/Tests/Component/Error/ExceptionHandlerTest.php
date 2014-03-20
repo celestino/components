@@ -59,7 +59,7 @@ class ExceptionHandlerTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Error\ExceptionHandler::register
      * @covers Brickoo\Component\Error\Exception\DuplicateHandlerRegistrationException
-     * @expectedException Brickoo\Component\Error\Exception\DuplicateHandlerRegistrationException
+     * @expectedException \Brickoo\Component\Error\Exception\DuplicateHandlerRegistrationException
      */
     public function testRegisterDuplicateRegistrationException() {
         $exceptionHandler = new ExceptionHandler($this->getMessageDispatcherStub());
@@ -71,9 +71,9 @@ class ExceptionHandlerTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Error\ExceptionHandler::unregister
      * @covers Brickoo\Component\Error\Exception\HandlerNotRegisteredException
-     * @expectedException Brickoo\Component\Error\Exception\HandlerNotRegisteredException
+     * @expectedException \Brickoo\Component\Error\Exception\HandlerNotRegisteredException
      */
-    public function testUnregisterNotregisteredHandlerThrowsException() {
+    public function testUnregisterNotRegisteredHandlerThrowsException() {
         $exceptionHandler = new ExceptionHandler($this->getMessageDispatcherStub());
         $exceptionHandler->unregister();
     }
@@ -87,7 +87,7 @@ class ExceptionHandlerTest extends PHPUnit_Framework_TestCase {
                      ->will($this->returnValue(null));
 
         $exceptionHandler = new ExceptionHandler($messageDispatcher);
-        $exceptionHandler->handleException(new \Exception("test case exception throwed", 123));
+        $exceptionHandler->handleException(new \Exception("test case exception thrown", 123));
     }
 
     /** @covers Brickoo\Component\Error\ExceptionHandler::__destruct */

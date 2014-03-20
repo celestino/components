@@ -71,7 +71,7 @@ trait CommonAcceptRoutines {
     /**
      * Returns the header values sorted by quality.
      * @param string $regex the regular expression to use
-     * @param string $headervalue
+     * @param string $headerValue
      * @return array the extracted header values
      */
     private function getExtractedHeaderValuesByRegex($regex, $headerValue) {

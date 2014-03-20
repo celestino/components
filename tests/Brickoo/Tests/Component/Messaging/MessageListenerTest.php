@@ -44,10 +44,10 @@ class MessageListenerTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Messaging\MessageListener::__construct
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testConstructorInvalidPriorityArgumentThrowsException() {
-        $listener = new MessageListener("test.message", "wrongType", function(){});
+        new MessageListener("test.message", "wrongType", function(){});
     }
 
     /**

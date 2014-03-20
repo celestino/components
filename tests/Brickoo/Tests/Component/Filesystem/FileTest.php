@@ -55,7 +55,7 @@ class FileTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Filesystem\File::open
      * @covers Brickoo\Component\Filesystem\Exception\HandleAlreadyExistsException
-     * @expectedException Brickoo\Component\Filesystem\Exception\HandleAlreadyExistsException
+     * @expectedException \Brickoo\Component\Filesystem\Exception\HandleAlreadyExistsException
      */
     public function testOpenTwiceThrowsHandleAlreadyExistsException() {
         $File = new File();
@@ -66,7 +66,7 @@ class FileTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Filesystem\File::open
      * @covers Brickoo\Component\Filesystem\Exception\UnableToCreateHandleException
-     * @expectedException Brickoo\Component\Filesystem\Exception\UnableToCreateHandleException
+     * @expectedException \Brickoo\Component\Filesystem\Exception\UnableToCreateHandleException
      */
     public function testOpenFailureThrowsUnableToCreateHandleException() {
         $File = new File();
@@ -76,7 +76,7 @@ class FileTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Filesystem\File::open
      * @covers Brickoo\Component\Filesystem\Exception\UnableToCreateHandleException
-     * @expectedException Brickoo\Component\Filesystem\Exception\UnableToCreateHandleException
+     * @expectedException \Brickoo\Component\Filesystem\Exception\UnableToCreateHandleException
      */
     public function testOpenFileWithContextThrowsUnableToCreateHandleException() {
         $context = stream_context_create(["http" => [
@@ -107,7 +107,7 @@ class FileTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Filesystem\File::read
      * @covers Brickoo\Component\Filesystem\File::getHandle
      * @covers Brickoo\Component\Filesystem\Exception\HandleNotAvailableException
-     * @expectedException Brickoo\Component\Filesystem\Exception\HandleNotAvailableException
+     * @expectedException \Brickoo\Component\Filesystem\Exception\HandleNotAvailableException
      */
     public function testReadThrowsHandleNotAvailableException() {
         $File = new File();
@@ -117,7 +117,7 @@ class FileTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Filesystem\File::read
      * @covers Brickoo\Component\Filesystem\Exception\InvalidModeOperationException
-     * @expectedException Brickoo\Component\Filesystem\Exception\InvalidModeOperationException
+     * @expectedException \Brickoo\Component\Filesystem\Exception\InvalidModeOperationException
      */
     public function testReadThrowsInvalidModeOperationException() {
         $File = new File();
@@ -126,7 +126,7 @@ class FileTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Filesystem\File::read
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testReadThrowsArgumentException() {
         $File = new File();
@@ -137,7 +137,7 @@ class FileTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Filesystem\File::write
      * @covers Brickoo\Component\Filesystem\File::getHandle
      * @covers Brickoo\Component\Filesystem\Exception\HandleNotAvailableException
-     * @expectedException Brickoo\Component\Filesystem\Exception\HandleNotAvailableException
+     * @expectedException \Brickoo\Component\Filesystem\Exception\HandleNotAvailableException
      */
     public function testWriteThrowsHandleNotAvailableException() {
         $File = new File();
@@ -147,7 +147,7 @@ class FileTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Filesystem\File::write
      * @covers Brickoo\Component\Filesystem\Exception\InvalidModeOperationException
-     * @expectedException Brickoo\Component\Filesystem\Exception\InvalidModeOperationException
+     * @expectedException \Brickoo\Component\Filesystem\Exception\InvalidModeOperationException
      */
     public function testWriteThrowsInvalidModeOperationException() {
         $File = new File();
@@ -169,7 +169,7 @@ class FileTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Filesystem\File::readLine
      * @covers Brickoo\Component\Filesystem\Exception\InvalidModeOperationException
-     * @expectedException Brickoo\Component\Filesystem\Exception\InvalidModeOperationException
+     * @expectedException \Brickoo\Component\Filesystem\Exception\InvalidModeOperationException
      */
     public function testReadLineThrowsInvalidModeOperationException() {
         $File = new File();
@@ -188,7 +188,7 @@ class FileTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Filesystem\File::close
      * @covers Brickoo\Component\Filesystem\Exception\HandleNotAvailableException
-     * @expectedException Brickoo\Component\Filesystem\Exception\HandleNotAvailableException
+     * @expectedException \Brickoo\Component\Filesystem\Exception\HandleNotAvailableException
      */
     public function testCloseHandleException() {
         $File = new File();
@@ -217,7 +217,7 @@ class FileTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Filesystem\File::__call
-     * @expectedException BadMethodCallException
+     * @expectedException \BadMethodCallException
      */
     public function testFOPENThrowsBadMethodCallException() {
         $File = new File();
@@ -226,7 +226,7 @@ class FileTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Filesystem\File::__call
-     * @expectedException BadMethodCallException
+     * @expectedException \BadMethodCallException
      */
     public function testFCLOSEThrowsBadMethodCallException() {
         $File = new File();

@@ -45,7 +45,7 @@ class IsGreaterThanConstraint implements Constraint {
 
     /**
      * Class constructor.
-     * @param mixed $greaterValue
+     * @param mixed $smallerValue
      */
     public function __construct($smallerValue) {
         $this->smallerValue = $smallerValue;

@@ -30,6 +30,7 @@
 namespace Brickoo\Tests\Component\Routing;
 
 use Brickoo\Component\Routing\RoutePathRegexGenerator,
+    Brickoo\Component\Routing\Route\GenericRoute,
     PHPUnit_Framework_TestCase;
 
 /**
@@ -51,10 +52,10 @@ class RoutePathRegexGeneratorTest extends PHPUnit_Framework_TestCase {
     public function testGeneratePathRegexFromRoute() {
         $expectedRegex = "~^".
                          "/(articles|artikeln)".
-                         "/(?<articleName>[\w\-]+)".
+                         "/(?<articleName>[\\w\\-]+)".
                          "(/(?<pageNumber>([0-9]+)?))?".
-                         "(?<version>\.[0-9]+)".
-                         "(?<format>(\.html|\.json)?)".
+                         "(?<version>\\.[0-9]+)".
+                         "(?<format>(\\.html|\\.json)?)".
                          "$~i";
         $aliases = array("articles" => "artikeln");
         $routePathRegexGenerator = new RoutePathRegexGenerator($aliases);
@@ -70,7 +71,7 @@ class RoutePathRegexGeneratorTest extends PHPUnit_Framework_TestCase {
         $expectedRegex = "~^/(articles|artikeln)/{articleName}$~i";
         $aliases = array("articles" => "artikeln");
 
-        $route = new \Brickoo\Component\Routing\Route\GenericRoute(
+        $route = new GenericRoute(
             "articles", "/articles/{articleName}", "MyBlog", "displayArticle"
         );
 
@@ -83,14 +84,14 @@ class RoutePathRegexGeneratorTest extends PHPUnit_Framework_TestCase {
      * @return \Brickoo\Component\Routing\Route\GenericRoute
      */
     private function getRouteFixture() {
-        $route = new \Brickoo\Component\Routing\Route\GenericRoute(
+        $route = new GenericRoute(
             "articles", "/articles/{articleName}/{pageNumber}{version}{format}", "MyBlog", "displayArticle"
         );
         $route->setRules([
-            "articleName" => "[\w\-]+",
+            "articleName" => "[\\w\\-]+",
             "pageNumber" => "[0-9]+",
-            "version" => "\.[0-9]+",
-            "format" => "\.html|\.json"]
+            "version" => "\\.[0-9]+",
+            "format" => "\\.html|\\.json"]
         );
         $route->setDefaultValues(["pageNumber" => 1, "format" => "html"]);
         return $route;

@@ -34,7 +34,7 @@ use Brickoo\Component\Network\Exception;
 /**
  * HandleAlreadyExistsException
  *
- * Exception throwed if trying to create a handle handle which already exists.
+ * Exception thrown if trying to create a handle handle which already exists.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -44,7 +44,6 @@ class HandleAlreadyExistsException extends Exception {
      * Class constructor.
      * Calls the parent exception constructor.
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct(\Exception $previousException = null) {
         parent::__construct("The resource handle already exists.", 0, $previousException);

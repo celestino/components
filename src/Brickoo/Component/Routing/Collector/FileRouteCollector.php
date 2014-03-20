@@ -63,11 +63,10 @@ class FileRouteCollector implements RouteCollector {
 
     /**
      * Class constructor.
-     * @param string $routingDirectory the routing directory
+     * @param string $routingPath the routing directory path
      * @param string $routingFilename the route filename to look for
      * @param boolean $searchRecursively flag to search recursively
      * @throws \InvalidArgumentException if an argument is not valid
-     * @return void
      */
     public function __construct($routingPath, $routingFilename, $searchRecursively = false) {
         Argument::IsString($routingPath);

@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Annotation;
 
-use Brickoo\Component\Annotation\AnnotationReflectionClassReader,
-    Brickoo\Component\Annotation\Definition,
+use Brickoo\Component\Annotation\Definition,
     Brickoo\Component\Annotation\Exception\FileDoesNotExistException,
     Brickoo\Component\Annotation\Exception\UnableToLocateQualifiedClassNameException,
     Brickoo\Component\Validation\Argument,
@@ -49,7 +48,7 @@ class AnnotationClassFileReader {
 
     /**
      * Class constructor.
-     * @param \Brickoo\Component\Annotation\AnnotationReflectionClassReader $annotationParser
+     * @param \Brickoo\Component\Annotation\AnnotationReflectionClassReader $annotationReflectionReader
      */
     public function __construct(AnnotationReflectionClassReader $annotationReflectionReader) {
         $this->annotationReflectionReader = $annotationReflectionReader;
@@ -59,8 +58,8 @@ class AnnotationClassFileReader {
      *
      * @param \Brickoo\Component\Annotation\Definition $definition
      * @param string $filename
-     * @throws \Brickoo\Annotation\Exception\FileDoesNotExistException
-     * @throws \Brickoo\Annotation\Exception\UnableToLocateQualifiedClassNameException
+     * @throws \Brickoo\Component\Annotation\Exception\FileDoesNotExistException
+     * @throws \Brickoo\Component\Annotation\Exception\UnableToLocateQualifiedClassNameException
      * @return \Brickoo\Component\Annotation\AnnotationReaderResult
      */
     public function getAnnotations(Definition $definition, $filename) {
@@ -72,7 +71,7 @@ class AnnotationClassFileReader {
     /**
      * Returns the corresponding reflection class.
      * @param string $filename
-     * @throws \Brickoo\Annotation\Exception\UnableToLocateQualifiedClassNameException
+     * @throws \Brickoo\Component\Annotation\Exception\UnableToLocateQualifiedClassNameException
      * @return \ReflectionClass
      */
     private function getReflectionClass($filename) {
@@ -96,7 +95,7 @@ class AnnotationClassFileReader {
     /**
      * Checks if the file exists and is readable.
      * @param string $filename
-     * @throws \Brickoo\Annotation\Exception\FileDoesNotExistException
+     * @throws \Brickoo\Component\Annotation\Exception\FileDoesNotExistException
      * @return void
      */
     private function checkFileAvailability($filename) {
@@ -113,7 +112,7 @@ class AnnotationClassFileReader {
     private function getNamespace($fileContent) {
         $matches = null;
         $namespace = "\\";
-        preg_match("~namespace\s+(?<namespace>[a-zA-Z_\x7f-\xff][\\\\\w\x7f-\xff]+)\s*\;~i", $fileContent, $matches);
+        preg_match("~namespace\\s+(?<namespace>[a-zA-Z_\x7f-\xff][\\\\\\w\x7f-\xff]+)\\s*\\;~i", $fileContent, $matches);
         if (isset($matches["namespace"]) && (! empty($matches["namespace"]))) {
             $namespace .= $matches["namespace"]."\\";
         }
@@ -127,7 +126,7 @@ class AnnotationClassFileReader {
      */
     private function getClassName($fileContent) {
         $matches = null;
-        preg_match("~[\r\n][a-z\s]*class\s+(?<class>[a-zA-Z_\x7f-\xff][\w\x7f-\xff]+)[\w\s,]*\s*\{~i", $fileContent, $matches);
+        preg_match("~[\r\n][a-z\\s]*class\\s+(?<class>[a-zA-Z_\x7f-\xff][\\w\x7f-\xff]+)[\\w\\s,]*\\s*\\{~i", $fileContent, $matches);
         return isset($matches["class"]) ? trim($matches["class"]) : "";
     }
 

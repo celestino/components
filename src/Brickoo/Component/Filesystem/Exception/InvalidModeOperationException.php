@@ -34,7 +34,7 @@ use Brickoo\Component\Filesystem\Exception;
 /**
  * InvalidModeOperationException
  *
- * Exception throwed if trying to read or write with a mode that does not support the operation.
+ * Exception thrown if trying to read or write with a mode that does not support the operation.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -43,10 +43,9 @@ class InvalidModeOperationException extends Exception {
     /**
      * Class constructor.
      * Calls the parent exception constructor.
-     * @param string $currentHandleMode the current resorce handle mode
+     * @param string $currentHandleMode the current resource handle mode
      * @param string $operationType the operation not accepted
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($currentHandleMode, $operationType, \Exception $previousException = null) {
         parent::__construct(

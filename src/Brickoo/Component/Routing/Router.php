@@ -29,10 +29,7 @@
 
 namespace Brickoo\Component\Routing;
 
-use Brickoo\Component\Routing\ExecutableRoute,
-    Brickoo\Component\Routing\Route,
-    Brickoo\Component\Routing\RouteCollector,
-    Brickoo\Component\Routing\RouteCollection,
+use Brickoo\Component\Routing\Route,
     Brickoo\Component\Routing\Exception\NoMatchingRouteFoundException,
     Brickoo\Component\Routing\Exception\RouteNotFoundException,
     Brickoo\Component\Validation\Argument;
@@ -42,7 +39,7 @@ use Brickoo\Component\Routing\ExecutableRoute,
  *
  * Router which can return an executable matching route
  * and any route available based on its unique name.
- * For collecting the availables routes a route collector is used..
+ * For collecting the routes a collector is used.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -64,7 +61,6 @@ class Router {
     * Class constructor.
     * @param \Brickoo\Component\Routing\RouteCollector $routeCollector
     * @param \Brickoo\Component\Routing\RouteMatcher $routeMatcher
-    * @return void
     */
     public function __construct(RouteCollector $routeCollector, RouteMatcher $routeMatcher) {
         $this->routeCollector = $routeCollector;

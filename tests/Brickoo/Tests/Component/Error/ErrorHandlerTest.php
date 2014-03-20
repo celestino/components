@@ -48,7 +48,7 @@ class ErrorHandlerTest extends PHPUnit_Framework_TestCase {
      */
     public function testConstructor() {
         $messageDispatcher = $this->getMessageDispatcherStub();
-        $errorHandler = new ErrorHandler($messageDispatcher, "wrongType");
+        new ErrorHandler($messageDispatcher, "wrongType");
     }
 
     /**
@@ -68,7 +68,7 @@ class ErrorHandlerTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Error\ErrorHandler::register
      * @covers Brickoo\Component\Error\Exception\DuplicateHandlerRegistrationException
-     * @expectedException Brickoo\Component\Error\Exception\DuplicateHandlerRegistrationException
+     * @expectedException \Brickoo\Component\Error\Exception\DuplicateHandlerRegistrationException
      */
     public function testRegisterDuplicateRegistrationThrowsException() {
         $errorHandler = new ErrorHandler($this->getMessageDispatcherStub());
@@ -80,7 +80,7 @@ class ErrorHandlerTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Error\ErrorHandler::unregister
      * @covers Brickoo\Component\Error\Exception\HandlerNotRegisteredException
-     * @expectedException Brickoo\Component\Error\Exception\HandlerNotRegisteredException
+     * @expectedException \Brickoo\Component\Error\Exception\HandlerNotRegisteredException
      */
     public function testUnregisterNotRegisteredHandlerThrowsException() {
         $errorHandler = new ErrorHandler($this->getMessageDispatcherStub());
@@ -102,7 +102,7 @@ class ErrorHandlerTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Error\ErrorHandler::handleError
      * @covers Brickoo\Component\Error\Exception\ErrorOccurredException
-     * @expectedException Brickoo\Component\Error\Exception\ErrorOccurredException
+     * @expectedException \Brickoo\Component\Error\Exception\ErrorOccurredException
      */
     public function testHandleErrorConvertingToException() {
         $errorHandler = new ErrorHandler($this->getMessageDispatcherStub(), true);

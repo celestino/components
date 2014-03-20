@@ -38,7 +38,7 @@ use Brickoo\Component\Error\Message\ExceptionMessage,
  * ExceptionHandler
  *
  * Handles user defined or system exception.
- * Exceptions can be logged through the log message which is triggered if exceptions occured.
+ * Exceptions can be logged through the log message which is triggered if exceptions occurred.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -53,7 +53,6 @@ class ExceptionHandler {
     /**
      * Class constructor.
      * @param \Brickoo\Component\Messaging\MessageDispatcher $messageDispatcher
-     * @return void
      */
     public function __construct(MessageDispatcher $messageDispatcher) {
         $this->messageDispatcher = $messageDispatcher;
@@ -83,7 +82,7 @@ class ExceptionHandler {
     }
 
     /**
-     * Unregisters the instance as exception handler by restoring previous exception handler.
+     * Unregister the instance as exception handler by restoring previous exception handler.
      * @throws \Brickoo\Component\Error\Exception\HandlerNotRegisteredException
      * @return \Brickoo\Component\Error\ExceptionHandler
      */
@@ -107,9 +106,9 @@ class ExceptionHandler {
     }
 
     /**
-     * Handles the exception throwed by the user or system.
+     * Handles the exception thrown by the user or system.
      * Dispatch a log message containing the exception message.
-     * @param \Exception $Exception the exception throwed
+     * @param \Exception $exception the exception thrown
      * @return \Brickoo\Component\Error\ExceptionHandler
      */
     public function handleException(\Exception $exception) {

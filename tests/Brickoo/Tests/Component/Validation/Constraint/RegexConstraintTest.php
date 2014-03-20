@@ -51,7 +51,7 @@ class RegexConstraintTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Validation\Constraint\RegexConstraint::__construct
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testConstructorThrowsInvalidArgumentException() {
         new RegexConstraint(["wrongType"]);
@@ -81,7 +81,7 @@ class RegexConstraintTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Validation\Constraint\RegexConstraint::matches
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testAssertThrowsInvalidArgumentException() {
         $RegexConstraint = new RegexConstraint("~.*~");

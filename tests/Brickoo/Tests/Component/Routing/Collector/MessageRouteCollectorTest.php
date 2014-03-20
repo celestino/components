@@ -81,6 +81,7 @@ class MessageRouteCollectorTest extends PHPUnit_Framework_TestCase {
 
     /**
      * Returns a message dispatcher fixture.
+     * @param $routeCollection
      * @return \Brickoo\Component\Messaging\MessageDispatcher
      */
     private function getMessageDispatcherFixture($routeCollection) {

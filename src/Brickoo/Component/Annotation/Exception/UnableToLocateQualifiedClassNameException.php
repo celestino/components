@@ -34,7 +34,7 @@ use Brickoo\Component\Annotation\Exception;
 /**
  * FileDoesNotExistException
  *
- * Exception throwed if the qualified class name could not be located.
+ * Exception thrown if the qualified class name could not be located.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 class UnableToLocateQualifiedClassNameException extends Exception {
@@ -44,7 +44,6 @@ class UnableToLocateQualifiedClassNameException extends Exception {
      * Calls the parent exception constructor.
      * @param string $filename the filename which triggered the exception
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($filename, \Exception $previousException = null) {
         parent::__construct(sprintf("Unable to locate qualified class name for file `%s`.", $filename), 0 , $previousException);

@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Http\Header;
 
-use Brickoo\Component\Http\Header\GenericHeader,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * AcceptHeader
@@ -41,7 +40,7 @@ use Brickoo\Component\Http\Header\GenericHeader,
 
 class AcceptHeader extends GenericHeader {
 
-    use \Brickoo\Component\Http\Header\CommonAcceptRoutines;
+    use CommonAcceptRoutines;
 
     /** @var array */
     private $acceptTypes;
@@ -49,7 +48,6 @@ class AcceptHeader extends GenericHeader {
     /**
      * Class constructor.
      * @param string $headerValue
-     * @return void
      */
     public function __construct($headerValue = "") {
         parent::__construct("Accept", $headerValue);

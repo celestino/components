@@ -34,7 +34,7 @@ use Brickoo\Component\Routing\Exception;
 /**
  * DuplicateRoute
  *
- * Exception throwed if trying to create a route with a name already used.
+ * Exception thrown if trying to create a route with a name already used.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -45,7 +45,6 @@ class DuplicateRouteException extends Exception {
      * Calls the parent Exception constructor.
      * @param string $name the route name already existing
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($name, \Exception $previousException = null) {
         parent::__construct(sprintf("The route `%s` does already exist.", $name), 0 ,$previousException);

@@ -41,7 +41,7 @@ use Brickoo\Component\Validation\Argument;
 class ClientConfiguration {
 
     /** @var string */
-    private $serverAdress;
+    private $serverAddress;
 
     /** @var integer */
     private $serverPort;
@@ -57,18 +57,18 @@ class ClientConfiguration {
 
     /**
      * Class constructor.
-     * @param string $adress
+     * @param string $address
      * @param integer $port
      * @param integer $timeout
-     * @param integer $connectionType
-     * @param resource|null $context
+     * @param int $connectionType
+     * @param array|null|resource $context
      */
-    public function __construct($adress, $port, $timeout = 30, $connectionType = STREAM_CLIENT_CONNECT, array $context = []) {
-        Argument::IsString($adress);
+    public function __construct($address, $port, $timeout = 30, $connectionType = STREAM_CLIENT_CONNECT, array $context = []) {
+        Argument::IsString($address);
         Argument::IsInteger($timeout);
         Argument::IsInteger($connectionType);
 
-        $this->serverAdress = $adress;
+        $this->serverAddress = $address;
         $this->serverPort = $port;
         $this->connectionTimeout = $timeout;
         $this->connectionType = $connectionType;
@@ -76,11 +76,11 @@ class ClientConfiguration {
     }
 
     /**
-     * Returns the server adress.
-     * @return string the server adress
+     * Returns the server address.
+     * @return string the server address
      */
-    public function getAdress() {
-        return $this->serverAdress;
+    public function getAddress() {
+        return $this->serverAddress;
     }
 
     /**
@@ -92,11 +92,11 @@ class ClientConfiguration {
     }
 
     /**
-     * Returns the complete socket adress.
-     * @return string the socket adress
+     * Returns the complete socket address.
+     * @return string the socket address
      */
-    public function getSocketAdress() {
-        return sprintf("%s:%d", $this->getAdress(), $this->getPort());
+    public function getSocketAddress() {
+        return sprintf("%s:%d", $this->getAddress(), $this->getPort());
     }
 
     /**

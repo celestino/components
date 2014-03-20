@@ -21,8 +21,7 @@
  * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
  * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
  * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INT
- * ERRUPTION) HOWEVER CAUSED AND ON ANY
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
  * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
@@ -51,8 +50,7 @@ class Container implements \ArrayAccess, \IteratorAggregate, \Countable {
 
     /**
      * Class constructor.
-     * Intializes the class properties.
-     * @return void
+     * Initializes the class properties.
      */
     public function __construct(array $container = []) {
         $this->container = $container;
@@ -61,6 +59,8 @@ class Container implements \ArrayAccess, \IteratorAggregate, \Countable {
     /**
      * Sets the value with relation to the offset.
      * @see ArrayAccess::offsetSet()
+     * @param mixed $offset
+     * @param mixed $value
      * @return void
      */
     public function offsetSet($offset, $value) {
@@ -70,6 +70,7 @@ class Container implements \ArrayAccess, \IteratorAggregate, \Countable {
     /**
      * Checks if the offset exists.
      * @see ArrayAccess::offsetExists()
+     * @param mixed $offset
      * @return boolean check result
      */
     public function offsetExists($offset) {
@@ -79,6 +80,7 @@ class Container implements \ArrayAccess, \IteratorAggregate, \Countable {
     /**
      * Removes the offset and its value from container.
      * @see ArrayAccess::offsetUnset()
+     * @param mixed $offset
      * @return void
      */
     public function offsetUnset($offset) {
@@ -88,6 +90,7 @@ class Container implements \ArrayAccess, \IteratorAggregate, \Countable {
     /**
      * Returns the vlaue from the given offset.
      * @see ArrayAccess::offsetGet()
+     * @param mixed $offset
      * @return mixed the offset value
      */
     public function offsetGet($offset) {
@@ -99,7 +102,7 @@ class Container implements \ArrayAccess, \IteratorAggregate, \Countable {
     }
 
     /**
-     * Returns an extern iterator.
+     * Returns an external iterator.
      * @return \ArrayIterator
      */
     public function getIterator() {
@@ -171,7 +174,7 @@ class Container implements \ArrayAccess, \IteratorAggregate, \Countable {
     }
 
     /**
-     * Merges the passed contianer with the currently holded.
+     * Merges the passed container with the currently hold.
      * @param array $container the container to merge
      * @return \Brickoo\Component\Memory\Container
      */
@@ -209,8 +212,8 @@ class Container implements \ArrayAccess, \IteratorAggregate, \Countable {
     }
 
     /**
-     * Returns the holded key/value pairs as an array.
-     * @return array the holded key/value pairs
+     * Returns the hold key/value pairs as an array.
+     * @return array the hold key/value pairs
      */
     public function toArray() {
         return $this->container;

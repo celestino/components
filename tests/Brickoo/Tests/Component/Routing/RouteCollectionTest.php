@@ -109,7 +109,7 @@ class RouteCollectionTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Routing\RouteCollection::addRoutes
      * @covers Brickoo\Component\Routing\Exception\DuplicateRouteException
-     * @expectedException Brickoo\Component\Routing\Exception\DuplicateRouteException
+     * @expectedException \Brickoo\Component\Routing\Exception\DuplicateRouteException
      */
     public function testAddingDuplicatedRoutesThrowsAnException() {
         $route = $this->getRouteStub();
@@ -166,7 +166,7 @@ class RouteCollectionTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Routing\RouteCollection::getRoute
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testGetRouteThrowsInvalidArgumentException() {
         $routeCollection = new RouteCollection("name", "/path");
@@ -176,7 +176,7 @@ class RouteCollectionTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Routing\RouteCollection::getRoute
      * @covers Brickoo\Component\Routing\Exception\RouteNotFoundException
-     * @expectedException Brickoo\Component\Routing\Exception\RouteNotFoundException
+     * @expectedException \Brickoo\Component\Routing\Exception\RouteNotFoundException
      */
     public function testGetRouteThrowsRouteNotFoundException() {
         $routeCollection = new RouteCollection("name", "/path");
@@ -191,7 +191,7 @@ class RouteCollectionTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Routing\RouteCollection::hasRoute
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testHasRouteThrowsInvalidArgumentException() {
         $routeCollection = new RouteCollection("name", "/path");

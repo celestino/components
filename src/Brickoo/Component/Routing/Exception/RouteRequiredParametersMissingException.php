@@ -34,7 +34,7 @@ use Brickoo\Component\Routing\Exception;
 /**
  * RouteRequiredParametersMissingException
  *
- * Exception throwed if the uri builder is missing required parameters to generate the route path.
+ * Exception thrown if the uri builder is missing required parameters to generate the route path.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -46,7 +46,6 @@ class RouteRequiredParametersMissingException extends Exception {
      * @param string $routeName the route name
      * @param array $parametersMissed the parameters missed as array values
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($routeName, array $parametersMissed, \Exception $previousException = null) {
         parent::__construct(sprintf(

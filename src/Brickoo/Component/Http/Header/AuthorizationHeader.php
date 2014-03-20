@@ -29,8 +29,6 @@
 
 namespace Brickoo\Component\Http\Header;
 
-use Brickoo\Component\Http\Header\GenericHeader;
-
 /**
  * AuthorizationHeader
  *
@@ -43,7 +41,6 @@ class AuthorizationHeader extends GenericHeader {
     /**
      * Class constructor.
      * @param string $headerValue
-     * @return void
      */
     public function __construct($headerValue) {
         parent::__construct("Authorization", $headerValue);

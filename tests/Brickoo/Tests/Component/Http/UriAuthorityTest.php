@@ -69,7 +69,7 @@ class UriAuthorityTest extends PHPUnit_Framework_TestCase {
     }
 
     /** @covers Brickoo\Component\Http\UriAuthority::getPortNumber */
-    public function testGetPortnumber() {
+    public function testGetPortNumber() {
         $portNumber = 8080;
         $uriAuthority = new UriAuthority("example.org", $portNumber);
         $this->assertEquals($portNumber, $uriAuthority->getPortNumber());

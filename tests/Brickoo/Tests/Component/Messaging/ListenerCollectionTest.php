@@ -243,7 +243,7 @@ class ListenerCollectionTest extends PHPUnit_Framework_TestCase {
         $listenerCollection = new ListenerCollection();
 
         $this->assertFalse($listenerCollection->hasListeners($messageName));
-        $listenerUID = $listenerCollection->add($listener, $priority);
+        $listenerCollection->add($listener, $priority);
         $this->assertTrue($listenerCollection->hasListeners($messageName));
     }
 

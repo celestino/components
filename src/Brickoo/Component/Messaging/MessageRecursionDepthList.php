@@ -47,7 +47,6 @@ class MessageRecursionDepthList extends Container {
     /**
      * Class constructor.
      * @param integer $recursionDepthLimit default 5
-     * @return void
      */
     public function __construct($recursionDepthLimit = 5) {
         Argument::IsInteger($recursionDepthLimit);

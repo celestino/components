@@ -34,7 +34,7 @@ use Brickoo\Component\Network\Exception;
 /**
  * UnableToCreateHandleException
  *
- * Exception throwed if a resource handle could not be created for a network connection.
+ * Exception thrown if a resource handle could not be created for a network connection.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -43,16 +43,15 @@ class UnableToCreateHandleException extends Exception {
     /**ŝ
      * Class constructor.
      * Calls the parent Exception constructor.
-     * @param string $socketAdress the socket adress
-     * @param integer $errorCode the error code throwed
-     * @param string $errorMessage the error message throwed
+     * @param string $socketAddress the socket address
+     * @param integer $errorCode the error code thrown
+     * @param string $errorMessage the error message thrown
      * @param \Exception $previousException
-     * @return void
      */
-    public function __construct($socketAdress, $errorCode, $errorMessage, \Exception $previousException = null) {
+    public function __construct($socketAddress, $errorCode, $errorMessage, \Exception $previousException = null) {
         parent::__construct(sprintf(
-            "The resource handle for the adress `%s` could not be created. Error: [#%d] %s ",
-            $socketAdress, $errorCode, $errorMessage
+            "The resource handle for the address `%s` could not be created. Error: [#%d] %s ",
+            $socketAddress, $errorCode, $errorMessage
         ), 0, $previousException);
     }
 

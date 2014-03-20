@@ -34,7 +34,7 @@ use Brickoo\Component\Routing\Exception;
 /**
  * NoMatchingRouteFoundException
  *
- * Exception throwed if the router does not found a matching route.
+ * Exception thrown if the router does not found a matching route.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -44,7 +44,6 @@ class NoMatchingRouteFoundException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct(\Exception $previousException = null) {
         parent::__construct("No matching route could be found.", 0, $previousException);

@@ -67,7 +67,7 @@ class MessageResponseCollectionTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Messaging\MessageResponseCollection::shift
      * @covers Brickoo\Component\Messaging\Exception\ResponseNotAvailableException
-     * @expectedException Brickoo\Component\Messaging\Exception\ResponseNotAvailableException
+     * @expectedException \Brickoo\Component\Messaging\Exception\ResponseNotAvailableException
      */
     public function testShiftEmptyListThrowsResponseNotAvailableException() {
         $messageResponseCollection = new MessageResponseCollection();
@@ -87,7 +87,7 @@ class MessageResponseCollectionTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Messaging\MessageResponseCollection::pop
      * @covers Brickoo\Component\Messaging\Exception\ResponseNotAvailableException
-     * @expectedException Brickoo\Component\Messaging\Exception\ResponseNotAvailableException
+     * @expectedException \Brickoo\Component\Messaging\Exception\ResponseNotAvailableException
      */
     public function testPopEmptyListThrowsResponseNotAvailableException() {
         $messageResponseCollection = new MessageResponseCollection();

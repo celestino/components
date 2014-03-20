@@ -63,7 +63,7 @@ class AndOrConstraint implements Constraint {
     public function matches($value) {
         $matches = true;
         foreach ($this->constraints as $constraitGroup) {
-            if (($matches = $this->doesConstraitGroupMatch($constraitGroup, $value))) {
+            if (($matches = $this->doesConstraintGroupMatch($constraitGroup, $value))) {
                 break;
             }
         }
@@ -80,15 +80,15 @@ class AndOrConstraint implements Constraint {
 
     /**
      * Checks if a group of constraints do all match.
-     * @param array $constraitGroup
+     * @param array $constraintGroup
      * @param mixed $value
      * @return boolean check result
      */
-    private function doesConstraitGroupMatch(array $constraitGroup, $value) {
+    private function doesConstraintGroupMatch(array $constraintGroup, $value) {
         $matches = true;
-        foreach ($constraitGroup as $constrait) {
-            if (! $constrait->matches($value)) {
-                $this->failedConstraint = $this->getConcreteFailedConstraint($constrait);
+        foreach ($constraintGroup as $constraint) {
+            if (! $constraint->matches($value)) {
+                $this->failedConstraint = $this->getConcreteFailedConstraint($constraint);
                 $matches = false;
                 break;
             }

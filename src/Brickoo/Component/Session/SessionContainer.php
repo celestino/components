@@ -46,7 +46,6 @@ class SessionContainer {
     /**
      * Class constructor.
      * @param string $sessionNamespace the namespace to use
-     * @return void
      */
     public function __construct($sessionNamespace) {
         Argument::IsString($sessionNamespace);
@@ -65,10 +64,10 @@ class SessionContainer {
     }
 
     /**
-     * Returns the session property holded content or the default value.
+     * Returns the session property hold content or the default value.
      * @param string $property the session property to retrieve the content from
      * @param mixed $defaultValue the default value if the property des not exist
-     * @return mixed the property holded content or the default value if the property does not exist
+     * @return mixed the property hold content or the default value if the property does not exist
      */
     public function get($property, $defaultValue = null) {
         Argument::IsString($property);
@@ -84,7 +83,7 @@ class SessionContainer {
      * Sets the session property and assigns the content to it.
      * @param string $property the property to assign the content to
      * @param mixed $value the value to store
-     * @return \Brickoo\Component\Http\Session\Session
+     * @return \Brickoo\Component\Session\SessionContainer
      */
     public function set($property, $value) {
         Argument::IsString($property);
@@ -97,7 +96,7 @@ class SessionContainer {
     /**
      * Removes the session property if available.
      * @param string $property the property to remove
-     * @return \Brickoo\Component\Http\Session\Session
+     * @return \Brickoo\Component\Session\SessionContainer
      */
     public function remove($property) {
         Argument::IsString($property);

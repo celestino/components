@@ -44,7 +44,7 @@ interface HttpHeader {
     public function getName();
 
     /**
-     * Returns the hader value.
+     * Returns the header value.
      * @return string the header value
      */
     public function getValue();

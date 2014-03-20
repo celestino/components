@@ -30,9 +30,7 @@
 
 namespace Brickoo\Component\Http;
 
-use Brickoo\Component\Http\UriAuthority,
-    Brickoo\Component\Http\UriQuery,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * Uri
@@ -63,9 +61,8 @@ class Uri {
      * @param string $scheme the uri protocol scheme
      * @param \Brickoo\Component\Http\UriAuthority $authority
      * @param string $path the uri path
-     * @param \Brickoo\Component\Http\UriQuery $Query
+     * @param \Brickoo\Component\Http\UriQuery $query
      * @param string $fragment
-     * @return void
      */
     public function __construct($scheme, UriAuthority $authority, $path, UriQuery $query, $fragment) {
         Argument::IsString($scheme);

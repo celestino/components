@@ -30,13 +30,9 @@
 namespace Brickoo\Component\Annotation;
 
 use ArrayIterator,
-    Brickoo\Component\Annotation\AnnotationCollection,
-    Brickoo\Component\Annotation\AnnotationReaderResult,
-    Brickoo\Component\Annotation\AnnotationTarget,
     Brickoo\Component\Annotation\Definition,
-    Brickoo\Component\Annotation\DefinitionCollection,
     Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationException,
-    Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationParamatersException;
+    Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationParametersException;
 
 /**
  * ReaderResultValidator
@@ -51,7 +47,7 @@ class ReaderResultValidator {
      * @param \Brickoo\Component\Annotation\Definition $definition
      * @param \Brickoo\Component\Annotation\AnnotationReaderResult $readerResult
      * @throws \Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationException
-     * @throws \Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationParamatersException
+     * @throws \Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationParametersException
      * @return void
      */
     public function validate(Definition $definition, AnnotationReaderResult $readerResult) {
@@ -73,10 +69,10 @@ class ReaderResultValidator {
      */
     private function validateCollections(ArrayIterator $definitions, ArrayIterator $results) {
         if (($annotationsDefinitions = $this->getRequiredAnnotationsDefinitions($definitions))) {
-            $annotationsReaded = $this->getReadedAnnotationsParameters($results);
+            $annotationsRead = $this->getReadAnnotationsParameters($results);
 
             foreach ($annotationsDefinitions as $requiredAnnotation => $requiredParameters) {
-                $this->checkAnnotationRequirements($requiredAnnotation, $requiredParameters, $annotationsReaded);
+                $this->checkAnnotationRequirements($requiredAnnotation, $requiredParameters, $annotationsRead);
             }
         }
     }
@@ -113,68 +109,68 @@ class ReaderResultValidator {
      * @param \ArrayIterator $readerResults
      * @return array<String, Array> the result annotations and parameters
      */
-    private function getReadedAnnotationsParameters(ArrayIterator $readerResults) {
-        $readedAnnotations = array();
+    private function getReadAnnotationsParameters(ArrayIterator $readerResults) {
+        $readAnnotations = array();
         foreach ($readerResults as $collection) {
-            $this->collectReadedAnnotations($collection, $readedAnnotations);
+            $this->collectReadAnnotations($collection, $readAnnotations);
         }
-        return $readedAnnotations;
+        return $readAnnotations;
     }
 
     /**
      * Returns the collected result annotations and their parameters.
      * @param \Brickoo\Component\Annotation\AnnotationCollection $collection
-     * @param array $readedAnnotations
+     * @param array $readAnnotations
      * @return array<String, Array> the result annotations and parameters
      */
-    private function collectReadedAnnotations(AnnotationCollection $collection, array &$readedAnnotations) {
+    private function collectReadAnnotations(AnnotationCollection $collection, array &$readAnnotations) {
         foreach($collection as $annotation) {
-            $readedAnnotations[$annotation->getName()] = $annotation->getValues();
+            $readAnnotations[$annotation->getName()] = $annotation->getValues();
         }
     }
 
     /**
-     * Checks if the readed annotations matches the defintion requirements.
+     * Checks if the read annotations matches the definition requirements.
      * @param string $requiredAnnotation
      * @param array $requiredParameters
-     * @param array $annotationsReaded
+     * @param array $annotationsRead
      * @throws \Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationException
-     * @throws \Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationParamatersException
+     * @throws \Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationParametersException
      * @return void
      */
-    private function checkAnnotationRequirements($requiredAnnotation, array $requiredParameters, array $annotationsReaded) {
-        if (! $this->hasRequiredAnnotation($requiredAnnotation, $annotationsReaded)) {
+    private function checkAnnotationRequirements($requiredAnnotation, array $requiredParameters, array $annotationsRead) {
+        if (! $this->hasRequiredAnnotation($requiredAnnotation, $annotationsRead)) {
             throw new MissingRequiredAnnotationException($requiredAnnotation);
         }
-        if (($missingParamaters = $this->getMissingParameters($requiredParameters, $annotationsReaded[$requiredAnnotation]))) {
-            throw new MissingRequiredAnnotationParamatersException($requiredAnnotation, $missingParamaters);
+        if (($missingParameters = $this->getMissingParameters($requiredParameters, $annotationsRead[$requiredAnnotation]))) {
+            throw new MissingRequiredAnnotationParametersException($requiredAnnotation, $missingParameters);
         }
     }
 
     /**
      * Checks if the required annotation is available in the result.
      * @param string $annotationName
-     * @param array $readedAnnotations
+     * @param array $readAnnotations
      * @return boolean check result
      */
-    private function hasRequiredAnnotation($annotationName, array $readedAnnotations) {
-        return array_key_exists($annotationName, $readedAnnotations);
+    private function hasRequiredAnnotation($annotationName, array $readAnnotations) {
+        return array_key_exists($annotationName, $readAnnotations);
     }
 
     /**
      * Returns the missing required parameters if any.
      * @param array $requiredParameters
-     * @param array $readedParameters
+     * @param array $readParameters
      * @return array<String> the missing parameters
      */
-    private function getMissingParameters(array $requiredParameters, array $readedParameters) {
-        $missingParamaters = array();
+    private function getMissingParameters(array $requiredParameters, array $readParameters) {
+        $missingParameters = array();
         foreach ($requiredParameters as $parameter) {
-            if (! array_key_exists($parameter->getName(), $readedParameters)) {
-                $missingParamaters[] = $parameter->getName();
+            if (! array_key_exists($parameter->getName(), $readParameters)) {
+                $missingParameters[] = $parameter->getName();
             }
         }
-        return $missingParamaters;
+        return $missingParameters;
     }
 
 }

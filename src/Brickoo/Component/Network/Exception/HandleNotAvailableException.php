@@ -34,7 +34,7 @@ use Brickoo\Component\Network\Exception;
 /**
  * HandleNotAvailableException
  *
- * Exception throwed if trying to access a not created handle.
+ * Exception thrown if trying to access a not created handle.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -44,7 +44,6 @@ class HandleNotAvailableException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct(\Exception $previousException = null) {
         parent::__construct("The resource handle is not available.", 0, $previousException);

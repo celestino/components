@@ -29,8 +29,6 @@
 
 namespace Brickoo\Component\Messaging;
 
-use Brickoo\Component\Messaging\MessageResponseCollection;
-
 /**
  * Message
  *
@@ -54,7 +52,7 @@ interface Message {
 
     /**
      * Stops the message of been called by other listeners.
-     * @return \Brickooo\Messaging\Message
+     * @return \Brickoo\Component\Messaging\Message
      */
     public function stop();
 
@@ -74,6 +72,7 @@ interface Message {
      * Returns the parameter value of the identifier.
      * If the parameter does not exist, the default value is returned.
      * @param string $identifier the identifier to return the value from
+     * @param mixed $defaultValue
      * @return mixed the parmeter value or null if not set
      */
     public function getParam($identifier, $defaultValue = null);
@@ -87,7 +86,7 @@ interface Message {
 
     /**
      * Checks if the arguments are available message parameters.
-     * @param string any number of arguments to check
+     * Accepts any string arguments to check
      * @return boolean check result
      */
     public function hasParams();

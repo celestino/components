@@ -34,7 +34,7 @@ use Brickoo\Component\Http\Exception;
 /**
  * HeaderNotFoundException
  *
- * Exception throwed if the response status code is unknown.
+ * Exception thrown if the response status code is unknown.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -43,9 +43,8 @@ class HeaderNotFoundException extends Exception {
     /**
      * Class constructor.
      * Calls the parent Exception constructor.
-     * @param string $headerName the name of theader not found
+     * @param string $headerName the name of the header not found
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($headerName, \Exception $previousException = null) {
         parent::__construct(sprintf("The header with the name `%s` could not be found.", $headerName), 0, $previousException);

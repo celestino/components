@@ -50,8 +50,7 @@ class HttpRequestUriResolver implements UriResolver {
     /**
      * Class constructor.
      * @param \Brickoo\Component\Http\MessageHeader $header
-     * @param array $serverValues the server variables as key=>value pairs
-     * @return void
+     * @param array $serverValues the server variables as key/value pairs
      */
     public function __construct(MessageHeader $header, array $serverValues = []) {
         $this->header = $header;
@@ -127,6 +126,7 @@ class HttpRequestUriResolver implements UriResolver {
         if ($this->header->hasHeader("X-Rewrite-Url")) {
             return $this->header->getHeader("X-Rewrite-Url")->getValue();
         }
+        return null;
     }
 
     /**

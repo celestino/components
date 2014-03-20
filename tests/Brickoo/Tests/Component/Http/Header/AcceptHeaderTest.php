@@ -76,7 +76,7 @@ class AcceptHeaderTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\Header\AcceptHeader::getHeaderValues
      * @covers Brickoo\Component\Http\Header\AcceptHeader::getExtractedHeaderValuesByRegex
      */
-    public function testgetTypes() {
+    public function testGetTypes() {
         $acceptHeader = new AcceptHeader("text/html,text/xml;q=0.8");
         $this->assertEquals(["text/html" => 1, "text/xml" => 0.8], $acceptHeader->getTypes());
     }

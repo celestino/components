@@ -58,7 +58,7 @@ class HeaderResolverTest extends PHPUnit_Framework_TestCase {
         $headerLoader->expects($this->any())
                      ->method("getHeaders")
                      ->will($this->returnValue([
-                         "Accept" => "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+                         "Accept" => "text/html,application/xhtml+xml,application/xml;q=0.9,image/web,*/*;q=0.8",
                          "Connection" => "keep-alive"
                      ]));
         $headerResolver = new HeaderResolver($headerMap, $headerLoader);
@@ -82,7 +82,7 @@ class HeaderResolverTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\Resolver\HeaderResolver::createGenericHeader
      * @covers Brickoo\Component\Http\Resolver\HeaderResolver::normalizeHeaders
      * @covers Brickoo\Component\Http\Resolver\Exception\HeaderClassNotFoundException
-     * @expectedException Brickoo\Component\Http\Resolver\Exception\HeaderClassNotFoundException
+     * @expectedException \Brickoo\Component\Http\Resolver\Exception\HeaderClassNotFoundException
      */
     public function testGetHeadersWithNotExistingHeaderThrowsException() {
         $headerMap = include realpath(__DIR__)."/Assets/wrongHeader.map";

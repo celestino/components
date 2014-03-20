@@ -34,7 +34,7 @@ use Brickoo\Component\Autoloader\Exception;
 /**
  * DuplicateAutoloaderRegistrationException
  *
- * Exception throwed if trying to register the autoloader again.
+ * Exception thrown if trying to register the autoloader again.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -44,7 +44,6 @@ class DuplicateAutoloaderRegistrationException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct(\Exception $previousException = null) {
         parent::__construct("Autoloader instance already registered.", 0, $previousException);

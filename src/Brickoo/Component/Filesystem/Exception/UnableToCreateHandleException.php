@@ -34,7 +34,7 @@ use Brickoo\Component\Filesystem\Exception;
 /**
  * UnableToCreateHandleException
  *
- * Exception throwed if a resource handle could not be created.
+ * Exception thrown if a resource handle could not be created.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -44,9 +44,8 @@ class UnableToCreateHandleException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param string $location the location which the handle could not be created for.
-     * @param strinmg $mode the access mode used
+     * @param string $mode the access mode used
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($location, $mode, \Exception $previousException = null) {
         parent::__construct(

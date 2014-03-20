@@ -30,6 +30,7 @@
 namespace Brickoo\Tests\Component\Cache\Adapter;
 
 use Brickoo\Component\Cache\Adapter\FilesystemAdapter,
+    Brickoo\Component\Filesystem\File,
     PHPUnit_Framework_TestCase;
 
 /**
@@ -109,7 +110,7 @@ class FilesystemAdapterTest extends PHPUnit_Framework_TestCase {
         $cacheFileName = "cached_content";
         $cacheFileSuffix = ".cache";
 
-        $filesystemAdapter = new FilesystemAdapter(new \Brickoo\Component\Filesystem\File(), $cacheDirectory, true, $cacheFileSuffix);
+        $filesystemAdapter = new FilesystemAdapter(new File(), $cacheDirectory, true, $cacheFileSuffix);
         $this->assertEquals(["cached content"], $filesystemAdapter->get($cacheFileName));
     }
 

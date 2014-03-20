@@ -63,24 +63,23 @@ class ClientTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Network\Client::open
      * @covers Brickoo\Component\Network\Exception\HandleAlreadyExistsException
-     * @expectedException Brickoo\Component\Network\Exception\HandleAlreadyExistsException
+     * @expectedException \Brickoo\Component\Network\Exception\HandleAlreadyExistsException
      */
     public function testOpenSocketTwiceThrowsHandleExistsException() {
         $networkClient = new Client($this->getConfigurationStub());
 
         try {
             $networkClient->open();
-        } catch(UnableToCreateHandleExceptionException $Exception) {
-            return $this->markTestSkipped($Exception->getMessage());
+            $networkClient->open();
+        } catch(UnableToCreateHandleException $Exception) {
+            $this->markTestSkipped($Exception->getMessage());
         }
-
-        $networkClient->open();
     }
 
     /**
      * @covers Brickoo\Component\Network\Client::open
      * @covers Brickoo\Component\Network\Exception\UnableToCreateHandleException
-     * @expectedException Brickoo\Component\Network\Exception\UnableToCreateHandleException
+     * @expectedException \Brickoo\Component\Network\Exception\UnableToCreateHandleException
      */
     public function testOpenHandleException() {
         $networkClient = new Client($this->getConfigurationStub("tcp://brickoo.com:111"));
@@ -105,7 +104,7 @@ class ClientTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Network\Client::write
      * @covers Brickoo\Component\Network\Client::getHandle
      * @covers Brickoo\Component\Network\Exception\HandleNotAvailableException
-     * @expectedException Brickoo\Component\Network\Exception\HandleNotAvailableException
+     * @expectedException \Brickoo\Component\Network\Exception\HandleNotAvailableException
      */
     public function testWriteThrowsHandleNotAvailableException() {
         $networkClient = new Client($this->getConfigurationStub());
@@ -132,7 +131,7 @@ class ClientTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Network\Client::read
      * @covers Brickoo\Component\Network\Client::getHandle
      * @covers Brickoo\Component\Network\Exception\HandleNotAvailableException
-     * @expectedException Brickoo\Component\Network\Exception\HandleNotAvailableException
+     * @expectedException \Brickoo\Component\Network\Exception\HandleNotAvailableException
      */
     public function testReadThrowsHandleNotAvailableException() {
         $networkClient = new Client($this->getConfigurationStub());
@@ -151,7 +150,7 @@ class ClientTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Network\Client::close
      * @covers Brickoo\Component\Network\Exception\HandleNotAvailableException
-     * @expectedException Brickoo\Component\Network\Exception\HandleNotAvailableException
+     * @expectedException \Brickoo\Component\Network\Exception\HandleNotAvailableException
      */
     public function testCloseThrowsHandleNotAvailableException() {
         $networkClient = new Client($this->getConfigurationStub());
@@ -170,7 +169,7 @@ class ClientTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Network\Client::__call
-     * @expectedException BadMethodCallException
+     * @expectedException \BadMethodCallException
      */
     public function testCallCloseThrowsException() {
         $networkClient = new Client($this->getConfigurationStub());
@@ -179,18 +178,19 @@ class ClientTest extends PHPUnit_Framework_TestCase {
 
     /**
      * Returns a client configuration stub.
+     * @param string $socketAddress
      * @return \Brickoo\Component\Network\ClientConfiguration
      */
-    private function getConfigurationStub($socketAdress = "brickoo.com:80") {
+    private function getConfigurationStub($socketAddress = "brickoo.com:80") {
         $configuration = $this->getMockBuilder("\\Brickoo\\Component\\Network\\ClientConfiguration")
             ->disableOriginalConstructor()
             ->getMock();
 
         $configuration->expects($this->any())
-                      ->method("getSocketAdress")
-                      ->will($this->returnValue($socketAdress));
+                      ->method("getSocketAddress")
+                      ->will($this->returnValue($socketAddress));
         $configuration->expects($this->any())
-                      ->method("getAdress")
+                      ->method("getAddress")
                       ->will($this->returnValue("brickoo.com"));
         $configuration->expects($this->any())
                       ->method("getPort")

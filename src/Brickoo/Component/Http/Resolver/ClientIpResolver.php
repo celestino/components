@@ -54,7 +54,6 @@ class ClientIpResolver {
      * @param \Brickoo\Component\Http\MessageHeader $headers
      * @param array $serverVars the server variables
      * @param array $proxyServers the proxies to recognize
-     * @return void
      */
     public function __construct(MessageHeader $headers, array $serverVars = [], array $proxyServers =  array()) {
         $this->headers = $headers;
@@ -63,7 +62,7 @@ class ClientIpResolver {
     }
 
     /**
-     * Returns the client ip adress.
+     * Returns the client ip address.
      * @return string the client ip
      */
     public function getClientIp() {
@@ -96,6 +95,7 @@ class ClientIpResolver {
         ){
             return $headerClientIp;
         }
+        return null;
     }
 
     /**
@@ -123,7 +123,7 @@ class ClientIpResolver {
 
     /**
      * Returns the server variable value.
-     * @param stŕing $key
+     * @param string $key
      * @param mixed $defaultValue
      * @return mixed the server variable value otherwise the default value
      */

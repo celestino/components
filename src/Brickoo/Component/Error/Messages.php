@@ -39,13 +39,13 @@ namespace Brickoo\Component\Error;
 class Messages {
 
     /**
-     * Notifies that an error occured.
+     * Notifies that an error occurred.
      * @var string
      */
     const ERROR = "brickoo.message.error";
 
     /**
-     * Notifies that an exception occured.
+     * Notifies that an exception occurred.
      * @var string
      */
     const EXCEPTION = "brickoo.message.exception";

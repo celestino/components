@@ -34,7 +34,7 @@ use Brickoo\Component\Routing\Exception;
 /**
  * PathNotValidException
  *
- * Exception throwed if the uri builder could not generate a valid route path.
+ * Exception thrown if the uri builder could not generate a valid route path.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -46,7 +46,6 @@ class PathNotValidException extends Exception {
      * @param string $routeName the route name
      * @param string $invalidPath the path which is not valid
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($routeName, $invalidPath, \Exception $previousException = null) {
         parent::__construct(

@@ -70,7 +70,7 @@ class HttpRouteTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Routing\Route\HttpRoute::getHostname
      */
     public function testGetHostname() {
-        $hostname = "exmaple.org";
+        $hostname = "example.org";
         $route = $this->getHttpRouteFixture();
         $this->assertSame($route, $route->setHostname($hostname));
         $this->assertEquals($hostname, $route->getHostname());
@@ -80,7 +80,7 @@ class HttpRouteTest extends PHPUnit_Framework_TestCase {
      * Returns a http route fixture.
      * @param array $rules
      * @param array $defaultValues
-     * @return \Brickoo\Component\Routing\Route\GenericRoute
+     * @return \Brickoo\Component\Routing\Route\HttpRoute
      */
     private function getHttpRouteFixture(array $rules = [], array $defaultValues = []) {
         $route = new HttpRoute(

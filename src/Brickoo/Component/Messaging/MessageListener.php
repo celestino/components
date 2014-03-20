@@ -29,10 +29,7 @@
 
 namespace Brickoo\Component\Messaging;
 
-use Brickoo\Component\Messaging\Listener,
-    Brickoo\Component\Messaging\Message,
-    Brickoo\Component\Messaging\MessageDispatcher,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * MessageListener
@@ -56,7 +53,6 @@ class MessageListener implements Listener {
      * @param string $messageName
      * @param integer $priority
      * @param callable $callback
-     * @return void
      */
     public function __construct($messageName, $priority, callable $callback) {
         Argument::IsString($messageName);

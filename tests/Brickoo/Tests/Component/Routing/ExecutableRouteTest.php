@@ -70,7 +70,7 @@ class ExecutableRouteTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Routing\ExecutableRoute::getParameter
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testGetParameterThrowsInvalidArgumentException() {
         $executableRoute = new ExecutableRoute($this->getRouteStub());
@@ -80,7 +80,7 @@ class ExecutableRouteTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Routing\ExecutableRoute::getParameter
      * @covers Brickoo\Component\Routing\Exception\ParameterNotAvailableException
-     * @expectedException Brickoo\Component\Routing\Exception\ParameterNotAvailableException
+     * @expectedException \Brickoo\Component\Routing\Exception\ParameterNotAvailableException
      */
     public function testGetParameterThrowsParameterNotAvailableException() {
         $executableRoute = new ExecutableRoute($this->getRouteStub());
@@ -92,13 +92,13 @@ class ExecutableRouteTest extends PHPUnit_Framework_TestCase {
         $parameters = ["param" => "the parameter value"];
 
         $executableRoute = new ExecutableRoute($this->getRouteStub(), $parameters);
-        $this->assertFalse($executableRoute->hasParameter("nots.available"));
+        $this->assertFalse($executableRoute->hasParameter("not.available"));
         $this->assertTrue($executableRoute->hasParameter("param"));
     }
 
     /**
      * @covers Brickoo\Component\Routing\ExecutableRoute::hasParameter
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testHasParameterThrowsInvalidArgumentException() {
         $executableRoute = new ExecutableRoute($this->getRouteStub());

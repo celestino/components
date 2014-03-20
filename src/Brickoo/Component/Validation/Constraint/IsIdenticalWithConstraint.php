@@ -46,7 +46,6 @@ class IsIdenticalWithConstraint implements Constraint {
     /**
      * Class constructor.
      * @param mixed $compareValue
-     * @return void
      */
     public function __construct($compareValue) {
         $this->compareValue = $compareValue;

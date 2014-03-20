@@ -61,7 +61,6 @@ class HttpRouteMatcher implements RouteMatcher {
      * Class constructor
      * @param \Brickoo\Component\Http\HttpRequest $request
      * @param \Brickoo\Component\Routing\RoutePathRegexGenerator $regexGenerator
-     * @return void
      */
     public function __construct(HttpRequest $request, RoutePathRegexGenerator $regexGenerator) {
         $this->request = $request;
@@ -130,7 +129,6 @@ class HttpRouteMatcher implements RouteMatcher {
     /**
      * Returns the route matched parameters for the current request.
      * @param \Brickoo\Component\Routing\Route\HttpRoute $route
-     * @param array $pathMatchedParameters the path matching parameters
      * @return array the path parameters of the matching route
      */
     private function collectRouteParameters(HttpRoute $route) {

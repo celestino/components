@@ -29,8 +29,7 @@
 
 namespace Brickoo\Tests\Component\Cache\Message;
 
-use Brickoo\Component\Cache\Messages,
-    Brickoo\Component\Cache\Message\RetrieveMessage,
+use Brickoo\Component\Cache\Message\RetrieveMessage,
     PHPUnit_Framework_TestCase;
 
 /**
@@ -54,7 +53,7 @@ class RetrieveMessageTest extends PHPUnit_Framework_TestCase {
      * @expectedException \InvalidArgumentException
      */
     public function testConstructorThrowsExceptionForInvalidArgument() {
-        $message = new RetrieveMessage(["wrongType"]);
+        new RetrieveMessage(["wrongType"]);
     }
 
 }

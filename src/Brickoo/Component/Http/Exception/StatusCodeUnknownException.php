@@ -27,27 +27,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Cache\Exception;
+namespace Brickoo\Component\Http\Exception;
 
-use Brickoo\Component\Cache\Exception;
+use Brickoo\Component\Http\Exception;
 
 /**
- * PoolIndentifierDoesNotExistException
+ * StatusCodeUnknownException
  *
- * Exception throwed if trying to access a not available caching adapter pool entry
+ * Exception thrown if the a status code does not have
+ * a corresponding status phrase.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class PoolIndentifierDoesNotExistException extends Exception {
+class StatusCodeUnknownException extends Exception {
 
     /**
-     * Calls the parent \Exception constructor.
-     * @param string $entryKey the adapter pool key which is not available.
+     * Class constructor.
+     * Calls the parent Exception constructor.
+     * @param string $statusCode
      * @param \Exception $previousException
-     * @return void
      */
-    public function __construct($entryKey, \Exception $previousException = null) {
-        parent::__construct(sprintf('The adapter pool entry `%s` is not available.', $entryKey), 0, $previousException);
+    public function __construct($statusCode, \Exception $previousException = null) {
+        parent::__construct(sprintf("The status code `%s` does not have a phrase.", $statusCode), 0, $previousException);
     }
 
 }

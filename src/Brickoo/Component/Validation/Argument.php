@@ -42,15 +42,14 @@ class Argument {
 
     /**
      * Checks if the argument is a string and not empty, accepts empty strings.
-     * @param string $arguments the arguments to validate
+     * @param string $argument the arguments to validate
      * @throws \InvalidArgumentException if the validation fails
      * @return boolean check result
      */
     public static function IsString($argument) {
         if (! is_string($argument)) {
-            return self::ThrowInvalidArgumentException($argument, "The argument must be of type string.");
+            throw self::GetInvalidArgumentException($argument, "The argument must be of type string.");
         }
-
         return true;
     }
 
@@ -62,9 +61,8 @@ class Argument {
      */
     public static function IsInteger($argument) {
         if (! is_int($argument)) {
-            return self::ThrowInvalidArgumentException($argument, "The argument must be of type integer.");
+            throw self::GetInvalidArgumentException($argument, "The argument must be of type integer.");
         }
-
         return true;
     }
 
@@ -76,9 +74,8 @@ class Argument {
      */
     public static function IsStringOrInteger($argument) {
         if ((! is_string($argument)) && (! is_int($argument))) {
-            return self::ThrowInvalidArgumentException($argument, "The argument must be of type integer or string.");
+            throw self::GetInvalidArgumentException($argument, "The argument must be of type integer or string.");
         }
-
         return true;
     }
 
@@ -90,9 +87,8 @@ class Argument {
      */
     public static function IsFloat($argument) {
         if (! is_float($argument)) {
-            return self::ThrowInvalidArgumentException($argument, "The argument must be of type float.");
+            throw self::GetInvalidArgumentException($argument, "The argument must be of type float.");
         }
-
         return true;
     }
 
@@ -104,9 +100,8 @@ class Argument {
      */
     public static function IsBoolean($argument) {
         if (! is_bool($argument)) {
-            return self::ThrowInvalidArgumentException($argument, "The argument must be of type boolean.");
+            throw self::GetInvalidArgumentException($argument, "The argument must be of type boolean.");
         }
-
         return true;
     }
 
@@ -118,9 +113,8 @@ class Argument {
      */
     public static function IsNotEmpty($argument) {
         if (empty($argument)) {
-            return self::ThrowInvalidArgumentException($argument, "The argument must not be empty.");
+            throw self::GetInvalidArgumentException($argument, "The argument must not be empty.");
         }
-
         return true;
     }
 
@@ -132,9 +126,8 @@ class Argument {
      */
     public static function IsFunctionAvailable($argument) {
         if (! function_exists($argument)) {
-            return self::ThrowInvalidArgumentException($argument, "The argument must be an available function.");
+            throw self::GetInvalidArgumentException($argument, "The argument must be an available function.");
         }
-
         return true;
     }
 
@@ -146,9 +139,8 @@ class Argument {
      */
     public static function IsTraversable($argument) {
         if ((! is_array($argument)) && (! $argument instanceof \Traversable)) {
-            return self::ThrowInvalidArgumentException($argument, "The argument must be traversable.");
+            throw self::GetInvalidArgumentException($argument, "The argument must be traversable.");
         }
-
         return true;
     }
 
@@ -160,7 +152,7 @@ class Argument {
      */
     public static function isCallable($argument) {
         if (! is_callable($argument)) {
-            return self::ThrowInvalidArgumentException($argument, "The argument must be callable.");
+            throw self::GetInvalidArgumentException($argument, "The argument must be callable.");
         }
 
         return true;
@@ -174,9 +166,8 @@ class Argument {
      */
     public static function IsObject($argument){
         if (! is_object($argument)) {
-            return self::ThrowInvalidArgumentException($argument, "The argument must be an object.");
+            throw self::GetInvalidArgumentException($argument, "The argument must be an object.");
         }
-
         return true;
     }
 
@@ -184,11 +175,10 @@ class Argument {
      * Throws an \InvalidArgumentException describing the argument and adding a helpful error message.
      * @param mixed $argument the arguments which are invalid
      * @param string $errorMessage the error message to attach
-     * @throws \InvalidArgumentException
-     * @return void
+     * @return \InvalidArgumentException
      */
-    public static function ThrowInvalidArgumentException($argument, $errorMessage) {
-        throw new InvalidArgumentException(
+    public static function GetInvalidArgumentException($argument, $errorMessage) {
+        return new InvalidArgumentException(
             sprintf(
                 "Unexpected argument %s. %s",
                 self::GetArgumentStringRepresentation($argument),

@@ -45,10 +45,10 @@ class LogMessageListenerTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Log\LogMessageListener::__construct
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testConstructorThrowsArgumentException() {
-        $listener = new LogMessageListener($this->getLoggerStub(), "wrongType");
+        new LogMessageListener($this->getLoggerStub(), "wrongType");
     }
 
     /**
@@ -94,7 +94,7 @@ class LogMessageListenerTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * Returns a logger stub.
-     * @return \Brickoo\Component\Log\LogMessageListener
+     * @return \Brickoo\Component\Log\Logger
      */
     private function getLoggerStub() {
         return $this->getMockBuilder("\\Brickoo\\Component\\Log\\Logger")

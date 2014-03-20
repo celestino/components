@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Log;
 
-use Brickoo\Component\Log\Logger,
-    Brickoo\Component\Network\Client,
+use Brickoo\Component\Network\Client,
     Brickoo\Component\Validation\Argument;
 
 /**
@@ -84,10 +83,9 @@ class SyslogLogger implements Logger {
     /**
      * Class constructor.
      * @param \Brickoo\Component\Network\Client $networkClient
-     * @param string $hostname the hostname of the maschine running
+     * @param string $hostname the hostname of the machine running
      * @param integer $facility the facility of the sending messages, default USER_0
      * @throws \InvalidArgumentException if an argument is not valid
-     * @return void
      */
     public function __construct(Client $networkClient, $hostname, $facility = self::FACILITY_USER_0) {
         Argument::IsString($hostname);

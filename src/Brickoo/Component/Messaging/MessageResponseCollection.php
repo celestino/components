@@ -46,11 +46,6 @@ class MessageResponseCollection implements Countable, IteratorAggregate {
     /** @var array */
     private $responsesContainer;
 
-    /**
-     * Class constructor.
-     * @param array $responsesContainer the listeners responses
-     * @return void
-     */
     public function __construct() {
         $this->responsesContainer = array();
     }

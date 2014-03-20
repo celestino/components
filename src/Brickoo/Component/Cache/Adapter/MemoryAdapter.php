@@ -35,7 +35,7 @@ use Brickoo\Component\Cache\Adapter,
 /**
  * MemoryAdapter
  *
- * Implements a memory cache apdater for handling runtime cache operations.
+ * Implements a memory cache adapter for handling runtime cache operations.
  * Currently the cached content does not expire.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
@@ -45,10 +45,6 @@ class MemoryAdapter implements Adapter {
     /** @var array */
     private $cacheValues;
 
-    /**
-     * Class constructor.
-     * @return void
-     */
     public function __construct() {
         $this->cacheValues = [];
     }

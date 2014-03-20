@@ -70,7 +70,7 @@ class SyslogLoggerTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Log\SyslogLogger::log
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testLogInvalidSeverityThrowsArgumentException() {
         $syslogLogger = new SyslogLogger($this->getNetworkClientStub(), "localhost", "someServer.com");

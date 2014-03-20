@@ -53,7 +53,7 @@ class ContainsCharactersTypeConstraintTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Validation\Constraint\ContainsCharactersTypeConstraint::__construct
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testContructorTypeThrowsInvalidArgumentException() {
         new ContainsCharactersTypeConstraint("cTypeDoesNotExist");
@@ -79,7 +79,7 @@ class ContainsCharactersTypeConstraintTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Validation\Constraint\ContainsCharactersTypeConstraint::matches
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testAssertionThrowsInvalidArgumentException() {
         $ContainsCharactersTypeConstraint = new ContainsCharactersTypeConstraint("alpha");

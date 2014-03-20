@@ -34,7 +34,7 @@ use Brickoo\Component\Http\Exception;
 /**
  * InvalidHttpMethodException
  *
- * Exception throwed if the http method is not valid.
+ * Exception thrown if the http method is not valid.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -45,7 +45,6 @@ class InvalidHttpMethodException extends Exception {
      * Calls the parent Exception constructor.
      * @param string $method the invalid method
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($method, \Exception $previousException = null) {
         parent::__construct(sprintf("The http method `%s` is not valid.", $method), 0, $previousException);

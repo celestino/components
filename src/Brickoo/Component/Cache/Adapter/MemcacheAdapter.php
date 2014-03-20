@@ -44,7 +44,7 @@ class MemcacheAdapter implements Adapter {
     /** @var \Memcache */
     private $memcache;
 
-    /** @var MEMCACHE_COMRESSED|false */
+    /** @var integer */
     private $cacheCompression;
 
     /**
@@ -52,7 +52,6 @@ class MemcacheAdapter implements Adapter {
      * @param \Memcache $memcache the Memcache dependency to inject
      * @param boolean $useCompression the compression control flag
      * @throws \InvalidArgumentException if an argument is not valid
-     * @return void
      */
     public function __construct(\Memcache $memcache, $useCompression = false) {
         $this->memcache = $memcache;

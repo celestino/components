@@ -30,6 +30,7 @@
 namespace Brickoo\Tests\Component\Cache;
 
 use Brickoo\Component\Cache\CacheProxy,
+    Brickoo\Component\Cache\Adapter,
     PHPUnit_Framework_TestCase;
 
 /**
@@ -71,7 +72,7 @@ class CacheProxyTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Cache\CacheProxy::getByCallback
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testGetByCallbackIdentifierThrowsInvalidArgumentException() {
         $cacheProxy = new CacheProxy($this->getAdapterPoolIteratorStub());
@@ -80,7 +81,7 @@ class CacheProxyTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Cache\CacheProxy::getByCallback
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testGetByCallbackLifetimeThrowsInvalidArgumentException() {
         $cacheProxy = new CacheProxy($this->getAdapterPoolIteratorStub());
@@ -111,16 +112,16 @@ class CacheProxyTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Cache\CacheProxy::getAdapter
      * @covers Brickoo\Component\Cache\CacheProxy::getReadyAdapter
      * @covers Brickoo\Component\Cache\Exception\AdapterNotFoundException
-     * @expectedException Brickoo\Component\Cache\Exception\AdapterNotFoundException
+     * @expectedException \Brickoo\Component\Cache\Exception\AdapterNotFoundException
      */
-    public function testGetContentWithoutAReadyAdapterThrowsExeption() {
+    public function testGetContentWithoutAReadyAdapterThrowsException() {
         $cacheProxy = new CacheProxy($this->getAdapterPoolIteratorStub());
         $cacheProxy->get("some_identifier");
     }
 
     /**
      * @covers Brickoo\Component\Cache\CacheProxy::get
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testGetWithInvalidIdentifierThrowsArgumentException() {
         $cacheProxy = new CacheProxy($this->getAdapterPoolIteratorStub());
@@ -148,7 +149,7 @@ class CacheProxyTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Cache\CacheProxy::set
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testSetWithInvalidIdentifierThrowsArgumentException() {
         $cacheProxy = new CacheProxy($this->getAdapterPoolIteratorStub());
@@ -157,7 +158,7 @@ class CacheProxyTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Cache\CacheProxy::set
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testSetLifetimeThrowsArgumentException() {
         $cacheProxy = new CacheProxy($this->getAdapterPoolIteratorStub());
@@ -177,7 +178,7 @@ class CacheProxyTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Cache\CacheProxy::delete
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testDeleteIdentifierThrowsArgumentException() {
         $cacheProxy = new CacheProxy($this->getAdapterPoolIteratorStub());
@@ -195,6 +196,7 @@ class CacheProxyTest extends PHPUnit_Framework_TestCase {
 
     /**
      * Returns an AdapterPoolIterator stub.
+     * @param array $adaptersPool
      * @return \Brickoo\Component\Cache\AdapterPoolIterator
      */
     private function getAdapterPoolIteratorStub(array $adaptersPool = []) {
@@ -206,10 +208,10 @@ class CacheProxyTest extends PHPUnit_Framework_TestCase {
     /**
      * Returns a pre-configured AdapterPoolIterator stub object.
      * @param \Brickoo\Component\Cache\Adapter $adapter
-     * @param string $poolEntryKey the pool entry key
+     * @param integer $poolEntryKey the pool entry key
      * @return \Brickoo\Component\Cache\AdapterPoolIterator
      */
-    private function buildAdapterPoolIteratorStub(\Brickoo\Component\Cache\Adapter $adapter, $poolEntryKey = 0) {
+    private function buildAdapterPoolIteratorStub(Adapter $adapter, $poolEntryKey = 0) {
         $adapterPoolIterator = $this->getAdapterPoolIteratorStub([$poolEntryKey => $adapter]);
         $adapterPoolIterator->expects($this->any())
                             ->method("isEmpty")

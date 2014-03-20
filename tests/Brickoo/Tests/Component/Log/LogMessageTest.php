@@ -47,7 +47,7 @@ class LogMessageTest extends \PHPUnit_Framework_TestCase {
      * @expectedException \InvalidArgumentException
      */
     public function testConstructorInvalidSeverityThrowsException() {
-        $logMessage = new LogMessage([], "wrongType");
+        new LogMessage([], "wrongType");
     }
 
     /**

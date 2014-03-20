@@ -48,7 +48,6 @@ class RegexConstraint implements Constraint {
      * Class constructor.
      * @param string $regularExpression the regular expression to match
      * @throws \InvalidArgumentException if an argument is not valid
-     * @return void
      */
     public function __construct($regularExpression) {
         Argument::IsString($regularExpression);

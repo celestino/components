@@ -39,7 +39,7 @@ namespace Brickoo\Component\Cache;
 Interface Adapter {
 
     /**
-     * Returns the cached content from the matching dentifier.
+     * Returns the cached content from the matching identifier.
      * @param string $identifier the identifier to retrieve the content from
      * @throws \InvalidArgumentException if an argument is not valid
      * @return mixed the cached content or boolean false on failure
@@ -47,8 +47,8 @@ Interface Adapter {
     public function get($identifier);
 
     /**
-     * Sets the content holded by the given identifier.
-     * If the identifer already exists the content will be replaced.
+     * Sets the content hold by the given identifier.
+     * If the identifier already exists the content will be replaced.
      * @param string $identifier the identifier which should hold the content
      * @param mixed $content the content which should be cached
      * @param integer $lifetime the lifetime of the cached content in seconds
@@ -58,15 +58,15 @@ Interface Adapter {
     public function set($identifier, $content, $lifetime);
 
     /**
-     * Deletes the cached content holded by the identifier.
-     * @param string $identifier the content identifer to remove
+     * Deletes the cached content hold by the identifier.
+     * @param string $identifier the content identifier to remove
      * @throws \InvalidArgumentException if an argument is not valid
      * @return \Brickoo\Component\Cache\Adapter
      */
     public function delete($identifier);
 
     /**
-     * Flushes the cached values by removing (or flag as removed) any content holded.
+     * Flushes the cached values by removing (or flag as removed) any content hold.
      * @return \Brickoo\Component\Cache\Adapter
      */
     public function flush();

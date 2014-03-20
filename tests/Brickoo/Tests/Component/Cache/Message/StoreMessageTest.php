@@ -29,8 +29,7 @@
 
 namespace Brickoo\Tests\Component\Cache\Message;
 
-use Brickoo\Component\Cache\Messages,
-    Brickoo\Component\Cache\Message\StoreMessage,
+use Brickoo\Component\Cache\Message\StoreMessage,
     PHPUnit_Framework_TestCase;
 
 /**
@@ -57,15 +56,15 @@ class StoreMessageTest extends PHPUnit_Framework_TestCase {
      * @expectedException \InvalidArgumentException
      */
     public function testConstructorThrowsExceptionForInvalidIdentifierArgument() {
-        $message = new StoreMessage(["wrongType"], "content", 60);
+        new StoreMessage(["wrongType"], "content", 60);
     }
 
     /**
      * @covers Brickoo\Component\Cache\Message\StoreMessage::__construct
      * @expectedException \InvalidArgumentException
      */
-    public function testConstructorThrowsExceptionForInvalidlifetimeArgument() {
-        $message = new StoreMessage("identifier", "content", ["wrongType"]);
+    public function testConstructorThrowsExceptionForInvalidLifetimeArgument() {
+        new StoreMessage("identifier", "content", ["wrongType"]);
     }
 
 }

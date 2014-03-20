@@ -29,13 +29,13 @@
 
 namespace Brickoo\Component\Http;
 
-use Brickoo\Component\Http\Exception\StatusCodeUnkownException,
+use Brickoo\Component\Http\Exception\StatusCodeUnknownException,
     Brickoo\Component\Validation\Argument;
 
 /**
  * HttpStatusCode
  *
- * Implementes the http status codes and phrases.
+ * Implements the http status codes and phrases.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -140,20 +140,21 @@ class HttpStatusCode {
     /**
      * Returns the phrase for the status code.
      * @param integer $statusCode
-     * @throws \Brickoo\Component\Http\Exception\StatusCodeUnkownException
+     * @throws \Brickoo\Component\Http\Exception\StatusCodeUnknownException
      * @return string the status code phrase
      */
     public function getPhrase($statusCode) {
         Argument::IsInteger($statusCode);
 
         if (! $this->hasPhrase($statusCode)) {
-            throw new StatusCodeUnkownException($statusCode);
+            throw new StatusCodeUnknownException($statusCode);
         }
         return $this->statusPhrases[$statusCode];
     }
 
     /**
      * Checks if the status code has a phrase.
+     * @param integer $statusCode
      * @return boolean check result
      */
     public function hasPhrase($statusCode) {

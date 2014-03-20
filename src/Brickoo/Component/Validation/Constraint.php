@@ -32,7 +32,7 @@ namespace Brickoo\Component\Validation;
 /**
  * Constraint
  *
- * Describes an contraint for validation purposes.
+ * Describes an constraint for validation purposes.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 

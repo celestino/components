@@ -52,7 +52,7 @@ class UriQuery extends Container {
 
     /**
      * Imports the query parameters from the extracted key/value pairs.
-     * @param strin $query the query to extract the pairs from
+     * @param string $query the query to extract the pairs from
      * @throws \InvalidArgumentException if the argument is not valid
      * @return \Brickoo\Component\Http\UriQuery
      */

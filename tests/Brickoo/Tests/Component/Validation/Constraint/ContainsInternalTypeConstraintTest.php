@@ -74,7 +74,7 @@ class ContainsInternalTypeConstraintTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Validation\Constraint\ContainsInternalTypeConstraint::matches
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testAssertionThrowsInvalidArgumentException() {
         $ContainsInternalTypeConstraint = new ContainsInternalTypeConstraint("string");

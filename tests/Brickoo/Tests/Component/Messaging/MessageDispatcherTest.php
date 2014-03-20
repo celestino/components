@@ -29,8 +29,7 @@
 
 namespace Brickoo\Tests\Component\Messaging;
 
-use Brickoo\Component\Messaging\Message,
-    Brickoo\Component\Messaging\MessageDispatcher,
+use Brickoo\Component\Messaging\MessageDispatcher,
     PHPUnit_Framework_TestCase;
 
 /**
@@ -102,7 +101,7 @@ class MessageDispatcherTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Messaging\MessageDispatcher::detach
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testDetachListenerIdentifierThrowsArgumentException() {
         $messageDispatcher = new MessageDispatcher(
@@ -125,7 +124,7 @@ class MessageDispatcherTest extends PHPUnit_Framework_TestCase {
                 ->will($this->returnValue($messageName));
         $message->expects($this->any())
                 ->method("getResponse")
-                ->will($this->returnValue($this->getMesageResponseStub()));
+                ->will($this->returnValue($this->getMessageResponseStub()));
 
         $messageDispatcher = $this->getMessageDispatcherFixture($messageName);
         $this->assertSame($messageDispatcher, $messageDispatcher->dispatch($message));
@@ -141,7 +140,7 @@ class MessageDispatcherTest extends PHPUnit_Framework_TestCase {
               ->will($this->returnValue($messageName));
         $message->expects($this->any())
                 ->method("getResponse")
-                ->will($this->returnValue($this->getMesageResponseStub()));
+                ->will($this->returnValue($this->getMessageResponseStub()));
 
         $listenerCollection = $this->getListenerCollectionStub();
         $listenerCollection->expects($this->once())
@@ -172,7 +171,7 @@ class MessageDispatcherTest extends PHPUnit_Framework_TestCase {
                 ->will($this->returnValue(true));
         $message->expects($this->any())
                 ->method("getResponse")
-                ->will($this->returnValue($this->getMesageResponseStub()));
+                ->will($this->returnValue($this->getMessageResponseStub()));
 
         $listenerCollection = $this->getListenerCollectionStub();
 
@@ -206,7 +205,7 @@ class MessageDispatcherTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Messaging\MessageDispatcher::dispatch
      * @covers Brickoo\Component\Messaging\MessageDispatcher::processMessage
      * @covers Brickoo\Component\Messaging\Exception\MaxRecursionDepthReachedException
-     * @expectedException Brickoo\Component\Messaging\Exception\MaxRecursionDepthReachedException
+     * @expectedException \Brickoo\Component\Messaging\Exception\MaxRecursionDepthReachedException
      */
     public function testProcessRecursionDepthLimitIsDetected() {
         $messageName = "test.message.manager.infinite.loop";
@@ -217,7 +216,7 @@ class MessageDispatcherTest extends PHPUnit_Framework_TestCase {
               ->will($this->returnValue($messageName));
         $message->expects($this->any())
                 ->method("getResponse")
-                ->will($this->returnValue($this->getMesageResponseStub()));
+                ->will($this->returnValue($this->getMessageResponseStub()));
 
         $messageRecursionDepthList = $this->getMessageRecursionDepthListStub();
         $messageRecursionDepthList->expects($this->once())
@@ -311,10 +310,10 @@ class MessageDispatcherTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Returns a messahe response collection stub.
+     * Returns a message response collection stub.
      * @return \Brickoo\Component\Messaging\MessageResponseCollection
      */
-    private function getMesageResponseStub() {
+    private function getMessageResponseStub() {
         return $this->getMock("\\Brickoo\Component\Messaging\\MessageResponseCollection");
     }
 

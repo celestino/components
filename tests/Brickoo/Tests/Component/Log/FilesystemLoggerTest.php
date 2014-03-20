@@ -47,7 +47,7 @@ class FilesystemLoggerTest extends PHPUnit_Framework_TestCase {
      * @expectedException \InvalidArgumentException
      */
     public function testConstructorInvalidDirectoryTypeThrowsException() {
-        $filesystemLogger = new FilesystemLogger($this->getFileStub(), ["wrongType"]);
+        new FilesystemLogger($this->getFileStub(), ["wrongType"]);
     }
 
     /**
@@ -80,9 +80,9 @@ class FilesystemLoggerTest extends PHPUnit_Framework_TestCase {
 
     /**
     * @covers \Brickoo\Component\Log\FilesystemLogger::log
-    * @expectedException InvalidArgumentException
+    * @expectedException \InvalidArgumentException
     */
-    public function testLogInvalidSefverityThrowsException() {
+    public function testLogInvalidSeverityThrowsException() {
         $filesystemLogger = new FilesystemLogger($this->getFileStub(), "/var/log/");
         $filesystemLogger->log("message", "wrongType");
     }

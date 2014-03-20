@@ -34,7 +34,7 @@ use Brickoo\Component\Autoloader\Exception;
 /**
  * FileDoesNotExistException
  *
- * Exception throwed by the Autoloader class if trying to load a file which does not exist.
+ * Exception thrown by the Autoloader class if trying to load a file which does not exist.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -43,12 +43,11 @@ class FileDoesNotExistException extends Exception {
     /**
      * Class constructor.
      * Calls the parent exception constructor.
-     * @param string $filepath the filepath which does not exists
+     * @param string $filePath the file path which does not exists
      * @param \Exception $previousException
-     * @return void
      */
-    public function __construct($filepath, \Exception $previousException = null) {
-        parent::__construct(sprintf("File does not exists `%s`.", $filepath), 0 , $previousException);
+    public function __construct($filePath, \Exception $previousException = null) {
+        parent::__construct(sprintf("File does not exists `%s`.", $filePath), 0 , $previousException);
     }
 
 }

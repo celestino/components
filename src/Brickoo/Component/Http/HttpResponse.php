@@ -29,10 +29,6 @@
 
 namespace Brickoo\Component\Http;
 
-use Brickoo\Component\Http\HttpMessage,
-    Brickoo\Component\Http\HttpStatus,
-    Brickoo\Component\Http\HttpVersion;
-
 /**
  * HttpResponse
  *
@@ -56,7 +52,6 @@ class HttpResponse {
      * @param \Brickoo\Component\Http\HttpVersion
      * @param \Brickoo\Component\Http\HttpStatus $status
      * @param \Brickoo\Component\Http\HttpMessage $message
-     * @return void
      */
     public function __construct(HttpVersion $version, HttpStatus $status, HttpMessage $message) {
         $this->version = $version;
@@ -66,7 +61,7 @@ class HttpResponse {
 
     /**
      * Returns the response status number.
-     * @return integer the response status number
+     * @return \Brickoo\Component\Http\HttpStatus
      */
     public function getStatus() {
         return $this->status;

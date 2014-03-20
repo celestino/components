@@ -103,7 +103,7 @@ class HttpRequestUriResolverTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\Resolver\HttpRequestUriResolver::getPath
      * @covers Brickoo\Component\Http\Resolver\HttpRequestUriResolver::getIISRequestUri
      */
-    public function testGetPathWithourProviders() {
+    public function testGetPathWithoutProviders() {
         $uriResolver = new HttpRequestUriResolver($this->getMessageHeaderStub(), array());
         $this->assertEquals("/", $uriResolver->getPath());
     }
@@ -193,7 +193,7 @@ class HttpRequestUriResolverTest extends PHPUnit_Framework_TestCase {
     /**
      * Returns a message header mock.
      * @param string $headerName
-     * @param \Brickoo\Component\Http\Header $headerStub
+     * @param \Brickoo\Component\Http\HttpHeader $headerStub
      * @return \Brickoo\Component\Http\MessageHeader
      */
     private function getMessageHeaderMock($headerName, $headerStub) {
@@ -214,7 +214,7 @@ class HttpRequestUriResolverTest extends PHPUnit_Framework_TestCase {
     /**
      * Returns a http header stub.
      * @param string $headerValue
-     * @return \Brickoo\Component\Http\Header
+     * @return \Brickoo\Component\Http\HttpHeader
      */
     private function getHeaderStub($headerValue) {
         $header = $this->getMockBuilder("\\Brickoo\\Component\\Http\\HttpHeader")

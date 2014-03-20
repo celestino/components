@@ -1,1 +1,1 @@
-<?php throw new \Exception("Test case exception."); ?>
+<?php throw new \Exception("Test case exception.");

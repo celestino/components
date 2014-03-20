@@ -56,7 +56,6 @@ class MessageRouteCollector implements RouteCollector {
     /**
      * Class constructor.
      * @param \Brickoo\Component\Messaging\MessageDispatcher $messageDispatcher
-     * @return void
      */
     public function __construct(MessageDispatcher $messageDispatcher) {
         $this->messageDispatcher = $messageDispatcher;

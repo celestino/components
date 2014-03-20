@@ -30,6 +30,7 @@
 namespace Brickoo\Tests\Component\Validation;
 
 use Brickoo\Component\Validation\Argument,
+    Brickoo\Component\Memory\Container,
     PHPUnit_Framework_TestCase;
 
 /**
@@ -49,7 +50,7 @@ class ArgumentTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Validation\Argument::IsString
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testIsStringThrowsInvalidArgumentException() {
         Argument::IsString(new \stdClass());
@@ -63,7 +64,7 @@ class ArgumentTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Validation\Argument::IsInteger
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testIsIntegerThrowsInvalidArgumentException() {
         Argument::IsInteger(new \stdClass());
@@ -77,7 +78,7 @@ class ArgumentTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Validation\Argument::IsStringOrInteger
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testIsStringOrIntegerThrowsInvalidArgumentException() {
         Argument::IsStringOrInteger(array("wrongType"));
@@ -91,7 +92,7 @@ class ArgumentTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Validation\Argument::IsBoolean
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testIsBooleanThrowsInvalidArgumentException() {
         Argument::IsBoolean(null);
@@ -104,7 +105,7 @@ class ArgumentTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Validation\Argument::IsFloat
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testIsFloatThrowsInvalidArgumentException() {
         Argument::IsFloat(1);
@@ -120,7 +121,7 @@ class ArgumentTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Validation\Argument::IsNotEmpty
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testIsNotEmptyThrowsInvalidArgumentException() {
         Argument::IsNotEmpty(false);
@@ -133,7 +134,7 @@ class ArgumentTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Validation\Argument::IsFunctionAvailable
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testIsFunctionAvailableThrowsArgumentException() {
         Argument::IsFunctionAvailable("doesNotExists". time());
@@ -142,12 +143,12 @@ class ArgumentTest extends PHPUnit_Framework_TestCase {
     /** @covers Brickoo\Component\Validation\Argument::IsTraversable */
     public function testIsTraversable() {
         $this->assertTrue(Argument::IsTraversable(array()));
-        $this->assertTrue(Argument::IsTraversable(new \Brickoo\Component\Memory\Container()));
+        $this->assertTrue(Argument::IsTraversable(new Container()));
     }
 
     /**
      * @covers Brickoo\Component\Validation\Argument::IsTraversable
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testIsTraversableThrowsArgumentException() {
         Argument::IsTraversable("wrongType");
@@ -160,7 +161,7 @@ class ArgumentTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Validation\Argument::IsCallable
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testIsCallableThrowsArgumentException() {
         Argument::IsCallable("iAmNotCallable");
@@ -173,25 +174,25 @@ class ArgumentTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Validation\Argument::IsObject
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testIsObjectThrowsArgumentException() {
         Argument::IsObject(array("wrongType"));
     }
 
     /**
-     * @covers Brickoo\Component\Validation\Argument::ThrowInvalidArgumentException
+     * @covers Brickoo\Component\Validation\Argument::GetInvalidArgumentException
      * @covers Brickoo\Component\Validation\Argument::GetArgumentStringRepresentation
      */
     public function testThrowingAnDefaultInvalidArgumentException() {
         $argument = "test";
         $errorMessage = "Testing throwing an exception";
         $this->setExpectedException("InvalidArgumentException", "Unexpected argument [string] 'test");
-        Argument::ThrowInvalidArgumentException($argument, $errorMessage);
+        throw Argument::GetInvalidArgumentException($argument, $errorMessage);
     }
 
     /**
-     * @covers Brickoo\Component\Validation\Argument::ThrowInvalidArgumentException
+     * @covers Brickoo\Component\Validation\Argument::GetInvalidArgumentException
      * @covers Brickoo\Component\Validation\Argument::GetArgumentStringRepresentation
      */
     public function testThrowingAnObjectInvalidArgumentException() {
@@ -202,7 +203,7 @@ class ArgumentTest extends PHPUnit_Framework_TestCase {
             "InvalidArgumentException",
             sprintf("Unexpected argument [object #%s] stdClass", spl_object_hash($argument))
         );
-        Argument::ThrowInvalidArgumentException($argument, $errorMessage);
+        throw Argument::GetInvalidArgumentException($argument, $errorMessage);
     }
 
 }

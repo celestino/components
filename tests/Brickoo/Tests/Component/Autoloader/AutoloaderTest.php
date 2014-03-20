@@ -61,7 +61,7 @@ class AutoloaderTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Autoloader\Autoloader::register
      * @covers Brickoo\Component\Autoloader\Exception\DuplicateAutoloaderRegistrationException
-     * @expectedException Brickoo\Component\Autoloader\Exception\DuplicateAutoloaderRegistrationException
+     * @expectedException \Brickoo\Component\Autoloader\Exception\DuplicateAutoloaderRegistrationException
      */
     public function testRegistrationThrowsDuplicateAutoloaderRegistrationException() {
         $autoloader = new AutoloaderConcrete();
@@ -88,9 +88,9 @@ class AutoloaderTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Autoloader\Autoloader::unregister
      * @covers Brickoo\Component\Autoloader\Exception\AutoloaderNotRegisteredException
-     * @expectedException Brickoo\Component\Autoloader\Exception\AutoloaderNotRegisteredException
+     * @expectedException \Brickoo\Component\Autoloader\Exception\AutoloaderNotRegisteredException
      */
-    public function testUnregisterThrowsAutoloaderNotRegisteredExeption() {
+    public function testUnregisterThrowsAutoloaderNotRegisteredException() {
         $autoloader = new AutoloaderConcrete();
         try {
             $autoloader->unregister();

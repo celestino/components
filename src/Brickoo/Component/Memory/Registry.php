@@ -40,7 +40,7 @@ use Brickoo\Component\Memory\Exception\DuplicateRegistrationException,
  *
  * Registrations are stored as key value pairs.
  * Provides getter and setter for accessing the registrations.
- * Provides lock functionality for each identifer and an read only mode for all identifiers.
+ * Provides lock functionality for each identifier and an read only mode for all identifiers.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -55,8 +55,7 @@ class Registry extends Locker {
     /**
      * Class constructor.
      * @param array $registrations the registrations to add
-     * @param string $readOnly initialize mode for the registry
-     * @return void
+     * @param boolean $readOnly initialize mode for the registry
      */
     public function __construct(array $registrations = [], $readOnly = false) {
         parent::__construct();
@@ -103,11 +102,11 @@ class Registry extends Locker {
     }
 
     /**
-     * Register an identifer-value pair.
+     * Register an identifier-value pair.
      * Take care of registering objects who are assigned somewhere else
-     * as an reference the changes applys to the registerd objects as well.
+     * as an reference the changes applies to the registered objects as well.
      * @param string|integer $identifier the identifier to register
-     * @param mixed $value the identifier value to reguister with
+     * @param mixed $value the identifier value to register with
      * @throws \Brickoo\Component\Memory\Exception\DuplicateRegistrationException
      * @throws \Brickoo\Component\Memory\Exception\ReadonlyModeException
      * @return \Brickoo\Component\Memory\Registry
@@ -129,7 +128,7 @@ class Registry extends Locker {
 
     /**
      * Overrides an existing identifier with the new value (!).
-     * If the identifer ist not registered it will be registered.
+     * If the identifier ist not registered it will be registered.
      * @param string|integer $identifier the identifier to register
      * @param mixed $value the identifier value to register
      * @throws \Brickoo\Component\Memory\Exception\ReadonlyModeException
@@ -152,7 +151,7 @@ class Registry extends Locker {
     }
 
     /**
-     * Unregister the indentifier and his value.
+     * Unregister the identifier and his value.
      * @param string|integer $identifier the identifier to unregister
      * @throws \Brickoo\Component\Memory\Exception\ReadonlyModeException
      * @throws \Brickoo\Component\Memory\Exception\IdentifierLockedException

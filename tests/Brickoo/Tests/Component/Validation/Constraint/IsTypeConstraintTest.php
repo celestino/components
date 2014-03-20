@@ -43,7 +43,7 @@ class IsTypeConstraintTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Validation\Constraint\IsTypeConstraint::__construct
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testConstructorThrowsInvalidArgumentException() {
         new IsTypeConstraint(["wrongType"]);
@@ -51,7 +51,7 @@ class IsTypeConstraintTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Validation\Constraint\IsTypeConstraint::__construct
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testConstructorInvalidFunctionThrowsException() {
         new IsTypeConstraint("notExists");

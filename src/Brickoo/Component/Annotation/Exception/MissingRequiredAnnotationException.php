@@ -34,7 +34,7 @@ use Brickoo\Component\Annotation\Exception;
 /**
  * MissingRequiredAnnotationException
  *
- * Exception throwed if a required annotation is missed.
+ * Exception thrown if a required annotation is missed.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 class MissingRequiredAnnotationException extends Exception {
@@ -44,7 +44,6 @@ class MissingRequiredAnnotationException extends Exception {
      * Calls the parent exception constructor.
      * @param string $annotationName
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($annotationName, \Exception $previousException = null) {
         parent::__construct(sprintf("Annotation `%s` missed.", $annotationName), 0 , $previousException);

@@ -29,10 +29,7 @@
 
 namespace Brickoo\Component\Annotation;
 
-use Brickoo\Component\Annotation\AnnotationParser,
-    Brickoo\Component\Annotation\AnnotationReaderResult,
-    Brickoo\Component\Annotation\AnnotationTarget,
-    Brickoo\Component\Annotation\Definition,
+use Brickoo\Component\Annotation\Definition,
     Brickoo\Component\Annotation\Definition\TargetDefinition,
     ReflectionClass;
 
@@ -56,10 +53,9 @@ class AnnotationReflectionClassReader {
     }
 
     /**
-     * Returns the readed annotations.
+     * Returns the read annotations.
      * @param \Brickoo\Component\Annotation\Definition $definition
      * @param \ReflectionClass $reflectionClass
-     * @param \Brickoo\Component\Annotation\ReaderResultValidator $resultValidator
      * @return \Brickoo\Component\Annotation\AnnotationReaderResult
      */
     public function getAnnotations(Definition $definition, ReflectionClass $reflectionClass) {
@@ -71,11 +67,11 @@ class AnnotationReflectionClassReader {
     }
 
     /**
-     * Adds readed class annotations to result collection
+     * Adds read class annotations to result collection
      * @param \Brickoo\Component\Annotation\AnnotationReaderResult $result
      * @param \Brickoo\Component\Annotation\Definition $definition
      * @param ReflectionClass $class
-     * @return \Brickoo\Component\Annotation\AnnotationReflectionReader
+     * @return \Brickoo\Component\Annotation\AnnotationReflectionClassReader
      */
     private function addClassAnnotations(AnnotationReaderResult $result, Definition $definition, ReflectionClass $class) {
         $this->annotationParser->setAnnotationWhitelist($this->getAnnotationsNames(
@@ -89,11 +85,11 @@ class AnnotationReflectionClassReader {
     }
 
     /**
-     * Adds readed methods anmnotations to result collection.
+     * Adds read methods annotations to result collection.
      * @param \Brickoo\Component\Annotation\AnnotationReaderResult $result
      * @param \Brickoo\Component\Annotation\Definition $definition
      * @param ReflectionClass $class
-     * @return \Brickoo\Component\Annotation\AnnotationReflectionReader
+     * @return \Brickoo\Component\Annotation\AnnotationReflectionClassReader
      */
     private function addMethodsAnnotations(AnnotationReaderResult $result, Definition $definition, ReflectionClass $class) {
         $this->annotationParser->setAnnotationWhitelist($this->getAnnotationsNames(
@@ -110,11 +106,11 @@ class AnnotationReflectionClassReader {
     }
 
     /**
-     * Adds readed properties annotations to result collection.
+     * Adds read properties annotations to result collection.
      * @param \Brickoo\Component\Annotation\AnnotationReaderResult $result
      * @param \Brickoo\Component\Annotation\Definition $definition
      * @param ReflectionClass $class
-     * @return \Brickoo\Component\Annotation\AnnotationReflectionReader
+     * @return \Brickoo\Component\Annotation\AnnotationReflectionClassReader
      */
     private function addPropertiesAnnotations(AnnotationReaderResult $result, Definition $definition, ReflectionClass $class) {
         $this->annotationParser->setAnnotationWhitelist($this->getAnnotationsNames(
@@ -132,6 +128,7 @@ class AnnotationReflectionClassReader {
 
     /**
      * Returns the annotations names.
+     * @param \ArrayIterator $definitionCollections
      * @return array the annotations names
      */
     private function getAnnotationsNames(\ArrayIterator $definitionCollections) {

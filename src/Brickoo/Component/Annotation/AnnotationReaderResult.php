@@ -30,8 +30,6 @@
 namespace Brickoo\Component\Annotation;
 
 use ArrayIterator,
-    Brickoo\Component\Annotation\AnnotationCollection,
-    Brickoo\Component\Annotation\AnnotationTargetTypes,
     Brickoo\Component\Annotation\Exception\InvalidTargetTypeException,
     Brickoo\Component\Validation\Argument,
     IteratorAggregate;

@@ -30,7 +30,6 @@
 namespace Brickoo\Component\Annotation;
 
 use ArrayIterator,
-    Brickoo\Component\Annotation\DefinitionCollection,
     Brickoo\Component\Validation\Argument,
     IteratorAggregate;
 

@@ -29,9 +29,6 @@
 
 namespace Brickoo\Component\Http;
 
-use Brickoo\Component\Http\MessageBody,
-    Brickoo\Component\Http\MessageHeader;
-
 /**
  * HttpMessage
  *
@@ -51,7 +48,6 @@ class HttpMessage {
      * Class constructor.
      * @param \Brickoo\Component\Http\MessageHeader $messageHeader
      * @param \Brickoo\Component\Http\MessageBody $messageBody
-     * @return void
      */
     public function __construct(MessageHeader $messageHeader, MessageBody $messageBody) {
         $this->messageHeader = $messageHeader;

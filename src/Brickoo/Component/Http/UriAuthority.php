@@ -49,7 +49,6 @@ class UriAuthority {
      * Class constructor.
      * @param string $hostname
      * @param integer $portNumber
-     * @return void
      */
     public function __construct($hostname, $portNumber = 80) {
         Argument::IsString($hostname);

@@ -34,7 +34,7 @@ use Brickoo\Component\Routing\Exception;
 /**
  * ParameterNotAvailableException
  *
- * Exception throwed if trying to retrieve the value of a not available parameter.
+ * Exception thrown if trying to retrieve the value of a not available parameter.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -45,7 +45,6 @@ class ParameterNotAvailableException extends Exception {
      * Calls the parent Exception constructor.
      * @param string $name the parameter name used
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($name, \Exception $previousException = null) {
         parent::__construct(sprintf("The parameter `%s` is not available.", $name), 0, $previousException);

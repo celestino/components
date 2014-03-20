@@ -88,7 +88,7 @@ class ContainsKeysConstraintTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Validation\Constraint\ContainsKeysConstraint::matches
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testAssertionThrowsInvalidArgumentException() {
         $containsKeysConstraint = new ContainsKeysConstraint(array("key"));

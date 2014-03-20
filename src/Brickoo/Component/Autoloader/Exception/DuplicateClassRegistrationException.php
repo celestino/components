@@ -34,7 +34,7 @@ use Brickoo\Component\Autoloader\Exception;
 /**
  * DuplicateClassRegistrationException
  *
- * Exception throwed if trying to register a class again.
+ * Exception thrown if trying to register a class again.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -45,7 +45,6 @@ class DuplicateClassRegistrationException extends Exception {
      * Calls the parent Exception constructor.
      * @param string $className the class already registered
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($className, \Exception $previousException = null) {
         parent::__construct(sprintf("The class `%s` is already registered.", $className), 0, $previousException);

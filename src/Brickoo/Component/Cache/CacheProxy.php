@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Cache;
 
-use Brickoo\Component\Cache\AdapterPoolIterator,
-    Brickoo\Component\Cache\Exception\AdapterNotFoundException,
+use Brickoo\Component\Cache\Exception\AdapterNotFoundException,
     Brickoo\Component\Validation\Argument;
 
 /**
@@ -50,7 +49,6 @@ class CacheProxy {
     /**
      * Class constructor.
      * @param \Brickoo\Component\Cache\AdapterPoolIterator $adapterPoolIterator
-     * @return void
      */
     public function __construct(AdapterPoolIterator $adapterPoolIterator) {
         $this->adapter = null;

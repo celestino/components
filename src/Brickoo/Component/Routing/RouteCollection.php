@@ -57,7 +57,6 @@ class RouteCollection implements IteratorAggregate {
      * Class constructor.
      * @param string $name the collection (unique) name
      * @param string $path the routes common path
-     * @return void
      */
     public function __construct($name = "", $path = "") {
         Argument::IsString($name);
@@ -111,8 +110,8 @@ class RouteCollection implements IteratorAggregate {
     /**
      * Adds routes to the current collection.
      * @param array $routes values implementing \Brickoo\Component\Routing\Route\Interfaces\Route
-     * @throws \Brickoo\Component\Routing\Route\Exceptions\DuplicateRouteException if a route does already exist
-     * @return \Brickoo\Component\Routing\Interfaces\RouteCollection
+     * @throws \Brickoo\Component\Routing\Exception\DuplicateRouteException
+     * @return \Brickoo\Component\Routing\RouteCollection
      */
     public function addRoutes(array $routes) {
         foreach ($routes as $route) {
@@ -134,10 +133,10 @@ class RouteCollection implements IteratorAggregate {
 
     /**
      * Returns the route matching the unique name.
-     * @param string $name the route to return
+     * @param string $routeName the route to return
      * @throws \Brickoo\Component\Routing\Exception\RouteNotFoundException
-     * @throws \InvalidArgumentException if an argument is invalid
-     * @return \Bricko\Routing\Route\Interfaces\Route
+     * @throws \InvalidArgumentException
+     * @return \Brickoo\Component\Routing\Route
      */
     public function getRoute($routeName) {
         Argument::IsString($routeName);
@@ -151,7 +150,7 @@ class RouteCollection implements IteratorAggregate {
 
     /**
      * Checks if the route is in the collection.
-     * @param string $name the route to check
+     * @param string $routeName the route to check
      * @throws \InvalidArgumentException if an argument is invalid
      * @return boolean check result
      */

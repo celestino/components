@@ -29,8 +29,7 @@
 
 namespace Brickoo\Tests\Component\Cache\Message;
 
-use Brickoo\Component\Cache\Messages,
-    Brickoo\Component\Cache\Message\DeleteMessage,
+use Brickoo\Component\Cache\Message\DeleteMessage,
     PHPUnit_Framework_TestCase;
 
 /**
@@ -54,7 +53,7 @@ class DeleteMessageTest extends PHPUnit_Framework_TestCase {
      * @expectedException \InvalidArgumentException
      */
     public function testConstructorThrowsExceptionForInvalidArgument() {
-        $message = new DeleteMessage(["wrongType"]);
+        new DeleteMessage(["wrongType"]);
     }
 
 }

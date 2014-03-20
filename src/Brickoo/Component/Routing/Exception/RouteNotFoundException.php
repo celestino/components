@@ -34,7 +34,7 @@ use Brickoo\Component\Routing\Exception;
 /**
  * RouteNotFoundException
  *
- * Exception throwed if the route could not be found.
+ * Exception thrown if the route could not be found.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -45,10 +45,9 @@ class RouteNotFoundException extends Exception {
      * Calls the parent Exception constructor.
      * @param string $name the route which could not be found.
      * @param \Exception $previousException
-     * @return void
      */
-    public function __construct($name, \Excpetion $previousExcpetion = null) {
-        parent::__construct(sprintf("The route `%s` could not be found.", $name), 0, $previousExcpetion);
+    public function __construct($name, \Exception $previousException = null) {
+        parent::__construct(sprintf("The route `%s` could not be found.", $name), 0, $previousException);
     }
 
 }

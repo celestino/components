@@ -30,7 +30,6 @@
 namespace Brickoo\Component\Log;
 
 use Brickoo\Component\Filesystem\File,
-    Brickoo\Component\Log\Logger,
     Brickoo\Component\Validation\Argument;
 
 /**
@@ -55,7 +54,6 @@ class FilesystemLogger implements Logger {
     * Class constructor.
     * @param \Brickoo\Component\Filesystem\File $file
     * @param string $logsDirectory the directory to store the log messages
-    * @return void
     */
     public function __construct(File $file, $logsDirectory) {
         Argument::IsString($logsDirectory);

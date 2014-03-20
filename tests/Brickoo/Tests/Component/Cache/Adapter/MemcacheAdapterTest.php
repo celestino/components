@@ -74,7 +74,7 @@ class MemcacheAdapterTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Cache\Adapter\MemcacheAdapter::set
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testSetThrowsAnArgumentException() {
         $memcacheAdapter = new MemcacheAdapter($this->getMemcacheStub());
@@ -98,10 +98,10 @@ class MemcacheAdapterTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Cache\Adapter\MemcacheAdapter::get
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testGetThrowsAnArgumentException() {
-        $memcacheAdapter = new MemcacheAdapter($this->getMock("Memcache"));
+        $memcacheAdapter = new MemcacheAdapter($this->getMock("\\Memcache"));
         $memcacheAdapter->get(array("wrongType"));
     }
 
@@ -122,7 +122,7 @@ class MemcacheAdapterTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Cache\Adapter\MemcacheAdapter::delete
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testDeleteThrowsAnArgumentException() {
         $memcacheAdapter = new MemcacheAdapter($this->getMemcacheStub());
@@ -163,7 +163,7 @@ class MemcacheAdapterTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Cache\Adapter\MemcacheAdapter::__call
-     * @expectedException BadMethodCallException
+     * @expectedException \BadMethodCallException
      */
     public function testMagicCallThrowsABadMethodCallException() {
         $memcacheAdapter = new MemcacheAdapter($this->getMemcacheStub());

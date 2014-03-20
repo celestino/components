@@ -103,7 +103,7 @@ class ResponseSenderTest extends PHPUnit_Framework_TestCase {
                      ->will($this->returnValue($messageBody));
 
         $responseSender = new ResponseSender($headerFunction);
-        $this->assertNull($responseSender->send($httpResponse));
+        $responseSender->send($httpResponse);
         $this->expectOutputString("response content");
     }
 
@@ -111,7 +111,7 @@ class ResponseSenderTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\ResponseSender::send
      * @covers Brickoo\Component\Http\ResponseSender::checkStatusAllowsMessageBodyContent
      * @covers Brickoo\Component\Http\Exception\StatusCodeDoesNotAllowMessageBodyException
-     * @expectedException  Brickoo\Component\Http\Exception\StatusCodeDoesNotAllowMessageBodyException
+     * @expectedException \Brickoo\Component\Http\Exception\StatusCodeDoesNotAllowMessageBodyException
      */
     public function testStatusDoesContentNotAllowThrowsException() {
         $httpStatus = $this->getMockBuilder("\\Brickoo\\Component\\Http\\HttpStatus")

@@ -34,7 +34,7 @@ use Brickoo\Component\Http\Exception;
 /**
  * InvalidHttpStatusException
  *
- * Exception throwed if the http status is not valid or unknown.
+ * Exception thrown if the http status is not valid or unknown.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -45,7 +45,6 @@ class InvalidHttpStatusException extends Exception {
      * Calls the parent Exception constructor.
      * @param string $status the invalid status
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($status, \Exception $previousException = null) {
         parent::__construct(sprintf("The status `%s` is not valid.", $status), 0, $previousException);

@@ -34,7 +34,7 @@ use Brickoo\Component\Messaging\Exception;
 /**
  * MaxRecursionDepthReachedException
  *
- * Throwed if an infinite message loop is detected.
+ * thrown if an infinite message loop is detected.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -45,7 +45,6 @@ class MaxRecursionDepthReachedException extends Exception {
      * @param string $messageName the message which has an infinite loop
      * @param integer $recursionDepth the max recursion depth reached
      * @param \Exception $previousException
-     * @return void
      */
     public function __construct($messageName, $recursionDepth, \Exception $previousException = null) {
         parent::__construct(sprintf('The message `%s` reached a recursion depth of %d.', $messageName, $recursionDepth), 0, $previousException);

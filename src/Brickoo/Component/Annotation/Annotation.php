@@ -34,7 +34,7 @@ use Brickoo\Component\Validation\Argument;
 /**
  * Annotation
  *
- * Implementes an annotation containing the target, name and values.
+ * Implements an annotation containing the target, name and values.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 class Annotation  {
@@ -47,7 +47,7 @@ class Annotation  {
 
     /**
      * Class constructor.
-     * @param string $name the anntotation name
+     * @param string $name the annotation name
      * @param array $values the annotation values
      */
     public function __construct($name, array $values = []) {

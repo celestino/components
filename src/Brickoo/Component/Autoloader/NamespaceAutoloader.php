@@ -31,7 +31,6 @@ namespace Brickoo\Component\Autoloader;
 
 use Brickoo\Component\Autoloader\Exception\DirectoryDoesNotExistException,
     Brickoo\Component\Autoloader\Exception\DuplicateNamespaceRegistrationException,
-    Brickoo\Component\Autoloader\Exception\FileDoesNotExistException,
     Brickoo\Component\Autoloader\Exception\NamespaceNotRegisteredException;
 
 /**
@@ -53,7 +52,6 @@ class NamespaceAutoloader extends Autoloader {
      * @throws \InvalidArgumentException if an argument is not valid
      * @throws \Brickoo\Component\Autoloader\Exception\DirectoryDoesNotExistException
      * @throws \Brickoo\Component\Autoloader\Exception\DuplicateNamespaceRegistrationException
-     * @return void
      */
     public function __construct(array $namespaces = [], $prepend = true) {
         parent::__construct($prepend);
@@ -68,10 +66,10 @@ class NamespaceAutoloader extends Autoloader {
     /**
      * Register the namespace to the available namespaces.
      * @param string $namespace the namespace to register
-     * @param string $namespacePath the absolute path to the namespace
+     * @param string $includePath the absolute path to the namespace
+     * @throws Exception\DirectoryDoesNotExistException
+     * @throws Exception\DuplicateNamespaceRegistrationException
      * @throws \InvalidArgumentException if an argument is not valid
-     * @throws \Brickoo\Component\Autoloader\Exception\DirectoryDoesNotExistException
-     * @throws \Brickoo\Component\Autoloader\Exception\DuplicateNamespaceRegistrationException
      * @return \Brickoo\Component\Autoloader\NamespaceAutoloader
      */
     public function registerNamespace($namespace, $includePath) {
@@ -151,20 +149,20 @@ class NamespaceAutoloader extends Autoloader {
     }
 
     /**
-     * Returns the path for a namespaced class.
+     * Returns the path for a namespace class.
      * @param string $className
      * @return string the namespace based path otherwise null
      */
     private function getNamespaceClassPath($className) {
         $namespaceClassPath = null;
-        $choosedNamespace = null;
+        $chosenNamespace = null;
 
         foreach($this->namespaces as $namespace => $path) {
             if ((strpos($className, $namespace) === 0)
-                && (($choosedNamespace === null)
-                    || (strlen($choosedNamespace) < strlen($namespace)))
+                && (($chosenNamespace === null)
+                    || (strlen($chosenNamespace) < strlen($namespace)))
             ){
-                $choosedNamespace = $namespace;
+                $chosenNamespace = $namespace;
                 $namespaceClassPath = $path . $this->getTranslatedClassPath(substr($className, strlen($namespace)));
             }
         }

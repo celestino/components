@@ -29,9 +29,7 @@
 
 namespace Brickoo\Component\Http\Resolver;
 
-use Brickoo\Component\Autoloader\Exception\FileDoesNotExistException,
-    Brickoo\Component\Http\Header\GenericHeader,
-    Brickoo\Component\Http\Resolver\HeaderResolverPlugin,
+use Brickoo\Component\Http\Header\GenericHeader,
     Brickoo\Component\Http\Resolver\Exception\HeaderClassNotFoundException;
 
 /**
@@ -56,7 +54,6 @@ class HeaderResolver {
      * Class constructor.
      * @param array $headerMap a map array containing the header nam as key and target class as value
      * @param \Brickoo\Component\Http\Resolver\HeaderResolverPlugin $resolverPlugin
-     * @return void
      */
     public function __construct(array $headerMap, HeaderResolverPlugin $resolverPlugin) {
         $this->headerMap = $headerMap;
@@ -66,7 +63,7 @@ class HeaderResolver {
 
     /**
      * Returns a collection of http headers.
-     * @return array containing \Brickoo\Component\Http\HttpHeader values
+     * @return array<\Brickoo\Component\Http\HttpHeader>
      */
     public function getHeaders() {
         $this->loadHeaders();
@@ -116,7 +113,7 @@ class HeaderResolver {
      * @param string $headerClass
      * @param string $headerValue
      * @throws \Brickoo\Component\Http\Resolver\Exception\HeaderClassNotFoundException
-     * @return \Brickoo\Component\Http\Resolver\headerClass
+     * @return \Brickoo\Component\Http\Resolver\HeaderResolver
      */
     private function createMappingHeader($headerClass, $headerValue) {
         try {

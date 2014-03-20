@@ -35,7 +35,7 @@ use Brickoo\Component\Validation\Constraint,
 /**
  * TraversableContainsKeys
  *
- * Constrait to assert that an array or traversable contains expected keys.
+ * Constraint to assert that an array or traversable contains expected keys.
  * Does not have any effect if the traversable also contains other keys.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
@@ -48,8 +48,6 @@ class ContainsKeysConstraint implements Constraint {
     /**
      * Class constructor.
      * @param array $expectedKeys the expected keys
-     * @throws \InvalidArgumentException if an argument is not valid.
-     * @return void
      */
     public function __construct(array $expectedKeys) {
         $this->expectedKeys = $expectedKeys;
@@ -58,7 +56,7 @@ class ContainsKeysConstraint implements Constraint {
 
     /**
      * {@inheritDoc}
-     * @param array|Traversable $traversable
+     * @param array|\Traversable $traversable
      */
     public function matches($traversable) {
         Argument::IsTraversable($traversable);
@@ -69,7 +67,7 @@ class ContainsKeysConstraint implements Constraint {
 
     /**
      * Returns the traversable contained keys as values.
-     * @param array|Traversable $traversable the traversable to return the keys from
+     * @param array|\Traversable $traversable the traversable to return the keys from
      * @return array the array keys as values
      */
     private function getTraversableKeys($traversable) {

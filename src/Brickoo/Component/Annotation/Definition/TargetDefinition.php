@@ -63,7 +63,7 @@ class TargetDefinition implements AnnotationTargetTypes {
 
     /**
      * Checks if the target type is expected.
-     * @param integer $target
+     * @param integer $targetType
      * @throws \InvalidArgumentException
      * @return boolean check result
      */
