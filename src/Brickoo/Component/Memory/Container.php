@@ -88,7 +88,7 @@ class Container implements \ArrayAccess, \IteratorAggregate, \Countable {
     }
 
     /**
-     * Returns the vlaue from the given offset.
+     * Returns the value from the given offset.
      * @see ArrayAccess::offsetGet()
      * @param mixed $offset
      * @return mixed the offset value

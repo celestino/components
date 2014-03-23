@@ -34,7 +34,7 @@ use Brickoo\Component\Autoloader\Exception;
 /**
  * ClassNotRegisteredException
  *
- * Exception thrown if trying to unregister a class without beeing registered before.
+ * Exception thrown if trying to unregister a class without being registered before.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 

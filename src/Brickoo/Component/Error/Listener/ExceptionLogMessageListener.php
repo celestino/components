@@ -37,6 +37,12 @@ use Brickoo\Component\Error\Messages,
     Brickoo\Component\Messaging\Message,
     Brickoo\Component\Messaging\MessageDispatcher;
 
+/**
+ * ExceptionLogMessageListener
+ *
+ * Implements a listener for exception log messages.
+ * @author Celestino Diaz <celestino.diaz@gmx.de>
+ */
 class ExceptionLogMessageListener implements Listener {
 
     /** {@inheritDoc} */

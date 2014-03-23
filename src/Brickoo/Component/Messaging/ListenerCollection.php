@@ -71,8 +71,8 @@ class ListenerCollection {
     }
 
     /**
-     * Returns the listener matching the unqiue identifier.
-     * @param string $listenerUID the listener unqiue identifier
+     * Returns the listener matching the unique identifier.
+     * @param string $listenerUID the listener unique identifier
      * @throws \InvalidArgumentException
      * @throws \Brickoo\Component\Messaging\Exception\ListenerNotAvailableException
      * @return \Brickoo\Component\Messaging\MessageListener
@@ -88,8 +88,8 @@ class ListenerCollection {
     }
 
     /**
-     * Checks if the listener with the unique idenfier is available.
-     * @param string $listenerUID the listener unique identifer to check
+     * Checks if the listener with the unique identifier is available.
+     * @param string $listenerUID the listener unique identifier to check
      * @throws \InvalidArgumentException
      * @return boolean check result
      */
@@ -157,15 +157,15 @@ class ListenerCollection {
         $listenerQueue = $this->listenerQueues[$messageName];
         $listenerQueue->setExtractFlags(ListenerQueue::EXTR_BOTH);
 
-        $CleanedListenerQueue = new ListenerQueue();
+        $cleanedListenerQueue = new ListenerQueue();
         while ($listenerQueue->valid()) {
             $listener = $listenerQueue->extract();
             if ($listener["data"] != $listenerUID) {
-                $CleanedListenerQueue->insert($listener["data"], $listener["priority"]);
+                $cleanedListenerQueue->insert($listener["data"], $listener["priority"]);
             }
         }
 
-        $this->listenerQueues[$messageName] = $CleanedListenerQueue;
+        $this->listenerQueues[$messageName] = $cleanedListenerQueue;
         return $this;
     }
 

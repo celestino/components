@@ -69,8 +69,8 @@ class AcceptCharsetHeader extends GenericHeader {
         return $this;
     }
     /**
-     * Returns the accepted charsets.
-     * @return array the accepted charsets
+     * Returns the accepted charset.
+     * @return array the accepted charset
      */
     public function getCharsets() {
         if (empty($this->acceptCharsets)) {

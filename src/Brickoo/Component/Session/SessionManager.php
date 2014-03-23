@@ -43,7 +43,7 @@ use Brickoo\Component\Session\Exception\SessionAlreadyStartedException,
 class SessionManager {
 
     /** @var boolean */
-    protected static $SessionStarted;
+    protected static $sessionStarted;
 
     /**
      * Class constructor.
@@ -78,7 +78,7 @@ class SessionManager {
 
     /**
      * Regenerates the session id.
-     * The values of the current session should be keeped.
+     * The values of the current session should be kept.
      * @return \Brickoo\Component\Session\SessionManager
      */
     public function regenerateId() {
@@ -168,7 +168,7 @@ class SessionManager {
         $this->checkSessionStart();
 
         if (session_start()) {
-            self::$SessionStarted = true;
+            self::$sessionStarted = true;
         }
         return $this;
     }
@@ -178,7 +178,7 @@ class SessionManager {
      * @return boolean check result
      */
     public function hasStarted() {
-        return self::$SessionStarted === true;
+        return self::$sessionStarted === true;
     }
 
     /**
@@ -187,7 +187,7 @@ class SessionManager {
      */
     public function stop() {
         session_write_close();
-        self::$SessionStarted = null;
+        self::$sessionStarted = null;
         return $this;
     }
 

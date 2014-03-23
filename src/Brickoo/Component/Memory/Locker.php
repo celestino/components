@@ -56,7 +56,7 @@ abstract class Locker implements \Countable {
     }
 
     /**
-     * Locks the identifer and returns an unlock key.
+     * Locks the identifier and returns an unlock key.
      * Extended by the Registry class, override and unregister methods of the
      * Registry class are disabled for this identifier(s)
      * @param string|integer $identifier the identifier to lock
@@ -76,7 +76,7 @@ abstract class Locker implements \Countable {
     }
 
     /**
-     * Unlocks the locked identifer matching the lock key.
+     * Unlocks the locked identifier matching the lock key.
      * @param string|integer $identifier the identifier which should be unlocked
      * @param string $unlockKey the key to unlock the identifier
      * @throws \Brickoo\Component\Memory\Exception\UnlockFailedException

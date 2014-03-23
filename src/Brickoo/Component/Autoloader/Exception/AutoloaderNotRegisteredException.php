@@ -34,7 +34,7 @@ use Brickoo\Component\Autoloader\Exception;
 /**
  * AutoloaderNotRegisteredException
  *
- * Exception thrown if trying to unregister an autoloader without beeing registered before.
+ * Exception thrown if trying to unregister an autoloader without being registered before.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 

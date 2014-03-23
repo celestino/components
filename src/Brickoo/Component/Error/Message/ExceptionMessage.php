@@ -47,9 +47,9 @@ class ExceptionMessage extends GenericMessage {
      */
     const PARAM_EXCEPTION = "exception";
 
-    /** @param \Exception $Exception */
-    public function __construct(\Exception $Exception) {
-        parent::__construct(Messages::EXCEPTION, null, [self::PARAM_EXCEPTION => $Exception]);
+    /** @param \Exception $exception */
+    public function __construct(\Exception $exception) {
+        parent::__construct(Messages::EXCEPTION, null, [self::PARAM_EXCEPTION => $exception]);
     }
 
     /**

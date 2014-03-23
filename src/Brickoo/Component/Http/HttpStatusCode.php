@@ -65,7 +65,7 @@ class HttpStatusCode {
     const CODE_NOT_FOUND = 404;
     const CODE_METHOD_NOT_ALLOWED = 405;
     const CODE_NOT_ACCEPTABLE = 406;
-    const CODE_PROXY_AUTHENTIFICATION_REQUIRED = 407;
+    const CODE_PROXY_AUTHENTICATION_REQUIRED = 407;
     const CODE_REQUEST_TIME_OUT = 408;
     const CODE_CONFLICT = 409;
     const CODE_GONE = 410;
@@ -76,7 +76,7 @@ class HttpStatusCode {
     const CODE_UNSUPPORTED_MEDIA_TYPE = 415;
     const CODE_REQUESTED_RANGE_NOT_SATISFIABLE = 416;
     const CODE_EXPECTATION_FAILED = 417;
-    const CODE_INTERBAL_SERVER_ERROR = 500;
+    const CODE_INTERNAL_SERVER_ERROR = 500;
     const CODE_NOT_IMPLEMENTED = 501;
     const CODE_BAD_GATEWAY = 502;
     const CODE_SERVICE_UNAVAILABLE = 503;
@@ -118,7 +118,7 @@ class HttpStatusCode {
         self::CODE_NOT_FOUND => "Not Found",
         self::CODE_METHOD_NOT_ALLOWED => "Method Not Allowed",
         self::CODE_NOT_ACCEPTABLE => "Not Acceptable",
-        self::CODE_PROXY_AUTHENTIFICATION_REQUIRED => "Proxy Authentication Required",
+        self::CODE_PROXY_AUTHENTICATION_REQUIRED => "Proxy Authentication Required",
         self::CODE_REQUEST_TIME_OUT => "Request Time-out",
         self::CODE_CONFLICT => "Conflict",
         self::CODE_GONE => "Gone",
@@ -129,7 +129,7 @@ class HttpStatusCode {
         self::CODE_UNSUPPORTED_MEDIA_TYPE => "Unsupported Media Type",
         self::CODE_REQUESTED_RANGE_NOT_SATISFIABLE => "Requested range not satisfiable",
         self::CODE_EXPECTATION_FAILED => "Expectation Failed",
-        self::CODE_INTERBAL_SERVER_ERROR => "Internal Server Error",
+        self::CODE_INTERNAL_SERVER_ERROR => "Internal Server Error",
         self::CODE_NOT_IMPLEMENTED => "Not Implemented",
         self::CODE_BAD_GATEWAY => "Bad Gateway",
         self::CODE_SERVICE_UNAVAILABLE => "Service Unavailable",

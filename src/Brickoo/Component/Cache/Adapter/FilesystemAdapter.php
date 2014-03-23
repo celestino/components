@@ -62,7 +62,7 @@ class FilesystemAdapter implements Adapter {
      * @param \Brickoo\Component\Filesystem\File $fileObject
      * @param string $cacheDirectory the directory used for the cache operations
      * @param boolean $serializeCacheContent flag to serialize the content cached
-     * @param string $cacheFileNameSuffix the sufffix to add to caching file names
+     * @param string $cacheFileNameSuffix the suffix to add to caching file names
      * @throws \InvalidArgumentException if an argument is not valid
      */
     public function __construct(File $fileObject, $cacheDirectory, $serializeCacheContent = true, $cacheFileNameSuffix = ".cache") {

@@ -77,7 +77,7 @@ class CacheProxy {
     }
 
     /**
-     * Returns the cached content holded by the identifier.
+     * Returns the cached content hold by the identifier.
      * @param string $identifier the identifier to retrieve the content
      * @throws \InvalidArgumentException if an argument is not valid
      * @throws \Brickoo\Component\Cache\Exception\AdapterNotFoundException
@@ -89,8 +89,8 @@ class CacheProxy {
     }
 
     /**
-     * Sets the content holded by the given identifier.
-     * If the identifer already exists the content will be replaced.
+     * Sets the content hold by the given identifier.
+     * If the identifier already exists the content will be replaced.
      * @param string $identifier the identifier which holds the content
      * @param mixed $content the content to cache
      * @param integer $lifetime the lifetime of the cached content

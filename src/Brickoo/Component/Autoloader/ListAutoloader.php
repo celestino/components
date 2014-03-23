@@ -59,7 +59,7 @@ class ListAutoloader extends Autoloader {
     /**
      * Register the class with the corresponding location.
      * @param string $className the class to register
-     * @param string $location the absoulte location path to the class
+     * @param string $location the absolute location path to the class
      * @throws \InvalidArgumentException if an argument is not valid
      * @throws \Brickoo\Component\Autoloader\Exception\FileDoesNotExistException
      * @throws \Brickoo\Component\Autoloader\Exception\DuplicateClassRegistrationException

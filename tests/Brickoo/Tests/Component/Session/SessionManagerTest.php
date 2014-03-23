@@ -113,7 +113,7 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Session\SessionManager::getCookieParams */
     public function testGetCookieParams() {
-        $this->assertInternalType("array", ($cookie = $this->sessionManager->getCookieParams()));
+        $this->assertInternalType("array", $this->sessionManager->getCookieParams());
     }
 
     /**
@@ -129,13 +129,13 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
         $secure = true;
         $httponly = true;
 
-        $expectedCookieParams = array(
+        $expectedCookieParams = [
             "lifetime" => $lifetime,
             "path" => $path,
             "domain" => $domain,
             "secure" => $secure,
             "httponly" => $httponly
-        );
+        ];
 
         $this->assertSame($this->sessionManager, $this->sessionManager->setCookieParams($lifetime, $path, $domain, $secure, $httponly));
         $this->assertEquals(session_get_cookie_params(), $expectedCookieParams);
@@ -158,9 +158,9 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
      */
     public function testStartAndStopSession() {
         $this->sessionManager->start();
-        $this->assertAttributeEquals(true, "SessionStarted", $this->sessionManager);
+        $this->assertAttributeEquals(true, "sessionStarted", $this->sessionManager);
         $this->sessionManager->stop();
-        $this->assertAttributeEquals(null, "SessionStarted", $this->sessionManager);
+        $this->assertAttributeEquals(null, "sessionStarted", $this->sessionManager);
     }
 
     /**

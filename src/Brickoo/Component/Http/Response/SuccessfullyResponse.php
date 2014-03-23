@@ -66,16 +66,16 @@ class SuccessfullyResponse extends HttpResponse {
 
     /**
      * Creates a message header object containing passed headers.
-     * @param array $mesageHeaders instances of \Brickoo\Component\Http\HttpHeader
+     * @param array $messageHeaders instances of \Brickoo\Component\Http\HttpHeader
      * @throws \InvalidArgumentException
      * @return \Brickoo\Component\Http\MessageHeader
      */
-    private function createMessageHeader(array $mesageHeaders) {
-        if (! (new ContainsInstancesOfConstraint("\\Brickoo\\Component\\Http\\HttpHeader"))->matches($mesageHeaders)) {
+    private function createMessageHeader(array $messageHeaders) {
+        if (! (new ContainsInstancesOfConstraint("\\Brickoo\\Component\\Http\\HttpHeader"))->matches($messageHeaders)) {
             throw new \InvalidArgumentException("Invalid message headers.");
         }
         $messageHeader = new MessageHeader();
-        foreach ($mesageHeaders as $header) {
+        foreach ($messageHeaders as $header) {
             $messageHeader->setHeader($header);
         }
         return $messageHeader;

@@ -113,7 +113,7 @@ class Client {
     }
 
     /**
-     * Closes the data handle and frees the holded ressource.
+     * Closes the data handle and frees the hold resource.
      * @throws \Brickoo\Component\Network\Exception\HandleNotAvailableException
      * @return \Brickoo\Component\Network\Client
      */

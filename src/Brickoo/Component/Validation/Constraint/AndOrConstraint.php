@@ -52,7 +52,7 @@ class AndOrConstraint implements Constraint {
      * Each param array represents an AND group while
      * each param represents an OR group.
      * Example: new AndOrConstraint([constraint1, constraint2], [constraint3])
-     * Either constraint1 AND constrait2 OR constrait3 MUST match.
+     * Either constraint1 AND constraint2 OR constraint3 MUST match.
      * @param array<Constraint> ...params
      */
     public function __construct() {
@@ -62,8 +62,8 @@ class AndOrConstraint implements Constraint {
     /** {@inheritDoc} */
     public function matches($value) {
         $matches = true;
-        foreach ($this->constraints as $constraitGroup) {
-            if (($matches = $this->doesConstraintGroupMatch($constraitGroup, $value))) {
+        foreach ($this->constraints as $constraintGroup) {
+            if (($matches = $this->doesConstraintGroupMatch($constraintGroup, $value))) {
                 break;
             }
         }
@@ -72,7 +72,7 @@ class AndOrConstraint implements Constraint {
 
     /**
      * Returns the last constraint which did not match.
-     * @return \Brickoo\Component\Validation\constraint on unmatch otherwise null
+     * @return \Brickoo\Component\Validation\constraint
      */
     public function getFailedConstraint() {
         return $this->failedConstraint;

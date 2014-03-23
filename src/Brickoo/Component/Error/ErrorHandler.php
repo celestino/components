@@ -92,7 +92,7 @@ class ErrorHandler {
     }
 
     /**
-     * Unregisters the instance as error handler by restoring previous error handler.
+     * Unregister the instance as error handler by restoring previous error handler.
      * @throws \Brickoo\Component\Error\Exception\HandlerNotRegisteredException
      * @return \Brickoo\Component\Error\ErrorHandler
      */

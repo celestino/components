@@ -78,7 +78,7 @@ class MessageDispatcher {
     }
 
     /**
-     * Removes the unqiue identified listener.
+     * Removes the unique identified listener.
      * @param string $listenerUID the listener unique identifier
      * @throws \InvalidArgumentException
      * @return \Brickoo\Component\Messaging\MessageDispatcher

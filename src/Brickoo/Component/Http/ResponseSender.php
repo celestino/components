@@ -104,7 +104,7 @@ class ResponseSender {
     }
 
     /**
-     * Checks if the status code dooes allow message body content.
+     * Checks if the status code does allow message body content.
      * @param \Brickoo\Component\Http\HttpResponse $response
      * @throws StatusCodeDoesNotAllowMessageBodyException
      * @return \Brickoo\Component\Http\ResponseSender

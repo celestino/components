@@ -48,7 +48,7 @@ class ConstraintValidator implements Validator {
 
     /**
      * Class constructor.
-     * Can get any number of paramters with the type Constraint.
+     * Can get any number of parameters with the type Constraint.
      * All constraints must match to succeed validation.
      * @param Constraint ...params
      * @throws \InvalidArgumentException

@@ -73,13 +73,13 @@ interface Message {
      * If the parameter does not exist, the default value is returned.
      * @param string $identifier the identifier to return the value from
      * @param mixed $defaultValue
-     * @return mixed the parmeter value or null if not set
+     * @return mixed the parameter value or null if not set
      */
     public function getParam($identifier, $defaultValue = null);
 
     /**
      * Checks if the identifier is a available message parameter.
-     * @param string $identifier the identifier to check the avaibility
+     * @param string $identifier the identifier to check the availability
      * @return boolean check result
      */
     public function hasParam($identifier);

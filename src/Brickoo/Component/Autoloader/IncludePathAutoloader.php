@@ -104,7 +104,7 @@ class IncludePathAutoloader extends Autoloader {
     }
 
     /**
-     * Returns a translated namespaced class to fileystem path.
+     * Returns a translated namespace class to filesystem path.
      * @param string $className class including namespace
      * @return string the translated class path
      */

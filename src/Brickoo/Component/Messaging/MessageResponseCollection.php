@@ -77,7 +77,7 @@ class MessageResponseCollection implements Countable, IteratorAggregate {
     }
 
     /**
-     * Push a reponse into the local container.
+     * Push a response into the local container.
      * @param mixed $response
      * @return \Brickoo\Component\Messaging\MessageResponseCollection
      */

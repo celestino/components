@@ -53,7 +53,7 @@ class ListenerQueue extends SplPriorityQueue {
 
     /**
      * Inserts a listener identifier with his priority into the queue.
-     * @param string $listenerUID the listener unique idenitifier
+     * @param string $listenerUID the listener unique identifier
      * @param integer $priority the priority of the listener
      * @return \Brickoo\Component\Messaging\ListenerQueue
      */
