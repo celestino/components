@@ -41,11 +41,29 @@ use ArrayIterator,
  */
 class Definition implements IteratorAggregate {
 
+    /** @var string */
+    private $uniqueName;
+
     /** @var array<AnnotationDefinitionCollection> */
     private $definitionCollections;
 
-    public function __construct() {
-        $this->definitionCollections = [];
+    /**
+     * Class constructor.
+     * @param string $uniqueName
+     * @throws \InvalidArgumentException
+     */
+    public function __construct($uniqueName) {
+        Argument::IsString($uniqueName);
+        $this->uniqueName = $uniqueName;
+        $this->definitionCollections = array();
+    }
+
+    /**
+     * Returns the definition name.
+     * @return string the definition name
+     */
+    public function getName() {
+        return $this->uniqueName;
     }
 
     /**

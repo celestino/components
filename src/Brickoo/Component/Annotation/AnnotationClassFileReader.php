@@ -60,7 +60,7 @@ class AnnotationClassFileReader {
      * @param string $filename
      * @throws \Brickoo\Component\Annotation\Exception\FileDoesNotExistException
      * @throws \Brickoo\Component\Annotation\Exception\UnableToLocateQualifiedClassNameException
-     * @return \Brickoo\Component\Annotation\AnnotationReaderResult
+     * @return \Brickoo\Component\Annotation\AnnotationClassReaderResult
      */
     public function getAnnotations(Definition $definition, $filename) {
         Argument::IsString($filename);
@@ -84,7 +84,7 @@ class AnnotationClassFileReader {
         );
 
 
-        if (preg_match("~^[\\\\][\\\\\w]+$~", $qualifiedName) == 0) {
+        if (preg_match("~^[\\\\][a-zA-Z_\x7f-\xff][\\\\\\w\x7f-\xff]+$~", $qualifiedName) == 0) {
             throw new UnableToLocateQualifiedClassNameException($filename);
         }
 

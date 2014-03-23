@@ -29,22 +29,34 @@
 
 namespace Brickoo\Tests\Component\Annotation;
 
-use Brickoo\Component\Annotation\AnnotationReaderResult,
+use Brickoo\Component\Annotation\AnnotationClassReaderResult,
     Brickoo\Component\Annotation\AnnotationTargetTypes,
     PHPUnit_Framework_TestCase;
 
 /**
- * Test suite for the AnnotationReaderResult class.
- * @see Brickoo\Component\Annotation\AnnotationReaderResult
+ * Test suite for the AnnotationClassReaderResult class.
+ * @see Brickoo\Component\Annotation\AnnotationClassReaderResult
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class AnnotationReaderResultTest extends PHPUnit_Framework_TestCase {
+class AnnotationClassReaderResultTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * @covers Brickoo\Component\Annotation\AnnotationReaderResult::__construct
-     * @covers Brickoo\Component\Annotation\AnnotationReaderResult::addCollection
-     * @covers Brickoo\Component\Annotation\AnnotationReaderResult::isTargetTypeValid
+     * @covers Brickoo\Component\Annotation\AnnotationClassReaderResult::__construct
+     * @covers Brickoo\Component\Annotation\AnnotationClassReaderResult::getDefinitionName
+     * @covers Brickoo\Component\Annotation\AnnotationClassReaderResult::getClassName
+     *
+     */
+    public function testgetDefinitionAndClassName() {
+        $definitionName = "definition.name";
+        $className = "\\Some\\Class\\Name";
+        $AnnotationClassReaderResult = new AnnotationClassReaderResult($definitionName, $className);
+        $this->assertEquals($definitionName, $AnnotationClassReaderResult->getDefinitionName());
+        $this->assertEquals($className, $AnnotationClassReaderResult->getClassName());
+    }
+    /**
+     * @covers Brickoo\Component\Annotation\AnnotationClassReaderResult::addCollection
+     * @covers Brickoo\Component\Annotation\AnnotationClassReaderResult::isTargetTypeValid
      */
     public function testAddCollection() {
         $annotationTarget = $this->getAnnotationTargetStub();
@@ -55,13 +67,13 @@ class AnnotationReaderResultTest extends PHPUnit_Framework_TestCase {
         $collection->expects($this->any())
                    ->method("getTarget")
                    ->will($this->returnValue($annotationTarget));
-        $annotationReaderResult = new AnnotationReaderResult();
-        $this->assertSame($annotationReaderResult, $annotationReaderResult->addCollection($collection));
+        $AnnotationClassReaderResult = new AnnotationClassReaderResult("definition.name", "\\Some\\Class");
+        $this->assertSame($AnnotationClassReaderResult, $AnnotationClassReaderResult->addCollection($collection));
     }
 
     /**
-     * @covers Brickoo\Component\Annotation\AnnotationReaderResult::addCollection
-     * @covers Brickoo\Component\Annotation\AnnotationReaderResult::isTargetTypeValid
+     * @covers Brickoo\Component\Annotation\AnnotationClassReaderResult::addCollection
+     * @covers Brickoo\Component\Annotation\AnnotationClassReaderResult::isTargetTypeValid
      * @covers Brickoo\Component\Annotation\Exception\InvalidTargetTypeException
      * @expectedException \Brickoo\Component\Annotation\Exception\InvalidTargetTypeException
      */
@@ -74,13 +86,13 @@ class AnnotationReaderResultTest extends PHPUnit_Framework_TestCase {
         $collection->expects($this->any())
                    ->method("getTarget")
                    ->will($this->returnValue($annotationTarget));
-        $annotationReaderResult = new AnnotationReaderResult();
-        $annotationReaderResult->addCollection($collection);
+        $AnnotationClassReaderResult = new AnnotationClassReaderResult("definition.name", "\\Some\\Class");
+        $AnnotationClassReaderResult->addCollection($collection);
     }
 
     /**
-     * @covers Brickoo\Component\Annotation\AnnotationReaderResult::getCollectionsByTargetType
-     * @covers Brickoo\Component\Annotation\AnnotationReaderResult::isTargetTypeValid
+     * @covers Brickoo\Component\Annotation\AnnotationClassReaderResult::getCollectionsByTargetType
+     * @covers Brickoo\Component\Annotation\AnnotationClassReaderResult::isTargetTypeValid
      */
     public function testGetCollectionsByTargetType() {
         $annotationTarget = $this->getAnnotationTargetStub();
@@ -91,31 +103,31 @@ class AnnotationReaderResultTest extends PHPUnit_Framework_TestCase {
         $collection->expects($this->any())
                    ->method("getTarget")
                    ->will($this->returnValue($annotationTarget));
-        $annotationReaderResult = new AnnotationReaderResult();
-        $annotationReaderResult->addCollection($collection);
-        $annotationsCollectionIterator = $annotationReaderResult->getCollectionsByTargetType(AnnotationTargetTypes::TYPE_CLASS);
+        $AnnotationClassReaderResult = new AnnotationClassReaderResult("definition.name", "\\Some\\Class");
+        $AnnotationClassReaderResult->addCollection($collection);
+        $annotationsCollectionIterator = $AnnotationClassReaderResult->getCollectionsByTargetType(AnnotationTargetTypes::TYPE_CLASS);
         $this->assertInstanceOf("\\ArrayIterator", $annotationsCollectionIterator);
         $this->assertEquals(1, count($annotationsCollectionIterator));
     }
 
     /**
-     * @covers Brickoo\Component\Annotation\AnnotationReaderResult::getCollectionsByTargetType
-     * @covers Brickoo\Component\Annotation\AnnotationReaderResult::isTargetTypeValid
+     * @covers Brickoo\Component\Annotation\AnnotationClassReaderResult::getCollectionsByTargetType
+     * @covers Brickoo\Component\Annotation\AnnotationClassReaderResult::isTargetTypeValid
      * @covers Brickoo\Component\Annotation\Exception\InvalidTargetTypeException
      * @expectedException \Brickoo\Component\Annotation\Exception\InvalidTargetTypeException
      */
     public function testGetCollectionsByTargetTypeThrowsInvalidTypeException() {
-        $annotationReaderResult = new AnnotationReaderResult();
-        $annotationReaderResult->getCollectionsByTargetType(12345);
+        $AnnotationClassReaderResult = new AnnotationClassReaderResult("definition.name", "\\Some\\Class");
+        $AnnotationClassReaderResult->getCollectionsByTargetType(12345);
     }
 
     /**
-     * @covers Brickoo\Component\Annotation\AnnotationReaderResult::getIterator
-     * @covers Brickoo\Component\Annotation\AnnotationReaderResult::isTargetTypeValid
+     * @covers Brickoo\Component\Annotation\AnnotationClassReaderResult::getIterator
+     * @covers Brickoo\Component\Annotation\AnnotationClassReaderResult::isTargetTypeValid
      */
     public function testGetIterator() {
-        $annotationReaderResult = new AnnotationReaderResult();
-        $annotationsCollectionIterator = $annotationReaderResult->getIterator();
+        $AnnotationClassReaderResult = new AnnotationClassReaderResult("definition.name", "\\Some\\Class");
+        $annotationsCollectionIterator = $AnnotationClassReaderResult->getIterator();
         $this->assertInstanceOf("\\ArrayIterator", $annotationsCollectionIterator);
         $this->assertEquals(3, count($annotationsCollectionIterator));
     }

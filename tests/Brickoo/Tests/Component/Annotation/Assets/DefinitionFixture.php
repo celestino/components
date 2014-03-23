@@ -13,7 +13,7 @@ use Brickoo\Component\Annotation\Definition,
  * @Assert (maxlength = 30)
  */
 
-$definition = new Definition();
+$definition = new Definition("definition.name");
 
 $collection = new DefinitionCollection(new TargetDefinition(TargetDefinition::TYPE_CLASS));
 $annotation = new AnnotationDefinition("Controller", true);

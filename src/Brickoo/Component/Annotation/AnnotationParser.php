@@ -30,7 +30,7 @@
 namespace Brickoo\Component\Annotation;
 
 use Brickoo\Component\Validation\Argument;
-    
+
 /**
  * AnnotationParser
  *
@@ -172,7 +172,7 @@ class AnnotationParser {
     }
 
     /**
-     * Retruns the  parameters values pairs.
+     * Returns the  parameters values pairs.
      * @param string $valuesString
      * @param string $valuesRegex
      * @return array the parameters values pairs
@@ -206,9 +206,9 @@ class AnnotationParser {
     }
 
     /**
-     * Transforms the string to appropiate scalar.
+     * Transforms the string to appropriate scalar.
      * @param string $value
-     * @return mixed thransformed value
+     * @return mixed transformed value
      */
     private function transformScalar($value) {
         switch ($value) {

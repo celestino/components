@@ -70,7 +70,7 @@ class AnnotationReflectionClassReaderTest extends PHPUnit_Framework_TestCase {
             ($definitionFixture = include __DIR__."/Assets/DefinitionFixture.php"),
             new ReflectionClass("\\Brickoo\\Tests\\Component\\Annotation\\Assets\\AnnotatedClass")
         );
-        $this->assertInstanceOf("\\Brickoo\\Component\\Annotation\\AnnotationReaderResult", $result);
+        $this->assertInstanceOf("\\Brickoo\\Component\\Annotation\\AnnotationClassReaderResult", $result);
 
     }
 

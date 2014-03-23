@@ -43,18 +43,25 @@ class DefinitionTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Annotation\Definition::__construct
-     * @covers Brickoo\Component\Annotation\Definition::addCollection
+     * @covers Brickoo\Component\Annotation\Definition::getName
      */
+    public function testGetName() {
+        $uniqueName = "my.definition";
+        $definition = new Definition($uniqueName);
+        $this->assertEquals($uniqueName, $definition->getName());
+    }
+
+    /** @covers Brickoo\Component\Annotation\Definition::addCollection */
     public function testAddCollection() {
         $collection = $this->getDefinitionCollectionStub();
-        $definition = new Definition();
+        $definition = new Definition("testCase");
         $this->assertSame($definition, $definition->addCollection($collection));
     }
 
     /** @covers Brickoo\Component\Annotation\Definition::hasCollections */
     public function testHasCollections() {
         $collection = $this->getDefinitionCollectionStub();
-        $definition = new Definition();
+        $definition = new Definition("testCase");
         $this->assertFalse($definition->hasCollections());
         $definition->addCollection($collection);
         $this->assertTrue($definition->hasCollections());
@@ -74,7 +81,7 @@ class DefinitionTest extends PHPUnit_Framework_TestCase {
                     ->with(AnnotationTarget::TYPE_CLASS)
                     ->will($this->returnValue(false));
 
-        $definition = new Definition();
+        $definition = new Definition("testCase");
         $definition->addCollection($collection1)
                    ->addCollection($collection2);
         $this->assertInstanceOf(
@@ -88,7 +95,7 @@ class DefinitionTest extends PHPUnit_Framework_TestCase {
     /** @covers Brickoo\Component\Annotation\Definition::getIterator */
     public function testGetIterator() {
         $collection = $this->getDefinitionCollectionStub();
-        $definition = new Definition();
+        $definition = new Definition("testCase");
         $definition->addCollection($collection);
         $this->assertInstanceOf("\\ArrayIterator", ($iterator = $definition->getIterator()));
         $this->assertEquals(1, $iterator->count());

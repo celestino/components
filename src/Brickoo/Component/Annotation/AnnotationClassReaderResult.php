@@ -35,17 +35,32 @@ use ArrayIterator,
     IteratorAggregate;
 
 /**
- * AnnotationReaderResult
+ * AnnotationClassReaderResult
  *
  * Implements as annotation reader result.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class AnnotationReaderResult implements IteratorAggregate {
+class AnnotationClassReaderResult implements IteratorAggregate {
+
+    /** @var string */
+    private $definitionName;
+
+    /** @var string */
+    private $className;
 
     /** @var array<TargetType, AnnotationCollection> */
     private $collections;
 
-    public function __construct() {
+    /**
+     * Class constructor.
+     * @param string $definitionName
+     * @param string $className
+     */
+    public function __construct($definitionName, $className) {
+        Argument::IsString($definitionName);
+        Argument::IsString($className);
+        $this->definitionName = $definitionName;
+        $this->className = $className;
         $this->collections = [
             AnnotationTargetTypes::TYPE_CLASS => [],
             AnnotationTargetTypes::TYPE_METHOD => [],
@@ -54,10 +69,26 @@ class AnnotationReaderResult implements IteratorAggregate {
     }
 
     /**
+     * Returns the definition name.
+     * @return string the definition name;
+     */
+    public function getDefinitionName() {
+        return $this->definitionName;
+    }
+
+    /**
+     * Returns the target class name.
+     * @return string the class name
+     */
+    public function getClassName() {
+        return $this->className;
+    }
+
+    /**
      * Adds a collection to the matching type.
      * @param \Brickoo\Component\Annotation\AnnotationCollection $collection
      * @throws \Brickoo\Component\Annotation\Exception\InvalidTargetTypeException
-     * @return \Brickoo\Component\Annotation\AnnotationReaderResult
+     * @return \Brickoo\Component\Annotation\AnnotationClassReaderResult
      */
     public function addCollection(AnnotationCollection $collection) {
         $targetType = $collection->getTarget()->getType();
@@ -88,7 +119,7 @@ class AnnotationReaderResult implements IteratorAggregate {
     }
 
     /**
-     * Returns ann array iterator containg all collections.
+     * Returns ann array iterator containing all collections.
      * @return \ArrayIterator containing all collections
      */
     public function getIterator() {
@@ -98,7 +129,7 @@ class AnnotationReaderResult implements IteratorAggregate {
     /**
      * Checks if the target type is valid.
      * @param integer $targetType
-     * @return boolean check reuslt
+     * @return boolean check result
      */
     private function isTargetTypeValid($targetType) {
         return array_key_exists($targetType, $this->collections);
