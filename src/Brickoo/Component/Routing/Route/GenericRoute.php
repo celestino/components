@@ -148,7 +148,7 @@ class GenericRoute implements Route {
 
         if (!$this->hasDefaultValue($parameter)) {
             throw new UnexpectedValueException(
-                sprintf("The default vaule for the parameter `%s` does not exist.", $parameter)
+                sprintf("The default value for the parameter `%s` does not exist.", $parameter)
             );
         }
         return $this->defaultValues[$parameter];

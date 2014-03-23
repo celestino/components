@@ -185,7 +185,7 @@ class Router {
      */
     private function getRouteCollectorIterator() {
         if ($this->routeCollectorIterator === null) {
-            $this->routeCollectorIterator = $this->routeCollector->collect()->getIterator();
+            $this->routeCollectorIterator = $this->routeCollector->collect();
         }
         return $this->routeCollectorIterator;
     }

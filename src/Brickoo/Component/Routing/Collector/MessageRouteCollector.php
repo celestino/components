@@ -67,7 +67,7 @@ class MessageRouteCollector implements RouteCollector {
         $message = new GenericMessage(Messages::COLLECT_ROUTES, $this);
         $this->messageDispatcher->dispatch($message);
         $this->collections = $this->extractRouteCollections($message->getResponse());
-        return $this;
+        return $this->getIterator();
     }
 
     /**
@@ -82,7 +82,7 @@ class MessageRouteCollector implements RouteCollector {
     /**
      * Extracts collected route collections from the message response.
      * @param \Brickoo\Component\Messaging\MessageResponseCollection $messageResponseCollection
-     * @return array the extracte collections
+     * @return array the extracted collections
      */
     private function extractRouteCollections(MessageResponseCollection $messageResponseCollection) {
         $collections = [];

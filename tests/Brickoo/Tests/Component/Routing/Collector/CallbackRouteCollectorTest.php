@@ -51,14 +51,14 @@ class CallbackRouteCollectorTest extends PHPUnit_Framework_TestCase {
         $routeCollection = new RouteCollection();
         $callback = function() use ($routeCollection) {return [$routeCollection];};
         $callbackCollector  =  new CallbackRouteCollector($callback);
-        $this->assertSame($callbackCollector, $callbackCollector->collect());
+        $this->assertInstanceOf("\\ArrayIterator", $callbackCollector->collect());
         $this->assertAttributeEquals([$routeCollection], "collections", $callbackCollector);
     }
 
     /** @covers Brickoo\Component\Routing\Collector\CallbackRouteCollector::getIterator */
     public function testGetIterator() {
         $callbackCollector  =  new CallbackRouteCollector(function(){});
-        $this->assertInstanceOf("\\Iterator", $callbackCollector->getIterator());
+        $this->assertInstanceOf("\\ArrayIterator", $callbackCollector->getIterator());
     }
 
 }

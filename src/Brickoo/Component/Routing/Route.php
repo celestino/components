@@ -32,7 +32,7 @@ namespace Brickoo\Component\Routing;
 /**
  * Route
  *
- * Defines a route for handling routeable requests.
+ * Defines a route for handling routable requests.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 

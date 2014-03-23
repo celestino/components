@@ -49,7 +49,7 @@ class MessageRouteCollectorTest extends PHPUnit_Framework_TestCase {
     /** @covers Brickoo\Component\Routing\Collector\MessageRouteCollector::__construct */
     public function testConstructorImplementsInterface() {
         $messageRouteCollector = new MessageRouteCollector($this->getMessageDispatcherStub());
-        $this->assertInstanceOf("Brickoo\Component\Routing\RouteCollector",$messageRouteCollector);
+        $this->assertInstanceOf("\\Brickoo\\Component\\Routing\\RouteCollector",$messageRouteCollector);
     }
 
     /**
@@ -59,7 +59,7 @@ class MessageRouteCollectorTest extends PHPUnit_Framework_TestCase {
     public function testCollectRouteCollection() {
         $routeCollection = $this->getMock("\\Brickoo\\Component\\Routing\\RouteCollection");
         $messageRouteCollector = new MessageRouteCollector($this->getMessageDispatcherFixture($routeCollection));
-        $this->assertSame($messageRouteCollector, $messageRouteCollector->collect());
+        $this->assertInstanceOf("ArrayIterator", $messageRouteCollector->collect());
         $this->assertAttributeEquals([$routeCollection], "collections", $messageRouteCollector);
     }
 
@@ -89,7 +89,7 @@ class MessageRouteCollectorTest extends PHPUnit_Framework_TestCase {
             $message->getResponse()->push($routeCollection);
         });
 
-        $listenerCollection = $this->getMock("\\Brickoo\\Component\\Messaging\ListenerCollection");
+        $listenerCollection = $this->getMock("\\Brickoo\\Component\\Messaging\\ListenerCollection");
         $listenerCollection->expects($this->any())
                            ->method("hasListeners")
                            ->will($this->returnValue(true));

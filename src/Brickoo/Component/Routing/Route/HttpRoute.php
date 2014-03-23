@@ -91,7 +91,7 @@ class HttpRoute extends GenericRoute {
 
     /**
      * Returns the hostname(s) allowed listening to.
-     * @return string the hostnames allowed as a regular expression
+     * @return string the host names allowed as a regular expression
      */
     public function getHostname() {
         return $this->hostname;

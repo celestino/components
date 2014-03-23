@@ -78,7 +78,7 @@ class FileRouteCollectorTest extends PHPUnit_Framework_TestCase {
         $searchRecursively = false;
 
         $fileRouteCollector = new FileRouteCollector($routingPath, $routingFilename, $searchRecursively);
-        $this->assertSame($fileRouteCollector, $fileRouteCollector->collect());
+        $this->assertInstanceOf("\\ArrayIterator", $fileRouteCollector->collect());
         $this->assertEquals(1, $fileRouteCollector->getIterator()->count());
     }
 
@@ -92,7 +92,7 @@ class FileRouteCollectorTest extends PHPUnit_Framework_TestCase {
         $searchRecursively = true;
 
         $fileRouteCollector = new FileRouteCollector($routingPath, $routingFilename, $searchRecursively);
-        $this->assertSame($fileRouteCollector, $fileRouteCollector->collect());
+        $this->assertInstanceOf("\\ArrayIterator", $fileRouteCollector->collect());
         $this->assertEquals(2, $fileRouteCollector->getIterator()->count());
     }
 
@@ -103,7 +103,7 @@ class FileRouteCollectorTest extends PHPUnit_Framework_TestCase {
         $searchRecursively = false;
 
         $fileRouteCollector = new FileRouteCollector($routingPath, $routingFilename, $searchRecursively);
-        $this->assertInstanceOf("ArrayIterator", $fileRouteCollector->getIterator());
+        $this->assertInstanceOf("\\ArrayIterator", $fileRouteCollector->getIterator());
     }
 
 }

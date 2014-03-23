@@ -70,7 +70,7 @@ class RoutePathRegexGenerator  {
     }
 
     /**
-     * Returns the route path contaning the aliases definitions if any given.
+     * Returns the route path containing the aliases definitions if any given.
      * @param \Brickoo\Component\Routing\Route $route
      * @return string the modified route path containing the aliases
      */

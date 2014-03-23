@@ -92,11 +92,11 @@ class FileRouteCollector implements RouteCollector {
         $filePaths = $this->searchRecursively ? $this->getRecursiveFilePaths() : $this->getFilePaths();
 
         foreach ($filePaths as $filePath) {
-            if (($RouteCollection = include $filePath) && $RouteCollection instanceof RouteCollection) {
-                $this->collections[] = $RouteCollection;
+            if (($routeCollection = include $filePath) && $routeCollection instanceof RouteCollection) {
+                $this->collections[] = $routeCollection;
             }
         }
-        return $this;
+        return $this->getIterator();
     }
 
     /**
@@ -115,12 +115,12 @@ class FileRouteCollector implements RouteCollector {
     private function getFilePaths() {
         $collectedFilePaths = [];
 
-        foreach (new DirectoryIterator($this->routingPath) as $SplFileInfo) {
-            if ((! $SplFileInfo->isDot())
-                && (! $SplFileInfo->isDir())
-                && (strpos($SplFileInfo->getFilename(), $this->routingFilename) !== false)
-            ){
-                $collectedFilePaths[] = $SplFileInfo->getRealPath();
+        foreach (new DirectoryIterator($this->routingPath) as $splFileInfo) {
+            if ((! $splFileInfo->isDot())
+                && (! $splFileInfo->isDir())
+                && (strpos($splFileInfo->getFilename(), $this->routingFilename) !== false)
+            ) {
+                $collectedFilePaths[] = $splFileInfo->getRealPath();
             }
         }
 
@@ -128,16 +128,16 @@ class FileRouteCollector implements RouteCollector {
     }
 
     /**
-     * Returns the file paths of the route collections recurservely collected.
+     * Returns the file paths of the route collections recursively collected.
      * @return array the available file paths
      */
     private function getRecursiveFilePaths() {
         $collectedFilePaths = [];
 
-        $Directory = new RecursiveDirectoryIterator($this->routingPath);
-        $Iterator = new RecursiveIteratorIterator($Directory);
-        foreach (new RegexIterator($Iterator, "/^.*". $this->routingFilename ."$/i", RegexIterator::MATCH) as $SplFileInfo) {
-            $collectedFilePaths[] = $SplFileInfo->getRealPath();
+        $directory = new RecursiveDirectoryIterator($this->routingPath);
+        $iterator = new RecursiveIteratorIterator($directory);
+        foreach (new RegexIterator($iterator, "/^.*". $this->routingFilename ."$/i", RegexIterator::MATCH) as $splFileInfo) {
+            $collectedFilePaths[] = $splFileInfo->getRealPath();
         }
 
         return $collectedFilePaths;

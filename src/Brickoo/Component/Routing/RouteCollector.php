@@ -41,8 +41,8 @@ use IteratorAggregate;
 interface RouteCollector extends IteratorAggregate {
 
     /**
-     * Collects the routing routes.
-     * @return \Brickoo\Component\Routing\RouteCollector
+     * Collects and returns the routes.
+     * @return \ArrayIterator
      */
     public function collect();
 

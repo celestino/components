@@ -65,7 +65,7 @@ class CallbackRouteCollector implements RouteCollector {
         ){
             $this->collections = $collections;
         }
-        return $this;
+        return $this->getIterator();
     }
 
     /**
