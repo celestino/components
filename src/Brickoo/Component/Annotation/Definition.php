@@ -55,7 +55,7 @@ class Definition implements IteratorAggregate {
     public function __construct($uniqueName) {
         Argument::IsString($uniqueName);
         $this->uniqueName = $uniqueName;
-        $this->definitionCollections = array();
+        $this->definitionCollections = [];
     }
 
     /**

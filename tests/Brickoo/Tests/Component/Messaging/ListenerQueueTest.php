@@ -55,7 +55,7 @@ class ListenerQueueTest extends PHPUnit_Framework_TestCase {
         $listenerQueue->insert('C', 200);
 
         $queue = clone $listenerQueue;
-        $values = array();
+        $values = [];
         foreach ($queue as $value) {
             $values[] = $value;
         }

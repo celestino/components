@@ -201,7 +201,7 @@ class Argument {
                 $representation = sprintf(
                     "[%s] %s",
                     gettype($argument),
-                    str_replace(array("\r", "\n", " "), "", var_export($argument, true))
+                    str_replace(["\r", "\n", " "], "", var_export($argument, true))
                 );
         }
         return $representation;

@@ -138,7 +138,7 @@ class AnnotationParser {
      * @return array list of annotations
      */
     private function getAnnotationList(array $annotationsMatches) {
-        $annotationList = array();
+        $annotationList = [];
         foreach ($annotationsMatches[self::REGEX_CAPTURE_ANNOTATION] as $currentIndex => $annotation) {
             if ($this->isAnnotationInWhitelist($annotation)) {
                $annotationList[] = [
@@ -179,7 +179,7 @@ class AnnotationParser {
      */
     private function getParameterValues($valuesString, $valuesRegex) {
         $values = null;
-        $parameterValues = array();
+        $parameterValues = [];
         if ((! empty($valuesString)) && preg_match_all($valuesRegex, $valuesString, $values) !== false) {
             foreach ($values[self::REGEX_CAPTURE_PARAM] as $currentIndex => $param) {
                 $param = $param ?: $currentIndex;

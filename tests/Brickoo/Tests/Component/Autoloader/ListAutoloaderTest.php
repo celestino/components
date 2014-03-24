@@ -93,7 +93,7 @@ class ListAutoloaderTest extends PHPUnit_Framework_TestCase {
         $listAutoloader = new ListAutoloader();
         $listAutoloader->registerClass("Foo", dirname(__FILE__));
         $this->assertSame($listAutoloader, $listAutoloader->unregisterClass("Foo"));
-        $this->assertAttributeEquals(array(), "classes", $listAutoloader);
+        $this->assertAttributeEquals([], "classes", $listAutoloader);
     }
 
     /**

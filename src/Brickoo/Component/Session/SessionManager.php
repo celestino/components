@@ -204,11 +204,11 @@ class SessionManager {
         if ($this->isCookieUsed()) {
             $callback = is_callable($callback) ? $callback : "setcookie";
             $params = session_get_cookie_params();
-            call_user_func_array($callback, array(
+            call_user_func_array($callback, [
                 session_name(), "", time() - (365 * 24 *60 * 60),
                 $params["path"], $params["domain"],
                 $params["secure"], $params["httponly"]
-            ));
+            ]);
         }
         $_SESSION = [];
         session_destroy();

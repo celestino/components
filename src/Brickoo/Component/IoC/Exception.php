@@ -27,12 +27,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Dependency;
+namespace Brickoo\Component\IoC;
 
 /**
  * Exception
  *
- * Defines a dependency exception.
+ * Defines an inversion of control exception.
  * Used to catch all exceptions from this component.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */

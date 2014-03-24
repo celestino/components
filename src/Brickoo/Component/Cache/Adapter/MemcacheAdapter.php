@@ -101,7 +101,7 @@ class MemcacheAdapter implements Adapter {
         if (! method_exists($this->memcache, $method)) {
             throw new \BadMethodCallException(sprintf("The memcache method `%s` is not defined.", $method));
         }
-        return call_user_func_array(array($this->memcache, $method), $arguments);
+        return call_user_func_array([$this->memcache, $method], $arguments);
     }
 
 }

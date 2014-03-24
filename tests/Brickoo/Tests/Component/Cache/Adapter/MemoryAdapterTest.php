@@ -46,7 +46,7 @@ class MemoryAdapterTest extends PHPUnit_Framework_TestCase {
     public function testConstructor() {
         $MemoryAdapter = new MemoryAdapter();
         $this->assertInstanceOf("\\Brickoo\\Component\\Cache\\Adapter", $MemoryAdapter);
-        $this->assertAttributeEquals(array(), "cacheValues", $MemoryAdapter);
+        $this->assertAttributeEquals([], "cacheValues", $MemoryAdapter);
     }
 
     /** @covers Brickoo\Component\Cache\Adapter\MemoryAdapter::set */
@@ -96,7 +96,7 @@ class MemoryAdapterTest extends PHPUnit_Framework_TestCase {
         $MemoryAdapter = new MemoryAdapter();
         $MemoryAdapter->set("unique_identifier", "");
         $this->assertSame($MemoryAdapter, $MemoryAdapter->delete("unique_identifier"));
-        $this->assertAttributeEquals(array(), "cacheValues", $MemoryAdapter);
+        $this->assertAttributeEquals([], "cacheValues", $MemoryAdapter);
     }
 
     /**
@@ -124,7 +124,7 @@ class MemoryAdapterTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($MemoryAdapter->has("unique_identifier"));
 
         $this->assertSame($MemoryAdapter, $MemoryAdapter->flush());
-        $this->assertAttributeEquals(array(), "cacheValues", $MemoryAdapter);
+        $this->assertAttributeEquals([], "cacheValues", $MemoryAdapter);
     }
 
     /** @covers Brickoo\Component\Cache\Adapter\MemoryAdapter::isReady */

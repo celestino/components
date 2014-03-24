@@ -142,7 +142,7 @@ class ArgumentTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Validation\Argument::IsTraversable */
     public function testIsTraversable() {
-        $this->assertTrue(Argument::IsTraversable(array()));
+        $this->assertTrue(Argument::IsTraversable([]));
         $this->assertTrue(Argument::IsTraversable(new Container()));
     }
 

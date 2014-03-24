@@ -39,7 +39,7 @@ namespace Brickoo\Component\Routing;
 class Messages {
 
     /**
-     * Message asking for collectable routing routes.
+     * Message asking for collectible routing routes.
      * @var string
      */
     const COLLECT_ROUTES = 'brickoo.routing.collect.routes';

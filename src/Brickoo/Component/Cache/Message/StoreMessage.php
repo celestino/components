@@ -49,11 +49,11 @@ class StoreMessage extends CacheMessage {
     public function __construct($identifier, $content, $cacheLifetime = 60) {
         Argument::IsString($identifier);
         Argument::IsInteger($cacheLifetime);
-        parent::__construct(Messages::SET, null, array(
+        parent::__construct(Messages::SET, null, [
             self::PARAM_IDENTIFIER => $identifier,
             self::PARAM_CONTENT => $content,
             self::PARAM_LIFETIME => $cacheLifetime
-        ));
+        ]);
     }
 
 }

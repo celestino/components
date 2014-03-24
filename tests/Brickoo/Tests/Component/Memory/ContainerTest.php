@@ -70,7 +70,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase {
         $this->assertNull($this->container["undefined"]);
         $this->assertTrue(isset($this->container["unit"]));
         unset($this->container["unit"]);
-        $this->assertAttributeEquals(array(), "container", $this->container);
+        $this->assertAttributeEquals([], "container", $this->container);
     }
 
     /** @covers Brickoo\Component\Memory\Container::getIterator */
@@ -109,7 +109,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase {
     public function testDeleteContainerEntry() {
         $this->container["unit"] = "test";
         $this->assertSame($this->container, $this->container->delete("unit"));
-        $this->assertAttributeEquals(array(), "container", $this->container);
+        $this->assertAttributeEquals([], "container", $this->container);
     }
 
     /** @covers Brickoo\Component\Memory\Container::merge */
@@ -149,7 +149,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase {
     public function testFlushContainerEntries() {
         $this->container["unit"] = "test";
         $this->container->flush();
-        $this->assertAttributeEquals(array(), "container", $this->container);
+        $this->assertAttributeEquals([], "container", $this->container);
     }
 
 }

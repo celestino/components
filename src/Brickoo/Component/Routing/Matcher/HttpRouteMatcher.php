@@ -90,7 +90,7 @@ class HttpRouteMatcher implements RouteMatcher {
 
     /** {@inheritDoc} */
     public function getRouteParameters() {
-        return $this->routeParameters ?: array();
+        return $this->routeParameters ?: [];
     }
 
     /**
@@ -133,7 +133,7 @@ class HttpRouteMatcher implements RouteMatcher {
      */
     private function collectRouteParameters(HttpRoute $route) {
         if (! $route->hasRules()) {
-            return array();
+            return [];
         }
 
         $routeParameters = [];

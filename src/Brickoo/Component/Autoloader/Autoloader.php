@@ -68,7 +68,7 @@ abstract class Autoloader {
             throw new DuplicateAutoloaderRegistrationException();
         }
 
-        spl_autoload_register(array($this, 'load'), true, $this->prependAutoloader);
+        spl_autoload_register([$this, "load"], true, $this->prependAutoloader);
         $this->isRegistered = true;
 
         return $this;
@@ -85,7 +85,7 @@ abstract class Autoloader {
             throw new AutoloaderNotRegisteredException();
         }
 
-        spl_autoload_unregister(array($this, "load"));
+        spl_autoload_unregister([$this, "load"]);
         $this->isRegistered = false;
 
         return $this;

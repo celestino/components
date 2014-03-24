@@ -89,7 +89,7 @@ class NamespaceAutoloaderTest extends PHPUnit_Framework_TestCase {
         $namespaceAutoloader = new NamespaceAutoloader();
         $namespaceAutoloader->registerNamespace("TestNamespace", dirname(__FILE__));
         $this->assertSame($namespaceAutoloader, $namespaceAutoloader->unregisterNamespace("TestNamespace"));
-        $this->assertAttributeEquals(array(), "namespaces", $namespaceAutoloader);
+        $this->assertAttributeEquals([], "namespaces", $namespaceAutoloader);
     }
 
     /**

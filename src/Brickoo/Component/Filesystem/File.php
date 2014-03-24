@@ -208,7 +208,7 @@ class File {
                 sprintf("The method `%s` is not allowed to be called.", $function)
             );
         }
-        return call_user_func_array($function, array_merge(array($this->handle), $arguments));
+        return call_user_func_array($function, array_merge([$this->handle], $arguments));
     }
 
 }

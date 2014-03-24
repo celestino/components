@@ -104,7 +104,7 @@ class HttpRequestUriResolverTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\Resolver\HttpRequestUriResolver::getIISRequestUri
      */
     public function testGetPathWithoutProviders() {
-        $uriResolver = new HttpRequestUriResolver($this->getMessageHeaderStub(), array());
+        $uriResolver = new HttpRequestUriResolver($this->getMessageHeaderStub(), []);
         $this->assertEquals("/", $uriResolver->getPath());
     }
 
@@ -169,14 +169,14 @@ class HttpRequestUriResolverTest extends PHPUnit_Framework_TestCase {
     public function testGetQueryStringFromGlobalGetVariable() {
         $backupGlobalGet = $_GET;
         $_GET = ["a" => "b", "c" => "d"];
-        $uriResolver = new HttpRequestUriResolver($this->getMessageHeaderStub(), array());
+        $uriResolver = new HttpRequestUriResolver($this->getMessageHeaderStub(), []);
         $this->assertEquals("a=b&c=d", $uriResolver->getQueryString());
         $_GET = $backupGlobalGet;
     }
 
     /** @covers Brickoo\Component\Http\Resolver\HttpRequestUriResolver::getFragment */
     public function testGetFragment() {
-        $uriResolver = new HttpRequestUriResolver($this->getMessageHeaderStub(), array());
+        $uriResolver = new HttpRequestUriResolver($this->getMessageHeaderStub(), []);
         $this->assertEquals("", $uriResolver->getFragment());
     }
 

@@ -76,7 +76,7 @@ class ExceptionHandler {
         if ($this->isRegistered()) {
             throw new DuplicateHandlerRegistrationException("ExceptionHandler");
         }
-        set_exception_handler(array($this, "handleException"));
+        set_exception_handler([$this, "handleException"]);
         $this->isRegistered = true;
         return $this;
     }
