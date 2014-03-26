@@ -77,7 +77,7 @@ interface Route {
     /**
      * Sets the route parameter rules.
      * @param array $rules
-     * @return \Brickoo\Component\Routing\Route
+     * @return \Brickoo\Component\Routing\Route\Route
      */
     public function setRules(array $rules);
 
@@ -121,7 +121,7 @@ interface Route {
      * Sets the rules default values.
      * Setting default values makes the rule optional.
      * @param array $defaultValues
-     * @return \Brickoo\Component\Routing\Route
+     * @return \Brickoo\Component\Routing\Route\Route
      */
     public function setDefaultValues(array $defaultValues);
 
