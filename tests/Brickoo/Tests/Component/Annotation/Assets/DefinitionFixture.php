@@ -1,7 +1,7 @@
 <?php
 
-use Brickoo\Component\Annotation\Definition,
-    Brickoo\Component\Annotation\DefinitionCollection,
+use Brickoo\Component\Annotation\Definition\Definition,
+    Brickoo\Component\Annotation\Definition\DefinitionCollection,
     Brickoo\Component\Annotation\Definition\AnnotationDefinition,
     Brickoo\Component\Annotation\Definition\ParameterDefinition,
     Brickoo\Component\Annotation\Definition\TargetDefinition;

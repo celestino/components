@@ -29,7 +29,7 @@
 
 namespace Brickoo\Component\Annotation;
 
-use Brickoo\Component\Annotation\Definition,
+use Brickoo\Component\Annotation\Definition\Definition,
     Brickoo\Component\Annotation\Definition\TargetDefinition,
     ReflectionClass;
 
@@ -54,7 +54,7 @@ class AnnotationReflectionClassReader {
 
     /**
      * Returns the read annotations.
-     * @param \Brickoo\Component\Annotation\Definition $definition
+     * @param \Brickoo\Component\Annotation\Definition\Definition $definition
      * @param \ReflectionClass $reflectionClass
      * @return \Brickoo\Component\Annotation\AnnotationClassReaderResult
      */
@@ -69,7 +69,7 @@ class AnnotationReflectionClassReader {
     /**
      * Adds read class annotations to result collection
      * @param \Brickoo\Component\Annotation\AnnotationClassReaderResult $result
-     * @param \Brickoo\Component\Annotation\Definition $definition
+     * @param \Brickoo\Component\Annotation\Definition\Definition $definition
      * @param ReflectionClass $class
      * @return \Brickoo\Component\Annotation\AnnotationReflectionClassReader
      */
@@ -87,7 +87,7 @@ class AnnotationReflectionClassReader {
     /**
      * Adds read methods annotations to result collection.
      * @param \Brickoo\Component\Annotation\AnnotationClassReaderResult $result
-     * @param \Brickoo\Component\Annotation\Definition $definition
+     * @param \Brickoo\Component\Annotation\Definition\Definition $definition
      * @param ReflectionClass $class
      * @return \Brickoo\Component\Annotation\AnnotationReflectionClassReader
      */
@@ -108,7 +108,7 @@ class AnnotationReflectionClassReader {
     /**
      * Adds read properties annotations to result collection.
      * @param \Brickoo\Component\Annotation\AnnotationClassReaderResult $result
-     * @param \Brickoo\Component\Annotation\Definition $definition
+     * @param \Brickoo\Component\Annotation\Definition\Definition $definition
      * @param ReflectionClass $class
      * @return \Brickoo\Component\Annotation\AnnotationReflectionClassReader
      */

@@ -30,7 +30,8 @@
 namespace Brickoo\Component\Annotation;
 
 use ArrayIterator,
-    Brickoo\Component\Annotation\Definition,
+    Brickoo\Component\Annotation\Definition\Definition,
+    Brickoo\Component\Annotation\Definition\DefinitionCollection,
     Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationException,
     Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationParametersException;
 
@@ -44,7 +45,7 @@ class ReaderResultValidator {
 
     /**
      * Validates a reader result against the provided definition.
-     * @param \Brickoo\Component\Annotation\Definition $definition
+     * @param \Brickoo\Component\Annotation\Definition\Definition $definition
      * @param \Brickoo\Component\Annotation\AnnotationClassReaderResult $readerResult
      * @throws \Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationException
      * @throws \Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationParametersException
@@ -92,7 +93,7 @@ class ReaderResultValidator {
 
     /**
      * Returns the collected required annotations and their parameters.
-     * @param \Brickoo\Component\Annotation\DefinitionCollection $collection
+     * @param \Brickoo\Component\Annotation\Definition\DefinitionCollection $collection
      * @param array &$requiredAnnotations
      * @return array<String, ParameterDefinition> the required annotations definitions
      */

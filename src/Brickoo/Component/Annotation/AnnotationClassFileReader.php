@@ -29,7 +29,7 @@
 
 namespace Brickoo\Component\Annotation;
 
-use Brickoo\Component\Annotation\Definition,
+use Brickoo\Component\Annotation\Definition\Definition,
     Brickoo\Component\Annotation\Exception\FileDoesNotExistException,
     Brickoo\Component\Annotation\Exception\UnableToLocateQualifiedClassNameException,
     Brickoo\Component\Validation\Argument,
@@ -56,7 +56,7 @@ class AnnotationClassFileReader {
 
     /**
      *
-     * @param \Brickoo\Component\Annotation\Definition $definition
+     * @param \Brickoo\Component\Annotation\Definition\Definition $definition
      * @param string $filename
      * @throws \Brickoo\Component\Annotation\Exception\FileDoesNotExistException
      * @throws \Brickoo\Component\Annotation\Exception\UnableToLocateQualifiedClassNameException
