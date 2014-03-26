@@ -27,32 +27,43 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Log;
+namespace Brickoo\Tests\Component\Log\Messaging\Message;
+
+use Brickoo\Component\Log\Logger,
+    Brickoo\Component\Log\Messaging\Message\LogMessage;
 
 /**
- * Logger
+ * LogMessageTest
  *
- * Describes an object to store log messages.
+ * Test suite for the LogMessage class.
+    * @see Brickoo\Component\Log\Messaging\Message\LogMessage
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-interface Logger {
-
-    const SEVERITY_EMERGENCY    = 0;
-    const SEVERITY_ALERT        = 1;
-    const SEVERITY_CRITICAL     = 2;
-    const SEVERITY_ERROR        = 3;
-    const SEVERITY_WARNING      = 4;
-    const SEVERITY_NOTICE       = 5;
-    const SEVERITY_INFO         = 6;
-    const SEVERITY_DEBUG        = 7;
+class LogMessageTest extends \PHPUnit_Framework_TestCase {
 
     /**
-     * Sends the log messages using log handler assigned.
-     * @param array|string $messages the messages to store
-     * @param integer $severity the severity level
-     * @throws \InvalidArgumentException if an argument is not valid
-     * @return \Brickoo\Component\Log\Logger
+     * @covers Brickoo\Component\Log\Messaging\Message\LogMessage::__construct
+     * @expectedException \InvalidArgumentException
      */
-    public function log($messages, $severity);
+    public function testConstructorInvalidSeverityThrowsException() {
+        new LogMessage([], "wrongType");
+    }
+
+    /**
+     * @covers Brickoo\Component\Log\Messaging\Message\LogMessage::__construct
+     * @covers Brickoo\Component\Log\Messaging\Message\LogMessage::getMessages
+     */
+    public function testGetMessages() {
+        $messages = ["first message", "second message"];
+        $logMessage = new LogMessage($messages, Logger::SEVERITY_ALERT);
+        $this->assertEquals($messages, $logMessage->getMessages());
+    }
+
+    /** @covers Brickoo\Component\Log\Messaging\Message\LogMessage::getSeverity */
+    public function testGetSeverity() {
+        $severity = Logger::SEVERITY_EMERGENCY;
+        $logMessage = new LogMessage([], $severity);
+        $this->assertEquals($severity, $logMessage->getSeverity());
+    }
 
 }

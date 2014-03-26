@@ -27,32 +27,50 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Log;
+namespace Brickoo\Component\Log\Messaging\Message;
+
+use Brickoo\Component\Log\Messaging\Messages,
+    Brickoo\Component\Messaging\GenericMessage,
+    Brickoo\Component\Validation\Argument;
 
 /**
- * Logger
+ * LogMessage
  *
- * Describes an object to store log messages.
+ * Implementation of a log message which holds logs messages and their severity.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-interface Logger {
-
-    const SEVERITY_EMERGENCY    = 0;
-    const SEVERITY_ALERT        = 1;
-    const SEVERITY_CRITICAL     = 2;
-    const SEVERITY_ERROR        = 3;
-    const SEVERITY_WARNING      = 4;
-    const SEVERITY_NOTICE       = 5;
-    const SEVERITY_INFO         = 6;
-    const SEVERITY_DEBUG        = 7;
+class LogMessage extends GenericMessage {
 
     /**
-     * Sends the log messages using log handler assigned.
-     * @param array|string $messages the messages to store
-     * @param integer $severity the severity level
-     * @throws \InvalidArgumentException if an argument is not valid
-     * @return \Brickoo\Component\Log\Logger
+     * Message parameters.
+     * @var string
      */
-    public function log($messages, $severity);
+    const PARAM_LOG_MESSAGES = "messages";
+    const PARAM_LOG_SEVERITY = "severity";
+
+    /**
+     * @param array $messages
+     * @param integer $severity
+     */
+    public function __construct(array $messages, $severity) {
+        Argument::IsInteger($severity);
+        parent::__construct(Messages::LOG, null, [self::PARAM_LOG_MESSAGES => $messages, self::PARAM_LOG_SEVERITY => $severity]);
+    }
+
+    /**
+     * Returns the messages to log.
+     * @return array the log messages
+     */
+    public function getMessages() {
+        return $this->getParam(self::PARAM_LOG_MESSAGES);
+    }
+
+    /**
+     * Returns the severity level.
+     * @return integer the severity level
+     */
+    public function getSeverity() {
+        return $this->getParam(self::PARAM_LOG_SEVERITY);
+    }
 
 }

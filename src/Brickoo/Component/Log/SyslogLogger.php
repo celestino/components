@@ -39,7 +39,6 @@ use Brickoo\Component\Network\Client,
  * @link http://tools.ietf.org/html/rfc3164
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class SyslogLogger implements Logger {
 
     /**

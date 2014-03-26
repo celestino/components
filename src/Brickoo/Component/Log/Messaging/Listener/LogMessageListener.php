@@ -27,32 +27,55 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Log;
+namespace Brickoo\Component\Log\Messaging\Listener;
+
+use Brickoo\Component\Log\Logger,
+    Brickoo\Component\Log\Messaging\Messages,
+    Brickoo\Component\Log\Messaging\Message\LogMessage,
+    Brickoo\Component\Messaging\Listener,
+    Brickoo\Component\Messaging\Message,
+    Brickoo\Component\Messaging\MessageDispatcher,
+    Brickoo\Component\Validation\Argument;
 
 /**
- * Logger
+ * LogMessageListener
  *
- * Describes an object to store log messages.
+ * Implements a log message listener.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-interface Logger {
+class LogMessageListener implements Listener {
 
-    const SEVERITY_EMERGENCY    = 0;
-    const SEVERITY_ALERT        = 1;
-    const SEVERITY_CRITICAL     = 2;
-    const SEVERITY_ERROR        = 3;
-    const SEVERITY_WARNING      = 4;
-    const SEVERITY_NOTICE       = 5;
-    const SEVERITY_INFO         = 6;
-    const SEVERITY_DEBUG        = 7;
+    /** @var \Brickoo\Component\Log\Logger */
+    protected $logger;
+
+    /** @var integer */
+    protected $listenerPriority;
 
     /**
-     * Sends the log messages using log handler assigned.
-     * @param array|string $messages the messages to store
-     * @param integer $severity the severity level
-     * @throws \InvalidArgumentException if an argument is not valid
-     * @return \Brickoo\Component\Log\Logger
+     * @param \Brickoo\Component\Log\Logger $logger
+     * @param integer $priority the priority level
      */
-    public function log($messages, $severity);
+    public function __construct(Logger $logger, $priority = 0) {
+        Argument::IsInteger($priority);
+        $this->logger = $logger;
+        $this->listenerPriority = $priority;
+    }
+
+    /** {@inheritDoc} */
+    public function getMessageName() {
+        return Messages::LOG;
+    }
+
+    /** {@inheritDoc} */
+    public function getPriority() {
+        return $this->listenerPriority;
+    }
+
+    /** {@inheritDoc} */
+    public function handleMessage(Message $message, MessageDispatcher $messageDispatcher) {
+        if ($message instanceof LogMessage) {
+            $this->logger->log($message->getMessages(), $message->getSeverity());
+        }
+    }
 
 }
