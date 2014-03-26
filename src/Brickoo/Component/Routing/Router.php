@@ -29,9 +29,13 @@
 
 namespace Brickoo\Component\Routing;
 
-use Brickoo\Component\Routing\Route,
+use Brickoo\Component\Routing\Route\Route,
+    Brickoo\Component\Routing\Route\ExecutableRoute,
     Brickoo\Component\Routing\Exception\NoMatchingRouteFoundException,
     Brickoo\Component\Routing\Exception\RouteNotFoundException,
+    Brickoo\Component\Routing\Route\RouteCollection,
+    Brickoo\Component\Routing\Route\Collector\RouteCollector,
+    Brickoo\Component\Routing\Route\Matcher\RouteMatcher,
     Brickoo\Component\Validation\Argument;
 
 /**
@@ -45,13 +49,13 @@ use Brickoo\Component\Routing\Route,
 
 class Router {
 
-    /**  @var \Brickoo\Component\Routing\ExecutableRoute */
+    /**  @var \Brickoo\Component\Routing\Route\ExecutableRoute */
     private $executableRoute;
 
-    /** @var \Brickoo\Component\Routing\RouteMatcher */
+    /** @var \Brickoo\Component\Routing\Route\Matcher\RouteMatcher */
     private $routeMatcher;
 
-    /** @var \Brickoo\Component\Routing\RouteCollector */
+    /** @var \Brickoo\Component\Routing\Route\Collector\RouteCollector */
     private $routeCollector;
 
     /** @var \ArrayIterator */
@@ -59,8 +63,8 @@ class Router {
 
     /**
     * Class constructor.
-    * @param \Brickoo\Component\Routing\RouteCollector $routeCollector
-    * @param \Brickoo\Component\Routing\RouteMatcher $routeMatcher
+    * @param \Brickoo\Component\Routing\Route\Collector\RouteCollector $routeCollector
+    * @param \Brickoo\Component\Routing\Route\Matcher\RouteMatcher $routeMatcher
     */
     public function __construct(RouteCollector $routeCollector, RouteMatcher $routeMatcher) {
         $this->routeCollector = $routeCollector;
@@ -73,7 +77,7 @@ class Router {
      * @param string $collectionName the route collections name
      * @throws \InvalidArgumentException if an argument is not valid
      * @throws \Brickoo\Component\Routing\Exception\RouteNotFoundException
-     * @return \Brickoo\Component\Routing\Route
+     * @return \Brickoo\Component\Routing\Route\Route
      */
     public function getRoute($routeName, $collectionName = "") {
         Argument::IsString($routeName);
@@ -118,7 +122,7 @@ class Router {
     /**
      * Returns the executable route.
      * @throws \Brickoo\Component\Routing\Exception\NoMatchingRouteFoundException
-     * @return \Brickoo\Component\Routing\ExecutableRoute
+     * @return \Brickoo\Component\Routing\Route\ExecutableRoute
      */
     public function getExecutableRoute() {
         if ($this->executableRoute instanceof ExecutableRoute) {
@@ -132,7 +136,7 @@ class Router {
     /**
      * Returns the matching executable route.
      * @throws \Brickoo\Component\Routing\Exception\NoMatchingRouteFoundException
-     * @return \Brickoo\Component\Routing\ExecutableRoute
+     * @return \Brickoo\Component\Routing\Route\ExecutableRoute
      */
     private function getMatchingExecutableRoute() {
         $matchingRoute = null;
@@ -153,8 +157,8 @@ class Router {
 
     /**
      * Returns the matching route from collection if available.
-     * @param \Brickoo\Component\Routing\RouteCollection $routeCollection
-     * @return \Brickoo\Component\Routing\Route otherwise null
+     * @param \Brickoo\Component\Routing\Route\RouteCollection $routeCollection
+     * @return \Brickoo\Component\Routing\Route\Route otherwise null
      */
     private function getMatchingRouteFromCollection(RouteCollection $routeCollection) {
         $matchingRoute = null;
@@ -171,7 +175,7 @@ class Router {
      * Checks if the route collection is responsible for the requested route and collection.
      * @param string $routeName
      * @param string $collectionName
-     * @param \Brickoo\Component\Routing\RouteCollection $routeCollection
+     * @param \Brickoo\Component\Routing\Route\RouteCollection $routeCollection
      * @return boolean check result
      */
     private function isCollectionResponsible($routeName, $collectionName, RouteCollection $routeCollection) {

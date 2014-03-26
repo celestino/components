@@ -196,7 +196,7 @@ class RouterTest extends PHPUnit_Framework_TestCase {
                         ->will($this->returnValue(array($route)));
 
         $router = new Router($this->getRouteCollectorStub($routeCollection), $this->getRouteMatcherMock($route));
-        $this->assertInstanceOf("\\Brickoo\\Component\\Routing\\ExecutableRoute", ($executableRoute = $router->getExecutableRoute()));
+        $this->assertInstanceOf("\\Brickoo\\Component\\Routing\\Route\\ExecutableRoute", ($executableRoute = $router->getExecutableRoute()));
         $this->assertSame($executableRoute, $router->getExecutableRoute());
     }
 
@@ -219,31 +219,31 @@ class RouterTest extends PHPUnit_Framework_TestCase {
 
     /**
      * Returns a route stub.
-     * @return \Brickoo\Component\Routing\Route
+     * @return \Brickoo\Component\Routing\Route\Route
      */
     private function getRouteStub() {
-        return $this->getMockBuilder("\\Brickoo\\Component\\Routing\\Route")
+        return $this->getMockBuilder("\\Brickoo\\Component\\Routing\\Route\\Route")
             ->disableOriginalConstructor()
             ->getMock();
     }
 
     /**
      * Returns a route collection stub.
-     * @return \Brickoo\Component\Routing\RouteCollection
+     * @return \Brickoo\Component\Routing\Route\RouteCollection
      */
     private function getRouteCollectionStub() {
-        return $this->getMockBuilder("\\Brickoo\\Component\\Routing\\RouteCollection")
+        return $this->getMockBuilder("\\Brickoo\\Component\\Routing\\Route\\RouteCollection")
             ->disableOriginalConstructor()
             ->getMock();
     }
 
     /**
      * Stub creator for the route collector dependency.
-     * @param \Brickoo\Component\Routing\RouteCollection $routeCollection
+     * @param \Brickoo\Component\Routing\Route\RouteCollection $routeCollection
      * @return \Brickoo\Component\Routing\RouteCollector
      */
     private function getRouteCollectorStub($routeCollection = null) {
-        $routeCollector = $this->getMock("\\Brickoo\\Component\\Routing\\RouteCollector");
+        $routeCollector = $this->getMock("\\Brickoo\\Component\\Routing\\Route\\Collector\\RouteCollector");
         $routeCollector->expects($this->any())
                        ->method("collect")
                        ->will($this->returnValue($routeCollector));
@@ -255,11 +255,11 @@ class RouterTest extends PHPUnit_Framework_TestCase {
 
     /**
      * Mock creator for the route matcher dependency.
-     * @param \Brickoo\Component\Routing\Route $route
-     * @return \Brickoo\Component\Routing\RouteMatcher
+     * @param \Brickoo\Component\Routing\Route\Route $route
+     * @return \Brickoo\Component\Routing\Route\Matcher\RouteMatcher
      */
     private function getRouteMatcherMock($route = null) {
-        $routeMatcher = $this->getMock("\\Brickoo\\Component\\Routing\\RouteMatcher");
+        $routeMatcher = $this->getMock("\\Brickoo\\Component\\Routing\\Route\\Matcher\\RouteMatcher");
         $routeMatcher->expects($this->any())
                      ->method("matchesCollection")
                      ->will($this->returnValue(true));
