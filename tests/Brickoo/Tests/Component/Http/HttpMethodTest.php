@@ -48,7 +48,7 @@ class HttpMethodTest extends PHPUnit_Framework_TestCase {
      */
     public function testConstructor() {
         $httpMethod = new HttpMethod(HttpMethod::PUT);
-        $this->assertInstanceOf("\\Brickoo\\Component\\Http\HttpMethod", $httpMethod);
+        $this->assertInstanceOf("\\Brickoo\\Component\\Http\\HttpMethod", $httpMethod);
     }
 
     /**
