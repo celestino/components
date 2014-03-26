@@ -7,15 +7,15 @@ PHP 5.4 or any later version required.
 
 
 ###Installation
-Get a copy of the components repository.
+Get a copy of the components repository:
 
-`git clone https://github.com/brickoo/component.git`
+`git clone https://github.com/brickoo/components.git`
 
-Installation using composer
+Installation using composer:
 
 1. Get [Composer](http://getcomposer.org/)
 2. Require Brickoo components with `php composer.phar require brickoo/components v4.0.x`
-3. Install dependencies with `php composer.phar install
+3. Install dependencies with `php composer.phar install`
 
 
 ###Testing
