@@ -211,7 +211,7 @@ class RouterTest extends PHPUnit_Framework_TestCase {
         $routeCollection = $this->getRouteCollectionStub();
         $routeCollection->expects($this->any())
                         ->method("getRoutes")
-                        ->will($this->returnValue(array()));
+                        ->will($this->returnValue([]));
 
         $router = new Router($this->getRouteCollectorStub($routeCollection), $this->getRouteMatcherMock());
         $router->getExecutableRoute();

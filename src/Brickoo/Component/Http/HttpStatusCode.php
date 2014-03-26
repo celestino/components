@@ -93,7 +93,7 @@ class HttpStatusCode {
      * @link http://tools.ietf.org/html/rfc2616#page-40
      * @var array
      */
-    protected $statusPhrases = array(
+    protected $statusPhrases = [
         self::CODE_CONTINUE => "Continue",
         self::CODE_SWITCHING_PROTOCOLS => "Switching Protocols",
         self::CODE_OK => "OK",
@@ -135,7 +135,7 @@ class HttpStatusCode {
         self::CODE_SERVICE_UNAVAILABLE => "Service Unavailable",
         self::CODE_GATEWAY_TIME_OUT => "Gateway Time-out",
         self::CODE_HTTP_VERSION_NOT_SUPPORTED => "HTTP Version not supported"
-    );
+    ];
 
     /**
      * Returns the phrase for the status code.

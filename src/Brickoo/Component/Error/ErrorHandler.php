@@ -86,7 +86,7 @@ class ErrorHandler {
         if ($this->isRegistered()) {
             throw new DuplicateHandlerRegistrationException("ErrorHandler");
         }
-        set_error_handler(array($this, "handleError"));
+        set_error_handler([$this, "handleError"]);
         $this->isRegistered = true;
         return $this;
     }

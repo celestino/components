@@ -83,7 +83,7 @@ class ReaderResultValidator {
      * @return array<String, ParameterDefinition> the required annotations definitions
      */
     private function getRequiredAnnotationsDefinitions(ArrayIterator $definitions) {
-        $requiredAnnotations = array();
+        $requiredAnnotations = [];
         foreach ($definitions as $definitionCollection) {
             $this->collectRequiredAnnotations($definitionCollection, $requiredAnnotations);
         }
@@ -110,7 +110,7 @@ class ReaderResultValidator {
      * @return array<String, Array> the result annotations and parameters
      */
     private function getReadAnnotationsParameters(ArrayIterator $readerResults) {
-        $readAnnotations = array();
+        $readAnnotations = [];
         foreach ($readerResults as $collection) {
             $this->collectReadAnnotations($collection, $readAnnotations);
         }
@@ -164,7 +164,7 @@ class ReaderResultValidator {
      * @return array<String> the missing parameters
      */
     private function getMissingParameters(array $requiredParameters, array $readParameters) {
-        $missingParameters = array();
+        $missingParameters = [];
         foreach ($requiredParameters as $parameter) {
             if (! array_key_exists($parameter->getName(), $readParameters)) {
                 $missingParameters[] = $parameter->getName();

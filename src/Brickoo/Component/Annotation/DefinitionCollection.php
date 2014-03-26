@@ -58,7 +58,7 @@ class DefinitionCollection  implements Countable, IteratorAggregate {
      */
     public function __construct(TargetDefinition $targetDefinition) {
         $this->targetDefinition = $targetDefinition;
-        $this->annotationsContainer = array();
+        $this->annotationsContainer = [];
     }
 
     /**

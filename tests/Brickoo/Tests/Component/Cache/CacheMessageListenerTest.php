@@ -92,7 +92,7 @@ class CacheMessageListenerTest extends PHPUnit_Framework_TestCase {
     public function testHandleRetrieveByCallbackMessage() {
         $cacheIdentifier = "test";
         $cacheCallback = function(){ /*do nothing */ };
-        $callbackArguments = array();
+        $callbackArguments = [];
         $lifetime = 60;
         $cachedResponse = "cached test callback response";
 

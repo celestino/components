@@ -60,7 +60,7 @@ class FilesystemLogger implements Logger {
 
         $this->file = $file;
         $this->logsDirectory = rtrim($logsDirectory, "\\/") . DIRECTORY_SEPARATOR;
-        $this->severityDescription = array(
+        $this->severityDescription = [
             Logger::SEVERITY_EMERGENCY    => "Emergency",
             Logger::SEVERITY_ALERT        => "Alert",
             Logger::SEVERITY_CRITICAL     => "Critical",
@@ -69,7 +69,7 @@ class FilesystemLogger implements Logger {
             Logger::SEVERITY_NOTICE       => "Notice",
             Logger::SEVERITY_INFO         => "Info",
             Logger::SEVERITY_DEBUG        => "Debug"
-        );
+        ];
     }
 
     /** {@inheritDoc} */
@@ -77,7 +77,7 @@ class FilesystemLogger implements Logger {
         Argument::IsInteger($severity);
 
         if (! is_array($messages)) {
-            $messages = array($messages);
+            $messages = [$messages];
         }
 
         $logMessage = $this->convertToLogMessage($messages, $severity);

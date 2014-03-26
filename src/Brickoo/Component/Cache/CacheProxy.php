@@ -106,7 +106,7 @@ class CacheProxy {
     }
 
     /**
-     * Deletes the cached content which is holded by the identifier.
+     * Deletes the cached content which is hold by the identifier.
      * Removes the local cached content.
      * @param string $identifier the identifier which holds the content
      * @throws \InvalidArgumentException if an argument is not valid
@@ -125,7 +125,7 @@ class CacheProxy {
     }
 
     /**
-     * Flushes the cache holded by all ready adapters.
+     * Flushes the cache hold by all ready adapters.
      * @return \Brickoo\Component\Cache\CacheProxy
      */
     public function flush() {

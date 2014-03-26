@@ -58,7 +58,7 @@ class ListenerQueue extends SplPriorityQueue {
      * @return \Brickoo\Component\Messaging\ListenerQueue
      */
     public function insert($listenerUID, $priority) {
-        parent::insert($listenerUID, array($priority, $this->serial--));
+        parent::insert($listenerUID, [$priority, $this->serial--]);
         return $this;
     }
 

@@ -56,7 +56,7 @@ class AnnotationCollection  implements Countable, IteratorAggregate {
      */
     public function __construct(AnnotationTarget $annotationsTarget) {
         $this->annotationsTarget = $annotationsTarget;
-        $this->annotationsContainer = array();
+        $this->annotationsContainer = [];
     }
 
     /**

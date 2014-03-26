@@ -55,7 +55,7 @@ class ClientIpResolver {
      * @param array $serverVars the server variables
      * @param array $proxyServers the proxies to recognize
      */
-    public function __construct(MessageHeader $headers, array $serverVars = [], array $proxyServers =  array()) {
+    public function __construct(MessageHeader $headers, array $serverVars = [], array $proxyServers = []) {
         $this->headers = $headers;
         $this->serverVars = $serverVars;
         $this->proxyServers = $proxyServers;

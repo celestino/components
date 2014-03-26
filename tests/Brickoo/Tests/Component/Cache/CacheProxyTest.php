@@ -76,7 +76,7 @@ class CacheProxyTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetByCallbackIdentifierThrowsInvalidArgumentException() {
         $cacheProxy = new CacheProxy($this->getAdapterPoolIteratorStub());
-        $cacheProxy->getByCallback(["wrongType"], function(){}, array(), 60);
+        $cacheProxy->getByCallback(["wrongType"], function(){}, [], 60);
     }
 
     /**
@@ -85,7 +85,7 @@ class CacheProxyTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetByCallbackLifetimeThrowsInvalidArgumentException() {
         $cacheProxy = new CacheProxy($this->getAdapterPoolIteratorStub());
-        $cacheProxy->getByCallback("some_identifier", function(){}, array(), "wrongType");
+        $cacheProxy->getByCallback("some_identifier", function(){}, [], "wrongType");
     }
 
     /**

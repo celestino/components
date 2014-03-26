@@ -109,7 +109,7 @@ class ExecutableRoute {
     public function execute() {
         $class = new ReflectionClass($this->route->getController());
         $controller = $class->newInstanceArgs(func_get_args());
-        return call_user_func(array($controller, $this->route->getAction()));
+        return call_user_func([$controller, $this->route->getAction()]);
     }
 
 }

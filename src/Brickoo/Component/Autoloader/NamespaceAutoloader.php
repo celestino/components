@@ -55,7 +55,7 @@ class NamespaceAutoloader extends Autoloader {
      */
     public function __construct(array $namespaces = [], $prepend = true) {
         parent::__construct($prepend);
-        $this->namespaces = array();
+        $this->namespaces = [];
 
         foreach ($namespaces as $namespace => $includePath) {
             $this->registerNamespace($namespace, $includePath);

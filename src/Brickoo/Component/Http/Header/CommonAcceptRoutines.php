@@ -46,7 +46,7 @@ trait CommonAcceptRoutines {
     private function buildValue(array $headerValues) {
         $headerValue = "";
         if (! empty($headerValues)) {
-            $values = array();
+            $values = [];
             arsort($headerValues);
             foreach ($headerValues as $value => $quality) {
                 $values[] = $value.($quality < 1 ? sprintf(";q=%.1f", $quality) : "");
@@ -75,7 +75,7 @@ trait CommonAcceptRoutines {
      * @return array the extracted header values
      */
     private function getExtractedHeaderValuesByRegex($regex, $headerValue) {
-        $results = array();
+        $results = [];
         $fields = explode(",", $headerValue);
 
         foreach ($fields as $field) {
