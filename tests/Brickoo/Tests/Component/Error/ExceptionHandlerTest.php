@@ -39,7 +39,6 @@ use Brickoo\Component\Error\ExceptionHandler,
  * @see Brickoo\Component\Error\ExceptionHandler
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ExceptionHandlerTest extends PHPUnit_Framework_TestCase {
 
     /**
@@ -83,7 +82,7 @@ class ExceptionHandlerTest extends PHPUnit_Framework_TestCase {
         $messageDispatcher = $this->getMessageDispatcherStub();
         $messageDispatcher->expects($this->once())
                      ->method("dispatch")
-                     ->with($this->isInstanceOf("\\Brickoo\\Component\\Error\\Message\\ExceptionMessage"))
+                     ->with($this->isInstanceOf("\\Brickoo\\Component\\Error\\Messaging\\Message\\ExceptionMessage"))
                      ->will($this->returnValue(null));
 
         $exceptionHandler = new ExceptionHandler($messageDispatcher);

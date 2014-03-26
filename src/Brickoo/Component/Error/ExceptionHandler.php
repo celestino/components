@@ -29,7 +29,7 @@
 
 namespace Brickoo\Component\Error;
 
-use Brickoo\Component\Error\Message\ExceptionMessage,
+use Brickoo\Component\Error\Messaging\Message\ExceptionMessage,
     Brickoo\Component\Error\Exception\DuplicateHandlerRegistrationException,
     Brickoo\Component\Error\Exception\HandlerNotRegisteredException,
     Brickoo\Component\Messaging\MessageDispatcher;
@@ -41,7 +41,6 @@ use Brickoo\Component\Error\Message\ExceptionMessage,
  * Exceptions can be logged through the log message which is triggered if exceptions occurred.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ExceptionHandler {
 
     /** @var boolean */

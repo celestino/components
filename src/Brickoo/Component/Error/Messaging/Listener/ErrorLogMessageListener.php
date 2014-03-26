@@ -27,13 +27,39 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Error;
+namespace Brickoo\Component\Error\Messaging\Listener;
+
+use Brickoo\Component\Error\Messaging\Messages,
+    Brickoo\Component\Error\Messaging\Message\ErrorMessage,
+    Brickoo\Component\Messaging\Listener,
+    Brickoo\Component\Messaging\Message,
+    Brickoo\Component\Messaging\MessageDispatcher,
+    Brickoo\Component\Log\Logger,
+    Brickoo\Component\Log\Messaging\Message\LogMessage;
 
 /**
- * Exception
+ * ErrorLogMessageListener
  *
- * Defines an error exception.
- * Used to catch all exceptions from this component.
+ * Implements a listener for error log messages.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class Exception extends \Exception {}
+class ErrorLogMessageListener implements Listener {
+
+    /** {@inheritDoc} */
+    public function getMessageName() {
+        return Messages::ERROR;
+    }
+
+    /** {@inheritDoc} */
+    public function getPriority() {
+        return 0;
+    }
+
+    /** {@inheritDoc} */
+    public function handleMessage(Message $message, MessageDispatcher $messageDispatcher) {
+        if ($message instanceof ErrorMessage) {
+            $messageDispatcher->dispatch(new LogMessage([$message->getErrorMessage()], Logger::SEVERITY_ERROR));
+        }
+    }
+
+}

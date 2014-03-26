@@ -27,13 +27,40 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Error;
+namespace Brickoo\Tests\Component\Error\Messaging\Message;
+
+use Brickoo\Component\Error\Messaging\Message\ErrorMessage,
+    PHPUnit_Framework_TestCase;
 
 /**
- * Exception
+ * ErrorMessageTest
  *
- * Defines an error exception.
- * Used to catch all exceptions from this component.
+ * Test suite for the ErrorMessage class.
+ * @see Brickoo\Component\Error\Messaging\Message\ErrorMessage
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class Exception extends \Exception {}
+class ErrorMessageTest extends PHPUnit_Framework_TestCase {
+
+    /** @covers Brickoo\Component\Error\Messaging\Message\ErrorMessage::__construct */
+    public function testContructor() {
+        $errorMessage = "An error occurred.";
+        $message = new ErrorMessage($errorMessage);
+        $this->assertInstanceOf("\\Brickoo\\Component\\Messaging\\Message", $message);
+    }
+
+    /**
+     * @covers Brickoo\Component\Error\Messaging\Message\ErrorMessage::__construct
+     * @expectedException \InvalidArgumentException
+     */
+    public function testConstructorThrowsInvalidArgumentException() {
+        new ErrorMessage(["wrongType"]);
+    }
+
+    /** @covers Brickoo\Component\Error\Messaging\Message\ErrorMessage::getErrorMessage */
+    public function testGetErrorMessage() {
+        $errorMessage = "An error occurred.";
+        $message = new ErrorMessage($errorMessage);
+        $this->assertEquals($errorMessage, $message->getErrorMessage());
+    }
+
+}

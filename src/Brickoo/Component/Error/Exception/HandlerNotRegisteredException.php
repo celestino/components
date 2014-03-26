@@ -38,7 +38,6 @@ use Brickoo\Component\Error\Exception;
  * an unregistered error handler instance.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HandlerNotRegisteredException extends Exception {
 
     /**

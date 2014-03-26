@@ -37,7 +37,6 @@ use Brickoo\Component\Error\Exception;
  * Exception thrown by an error handler class if trying to register the instance twice.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class DuplicateHandlerRegistrationException extends Exception {
 
     /**

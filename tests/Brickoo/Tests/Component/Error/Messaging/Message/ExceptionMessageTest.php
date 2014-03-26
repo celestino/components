@@ -27,13 +27,32 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Error;
+namespace Brickoo\Tests\Component\Error\Messaging\Message;
+
+use Brickoo\Component\Error\Messaging\Message\ExceptionMessage,
+    PHPUnit_Framework_TestCase;
 
 /**
- * Exception
+ * ExceptionMessageTest
  *
- * Defines an error exception.
- * Used to catch all exceptions from this component.
+ * Test suite for the ExceptionMessage class.
+ * @see Brickoo\Component\Error\Messaging\Message\ExceptionMessage
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class Exception extends \Exception {}
+class ExceptionMessageTest extends PHPUnit_Framework_TestCase {
+
+    /** @covers Brickoo\Component\Error\Messaging\Message\ExceptionMessage::__construct */
+    public function testContructor() {
+        $exception = new \Exception("Some test exception.");
+        $exceptionMessage = new ExceptionMessage($exception);
+        $this->assertInstanceOf("\\Brickoo\\Component\\Messaging\\Message", $exceptionMessage);
+    }
+
+    /** @covers Brickoo\Component\Error\Messaging\Message\ExceptionMessage::getException */
+    public function testGetException() {
+        $exception = new \Exception("Some test exception.");
+        $exceptionMessage = new ExceptionMessage($exception);
+        $this->assertSame($exception, $exceptionMessage->getException());
+    }
+
+}

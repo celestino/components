@@ -27,13 +27,36 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Error;
+namespace Brickoo\Component\Error\Messaging\Message;
+
+use Brickoo\Component\Error\Messaging\Messages,
+    Brickoo\Component\Messaging\GenericMessage;
 
 /**
- * Exception
+ * ExceptionMessage
  *
- * Defines an error exception.
- * Used to catch all exceptions from this component.
+ * Implementation of an exception message.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class Exception extends \Exception {}
+class ExceptionMessage extends GenericMessage {
+
+    /**
+     * Exception message parameter.
+     * @var string
+     */
+    const PARAM_EXCEPTION = "exception";
+
+    /** @param \Exception $exception */
+    public function __construct(\Exception $exception) {
+        parent::__construct(Messages::EXCEPTION, null, [self::PARAM_EXCEPTION => $exception]);
+    }
+
+    /**
+     * Returns the message containing the exception occurred.
+     * @return \Exception the exception occurred
+     */
+    public function getException() {
+        return $this->getParam(self::PARAM_EXCEPTION);
+    }
+
+}

@@ -30,7 +30,7 @@
 namespace Brickoo\Component\Error;
 
 use Brickoo\Component\Messaging\MessageDispatcher,
-    Brickoo\Component\Error\Message\ErrorMessage,
+    Brickoo\Component\Error\Messaging\Message\ErrorMessage,
     Brickoo\Component\Error\Exception\DuplicateHandlerRegistrationException,
     Brickoo\Component\Error\Exception\ErrorOccurredException,
     Brickoo\Component\Error\Exception\HandlerNotRegisteredException,
@@ -44,7 +44,6 @@ use Brickoo\Component\Messaging\MessageDispatcher,
  * Triggers an log message if a message dispatcher is attached.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ErrorHandler {
 
     /** @var boolean */

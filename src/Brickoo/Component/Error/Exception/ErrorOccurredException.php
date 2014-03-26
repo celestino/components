@@ -38,7 +38,6 @@ use Brickoo\Component\Error\Exception;
  * @see Brickoo\Component\Error\ErrorHandler
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ErrorOccurredException extends Exception {
 
     /**
