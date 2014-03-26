@@ -39,7 +39,6 @@ use Brickoo\Component\Cache\Adapter\DoNothingAdapter,
  * @see Brickoo\Component\Cache\Adapter\DoNothingAdapter
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class DoNothingAdapterTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Cache\Adapter\DoNothingAdapter::get */

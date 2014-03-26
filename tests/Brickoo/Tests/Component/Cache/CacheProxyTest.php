@@ -30,7 +30,7 @@
 namespace Brickoo\Tests\Component\Cache;
 
 use Brickoo\Component\Cache\CacheProxy,
-    Brickoo\Component\Cache\Adapter,
+    Brickoo\Component\Cache\Adapter\Adapter,
     PHPUnit_Framework_TestCase;
 
 /**
@@ -40,7 +40,6 @@ use Brickoo\Component\Cache\CacheProxy,
  * @see Brickoo\Component\Cache\CacheProxy
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class CacheProxyTest extends PHPUnit_Framework_TestCase {
 
     /**
@@ -55,7 +54,7 @@ class CacheProxyTest extends PHPUnit_Framework_TestCase {
         $callbackArguments = [];
         $lifetime = 60;
 
-        $adapter = $this->getMock("\\Brickoo\\Component\\Cache\\Adapter");
+        $adapter = $this->getAdapterStub();
         $adapter->expects($this->once())
                 ->method("get")
                 ->will($this->returnValue(null));
@@ -97,7 +96,7 @@ class CacheProxyTest extends PHPUnit_Framework_TestCase {
         $cacheIdentifier = "someIdentifier";
         $cachedContent = "some cached content";
 
-        $adapter = $this->getMock("\\Brickoo\\Component\\Cache\\Adapter");
+        $adapter = $this->getAdapterStub();
         $adapter->expects($this->any())
                 ->method("get")
                 ->with($cacheIdentifier)
@@ -138,7 +137,7 @@ class CacheProxyTest extends PHPUnit_Framework_TestCase {
         $cacheContent = "some content ot cache";
         $lifetime = 60;
 
-        $adapter = $this->getMock("\\Brickoo\\Component\\Cache\\Adapter");
+        $adapter = $this->getAdapterStub();
         $adapter->expects($this->once())
                  ->method("set")
                  ->with($cacheIdentifier, $cacheContent, $lifetime);
@@ -168,7 +167,7 @@ class CacheProxyTest extends PHPUnit_Framework_TestCase {
     /** @covers Brickoo\Component\Cache\CacheProxy::delete */
     public function testDeleteCachedContentWithAnAdapter() {
         $cacheIdentifier = "someIdentifier";
-        $adapter = $this->getMock("\\Brickoo\\Component\\Cache\\Adapter");
+        $adapter = $this->getAdapterStub();
         $adapter->expects($this->once())
                 ->method("delete")
                 ->with($cacheIdentifier);
@@ -187,7 +186,7 @@ class CacheProxyTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Cache\CacheProxy::flush */
     public function testFlushCachedContent() {
-        $adapter = $this->getMock("\\Brickoo\\Component\\Cache\\Adapter");
+        $adapter = $this->getAdapterStub();
         $adapter->expects($this->once())
                 ->method("flush");
         $cacheProxy = new CacheProxy($this->buildAdapterPoolIteratorStub($adapter));
@@ -197,19 +196,27 @@ class CacheProxyTest extends PHPUnit_Framework_TestCase {
     /**
      * Returns an AdapterPoolIterator stub.
      * @param array $adaptersPool
-     * @return \Brickoo\Component\Cache\AdapterPoolIterator
+     * @return \Brickoo\Component\Cache\Adapter\AdapterPoolIterator
      */
     private function getAdapterPoolIteratorStub(array $adaptersPool = []) {
-        return $this->getMockBuilder("\\Brickoo\\Component\\Cache\\AdapterPoolIterator")
+        return $this->getMockBuilder("\\Brickoo\\Component\\Cache\\Adapter\\AdapterPoolIterator")
             ->setConstructorArgs([$adaptersPool])
             ->getMock();
     }
 
     /**
+     * Retruns an adapter stub.
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    private function getAdapterStub() {
+        return $this->getMock("\\Brickoo\\Component\\Cache\\Adapter\\Adapter");
+    }
+
+    /**
      * Returns a pre-configured AdapterPoolIterator stub object.
-     * @param \Brickoo\Component\Cache\Adapter $adapter
+     * @param \Brickoo\Component\Cache\Adapter\Adapter $adapter
      * @param integer $poolEntryKey the pool entry key
-     * @return \Brickoo\Component\Cache\AdapterPoolIterator
+     * @return \Brickoo\Component\Cache\Adapter\AdapterPoolIterator
      */
     private function buildAdapterPoolIteratorStub(Adapter $adapter, $poolEntryKey = 0) {
         $adapterPoolIterator = $this->getAdapterPoolIteratorStub([$poolEntryKey => $adapter]);

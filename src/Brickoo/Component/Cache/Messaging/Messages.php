@@ -27,65 +27,44 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Cache\Adapter;
-
-use Brickoo\Component\Validation\Argument;
+namespace Brickoo\Component\Cache\Messaging;
 
 /**
- * MemoryAdapter
+ * Messages
  *
- * Implements a memory cache adapter for handling runtime cache operations.
- * Currently the cached content does not expire.
+ * Defines the cache messages.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class MemoryAdapter implements Adapter {
+class Messages {
 
-    /** @var array */
-    private $cacheValues;
+    /**
+     * Asks for a cached content.
+     * @var string
+     */
+    const GET = "brickoo.message.cache.get";
 
-    public function __construct() {
-        $this->cacheValues = [];
-    }
+    /**
+     * Notifies that the content has to be cached.
+     * @var string
+     */
+    const SET = "brickoo.message.cache.set";
 
-    /** {@inheritDoc} */
-    public function get($identifier) {
-        Argument::IsString($identifier);
-        if (! array_key_exists($identifier, $this->cacheValues)) {
-            return null;
-        }
-        return $this->cacheValues[$identifier];
-    }
+    /**
+     * Asks for a cached content otherwise a callback should be executed.
+     * @var string
+     */
+    const CALLBACK = "brickoo.message.cache.callback";
 
-    /** {@inheritDoc} */
-    public function set($identifier, $content, $lifetime = 0) {
-        Argument::IsString($identifier);
-        $this->cacheValues[$identifier] = $content;
-        return $this;
-    }
+    /**
+     * Notifies that some cached content has to be deleted.
+     * @var string
+     */
+    const DELETE = "brickoo.message.cache.delete";
 
-    /** {@inheritDoc} */
-    public function delete($identifier) {
-        Argument::IsString($identifier);
-        if (array_key_exists($identifier, $this->cacheValues)) {
-            unset($this->cacheValues[$identifier]);
-        }
-        return $this;
-    }
-
-    /** {@inheritDoc} */
-    public function has($identifier) {
-        return array_key_exists($identifier, $this->cacheValues);
-    }
-
-    /** {@inheritDoc} */
-    public function flush() {
-        $this->cacheValues = [];
-        return $this;
-    }
-
-    /** {@inheritDoc} */
-    public function isReady() {
-        return true;
-    }
+    /**
+     * Notifies that all cached content has to be flushed.
+     * @var string
+     */
+    const FLUSH = "brickoo.message.cache.flush";
 
 }

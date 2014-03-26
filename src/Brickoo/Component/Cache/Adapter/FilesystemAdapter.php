@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Cache\Adapter;
 
-use Brickoo\Component\Cache\Adapter,
-    Brickoo\Component\Filesystem\File,
+use Brickoo\Component\Filesystem\File,
     Brickoo\Component\Validation\Argument;
 
 /**
@@ -39,7 +38,6 @@ use Brickoo\Component\Cache\Adapter,
  * Provides caching operations based on filesystem.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class FilesystemAdapter implements Adapter {
 
     /** @var string */

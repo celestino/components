@@ -29,63 +29,44 @@
 
 namespace Brickoo\Component\Cache\Adapter;
 
-use Brickoo\Component\Validation\Argument;
-
 /**
- * MemoryAdapter
+ * AdapterPool
  *
- * Implements a memory cache adapter for handling runtime cache operations.
- * Currently the cached content does not expire.
+ * Defines an adapter pool.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class MemoryAdapter implements Adapter {
+interface AdapterPool {
 
-    /** @var array */
-    private $cacheValues;
+    /**
+     * Selects a pool entry by its identifier.
+     * @param string|integer $identifier the pool entry identifier
+     * @throws \InvalidArgumentException
+     * @throws \Brickoo\Component\Cache\Adapter\Exception\PoolIdentifierDoesNotExistException
+     * @return \Brickoo\Component\Cache\Adapter\AdapterPool
+     */
+    public function select($identifier);
 
-    public function __construct() {
-        $this->cacheValues = [];
-    }
+    /**
+     * Checks if a pool adapter entry exists.
+     * @param string|integer $identifier the pool adapter identifier
+     * @throws \InvalidArgumentException
+     * @return boolean check result
+     */
+    public function has($identifier);
 
-    /** {@inheritDoc} */
-    public function get($identifier) {
-        Argument::IsString($identifier);
-        if (! array_key_exists($identifier, $this->cacheValues)) {
-            return null;
-        }
-        return $this->cacheValues[$identifier];
-    }
+    /**
+     * Removes a pool adapter entry by its identifier.
+     * @param string|integer $identifier the pool adapter identifier
+     * @throws \InvalidArgumentException
+     * @throws \Brickoo\Component\Cache\Adapter\Exception\PoolIdentifierDoesNotExistException
+     * @return \Brickoo\Component\Cache\Adapter\AdapterPool
+     */
+    public function remove($identifier);
 
-    /** {@inheritDoc} */
-    public function set($identifier, $content, $lifetime = 0) {
-        Argument::IsString($identifier);
-        $this->cacheValues[$identifier] = $content;
-        return $this;
-    }
-
-    /** {@inheritDoc} */
-    public function delete($identifier) {
-        Argument::IsString($identifier);
-        if (array_key_exists($identifier, $this->cacheValues)) {
-            unset($this->cacheValues[$identifier]);
-        }
-        return $this;
-    }
-
-    /** {@inheritDoc} */
-    public function has($identifier) {
-        return array_key_exists($identifier, $this->cacheValues);
-    }
-
-    /** {@inheritDoc} */
-    public function flush() {
-        $this->cacheValues = [];
-        return $this;
-    }
-
-    /** {@inheritDoc} */
-    public function isReady() {
-        return true;
-    }
+    /**
+     * Checks if the pool has none entries.
+     * @return boolean check result
+     */
+    public function isEmpty();
 
 }

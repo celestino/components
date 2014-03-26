@@ -27,65 +27,33 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Cache\Adapter;
+namespace Brickoo\Tests\Component\Cache\Messaging\Message;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Cache\Messaging\Message\RetrieveMessage,
+    PHPUnit_Framework_TestCase;
 
 /**
- * MemoryAdapter
+ * RetrieveMessageTest
  *
- * Implements a memory cache adapter for handling runtime cache operations.
- * Currently the cached content does not expire.
+ * Test suite for the RetrieveMessage class.
+ * @see Brickoo\Component\Cache\Messaging\Message\RetrieveMessage
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class MemoryAdapter implements Adapter {
 
-    /** @var array */
-    private $cacheValues;
+class RetrieveMessageTest extends PHPUnit_Framework_TestCase {
 
-    public function __construct() {
-        $this->cacheValues = [];
+    /** @covers Brickoo\Component\Cache\Messaging\Message\RetrieveMessage::__construct */
+    public function testConstructor() {
+        $message = new RetrieveMessage("identifier");
+        $this->assertInstanceOf("\\Brickoo\\Component\\Cache\\Messaging\\Message\\CacheMessage", $message);
     }
 
-    /** {@inheritDoc} */
-    public function get($identifier) {
-        Argument::IsString($identifier);
-        if (! array_key_exists($identifier, $this->cacheValues)) {
-            return null;
-        }
-        return $this->cacheValues[$identifier];
-    }
-
-    /** {@inheritDoc} */
-    public function set($identifier, $content, $lifetime = 0) {
-        Argument::IsString($identifier);
-        $this->cacheValues[$identifier] = $content;
-        return $this;
-    }
-
-    /** {@inheritDoc} */
-    public function delete($identifier) {
-        Argument::IsString($identifier);
-        if (array_key_exists($identifier, $this->cacheValues)) {
-            unset($this->cacheValues[$identifier]);
-        }
-        return $this;
-    }
-
-    /** {@inheritDoc} */
-    public function has($identifier) {
-        return array_key_exists($identifier, $this->cacheValues);
-    }
-
-    /** {@inheritDoc} */
-    public function flush() {
-        $this->cacheValues = [];
-        return $this;
-    }
-
-    /** {@inheritDoc} */
-    public function isReady() {
-        return true;
+    /**
+     * @covers Brickoo\Component\Cache\Messaging\Message\RetrieveMessage::__construct
+     * @expectedException \InvalidArgumentException
+     */
+    public function testConstructorThrowsExceptionForInvalidArgument() {
+        new RetrieveMessage(["wrongType"]);
     }
 
 }

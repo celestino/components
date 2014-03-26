@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Cache\Adapter;
 
-use Brickoo\Component\Cache\Adapter,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * DoNothingAdapter
@@ -38,7 +37,6 @@ use Brickoo\Component\Cache\Adapter,
  * This adapter can be used if the caching should be turned off but must behave as expected.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class DoNothingAdapter implements Adapter {
 
     /** {@inheritDoc} */

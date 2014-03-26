@@ -27,65 +27,32 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Cache\Adapter;
+namespace Brickoo\Component\Cache\Messaging\Message;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Cache\Messaging\Messages,
+    Brickoo\Component\Validation\Argument;
 
 /**
- * MemoryAdapter
+ * StoreMessage
  *
- * Implements a memory cache adapter for handling runtime cache operations.
- * Currently the cached content does not expire.
+ * Implements a content caching message.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class MemoryAdapter implements Adapter {
+class StoreMessage extends CacheMessage {
 
-    /** @var array */
-    private $cacheValues;
-
-    public function __construct() {
-        $this->cacheValues = [];
-    }
-
-    /** {@inheritDoc} */
-    public function get($identifier) {
+    /**
+     * @param string $identifier the cache content identifier
+     * @param mixed $content the content to cache
+     * @param integer $cacheLifetime the max. cache lifetime for the content
+     */
+    public function __construct($identifier, $content, $cacheLifetime = 60) {
         Argument::IsString($identifier);
-        if (! array_key_exists($identifier, $this->cacheValues)) {
-            return null;
-        }
-        return $this->cacheValues[$identifier];
-    }
-
-    /** {@inheritDoc} */
-    public function set($identifier, $content, $lifetime = 0) {
-        Argument::IsString($identifier);
-        $this->cacheValues[$identifier] = $content;
-        return $this;
-    }
-
-    /** {@inheritDoc} */
-    public function delete($identifier) {
-        Argument::IsString($identifier);
-        if (array_key_exists($identifier, $this->cacheValues)) {
-            unset($this->cacheValues[$identifier]);
-        }
-        return $this;
-    }
-
-    /** {@inheritDoc} */
-    public function has($identifier) {
-        return array_key_exists($identifier, $this->cacheValues);
-    }
-
-    /** {@inheritDoc} */
-    public function flush() {
-        $this->cacheValues = [];
-        return $this;
-    }
-
-    /** {@inheritDoc} */
-    public function isReady() {
-        return true;
+        Argument::IsInteger($cacheLifetime);
+        parent::__construct(Messages::SET, null, [
+            self::PARAM_IDENTIFIER => $identifier,
+            self::PARAM_CONTENT => $content,
+            self::PARAM_LIFETIME => $cacheLifetime
+        ]);
     }
 
 }

@@ -37,7 +37,6 @@ use Brickoo\Component\Cache\Exception;
  * Exception thrown if none caching adapter could been found.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class AdapterNotFoundException extends Exception {
 
     /**

@@ -27,24 +27,23 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Cache\Exception;
+namespace Brickoo\Component\Cache\Messaging\Message;
 
-use Brickoo\Component\Cache\Exception;
+use Brickoo\Component\Cache\Messaging\Messages,
+    Brickoo\Component\Validation\Argument;
 
 /**
- * PoolIsEmptyException
+ * DeleteMessage
  *
- * Implements caching management for an adapter pool.
+ * Implements a message for deleting cached data.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class PoolIsEmptyException extends Exception {
+class DeleteMessage extends CacheMessage {
 
-    /**
-     * Calls the parent constructor.
-     * @param \Exception $previousException
-     */
-    public function __construct(\Exception $previousException = null) {
-        parent::__construct("The cache pool is empty.", 0, $previousException);
+    /** @param string $identifier */
+    public function __construct($identifier) {
+        Argument::IsString($identifier);
+        parent::__construct(Messages::DELETE, null, [self::PARAM_IDENTIFIER => $identifier]);
     }
 
 }

@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Cache\Exception;
+namespace Brickoo\Component\Cache\Adapter\Exception;
 
 use Brickoo\Component\Cache\Exception;
 
@@ -37,7 +37,6 @@ use Brickoo\Component\Cache\Exception;
  * Exception thrown if trying to access a not available caching adapter pool entry
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class PoolIdentifierDoesNotExistException extends Exception {
 
     /**

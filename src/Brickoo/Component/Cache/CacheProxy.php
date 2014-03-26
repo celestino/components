@@ -29,26 +29,27 @@
 
 namespace Brickoo\Component\Cache;
 
-use Brickoo\Component\Cache\Exception\AdapterNotFoundException,
+use Brickoo\Component\Cache\Adapter\AdapterPoolIterator,
+    Brickoo\Component\Cache\Exception\AdapterNotFoundException,
     Brickoo\Component\Validation\Argument;
 
 /**
  * CacheProxy
  *
- * Implements caching proxy for handling a cache pool.
+ * Implements caching proxy using a cache adapter pool.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 class CacheProxy {
 
-    /** @var \Brickoo\Component\Cache\Adapter */
+    /** @var \Brickoo\Component\Cache\Adapter\Adapter */
     private $adapter;
 
-    /** @var \Brickoo\Component\Cache\AdapterPoolIterator */
+    /** @var \Brickoo\Component\Cache\Adapter\AdapterPoolIterator */
     private $adapterPoolIterator;
 
     /**
      * Class constructor.
-     * @param \Brickoo\Component\Cache\AdapterPoolIterator $adapterPoolIterator
+     * @param \Brickoo\Component\Cache\Adapter\AdapterPoolIterator $adapterPoolIterator
      */
     public function __construct(AdapterPoolIterator $adapterPoolIterator) {
         $this->adapter = null;
@@ -141,7 +142,7 @@ class CacheProxy {
 
     /**
      * Returns a ready adapter entry from the adapter pool.
-     * @return \Brickoo\Component\Cache\Adapter
+     * @return \Brickoo\Component\Cache\Adapter\Adapter
      */
     private function getAdapter() {
         if ($this->adapter !== null) {
@@ -154,7 +155,7 @@ class CacheProxy {
     /**
      * Returns a ready adapter.
      * @throws \Brickoo\Component\Cache\Exception\AdapterNotFoundException
-     * @return \Brickoo\Component\Cache\Adapter
+     * @return \Brickoo\Component\Cache\Adapter\Adapter
      */
     private function getReadyAdapter() {
         $adapter = null;

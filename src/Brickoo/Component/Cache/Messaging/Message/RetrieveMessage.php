@@ -27,65 +27,23 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Cache\Adapter;
+namespace Brickoo\Component\Cache\Messaging\Message;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Cache\Messaging\Messages,
+    Brickoo\Component\Validation\Argument;
 
 /**
- * MemoryAdapter
+ * RetrieveMessage
  *
- * Implements a memory cache adapter for handling runtime cache operations.
- * Currently the cached content does not expire.
+ * Implements a message for retrieving cached data.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class MemoryAdapter implements Adapter {
+class RetrieveMessage extends CacheMessage {
 
-    /** @var array */
-    private $cacheValues;
-
-    public function __construct() {
-        $this->cacheValues = [];
-    }
-
-    /** {@inheritDoc} */
-    public function get($identifier) {
+    /** @param string $identifier */
+    public function __construct($identifier) {
         Argument::IsString($identifier);
-        if (! array_key_exists($identifier, $this->cacheValues)) {
-            return null;
-        }
-        return $this->cacheValues[$identifier];
-    }
-
-    /** {@inheritDoc} */
-    public function set($identifier, $content, $lifetime = 0) {
-        Argument::IsString($identifier);
-        $this->cacheValues[$identifier] = $content;
-        return $this;
-    }
-
-    /** {@inheritDoc} */
-    public function delete($identifier) {
-        Argument::IsString($identifier);
-        if (array_key_exists($identifier, $this->cacheValues)) {
-            unset($this->cacheValues[$identifier]);
-        }
-        return $this;
-    }
-
-    /** {@inheritDoc} */
-    public function has($identifier) {
-        return array_key_exists($identifier, $this->cacheValues);
-    }
-
-    /** {@inheritDoc} */
-    public function flush() {
-        $this->cacheValues = [];
-        return $this;
-    }
-
-    /** {@inheritDoc} */
-    public function isReady() {
-        return true;
+        parent::__construct(Messages::GET, null, [self::PARAM_IDENTIFIER => $identifier]);
     }
 
 }

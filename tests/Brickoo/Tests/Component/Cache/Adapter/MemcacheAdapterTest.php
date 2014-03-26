@@ -39,7 +39,6 @@ use Brickoo\Component\Cache\Adapter\MemcacheAdapter,
  * @see Brickoo\Component\Cache\Adapter\MemcacheAdapter
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class MemcacheAdapterTest extends PHPUnit_Framework_TestCase {
 
     public function setUp() {
@@ -49,10 +48,10 @@ class MemcacheAdapterTest extends PHPUnit_Framework_TestCase {
     }
 
     /** @covers Brickoo\Component\Cache\Adapter\MemcacheAdapter::__construct */
-    public function testConstructorInitializesProperties() {
+    public function testConstructorImplementsInterface() {
         $memcache= $this->getMemcacheStub();
         $memcacheAdapter = new MemcacheAdapter($memcache);
-        $this->assertAttributeSame($memcache, "memcache", $memcacheAdapter);
+        $this->assertInstanceOf("\\Brickoo\\Component\\Cache\\Adapter\\Adapter", $memcacheAdapter);
     }
 
     /** @covers Brickoo\Component\Cache\Adapter\MemcacheAdapter::set */
@@ -78,7 +77,7 @@ class MemcacheAdapterTest extends PHPUnit_Framework_TestCase {
      */
     public function testSetThrowsAnArgumentException() {
         $memcacheAdapter = new MemcacheAdapter($this->getMemcacheStub());
-        $memcacheAdapter->set(array("wrongType"), "whatever", array("wrongType"));
+        $memcacheAdapter->set(["wrongType"], "whatever", ["wrongType"]);
     }
 
     /** @covers Brickoo\Component\Cache\Adapter\MemcacheAdapter::get */
@@ -102,7 +101,7 @@ class MemcacheAdapterTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetThrowsAnArgumentException() {
         $memcacheAdapter = new MemcacheAdapter($this->getMock("\\Memcache"));
-        $memcacheAdapter->get(array("wrongType"));
+        $memcacheAdapter->get(["wrongType"]);
     }
 
 
@@ -126,7 +125,7 @@ class MemcacheAdapterTest extends PHPUnit_Framework_TestCase {
      */
     public function testDeleteThrowsAnArgumentException() {
         $memcacheAdapter = new MemcacheAdapter($this->getMemcacheStub());
-        $memcacheAdapter->delete(array("wrongType"));
+        $memcacheAdapter->delete(["wrongType"]);
     }
 
     /** @covers Brickoo\Component\Cache\Adapter\MemcacheAdapter::flush */
@@ -175,7 +174,7 @@ class MemcacheAdapterTest extends PHPUnit_Framework_TestCase {
      * @return \Memcache
      */
     private function getMemcacheStub() {
-        return $this->getMock("Memcache");
+        return $this->getMock("\\Memcache");
     }
 
 }

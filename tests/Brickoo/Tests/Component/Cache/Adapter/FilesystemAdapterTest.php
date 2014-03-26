@@ -41,19 +41,13 @@ use Brickoo\Component\Cache\Adapter\FilesystemAdapter,
  * @see Brickoo\Component\Cache\Adapter\FilesystemAdapter
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class FilesystemAdapterTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Cache\Adapter\FilesystemAdapter::__construct */
-    public function testConstructorInitializesProperties() {
+    public function testConstructorImplementsInterface() {
         $file = $this->getFileStub();
         $filesystemAdapter = new FilesystemAdapter($file, getcwd(), false, ".test");
-
-        $this->assertInstanceOf("\\Brickoo\\Component\\Cache\\Adapter", $filesystemAdapter);
-        $this->assertAttributeSame($file, "fileObject", $filesystemAdapter);
-        $this->assertAttributeEquals(getcwd().DIRECTORY_SEPARATOR, "cacheDirectory", $filesystemAdapter);
-        $this->assertAttributeEquals(false, "serializeCacheContent", $filesystemAdapter);
-        $this->assertAttributeEquals(".test", "cacheFileNameSuffix", $filesystemAdapter);
+        $this->assertInstanceOf("\\Brickoo\\Component\\Cache\\Adapter\\Adapter", $filesystemAdapter);
     }
 
     /**
@@ -160,8 +154,8 @@ class FilesystemAdapterTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Returns a File stub.
-     * @return \Brickoo\Component\Filesystem\File
+     * Returns a file stub.
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     private function getFileStub() {
         return $this->getMockBuilder("\\Brickoo\\Component\\Filesystem\\File")

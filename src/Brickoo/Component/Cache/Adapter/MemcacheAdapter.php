@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Cache\Adapter;
 
-use Brickoo\Component\Cache\Adapter,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * MemcacheAdapter
@@ -38,7 +37,6 @@ use Brickoo\Component\Cache\Adapter,
  * Provides an adapter for caching operations based on memcache.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class MemcacheAdapter implements Adapter {
 
     /** @var \Memcache */

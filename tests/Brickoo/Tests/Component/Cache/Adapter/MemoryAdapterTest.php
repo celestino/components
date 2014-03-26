@@ -39,14 +39,12 @@ use Brickoo\Component\Cache\Adapter\MemoryAdapter,
  * @see Brickoo\Component\Cache\Adapter\MemoryAdapter
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class MemoryAdapterTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Cache\Adapter\MemoryAdapter::__construct */
-    public function testConstructor() {
+    public function testConstructorImplementsInterface() {
         $MemoryAdapter = new MemoryAdapter();
-        $this->assertInstanceOf("\\Brickoo\\Component\\Cache\\Adapter", $MemoryAdapter);
-        $this->assertAttributeEquals([], "cacheValues", $MemoryAdapter);
+        $this->assertInstanceOf("\\Brickoo\\Component\\Cache\\Adapter\\Adapter", $MemoryAdapter);
     }
 
     /** @covers Brickoo\Component\Cache\Adapter\MemoryAdapter::set */
