@@ -89,14 +89,10 @@ class IncludePathAutoloaderTest extends PHPUnit_Framework_TestCase {
         $includePathAutoloader->load("\\");
     }
 
-    /**
-     * @covers Brickoo\Component\Autoloader\IncludePathAutoloader::load
-     * @covers Brickoo\Component\Autoloader\Exception\FileDoesNotExistException
-     * @expectedException \Brickoo\Component\Autoloader\Exception\FileDoesNotExistException
-     */
-    public function testFileDoesNotExist() {
+    /** @covers Brickoo\Component\Autoloader\IncludePathAutoloader::load */
+    public function testFileDoesNotExistReturnsFalse() {
         $includePathAutoloader = new IncludePathAutoloader(__DIR__);
-        $includePathAutoloader->load("DoesNotExist.php");
+        $this->assertFalse($includePathAutoloader->load("DoesNotExist.php"));
     }
 
  }

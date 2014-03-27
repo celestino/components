@@ -65,8 +65,7 @@ class IncludePathAutoloader extends Autoloader {
         $absolutePath = $this->getAbsolutePath($className);
 
         if ((! file_exists($absolutePath))) {
-            include_once "Exception".DIRECTORY_SEPARATOR."FileDoesNotExistException.php";
-            throw new FileDoesNotExistException($absolutePath);
+            return false;
         }
 
         require ($absolutePath);

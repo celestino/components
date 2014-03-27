@@ -145,7 +145,7 @@ class ListAutoloaderTest extends PHPUnit_Framework_TestCase {
         $listAutoloader = new ListAutoloader();
         $listAutoloader->registerClass("ListLoadableClass", dirname(__FILE__) . "/Assets/ListLoadableClass.php");
         $this->assertTrue($listAutoloader->load("ListLoadableClass"));
-        $this->assertTrue(class_exists("Brickoo\Tests\Component\Autoloader\Assets\ListLoadableClass"));
+        $this->assertTrue(class_exists("\\Brickoo\\Tests\\Component\\Autoloader\\Assets\\ListLoadableClass"));
     }
 
     /** @covers Brickoo\Component\Autoloader\ListAutoloader::load */

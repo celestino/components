@@ -96,7 +96,6 @@ abstract class Autoloader {
      * Commonly this is the auto loader callback function registered.
      * @param string $className the class to load
      * @throws \InvalidArgumentException if an argument is not valid
-     * @throws \Brickoo\Component\Autoloader\Exception\FileDoesNotExistException
      * @return boolean true on success false on failure
      */
     abstract public function load($className);
