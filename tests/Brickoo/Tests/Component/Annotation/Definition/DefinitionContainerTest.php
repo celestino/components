@@ -39,11 +39,11 @@ use Brickoo\Component\Annotation\Definition\DefinitionContainer,
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class DefinitionTest extends PHPUnit_Framework_TestCase {
+class DefinitionContainerTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * @covers Brickoo\Component\Annotation\Definition\Definition::__construct
-     * @covers Brickoo\Component\Annotation\Definition\Definition::getName
+     * @covers Brickoo\Component\Annotation\Definition\DefinitionContainer::__construct
+     * @covers Brickoo\Component\Annotation\Definition\DefinitionContainer::getName
      */
     public function testGetName() {
         $uniqueName = "my.definition";
@@ -51,14 +51,14 @@ class DefinitionTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($uniqueName, $definition->getName());
     }
 
-    /** @covers Brickoo\Component\Annotation\Definition\Definition::addCollection */
+    /** @covers Brickoo\Component\Annotation\Definition\DefinitionContainer::addCollection */
     public function testAddCollection() {
         $collection = $this->getDefinitionCollectionStub();
         $definition = new DefinitionContainer("testCase");
         $this->assertSame($definition, $definition->addCollection($collection));
     }
 
-    /** @covers Brickoo\Component\Annotation\Definition\Definition::hasCollections */
+    /** @covers Brickoo\Component\Annotation\Definition\DefinitionContainer::hasCollections */
     public function testHasCollections() {
         $collection = $this->getDefinitionCollectionStub();
         $definition = new DefinitionContainer("testCase");
@@ -67,7 +67,7 @@ class DefinitionTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($definition->hasCollections());
     }
 
-    /** @covers Brickoo\Component\Annotation\Definition\Definition::getCollectionsByTargetType */
+    /** @covers Brickoo\Component\Annotation\Definition\DefinitionContainer::getCollectionsByTargetType */
     public function testGetCollectionsByTargetType() {
         $collection1 = $this->getDefinitionCollectionStub();
         $collection1->expects($this->any())
@@ -92,7 +92,7 @@ class DefinitionTest extends PHPUnit_Framework_TestCase {
         $this->assertSame($collection1, $iterator->current());
     }
 
-    /** @covers Brickoo\Component\Annotation\Definition\Definition::getIterator */
+    /** @covers Brickoo\Component\Annotation\Definition\DefinitionContainer::getIterator */
     public function testGetIterator() {
         $collection = $this->getDefinitionCollectionStub();
         $definition = new DefinitionContainer("testCase");
