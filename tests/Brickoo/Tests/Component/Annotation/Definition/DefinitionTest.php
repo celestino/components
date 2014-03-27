@@ -29,12 +29,12 @@
 
 namespace Brickoo\Tests\Component\Annotation\Definition;
 
-use Brickoo\Component\Annotation\Definition\Definition,
+use Brickoo\Component\Annotation\Definition\DefinitionContainer,
     Brickoo\Component\Annotation\AnnotationTarget,
     PHPUnit_Framework_TestCase;
 
 /**
- * Test suite for the Definition class.
+ * Test suite for the DefinitionContainer class.
  * @see Brickoo\Component\Annotation\Definition\Definition
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
@@ -47,21 +47,21 @@ class DefinitionTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetName() {
         $uniqueName = "my.definition";
-        $definition = new Definition($uniqueName);
+        $definition = new DefinitionContainer($uniqueName);
         $this->assertEquals($uniqueName, $definition->getName());
     }
 
     /** @covers Brickoo\Component\Annotation\Definition\Definition::addCollection */
     public function testAddCollection() {
         $collection = $this->getDefinitionCollectionStub();
-        $definition = new Definition("testCase");
+        $definition = new DefinitionContainer("testCase");
         $this->assertSame($definition, $definition->addCollection($collection));
     }
 
     /** @covers Brickoo\Component\Annotation\Definition\Definition::hasCollections */
     public function testHasCollections() {
         $collection = $this->getDefinitionCollectionStub();
-        $definition = new Definition("testCase");
+        $definition = new DefinitionContainer("testCase");
         $this->assertFalse($definition->hasCollections());
         $definition->addCollection($collection);
         $this->assertTrue($definition->hasCollections());
@@ -81,7 +81,7 @@ class DefinitionTest extends PHPUnit_Framework_TestCase {
                     ->with(AnnotationTarget::TYPE_CLASS)
                     ->will($this->returnValue(false));
 
-        $definition = new Definition("testCase");
+        $definition = new DefinitionContainer("testCase");
         $definition->addCollection($collection1)
                    ->addCollection($collection2);
         $this->assertInstanceOf(
@@ -95,7 +95,7 @@ class DefinitionTest extends PHPUnit_Framework_TestCase {
     /** @covers Brickoo\Component\Annotation\Definition\Definition::getIterator */
     public function testGetIterator() {
         $collection = $this->getDefinitionCollectionStub();
-        $definition = new Definition("testCase");
+        $definition = new DefinitionContainer("testCase");
         $definition->addCollection($collection);
         $this->assertInstanceOf("\\ArrayIterator", ($iterator = $definition->getIterator()));
         $this->assertEquals(1, $iterator->count());

@@ -1,6 +1,6 @@
 <?php
 
-use Brickoo\Component\Annotation\Definition\Definition,
+use Brickoo\Component\Annotation\Definition\DefinitionContainer,
     Brickoo\Component\Annotation\Definition\DefinitionCollection,
     Brickoo\Component\Annotation\Definition\AnnotationDefinition,
     Brickoo\Component\Annotation\Definition\ParameterDefinition,
@@ -13,7 +13,7 @@ use Brickoo\Component\Annotation\Definition\Definition,
  * @Assert (maxlength = 30)
  */
 
-$definition = new Definition("definition.name");
+$definition = new DefinitionContainer("definition.name");
 
 $collection = new DefinitionCollection(new TargetDefinition(TargetDefinition::TYPE_CLASS));
 $annotation = new AnnotationDefinition("Controller", true);

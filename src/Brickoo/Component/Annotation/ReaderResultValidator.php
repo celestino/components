@@ -30,7 +30,7 @@
 namespace Brickoo\Component\Annotation;
 
 use ArrayIterator,
-    Brickoo\Component\Annotation\Definition\Definition,
+    Brickoo\Component\Annotation\Definition\DefinitionContainer,
     Brickoo\Component\Annotation\Definition\DefinitionCollection,
     Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationException,
     Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationParametersException;
@@ -45,13 +45,13 @@ class ReaderResultValidator {
 
     /**
      * Validates a reader result against the provided definition.
-     * @param \Brickoo\Component\Annotation\Definition\Definition $definition
+     * @param \Brickoo\Component\Annotation\Definition\DefinitionContainer $definition
      * @param \Brickoo\Component\Annotation\AnnotationClassReaderResult $readerResult
      * @throws \Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationException
      * @throws \Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationParametersException
      * @return void
      */
-    public function validate(Definition $definition, AnnotationClassReaderResult $readerResult) {
+    public function validate(DefinitionContainer $definition, AnnotationClassReaderResult $readerResult) {
         $types = [AnnotationTarget::TYPE_CLASS, AnnotationTarget::TYPE_METHOD, AnnotationTarget::TYPE_PROPERTY];
 
         foreach ($types as $annotationTargetType) {

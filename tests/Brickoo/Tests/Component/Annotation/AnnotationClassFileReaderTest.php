@@ -101,11 +101,11 @@ class AnnotationClassFileReaderTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Returns a Definition stub.
-     * @return \Brickoo\Component\Annotation\Definition\Definition
+     * Returns a DefinitionContainer stub.
+     * @return \Brickoo\Component\Annotation\Definition\DefinitionContainer
      */
     private function getDefinitionStub() {
-        return $this->getMockBuilder("\\Brickoo\\Component\\Annotation\\Definition\\Definition")
+        return $this->getMockBuilder("\\Brickoo\\Component\\Annotation\\Definition\\DefinitionContainer")
             ->disableOriginalConstructor()
             ->getMock();
     }

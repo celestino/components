@@ -34,12 +34,12 @@ use ArrayIterator,
     IteratorAggregate;
 
 /**
- * AnnotationDefinition
+ * DefinitionContainer
  *
- * Implements an annotation definition.
+ * Implements a definition container.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class Definition implements IteratorAggregate {
+class DefinitionContainer implements IteratorAggregate {
 
     /** @var string */
     private $uniqueName;
@@ -69,7 +69,7 @@ class Definition implements IteratorAggregate {
     /**
      * Adds a collection to the list.
      * @param \Brickoo\Component\Annotation\Definition\DefinitionCollection $collection
-     * @return \Brickoo\Component\Annotation\Definition\Definition
+     * @return \Brickoo\Component\Annotation\Definition\DefinitionContainer
      */
     public function addCollection(DefinitionCollection $collection) {
         $this->definitionCollections[] = $collection;
