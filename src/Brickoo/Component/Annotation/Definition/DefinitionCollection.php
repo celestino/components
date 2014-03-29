@@ -36,7 +36,7 @@ use ArrayIterator,
     IteratorAggregate;
 
 /**
- * AnnotationDefinitionCollection
+ * DefinitionCollection
  *
  * Implements a definition collection.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
