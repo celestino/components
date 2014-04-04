@@ -41,10 +41,10 @@ use Brickoo\Component\Validation\Argument;
 class AnnotationParser {
 
     /** @const regular expressions */
-    const REGEX_ANNOTATION = "~%s(?<%s>[\w]+)[^%s(]*\(\s*(?<%s>[^%s\)\(]*)\s*\)~";
-    const REGEX_NESTED_ANNOTATIONS = "~%s(?<%s>[\w]+)[^%s{]*\({\s*(?<%s>[^}]*)\s*}\)~";
-    const REGEX_PARAMETER = "~((?<%s>\w+)\s*=)?\s*(?<%s>(\"[^\"]*\")|(\[[^\]]*\])|[0-9\.]+|true|false)~";
-    const REGEX_VALUE = "~((?<%s>\w+)\s*=)?\s*(?<%s>('[^']*')|[0-9\.]+|true|false)~";
+    const REGEX_ANNOTATION = "~%s(?<%s>[\\w]+)[^%s(]*\\(\\s*(?<%s>[^%s\\)\\(]*)\\s*\\)~";
+    const REGEX_NESTED_ANNOTATIONS = "~%s(?<%s>[\\w]+)[^%s{]*\\({\\s*(?<%s>[^}]*)\\s*}\\)~";
+    const REGEX_PARAMETER = "~((?<%s>\\w+)\\s*=)?\\s*(?<%s>(\"[^\"]*\")|(\\[[^\\]]*\\])|[0-9\\.]+|true|false)~";
+    const REGEX_VALUE = "~((?<%s>\\w+)\\s*=)?\\s*(?<%s>('[^']*')|[0-9\\.]+|true|false)~";
 
     /** @const regular expressions capture groups  */
     const REGEX_CAPTURE_ANNOTATION = "annotation";

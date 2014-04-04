@@ -164,6 +164,11 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
         return count($this->poolEntries);
     }
 
+    /**
+     * Returns the position inside the adapter pool.
+     * @param string|integer $adapterIdentifier
+     * @return integer the position
+     */
     private function getMappingPosition($adapterIdentifier) {
         return array_search($adapterIdentifier, $this->mappingKeys, true);
     }
