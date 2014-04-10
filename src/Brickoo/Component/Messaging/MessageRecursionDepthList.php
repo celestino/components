@@ -29,7 +29,7 @@
 
 namespace Brickoo\Component\Messaging;
 
-use Brickoo\Component\Memory\Container,
+use Brickoo\Component\Common\Container,
     Brickoo\Component\Validation\Argument;
 
 /**

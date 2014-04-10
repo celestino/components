@@ -27,27 +27,29 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Memory\Exception;
+namespace Brickoo\Component\Common\Exception;
 
-use Brickoo\Component\Memory\Exception;
+use Brickoo\Component\Common\Exception;
 
 /**
- * DuplicateRegistrationException
+ * LockerException
  *
- * Exception thrown by the Registry class if trying to register an registered identifier.
+ * Exception thrown by the Locker class if trying to lock some identifiers
+ * and none could be locked.
+ * @see Brickoo\Component\Common\Locker::lock
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class DuplicateRegistrationException extends Exception {
+class LockFailedException extends Exception {
 
     /**
      * Class constructor.
      * Calls the parent Exception constructor.
-     * @param string $identifier the identifier which is registered.
+     * @param string $identifier the identifier which can not be locked
      * @param \Exception $previousException
      */
     public function __construct($identifier, \Exception $previousException = null) {
-        parent::__construct(sprintf("The identifier `%s` is already registered.", $identifier), 0, $previousException);
+        parent::__construct(sprintf("Unable to lock the identifier `%s`.", $identifier), 0, $previousException);
     }
 
 }

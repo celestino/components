@@ -27,14 +27,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Memory;
+namespace Brickoo\Component\Common\Exception;
+
+use Brickoo\Component\Common\Exception;
 
 /**
- * Exception
+ * IdentifierNotRegisteredException
  *
- * Defines a memory exception.
- * Used to catch all exceptions from this component.
+ * Exception thrown by the Registry class if trying to retrieve an not registered identifier.
+ * @see Brickoo\Component\Common\Registry:getRegistred
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Exception extends \Exception {}
+class IdentifierNotRegisteredException extends Exception {
+
+    /**
+     * Class constructor.
+     * Calls the parent Exception constructor.
+     * @param string $identifier the identifier which is not registered.
+     * @param \Exception $previousException
+     */
+    public function __construct($identifier, \Exception $previousException = null) {
+        parent::__construct(sprintf("The identifier `%s` is not registered.", $identifier), 0, $previousException);
+    }
+
+}

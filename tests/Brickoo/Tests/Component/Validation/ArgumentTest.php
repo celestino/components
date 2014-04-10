@@ -30,7 +30,7 @@
 namespace Brickoo\Tests\Component\Validation;
 
 use Brickoo\Component\Validation\Argument,
-    Brickoo\Component\Memory\Container,
+    Brickoo\Component\Common\Container,
     PHPUnit_Framework_TestCase;
 
 /**

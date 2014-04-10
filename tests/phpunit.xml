@@ -19,7 +19,7 @@
             <directory>./Brickoo/Tests/Component/Filesystem</directory>
             <directory>./Brickoo/Tests/Component/Http</directory>
             <directory>./Brickoo/Tests/Component/Log</directory>
-            <directory>./Brickoo/Tests/Component/Memory</directory>
+            <directory>./Brickoo/Tests/Component/Common</directory>
             <directory>./Brickoo/Tests/Component/Network</directory>
             <directory>./Brickoo/Tests/Component/Routing</directory>
             <directory>./Brickoo/Tests/Component/Session</directory>

@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Memory;
+namespace Brickoo\Component\Common;
 
 use ArrayIterator,
     Brickoo\Component\Validation\Argument;
@@ -138,7 +138,7 @@ class Container implements \ArrayAccess, \IteratorAggregate, \Countable {
      * Sets an offset-value pair to the array object.
      * @param string|integer $offset the offset to add
      * @param mixed $value the value of the offset
-     * @return \Brickoo\Component\Memory\Container
+     * @return \Brickoo\Component\Common\Container
      */
     public function set($offset, $value) {
         Argument::IsStringOrInteger($offset);
@@ -161,7 +161,7 @@ class Container implements \ArrayAccess, \IteratorAggregate, \Countable {
     /**
      * Deletes the element and returns his value.
      * @param string|integer $offset the offset to delete
-     * @return \Brickoo\Component\Memory\Container
+     * @return \Brickoo\Component\Common\Container
      */
     public function delete($offset) {
         Argument::IsStringOrInteger($offset);
@@ -176,7 +176,7 @@ class Container implements \ArrayAccess, \IteratorAggregate, \Countable {
     /**
      * Merges the passed container with the currently hold.
      * @param array $container the container to merge
-     * @return \Brickoo\Component\Memory\Container
+     * @return \Brickoo\Component\Common\Container
      */
     public function merge(array $container) {
         $this->container = array_merge($this->container, $container);
@@ -194,7 +194,7 @@ class Container implements \ArrayAccess, \IteratorAggregate, \Countable {
 
     /**
      * Flushes all content of the container.
-     * @return \Brickoo\Component\Memory\Container
+     * @return \Brickoo\Component\Common\Container
      */
     public function flush() {
         $this->container = [];
@@ -204,7 +204,7 @@ class Container implements \ArrayAccess, \IteratorAggregate, \Countable {
     /**
      * Imports the container values from an array.
      * @param array $container the container to import
-     * @return \Brickoo\Component\Memory\Container
+     * @return \Brickoo\Component\Common\Container
      */
     public function fromArray(array $container) {
         $this->container = $container;

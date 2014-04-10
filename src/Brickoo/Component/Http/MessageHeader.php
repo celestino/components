@@ -30,7 +30,7 @@
 namespace Brickoo\Component\Http;
 
 use Brickoo\Component\Http\Exception\HeaderNotFoundException,
-    Brickoo\Component\Memory\Container,
+    Brickoo\Component\Common\Container,
     Brickoo\Component\Validation\Argument;
 
 /**

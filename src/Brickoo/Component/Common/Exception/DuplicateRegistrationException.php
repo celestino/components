@@ -27,28 +27,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Memory\Exception;
+namespace Brickoo\Component\Common\Exception;
 
-use Brickoo\Component\Memory\Exception;
+use Brickoo\Component\Common\Exception;
 
 /**
- * IdentifierNotRegisteredException
+ * DuplicateRegistrationException
  *
- * Exception thrown by the Registry class if trying to retrieve an not registered identifier.
- * @see Brickoo\Component\Memory\Registry:getRegistred
+ * Exception thrown by the Registry class if trying to register an registered identifier.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class IdentifierNotRegisteredException extends Exception {
+class DuplicateRegistrationException extends Exception {
 
     /**
      * Class constructor.
      * Calls the parent Exception constructor.
-     * @param string $identifier the identifier which is not registered.
+     * @param string $identifier the identifier which is registered.
      * @param \Exception $previousException
      */
     public function __construct($identifier, \Exception $previousException = null) {
-        parent::__construct(sprintf("The identifier `%s` is not registered.", $identifier), 0, $previousException);
+        parent::__construct(sprintf("The identifier `%s` is already registered.", $identifier), 0, $previousException);
     }
 
 }

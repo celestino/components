@@ -27,9 +27,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Memory\Exception;
+namespace Brickoo\Component\Common\Exception;
 
-use Brickoo\Component\Memory\Exception;
+use Brickoo\Component\Common\Exception;
 
 /**
  * IdentifierLockedException

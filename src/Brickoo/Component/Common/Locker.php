@@ -27,10 +27,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Memory;
+namespace Brickoo\Component\Common;
 
-use Brickoo\Component\Memory\Exception\LockFailedException,
-    Brickoo\Component\Memory\Exception\UnlockFailedException,
+use Brickoo\Component\Common\Exception\LockFailedException,
+    Brickoo\Component\Common\Exception\UnlockFailedException,
     Brickoo\Component\Validation\Argument;
 
 
@@ -60,7 +60,7 @@ abstract class Locker implements \Countable {
      * Extended by the Registry class, override and unregister methods of the
      * Registry class are disabled for this identifier(s)
      * @param string|integer $identifier the identifier to lock
-     * @throws \Brickoo\Component\Memory\Exception\LockFailedException
+     * @throws \Brickoo\Component\Common\Exception\LockFailedException
      * @return string the unlock key
      */
     public function lock($identifier) {
@@ -79,8 +79,8 @@ abstract class Locker implements \Countable {
      * Unlocks the locked identifier matching the lock key.
      * @param string|integer $identifier the identifier which should be unlocked
      * @param string $unlockKey the key to unlock the identifier
-     * @throws \Brickoo\Component\Memory\Exception\UnlockFailedException
-     * @return \Brickoo\Component\Memory\Locker
+     * @throws \Brickoo\Component\Common\Exception\UnlockFailedException
+     * @return \Brickoo\Component\Common\Locker
      */
     public function unlock($identifier, $unlockKey) {
         Argument::IsStringOrInteger($identifier);

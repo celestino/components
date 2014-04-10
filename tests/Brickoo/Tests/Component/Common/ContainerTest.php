@@ -27,16 +27,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Tests\Component\Memory;
+namespace Brickoo\Tests\Component\Common;
 
-use Brickoo\Component\Memory\Container,
+use Brickoo\Component\Common\Container,
     PHPUnit_Framework_TestCase;
 
 /**
  * containerTest
  *
  * Test suite for the container class.
- * @see Brickoo\Component\Memory\Container
+ * @see Brickoo\Component\Common\Container
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -44,7 +44,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase {
 
     /**
      * Holds an instance of the container class.
-     * @var \Brickoo\Component\Memory\Container
+     * @var \Brickoo\Component\Common\Container
      */
     protected $container;
 
@@ -57,11 +57,11 @@ class ContainerTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Brickoo\Component\Memory\Container::__construct
-     * @covers Brickoo\Component\Memory\Container::offsetSet
-     * @covers Brickoo\Component\Memory\Container::offsetGet
-     * @covers Brickoo\Component\Memory\Container::offsetExists
-     * @covers Brickoo\Component\Memory\Container::offsetUnset
+     * @covers Brickoo\Component\Common\Container::__construct
+     * @covers Brickoo\Component\Common\Container::offsetSet
+     * @covers Brickoo\Component\Common\Container::offsetGet
+     * @covers Brickoo\Component\Common\Container::offsetExists
+     * @covers Brickoo\Component\Common\Container::offsetUnset
      */
     public function testArrayAccess() {
         $this->container["unit"] = "test";
@@ -73,46 +73,46 @@ class ContainerTest extends PHPUnit_Framework_TestCase {
         $this->assertAttributeEquals([], "container", $this->container);
     }
 
-    /** @covers Brickoo\Component\Memory\Container::getIterator */
+    /** @covers Brickoo\Component\Common\Container::getIterator */
     public function testGetIterator() {
         $this->assertInstanceOf("\\Iterator", $this->container->getIterator());
 
     }
 
-    /** @covers Brickoo\Component\Memory\Container::count */
+    /** @covers Brickoo\Component\Common\Container::count */
     public function testCountContainerEntries() {
         $this->container->merge(array("key1" => "value1", "key2" => "value2", "key3" => "value3"));
         $this->assertEquals(3, count($this->container));
     }
 
-    /** @covers Brickoo\Component\Memory\Container::get */
+    /** @covers Brickoo\Component\Common\Container::get */
     public function testGetContainerEntry() {
         $this->container["unit"] = "test";
         $this->assertEquals("test", $this->container->get("unit"));
         $this->assertEquals("DEFAULT", $this->container->get("undefined", "DEFAULT"));
     }
 
-    /** @covers Brickoo\Component\Memory\Container::set */
+    /** @covers Brickoo\Component\Common\Container::set */
     public function testSetContainerEntry() {
         $this->assertSame($this->container, $this->container->set("unit", "test"));
         $this->assertAttributeEquals(array("unit" => "test"), "container", $this->container);
     }
 
-    /** @covers Brickoo\Component\Memory\Container::has */
+    /** @covers Brickoo\Component\Common\Container::has */
     public function testHasContainerEntry() {
         $this->container["unit"] = "test";
         $this->assertTrue($this->container->has("unit"));
         $this->assertFalse($this->container->has("undefined"));
     }
 
-    /** @covers Brickoo\Component\Memory\Container::delete */
+    /** @covers Brickoo\Component\Common\Container::delete */
     public function testDeleteContainerEntry() {
         $this->container["unit"] = "test";
         $this->assertSame($this->container, $this->container->delete("unit"));
         $this->assertAttributeEquals([], "container", $this->container);
     }
 
-    /** @covers Brickoo\Component\Memory\Container::merge */
+    /** @covers Brickoo\Component\Common\Container::merge */
     public function testMergeCurrentContainerEntriesWithOther() {
         $initData        = array("key1" => "value1");
         $mergeData       = array("key2" => "value2");
@@ -124,28 +124,28 @@ class ContainerTest extends PHPUnit_Framework_TestCase {
         $this->assertAttributeEquals($expectedData, "container", $this->container);
     }
 
-    /** @covers Brickoo\Component\Memory\Container::fromArray */
+    /** @covers Brickoo\Component\Common\Container::fromArray */
     public function testFromArrayImport() {
         $expected  = array("test", "import");
         $this->assertSame($this->container, $this->container->fromArray($expected));
         $this->assertAttributeEquals($expected, "container", $this->container);
     }
 
-    /** @covers Brickoo\Component\Memory\Container::toArray */
+    /** @covers Brickoo\Component\Common\Container::toArray */
     public function testToArrayExport() {
         $expected = array("test");
         $this->assertSame($this->container, $this->container->fromArray($expected));
         $this->assertEquals($expected, $this->container->toArray());
     }
 
-    /** @covers Brickoo\Component\Memory\Container::isEmpty */
+    /** @covers Brickoo\Component\Common\Container::isEmpty */
     public function testIsEmptyContainerEntriesList() {
         $this->assertTrue($this->container->isEmpty());
         $this->container["unit"] = "test";
         $this->assertFalse($this->container->isEmpty());
     }
 
-    /** @covers Brickoo\Component\Memory\Container::flush */
+    /** @covers Brickoo\Component\Common\Container::flush */
     public function testFlushContainerEntries() {
         $this->container["unit"] = "test";
         $this->container->flush();

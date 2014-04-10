@@ -27,16 +27,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Tests\Component\Memory;
+namespace Brickoo\Tests\Component\Common;
 
-use Brickoo\Component\Memory\Locker,
+use Brickoo\Component\Common\Locker,
     PHPUnit_Framework_TestCase;
 
 /**
  * LockerTest
  *
  * Test suite for the Locker class.
- * @see Brickoo\Component\Memory\Locker
+ * @see Brickoo\Component\Common\Locker
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
@@ -44,7 +44,7 @@ class LockerTest extends PHPUnit_Framework_TestCase {
 
     /**
      * Holds an instance of the lockerTestable class.
-     * @var \Brickoo\Component\Memory\Locker
+     * @var \Brickoo\Component\Common\Locker
      */
     public $lockerTestable;
 
@@ -57,10 +57,10 @@ class LockerTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Brickoo\Component\Memory\Locker::__construct
-     * @covers Brickoo\Component\Memory\Locker::lock
-     * @covers Brickoo\Component\Memory\Locker::unlock
-     * @covers Brickoo\Component\Memory\Locker::isLocked
+     * @covers Brickoo\Component\Common\Locker::__construct
+     * @covers Brickoo\Component\Common\Locker::lock
+     * @covers Brickoo\Component\Common\Locker::unlock
+     * @covers Brickoo\Component\Common\Locker::isLocked
      */
     public function testLockAndUnlockRoutine() {
         $this->assertInternalType("string", ($unlockKey = $this->lockerTestable->lock("name")));
@@ -70,7 +70,7 @@ class LockerTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Brickoo\Component\Memory\Locker::lock
+     * @covers Brickoo\Component\Common\Locker::lock
      * @expectedException \InvalidArgumentException
      */
     public function testLockArgumentException() {
@@ -78,9 +78,9 @@ class LockerTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Brickoo\Component\Memory\Locker::lock
-     * @covers Brickoo\Component\Memory\Exception\LockFailedException::__construct
-     * @expectedException \Brickoo\Component\Memory\Exception\LockFailedException
+     * @covers Brickoo\Component\Common\Locker::lock
+     * @covers Brickoo\Component\Common\Exception\LockFailedException::__construct
+     * @expectedException \Brickoo\Component\Common\Exception\LockFailedException
      */
     public function testLockFailedException() {
         $this->lockerTestable->lock("name");
@@ -88,9 +88,9 @@ class LockerTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Brickoo\Component\Memory\Locker::unlock
-     * @covers Brickoo\Component\Memory\Exception\UnlockFailedException::__construct
-     * @expectedException \Brickoo\Component\Memory\Exception\UnlockFailedException
+     * @covers Brickoo\Component\Common\Locker::unlock
+     * @covers Brickoo\Component\Common\Exception\UnlockFailedException::__construct
+     * @expectedException \Brickoo\Component\Common\Exception\UnlockFailedException
      */
     public function testUnLockWrongUnlockKeyException() {
         $this->lockerTestable->lock("name");
@@ -98,7 +98,7 @@ class LockerTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Brickoo\Component\Memory\Locker::unlock
+     * @covers Brickoo\Component\Common\Locker::unlock
      * @expectedException \InvalidArgumentException
      */
     public function testUnlockInvalidArgumentException() {
@@ -106,23 +106,23 @@ class LockerTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Brickoo\Component\Memory\Locker::unlock
-     * @covers Brickoo\Component\Memory\Exception\UnlockFailedException
-     * @expectedException \Brickoo\Component\Memory\Exception\UnlockFailedException
+     * @covers Brickoo\Component\Common\Locker::unlock
+     * @covers Brickoo\Component\Common\Exception\UnlockFailedException
+     * @expectedException \Brickoo\Component\Common\Exception\UnlockFailedException
      */
     public function testUnlockFailedException() {
         $this->lockerTestable->unlock("notLocked", "invalidKey");
     }
 
     /**
-     * @covers Brickoo\Component\Memory\Locker::isLocked
+     * @covers Brickoo\Component\Common\Locker::isLocked
      * @expectedException \InvalidArgumentException
      */
     public function testIsLockedArgumentException() {
         $this->lockerTestable->isLocked(array("wrongType"));
     }
 
-    /** @covers Brickoo\Component\Memory\Locker::count */
+    /** @covers Brickoo\Component\Common\Locker::count */
     public function testCount() {
         $this->lockerTestable->lock("name");
         $this->lockerTestable->lock("town");
@@ -137,7 +137,7 @@ class LockerTestable extends Locker {
     /**
      * Abstract method to check if the main class has the identifier.
      * @param string|integer $identifier the identifier to check
-     * @see Brickoo\Component\Memory\Locker::isIdentifierAvailable()
+     * @see Brickoo\Component\Common\Locker::isIdentifierAvailable()
      * @return boolean true
      */
     public function isIdentifierAvailable($identifier) {

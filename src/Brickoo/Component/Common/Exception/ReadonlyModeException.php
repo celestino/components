@@ -27,29 +27,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Memory\Exception;
+namespace Brickoo\Component\Common\Exception;
 
-use Brickoo\Component\Memory\Exception;
+use Brickoo\Component\Common\Exception;
 
 /**
- * UnlockFailedException
+ * ReadonlyModeException
  *
- * Exception thrown by the Locker class if trying to unlock identifiers
- * and any could not be unlocked.
- * @see Brickoo\Component\Memory\Locker::unlock
+ * Exception thrown by the Registry class if trying to execute an action while
+ * the Registry is in read only mode.
+ * @see Brickoo\Component\Common\Registry
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class UnlockFailedException extends \Exception {
+class ReadonlyModeException extends Exception {
 
     /**
      * Class constructor.
      * Calls the parent Exception constructor.
-     * @param string $identifier the identifier which are not locked
      * @param \Exception $previousException
      */
-    public function __construct($identifier, \Exception $previousException = null) {
-        parent::__construct(sprintf("Unable to unlock `%s`, this identifier is not locked.", $identifier), 0, $previousException);
+    public function __construct(\Exception $previousException = null) {
+        parent::__construct("The Registry is on read only mode any modifications are not allowed.", 0, $previousException);
     }
 
 }

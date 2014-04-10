@@ -27,29 +27,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Memory\Exception;
-
-use Brickoo\Component\Memory\Exception;
+namespace Brickoo\Component\Common;
 
 /**
- * LockerException
+ * Exception
  *
- * Exception thrown by the Locker class if trying to lock some identifiers
- * and none could be locked.
- * @see Brickoo\Component\Memory\Locker::lock
+ * Defines a memory exception.
+ * Used to catch all exceptions from this component.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class LockFailedException extends Exception {
-
-    /**
-     * Class constructor.
-     * Calls the parent Exception constructor.
-     * @param string $identifier the identifier which can not be locked
-     * @param \Exception $previousException
-     */
-    public function __construct($identifier, \Exception $previousException = null) {
-        parent::__construct(sprintf("Unable to lock the identifier `%s`.", $identifier), 0, $previousException);
-    }
-
-}
+class Exception extends \Exception {}
