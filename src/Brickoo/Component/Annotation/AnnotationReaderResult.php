@@ -35,12 +35,12 @@ use ArrayIterator,
     IteratorAggregate;
 
 /**
- * AnnotationClassReaderResult
+ * AnnotationReaderResult
  *
  * Implements as annotation reader result.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class AnnotationClassReaderResult implements IteratorAggregate {
+class AnnotationReaderResult implements IteratorAggregate {
 
     /** @var string */
     private $definitionName;
@@ -88,10 +88,10 @@ class AnnotationClassReaderResult implements IteratorAggregate {
      * Adds a collection to the matching type.
      * @param \Brickoo\Component\Annotation\AnnotationCollection $collection
      * @throws \Brickoo\Component\Annotation\Exception\InvalidTargetTypeException
-     * @return \Brickoo\Component\Annotation\AnnotationClassReaderResult
+     * @return \Brickoo\Component\Annotation\AnnotationReaderResult
      */
     public function addCollection(AnnotationCollection $collection) {
-        $targetType = $collection->getTarget()->getType();
+        $targetType = $collection->getTargetType();
 
         if (! $this->isTargetTypeValid($targetType)) {
             throw new InvalidTargetTypeException($targetType);
@@ -132,7 +132,7 @@ class AnnotationClassReaderResult implements IteratorAggregate {
      * @return boolean check result
      */
     private function isTargetTypeValid($targetType) {
-        return array_key_exists($targetType, $this->collections);
+        return isset($this->collections[$targetType]);
     }
 
 }

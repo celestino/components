@@ -46,12 +46,12 @@ class ReaderResultValidator {
     /**
      * Validates a reader result against the provided definition.
      * @param \Brickoo\Component\Annotation\Definition\DefinitionContainer $definition
-     * @param \Brickoo\Component\Annotation\AnnotationClassReaderResult $readerResult
+     * @param \Brickoo\Component\Annotation\AnnotationReaderResult $readerResult
      * @throws \Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationException
      * @throws \Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationParametersException
      * @return void
      */
-    public function validate(DefinitionContainer $definition, AnnotationClassReaderResult $readerResult) {
+    public function validate(DefinitionContainer $definition, AnnotationReaderResult $readerResult) {
         $types = [AnnotationTarget::TYPE_CLASS, AnnotationTarget::TYPE_METHOD, AnnotationTarget::TYPE_PROPERTY];
 
         foreach ($types as $annotationTargetType) {

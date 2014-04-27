@@ -68,6 +68,14 @@ class AnnotationCollection  implements Countable, IteratorAggregate {
     }
 
     /**
+     * Returns the annotations target type.
+     * @return integer the target type
+     */
+    public function getTargetType() {
+        return $this->getTarget()->getType();
+    }
+
+    /**
      * Checks if the collection matches a type.
      * @param integer $targetType
      * @return boolean check result

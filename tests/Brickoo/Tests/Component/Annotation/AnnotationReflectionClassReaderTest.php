@@ -52,14 +52,10 @@ class AnnotationReflectionClassReaderTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetAnnotations() {
         include_once __DIR__."/Assets/AnnotatedClass.php";
-        $annotationTarget = $this->getAnnotationTargetStub();
-        $annotationTarget->expects($this->any())
-                         ->method("getType")
-                         ->will($this->returnValue(AnnotationTargetTypes::TYPE_CLASS));
         $annotationCollection = $this->getAnnotationCollectionStub();
         $annotationCollection->expects($this->any())
-                             ->method("getTarget")
-                             ->will($this->returnValue($annotationTarget));
+                             ->method("getTargetType")
+                             ->will($this->returnValue(AnnotationTargetTypes::TYPE_CLASS));
         $annotationParser = $this->getAnnotationParserStub();
         $annotationParser->expects($this->any())
                          ->method("parse")
@@ -70,7 +66,7 @@ class AnnotationReflectionClassReaderTest extends PHPUnit_Framework_TestCase {
             ($definitionFixture = include __DIR__."/Assets/DefinitionFixture.php"),
             new ReflectionClass("\\Brickoo\\Tests\\Component\\Annotation\\Assets\\AnnotatedClass")
         );
-        $this->assertInstanceOf("\\Brickoo\\Component\\Annotation\\AnnotationClassReaderResult", $result);
+        $this->assertInstanceOf("\\Brickoo\\Component\\Annotation\\AnnotationReaderResult", $result);
 
     }
 
@@ -90,16 +86,6 @@ class AnnotationReflectionClassReaderTest extends PHPUnit_Framework_TestCase {
      */
     private function getAnnotationCollectionStub() {
         return $this->getMockBuilder("\\Brickoo\\Component\\Annotation\\AnnotationCollection")
-            ->disableOriginalConstructor()
-            ->getMock();
-    }
-
-    /**
-     * Returns an AnnotationTarget stub.
-     * @return \Brickoo\Component\Annotation\AnnotationTarget
-     */
-    private function getAnnotationTargetStub() {
-        return $this->getMockBuilder("\\Brickoo\\Component\\Annotation\\AnnotationTarget")
             ->disableOriginalConstructor()
             ->getMock();
     }

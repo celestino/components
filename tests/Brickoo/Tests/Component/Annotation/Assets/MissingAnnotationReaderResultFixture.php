@@ -2,7 +2,7 @@
 
 use Brickoo\Component\Annotation\Annotation,
     Brickoo\Component\Annotation\AnnotationCollection,
-    Brickoo\Component\Annotation\AnnotationClassReaderResult,
+    Brickoo\Component\Annotation\AnnotationReaderResult,
     Brickoo\Component\Annotation\AnnotationTarget,
     Brickoo\Component\Annotation\AnnotationTargetTypes;
 
@@ -13,7 +13,7 @@ use Brickoo\Component\Annotation\Annotation,
  * @Assert (maxlength = 30)
  */
 
-$readerResult = new AnnotationClassReaderResult("definition.name", "\\Some\\Class");
+$readerResult = new AnnotationReaderResult("definition.name", "\\Some\\Class");
 
 $annotationCollection = new AnnotationCollection(new AnnotationTarget(AnnotationTargetTypes::TYPE_CLASS, "AnnotatedClass"));
 $annotationCollection->push(new Annotation("Controller", ["path" => "/"]));

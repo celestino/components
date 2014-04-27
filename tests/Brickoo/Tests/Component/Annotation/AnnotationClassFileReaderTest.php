@@ -111,11 +111,11 @@ class AnnotationClassFileReaderTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Returns an AnnotationClassReaderResult stub.
-     * @return \Brickoo\Component\Annotation\AnnotationClassReaderResult
+     * Returns an AnnotationReaderResult stub.
+     * @return \Brickoo\Component\Annotation\AnnotationReaderResult
      */
     private function getAnnotationReaderResultStub() {
-        return $this->getMockBuilder("\\Brickoo\\Component\\Annotation\\AnnotationClassReaderResult")
+        return $this->getMockBuilder("\\Brickoo\\Component\\Annotation\\AnnotationReaderResult")
             ->disableOriginalConstructor()
             ->getMock();
     }

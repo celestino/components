@@ -31,6 +31,7 @@ namespace Brickoo\Tests\Component\Annotation;
 
 use Brickoo\Component\Annotation\AnnotationCollection,
     Brickoo\Component\Annotation\AnnotationTarget,
+    Brickoo\Component\Annotation\AnnotationTargetTypes,
     PHPUnit_Framework_TestCase;
 
 /**
@@ -49,6 +50,17 @@ class AnnotationCollectionTest extends PHPUnit_Framework_TestCase {
         $annotationsTarget = $this->getAnnotationsTargetStub();
         $collection = new AnnotationCollection($annotationsTarget);
         $this->assertSame($annotationsTarget, $collection->getTarget());
+    }
+
+    /** @covers Brickoo\Component\Annotation\AnnotationCollection::getTargetType */
+    public function testGetTargetType() {
+        $collectionType = AnnotationTargetTypes::TYPE_CLASS;
+        $annotationsTarget = $this->getAnnotationsTargetStub();
+        $annotationsTarget->expects($this->any())
+                          ->method("getType")
+                          ->will($this->returnValue($collectionType));
+        $collection = new AnnotationCollection($annotationsTarget);
+        $this->assertEquals($collectionType, $collection->getTargetType());
     }
 
     /**

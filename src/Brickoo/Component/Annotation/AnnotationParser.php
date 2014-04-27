@@ -196,7 +196,7 @@ class AnnotationParser {
      */
     private function convertValue($value) {
         $value = trim($value, "\"'");
-        if (preg_match("~^\[.+\]$~", $value) == 0) {
+        if (preg_match("~^\\[.+\\]$~", $value) == 0) {
             return $this->transformScalar($value);
         }
 
