@@ -27,49 +27,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Annotation\Definition;
+namespace Brickoo\Component\Annotation\Exception;
 
-use Brickoo\Component\Annotation\AnnotationTargetTypes,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Annotation\Exception;
 
 /**
- * TargetDefinition
+ * InvalidTargetTypeException
  *
- * Implements an annotation target definition.
+ * Exception thrown if using a invalid target.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class TargetDefinition implements AnnotationTargetTypes {
-
-    /** @var integer */
-    private $targetType;
+class InvalidTargetException extends Exception {
 
     /**
      * Class constructor.
-     * @param integer $targetType
-     * @throws \InvalidArgumentException
+     * Calls the parent exception constructor.
+     * @param integer $target
+     * @param \Exception $previousException
      */
-    public function __construct($targetType) {
-        Argument::IsInteger($targetType);
-        $this->targetType = $targetType;
-    }
-
-    /**
-     * Returns the target type.
-     * @return integer the target type
-     */
-    public function getType() {
-        return $this->targetType;
-    }
-
-    /**
-     * Checks if the target type is expected.
-     * @param integer $targetType
-     * @throws \InvalidArgumentException
-     * @return boolean check result
-     */
-    public function isTypeOf($targetType) {
-        Argument::IsInteger($targetType);
-        return $this->getType() === $targetType;
+    public function __construct($target, \Exception $previousException = null) {
+        parent::__construct(sprintf("Invalid target `%d`.", $target), 0 , $previousException);
     }
 
 }

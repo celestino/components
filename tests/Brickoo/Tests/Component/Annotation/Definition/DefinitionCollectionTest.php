@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Annotation\Definition;
 
-use Brickoo\Component\Annotation\AnnotationTargetTypes,
-    Brickoo\Component\Annotation\Definition\DefinitionCollection,
+use Brickoo\Component\Annotation\Annotation;
+use Brickoo\Component\Annotation\Definition\DefinitionCollection,
     PHPUnit_Framework_TestCase;
 
 /**
@@ -43,27 +43,12 @@ class DefinitionCollectionTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Annotation\Definition\DefinitionCollection::__construct
-     * @covers Brickoo\Component\Annotation\Definition\DefinitionCollection::getTarget
+     * @covers Brickoo\Component\Annotation\Definition\DefinitionCollection::getName
      */
-    public function testGetTarget() {
-        $targetDefinition = $this->getTargetDefinitionStub();
-        $definitionCollection = new DefinitionCollection($targetDefinition);
-        $this->assertSame($targetDefinition, $definitionCollection->getTarget());
-    }
-
-    /**
-     * @covers Brickoo\Component\Annotation\Definition\DefinitionCollection::getTarget
-     * @covers Brickoo\Component\Annotation\Definition\DefinitionCollection::isTypeOf
-     */
-    public function testTargetIsTypeOf() {
-        $targetType = AnnotationTargetTypes::TYPE_CLASS;
-        $annotationsTarget = $this->getTargetDefinitionStub();
-        $annotationsTarget->expects($this->any())
-                          ->method("isTypeOf")
-                          ->with($targetType)
-                          ->will($this->returnValue(true));
-        $definitionCollection = new DefinitionCollection($annotationsTarget);
-        $this->assertTrue($definitionCollection->isTypeOf($targetType));
+    public function testGetName() {
+        $definitionName = "uniqueName";
+        $definitionCollection = new DefinitionCollection($definitionName);
+        $this->assertEquals($definitionName, $definitionCollection->getName());
     }
 
     /**
@@ -71,12 +56,11 @@ class DefinitionCollectionTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Annotation\Definition\DefinitionCollection::shift
      */
     public function testPushAndShiftAnnotationDefinitionFromCollection() {
-        $annotation1 = $this->getAnnotationDefinitionStub();
-        $annotation2 = $this->getAnnotationDefinitionStub();
-        $definitionCollection = new DefinitionCollection($this->getTargetDefinitionStub());
-        $this->assertSame($definitionCollection, $definitionCollection->push($annotation1));
-        $this->assertSame($definitionCollection, $definitionCollection->push($annotation2));
-        $this->assertSame($annotation1, $definitionCollection->shift());
+        $annotation = $this->getAnnotationDefinitionStub();
+        $definitionCollection = new DefinitionCollection("uniqueName");
+        $this->assertSame($definitionCollection, $definitionCollection->push($annotation));
+        $this->assertSame($definitionCollection, $definitionCollection->push(clone $annotation));
+        $this->assertSame($annotation, $definitionCollection->shift());
     }
 
     /**
@@ -85,7 +69,7 @@ class DefinitionCollectionTest extends PHPUnit_Framework_TestCase {
      * @expectedException \Brickoo\Component\Annotation\Exception\AnnotationNotAvailableException
      */
     public function testShiftWithEmptyCollectionThrowsException() {
-        $definitionCollection = new DefinitionCollection($this->getTargetDefinitionStub());
+        $definitionCollection = new DefinitionCollection("uniqueName");
         $definitionCollection->shift();
     }
 
@@ -94,12 +78,11 @@ class DefinitionCollectionTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Annotation\Definition\DefinitionCollection::pop
      */
     public function testPushAndPopAnnotationDefinitionFromCollection() {
-        $annotation1 = $this->getAnnotationDefinitionStub();
-        $annotation2 = $this->getAnnotationDefinitionStub();
-        $definitionCollection = new DefinitionCollection($this->getTargetDefinitionStub());
-        $this->assertSame($definitionCollection, $definitionCollection->push($annotation1));
-        $this->assertSame($definitionCollection, $definitionCollection->push($annotation2));
-        $this->assertSame($annotation2, $definitionCollection->pop());
+        $annotation = $this->getAnnotationDefinitionStub();
+        $definitionCollection = new DefinitionCollection("uniqueName");
+        $this->assertSame($definitionCollection, $definitionCollection->push(clone $annotation));
+        $this->assertSame($definitionCollection, $definitionCollection->push($annotation));
+        $this->assertSame($annotation, $definitionCollection->pop());
     }
 
     /**
@@ -108,13 +91,13 @@ class DefinitionCollectionTest extends PHPUnit_Framework_TestCase {
      * @expectedException \Brickoo\Component\Annotation\Exception\AnnotationNotAvailableException
      */
     public function testPopWithEmptyCollectionThrowsException() {
-        $definitionCollection = new DefinitionCollection($this->getTargetDefinitionStub());
+        $definitionCollection = new DefinitionCollection("uniqueName");
         $definitionCollection->pop();
     }
 
     /** @covers Brickoo\Component\Annotation\Definition\DefinitionCollection::getIterator */
     public function testGetCollectionArrayIterator() {
-        $definitionCollection = new DefinitionCollection($this->getTargetDefinitionStub());
+        $definitionCollection = new DefinitionCollection("uniqueName");
         $this->assertInstanceOf("\\ArrayIterator", $definitionCollection->getIterator());
     }
 
@@ -124,7 +107,7 @@ class DefinitionCollectionTest extends PHPUnit_Framework_TestCase {
      */
     public function testIsEmptyCollectionAndCountItems() {
         $annotation = $this->getAnnotationDefinitionStub();
-        $definitionCollection = new DefinitionCollection($this->getTargetDefinitionStub());
+        $definitionCollection = new DefinitionCollection("uniqueName");
         $this->assertTrue($definitionCollection->isEmpty());
         $this->assertEquals(0, count($definitionCollection));
         $definitionCollection->push($annotation);
@@ -133,14 +116,26 @@ class DefinitionCollectionTest extends PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * Return a TargetDefinition stub.
-     * @return \Brickoo\Component\Annotation\Definition\TargetDefinition
-     */
-    private function getTargetDefinitionStub() {
-        return $this->getMockBuilder("\\Brickoo\\Component\\Annotation\\Definition\\TargetDefinition")
-            ->disableOriginalConstructor()
-            ->getMock();
+    /** @covers Brickoo\Component\Annotation\Definition\DefinitionCollection::getAnnotationsDefinitionsByTarget */
+    public function testGetAnnotationsDefinitionsByTarget() {
+        $annotationA = $this->getAnnotationDefinitionStub();
+        $annotationA->expects($this->any())
+                    ->method("isTarget")
+                    ->with(Annotation::TARGET_METHOD)
+                    ->will($this->returnValue(false));
+        $annotationB = $this->getAnnotationDefinitionStub();
+        $annotationB->expects($this->any())
+                    ->method("isTarget")
+                    ->with(Annotation::TARGET_METHOD)
+                    ->will($this->returnValue(true));
+        $definitionCollection = new DefinitionCollection("uniqueName");
+        $definitionCollection->push($annotationA);
+        $definitionCollection->push($annotationB);
+        $this->assertInstanceOf(
+            "\\ArrayIterator",
+            ($iterator = $definitionCollection->getAnnotationsDefinitionsByTarget(Annotation::TARGET_METHOD))
+        );
+        $this->assertSame($annotationB, $iterator->current());
     }
 
     /**

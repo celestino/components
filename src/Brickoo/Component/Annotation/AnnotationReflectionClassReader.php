@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Annotation;
 
-use Brickoo\Component\Annotation\Definition\DefinitionContainer,
-    Brickoo\Component\Annotation\Definition\TargetDefinition,
+use Brickoo\Component\Annotation\Definition\DefinitionCollection,
     ReflectionClass;
 
 /**
@@ -54,91 +53,119 @@ class AnnotationReflectionClassReader {
 
     /**
      * Returns the read annotations.
-     * @param \Brickoo\Component\Annotation\Definition\DefinitionContainer $definition
+     * @param \Brickoo\Component\Annotation\Definition\DefinitionCollection $collection
      * @param \ReflectionClass $reflectionClass
      * @return \Brickoo\Component\Annotation\AnnotationReaderResult
      */
-    public function getAnnotations(DefinitionContainer $definition, ReflectionClass $reflectionClass) {
-        $readerResult = new AnnotationReaderResult($definition->getName(), $reflectionClass->getName());
-        $this->addClassAnnotations($readerResult, $definition, $reflectionClass);
-        $this->addMethodsAnnotations($readerResult, $definition, $reflectionClass);
-        $this->addPropertiesAnnotations($readerResult, $definition, $reflectionClass);
+    public function getAnnotations(DefinitionCollection $collection, ReflectionClass $reflectionClass) {
+        $readerResult = new AnnotationReaderResult($collection->getName(), $reflectionClass->getName());
+        $this->addClassAnnotations($readerResult, $collection, $reflectionClass);
+        $this->addMethodsAnnotations($readerResult, $collection, $reflectionClass);
+        $this->addPropertiesAnnotations($readerResult, $collection, $reflectionClass);
         return $readerResult;
     }
 
     /**
-     * Adds read class annotations to result collection
+     * Adds class annotations to the reader result.
      * @param \Brickoo\Component\Annotation\AnnotationReaderResult $result
-     * @param \Brickoo\Component\Annotation\Definition\DefinitionContainer $definition
-     * @param ReflectionClass $class
+     * @param \Brickoo\Component\Annotation\Definition\DefinitionCollection $collection
+     * @param \ReflectionClass $class
      * @return \Brickoo\Component\Annotation\AnnotationReflectionClassReader
      */
-    private function addClassAnnotations(AnnotationReaderResult $result, DefinitionContainer $definition, ReflectionClass $class) {
+    private function addClassAnnotations(AnnotationReaderResult $result, DefinitionCollection $collection, ReflectionClass $class) {
         $this->annotationParser->setAnnotationWhitelist($this->getAnnotationsNames(
-            $definition->getCollectionsByTargetType(TargetDefinition::TYPE_CLASS)
+            $collection->getAnnotationsDefinitionsByTarget(Annotation::TARGET_CLASS)
         ));
-        $result->addCollection($this->annotationParser->parse(
-            new AnnotationTarget(AnnotationTarget::TYPE_CLASS, $class->getName()),
-            $class->getDocComment()
-        ));
+
+        $this->parseAnnotations($result, Annotation::TARGET_CLASS, $class->getName(), $class->getDocComment());
         return $this;
     }
 
     /**
-     * Adds read methods annotations to result collection.
+     * Adds methods annotations to the reader result.
      * @param \Brickoo\Component\Annotation\AnnotationReaderResult $result
-     * @param \Brickoo\Component\Annotation\Definition\DefinitionContainer $definition
-     * @param ReflectionClass $class
+     * @param \Brickoo\Component\Annotation\Definition\DefinitionCollection $collection
+     * @param \ReflectionClass $class
      * @return \Brickoo\Component\Annotation\AnnotationReflectionClassReader
      */
-    private function addMethodsAnnotations(AnnotationReaderResult $result, DefinitionContainer $definition, ReflectionClass $class) {
+    private function addMethodsAnnotations(AnnotationReaderResult $result, DefinitionCollection $collection, ReflectionClass $class) {
         $this->annotationParser->setAnnotationWhitelist($this->getAnnotationsNames(
-            $definition->getCollectionsByTargetType(TargetDefinition::TYPE_METHOD)
+            $collection->getAnnotationsDefinitionsByTarget(Annotation::TARGET_METHOD)
         ));
 
         foreach ($class->getMethods() as $method) {
-            $result->addCollection($this->annotationParser->parse(
-                new AnnotationTarget(AnnotationTarget::TYPE_METHOD, $class->getName(), $method->getName()),
+            $this->parseAnnotations(
+                $result,
+                Annotation::TARGET_METHOD,
+                sprintf("%s::%s" , $class->getName(), $method->getName()),
                 $method->getDocComment()
-            ));
+            );
         }
         return $this;
     }
 
     /**
-     * Adds read properties annotations to result collection.
+     * Adds properties annotations to the reader result.
      * @param \Brickoo\Component\Annotation\AnnotationReaderResult $result
-     * @param \Brickoo\Component\Annotation\Definition\DefinitionContainer $definition
-     * @param ReflectionClass $class
+     * @param \Brickoo\Component\Annotation\Definition\DefinitionCollection $collection
+     * @param \ReflectionClass $class
      * @return \Brickoo\Component\Annotation\AnnotationReflectionClassReader
      */
-    private function addPropertiesAnnotations(AnnotationReaderResult $result, DefinitionContainer $definition, ReflectionClass $class) {
+    private function addPropertiesAnnotations(AnnotationReaderResult $result, DefinitionCollection $collection, ReflectionClass $class) {
         $this->annotationParser->setAnnotationWhitelist($this->getAnnotationsNames(
-            $definition->getCollectionsByTargetType(TargetDefinition::TYPE_PROPERTY)
+            $collection->getAnnotationsDefinitionsByTarget(Annotation::TARGET_PROPERTY)
         ));
 
         foreach ($class->getProperties() as $property) {
-            $result->addCollection($this->annotationParser->parse(
-                new AnnotationTarget(AnnotationTarget::TYPE_PROPERTY, $class->getName(), $property->getName()),
+            $this->parseAnnotations(
+                $result,
+                Annotation::TARGET_PROPERTY,
+                sprintf("%s::%s" , $class->getName(), $property->getName()),
                 $property->getDocComment()
-            ));
+            );
         }
         return $this;
     }
 
     /**
      * Returns the annotations names.
-     * @param \ArrayIterator $definitionCollections
+     * @param \ArrayIterator $annotationsDefinitionsIterator
      * @return array the annotations names
      */
-    private function getAnnotationsNames(\ArrayIterator $definitionCollections) {
+    private function getAnnotationsNames(\ArrayIterator $annotationsDefinitionsIterator) {
         $annotationsNames = [];
-        foreach ($definitionCollections as $annotationDefinitions) {
-            foreach ($annotationDefinitions as $annotation) {
-                $annotationsNames[] = $annotation->getName();
-            }
+        foreach ($annotationsDefinitionsIterator as $annotationDefinition) {
+            $annotationsNames[] = $annotationDefinition->getName();
         }
         return $annotationsNames;
+    }
+
+    /**
+     * Parse the doc comments annotations.
+     * @param AnnotationReaderResult $result
+     * @param integer $target
+     * @param string $targetLocation
+     * @param string $docComment
+     * @return \Brickoo\Component\Annotation\AnnotationReflectionClassReader
+     */
+    private function parseAnnotations(AnnotationReaderResult $result, $target, $targetLocation, $docComment) {
+        if ($annotations = $this->annotationParser->parse($target, $targetLocation, $docComment)) {
+            $this->addResultAnnotations($result, $annotations);
+        }
+        return $this;
+    }
+
+    /**
+     * Adds the annotations to the result collection.
+     * @param \Brickoo\Component\Annotation\AnnotationReaderResult $result
+     * @param array $annotations
+     * @return \Brickoo\Component\Annotation\AnnotationReflectionClassReader
+     */
+    private function addResultAnnotations(AnnotationReaderResult $result, array $annotations) {
+        foreach ($annotations as $annotation) {
+            $result->addAnnotation($annotation);
+        }
+        return $this;
     }
 
 }

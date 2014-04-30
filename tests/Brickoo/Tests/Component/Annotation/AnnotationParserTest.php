@@ -29,7 +29,8 @@
 
 namespace Brickoo\Tests\Component\Annotation;
 
-use Brickoo\Component\Annotation\AnnotationParser,
+use Brickoo\Component\Annotation\Annotation,
+    Brickoo\Component\Annotation\AnnotationParser,
     PHPUnit_Framework_TestCase;
 
 /**
@@ -66,8 +67,7 @@ class AnnotationParserTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Annotation\AnnotationParser::getParameterValues
      * @covers Brickoo\Component\Annotation\AnnotationParser::convertValue
      * @covers Brickoo\Component\Annotation\AnnotationParser::transformScalar
-     * @covers Brickoo\Component\Annotation\AnnotationParser::addAnnotations
-     * @covers Brickoo\Component\Annotation\AnnotationParser::createAnnotation
+     * @covers Brickoo\Component\Annotation\AnnotationParser::convertAnnotations
      */
     public function testParseAnnotatedDocComment() {
         $docComment = '/**
@@ -77,31 +77,27 @@ class AnnotationParserTest extends PHPUnit_Framework_TestCase {
             * @param string $someValue
             * @return void
             */';
-        $target = $this->getAnnotationTargetStub();
+
+        $target = Annotation::TARGET_CLASS;
+        $targetLocation = "";
         $annotationParser = new AnnotationParser();
         $annotationParser->setAnnotationPrefix("@:");
         $annotationParser->setAnnotationWhitelist(["Cache", "Assert"]);
-        $annotationCollection = $annotationParser->parse($target, $docComment);
-        $this->assertInstanceOf("\\Brickoo\\Component\\Annotation\\AnnotationCollection", $annotationCollection);
-        $this->assertEquals(2, count($annotationCollection));
+        $annotations = $annotationParser->parse($target, $targetLocation, $docComment);
+        $this->assertInternalType("array", $annotations);
+        $this->assertEquals(2, count($annotations));
 
-        $annotation_1 = $annotationCollection->pop();
+        $annotation_1 = array_pop($annotations);
+        $this->assertEquals($target, $annotation_1->getTarget());
+        $this->assertEquals($targetLocation, $annotation_1->getTargetLocation());
         $this->assertEquals("Cache", $annotation_1->getName());
         $this->assertEquals(["path" => "/temp", "lifetime" => 30], $annotation_1->getValues());
 
-        $annotation_2 = $annotationCollection->pop();
+        $annotation_2 = array_pop($annotations);
+        $this->assertEquals($target, $annotation_1->getTarget());
+        $this->assertEquals($targetLocation, $annotation_1->getTargetLocation());
         $this->assertEquals("Assert", $annotation_2->getName());
         $this->assertEquals([0 => ['a', 'b'], 1 => false, 2 => true], $annotation_2->getValues());
-    }
-
-    /**
-     * Returns an AnnotationTarget stub.
-     * @return \Brickoo\Component\Annotation\AnnotationTarget
-     */
-    private function getAnnotationTargetStub() {
-        return $this->getMockBuilder("\\Brickoo\\Component\\Annotation\\AnnotationTarget")
-            ->disableOriginalConstructor()
-            ->getMock();
     }
 
 }

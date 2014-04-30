@@ -29,7 +29,8 @@
 
 namespace Brickoo\Tests\Component\Annotation\Definition;
 
-use Brickoo\Component\Annotation\Definition\AnnotationDefinition,
+use Brickoo\Component\Annotation\Annotation,
+    Brickoo\Component\Annotation\Definition\AnnotationDefinition,
     PHPUnit_Framework_TestCase;
 
 /**
@@ -50,12 +51,33 @@ class AnnotationDefinitionTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($name, $definition->getName());
     }
 
+    /**
+     * @covers Brickoo\Component\Annotation\Definition\AnnotationDefinition::__construct
+     * @covers Brickoo\Component\Annotation\Definition\AnnotationDefinition::getTarget
+     */
+    public function testGetTarget() {
+        $target = Annotation::TARGET_CLASS;
+        $definition = new AnnotationDefinition("someName", $target);
+        $this->assertEquals($target, $definition->getTarget());
+    }
+
+    /**
+     * @covers Brickoo\Component\Annotation\Definition\AnnotationDefinition::__construct
+     * @covers Brickoo\Component\Annotation\Definition\AnnotationDefinition::isTarget
+     */
+    public function testIsTarget() {
+        $target = Annotation::TARGET_CLASS;
+        $definition = new AnnotationDefinition("someName", $target);
+        $this->assertFalse($definition->isTarget(Annotation::TARGET_METHOD));
+        $this->assertTrue($definition->isTarget($target));
+    }
+
     /** @covers Brickoo\Component\Annotation\Definition\AnnotationDefinition::isRequired */
     public function testIsRequired() {
-        $definition_1 = new AnnotationDefinition("Controller");
-        $this->assertTrue($definition_1->isRequired());
-        $definition_2 = new AnnotationDefinition("Controller", false);
-        $this->assertFalse($definition_2->isRequired());
+        $definitionA = new AnnotationDefinition("Controller");
+        $this->assertTrue($definitionA->isRequired());
+        $definitionB = new AnnotationDefinition("Controller", Annotation::TARGET_CLASS, false);
+        $this->assertFalse($definitionB->isRequired());
     }
 
     /** @covers Brickoo\Component\Annotation\Definition\AnnotationDefinition::addParameter */

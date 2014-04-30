@@ -91,24 +91,24 @@ class AnnotationParser {
 
     /**
      * Parse the document comment to extract annotations.
-     * @param \Brickoo\Component\Annotation\AnnotationTarget $target
+     * @param string $target
+     * @param string $targetLocation
      * @param string $docComment
      * @throws \InvalidArgumentException
-     * @return \Brickoo\Component\Annotation\AnnotationCollection
+     * @return array<\Brickoo\Component\Annotation\Annotation>
      */
-    public function parse(AnnotationTarget $target, $docComment) {
+    public function parse($target, $targetLocation, $docComment) {
+        Argument::IsInteger($target);
+        Argument::IsString($targetLocation);
         Argument::IsString($docComment);
 
-        $annotationCollection = new AnnotationCollection($target);
+        $annotations = null;
         if (($annotationsMatches = $this->getAnnotationsMatches($this->annotationPrefix, $docComment))
             && (! empty($annotationsMatches[self::REGEX_CAPTURE_ANNOTATION]))
         ){
-            $this->addAnnotations(
-                $annotationCollection,
-                $this->getAnnotationList($annotationsMatches)
-            );
+            $annotations = $this->convertAnnotations($target, $targetLocation, $this->getAnnotationList($annotationsMatches));
         }
-        return $annotationCollection;
+        return $annotations ?: [];
     }
 
     /**
@@ -211,37 +211,28 @@ class AnnotationParser {
      * @return mixed transformed value
      */
     private function transformScalar($value) {
-        switch ($value) {
-            case is_numeric($value):
-                $value = strpos($value, ".") ? floatval($value) : intval($value);
-                break;
-            case $value === "true":
-            case $value === "false":
-                $value = $value === "true" ? true : false;
-                break;
+        if (is_numeric($value)) {
+            $value = strpos($value, ".") ? floatval($value) : intval($value);
+        }
+        elseif ($value === "true" || $value == "false") {
+            $value = $value === "true" ?: false;
         }
         return $value;
     }
 
     /**
-     * Adds annotations into the annotation collection.
-     * @param \Brickoo\Component\Annotation\AnnotationCollection $collection
+     * Converts annotationList into an array of annotation objects.
+     * @param integer $target
+     * @param string $targetLocation
      * @param array $annotationList
-     * @return void
+     * @return array<\Brickoo\Component\Annotation\Annotation>
      */
-    private function addAnnotations(AnnotationCollection $collection, array $annotationList) {
+    private function convertAnnotations($target, $targetLocation, array $annotationList) {
+        $annotations = [];
         foreach ($annotationList as $annotation) {
-            $collection->push($this->createAnnotation($annotation));
+            $annotations[] = new Annotation($target, $targetLocation, $annotation["name"], $annotation["values"]);
         }
-    }
-
-    /**
-     * Creates an annotation based on the target and definition.
-     * @param array $annotation
-     * @return \Brickoo\Component\Annotation\Annotation
-     */
-    private function createAnnotation(array $annotation) {
-        return new Annotation($annotation["name"], $annotation["values"]);
+        return $annotations;
     }
 
 }

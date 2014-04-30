@@ -29,7 +29,8 @@
 
 namespace Brickoo\Component\Annotation\Definition;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Annotation\Annotation,
+    Brickoo\Component\Validation\Argument;
 
 /**
  * AnnotationDefinition
@@ -38,6 +39,9 @@ use Brickoo\Component\Validation\Argument;
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 class AnnotationDefinition {
+
+    /** @var integer */
+    private $target;
 
     /** @var string */
     private $annotationName;
@@ -54,16 +58,37 @@ class AnnotationDefinition {
     /**
      * Class constructor.
      * @param string $annotationName
+     * @param integer $target
      * @param boolean $required
      * @throws \InvalidArgumentException
      */
-    public function __construct($annotationName, $required = true) {
+    public function __construct($annotationName, $target = Annotation::TARGET_CLASS, $required = true) {
         Argument::IsString($annotationName);
+        Argument::IsInteger($target);
         Argument::IsBoolean($required);
+        $this->target = $target;
         $this->annotationName = $annotationName;
         $this->required = $required;
         $this->requiredParameters = [];
         $this->optionalParameters = [];
+    }
+
+    /**
+     * Returns the target.
+     * @return integer the annotation target
+     */
+    public function getTarget() {
+        return $this->target;
+    }
+
+    /**
+     * Checks if the annotation matches a target.
+     * @param integer $target
+     * @return boolean check result
+     */
+    public function isTarget($target) {
+        Argument::IsInteger($target);
+        return $this->getTarget() == $target;
     }
 
     /**

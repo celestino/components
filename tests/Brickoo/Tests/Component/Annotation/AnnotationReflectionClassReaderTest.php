@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Annotation;
 
-use Brickoo\Component\Annotation\AnnotationReflectionClassReader,
-    Brickoo\Component\Annotation\AnnotationTargetTypes,
+use Brickoo\Component\Annotation\Annotation,
+    Brickoo\Component\Annotation\AnnotationReflectionClassReader,
     PHPUnit_Framework_TestCase,
     ReflectionClass;
 
@@ -49,25 +49,39 @@ class AnnotationReflectionClassReaderTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Annotation\AnnotationReflectionClassReader::addMethodsAnnotations
      * @covers Brickoo\Component\Annotation\AnnotationReflectionClassReader::addPropertiesAnnotations
      * @covers Brickoo\Component\Annotation\AnnotationReflectionClassReader::getAnnotationsNames
+     * @covers Brickoo\Component\Annotation\AnnotationReflectionClassReader::parseAnnotations
+     * @covers Brickoo\Component\Annotation\AnnotationReflectionClassReader::addResultAnnotations
      */
     public function testGetAnnotations() {
         include_once __DIR__."/Assets/AnnotatedClass.php";
-        $annotationCollection = $this->getAnnotationCollectionStub();
-        $annotationCollection->expects($this->any())
-                             ->method("getTargetType")
-                             ->will($this->returnValue(AnnotationTargetTypes::TYPE_CLASS));
+        $definitionCollectionFixture = include __DIR__ . "/Assets/DefinitionCollectionFixture.php";
+
+        $annotation = $this->getAnnotationStub();
+        $annotation->expects($this->any())
+                   ->method("getTarget")
+                   ->will($this->returnValue(Annotation::TARGET_CLASS));
+
         $annotationParser = $this->getAnnotationParserStub();
         $annotationParser->expects($this->any())
                          ->method("parse")
-                         ->will($this->returnValue($annotationCollection));
+                         ->will($this->returnValue([$annotation]));
 
         $classReader = new AnnotationReflectionClassReader($annotationParser);
         $result = $classReader->getAnnotations(
-            ($definitionFixture = include __DIR__."/Assets/DefinitionFixture.php"),
+            $definitionCollectionFixture,
             new ReflectionClass("\\Brickoo\\Tests\\Component\\Annotation\\Assets\\AnnotatedClass")
         );
         $this->assertInstanceOf("\\Brickoo\\Component\\Annotation\\AnnotationReaderResult", $result);
+    }
 
+    /**
+     * Returns an Annotation stub.
+     * @return \Brickoo\Component\Annotation\Annotation
+     */
+    private function getAnnotationStub() {
+        return $this->getMockBuilder("\\Brickoo\\Component\\Annotation\\Annotation")
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     /**
@@ -76,16 +90,6 @@ class AnnotationReflectionClassReaderTest extends PHPUnit_Framework_TestCase {
      */
     private function getAnnotationParserStub() {
         return $this->getMockBuilder("\\Brickoo\\Component\\Annotation\\AnnotationParser")
-            ->disableOriginalConstructor()
-            ->getMock();
-    }
-
-    /**
-     * Returns an AnnotationCollection stub.
-     * @return \Brickoo\Component\Annotation\AnnotationCollection
-     */
-    private function getAnnotationCollectionStub() {
-        return $this->getMockBuilder("\\Brickoo\\Component\\Annotation\\AnnotationCollection")
             ->disableOriginalConstructor()
             ->getMock();
     }

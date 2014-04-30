@@ -42,11 +42,9 @@ class ReaderResultValidatorTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Annotation\ReaderResultValidator::validate
-     * @covers Brickoo\Component\Annotation\ReaderResultValidator::validateCollections
+     * @covers Brickoo\Component\Annotation\ReaderResultValidator::validateAnnotations
      * @covers Brickoo\Component\Annotation\ReaderResultValidator::getRequiredAnnotationsDefinitions
-     * @covers Brickoo\Component\Annotation\ReaderResultValidator::collectRequiredAnnotations
-     * @covers Brickoo\Component\Annotation\ReaderResultValidator::getReadAnnotationsParameters
-     * @covers Brickoo\Component\Annotation\ReaderResultValidator::collectReadAnnotations
+     * @covers Brickoo\Component\Annotation\ReaderResultValidator::getAnnotationsParameters
      * @covers Brickoo\Component\Annotation\ReaderResultValidator::checkAnnotationRequirements
      * @covers Brickoo\Component\Annotation\ReaderResultValidator::hasRequiredAnnotation
      * @covers Brickoo\Component\Annotation\ReaderResultValidator::getMissingParameters
@@ -54,7 +52,7 @@ class ReaderResultValidatorTest extends PHPUnit_Framework_TestCase {
     public function testValidate() {
         $validator = new ReaderResultValidator();
         $validator->validate(
-            include __DIR__."/Assets/DefinitionFixture.php",
+            include __DIR__ . "/Assets/DefinitionCollectionFixture.php",
             include __DIR__."/Assets/ReaderResultFixture.php"
         );
         $this->assertInstanceOf("\\Brickoo\\Component\\Annotation\\ReaderResultValidator", $validator);
@@ -62,32 +60,27 @@ class ReaderResultValidatorTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Annotation\ReaderResultValidator::validate
-     * @covers Brickoo\Component\Annotation\ReaderResultValidator::validateCollections
+     * @covers Brickoo\Component\Annotation\ReaderResultValidator::validateAnnotations
      * @covers Brickoo\Component\Annotation\ReaderResultValidator::getRequiredAnnotationsDefinitions
-     * @covers Brickoo\Component\Annotation\ReaderResultValidator::collectRequiredAnnotations
-     * @covers Brickoo\Component\Annotation\ReaderResultValidator::getReadAnnotationsParameters
-     * @covers Brickoo\Component\Annotation\ReaderResultValidator::collectReadAnnotations
+     * @covers Brickoo\Component\Annotation\ReaderResultValidator::getAnnotationsParameters
      * @covers Brickoo\Component\Annotation\ReaderResultValidator::checkAnnotationRequirements
      * @covers Brickoo\Component\Annotation\ReaderResultValidator::hasRequiredAnnotation
-     * @covers Brickoo\Component\Annotation\ReaderResultValidator::getMissingParameters
      * @covers Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationException
      * @expectedException \Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationException
      */
     public function testValidateThrowsMissingAnnotationException() {
         $validator = new ReaderResultValidator();
         $validator->validate(
-            include __DIR__."/Assets/DefinitionFixture.php",
+            include __DIR__ . "/Assets/DefinitionCollectionFixture.php",
             include __DIR__."/Assets/MissingAnnotationReaderResultFixture.php"
         );
     }
 
     /**
      * @covers Brickoo\Component\Annotation\ReaderResultValidator::validate
-     * @covers Brickoo\Component\Annotation\ReaderResultValidator::validateCollections
+     * @covers Brickoo\Component\Annotation\ReaderResultValidator::validateAnnotations
      * @covers Brickoo\Component\Annotation\ReaderResultValidator::getRequiredAnnotationsDefinitions
-     * @covers Brickoo\Component\Annotation\ReaderResultValidator::collectRequiredAnnotations
-     * @covers Brickoo\Component\Annotation\ReaderResultValidator::getReadAnnotationsParameters
-     * @covers Brickoo\Component\Annotation\ReaderResultValidator::collectReadAnnotations
+     * @covers Brickoo\Component\Annotation\ReaderResultValidator::getAnnotationsParameters
      * @covers Brickoo\Component\Annotation\ReaderResultValidator::checkAnnotationRequirements
      * @covers Brickoo\Component\Annotation\ReaderResultValidator::hasRequiredAnnotation
      * @covers Brickoo\Component\Annotation\ReaderResultValidator::getMissingParameters
@@ -97,7 +90,7 @@ class ReaderResultValidatorTest extends PHPUnit_Framework_TestCase {
     public function testValidateThrowsMissingParameterException() {
         $validator = new ReaderResultValidator();
         $validator->validate(
-            include __DIR__."/Assets/DefinitionFixture.php",
+            include __DIR__ . "/Assets/DefinitionCollectionFixture.php",
             include __DIR__."/Assets/MissingParameterReaderResultFixture.php"
         );
     }

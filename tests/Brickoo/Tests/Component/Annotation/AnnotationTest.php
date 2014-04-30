@@ -38,43 +38,48 @@ use Brickoo\Component\Annotation\Annotation,
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class AutoloaderTest extends PHPUnit_Framework_TestCase {
+class AnnotationTest extends PHPUnit_Framework_TestCase {
 
-    /** @covers Brickoo\Component\Annotation\Annotation::__construct */
-    public function testConstructor() {
-        $annotation =  new Annotation("Cache", ["path" => "/"]);
-        $this->assertAttributeEquals("Cache", "name", $annotation);
-        $this->assertAttributeEquals(["path" => "/"], "values", $annotation);
+    /**
+     * @covers Brickoo\Component\Annotation\Annotation::__construct
+     * @covers Brickoo\Component\Annotation\Annotation::getTarget
+     */
+    public function testGetTarget() {
+        $target = Annotation::TARGET_CLASS;
+        $annotation =  new Annotation($target, "\\SomeClass", "Cache");
+        $this->assertEquals($target, $annotation->getTarget());
     }
 
     /**
      * @covers Brickoo\Component\Annotation\Annotation::__construct
-     * @expectedException \InvalidArgumentException
+     * @covers Brickoo\Component\Annotation\Annotation::getTargetLocation
      */
-    public function testConstructorThrowsInvalidNameArgumentException() {
-        new Annotation(["wrongType"]);
+    public function testGetTargetLocation() {
+        $targetLocation = "\\SomeClass";
+        $annotation =  new Annotation(Annotation::TARGET_CLASS, $targetLocation, "Cache");
+        $this->assertEquals($targetLocation, $annotation->getTargetLocation());
     }
 
     /** @covers Brickoo\Component\Annotation\Annotation::getName */
     public function testGetName() {
         $annotationName = "Cache";
-        $annotation =  new Annotation($annotationName);
+        $annotation =  new Annotation(Annotation::TARGET_CLASS, "\\SomeClass", $annotationName);
         $this->assertEquals($annotationName, $annotation->getName());
     }
 
     /** @covers Brickoo\Component\Annotation\Annotation::getValues */
     public function testGetValues() {
         $annotationValues = ["path" => "/"];
-        $annotation =  new Annotation("Cache", $annotationValues);
+        $annotation =  new Annotation(Annotation::TARGET_CLASS, "\\SomeClass", "Cache", $annotationValues);
         $this->assertEquals($annotationValues, $annotation->getValues());
     }
 
     /** @covers Brickoo\Component\Annotation\Annotation::hasValues */
     public function testHasValues() {
         $annotationValues = ["path" => "/"];
-        $annotation1 =  new Annotation("Cache");
+        $annotation1 =  new Annotation(Annotation::TARGET_CLASS, "\\SomeClass", "Cache");
         $this->assertFalse($annotation1->hasValues());
-        $annotation2 =  new Annotation("Cache", $annotationValues);
+        $annotation2 =  new Annotation(Annotation::TARGET_CLASS, "\\SomeClass", "Cache", $annotationValues);
         $this->assertTrue($annotation2->hasValues());
     }
 

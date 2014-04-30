@@ -30,50 +30,50 @@
 namespace Brickoo\Component\Annotation;
 
 use ArrayIterator,
-    Brickoo\Component\Annotation\Exception\InvalidTargetTypeException,
+    Brickoo\Component\Annotation\Exception\InvalidTargetException,
     Brickoo\Component\Validation\Argument,
     IteratorAggregate;
 
 /**
  * AnnotationReaderResult
  *
- * Implements as annotation reader result.
+ * Implements an annotation reader result.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 class AnnotationReaderResult implements IteratorAggregate {
 
     /** @var string */
-    private $definitionName;
+    private $collectionName;
 
     /** @var string */
     private $className;
 
-    /** @var array<TargetType, AnnotationCollection> */
-    private $collections;
+    /** @var array<integer, array<Annotation>> */
+    private $annotations;
 
     /**
      * Class constructor.
-     * @param string $definitionName
+     * @param string $collectionName
      * @param string $className
      */
-    public function __construct($definitionName, $className) {
-        Argument::IsString($definitionName);
+    public function __construct($collectionName, $className) {
+        Argument::IsString($collectionName);
         Argument::IsString($className);
-        $this->definitionName = $definitionName;
+        $this->collectionName = $collectionName;
         $this->className = $className;
-        $this->collections = [
-            AnnotationTargetTypes::TYPE_CLASS => [],
-            AnnotationTargetTypes::TYPE_METHOD => [],
-            AnnotationTargetTypes::TYPE_PROPERTY => []
+        $this->annotations = [
+            Annotation::TARGET_CLASS => [],
+            Annotation::TARGET_METHOD => [],
+            Annotation::TARGET_PROPERTY => []
         ];
     }
 
     /**
-     * Returns the definition name.
-     * @return string the definition name;
+     * Returns the collection name.
+     * @return string the collection name;
      */
-    public function getDefinitionName() {
-        return $this->definitionName;
+    public function getCollectionName() {
+        return $this->collectionName;
     }
 
     /**
@@ -85,54 +85,54 @@ class AnnotationReaderResult implements IteratorAggregate {
     }
 
     /**
-     * Adds a collection to the matching type.
-     * @param \Brickoo\Component\Annotation\AnnotationCollection $collection
-     * @throws \Brickoo\Component\Annotation\Exception\InvalidTargetTypeException
+     * Adds an annotation to the properly container matching the collection type.
+     * @param \Brickoo\Component\Annotation\Annotation $annotation
+     * @throws \Brickoo\Component\Annotation\Exception\InvalidTargetException
      * @return \Brickoo\Component\Annotation\AnnotationReaderResult
      */
-    public function addCollection(AnnotationCollection $collection) {
-        $targetType = $collection->getTargetType();
+    public function addAnnotation(Annotation $annotation) {
+        $target = $annotation->getTarget();
 
-        if (! $this->isTargetTypeValid($targetType)) {
-            throw new InvalidTargetTypeException($targetType);
+        if (! $this->isTargetValid($target)) {
+            throw new InvalidTargetException($target);
         }
 
-        $this->collections[$targetType][] = $collection;
+        $this->annotations[$target][] = $annotation;
         return $this;
     }
 
     /**
-     * Returns a collection matching the target type.
-     * @param integer $targetType
-     * @throws \InvalidArgumentException
-     * @throws \Brickoo\Component\Annotation\Exception\InvalidTargetTypeException
-     * @return \ArrayIterator<AnnotationCollection>
-     */
-    public function getCollectionsByTargetType($targetType) {
-        Argument::IsInteger($targetType);
-
-        if (! $this->isTargetTypeValid($targetType)) {
-            throw new InvalidTargetTypeException($targetType);
-        }
-
-        return new ArrayIterator($this->collections[$targetType]);
-    }
-
-    /**
-     * Returns ann array iterator containing all collections.
-     * @return \ArrayIterator containing all collections
+     * Returns an array iterator containing all annotations.
+     * @return \ArrayIterator containing all annotations
      */
     public function getIterator() {
-        return new ArrayIterator($this->collections);
+        return new ArrayIterator($this->annotations);
     }
 
     /**
-     * Checks if the target type is valid.
-     * @param integer $targetType
+     * Returns an annotations iterator matching the target.
+     * @param integer $target
+     * @throws \InvalidArgumentException
+     * @throws \Brickoo\Component\Annotation\Exception\InvalidTargetException
+     * @return \ArrayIterator<Annotation>
+     */
+    public function getAnnotationsByTarget($target) {
+        Argument::IsInteger($target);
+
+        if (! $this->isTargetValid($target)) {
+            throw new InvalidTargetException($target);
+        }
+
+        return new ArrayIterator($this->annotations[$target]);
+    }
+
+    /**
+     * Checks if the target is valid.
+     * @param integer $target
      * @return boolean check result
      */
-    private function isTargetTypeValid($targetType) {
-        return isset($this->collections[$targetType]);
+    private function isTargetValid($target) {
+        return isset($this->annotations[$target]);
     }
 
 }

@@ -44,37 +44,28 @@ use ArrayIterator,
 
 class DefinitionCollection  implements Countable, IteratorAggregate {
 
+    /** @var string */
+    private $uniqueName;
+
     /** @var array */
     private $annotationsContainer;
 
-    /** @var \Brickoo\Component\Annotation\Definition\TargetDefinition */
-    private $targetDefinition;
-
     /**
      * Class constructor.
-     * @param \Brickoo\Component\Annotation\Definition\TargetDefinition $targetDefinition
+     * @param string $uniqueName
      */
-    public function __construct(TargetDefinition $targetDefinition) {
-        $this->targetDefinition = $targetDefinition;
+    public function __construct($uniqueName) {
+        Argument::IsString($uniqueName);
+        $this->uniqueName = $uniqueName;
         $this->annotationsContainer = [];
     }
 
     /**
-     * Returns the target definition.
-     * @return \Brickoo\Component\Annotation\Definition\TargetDefinition
+     * Returns the collection unique name.
+     * @return string the collection name
      */
-    public function getTarget() {
-        return $this->targetDefinition;
-    }
-
-    /**
-     * Checks if the collection matches a type.
-     * @param integer $targetType
-     * @return boolean check result
-     */
-    public function isTypeOf($targetType) {
-        Argument::IsInteger($targetType);
-        return $this->getTarget()->isTypeOf($targetType);
+    public function getName() {
+        return $this->uniqueName;
     }
 
     /**
@@ -132,6 +123,22 @@ class DefinitionCollection  implements Countable, IteratorAggregate {
     /** {@inheritDoc} */
     public function count() {
         return count($this->annotationsContainer);
+    }
+
+    /**
+     * Returns the annotations definitions matching the target.
+     * @param integer $target
+     * @return \ArrayIterator containing annotations definitions
+     */
+    public function getAnnotationsDefinitionsByTarget($target) {
+        Argument::IsInteger($target);
+        $annotationsDefinitions = [];
+        foreach ($this as $annotationDefinition) {
+            if ($annotationDefinition->isTarget($target)) {
+                $annotationsDefinitions[] = $annotationDefinition;
+            }
+        }
+        return new ArrayIterator($annotationsDefinitions);
     }
 
 }

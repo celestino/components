@@ -39,6 +39,17 @@ use Brickoo\Component\Validation\Argument;
  */
 class Annotation  {
 
+    /** @const annotation targets */
+    const TARGET_CLASS = 1;
+    const TARGET_METHOD = 2;
+    const TARGET_PROPERTY = 4;
+
+    /** @var integer */
+    protected $target;
+
+    /** @var string */
+    protected $targetLocation;
+
     /** @var string */
     protected $name;
 
@@ -47,13 +58,35 @@ class Annotation  {
 
     /**
      * Class constructor.
+     * @param integer $target
+     * @param string $targetLocation
      * @param string $name the annotation name
      * @param array $values the annotation values
      */
-    public function __construct($name, array $values = []) {
+    public function __construct($target, $targetLocation, $name, array $values = []) {
+        Argument::IsInteger($target);
+        Argument::IsString($targetLocation);
         Argument::IsString($name);
+        $this->target = $target;
+        $this->targetLocation = $targetLocation;
         $this->name = $name;
         $this->values = $values;
+    }
+
+    /**
+     * Returns the annotation target
+     * @return integer the annotation target
+     */
+    public function getTarget() {
+        return $this->target;
+    }
+
+    /**
+     * Returns the target location.
+     * @return string the target location
+     */
+    public function getTargetLocation() {
+        return $this->targetLocation;
     }
 
     /**

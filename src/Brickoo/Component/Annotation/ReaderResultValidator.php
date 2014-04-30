@@ -30,7 +30,6 @@
 namespace Brickoo\Component\Annotation;
 
 use ArrayIterator,
-    Brickoo\Component\Annotation\Definition\DefinitionContainer,
     Brickoo\Component\Annotation\Definition\DefinitionCollection,
     Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationException,
     Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationParametersException;
@@ -45,35 +44,35 @@ class ReaderResultValidator {
 
     /**
      * Validates a reader result against the provided definition.
-     * @param \Brickoo\Component\Annotation\Definition\DefinitionContainer $definition
+     * @param \Brickoo\Component\Annotation\Definition\DefinitionCollection $collection
      * @param \Brickoo\Component\Annotation\AnnotationReaderResult $readerResult
      * @throws \Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationException
      * @throws \Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationParametersException
      * @return void
      */
-    public function validate(DefinitionContainer $definition, AnnotationReaderResult $readerResult) {
-        $types = [AnnotationTarget::TYPE_CLASS, AnnotationTarget::TYPE_METHOD, AnnotationTarget::TYPE_PROPERTY];
+    public function validate(DefinitionCollection $collection, AnnotationReaderResult $readerResult) {
+        $targets = [Annotation::TARGET_CLASS, Annotation::TARGET_METHOD, Annotation::TARGET_PROPERTY];
 
-        foreach ($types as $annotationTargetType) {
-            $this->validateCollections(
-                $definition->getCollectionsByTargetType($annotationTargetType),
-                $readerResult->getCollectionsByTargetType($annotationTargetType)
+        foreach ($targets as $annotationTarget) {
+            $this->validateAnnotations(
+                $collection->getAnnotationsDefinitionsByTarget($annotationTarget),
+                $readerResult->getAnnotationsByTarget($annotationTarget)
             );
         }
     }
 
     /**
-     * Validates the definition collections against the result collections.
+     * Validates the annotations definitions against the result.
      * @param ArrayIterator $definitions
      * @param ArrayIterator $results
      * @return void
      */
-    private function validateCollections(ArrayIterator $definitions, ArrayIterator $results) {
+    private function validateAnnotations(ArrayIterator $definitions, ArrayIterator $results) {
         if (($annotationsDefinitions = $this->getRequiredAnnotationsDefinitions($definitions))) {
-            $annotationsRead = $this->getReadAnnotationsParameters($results);
+            $annotationsParameters = $this->getAnnotationsParameters($results);
 
             foreach ($annotationsDefinitions as $requiredAnnotation => $requiredParameters) {
-                $this->checkAnnotationRequirements($requiredAnnotation, $requiredParameters, $annotationsRead);
+                $this->checkAnnotationRequirements($requiredAnnotation, $requiredParameters, $annotationsParameters);
             }
         }
     }
@@ -85,49 +84,25 @@ class ReaderResultValidator {
      */
     private function getRequiredAnnotationsDefinitions(ArrayIterator $definitions) {
         $requiredAnnotations = [];
-        foreach ($definitions as $definitionCollection) {
-            $this->collectRequiredAnnotations($definitionCollection, $requiredAnnotations);
+        foreach ($definitions as $annotationDefinition) {
+            if ($annotationDefinition->isRequired() || $annotationDefinition->hasRequiredParameters()) {
+                $requiredAnnotations[$annotationDefinition->getName()] = $annotationDefinition->getRequiredParameters();
+            }
         }
         return $requiredAnnotations;
     }
 
     /**
-     * Returns the collected required annotations and their parameters.
-     * @param \Brickoo\Component\Annotation\Definition\DefinitionCollection $collection
-     * @param array &$requiredAnnotations
-     * @return array<String, ParameterDefinition> the required annotations definitions
-     */
-    private function collectRequiredAnnotations(DefinitionCollection $collection, array &$requiredAnnotations) {
-        foreach ($collection as $annotation) {
-            if ($annotation->isRequired() || $annotation->hasRequiredParameters()) {
-                $requiredAnnotations[$annotation->getName()] = $annotation->getRequiredParameters();
-            }
-        }
-    }
-
-    /**
      * Returns the available result annotations and their parameters.
-     * @param \ArrayIterator $readerResults
-     * @return array<String, Array> the result annotations and parameters
+     * @param \ArrayIterator $annotationsIterator
+     * @return array<String, Array<mixed, mixed>> the result annotations and parameters
      */
-    private function getReadAnnotationsParameters(ArrayIterator $readerResults) {
-        $readAnnotations = [];
-        foreach ($readerResults as $collection) {
-            $this->collectReadAnnotations($collection, $readAnnotations);
+    private function getAnnotationsParameters(ArrayIterator $annotationsIterator) {
+        $annotations = [];
+        foreach ($annotationsIterator as $annotation) {
+            $annotations[$annotation->getName()] = $annotation->getValues();
         }
-        return $readAnnotations;
-    }
-
-    /**
-     * Returns the collected result annotations and their parameters.
-     * @param \Brickoo\Component\Annotation\AnnotationCollection $collection
-     * @param array $readAnnotations
-     * @return array<String, Array> the result annotations and parameters
-     */
-    private function collectReadAnnotations(AnnotationCollection $collection, array &$readAnnotations) {
-        foreach($collection as $annotation) {
-            $readAnnotations[$annotation->getName()] = $annotation->getValues();
-        }
+        return $annotations;
     }
 
     /**
@@ -155,7 +130,7 @@ class ReaderResultValidator {
      * @return boolean check result
      */
     private function hasRequiredAnnotation($annotationName, array $readAnnotations) {
-        return array_key_exists($annotationName, $readAnnotations);
+        return isset($readAnnotations[$annotationName]);
     }
 
     /**
@@ -167,7 +142,7 @@ class ReaderResultValidator {
     private function getMissingParameters(array $requiredParameters, array $readParameters) {
         $missingParameters = [];
         foreach ($requiredParameters as $parameter) {
-            if (! array_key_exists($parameter->getName(), $readParameters)) {
+            if (! isset($readParameters[$parameter->getName()])) {
                 $missingParameters[] = $parameter->getName();
             }
         }
