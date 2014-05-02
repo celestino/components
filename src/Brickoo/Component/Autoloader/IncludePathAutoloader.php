@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Autoloader;
 
-use Brickoo\Component\Autoloader\Exception\DirectoryDoesNotExistException,
-    Brickoo\Component\Autoloader\Exception\FileDoesNotExistException;
+use Brickoo\Component\Autoloader\Exception\DirectoryDoesNotExistException;
 
 /**
  * IncludePathAutoloader

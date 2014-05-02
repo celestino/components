@@ -143,7 +143,7 @@ class HttpRequestUriResolverTest extends PHPUnit_Framework_TestCase {
         $headerChecks = [["X-Original-Url", false], ["X-Rewrite-Url", true]];
         $messageHeader = $this->getMessageHeaderStub();
         $messageHeader->expects($this->any())
-                      ->method("hasHeader")
+                      ->method("contains")
                       ->will($this->returnValueMap($headerChecks));
         $messageHeader->expects($this->any())
                       ->method("getHeader")
@@ -201,7 +201,7 @@ class HttpRequestUriResolverTest extends PHPUnit_Framework_TestCase {
             ->disableOriginalConstructor()
             ->getMock();
         $messageHeader->expects($this->any())
-                      ->method("hasHeader")
+                      ->method("contains")
                       ->with($headerName)
                       ->will($this->returnValue(true));
         $messageHeader->expects($this->any())

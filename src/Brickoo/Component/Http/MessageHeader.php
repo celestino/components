@@ -39,7 +39,6 @@ use Brickoo\Component\Http\Exception\HeaderNotFoundException,
  * Implements a http message header.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class MessageHeader extends Container {
 
     /**
@@ -53,17 +52,6 @@ class MessageHeader extends Container {
     }
 
     /**
-     * Checks if the header is available.
-     * @param string $headerName
-     * @throws \InvalidArgumentException
-     * @return boolean check result
-     */
-    public function hasHeader($headerName) {
-        Argument::IsString($headerName);
-        return $this->has($headerName);
-    }
-
-    /**
      * Returns the header by its name.
      * @param string $headerName
      * @throws \Brickoo\Component\Http\Exception\HeaderNotFoundException
@@ -71,27 +59,10 @@ class MessageHeader extends Container {
      */
     public function getHeader($headerName) {
         Argument::IsString($headerName);
-        if (! $this->hasHeader($headerName)) {
+        if (! $this->contains($headerName)) {
             throw new HeaderNotFoundException($headerName);
         }
         return $this->get($headerName);
-    }
-
-    /**
-     * Removes the header by its name.
-     * @param string $headerName
-     * @throws \InvalidArgumentException
-     * @throws \Brickoo\Component\Http\Exception\HeaderNotFoundException
-     * @return \Brickoo\Component\Http\MessageHeader
-     */
-    public function removeHeader($headerName) {
-        Argument::IsString($headerName);
-        if (! $this->hasHeader($headerName)) {
-            throw new HeaderNotFoundException($headerName);
-        }
-
-        $this->delete($headerName);
-        return $this;
     }
 
     /**

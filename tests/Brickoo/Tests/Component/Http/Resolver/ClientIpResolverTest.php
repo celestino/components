@@ -39,7 +39,6 @@ use Brickoo\Component\Http\Resolver\ClientIpResolver,
  * @see Brickoo\Component\Http\Resolver\ClientIpResolver
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ClientIpResolverTest extends PHPUnit_Framework_TestCase {
 
     /**
@@ -86,7 +85,7 @@ class ClientIpResolverTest extends PHPUnit_Framework_TestCase {
         $headerChecks = [["X-Forwarded-For", false], ["Client-Ip", true]];
         $messageHeader = $this->getMessageHeaderStub();
         $messageHeader->expects($this->any())
-                      ->method("hasHeader")
+                      ->method("contains")
                       ->will($this->returnValueMap($headerChecks));
         $messageHeader->expects($this->any())
                       ->method("getHeader")
@@ -132,7 +131,7 @@ class ClientIpResolverTest extends PHPUnit_Framework_TestCase {
             ->disableOriginalConstructor()
             ->getMock();
         $messageHeader->expects($this->any())
-                      ->method("hasHeader")
+                      ->method("contains")
                       ->with($headerName)
                       ->will($this->returnValue(true));
         $messageHeader->expects($this->any())

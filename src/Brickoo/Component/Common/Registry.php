@@ -209,11 +209,6 @@ class Registry extends Locker {
         return $this->readOnly;
     }
 
-    /** {@inheritDoc} */
-    public function isIdentifierAvailable($identifier) {
-        return $this->isRegistered($identifier);
-    }
-
     /**
      * Countable interface implementation.
      * Returns the number of registrations.
@@ -230,6 +225,11 @@ class Registry extends Locker {
      */
     public function countLocked() {
         return count($this->locked);
+    }
+
+    /** {@inheritDoc} */
+    public function isIdentifierAvailable($identifier) {
+        return $this->isRegistered($identifier);
     }
 
 }

@@ -37,7 +37,6 @@ use Brickoo\Component\Http\MessageHeader;
  * Implements a client ip solver.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ClientIpResolver {
 
     /** @var \Brickoo\Component\Http\MessageHeader */
@@ -89,7 +88,7 @@ class ClientIpResolver {
             return $forwardedIp;
         }
 
-        if ($this->headers->hasHeader("Client-Ip")
+        if ($this->headers->contains("Client-Ip")
             && ($headerClientIp = $this->headers->getHeader("Client-Ip")->getValue())
             && filter_var($headerClientIp, FILTER_VALIDATE_IP)
         ){
@@ -105,7 +104,7 @@ class ClientIpResolver {
     private function getForwardedClientIp() {
         $clientIp = null;
 
-        if ($this->headers->hasHeader("X-Forwarded-For")
+        if ($this->headers->contains("X-Forwarded-For")
             && ($forwardedIps = $this->headers->getHeader("X-Forwarded-For")->getValue())
         ){
             $forwardedIps = array_filter(

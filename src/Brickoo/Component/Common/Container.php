@@ -30,79 +30,38 @@
 namespace Brickoo\Component\Common;
 
 use ArrayIterator,
-    Brickoo\Component\Validation\Argument;
+    Brickoo\Component\Common\Exception\InvalidValueTypeException,
+    Brickoo\Component\Validation\Argument,
+    Brickoo\Component\Validation\Validator;
 
 /**
  * Container
  *
  * Implements a simple array object to store any kind of values.
- * This class can be used for example as a class properties container.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
+class Container implements \IteratorAggregate, \Countable {
 
-class Container implements \ArrayAccess, \IteratorAggregate, \Countable {
-
-    /**
-     * Holds the assigned values.
-     * @var array
-     */
+    /** @var array */
     protected $container;
+
+    /** @var null|\Brickoo\Component\Validation\Validator */
+    protected $validator;
 
     /**
      * Class constructor.
-     * Initializes the class properties.
+     * @param array $container
+     * @param null|Validator $validator
      */
-    public function __construct(array $container = []) {
-        $this->container = $container;
+    public function __construct(array $container = [], Validator $validator = null) {
+        $this->container = [];
+        $this->validator = $validator;
+        $this->fromArray($container);
     }
 
     /**
-     * Sets the value with relation to the offset.
-     * @see ArrayAccess::offsetSet()
-     * @param mixed $offset
-     * @param mixed $value
-     * @return void
-     */
-    public function offsetSet($offset, $value) {
-        $this->container[$offset] = $value;
-    }
-
-    /**
-     * Checks if the offset exists.
-     * @see ArrayAccess::offsetExists()
-     * @param mixed $offset
-     * @return boolean check result
-     */
-    public function offsetExists($offset) {
-        return isset($this->container[$offset]);
-    }
-
-    /**
-     * Removes the offset and its value from container.
-     * @see ArrayAccess::offsetUnset()
-     * @param mixed $offset
-     * @return void
-     */
-    public function offsetUnset($offset) {
-        unset($this->container[$offset]);
-    }
-
-    /**
-     * Returns the value from the given offset.
-     * @see ArrayAccess::offsetGet()
-     * @param mixed $offset
-     * @return mixed the offset value
-     */
-    public function offsetGet($offset) {
-        if (! isset($this->container[$offset])) {
-            return null;
-        }
-
-        return $this->container[$offset];
-    }
-
-    /**
-     * Returns an external iterator.
+     * Returns an external array iterator.
+     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
      * @return \ArrayIterator
      */
     public function getIterator() {
@@ -111,7 +70,7 @@ class Container implements \ArrayAccess, \IteratorAggregate, \Countable {
 
     /**
      * Returns the number of elements contained to iterate.
-     * @see Countable::count()
+     * @link http://php.net/manual/en/countable.count.php
      * @return integer the number of elements available
      */
     public function count() {
@@ -119,67 +78,63 @@ class Container implements \ArrayAccess, \IteratorAggregate, \Countable {
     }
 
     /**
-     * Returns the value of the given offset.
-     * @param string|integer $offset the offset to retrieve the value from
-     * @param mixed $defaultValue the default value if the offset does not exist
-     * @return mixed the offset contained value or the default value passed
+     * Checks if the container contains the key.
+     * @param string|integer $key
+     * @throws \InvalidArgumentException
+     * @return boolean check result
      */
-    public function get($offset, $defaultValue = null) {
-        Argument::IsStringOrInteger($offset);
+    public function contains($key) {
+        Argument::IsStringOrInteger($key);
+        return isset($this->container[$key]);
+    }
 
-        if (($value = $this->offsetGet($offset))) {
-            return $value;
+    /**
+     * Returns the value of the given key.
+     * @param string|integer $key
+     * @param mixed $defaultValue
+     * @throws \InvalidArgumentException
+     * @return mixed the key associated value otherwise the default value
+     */
+    public function get($key, $defaultValue = null) {
+        Argument::IsStringOrInteger($key);
+
+        if ($this->contains($key)) {
+            return $this->container[$key];
         }
 
         return $defaultValue;
     }
 
     /**
-     * Sets an offset-value pair to the array object.
-     * @param string|integer $offset the offset to add
-     * @param mixed $value the value of the offset
+     * Sets a key-value pair into the container.
+     * @param string|integer $key
+     * @param mixed $value
+     * @throws \Brickoo\Component\Common\Exception\InvalidValueTypeException
      * @return \Brickoo\Component\Common\Container
      */
-    public function set($offset, $value) {
-        Argument::IsStringOrInteger($offset);
+    public function set($key, $value) {
+        Argument::IsStringOrInteger($key);
 
-        $this->offsetSet($offset, $value);
-
-        return $this;
-    }
-
-    /**
-     * Checks if the element is available.
-     * @param string|integer $offset the element to check
-     * @return boolean check result
-     */
-    public function has($offset) {
-        Argument::IsStringOrInteger($offset);
-        return $this->offsetExists($offset);
-    }
-
-    /**
-     * Deletes the element and returns his value.
-     * @param string|integer $offset the offset to delete
-     * @return \Brickoo\Component\Common\Container
-     */
-    public function delete($offset) {
-        Argument::IsStringOrInteger($offset);
-
-        if ($this->has($offset)) {
-            $this->offsetUnset($offset);
+        if (! $this->isValueTypeValid($value)) {
+            throw new InvalidValueTypeException($value);
         }
 
+        $this->container[$key] = $value;
         return $this;
     }
 
     /**
-     * Merges the passed container with the currently hold.
-     * @param array $container the container to merge
+     * Removes the container entry by its key.
+     * @param string|integer $key
+     * @throws \InvalidArgumentException
      * @return \Brickoo\Component\Common\Container
      */
-    public function merge(array $container) {
-        $this->container = array_merge($this->container, $container);
+    public function remove($key) {
+        Argument::IsStringOrInteger($key);
+
+        if ($this->contains($key)) {
+            unset($this->container[$key]);
+        }
 
         return $this;
     }
@@ -193,10 +148,10 @@ class Container implements \ArrayAccess, \IteratorAggregate, \Countable {
     }
 
     /**
-     * Flushes all content of the container.
+     * Clear the container.
      * @return \Brickoo\Component\Common\Container
      */
-    public function flush() {
+    public function clear() {
         $this->container = [];
         return $this;
     }
@@ -204,19 +159,34 @@ class Container implements \ArrayAccess, \IteratorAggregate, \Countable {
     /**
      * Imports the container values from an array.
      * @param array $container the container to import
+     * @throws \Brickoo\Component\Common\Exception\InvalidValueTypeException
      * @return \Brickoo\Component\Common\Container
      */
     public function fromArray(array $container) {
-        $this->container = $container;
+        foreach ($container as $key => $value) {
+            if (!$this->isValueTypeValid($value)) {
+                throw new InvalidValueTypeException($value);
+            }
+            $this->container[$key] = $value;
+        }
         return $this;
     }
 
     /**
-     * Returns the hold key/value pairs as an array.
-     * @return array the hold key/value pairs
+     * Returns the container entries as an array.
+     * @return array the container entries
      */
     public function toArray() {
         return $this->container;
+    }
+
+    /**
+     * Checks if the values type is valid.
+     * @param mixed $value
+     * @return boolean check result
+     */
+    protected function isValueTypeValid($value) {
+        return ($this->validator === null || $this->validator->isValid($value));
     }
 
 }

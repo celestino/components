@@ -39,7 +39,6 @@ use Brickoo\Component\Http\MessageHeader,
  * @see Brickoo\Component\Http\MessageHeader
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class MessageHeaderTest extends PHPUnit_Framework_TestCase {
 
     /**
@@ -74,39 +73,6 @@ class MessageHeaderTest extends PHPUnit_Framework_TestCase {
     public function testGetHeaderWithMissingNameThrowsException() {
         $messageHeader = new MessageHeader();
         $messageHeader->getHeader("Host");
-    }
-
-    /** @covers Brickoo\Component\Http\MessageHeader::hasHeader */
-    public function testHasHeader() {
-        $messageHeader = new MessageHeader(["Host" => $this->getHttpHeaderStub()]);
-        $this->assertTrue($messageHeader->hasHeader("Host"));
-        $this->assertFalse($messageHeader->hasHeader("Accept"));
-    }
-
-    /** @covers Brickoo\Component\Http\MessageHeader::removeHeader */
-    public function testRemoveHeader() {
-        $messageHeader = new MessageHeader(["Host" => $this->getHttpHeaderStub()]);
-        $this->assertSame($messageHeader, $messageHeader->removeHeader("Host"));
-        $this->assertFalse($messageHeader->hasHeader("Host"));
-    }
-
-    /**
-     * @covers Brickoo\Component\Http\MessageHeader::removeHeader
-     * @expectedException \InvalidArgumentException
-     */
-    public function testRemoveHeaderWithInvalidNameThrowsException() {
-        $messageHeader = new MessageHeader();
-        $messageHeader->removeHeader(["wrongType"]);
-    }
-
-    /**
-     * @covers Brickoo\Component\Http\MessageHeader::removeHeader
-     * @covers Brickoo\Component\Http\Exception\HeaderNotFoundException
-     * @expectedException \Brickoo\Component\Http\Exception\HeaderNotFoundException
-     */
-    public function testRemoveHeaderWithMissingNameThrowsException() {
-        $messageHeader = new MessageHeader();
-        $messageHeader->removeHeader("Host");
     }
 
     /**

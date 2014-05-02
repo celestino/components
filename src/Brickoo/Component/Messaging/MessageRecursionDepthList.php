@@ -82,7 +82,7 @@ class MessageRecursionDepthList extends Container {
      */
     public function isDepthLimitReached($messageName) {
         Argument::IsString($messageName);
-        return $this->has($messageName)
+        return $this->contains($messageName)
             && $this->get($messageName) >= $this->recursionDepthLimit;
     }
 

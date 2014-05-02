@@ -30,6 +30,8 @@
 namespace Brickoo\Tests\Component\Common;
 
 use Brickoo\Component\Common\Container,
+    Brickoo\Component\Validation\Constraint\IsTypeConstraint,
+    Brickoo\Component\Validation\Validator\ConstraintValidator,
     PHPUnit_Framework_TestCase;
 
 /**
@@ -39,117 +41,109 @@ use Brickoo\Component\Common\Container,
  * @see Brickoo\Component\Common\Container
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ContainerTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * Holds an instance of the container class.
-     * @var \Brickoo\Component\Common\Container
-     */
-    protected $container;
-
-    /**
-     * Sets up the container instance used.
-     * @return void
-     */
-    protected function setUp() {
-        $this->container = new Container();
-    }
-
-    /**
      * @covers Brickoo\Component\Common\Container::__construct
-     * @covers Brickoo\Component\Common\Container::offsetSet
-     * @covers Brickoo\Component\Common\Container::offsetGet
-     * @covers Brickoo\Component\Common\Container::offsetExists
-     * @covers Brickoo\Component\Common\Container::offsetUnset
+     * @covers Brickoo\Component\Common\Container::getIterator
      */
-    public function testArrayAccess() {
-        $this->container["unit"] = "test";
-        $this->assertAttributeEquals(array("unit" => "test"), "container", $this->container);
-        $this->assertEquals("test", $this->container["unit"]);
-        $this->assertNull($this->container["undefined"]);
-        $this->assertTrue(isset($this->container["unit"]));
-        unset($this->container["unit"]);
-        $this->assertAttributeEquals([], "container", $this->container);
-    }
-
-    /** @covers Brickoo\Component\Common\Container::getIterator */
     public function testGetIterator() {
-        $this->assertInstanceOf("\\Iterator", $this->container->getIterator());
+        $container = new Container();
+        $this->assertInstanceOf("\\Iterator", $container->getIterator());
 
     }
 
     /** @covers Brickoo\Component\Common\Container::count */
     public function testCountContainerEntries() {
-        $this->container->merge(array("key1" => "value1", "key2" => "value2", "key3" => "value3"));
-        $this->assertEquals(3, count($this->container));
+        $container = new Container([1, 2, 3]);
+        $this->assertEquals(3, count($container));
     }
 
     /** @covers Brickoo\Component\Common\Container::get */
     public function testGetContainerEntry() {
-        $this->container["unit"] = "test";
-        $this->assertEquals("test", $this->container->get("unit"));
-        $this->assertEquals("DEFAULT", $this->container->get("undefined", "DEFAULT"));
+        $container = new Container(["key" => "value"]);
+        $this->assertEquals("value", $container->get("key"));
+        $this->assertEquals("DEFAULT", $container->get("undefined", "DEFAULT"));
     }
 
-    /** @covers Brickoo\Component\Common\Container::set */
+    /**
+     * @covers Brickoo\Component\Common\Container::set
+     * @covers Brickoo\Component\Common\Container::isValueTypeValid
+     */
     public function testSetContainerEntry() {
-        $this->assertSame($this->container, $this->container->set("unit", "test"));
-        $this->assertAttributeEquals(array("unit" => "test"), "container", $this->container);
+        $container = new Container();
+        $this->assertSame($container, $container->set("unit", "test"));
+        $this->assertAttributeEquals(["unit" => "test"], "container", $container);
     }
 
-    /** @covers Brickoo\Component\Common\Container::has */
+    /**
+     * @covers Brickoo\Component\Common\Container::set
+     * @covers Brickoo\Component\Common\Container::isValueTypeValid
+     * @covers Brickoo\Component\Common\Exception\InvalidValueTypeException
+     * @expectedException \Brickoo\Component\Common\Exception\InvalidValueTypeException
+     */
+    public function testSetInvalidValueTypeThrowsException() {
+        $container = new Container([], new ConstraintValidator(new IsTypeConstraint("integer")));
+        $container->set("unit", "test");
+    }
+
+    /** @covers Brickoo\Component\Common\Container::contains */
     public function testHasContainerEntry() {
-        $this->container["unit"] = "test";
-        $this->assertTrue($this->container->has("unit"));
-        $this->assertFalse($this->container->has("undefined"));
+        $container = new Container(["key" => "value"]);
+        $this->assertTrue($container->contains("key"));
+        $this->assertFalse($container->contains("undefined"));
     }
 
-    /** @covers Brickoo\Component\Common\Container::delete */
-    public function testDeleteContainerEntry() {
-        $this->container["unit"] = "test";
-        $this->assertSame($this->container, $this->container->delete("unit"));
-        $this->assertAttributeEquals([], "container", $this->container);
+    /** @covers Brickoo\Component\Common\Container::remove */
+    public function testRemoveContainerEntry() {
+        $container = new Container(["key" => "value"]);
+        $this->assertSame($container, $container->remove("key"));
+        $this->assertAttributeEquals([], "container", $container);
     }
 
-    /** @covers Brickoo\Component\Common\Container::merge */
-    public function testMergeCurrentContainerEntriesWithOther() {
-        $initData        = array("key1" => "value1");
-        $mergeData       = array("key2" => "value2");
-        $expectedData    = array_merge($initData, $mergeData);
-
-        $this->container["key1"] = "value1";
-        $this->assertAttributeEquals($initData, "container", $this->container);
-        $this->assertSame($this->container, $this->container->merge($mergeData));
-        $this->assertAttributeEquals($expectedData, "container", $this->container);
-    }
-
-    /** @covers Brickoo\Component\Common\Container::fromArray */
+    /**
+     * @covers Brickoo\Component\Common\Container::fromArray
+     * @covers Brickoo\Component\Common\Container::isValueTypeValid
+     */
     public function testFromArrayImport() {
-        $expected  = array("test", "import");
-        $this->assertSame($this->container, $this->container->fromArray($expected));
-        $this->assertAttributeEquals($expected, "container", $this->container);
+        $expected  = ["test", "import"];
+        $container = new Container();
+        $this->assertSame($container, $container->fromArray($expected));
+        $this->assertAttributeEquals($expected, "container", $container);
+    }
+
+    /**
+     * @covers Brickoo\Component\Common\Container::fromArray
+     * @covers Brickoo\Component\Common\Container::isValueTypeValid
+     * @covers Brickoo\Component\Common\Exception\InvalidValueTypeException
+     * @expectedException \Brickoo\Component\Common\Exception\InvalidValueTypeException
+     */
+    public function testFromArrayWithInvalidValueTypeThrowsException() {
+        $container = new Container([], new ConstraintValidator(new IsTypeConstraint("integer")));
+        $container->fromArray([123, "wrongType"]);
     }
 
     /** @covers Brickoo\Component\Common\Container::toArray */
     public function testToArrayExport() {
-        $expected = array("test");
-        $this->assertSame($this->container, $this->container->fromArray($expected));
-        $this->assertEquals($expected, $this->container->toArray());
+        $expected = ["test"];
+        $container = new Container();
+        $this->assertSame($container, $container->fromArray($expected));
+        $this->assertEquals($expected, $container->toArray());
     }
 
     /** @covers Brickoo\Component\Common\Container::isEmpty */
-    public function testIsEmptyContainerEntriesList() {
-        $this->assertTrue($this->container->isEmpty());
-        $this->container["unit"] = "test";
-        $this->assertFalse($this->container->isEmpty());
+    public function testIsEmptyContainer() {
+        $container = new Container();
+        $this->assertTrue($container->isEmpty());
+        $container->set("key", "value");
+        $this->assertFalse($container->isEmpty());
     }
 
-    /** @covers Brickoo\Component\Common\Container::flush */
+    /** @covers Brickoo\Component\Common\Container::clear */
     public function testFlushContainerEntries() {
-        $this->container["unit"] = "test";
-        $this->container->flush();
-        $this->assertAttributeEquals([], "container", $this->container);
+        $container = new Container(["key" => "value"]);
+        $container->clear();
+        $this->assertAttributeEquals([], "container", $container);
     }
 
 }

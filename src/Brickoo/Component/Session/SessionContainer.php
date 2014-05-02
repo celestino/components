@@ -37,8 +37,7 @@ use Brickoo\Component\Validation\Argument;
  * Implements a session object based on namespaces which should prevent naming conflicts.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
-class SessionContainer {
+class SessionContainer implements \Countable, \IteratorAggregate{
 
     /** @var string */
     protected $sessionNamespace;
@@ -55,24 +54,25 @@ class SessionContainer {
     /**
     * Checks if the session property is available.
     * @param string $property the property to check in the session
+    * @throws \InvalidArgumentException
     * @return boolean check result
     */
-    public function has($property) {
+    public function contains($property) {
         Argument::IsString($property);
-
-        return array_key_exists($this->getNamespace($property), $_SESSION);
+        return isset($_SESSION[$this->getNamespace($property)]);
     }
 
     /**
      * Returns the session property hold content or the default value.
      * @param string $property the session property to retrieve the content from
      * @param mixed $defaultValue the default value if the property des not exist
+     * @throws \InvalidArgumentException
      * @return mixed the property hold content or the default value if the property does not exist
      */
     public function get($property, $defaultValue = null) {
         Argument::IsString($property);
 
-        if (! $this->has($property)) {
+        if (! $this->contains($property)) {
             return $defaultValue;
         }
 
@@ -83,29 +83,47 @@ class SessionContainer {
      * Sets the session property and assigns the content to it.
      * @param string $property the property to assign the content to
      * @param mixed $value the value to store
+     * @throws \InvalidArgumentException
      * @return \Brickoo\Component\Session\SessionContainer
      */
     public function set($property, $value) {
         Argument::IsString($property);
-
         $_SESSION[$this->getNamespace($property)] = $value;
-
         return $this;
     }
 
     /**
      * Removes the session property if available.
      * @param string $property the property to remove
+     * @throws \InvalidArgumentException
      * @return \Brickoo\Component\Session\SessionContainer
      */
     public function remove($property) {
         Argument::IsString($property);
 
-        if ($this->has($property)) {
+        if ($this->contains($property)) {
             unset($_SESSION[$this->getNamespace($property)]);
         }
 
         return $this;
+    }
+
+    /**
+     * Retrieve an external iterator
+     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
+     * @return \ArrayIterator
+     */
+    public function getIterator() {
+        return new \ArrayIterator($_SESSION);
+    }
+
+    /**
+     * Count entries of the container
+     * @link http://php.net/manual/en/countable.count.php
+     * @return integer count of entries
+     */
+    public function count() {
+        return count($_SESSION);
     }
 
     /**
@@ -116,5 +134,4 @@ class SessionContainer {
     private function getNamespace($property) {
         return $this->sessionNamespace .".". $property;
     }
-
 }

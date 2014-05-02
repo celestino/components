@@ -39,13 +39,9 @@ use Brickoo\Component\Session\SessionContainer,
  * @see Brickoo\Component\Session\SessionContainer
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class SessionContainerTest extends PHPUnit_Framework_TestCase {
 
-    /**
-     * Holds an instance of the Container implementing the Session\Interfaces\Container.
-     * @var object
-     */
+    /** @var \Brickoo\Component\Session\SessionContainer */
     protected $sessionContainer;
 
     /**
@@ -67,12 +63,12 @@ class SessionContainerTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Brickoo\Component\Session\SessionContainer::has
+     * @covers Brickoo\Component\Session\SessionContainer::contains
      * @covers Brickoo\Component\Session\SessionContainer::getNamespace
      */
-    public function testHas() {
-        $this->assertTrue($this->sessionContainer->has("test_property"));
-        $this->assertFalse($this->sessionContainer->has("not_available"));
+    public function testContains() {
+        $this->assertTrue($this->sessionContainer->contains("test_property"));
+        $this->assertFalse($this->sessionContainer->contains("not_available"));
     }
 
     /**
@@ -100,6 +96,16 @@ class SessionContainerTest extends PHPUnit_Framework_TestCase {
     public function testRemove() {
         $this->assertSame($this->sessionContainer, $this->sessionContainer->remove("test_property"));
         $this->assertFalse(isset($_SESSION["my_namespace.test_property"]));
+    }
+
+    /** @covers Brickoo\Component\Session\SessionContainer::getIterator */
+    public function testGetIterator() {
+        $this->assertInstanceOf("\\ArrayIterator", $this->sessionContainer->getIterator());
+    }
+
+    /** @covers Brickoo\Component\Session\SessionContainer::count */
+    public function testCountEntries() {
+        $this->assertEquals(1, count($this->sessionContainer));
     }
 
 }

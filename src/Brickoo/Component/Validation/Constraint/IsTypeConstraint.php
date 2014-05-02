@@ -39,7 +39,6 @@ use Brickoo\Component\Validation\Constraint,
  * This class uses the php is_* comparisons functions.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class IsTypeConstraint implements Constraint {
 
     /** @var string */

@@ -38,7 +38,6 @@ use Brickoo\Component\Http\MessageHeader,
  * Implements a resolver for a http request uri.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HttpRequestUriResolver implements UriResolver {
 
     /** @var \Brickoo\Component\Http\MessageHeader */
@@ -61,7 +60,7 @@ class HttpRequestUriResolver implements UriResolver {
     public function getScheme() {
         $isSecure = false;
 
-        if ($this->header->hasHeader("X-Forwarded-Proto")) {
+        if ($this->header->contains("X-Forwarded-Proto")) {
             $httpsForwarded = $this->header->getHeader("X-Forwarded-Proto")->getValue();
             $isSecure = (strtolower($httpsForwarded) == "https");
         }
@@ -74,7 +73,7 @@ class HttpRequestUriResolver implements UriResolver {
 
     /** {@inheritDoc} */
     public function getHostname() {
-        if ($this->header->hasHeader("Host")) {
+        if ($this->header->contains("Host")) {
             return $this->header->getHeader("Host")->getValue();
         }
         return $this->getServerVar("SERVER_NAME", $this->getServerVar("SERVER_ADDR", "localhost"));
@@ -82,7 +81,7 @@ class HttpRequestUriResolver implements UriResolver {
 
     /** {@inheritDoc} */
     public function getPort() {
-        if ($this->header->hasHeader("X-Forwarded-Port")) {
+        if ($this->header->contains("X-Forwarded-Port")) {
             return (int)$this->header->getHeader("X-Forwarded-Port")->getValue();
         }
         return (int)$this->getServerVar("SERVER_PORT", 80);
@@ -119,11 +118,11 @@ class HttpRequestUriResolver implements UriResolver {
      * @return string the request uri or null on unavailable
      */
     private function getIISRequestUri() {
-        if ($this->header->hasHeader("X-Original-Url")) {
+        if ($this->header->contains("X-Original-Url")) {
             return $this->header->getHeader("X-Original-Url")->getValue();
         }
 
-        if ($this->header->hasHeader("X-Rewrite-Url")) {
+        if ($this->header->contains("X-Rewrite-Url")) {
             return $this->header->getHeader("X-Rewrite-Url")->getValue();
         }
         return null;
