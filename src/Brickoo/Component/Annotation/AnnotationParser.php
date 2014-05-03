@@ -41,9 +41,9 @@ use Brickoo\Component\Validation\Argument;
 class AnnotationParser {
 
     /** @const regular expressions */
-    const REGEX_ANNOTATION = "~%s(?<%s>[\\w]+)[^%s(]*\\(\\s*(?<%s>[^%s\\)\\(]*)\\s*\\)~";
+    const REGEX_ANNOTATION = "~[^\"]%s(?<%s>[\\w]+)[^%s(]*\\(\\s*(?<%s>[^\\)\\(]*)\\s*\\)~";
     const REGEX_NESTED_ANNOTATIONS = "~%s(?<%s>[\\w]+)[^%s{]*\\({\\s*(?<%s>[^}]*)\\s*}\\)~";
-    const REGEX_PARAMETER = "~((?<%s>\\w+)\\s*=)?\\s*(?<%s>(\"[^\"]*\")|(\\[[^\\]]*\\])|[0-9\\.]+|true|false)~";
+    const REGEX_PARAMETER = "~((?<%s>\\w+)\\s*=)?\\s*(?<%s>(\"[^\"]*\")|(\\:\\[[^\\:]*\\]\\:)|[0-9\\.]+|true|false)~";
     const REGEX_VALUE = "~((?<%s>\\w+)\\s*=)?\\s*(?<%s>('[^']*')|[0-9\\.]+|true|false)~";
 
     /** @const regular expressions capture groups  */
@@ -124,8 +124,7 @@ class AnnotationParser {
                 preg_quote($annotationPrefix, "~"),
                 self::REGEX_CAPTURE_ANNOTATION,
                 preg_quote($annotationPrefix, "~"),
-                self::REGEX_CAPTURE_VALUES,
-                preg_quote($annotationPrefix, "~")
+                self::REGEX_CAPTURE_VALUES
             ),
             $docComment, $matches
         );
@@ -196,11 +195,11 @@ class AnnotationParser {
      */
     private function convertValue($value) {
         $value = trim($value, "\"'");
-        if (preg_match("~^\\[.+\\]$~", $value) == 0) {
+        if (preg_match("~^\\:\\[.+\\]\\:$~", $value) == 0) {
             return $this->transformScalar($value);
         }
 
-        $valuesString = trim($value, "[]");
+        $valuesString = trim($value, ":[]:");
         $valuesRegex = sprintf(self::REGEX_VALUE, self::REGEX_CAPTURE_PARAM, self::REGEX_CAPTURE_VALUE);
         return $this->getParameterValues($valuesString, $valuesRegex);
     }

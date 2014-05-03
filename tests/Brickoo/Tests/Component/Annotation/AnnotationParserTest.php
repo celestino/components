@@ -71,7 +71,7 @@ class AnnotationParserTest extends PHPUnit_Framework_TestCase {
      */
     public function testParseAnnotatedDocComment() {
         $docComment = '/**
-            * @:Assert ([\'a\', \'b\'] false true)
+            * @:Assert (":[\'a\', \'b\', key=\'c\']:" false true)
             * Some comment about the implementation.
             * @:Cache (path = "/temp" lifetime = 30)
             * @param string $someValue
@@ -97,7 +97,7 @@ class AnnotationParserTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($target, $annotation_1->getTarget());
         $this->assertEquals($targetLocation, $annotation_1->getTargetLocation());
         $this->assertEquals("Assert", $annotation_2->getName());
-        $this->assertEquals([0 => ['a', 'b'], 1 => false, 2 => true], $annotation_2->getValues());
+        $this->assertEquals([0 => ['a', 'b', 'key' => 'c'], 1 => false, 2 => true], $annotation_2->getValues());
     }
 
 }
