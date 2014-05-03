@@ -106,7 +106,11 @@ class AnnotationReaderResult implements IteratorAggregate {
      * @return \ArrayIterator containing all annotations
      */
     public function getIterator() {
-        return new ArrayIterator($this->annotations);
+        $mergedAnnotations = [];
+        foreach ($this->annotations as $annotations) {
+            $mergedAnnotations = array_merge($mergedAnnotations, $annotations);
+        }
+        return new ArrayIterator($mergedAnnotations);
     }
 
     /**
