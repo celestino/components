@@ -11,4 +11,4 @@ matrix:
 before_script:
   - if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then echo "extension = memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi;
 script:
-  - phpunit -c ./tests/phpunit.xml --coverage-text
+  - if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then phpunit -c ./tests/phpunit.xml --coverage-text; else; phpunit -c ./tests/phpunit.xml; fi;
