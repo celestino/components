@@ -189,9 +189,9 @@ class AnnotationParser {
     }
 
     /**
-     * Converts the value to string or array.
+     * Converts the value to appropriate type.
      * @param string $value
-     * @return mixed string or array value
+     * @return mixed the annotation value
      */
     private function convertValue($value) {
         $value = trim($value, "\"'");
@@ -213,8 +213,8 @@ class AnnotationParser {
         if (is_numeric($value)) {
             $value = strpos($value, ".") ? floatval($value) : intval($value);
         }
-        elseif ($value === "true" || $value == "false") {
-            $value = $value === "true" ?: false;
+        elseif ($value === "true" || $value === "false") {
+            $value = $value === "true";
         }
         return $value;
     }
