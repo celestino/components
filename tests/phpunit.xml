@@ -18,6 +18,7 @@
             <directory>./Brickoo/Tests/Component/Messaging</directory>
             <directory>./Brickoo/Tests/Component/Filesystem</directory>
             <directory>./Brickoo/Tests/Component/Http</directory>
+            <directory>./Brickoo/Tests/Component/IoC</directory>
             <directory>./Brickoo/Tests/Component/Log</directory>
             <directory>./Brickoo/Tests/Component/Common</directory>
             <directory>./Brickoo/Tests/Component/Network</directory>
