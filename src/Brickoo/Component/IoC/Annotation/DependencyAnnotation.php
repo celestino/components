@@ -36,8 +36,7 @@ use Brickoo\Component\Annotation\Annotation,
     Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer,
     Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer,
     Brickoo\Component\IoC\Definition\DependencyDefinition,
-    Brickoo\Component\IoC\Definition\InjectionDefinition,
-    Brickoo\Component\Annotation\Exception\InvalidTargetException;
+    Brickoo\Component\IoC\Definition\InjectionDefinition;
 
 /**
  * DependencyAnnotation
