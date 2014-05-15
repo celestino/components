@@ -46,7 +46,7 @@ class RegexConstraintTest extends PHPUnit_Framework_TestCase {
     public function testConstructor() {
         $regularExpression = "~^[a-z\s]+$~";
         $RegexConstraint = new RegexConstraint($regularExpression);
-        $this->assertInstanceOf("\\Brickoo\\Component\\Validation\\Constraint", $RegexConstraint);
+        $this->assertInstanceOf("\\Brickoo\\Component\\Validation\\Constraint\\Constraint", $RegexConstraint);
     }
 
     /**

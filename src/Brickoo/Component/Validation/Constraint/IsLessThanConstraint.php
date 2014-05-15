@@ -29,15 +29,12 @@
 
 namespace Brickoo\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Constraint;
-
 /**
  * IsLessThanConstraint
  *
  * Constraint to assert that a value is less than an other.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class IsLessThanConstraint implements Constraint {
 
     /** @var mixed */

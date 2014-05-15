@@ -29,15 +29,12 @@
 
 namespace Brickoo\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Constraint;
-
 /**
  * IsEqualToConstraint
  *
  * Constraint to assert that a value equals an other without type check.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class IsEqualToConstraint implements Constraint {
 
     /** @var mixed */

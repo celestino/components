@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Argument,
-    Brickoo\Component\Validation\Constraint;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * LengthConstraint
@@ -39,7 +38,6 @@ use Brickoo\Component\Validation\Argument,
  * is between a min and max length.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class LengthConstraint implements Constraint {
 
     /** @var integer */

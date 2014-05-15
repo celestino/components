@@ -46,7 +46,7 @@ class ContainsInternalTypeConstraintTest extends \PHPUnit_Framework_TestCase {
     public function testConstructor() {
         $callFunctionName = "string";
         $ContainsInternalTypeConstraint = new ContainsInternalTypeConstraint($callFunctionName);
-        $this->assertInstanceOf("\\Brickoo\\Component\\Validation\\Constraint", $ContainsInternalTypeConstraint);
+        $this->assertInstanceOf("\\Brickoo\\Component\\Validation\\Constraint\\Constraint", $ContainsInternalTypeConstraint);
     }
 
     /** @covers Brickoo\Component\Validation\Constraint\ContainsInternalTypeConstraint::matches */

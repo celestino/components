@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Constraint,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * ContainsInstancesOfConstraint
@@ -39,7 +38,6 @@ use Brickoo\Component\Validation\Constraint,
  * contains just values of the expected instance type.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ContainsInstancesOfConstraint implements Constraint {
 
     /** @var string */

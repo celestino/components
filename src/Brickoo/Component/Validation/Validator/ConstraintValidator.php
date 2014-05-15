@@ -55,8 +55,8 @@ class ConstraintValidator implements Validator {
      */
     public function __construct() {
         $constraints = func_get_args();
-        if (! (new ContainsInstancesOfConstraint("\\Brickoo\\Component\\Validation\\Constraint"))->matches($constraints)) {
-            throw new InvalidArgumentException("Instances of \\Brickoo\\Component\\Validation\\Constraint expected.");
+        if (! (new ContainsInstancesOfConstraint("\\Brickoo\\Component\\Validation\\Constraint\\Constraint"))->matches($constraints)) {
+            throw new InvalidArgumentException("Instances of \\Brickoo\\Component\\Validation\\Constraint\\Constraint expected.");
         }
         $this->constraintGroup = new AndOrConstraint($constraints);
     }
@@ -68,7 +68,7 @@ class ConstraintValidator implements Validator {
 
     /**
      * Returns the last constraint which did not match.
-     * @return \Brickoo\Component\Validation\constraint otherwise null
+     * @return \Brickoo\Component\Validation\Constraint\Constraint otherwise null
      */
     public function getFailedConstraint() {
         return $this->constraintGroup->getFailedConstraint();

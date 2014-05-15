@@ -29,15 +29,12 @@
 
 namespace Brickoo\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Constraint;
-
 /**
  * IsGreaterThanConstraint
  *
  * Constraint to assert that a value is greater than an other.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class IsGreaterThanConstraint implements Constraint {
 
     /** @var mixed */

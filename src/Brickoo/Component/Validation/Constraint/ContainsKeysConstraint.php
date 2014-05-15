@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Constraint,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * TraversableContainsKeys
@@ -39,7 +38,6 @@ use Brickoo\Component\Validation\Constraint,
  * Does not have any effect if the traversable also contains other keys.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ContainsKeysConstraint implements Constraint {
 
     /** @var array */

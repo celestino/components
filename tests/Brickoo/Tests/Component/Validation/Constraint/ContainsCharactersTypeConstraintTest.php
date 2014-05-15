@@ -48,7 +48,7 @@ class ContainsCharactersTypeConstraintTest extends PHPUnit_Framework_TestCase {
     public function testConstructor() {
         $cTypeFunction = "alpha";
         $ContainsCharactersTypeConstraint = new ContainsCharactersTypeConstraint($cTypeFunction);
-        $this->assertInstanceOf("\\Brickoo\\Component\\Validation\\Constraint", $ContainsCharactersTypeConstraint);
+        $this->assertInstanceOf("\\Brickoo\\Component\\Validation\\Constraint\\Constraint", $ContainsCharactersTypeConstraint);
     }
 
     /**

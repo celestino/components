@@ -48,7 +48,7 @@ class ContainsInstancesOfConstraintTest extends PHPUnit_Framework_TestCase {
     public function testConstructor() {
         $expectedInstanceOf = "Traversable";
         $ContainsInstancesOfConstraint = new ContainsInstancesOfConstraint($expectedInstanceOf);
-        $this->assertInstanceOf("\\Brickoo\\Component\\Validation\\Constraint", $ContainsInstancesOfConstraint);
+        $this->assertInstanceOf("\\Brickoo\\Component\\Validation\\Constraint\\Constraint", $ContainsInstancesOfConstraint);
     }
 
     /**

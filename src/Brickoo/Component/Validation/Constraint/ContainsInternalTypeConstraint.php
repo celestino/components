@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Constraint,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * ContainsInternalTypeConstraint
@@ -40,7 +39,6 @@ use Brickoo\Component\Validation\Constraint,
  * This class uses the php is_* comparisons functions.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ContainsInternalTypeConstraint implements Constraint {
 
     /** @var string */

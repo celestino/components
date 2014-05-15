@@ -29,21 +29,18 @@
 
 namespace Brickoo\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Constraint;
-
 /**
  * AndOrConstraint
  *
  * Constraint to group AND and OR constraints which can be nested.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class AndOrConstraint implements Constraint {
 
     /** @var array */
     private $constraints;
 
-    /** @var null|\Brickoo\Component\Validation\Constraint */
+    /** @var null|\Brickoo\Component\Validation\Constraint\Constraint */
     private $failedConstraint;
 
     /**
@@ -72,7 +69,7 @@ class AndOrConstraint implements Constraint {
 
     /**
      * Returns the last constraint which did not match.
-     * @return \Brickoo\Component\Validation\constraint
+     * @return \Brickoo\Component\Validation\Constraint\Constraint
      */
     public function getFailedConstraint() {
         return $this->failedConstraint;
@@ -98,7 +95,7 @@ class AndOrConstraint implements Constraint {
 
     /**
      * Returns the concrete failed constraint.
-     * @param \Brickoo\Component\Validation\Constraint $constraint
+     * @param \Brickoo\Component\Validation\Constraint\Constraint $constraint
      * @return \Brickoo\Component\Validation\Constraint\AndOrConstraint
      */
     private function getConcreteFailedConstraint(Constraint $constraint) {

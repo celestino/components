@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Argument,
-    Brickoo\Component\Validation\Constraint;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * IsInstanceOfConstraint

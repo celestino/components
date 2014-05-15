@@ -29,15 +29,12 @@
 
 namespace Brickoo\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Constraint;
-
 /**
  * IsIdenticalWithConstraint
  *
  * Constraint to assert that a value is identical with an other.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class IsIdenticalWithConstraint implements Constraint {
 
     /** @var mixed */

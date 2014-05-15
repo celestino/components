@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Constraint,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * RegexConstraint
@@ -38,7 +37,6 @@ use Brickoo\Component\Validation\Constraint,
  * Constraint to assert that a string matches a regular expression.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class RegexConstraint implements Constraint {
 
     /** @var string */

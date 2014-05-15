@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Constraint,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * ContainsCharactersTypeConstraint
@@ -40,7 +39,6 @@ use Brickoo\Component\Validation\Constraint,
  * @see http://www.php.net/manual/de/ref.ctype.php
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ContainsCharactersTypeConstraint implements Constraint {
 
     /** @var string */

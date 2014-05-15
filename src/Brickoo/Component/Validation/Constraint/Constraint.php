@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Validation;
+namespace Brickoo\Component\Validation\Constraint;
 
 /**
  * Constraint
@@ -35,7 +35,6 @@ namespace Brickoo\Component\Validation;
  * Describes an constraint for validation purposes.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 interface Constraint {
 
     /**

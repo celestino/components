@@ -47,7 +47,7 @@ class ContainsKeysConstraintTest extends \PHPUnit_Framework_TestCase {
     public function testConstructor() {
         $expectedKeys = array("key1", "key2", "key3");
         $containsKeysConstraint = new ContainsKeysConstraint($expectedKeys);
-        $this->assertInstanceOf("\\Brickoo\\Component\\Validation\\Constraint", $containsKeysConstraint);
+        $this->assertInstanceOf("\\Brickoo\\Component\\Validation\\Constraint\\Constraint", $containsKeysConstraint);
     }
 
     /**

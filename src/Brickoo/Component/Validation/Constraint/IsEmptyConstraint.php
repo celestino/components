@@ -29,15 +29,12 @@
 
 namespace Brickoo\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Constraint;
-
 /**
  * IsEmptyConstraint
  *
  * Constraint to assert that a value is empty (0, false, "", [], null).
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class IsEmptyConstraint implements Constraint {
 
     /** {@inheritDoc} */
