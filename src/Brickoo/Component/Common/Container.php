@@ -32,7 +32,7 @@ namespace Brickoo\Component\Common;
 use ArrayIterator,
     Brickoo\Component\Common\Exception\InvalidValueTypeException,
     Brickoo\Component\Validation\Argument,
-    Brickoo\Component\Validation\Validator;
+    Brickoo\Component\Validation\Validator\Validator;
 
 /**
  * Container
@@ -45,7 +45,7 @@ class Container implements \IteratorAggregate, \Countable {
     /** @var array */
     protected $container;
 
-    /** @var null|\Brickoo\Component\Validation\Validator */
+    /** @var null|\Brickoo\Component\Validation\Validator\Validator */
     protected $validator;
 
     /**

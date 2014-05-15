@@ -29,7 +29,7 @@ namespace Brickoo\Component\Validation;
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Validation;
+namespace Brickoo\Component\Validation\Validator;
 
 /**
  * Validator
