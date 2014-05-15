@@ -94,10 +94,13 @@ class ClientTest extends PHPUnit_Framework_TestCase {
     public function testWriteToStream() {
         $data = "GET / HTTP/1.0\r\n".
                 "Host: brickoo.com\r\n\r\n\r\n";
-
-        $networkClient = new Client($this->getConfigurationStub());
-        $networkClient->open();
-        $this->assertEquals(strlen($data), $networkClient->write($data));
+        try {
+            $networkClient = new Client($this->getConfigurationStub());
+            $networkClient->open();
+            $this->assertEquals(strlen($data), $networkClient->write($data));
+        } catch(UnableToCreateHandleException $Exception) {
+            $this->markTestSkipped($Exception->getMessage());
+        }
     }
 
     /**
@@ -120,11 +123,14 @@ class ClientTest extends PHPUnit_Framework_TestCase {
         $expectedData = "HTTP/1.1 200 OK";
         $data = "GET / HTTP/1.0\r\n".
                 "Host: www.brickoo.com\r\n\r\n\r\n";
-
-        $networkClient = new Client($this->getConfigurationStub());
-        $networkClient->open();
-        $networkClient->write($data);
-        $this->assertTrue(preg_match("~^HTTP\/1\.(0|1) [0-9]{3}~", $networkClient->read(strlen($expectedData))) == 1);
+        try {
+            $networkClient = new Client($this->getConfigurationStub());
+            $networkClient->open();
+            $networkClient->write($data);
+            $this->assertTrue(preg_match("~^HTTP/1\\.(0|1) [0-9]{3}~", $networkClient->read(strlen($expectedData))) == 1);
+        } catch(UnableToCreateHandleException $Exception) {
+            $this->markTestSkipped($Exception->getMessage());
+        }
     }
 
     /**
@@ -140,11 +146,15 @@ class ClientTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Network\Client::close */
     public function testCloseConnection() {
-        $networkClient = new Client($this->getConfigurationStub());
-        $networkClient->open();
-        $this->assertAttributeInternalType("resource", "handle", $networkClient);
-        $networkClient->close();
-        $this->assertAttributeEquals(null, "handle", $networkClient);
+        try {
+            $networkClient = new Client($this->getConfigurationStub());
+            $networkClient->open();
+            $this->assertAttributeInternalType("resource", "handle", $networkClient);
+            $networkClient->close();
+            $this->assertAttributeEquals(null, "handle", $networkClient);
+        } catch(UnableToCreateHandleException $Exception) {
+            $this->markTestSkipped($Exception->getMessage());
+        }
     }
 
     /**
@@ -162,9 +172,13 @@ class ClientTest extends PHPUnit_Framework_TestCase {
         $data = "GET / HTTP/1.0\r\n".
                 "Host: brickoo.com\r\n\r\n\r\n";
 
-        $networkClient = new Client($this->getConfigurationStub());
-        $networkClient->open();
-        $this->assertEquals(strlen($data), $networkClient->fwrite($data));
+        try {
+            $networkClient = new Client($this->getConfigurationStub());
+            $networkClient->open();
+            $this->assertEquals(strlen($data), $networkClient->fwrite($data));
+        } catch(UnableToCreateHandleException $Exception) {
+            $this->markTestSkipped($Exception->getMessage());
+        }
     }
 
     /**
