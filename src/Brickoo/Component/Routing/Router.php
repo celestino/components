@@ -46,7 +46,6 @@ use Brickoo\Component\Routing\Route\Route,
  * For collecting the routes a collector is used.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class Router {
 
     /**  @var \Brickoo\Component\Routing\Route\ExecutableRoute */
@@ -162,7 +161,7 @@ class Router {
      */
     private function getMatchingRouteFromCollection(RouteCollection $routeCollection) {
         $matchingRoute = null;
-        foreach ($routeCollection->getRoutes() as $route) {
+        foreach ($routeCollection as $route) {
             if ($this->routeMatcher->matchesRoute($route)) {
                 $matchingRoute = new ExecutableRoute($route, $this->routeMatcher->getRouteParameters());
                 break;
@@ -185,7 +184,7 @@ class Router {
 
     /**
      * Returns an iterator from the route collector.
-     * @return \ArrayIterator the route collection iterator
+     * @return \Iterator the route collection iterator
      */
     private function getRouteCollectorIterator() {
         if ($this->routeCollectorIterator === null) {

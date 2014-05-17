@@ -32,14 +32,12 @@ namespace Brickoo\Component\Routing\Route\Collector;
 use ArrayIterator,
     Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint;
 
-
 /**
  * CallbackRouteCollector
  *
  * Implementation of a route collection based on callback call.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class CallbackRouteCollector implements RouteCollector {
 
     /** @var array */

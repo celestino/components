@@ -41,7 +41,6 @@ use Brickoo\Component\Http\HttpRequest,
  * Implementation of a http route matcher.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HttpRouteMatcher implements RouteMatcher {
 
     /** @var \Brickoo\Component\Http\HttpRequest */

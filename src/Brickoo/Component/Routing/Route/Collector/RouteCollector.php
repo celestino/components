@@ -37,12 +37,11 @@ use IteratorAggregate;
  * Defines a route collector for iterable route collections.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 interface RouteCollector extends IteratorAggregate {
 
     /**
-     * Collects and returns the routes.
-     * @return \ArrayIterator
+     * Collects and returns the routes as an iterator.
+     * @return \Iterator
      */
     public function collect();
 

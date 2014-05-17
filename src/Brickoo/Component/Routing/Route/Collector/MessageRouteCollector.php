@@ -36,14 +36,12 @@ use ArrayIterator,
     Brickoo\Component\Routing\Messaging\Messages,
     Brickoo\Component\Routing\Route\RouteCollection;
 
-
 /**
  * MessageRouteCollector
  *
  * Implementation of a route collection based on messaging collection call.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class MessageRouteCollector implements RouteCollector {
 
     /** @var \Brickoo\Component\Messaging\MessageDispatcher */

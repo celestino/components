@@ -45,7 +45,6 @@ use ArrayIterator,
  * which have to return a route collection.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class FileRouteCollector implements RouteCollector {
 
     /** @var string */

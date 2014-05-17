@@ -40,7 +40,6 @@ use ArrayIterator,
  * @see Brickoo\Component\Routing\Router
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class RouterTest extends PHPUnit_Framework_TestCase {
 
     /**
@@ -192,8 +191,8 @@ class RouterTest extends PHPUnit_Framework_TestCase {
                         ->method("hasPath")
                         ->will($this->returnValue(false));
         $routeCollection->expects($this->any())
-                        ->method("getRoutes")
-                        ->will($this->returnValue(array($route)));
+                        ->method("getIterator")
+                        ->will($this->returnValue(new \ArrayIterator(array($route))));
 
         $router = new Router($this->getRouteCollectorStub($routeCollection), $this->getRouteMatcherMock($route));
         $this->assertInstanceOf("\\Brickoo\\Component\\Routing\\Route\\ExecutableRoute", ($executableRoute = $router->getExecutableRoute()));
@@ -210,8 +209,8 @@ class RouterTest extends PHPUnit_Framework_TestCase {
     public function testGetExecutableThrowsNoMatchingRouteFoundException() {
         $routeCollection = $this->getRouteCollectionStub();
         $routeCollection->expects($this->any())
-                        ->method("getRoutes")
-                        ->will($this->returnValue([]));
+                        ->method("getIterator")
+                        ->will($this->returnValue(new \ArrayIterator()));
 
         $router = new Router($this->getRouteCollectorStub($routeCollection), $this->getRouteMatcherMock());
         $router->getExecutableRoute();
@@ -240,7 +239,7 @@ class RouterTest extends PHPUnit_Framework_TestCase {
     /**
      * Stub creator for the route collector dependency.
      * @param \Brickoo\Component\Routing\Route\RouteCollection $routeCollection
-     * @return \Brickoo\Component\Routing\RouteCollector
+     * @return \Brickoo\Component\Routing\Route\Collector\RouteCollector
      */
     private function getRouteCollectorStub($routeCollection = null) {
         $routeCollector = $this->getMock("\\Brickoo\\Component\\Routing\\Route\\Collector\\RouteCollector");

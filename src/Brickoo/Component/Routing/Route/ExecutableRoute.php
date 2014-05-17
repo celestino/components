@@ -39,7 +39,6 @@ use ReflectionClass,
  * Implementation of an executable route containing the responsible route.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ExecutableRoute {
 
     /** @var \Brickoo\Component\Routing\Route\Route */
@@ -97,7 +96,7 @@ class ExecutableRoute {
      */
     public function hasParameter($parameter) {
         Argument::IsString($parameter);
-        return array_key_exists($parameter, $this->parameters);
+        return isset($this->parameters[$parameter]);
     }
 
     /**

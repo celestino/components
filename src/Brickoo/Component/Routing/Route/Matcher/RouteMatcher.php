@@ -39,7 +39,6 @@ use Brickoo\Component\Routing\Route\Route,
  * If the route does match, the route rules parameters can be retrieved.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 interface RouteMatcher {
 
     /**
