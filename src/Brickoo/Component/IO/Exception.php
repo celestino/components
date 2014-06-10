@@ -27,26 +27,13 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Filesystem\Exception;
-
-use Brickoo\Component\Filesystem\Exception;
+namespace Brickoo\Component\IO;
 
 /**
- * HandleNotAvailableException
+ * Exception
  *
- * Exception thrown if trying to access a handle which is not available.
+ * Defines an IO exception.
+ * Used to catch all exceptions from this component.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
-class HandleNotAvailableException extends Exception {
-
-    /**
-     * Class constructor.
-     * Calls the parent exception constructor.
-     * @param \Exception $previousException
-     */
-    public function __construct(\Exception $previousException = null) {
-        parent::__construct("The resource handle is not available.", 0, $previousException);
-    }
-
-}
+class Exception extends \Exception {}

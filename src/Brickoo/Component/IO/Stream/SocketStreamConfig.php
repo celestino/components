@@ -27,18 +27,18 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Network;
+namespace Brickoo\Component\IO\Stream;
 
 use Brickoo\Component\Validation\Argument;
 
 /**
- * ClientConfiguration
+ * SocketStreamConfig
  *
- * Implements a network client configuration.
+ * Implements a socket stream configuration.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class ClientConfiguration {
+class SocketStreamConfig {
 
     /** @var string */
     private $serverAddress;
@@ -53,17 +53,17 @@ class ClientConfiguration {
     private $connectionType;
 
     /** @var array */
-    private $contextOptions;
+    private $context;
 
     /**
      * Class constructor.
      * @param string $address
      * @param integer $port
      * @param integer $timeout
-     * @param int $connectionType
-     * @param array|null|resource $context
+     * @param integer $connectionType
+     * @param array $context
      */
-    public function __construct($address, $port, $timeout = 30, $connectionType = STREAM_CLIENT_CONNECT, array $context = []) {
+    public function __construct($address, $port, $timeout = 30, $connectionType = STREAM_CLIENT_CONNECT, array $context = array()) {
         Argument::IsString($address);
         Argument::IsInteger($timeout);
         Argument::IsInteger($connectionType);
@@ -72,7 +72,7 @@ class ClientConfiguration {
         $this->serverPort = $port;
         $this->connectionTimeout = $timeout;
         $this->connectionType = $connectionType;
-        $this->contextOptions = $context;
+        $this->context = $context;
     }
 
     /**
@@ -116,11 +116,11 @@ class ClientConfiguration {
     }
 
     /**
-     * Returns the connection context options.
-     * @return array the connection context options
+     * Returns the connection context.
+     * @return array the connection context
      */
-    public function getContextOptions() {
-        return $this->contextOptions;
+    public function getContext() {
+        return $this->context;
     }
 
 }

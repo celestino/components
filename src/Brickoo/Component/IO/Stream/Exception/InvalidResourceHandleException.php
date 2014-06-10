@@ -27,18 +27,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Filesystem\Exception;
+namespace Brickoo\Component\IO\Stream\Exception;
 
-use Brickoo\Component\Filesystem\Exception;
+use Brickoo\Component\IO\Exception;
 
 /**
- * HandleAlreadyExistsException
+ * InvalidResourceHandleException
  *
- * Exception thrown if trying to create a new handle while one already exists.
+ * Exception thrown if an invalid resource handle should be used.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
-class HandleAlreadyExistsException extends Exception {
+class InvalidResourceHandleException extends Exception {
 
     /**
      * Class constructor.
@@ -46,7 +45,7 @@ class HandleAlreadyExistsException extends Exception {
      * @param \Exception $previousException
      */
     public function __construct(\Exception $previousException = null) {
-        parent::__construct("The resource handle already exists.", 0, $previousException);
+        parent::__construct("Invalid resource handle. Resource not available.", 0, $previousException);
     }
 
 }

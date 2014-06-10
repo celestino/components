@@ -29,8 +29,8 @@
 
 namespace Brickoo\Component\Cache\Adapter;
 
-use Brickoo\Component\Filesystem\File,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Validation\Argument,
+    DirectoryIterator;
 
 /**
  * FilesystemAdapter
@@ -43,9 +43,6 @@ class FilesystemAdapter implements Adapter {
     /** @var string */
     const LIFETIME_FORMAT = "YmdHis";
 
-    /** @var \Brickoo\Component\Filesystem\File */
-    private $fileObject;
-
     /** @var string */
     private $cacheDirectory;
 
@@ -57,18 +54,16 @@ class FilesystemAdapter implements Adapter {
 
     /**
      * Class constructor.
-     * @param \Brickoo\Component\Filesystem\File $fileObject
      * @param string $cacheDirectory the directory used for the cache operations
      * @param boolean $serializeCacheContent flag to serialize the content cached
      * @param string $cacheFileNameSuffix the suffix to add to caching file names
      * @throws \InvalidArgumentException if an argument is not valid
      */
-    public function __construct(File $fileObject, $cacheDirectory, $serializeCacheContent = true, $cacheFileNameSuffix = ".cache") {
+    public function __construct($cacheDirectory, $serializeCacheContent = true, $cacheFileNameSuffix = ".cache") {
         Argument::IsString($cacheDirectory);
         Argument::IsBoolean($serializeCacheContent);
         Argument::IsString($cacheFileNameSuffix);
 
-        $this->fileObject = $fileObject;
         $this->cacheDirectory = rtrim($cacheDirectory, "\\/") . DIRECTORY_SEPARATOR;
         $this->serializeCacheContent = $serializeCacheContent;
         $this->cacheFileNameSuffix = $cacheFileNameSuffix;
@@ -80,16 +75,16 @@ class FilesystemAdapter implements Adapter {
         $timestampBytesLength = strlen(date(self::LIFETIME_FORMAT));
         $cacheFilePath = $this->getCacheFilePath($identifier);
 
-        $expirationDate = $this->fileObject->open($cacheFilePath, "r")
-            ->read($timestampBytesLength);
+        $file = fopen($cacheFilePath, "r");
+        $expirationDate = fread($file, $timestampBytesLength);
 
         if (strtotime($expirationDate) < time()) {
-            $this->fileObject->close();
+            fclose($file);
             return null;
         }
 
-        $cachedContent = $this->fileObject->read(filesize($cacheFilePath) - $timestampBytesLength);
-        $this->fileObject->close();
+        $cachedContent = fread($file, filesize($cacheFilePath) - $timestampBytesLength);
+        fclose($file);
 
         return ($this->serializeCacheContent ? unserialize($cachedContent) : $cachedContent);
     }
@@ -103,9 +98,10 @@ class FilesystemAdapter implements Adapter {
             $content = serialize($content);
         }
 
-        $this->fileObject->open($this->getCacheFilePath($identifier), "w")
-                         ->write(date(self::LIFETIME_FORMAT, (time()+ $lifetime)) . $content);
-        $this->fileObject->close();
+        $file = fopen($this->getCacheFilePath($identifier), "w");
+        fwrite($file, date(self::LIFETIME_FORMAT, (time()+ $lifetime)) . $content);
+        fclose($file);
+
         return $this;
     }
 
@@ -120,7 +116,7 @@ class FilesystemAdapter implements Adapter {
 
     /** {@inheritDoc} */
     public function flush() {
-        $DirectoryIterator = new \DirectoryIterator($this->cacheDirectory);
+        $DirectoryIterator = new DirectoryIterator($this->cacheDirectory);
         foreach ($DirectoryIterator as $FileInfo) {
             if ($FileInfo->isFile()
                 && ($fileName = $FileInfo->getFilename())

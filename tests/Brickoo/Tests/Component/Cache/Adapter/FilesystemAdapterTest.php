@@ -30,7 +30,6 @@
 namespace Brickoo\Tests\Component\Cache\Adapter;
 
 use Brickoo\Component\Cache\Adapter\FilesystemAdapter,
-    Brickoo\Component\Filesystem\File,
     PHPUnit_Framework_TestCase;
 
 /**
@@ -45,8 +44,7 @@ class FilesystemAdapterTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Cache\Adapter\FilesystemAdapter::__construct */
     public function testConstructorImplementsInterface() {
-        $file = $this->getFileStub();
-        $filesystemAdapter = new FilesystemAdapter($file, getcwd(), false, ".test");
+        $filesystemAdapter = new FilesystemAdapter(getcwd(), true, ".test");
         $this->assertInstanceOf("\\Brickoo\\Component\\Cache\\Adapter\\Adapter", $filesystemAdapter);
     }
 
@@ -56,56 +54,21 @@ class FilesystemAdapterTest extends PHPUnit_Framework_TestCase {
      */
     public function testSetCacheContentWritesToFilesystem() {
         $content = "content";
-        $file = $this->getFileStub();
-        $file->expects($this->once())
-                   ->method("open")
-                   ->with(getcwd(). DIRECTORY_SEPARATOR ."some_identifier.cache", "w")
-                   ->will($this->returnSelf());
-        $file->expects($this->once())
-                   ->method("write")
-                   ->will($this->returnValue(strlen($content)));
-        $file->expects($this->once())
-                   ->method("close")
-                   ->will($this->returnSelf());
-
-        $filesystemAdapter = new FilesystemAdapter($file, getcwd(), true, ".cache");
+        $filesystemAdapter = new FilesystemAdapter(sys_get_temp_dir());
         $this->assertSame($filesystemAdapter, $filesystemAdapter->set("some_identifier", $content, 0));
+        $this->assertEquals(19, strpos(file_get_contents(sys_get_temp_dir().DIRECTORY_SEPARATOR."some_identifier.cache"), $content));
     }
 
-    /**
-     * @covers Brickoo\Component\Cache\Adapter\FilesystemAdapter::get
-     * @covers Brickoo\Component\Cache\Adapter\FilesystemAdapter::delete
-     */
+    /** @covers Brickoo\Component\Cache\Adapter\FilesystemAdapter::get */
     public function testGetFileLifetimeExpiredReturnsNullInsteadOfCachedContent() {
-        $cacheDirectory = $this->getAssetsDirectoryPath();
-        $cacheFileName = "cached_content";
-        $cacheFileSuffix = ".cache";
-
-        $file = $this->getFileStub();
-        $file->expects($this->once())
-                   ->method("open")
-                   ->with($cacheDirectory . $cacheFileName . $cacheFileSuffix, "r")
-                   ->will($this->returnSelf());
-        $file->expects($this->once())
-                   ->method("read")
-                   ->with(strlen(date(FilesystemAdapter::LIFETIME_FORMAT)))
-                   ->will($this->returnValue(date(FilesystemAdapter::LIFETIME_FORMAT, time()-10)));
-        $file->expects($this->once())
-                   ->method("close")
-                   ->will($this->returnSelf());
-
-        $filesystemAdapter = new FilesystemAdapter($file, $cacheDirectory, false, $cacheFileSuffix);
-        $this->assertNull($filesystemAdapter->get($cacheFileName));
+        $filesystemAdapter = new FilesystemAdapter( $this->getAssetsDirectoryPath());
+        $this->assertNull($filesystemAdapter->get("expired_content"));
     }
 
     /** @covers Brickoo\Component\Cache\Adapter\FilesystemAdapter::get */
     public function testGetCacheContentReturnsCachedContent() {
-        $cacheDirectory = $this->getAssetsDirectoryPath();
-        $cacheFileName = "cached_content";
-        $cacheFileSuffix = ".cache";
-
-        $filesystemAdapter = new FilesystemAdapter(new File(), $cacheDirectory, true, $cacheFileSuffix);
-        $this->assertEquals(["cached content"], $filesystemAdapter->get($cacheFileName));
+        $filesystemAdapter = new FilesystemAdapter( $this->getAssetsDirectoryPath());
+        $this->assertEquals(["cached content"], $filesystemAdapter->get("cached_content"));
     }
 
     /** @covers Brickoo\Component\Cache\Adapter\FilesystemAdapter::delete */
@@ -113,12 +76,13 @@ class FilesystemAdapterTest extends PHPUnit_Framework_TestCase {
         $cacheDirectory = $this->getAssetsDirectoryPath();
         $cacheFileName = "cached_content";
         $cacheFileSuffix = ".cache";
+
         copy(
             $cacheDirectory . $cacheFileName .$cacheFileSuffix,
             sys_get_temp_dir() . DIRECTORY_SEPARATOR . $cacheFileName . $cacheFileSuffix
         );
 
-        $filesystemAdapter = new FilesystemAdapter($this->getFileStub(), sys_get_temp_dir(), false, $cacheFileSuffix);
+        $filesystemAdapter = new FilesystemAdapter(sys_get_temp_dir());
         $this->assertTrue(file_exists(sys_get_temp_dir() . DIRECTORY_SEPARATOR . $cacheFileName . $cacheFileSuffix));
         $this->assertSame($filesystemAdapter, $filesystemAdapter->delete($cacheFileName));
         $this->assertFalse(file_exists(sys_get_temp_dir() . DIRECTORY_SEPARATOR . $cacheFileName . $cacheFileSuffix));
@@ -135,7 +99,7 @@ class FilesystemAdapterTest extends PHPUnit_Framework_TestCase {
             sys_get_temp_dir() . DIRECTORY_SEPARATOR . $cacheFileName . $cacheFileSuffix
         );
 
-        $filesystemAdapter = new FilesystemAdapter($this->getFileStub(), sys_get_temp_dir(), false, $cacheFileSuffix);
+        $filesystemAdapter = new FilesystemAdapter(sys_get_temp_dir());
         $this->assertTrue(file_exists(sys_get_temp_dir() . DIRECTORY_SEPARATOR . $cacheFileName . $cacheFileSuffix));
         $this->assertSame($filesystemAdapter, $filesystemAdapter->flush());
         $this->assertFalse(file_exists(sys_get_temp_dir() . DIRECTORY_SEPARATOR . $cacheFileName . $cacheFileSuffix));
@@ -144,23 +108,12 @@ class FilesystemAdapterTest extends PHPUnit_Framework_TestCase {
     /** @covers Brickoo\Component\Cache\Adapter\FilesystemAdapter::isReady */
     public function testIsReady() {
         $failureCacheDirectory = dirname(__FILE__) . DIRECTORY_SEPARATOR ."DOES_NOT_EXIST". DIRECTORY_SEPARATOR;
-        $cacheFileSuffix =".cache";
 
-        $filesystemAdapter = new FilesystemAdapter($this->getFileStub(), $failureCacheDirectory, false, $cacheFileSuffix);
+        $filesystemAdapter = new FilesystemAdapter($failureCacheDirectory);
         $this->assertFalse($filesystemAdapter->isReady());
 
-        $filesystemAdapter = new FilesystemAdapter($this->getFileStub(), sys_get_temp_dir(), false, $cacheFileSuffix);
+        $filesystemAdapter = new FilesystemAdapter(sys_get_temp_dir());
         $this->assertTrue($filesystemAdapter->isReady());
-    }
-
-    /**
-     * Returns a file stub.
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    private function getFileStub() {
-        return $this->getMockBuilder("\\Brickoo\\Component\\Filesystem\\File")
-            ->disableOriginalConstructor()
-            ->getMock();
     }
 
     /**

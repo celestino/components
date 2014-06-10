@@ -27,14 +27,20 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Network;
+namespace Brickoo\Component\IO\Printer;
 
 /**
- * Exception
+ * Printer
  *
- * Defines a network exception.
- * Used to catch all exceptions from this component.
- * @author Celestino Diaz <celestino.diaz@gmx.de>
+ * Describes a printer for handling printables.
  */
+interface Printer {
 
-class Exception extends \Exception {}
+    /**
+     * Prints the printable(s) to the printer target.
+     * @param Printable|Traversable<Printable> $printable
+     * @return void
+     */
+    public function doPrint($printable);
+
+}

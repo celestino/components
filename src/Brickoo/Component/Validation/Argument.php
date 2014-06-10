@@ -159,7 +159,7 @@ class Argument {
     }
 
     /**
-     * Checks if a argument is an object.
+     * Checks if the argument is an object.
      * @param mixed $argument the argument to validate
      * @throws \InvalidArgumentException if the validation fails
      * @return boolean check result
@@ -167,6 +167,19 @@ class Argument {
     public static function IsObject($argument){
         if (! is_object($argument)) {
             throw self::GetInvalidArgumentException($argument, "The argument must be an object.");
+        }
+        return true;
+    }
+
+    /**
+     * Checks if the argument is a resource.
+     * @param mixed $argument the argument to validate
+     * @throws \InvalidArgumentException if the validation fails
+     * @return boolean check result
+     */
+    public static function IsResource($argument){
+        if (! is_resource($argument)) {
+            throw self::GetInvalidArgumentException($argument, "The argument must be a resource.");
         }
         return true;
     }

@@ -27,32 +27,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Network\Exception;
+namespace Brickoo\Component\IO\Stream\Exception;
 
-use Brickoo\Component\Network\Exception;
+use Brickoo\Component\IO\Exception;
 
 /**
- * UnableToCreateHandleException
+ * UnableToReadBytesException
  *
- * Exception thrown if a resource handle could not be created for a network connection.
+ * Exception thrown if a number of bytes could not be read.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
+class UnableToReadBytesException extends Exception {
 
-class UnableToCreateHandleException extends Exception {
-
-    /**ŝ
+    /**
      * Class constructor.
      * Calls the parent Exception constructor.
-     * @param string $socketAddress the socket address
-     * @param integer $errorCode the error code thrown
-     * @param string $errorMessage the error message thrown
+     * @param integer $numberOfBytes
      * @param \Exception $previousException
      */
-    public function __construct($socketAddress, $errorCode, $errorMessage, \Exception $previousException = null) {
-        parent::__construct(sprintf(
-            "The resource handle for the address `%s` could not be created. Error: [#%d] %s ",
-            $socketAddress, $errorCode, $errorMessage
-        ), 0, $previousException);
+    public function __construct($numberOfBytes, \Exception $previousException = null) {
+        parent::__construct(sprintf("Unable to read %d bytes.", $numberOfBytes), 0, $previousException);
     }
 
 }

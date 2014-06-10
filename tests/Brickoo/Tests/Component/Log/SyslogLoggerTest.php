@@ -29,7 +29,9 @@
 
 namespace Brickoo\Tests\Component\Log;
 
-use Brickoo\Component\Log\SyslogLogger,
+use Brickoo\Component\IO\Stream\SocketStream,
+    Brickoo\Component\IO\Stream\SocketStreamConfig,
+    Brickoo\Component\Log\SyslogLogger,
     PHPUnit_Framework_TestCase;
 
 /**
@@ -49,23 +51,27 @@ class SyslogLoggerTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Log\SyslogLogger::getMessageHeader
      */
     public function testLog() {
-        $hostname = "localhost";
+        $resource = fopen("php://memory", "rb+");
 
-        $logMessage = "Message to log.";
-        $expectedRegexMessage = "~^\<[0-9]+\>[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}\:[0-9]{2}\:[0-9]{2}\+[0-9]{2}\:[0-9]{2} ". $hostname ." ". $logMessage ."$~";
-
-        $networkClient = $this->getNetworkClientStub();
-        $networkClient->expects($this->once())
+        $socketStream = $this->getMockBuilder("\\Brickoo\\Component\\IO\\Stream\\SocketStream")
+            ->disableOriginalConstructor()->getMock();
+        $socketStream->expects($this->any())
                      ->method("open")
+                     ->will($this->returnValue($resource));
+        $socketStream->expects($this->any())
+                     ->method("close")
                      ->will($this->returnSelf());
-        $networkClient->expects($this->once())
-                     ->method("write")
-                     ->with($this->matchesRegularExpression($expectedRegexMessage));
-        $networkClient->expects($this->once())
-                     ->method("close");
 
-        $syslogLogger = new SyslogLogger($networkClient, $hostname);
-        $this->assertNull($syslogLogger->log($logMessage, SyslogLogger::SEVERITY_INFO));
+        $hostname = "myServer";
+        $logMessage = "Message to log.";
+        $expectedRegexMessage = "~^\\<[0-9]+\\>[0-9]{4}\\-[0-9]{2}\\-[0-9]{2}T[0-9]{2}\\:[0-9]{2}\\:[0-9]{2}\\+[0-9]{2}\\:[0-9]{2} ". $hostname ." ". $logMessage ."$~";
+
+        $syslogLogger = new SyslogLogger($socketStream, $hostname);
+        $this->assertSame($syslogLogger, $syslogLogger->log($logMessage, SyslogLogger::SEVERITY_INFO));
+
+        rewind($resource);
+        $this->assertRegExp($expectedRegexMessage, fgets($resource));
+        fclose($resource);
     }
 
     /**
@@ -73,18 +79,8 @@ class SyslogLoggerTest extends PHPUnit_Framework_TestCase {
      * @expectedException \InvalidArgumentException
      */
     public function testLogInvalidSeverityThrowsArgumentException() {
-        $syslogLogger = new SyslogLogger($this->getNetworkClientStub(), "localhost", "someServer.com");
+        $syslogLogger = new SyslogLogger(new SocketStream(new SocketStreamConfig("udp://localhost", 514)), "myServer");
         $syslogLogger->log("message", "wrongType");
-    }
-
-    /**
-     * Returns a network client stub.
-     * @return \Brickoo\Component\Network\Client
-     */
-    private function getNetworkClientStub() {
-        return $this->getMockBuilder("\\Brickoo\\Component\\Network\\Client")
-            ->disableOriginalConstructor()
-            ->getMock();
     }
 
 }

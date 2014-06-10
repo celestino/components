@@ -27,31 +27,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Filesystem\Exception;
+namespace Brickoo\Component\IO\Stream\Exception;
 
-use Brickoo\Component\Filesystem\Exception;
+use Brickoo\Component\IO\Exception;
 
 /**
- * InvalidModeOperationException
+ * UnableToCreateResourceHandleException
  *
- * Exception thrown if trying to read or write with a mode that does not support the operation.
+ * Exception thrown if an invalid resource handle could not be created.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
-class InvalidModeOperationException extends Exception {
+class UnableToCreateResourceHandleException extends Exception {
 
     /**
      * Class constructor.
-     * Calls the parent exception constructor.
-     * @param string $currentHandleMode the current resource handle mode
-     * @param string $operationType the operation not accepted
+     * Calls the parent Exception constructor.
+     * @param string $resource
      * @param \Exception $previousException
      */
-    public function __construct($currentHandleMode, $operationType, \Exception $previousException = null) {
-        parent::__construct(
-            sprintf("The resource handle is using `%s` mode which is not compatible with %s operations", $currentHandleMode, $operationType),
-            0, $previousException
-        );
+    public function __construct($resource, \Exception $previousException = null) {
+        parent::__construct(sprintf("Resource `%s` not accessible.", $resource), 0, $previousException);
     }
 
 }

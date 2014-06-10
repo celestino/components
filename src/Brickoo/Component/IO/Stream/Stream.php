@@ -27,31 +27,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Filesystem\Exception;
-
-use Brickoo\Component\Filesystem\Exception;
+namespace Brickoo\Component\IO\Stream;
 
 /**
- * UnableToCreateHandleException
+ * Stream
  *
- * Exception thrown if a resource handle could not be created.
- * @author Celestino Diaz <celestino.diaz@gmx.de>
+ * Describes a stream resource handler.
  */
-
-class UnableToCreateHandleException extends Exception {
+interface Stream {
 
     /**
-     * Class constructor.
-     * Calls the parent Exception constructor.
-     * @param string $location the location which the handle could not be created for.
-     * @param string $mode the access mode used
-     * @param \Exception $previousException
+     * Opens the stream for further operations
+     * @throws \Brickoo\Component\IO\Stream\Exception\UnableToOpenStreamException
+     * @return resource
      */
-    public function __construct($location, $mode, \Exception $previousException = null) {
-        parent::__construct(
-            sprintf("The resource handle for the location `%s` with mode `%s` could not be created.", $location, $mode),
-            0, $previousException
-        );
-    }
+    public function open();
+
+    /**
+     * Closes the open stream if opened.
+     * @return void
+     */
+    public function close();
 
 }

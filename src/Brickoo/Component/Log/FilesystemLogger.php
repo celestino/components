@@ -44,21 +44,16 @@ class FilesystemLogger implements Logger {
     /** @var array */
     private $severityDescription;
 
-    /** @var \Brickoo\Component\Filesystem\File */
-    private $file;
-
     /** @var string */
     private $logsDirectory;
 
     /**
     * Class constructor.
-    * @param \Brickoo\Component\Filesystem\File $file
     * @param string $logsDirectory the directory to store the log messages
     */
-    public function __construct(File $file, $logsDirectory) {
+    public function __construct($logsDirectory) {
         Argument::IsString($logsDirectory);
 
-        $this->file = $file;
         $this->logsDirectory = rtrim($logsDirectory, "\\/") . DIRECTORY_SEPARATOR;
         $this->severityDescription = [
             Logger::SEVERITY_EMERGENCY    => "Emergency",
@@ -83,22 +78,22 @@ class FilesystemLogger implements Logger {
         $logMessage = $this->convertToLogMessage($messages, $severity);
         $location = $this->logsDirectory . date("Y-m-d") . ".log";
 
-        $this->file->open($location, "a")->write($logMessage);
-        $this->file->close();
+        $file = fopen($location, "a");
+        fwrite($file, $logMessage);
+        fclose($file);
+
+        return $this;
     }
 
     /**
      * Converts the messages passed to one message containing the explained log severity.
+     * @todo throw exception if severity is unknown
      * @param array $messages the messages to convert
      * @param integer $severity the severity to explain for each message
      * @return string the packed log message
      */
     private function convertToLogMessage(array $messages, $severity) {
         Argument::IsInteger($severity);
-
-        if (! array_key_exists($severity, $this->severityDescription)) {
-            $severity = Logger::SEVERITY_DEBUG;
-        }
 
         $messagePrefix = sprintf("[%s][%s] ", date("Y-m-d H:i:s"), $this->severityDescription[$severity]);
         return $messagePrefix . implode(PHP_EOL . $messagePrefix, $messages) . PHP_EOL;

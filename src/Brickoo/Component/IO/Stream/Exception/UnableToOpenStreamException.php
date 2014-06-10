@@ -27,14 +27,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Filesystem;
+namespace Brickoo\Component\IO\Stream\Exception;
+
+use Brickoo\Component\IO\Exception;
 
 /**
- * Exception
+ * UnableToOpenStreamException
  *
- * Defines a filesystem exception.
- * Used to catch all exceptions from this component.
+ * Exception thrown if a stream resource could not be created.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
+class UnableToOpenStreamException extends Exception {
 
-class Exception extends \Exception {}
+    /**
+     * Class constructor.
+     * Calls the parent Exception constructor.
+     * @param string $errorMessage
+     * @param integer $errorCode
+     * @param \Exception $previousException
+     */
+    public function __construct($errorMessage, $errorCode, \Exception $previousException = null) {
+        parent::__construct($errorMessage, $errorCode, $previousException);
+    }
+
+}

@@ -180,6 +180,21 @@ class ArgumentTest extends PHPUnit_Framework_TestCase {
         Argument::IsObject(array("wrongType"));
     }
 
+    /** @covers Brickoo\Component\Validation\Argument::IsResource */
+    public function testIsResource() {
+        $file = fopen("php://memory", "r");
+        $this->assertTrue(Argument::IsResource($file));
+        fclose($file);
+    }
+
+    /**
+     * @covers Brickoo\Component\Validation\Argument::IsResource
+     * @expectedException \InvalidArgumentException
+     */
+    public function testIsResourceThrowsArgumentException() {
+        Argument::IsResource("wrongType");
+    }
+
     /**
      * @covers Brickoo\Component\Validation\Argument::GetInvalidArgumentException
      * @covers Brickoo\Component\Validation\Argument::GetArgumentStringRepresentation

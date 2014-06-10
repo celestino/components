@@ -27,26 +27,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Network\Exception;
+namespace Brickoo\Component\IO\Stream\Exception;
 
-use Brickoo\Component\Network\Exception;
+use Brickoo\Component\IO\Exception;
 
 /**
- * HandleNotAvailableException
+ * AccessModeUnknownException
  *
- * Exception thrown if trying to access a not created handle.
+ * Exception thrown if an unknown access mode is used.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
-class HandleNotAvailableException extends Exception {
+class AccessModeUnknownException extends Exception {
 
     /**
      * Class constructor.
      * Calls the parent Exception constructor.
+     * @param integer $accessMode
      * @param \Exception $previousException
      */
-    public function __construct(\Exception $previousException = null) {
-        parent::__construct("The resource handle is not available.", 0, $previousException);
+    public function __construct($accessMode, \Exception $previousException = null) {
+        parent::__construct(sprintf("The access mode `%d` is unknown.", $accessMode), 0, $previousException);
     }
 
 }
+

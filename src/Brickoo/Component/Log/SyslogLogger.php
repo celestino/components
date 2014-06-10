@@ -29,7 +29,8 @@
 
 namespace Brickoo\Component\Log;
 
-use Brickoo\Component\Network\Client,
+use Brickoo\Component\IO\Stream\SocketStream,
+    Brickoo\Component\IO\Stream\StreamWriter,
     Brickoo\Component\Validation\Argument;
 
 /**
@@ -70,8 +71,8 @@ class SyslogLogger implements Logger {
     const FACILITY_USER_6            = 22;
     const FACILITY_USER_7            = 23;
 
-    /** @var \Brickoo\Component\Network\Client */
-    private $networkClient;
+    /** @var \Brickoo\Component\IO\Stream\SocketStream */
+    private $socketStream;
 
     /** @var string */
     private $hostname;
@@ -81,16 +82,16 @@ class SyslogLogger implements Logger {
 
     /**
      * Class constructor.
-     * @param \Brickoo\Component\Network\Client $networkClient
+     * @param \Brickoo\Component\IO\Stream\SocketStream $socketStream
      * @param string $hostname the hostname of the machine running
      * @param integer $facility the facility of the sending messages, default USER_0
      * @throws \InvalidArgumentException if an argument is not valid
      */
-    public function __construct(Client $networkClient, $hostname, $facility = self::FACILITY_USER_0) {
+    public function __construct(SocketStream $socketStream, $hostname, $facility = self::FACILITY_USER_0) {
         Argument::IsString($hostname);
         Argument::IsInteger($facility);
 
-        $this->networkClient = $networkClient;
+        $this->socketStream = $socketStream;
         $this->hostname = $hostname;
         $this->facility = $facility;
     }
@@ -104,6 +105,7 @@ class SyslogLogger implements Logger {
         }
 
         $this->sendMessages($messages, $severity);
+        return $this;
     }
 
     /**
@@ -113,14 +115,14 @@ class SyslogLogger implements Logger {
      * @return void
      */
     private function sendMessages(array $messages, $severity) {
-        $this->networkClient->open();
+        $streamWriter = new StreamWriter($this->socketStream->open());
 
         $messageHeader = $this->getMessageHeader($severity);
         foreach ($messages as $message) {
-            $this->networkClient->write($messageHeader ." ". $message);
+            $streamWriter->write($messageHeader ." ". $message);
         }
 
-        $this->networkClient->close();
+        $this->socketStream->close();
     }
 
     /**

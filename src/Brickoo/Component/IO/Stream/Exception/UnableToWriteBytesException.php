@@ -27,26 +27,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Network\Exception;
+namespace Brickoo\Component\IO\Stream\Exception;
 
-use Brickoo\Component\Network\Exception;
+use Brickoo\Component\IO\Exception;
 
 /**
- * HandleAlreadyExistsException
+ * UnableToWriteBytesException
  *
- * Exception thrown if trying to create a handle handle which already exists.
+ * Exception thrown if a number of bytes could not be written.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
-class HandleAlreadyExistsException extends Exception {
+class UnableToWriteBytesException extends Exception {
 
     /**
      * Class constructor.
-     * Calls the parent exception constructor.
+     * Calls the parent Exception constructor.
+     * @param integer $numberOfBytes
      * @param \Exception $previousException
      */
-    public function __construct(\Exception $previousException = null) {
-        parent::__construct("The resource handle already exists.", 0, $previousException);
+    public function __construct($numberOfBytes, \Exception $previousException = null) {
+        parent::__construct(sprintf("Unable to write %d bytes.", $numberOfBytes), 0, $previousException);
     }
 
 }
