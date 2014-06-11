@@ -112,7 +112,7 @@ class AnnotationClassFileReader {
     private function getNamespace($fileContent) {
         $matches = null;
         $namespace = "\\";
-        preg_match("~namespace\\s+(?<namespace>[a-zA-Z_\x7f-\xff][\\\\\\w\x7f-\xff]+)\\s*\\;~i", $fileContent, $matches);
+        preg_match("~namespace\\s+(?<namespace>[a-zA-Z_\x7f-\xff][\\\\\\w\x7f-\xff]+)\\s*[\\;\\{]{1}~i", $fileContent, $matches);
         if (isset($matches["namespace"]) && (! empty($matches["namespace"]))) {
             $namespace .= $matches["namespace"]."\\";
         }

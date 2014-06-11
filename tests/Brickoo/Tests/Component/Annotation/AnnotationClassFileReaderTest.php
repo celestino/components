@@ -65,6 +65,30 @@ class AnnotationClassFileReaderTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers Brickoo\Component\Annotation\AnnotationClassFileReader::__construct
+     * @covers Brickoo\Component\Annotation\AnnotationClassFileReader::getAnnotations
+     * @covers Brickoo\Component\Annotation\AnnotationClassFileReader::getReflectionClass
+     * @covers Brickoo\Component\Annotation\AnnotationClassFileReader::checkFileAvailability
+     * @covers Brickoo\Component\Annotation\AnnotationClassFileReader::getNamespace
+     * @covers Brickoo\Component\Annotation\AnnotationClassFileReader::getClassName
+     */
+    public function testGetAnnotationsWithNamespaceInBraces() {
+        $definitionStub = $this->getDefinitionStub();
+        $readerResult = $this->getAnnotationReaderResultStub();
+        $reflectionReader = $this->getAnnotationReflectionReaderStub();
+        $reflectionReader->expects($this->any())
+            ->method("getAnnotations")
+            ->with($definitionStub, $this->isInstanceOf("\\ReflectionClass"))
+            ->will($this->returnValue($readerResult));
+
+        $fileReader = new AnnotationClassFileReader($reflectionReader);
+        $this->assertSame(
+            $readerResult,
+            $fileReader->getAnnotations($definitionStub, __DIR__."/Assets/AnnotatedClassWithNamespaceInBraces.php")
+        );
+    }
+
+    /**
      * @covers Brickoo\Component\Annotation\AnnotationClassFileReader::getAnnotations
      * @covers Brickoo\Component\Annotation\AnnotationClassFileReader::checkFileAvailability
      * @covers Brickoo\Component\Annotation\Exception\FileDoesNotExistException
