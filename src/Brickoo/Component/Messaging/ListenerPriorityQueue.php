@@ -27,39 +27,65 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Tests\Component\Messaging\Listener;
-
-use Brickoo\Component\Messaging\ListenerQueue,
-    PHPUnit_Framework_TestCase;
+namespace Brickoo\Component\Messaging;
 
 /**
- * ListenerQueueTest
+ * ListenerPriorityQueue
  *
- * Test suite for the ListenerQueue class.
- * @see Brickoo\Component\Messaging\ListenerQueue
- * @author Celestino Diaz <celestino.diaz@gmx.de>
+ * Implements a listener priority queue.
  */
+class ListenerPriorityQueue implements \IteratorAggregate, \Countable {
 
-class ListenerQueueTest extends PHPUnit_Framework_TestCase {
+    /** @var array */
+    private $items;
 
-    /** @covers Brickoo\Component\Messaging\ListenerQueue::__construct */
-    public function testConstructor() {
-        $this->assertAttributeEquals(PHP_INT_MAX, 'serial', new ListenerQueue());
+    public function __construct() {
+        $this->items = array();
     }
 
-    /** @covers Brickoo\Component\Messaging\ListenerQueue::insert */
-    public function testInsertionOfQueuedValues() {
-        $listenerQueue = new ListenerQueue();
-        $listenerQueue->insert('A', 100);
-        $listenerQueue->insert('B', 100);
-        $listenerQueue->insert('C', 200);
+    /**
+     * Insert an entry to the queue.
+     * @param string $listenerUID
+     * @param integer $priority
+     * @return \Brickoo\Component\Messaging\ListenerPriorityQueue
+     */
+    public function insert($listenerUID, $priority) {
+        $this->items[$listenerUID] = $priority;
+        arsort($this->items);
+        return $this;
+    }
 
-        $queue = clone $listenerQueue;
-        $values = [];
-        foreach ($queue as $value) {
-            $values[] = $value;
+    /**
+     * Remove an entry from the queue.
+     * @param string $listenerUID
+     * @return \Brickoo\Component\Messaging\ListenerPriorityQueue
+     */
+    public function remove($listenerUID) {
+        if (isset($this->items[$listenerUID])) {
+            unset($this->items[$listenerUID]);
         }
-        $this->assertEquals(array('C', 'A', 'B'), $values);
+        return $this;
+    }
+
+    /**
+     * Check if the listener queue is empty.
+     * @return boolean check result
+     */
+    public function isEmpty() {
+        return empty($this->items);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return \ArrayIterator containing the listener uid`s.
+     */
+    public function getIterator() {
+        return new \ArrayIterator(array_keys($this->items));
+    }
+
+    /** {@inheritdoc} */
+    public function count() {
+        return count($this->items);
     }
 
 }

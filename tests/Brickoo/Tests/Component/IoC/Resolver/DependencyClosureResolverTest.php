@@ -42,6 +42,13 @@ use Brickoo\Component\IoC\Definition\DependencyDefinition,
  */
 class DependencyClosureResolverTest extends PHPUnit_Framework_TestCase {
 
+    /** {@inheritdoc} */
+    public function setUp() {
+        if (defined("HHVM_VERSION")) {
+            $this->markTestSkipped("Unsupported routine (Closure::bindTo) by HHVM v3.1.0");
+        }
+    }
+
     /** @covers Brickoo\Component\IoC\Resolver\DependencyClosureResolver::resolve */
     public function testResolveDefinition() {
         $dependency = new \stdClass();

@@ -62,7 +62,7 @@ class ListenerCollectionTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(spl_object_hash($listener), $listenerCollection->add($listener, $priority));
         $this->assertAttributeContains($listener, "listeners", $listenerCollection);
         $this->assertAttributeCount(1, "listeners", $listenerCollection);
-        $this->assertAttributeContainsOnly("\\Brickoo\\Component\\Messaging\\ListenerQueue", "listenerQueues", $listenerCollection);
+        $this->assertAttributeContainsOnly("\\Brickoo\\Component\\Messaging\\ListenerPriorityQueue", "listenerQueues", $listenerCollection);
         $this->assertAttributeCount(1, "listenerQueues", $listenerCollection);
     }
 
@@ -130,7 +130,7 @@ class ListenerCollectionTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Messaging\ListenerCollection::remove
-     * @covers Brickoo\Component\Messaging\ListenerCollection::removeListenerFromQueue
+     * @covers Brickoo\Component\Messaging\ListenerCollection::getListenerPriorityQueue
      */
     public function testRemovingMessageListener() {
         $messageName = "test.add.listener";
@@ -181,6 +181,7 @@ class ListenerCollectionTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Messaging\ListenerCollection::getListeners
      * @covers Brickoo\Component\Messaging\ListenerCollection::collectMessageListeners
+     * @covers Brickoo\Component\Messaging\ListenerCollection::getListenerPriorityQueue
      */
     public function testGetListenersOrderedByPriority() {
         $messageName = "test.add.listener";

@@ -77,6 +77,9 @@ class AutoloaderTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Autoloader\Autoloader::unregister */
     public function testUnregisterAutoloader() {
+        if (defined("HHVM_VERSION")) {
+            $this->markTestSkipped("Unsupported routine by HHVM v3.1.0");
+        }
         $autoloader = new AutoloaderConcrete();
         $autoloader->register();
         $this->assertAttributeEquals(true, "isRegistered", $autoloader);
@@ -91,6 +94,10 @@ class AutoloaderTest extends PHPUnit_Framework_TestCase {
      * @expectedException \Brickoo\Component\Autoloader\Exception\AutoloaderNotRegisteredException
      */
     public function testUnregisterThrowsAutoloaderNotRegisteredException() {
+        if (defined("HHVM_VERSION")) {
+            $this->markTestSkipped("Unsupported routine by HHVM v3.1.0");
+        }
+
         $autoloader = new AutoloaderConcrete();
         try {
             $autoloader->unregister();

@@ -46,16 +46,6 @@ class SessionManager {
     protected static $sessionStarted;
 
     /**
-     * Class constructor.
-     * @param SessionHandler $sessionHandler
-     */
-    public function __construct(SessionHandler $sessionHandler = null) {
-        if ($sessionHandler instanceof SessionHandler) {
-            session_set_save_handler($sessionHandler, true);
-        }
-    }
-
-    /**
      * Returns the current session identifier.
      * @return string the session identifier
      */

@@ -106,6 +106,10 @@ class DefinitionResolverTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\IoC\Resolver\DefinitionResolver::getResolverType
      */
     public function testResolverClosureDefinition() {
+        if (defined("HHVM_VERSION")) {
+            $this->markTestSkipped("Unsupported routine (Closure::bindTo) by HHVM v3.1.0");
+        }
+
         $dependency = new \stdClass();
         $definition = new DependencyDefinition(function() use ($dependency){
             return $dependency;

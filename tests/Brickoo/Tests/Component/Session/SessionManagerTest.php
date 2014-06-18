@@ -73,15 +73,6 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @runInSeparateProcess
-     * @covers Brickoo\Component\Session\SessionManager::__construct
-     */
-    public function testConstructorSetSessionHandler() {
-        $sessionManager = new SessionManager($this->getMock("\\SessionHandler"));
-        $this->assertInstanceOf("\\Brickoo\\Component\\Session\\SessionManager", $sessionManager);
-    }
-
-    /**
      * @covers Brickoo\Component\Session\SessionManager::getId
      * @covers Brickoo\Component\Session\SessionManager::setId
      * @covers Brickoo\Component\Session\SessionManager::checkSessionStart

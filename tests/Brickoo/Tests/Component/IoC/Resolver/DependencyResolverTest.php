@@ -67,6 +67,10 @@ class DependencyResolverTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\IoC\Resolver\DependencyResolver::injectDependenciesToMethods
      */
     public function testResolveDefinition() {
+        if (defined("HHVM_VERSION")) {
+            $this->markTestSkipped("Unsupported routine (Closure::bindTo) by HHVM v3.1.0");
+        }
+
         $definition = new DependencyDefinition(
             new \stdClass(),
             DependencyDefinition::SCOPE_PROTOTYPE,
@@ -96,6 +100,7 @@ class DependencyResolverTest extends PHPUnit_Framework_TestCase {
         $dependency = $resolver->resolve($definition);
         $this->assertEquals(["name" => "value", "function" => "functionValue", "dependency" => "dependencyValue"], $dependency->arguments);
         $this->assertEquals("someDependency", $dependency->injectedDependency);
+        $this->assertEquals(40, $dependency->injectedNumber);
         $this->assertEquals("someValue", $dependency->injectedValue);
     }
 
@@ -136,8 +141,10 @@ class DependencyResolverFixture extends DependencyResolver {
 class Dependency {
     public $arguments;
     public $injectedValue;
+    public $injectedNumber;
     public $injectedDependency;
-    public function injectDependency($dependency) {
+    public function injectDependency($dependency, $number) {
         $this->injectedDependency = $dependency;
+        $this->injectedNumber = $number;
     }
 }

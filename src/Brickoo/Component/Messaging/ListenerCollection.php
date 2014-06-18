@@ -42,10 +42,10 @@ use Brickoo\Component\Messaging\Exception\ListenerNotAvailableException,
 
 class ListenerCollection {
 
-    /** @var array */
+    /** @var array<ListenerPriorityQueue> */
     private $listenerQueues;
 
-    /** @var array */
+    /** @var array<Listener> */
     private $listeners;
 
     public function __construct() {
@@ -54,13 +54,13 @@ class ListenerCollection {
     }
 
     /**
-     * Adds a listener to the memory.
+     * Add a listener to the memory.
      * @param \Brickoo\Component\Messaging\Listener $listener
      * @return string the listener queue unique identifier
      */
     public function add(Listener $listener) {
         if (! $this->hasListeners(($messageName = $listener->getMessageName()))) {
-            $this->listenerQueues[$messageName] = new ListenerQueue();
+            $this->listenerQueues[$messageName] = new ListenerPriorityQueue();
         }
 
         $listenerUID = spl_object_hash($listener);
@@ -71,7 +71,7 @@ class ListenerCollection {
     }
 
     /**
-     * Returns the listener matching the unique identifier.
+     * Return the listener matching the unique identifier.
      * @param string $listenerUID the listener unique identifier
      * @throws \InvalidArgumentException
      * @throws \Brickoo\Component\Messaging\Exception\ListenerNotAvailableException
@@ -88,7 +88,7 @@ class ListenerCollection {
     }
 
     /**
-     * Checks if the listener with the unique identifier is available.
+     * Check if the listener with the unique identifier is available.
      * @param string $listenerUID the listener unique identifier to check
      * @throws \InvalidArgumentException
      * @return boolean check result
@@ -99,7 +99,7 @@ class ListenerCollection {
     }
 
     /**
-     * Removes the listener by its unique identifier.
+     * Remove the listener by its unique identifier.
      * @param string $listenerUID the listener unique identifier
      * @throws \InvalidArgumentException
      * @throws \Brickoo\Component\Messaging\Exception\ListenerNotAvailableException
@@ -114,13 +114,13 @@ class ListenerCollection {
 
         $messageName = $this->get($listenerUID)->getMessageName();
         unset($this->listeners[$listenerUID]);
-        $this->removeListenerFromQueue($messageName, $listenerUID);
+        $this->getListenerPriorityQueue($messageName)->remove($listenerUID);
 
         return $this;
     }
 
     /**
-     * Returns the listeners responsible for a message.
+     * Return the message responsible listeners.
      * @param string $messageName the message name to retrieve the queue from
      * @throws \InvalidArgumentException
      * @throws \Brickoo\Component\Messaging\Exception\ListenersNotAvailableException
@@ -137,7 +137,7 @@ class ListenerCollection {
     }
 
     /**
-     * Checks if the message has listeners listening.
+     * Check if the message has listeners listening.
      * @param string $messageName the message name to check
      * @throws \InvalidArgumentException if an argument is not valid
      * @return boolean check result
@@ -148,41 +148,27 @@ class ListenerCollection {
     }
 
     /**
-     * Removes the listener from the message listener queue.
-     * @param string $messageName the message name of the queue
-     * @param string $listenerUID the listener unique identifier
-     * @return \Brickoo\Component\Messaging\ListenerCollection
-     */
-    private function removeListenerFromQueue($messageName, $listenerUID) {
-        $listenerQueue = $this->listenerQueues[$messageName];
-        $listenerQueue->setExtractFlags(ListenerQueue::EXTR_BOTH);
-
-        $cleanedListenerQueue = new ListenerQueue();
-        while ($listenerQueue->valid()) {
-            $listener = $listenerQueue->extract();
-            if ($listener["data"] != $listenerUID) {
-                $cleanedListenerQueue->insert($listener["data"], $listener["priority"]);
-            }
-        }
-
-        $this->listenerQueues[$messageName] = $cleanedListenerQueue;
-        return $this;
-    }
-
-    /**
-     * Collects the message listeners ordered by priority.
+     * Collect the message corresponding listeners ordered by priority.
      * @param string $messageName the message to collect the listeners for
      * @return array the collected message listeners ordered by priority.
      */
     private function collectMessageListeners($messageName) {
         $listeners = [];
-        $listenersQueue = clone $this->listenerQueues[$messageName];
 
-        foreach ($listenersQueue as $listenerUID) {
+        foreach ($this->getListenerPriorityQueue($messageName) as $listenerUID) {
             $listeners[] = $this->get($listenerUID);
         }
 
         return $listeners;
+    }
+
+    /**
+     * Return the message corresponding listener queue.
+     * @param string $messageName
+     * @return \Brickoo\Component\Messaging\ListenerPriorityQueue
+     */
+    private function getListenerPriorityQueue($messageName) {
+        return $this->listenerQueues[$messageName];
     }
 
 }

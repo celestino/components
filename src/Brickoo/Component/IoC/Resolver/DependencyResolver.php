@@ -112,8 +112,11 @@ abstract class DependencyResolver {
     private function getArgumentValue(ArgumentDefinition $argument) {
         $argumentValue = $argument->getValue();
 
-        if (is_callable($argumentValue)) {
+        if ($argumentValue instanceof \Closure) {
             $argumentValue = $argumentValue->bindTo($this->getDIContainer());
+        }
+
+        if (is_callable($argumentValue)) {
             return call_user_func($argumentValue);
         }
 

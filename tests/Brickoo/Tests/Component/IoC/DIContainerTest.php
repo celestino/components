@@ -124,6 +124,10 @@ class DIContainerTest extends PHPUnit_Framework_TestCase {
      * @expectedException \Brickoo\Component\IoC\Exception\InfiniteDependencyResolveLoopException
      */
     public function testRetrieveThrowsInfiniteDependencyResolveLoopException() {
+        if (defined("HHVM_VERSION")) {
+            $this->markTestSkipped("Unsupported routine (Closure::bindTo) by HHVM v3.1.0");
+        }
+
         $definition = new DependencyDefinition(function() {
             $this->retrieve("dep");
         });
