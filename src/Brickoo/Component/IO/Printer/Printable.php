@@ -36,11 +36,11 @@ namespace Brickoo\Component\IO\Printer;
  * Since `print` is a PHP reserved word,
  * the interface needed a fancy method.
  */
-Interface Printable {
+interface Printable {
 
     /**
-     * Prints to a context depended target.
-     * @return void
+     * Returns a printable representation.
+     * @return string printable representation
      */
     public function doPrint();
 

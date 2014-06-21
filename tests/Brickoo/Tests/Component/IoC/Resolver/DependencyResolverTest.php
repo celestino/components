@@ -67,10 +67,6 @@ class DependencyResolverTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\IoC\Resolver\DependencyResolver::injectDependenciesToMethods
      */
     public function testResolveDefinition() {
-        if (defined("HHVM_VERSION")) {
-            $this->markTestSkipped("Unsupported routine (Closure::bindTo) by HHVM v3.1.0");
-        }
-
         $definition = new DependencyDefinition(
             new \stdClass(),
             DependencyDefinition::SCOPE_PROTOTYPE,

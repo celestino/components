@@ -49,10 +49,9 @@ class DependencyClosureResolver extends DependencyResolver {
             throw new InvalidDependencyTypeException($dependencyClosure);
         }
 
-        $dependencyClosure = $dependencyClosure->bindTo($this->getDIContainer());
-        $dependency = call_user_func(
+        $dependency = call_user_func_array(
             $dependencyClosure,
-            $this->collectArguments($dependencyDefinition->getArgumentsContainer())
+            [$this->getDIContainer(), $this->collectArguments($dependencyDefinition->getArgumentsContainer())]
         );
 
         if (! is_object($dependency)) {

@@ -87,8 +87,8 @@ abstract class DependencyResolver {
 
         $collectedArguments = [];
         $arguments = $argumentsContainer->getAll();
-        foreach ($arguments as $argument) {
-            $argumentIndex = $this->getArgumentIndex($argument, count($collectedArguments));
+        foreach ($arguments as $index => $argument) {
+            $argumentIndex = $this->getArgumentIndex($argument, $index);
             $collectedArguments[$argumentIndex] = $this->getArgumentValue($argument);
         }
         return $collectedArguments;
@@ -112,12 +112,8 @@ abstract class DependencyResolver {
     private function getArgumentValue(ArgumentDefinition $argument) {
         $argumentValue = $argument->getValue();
 
-        if ($argumentValue instanceof \Closure) {
-            $argumentValue = $argumentValue->bindTo($this->getDIContainer());
-        }
-
         if (is_callable($argumentValue)) {
-            return call_user_func($argumentValue);
+            return call_user_func($argumentValue, $this->getDIContainer());
         }
 
         if (is_string($argumentValue)
