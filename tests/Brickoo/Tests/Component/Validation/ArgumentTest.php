@@ -31,6 +31,7 @@ namespace Brickoo\Tests\Component\Validation;
 
 use Brickoo\Component\Validation\Argument,
     Brickoo\Component\Common\Container,
+    PHPUnit_Framework_Error_Warning,
     PHPUnit_Framework_TestCase;
 
 /**
@@ -43,6 +44,11 @@ use Brickoo\Component\Validation\Argument,
 
 class ArgumentTest extends PHPUnit_Framework_TestCase {
 
+    /** {@inheritdoc} */
+    public function tearDown() {
+        Argument::$THROW_EXCEPTIONS = true;
+    }
+
     /** @covers Brickoo\Component\Validation\Argument::IsString */
     public function testIsString() {
         $this->assertTrue(Argument::IsString("test"));
@@ -50,6 +56,7 @@ class ArgumentTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Validation\Argument::IsString
+     * @covers Brickoo\Component\Validation\Argument::HandleArgumentValidation
      * @expectedException \InvalidArgumentException
      */
     public function testIsStringThrowsInvalidArgumentException() {
@@ -208,6 +215,7 @@ class ArgumentTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Validation\Argument::GetInvalidArgumentException
+     * @covers Brickoo\Component\Validation\Argument::GetErrorMessage
      * @covers Brickoo\Component\Validation\Argument::GetArgumentStringRepresentation
      */
     public function testThrowingAnObjectInvalidArgumentException() {
@@ -219,6 +227,33 @@ class ArgumentTest extends PHPUnit_Framework_TestCase {
             sprintf("Unexpected argument [object #%s] stdClass", spl_object_hash($argument))
         );
         throw Argument::GetInvalidArgumentException($argument, $errorMessage);
+    }
+
+    /**
+     * @covers Brickoo\Component\Validation\Argument::HandleArgumentValidation
+     * @covers Brickoo\Component\Validation\Argument::GetErrorMessage
+     * @covers Brickoo\Component\Validation\Argument::GetArgumentStringRepresentation
+     * @expectedException PHPUnit_Framework_Error_Warning
+     */
+    public function testTriggeringError() {
+        Argument::$THROW_EXCEPTIONS = false;
+        $argument = new \stdClass();
+        $errorMessage = "Testing triggering an error.";
+
+        $this->assertFalse(Argument::HandleArgumentValidation(false, $argument, $errorMessage));
+    }
+
+    /**
+     * @covers Brickoo\Component\Validation\Argument::HandleArgumentValidation
+     * @covers Brickoo\Component\Validation\Argument::GetErrorMessage
+     * @covers Brickoo\Component\Validation\Argument::GetArgumentStringRepresentation
+     */
+    public function testTriggeringErrorReturnFalse() {
+        Argument::$THROW_EXCEPTIONS = false;
+        $argument = new \stdClass();
+        $errorMessage = "Testing triggering an error.";
+
+        $this->assertFalse(@Argument::HandleArgumentValidation(false, $argument, $errorMessage));
     }
 
 }

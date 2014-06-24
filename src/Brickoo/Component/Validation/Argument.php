@@ -40,168 +40,189 @@ use InvalidArgumentException;
 
 class Argument {
 
+    /** @var boolean */
+    public static $THROW_EXCEPTIONS = true;
+
     /**
-     * Checks if the argument is a string and not empty, accepts empty strings.
+     * Check if the argument is a string and not empty, accepts empty strings.
      * @param string $argument the arguments to validate
      * @throws \InvalidArgumentException if the validation fails
      * @return boolean check result
      */
     public static function IsString($argument) {
-        if (! is_string($argument)) {
-            throw self::GetInvalidArgumentException($argument, "The argument must be of type string.");
-        }
-        return true;
+        return self::HandleArgumentValidation(is_string($argument),
+            $argument, "The argument must be of type string."
+        );
     }
 
     /**
-     * Checks if the argument is an integer.
+     * Check if the argument is an integer.
      * @param float $argument the argument to check
      * @throws \InvalidArgumentException if the validation fails
      * @return boolean check result
      */
     public static function IsInteger($argument) {
-        if (! is_int($argument)) {
-            throw self::GetInvalidArgumentException($argument, "The argument must be of type integer.");
-        }
-        return true;
+        return self::HandleArgumentValidation(is_int($argument),
+            $argument, "The argument must be of type integer."
+        );
     }
 
     /**
-     * Checks if the argument is a string or a integer, accepts empty values.
+     * Check if the argument is a string or a integer, accepts empty values.
      * @param string $argument the argument to validate
      * @throws \InvalidArgumentException if the validation fails
      * @return boolean check result
      */
     public static function IsStringOrInteger($argument) {
-        if ((! is_string($argument)) && (! is_int($argument))) {
-            throw self::GetInvalidArgumentException($argument, "The argument must be of type integer or string.");
-        }
-        return true;
+        return self::HandleArgumentValidation(
+            (is_string($argument) || is_int($argument)),
+            $argument, "The argument must be of type integer or string."
+        );
     }
 
     /**
-     * Checks if the arguments is a float.
+     * Check if the arguments is a float.
      * @param float $argument the argument to check
      * @throws \InvalidArgumentException if the validation fails
      * @return boolean check result
      */
     public static function IsFloat($argument) {
-        if (! is_float($argument)) {
-            throw self::GetInvalidArgumentException($argument, "The argument must be of type float.");
-        }
-        return true;
+        return self::HandleArgumentValidation(is_float($argument),
+            $argument, "The argument must be of type float."
+        );
     }
 
     /**
-     * Checks if the argument is a boolean.
+     * Check if the argument is a boolean.
      * @param string $argument the argument to validate
      * @throws \InvalidArgumentException if the validation fails
      * @return boolean check result
      */
     public static function IsBoolean($argument) {
-        if (! is_bool($argument)) {
-            throw self::GetInvalidArgumentException($argument, "The argument must be of type boolean.");
-        }
-        return true;
+        return self::HandleArgumentValidation(is_bool($argument),
+            $argument, "The argument must be of type boolean."
+        );
     }
 
     /**
-     * Checks if the argument is not empty.
+     * Check if the argument is not empty.
      * @param string $argument the argument to validate
      * @throws \InvalidArgumentException if the validation fails
      * @return boolean check result
      */
     public static function IsNotEmpty($argument) {
-        if (empty($argument)) {
-            throw self::GetInvalidArgumentException($argument, "The argument must not be empty.");
-        }
-        return true;
+        return self::HandleArgumentValidation((! empty($argument)),
+            $argument, "The argument must not be empty."
+        );
     }
 
     /**
-     * Checks if a function is available by its name.
+     * Check if a function is available by its name.
      * @param string $argument the argument to validate
      * @throws \InvalidArgumentException if the validation fails
      * @return boolean check result
      */
     public static function IsFunctionAvailable($argument) {
-        if (! function_exists($argument)) {
-            throw self::GetInvalidArgumentException($argument, "The argument must be an available function.");
-        }
-        return true;
+        return self::HandleArgumentValidation(function_exists($argument),
+            $argument, "The argument must be an available function."
+        );
     }
 
     /**
-     * Checks if the argument is traversable.
+     * Check if the argument is traversable.
      * @param string $argument the argument to validate
      * @throws \InvalidArgumentException if the validation fails
      * @return boolean check result
      */
     public static function IsTraversable($argument) {
-        if ((! is_array($argument)) && (! $argument instanceof \Traversable)) {
-            throw self::GetInvalidArgumentException($argument, "The argument must be traversable.");
-        }
-        return true;
+        return self::HandleArgumentValidation(
+            (is_array($argument) || ($argument instanceof \Traversable)),
+            $argument, "The argument must be traversable."
+        );
     }
 
     /**
-     * Checks if the argument is callable.
+     * Check if the argument is callable.
      * @param mixed $argument the argument to validate
      * @throws \InvalidArgumentException if the validation fails
      * @return boolean check result
      */
     public static function isCallable($argument) {
-        if (! is_callable($argument)) {
-            throw self::GetInvalidArgumentException($argument, "The argument must be callable.");
-        }
-
-        return true;
+        return self::HandleArgumentValidation(is_callable($argument),
+            $argument, "The argument must be callable."
+        );
     }
 
     /**
-     * Checks if the argument is an object.
+     * Check if the argument is an object.
      * @param mixed $argument the argument to validate
      * @throws \InvalidArgumentException if the validation fails
      * @return boolean check result
      */
     public static function IsObject($argument){
-        if (! is_object($argument)) {
-            throw self::GetInvalidArgumentException($argument, "The argument must be an object.");
-        }
-        return true;
+        return self::HandleArgumentValidation(is_object($argument),
+            $argument, "The argument must be an object."
+        );
     }
 
     /**
-     * Checks if the argument is a resource.
+     * Check if the argument is a resource.
      * @param mixed $argument the argument to validate
      * @throws \InvalidArgumentException if the validation fails
      * @return boolean check result
      */
     public static function IsResource($argument){
-        if (! is_resource($argument)) {
-            throw self::GetInvalidArgumentException($argument, "The argument must be a resource.");
-        }
-        return true;
+        return self::HandleArgumentValidation(is_resource($argument),
+            $argument, "The argument must be a resource."
+        );
     }
 
     /**
-     * Throws an \InvalidArgumentException describing the argument and adding a helpful error message.
+     * Handle an invalid argument.
+     * @param boolean $validationSuccess
+     * @param mixed $argument
+     * @param string $errorMessage
+     * @throws \InvalidArgumentException
+     * @return boolean false if exception is turned off
+     */
+    public static function HandleArgumentValidation($validationSuccess, $argument, $errorMessage) {
+        if ($validationSuccess) {
+            return true;
+        }
+
+        if (self::$THROW_EXCEPTIONS) {
+            throw self::GetInvalidArgumentException($argument, $errorMessage);
+        }
+        trigger_error(self::GetErrorMessage($argument, $errorMessage), E_USER_WARNING);
+        return false;
+    }
+
+    /**
+     * Throw an \InvalidArgumentException describing the argument and adding a helpful error message.
      * @param mixed $argument the arguments which are invalid
      * @param string $errorMessage the error message to attach
      * @return \InvalidArgumentException
      */
     public static function GetInvalidArgumentException($argument, $errorMessage) {
-        return new InvalidArgumentException(
-            sprintf(
-                "Unexpected argument %s. %s",
-                self::GetArgumentStringRepresentation($argument),
-                $errorMessage
-            )
+        return new InvalidArgumentException(self::GetErrorMessage($argument, $errorMessage));
+    }
+
+    /**
+     * Return the formatted error message.
+     * @param mixed $argument
+     * @param string $errorMessage
+     * @return string the error message
+     */
+    private static function GetErrorMessage($argument, $errorMessage) {
+        return sprintf(
+            "Unexpected argument %s. %s",
+            self::GetArgumentStringRepresentation($argument),
+            $errorMessage
         );
     }
 
     /**
-     * Returns the argument string representation.
+     * Return the argument string representation.
      * @param mixed $argument the argument to return the representation
      * @return string the argument representation
      */
