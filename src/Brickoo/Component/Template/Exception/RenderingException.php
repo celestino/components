@@ -32,13 +32,13 @@ namespace Brickoo\Component\Template\Exception;
 use Brickoo\Component\Template\Exception;
 
 /**
- * RenderingAbortedException
+ * RenderingException
  *
  * Exception thrown by a template during rendering.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class RenderingAbortedException extends Exception {
+class RenderingException extends Exception {
 
     /**
      * Class constructor.
@@ -46,7 +46,7 @@ class RenderingAbortedException extends Exception {
      * @param \Exception $previousException the previous exception thrown
      */
     public function __construct(\Exception $previousException) {
-        parent::__construct("Exception during template rendering thrown.", 0, $previousException);
+        parent::__construct("Exception thrown during template rendering.", 0, $previousException);
     }
 
 }

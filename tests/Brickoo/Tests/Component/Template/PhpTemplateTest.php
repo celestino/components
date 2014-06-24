@@ -39,7 +39,6 @@ use Brickoo\Component\Template\PhpTemplate,
  * @see Brickoo\Component\Template\PhpTemplate
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class PhpTemplateTest extends PHPUnit_Framework_TestCase {
 
     /**
@@ -52,24 +51,28 @@ class PhpTemplateTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Template\PhpTemplate::__construct
+     * @covers Brickoo\Component\Template\PhpTemplate::setTemplateFile
+     * @covers Brickoo\Component\Template\PhpTemplate::addVariables
      * @covers Brickoo\Component\Template\PhpTemplate::render
      */
     public function testRender() {
-        $templateFile = __DIR__ ."/assets/UnitTestTemplate.php";
+        $templateFile = __DIR__ ."/assets/UnitTestPhpTemplate.php";
         $expectedValue = "<html><head></head><body>test content</body></html>";
 
-        $Template = new PhpTemplate($templateFile, array("content" => "test content"));
-        $this->assertEquals($expectedValue, $Template->render());
+        $template = new PhpTemplate("");
+        $template->setTemplateFile($templateFile);
+        $template->addVariables(array("content" => "test content"));
+        $this->assertEquals($expectedValue, $template->render());
     }
 
     /**
      * @covers Brickoo\Component\Template\PhpTemplate::render
-     * @covers Brickoo\Component\Template\Exception\RenderingAbortedException
-     * @expectedException \Brickoo\Component\Template\Exception\RenderingAbortedException
+     * @covers Brickoo\Component\Template\Exception\RenderingException
+     * @expectedException \Brickoo\Component\Template\Exception\RenderingException
      */
-    public function testRenderThrowsRenderingAbortedException() {
-        $Template = new PhpTemplate(__DIR__ ."/assets/ExceptionThrowingTemplate.php");
-        $Template->render();
+    public function testRenderThrowsRenderingException() {
+        $template = new PhpTemplate(__DIR__ ."/assets/ExceptionThrowingPhpTemplate.php");
+        $template->render();
     }
 
 }

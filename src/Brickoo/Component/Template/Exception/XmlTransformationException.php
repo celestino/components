@@ -27,22 +27,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Template;
+namespace Brickoo\Component\Template\Exception;
+
+use Brickoo\Component\Template\Exception;
 
 /**
- * Template
+ * XmlTransformationException
  *
- * Describes a template which does return a rendered content.
+ * Exception thrown by a template during xml transformation.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-interface Template {
+class XmlTransformationException extends Exception {
 
     /**
-     * Renders the template to retrieve the content.
-     * @throws \Brickoo\Component\Template\Exception\RenderingException
-     * @return string the template output
+     * Class constructor.
+     * Calls the parent Exception constructor.
+     * @param string $errorMessage
+     * @param \Exception $previousException the previous exception thrown
      */
-    public function render();
+    public function __construct($errorMessage, \Exception $previousException = null) {
+        parent::__construct($errorMessage, 0, $previousException);
+    }
 
 }

@@ -29,7 +29,7 @@
 
 namespace Brickoo\Component\Template;
 
-use Brickoo\Component\Template\Exception\RenderingAbortedException,
+use Brickoo\Component\Template\Exception\RenderingException,
     Brickoo\Component\Validation\Argument;
 
 /**
@@ -56,6 +56,28 @@ class PhpTemplate implements Template {
         $this->templateVars = $templateVars;
     }
 
+    /**
+     * Set the template filename.
+     * @param string $templateFile
+     * @return \Brickoo\Component\Template\PhpTemplate
+     */
+    public function setTemplateFile($templateFile) {
+        Argument::IsString($templateFile);
+        $this->templateFile = $templateFile;
+        return $this;
+    }
+
+    /**
+     * Add template variables.
+     * Duplicate keys will be overridden.
+     * @param array $templateVars
+     * @return \Brickoo\Component\Template\PhpTemplate
+     */
+    public function addVariables(array $templateVars) {
+        $this->templateVars = array_merge($this->templateVars, $templateVars);
+        return $this;
+    }
+
     /** {@inheritDoc} */
     public function render() {
         try {
@@ -65,8 +87,8 @@ class PhpTemplate implements Template {
             $output = ob_get_contents();
             ob_end_clean();
         }
-        catch (\Exception $Exception) {
-            throw new RenderingAbortedException($Exception);
+        catch (\Exception $exception) {
+            throw new RenderingException($exception);
         }
 
         return $output;
