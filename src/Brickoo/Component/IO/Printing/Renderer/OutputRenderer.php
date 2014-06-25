@@ -27,10 +27,20 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Annotation\Printer;
+namespace Brickoo\Component\IO\Printing\Renderer;
 
 /**
-*/
-class AnnotationPrinter {
+ * OutputRenderer
+ *
+ * Describes an output renderer.
+ */
+interface OutputRenderer {
+
+    /**
+     * Render the output to the renderer target.
+     * @param string $output
+     * @return \Brickoo\Component\IO\Printing\Renderer\OutputRenderer
+     */
+    public function render($output);
 
 }

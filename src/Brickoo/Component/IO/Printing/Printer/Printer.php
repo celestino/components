@@ -27,20 +27,56 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\IO\Printer;
+namespace Brickoo\Component\IO\Printing\Printer;
+
+use Brickoo\Component\IO\Printing\Renderer\OutputRenderer;
 
 /**
- * Printable
+ * Printer
  *
- * Describes a printable object.
- * Since `print` is a PHP reserved word,
- * the interface needed a fancy method.
+ * Describes a printer with the possibility to format output
+ * by using a fluid interface.
  */
-interface Printable {
+interface Printer {
 
     /**
-     * Returns a printable representation.
-     * @return string printable representation
+     * Print the buffered output.
+     * Move cursor to next line.
+     * @return \Brickoo\Component\IO\Printing\Printer\Printer
+     */
+    public function nextLine();
+
+    /**
+     * Indent text the amount of times.
+     * On new lines the indentation is kept an can be increased.
+     * @param integer $amount
+     * @throws \InvalidArgumentException
+     * @return \Brickoo\Component\IO\Printing\Printer\Printer
+     */
+    public function indent($amount = 1);
+
+    /**
+     * Outdent new lines the amount of times.
+     * Does only affect new lines with indentation greater zero.
+     * @param integer $amount
+     * @throws \InvalidArgumentException
+     * @return \Brickoo\Component\IO\Printing\Printer\Printer
+     */
+    public function outdent($amount = 1);
+
+    /**
+     * Adds the text to the printer buffer.
+     * @param string $text
+     * @throws \InvalidArgumentException
+     * @return \Brickoo\Component\IO\Printing\Printer\Printer
+     */
+    public function addText($text);
+
+    /**
+     * Print buffered output with the output renderer dependency.
+     * Clears the text buffer afterwards.
+     * @throws \InvalidArgumentException
+     * @return \Brickoo\Component\IO\Printing\Printer\Printer
      */
     public function doPrint();
 

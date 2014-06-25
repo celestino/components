@@ -27,20 +27,35 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\IO\Printer;
+namespace Brickoo\Component\IO\Printing;
+
+use Brickoo\Component\IO\Printing\Printer\Printer;
 
 /**
- * Printer
+ * Printable
  *
- * Describes a printer for handling printables.
+ * Describes a printable object which does
+ * return a \Brickoo\Component\IO\Printing\Printer instance..
  */
-interface Printer {
+interface Printable {
 
     /**
-     * Prints the printable(s) to the printer target.
-     * @param Printable|Traversable<Printable> $printable
+     * Set the printer dependency.
+     * @param \Brickoo\Component\IO\Printing\Printer\Printer $printer
      * @return void
      */
-    public function doPrint($printable);
+    public function setPrinter(Printer $printer);
+
+    /**
+     * Return the printer dependency.
+     * @return \Brickoo\Component\IO\Printing\Printer\Printer
+     */
+    public function getPrinter();
+
+    /**
+     * Run the printable.
+     * @return \Brickoo\Component\IO\Printing\Printer\Printer the printer
+     */
+    public function runPrinter();
 
 }
