@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Tests\Component\IO;
+namespace Brickoo\Tests\Component\IO\Stream;
 
 use Brickoo\Component\IO\Stream\StreamReader,
     PHPUnit_Framework_TestCase;
