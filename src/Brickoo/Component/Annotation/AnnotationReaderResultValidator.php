@@ -35,12 +35,12 @@ use ArrayIterator,
     Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationParametersException;
 
 /**
- * ReaderResultValidator
+ * AnnotationReaderResultValidator
  *
  * Implements a reader result validator.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class ReaderResultValidator {
+class AnnotationReaderResultValidator {
 
     /**
      * Validates a reader result against the provided definition.
