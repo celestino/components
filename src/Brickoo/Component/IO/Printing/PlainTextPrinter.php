@@ -27,10 +27,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\IO\Printing\Printer;
+namespace Brickoo\Component\IO\Printing;
 
-use Brickoo\Component\IO\Printing\Renderer\OutputRenderer,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * PlainTextPrinter
@@ -43,7 +42,7 @@ class PlainTextPrinter implements Printer {
     const INDENT_TABS = "\t";
     const INDENT_SPACES = " ";
 
-    /** @var \Brickoo\Component\IO\Printing\Renderer\OutputRenderer */
+    /** @var \Brickoo\Component\IO\Printing\OutputPrinter */
     private $outputRenderer;
 
     /** @var string */
@@ -60,12 +59,12 @@ class PlainTextPrinter implements Printer {
 
     /**
      * Class constructor.
-     * @param \Brickoo\Component\IO\Printing\Renderer\OutputRenderer $outputRenderer
+     * @param \Brickoo\Component\IO\Printing\OutputPrinter $outputRenderer
      * @param string $indentMode
      * @param string $eolSeparator
      * @throws \InvalidArgumentException
      */
-    public function __construct(OutputRenderer $outputRenderer, $indentMode = self::INDENT_TABS, $eolSeparator = PHP_EOL) {
+    public function __construct(OutputPrinter $outputRenderer, $indentMode = self::INDENT_TABS, $eolSeparator = PHP_EOL) {
         Argument::IsString($indentMode);
         Argument::IsString($eolSeparator);
         $this->indentationAmount = 0;
@@ -78,7 +77,7 @@ class PlainTextPrinter implements Printer {
     /** {@inheritdoc} */
     public function nextLine() {
         $this->doPrint();
-        $this->getOutputRenderer()->render($this->eolSeparator);
+        $this->getOutputPrinter()->doPrint($this->eolSeparator);
         return $this;
     }
 
@@ -117,7 +116,7 @@ class PlainTextPrinter implements Printer {
     /** {@inheritdoc} */
     public function doPrint() {
         if ($this->hasBufferedText()) {
-            $this->getOutputRenderer()->render($this->bufferedTextLine);
+            $this->getOutputPrinter()->doPrint($this->bufferedTextLine);
             $this->clearTextBuffer();
         }
         return $this;
@@ -125,16 +124,16 @@ class PlainTextPrinter implements Printer {
 
     /**
      * Return the output renderer.
-     * @return \Brickoo\Component\IO\Printing\Renderer\OutputRenderer
+     * @return \Brickoo\Component\IO\Printing\OutputPrinter
      */
-    private function getOutputRenderer() {
+    private function getOutputPrinter() {
         return $this->outputRenderer;
     }
 
     /**
      * Append text to the buffer.
      * @param string $text
-     * @return \Brickoo\Component\IO\Printing\Printer\PlainTextPrinter
+     * @return \Brickoo\Component\IO\Printing\PlainTextPrinter
      */
     private function appendText($text) {
         $this->bufferedTextLine .= $text;
@@ -151,7 +150,7 @@ class PlainTextPrinter implements Printer {
 
     /**
      * Clear the text buffer.
-     * @return \Brickoo\Component\IO\Printing\Printer\PlainTextPrinter
+     * @return \Brickoo\Component\IO\Printing\PlainTextPrinter
      */
     private function clearTextBuffer() {
         $this->bufferedTextLine = "";

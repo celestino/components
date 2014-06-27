@@ -29,8 +29,6 @@
 
 namespace Brickoo\Component\IO\Printing;
 
-use Brickoo\Component\IO\Printing\Printer\Printer;
-
 /**
  * Printable
  *
@@ -41,20 +39,20 @@ interface Printable {
 
     /**
      * Set the printer dependency.
-     * @param \Brickoo\Component\IO\Printing\Printer\Printer $printer
+     * @param \Brickoo\Component\IO\Printing\Printer $printer
      * @return void
      */
     public function setPrinter(Printer $printer);
 
     /**
      * Return the printer dependency.
-     * @return \Brickoo\Component\IO\Printing\Printer\Printer
+     * @return \Brickoo\Component\IO\Printing\Printer
      */
     public function getPrinter();
 
     /**
      * Run the printable.
-     * @return \Brickoo\Component\IO\Printing\Printer\Printer the printer
+     * @return \Brickoo\Component\IO\Printing\Printer the printer
      */
     public function runPrinter();
 

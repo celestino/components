@@ -27,9 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\IO\Printing\Printer;
-
-use Brickoo\Component\IO\Printing\Renderer\OutputRenderer;
+namespace Brickoo\Component\IO\Printing;
 
 /**
  * Printer
@@ -42,7 +40,7 @@ interface Printer {
     /**
      * Print the buffered output.
      * Move cursor to next line.
-     * @return \Brickoo\Component\IO\Printing\Printer\Printer
+     * @return \Brickoo\Component\IO\Printing\Printer
      */
     public function nextLine();
 
@@ -51,7 +49,7 @@ interface Printer {
      * On new lines the indentation is kept an can be increased.
      * @param integer $amount
      * @throws \InvalidArgumentException
-     * @return \Brickoo\Component\IO\Printing\Printer\Printer
+     * @return \Brickoo\Component\IO\Printing\Printer
      */
     public function indent($amount = 1);
 
@@ -60,7 +58,7 @@ interface Printer {
      * Does only affect new lines with indentation greater zero.
      * @param integer $amount
      * @throws \InvalidArgumentException
-     * @return \Brickoo\Component\IO\Printing\Printer\Printer
+     * @return \Brickoo\Component\IO\Printing\Printer
      */
     public function outdent($amount = 1);
 
@@ -68,7 +66,7 @@ interface Printer {
      * Adds the text to the printer buffer.
      * @param string $text
      * @throws \InvalidArgumentException
-     * @return \Brickoo\Component\IO\Printing\Printer\Printer
+     * @return \Brickoo\Component\IO\Printing\Printer
      */
     public function addText($text);
 
@@ -76,7 +74,7 @@ interface Printer {
      * Print buffered output with the output renderer dependency.
      * Clears the text buffer afterwards.
      * @throws \InvalidArgumentException
-     * @return \Brickoo\Component\IO\Printing\Printer\Printer
+     * @return \Brickoo\Component\IO\Printing\Printer
      */
     public function doPrint();
 

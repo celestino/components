@@ -27,16 +27,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\IO\Printing\Renderer;
+namespace Brickoo\Component\IO\Printing;
 
 use Brickoo\Component\Validation\Argument;
 
 /**
- * OutputBufferRenderer
+ * OutputBufferPrinter
  *
- * Implementation of a renderer using the output buffer.
+ * Implementation of a printer for the output buffer.
  */
-class OutputBufferRenderer implements OutputRenderer {
+class OutputBufferPrinter implements OutputPrinter {
 
     /** @var integer */
     private $bufferLength;
@@ -55,7 +55,7 @@ class OutputBufferRenderer implements OutputRenderer {
     }
 
     /** {@inheritdoc} */
-    public function render($output) {
+    public function doPrint($output) {
         if ($this->isBufferTurnedOff()) {
             $this->output($output);
             return $this;
@@ -82,7 +82,7 @@ class OutputBufferRenderer implements OutputRenderer {
     /**
      * Output the content.
      * @param string $content
-     * @return \Brickoo\Component\IO\Printing\Renderer\OutputBufferRenderer
+     * @return \Brickoo\Component\IO\Printing\OutputBufferPrinter
      */
     private function output($content) {
         echo $content;
@@ -118,7 +118,7 @@ class OutputBufferRenderer implements OutputRenderer {
 
     /**
      * Clear the output buffer.
-     * @return \Brickoo\Component\IO\Printing\Renderer\OutputBufferRenderer
+     * @return \Brickoo\Component\IO\Printing\OutputBufferPrinter
      */
     private function clearBuffer() {
         $this->buffer = "";

@@ -27,58 +27,58 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Tests\Component\IO\Printing\Renderer;
+namespace Brickoo\Tests\Component\IO\Printing;
 
-use Brickoo\Component\IO\Printing\Renderer\OutputBufferRenderer,
+use Brickoo\Component\IO\Printing\OutputBufferPrinter,
     PHPUnit_Framework_TestCase;
 
 /**
- * OutputBufferRendererTestTest
+ * OutputBufferPrinterTest
  *
- * Test suite for the OutputBufferRenderer class.
- * @see Brickoo\Component\IO\Printing\Renderer\OutputBufferRenderer
+ * Test suite for the OutputBufferPrinter class.
+ * @see Brickoo\Component\IO\Printing\OutputBufferPrinter
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class OutputBufferRendererTestTest extends PHPUnit_Framework_TestCase {
+class OutputBufferPrinterTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * @covers Brickoo\Component\IO\Printing\Renderer\OutputBufferRenderer::__construct
+     * @covers Brickoo\Component\IO\Printing\OutputBufferPrinter::__construct
      * @expectedException \InvalidArgumentException
      */
     public function testConstructorInvalidBufferLengthThrowsInvalidArgumentException() {
-        new OutputBufferRenderer("wrongType");
+        new OutputBufferPrinter("wrongType");
     }
 
     /**
-     * @covers Brickoo\Component\IO\Printing\Renderer\OutputBufferRenderer::__construct
-     * @covers Brickoo\Component\IO\Printing\Renderer\OutputBufferRenderer::render
-     * @covers Brickoo\Component\IO\Printing\Renderer\OutputBufferRenderer::isBufferTurnedOff
+     * @covers Brickoo\Component\IO\Printing\OutputBufferPrinter::__construct
+     * @covers Brickoo\Component\IO\Printing\OutputBufferPrinter::doPrint
+     * @covers Brickoo\Component\IO\Printing\OutputBufferPrinter::isBufferTurnedOff
      */
-    public function testRenderWithoutOutputBuffer() {
+    public function testPrintWithoutOutputBuffer() {
         $expectedOutput = "Test case output";
-        $renderer = new OutputBufferRenderer(0);
-        $renderer->render($expectedOutput);
+        $printer = new OutputBufferPrinter(0);
+        $printer->doPrint($expectedOutput);
         $this->expectOutputString($expectedOutput);
     }
 
     /**
-     * @covers Brickoo\Component\IO\Printing\Renderer\OutputBufferRenderer::__construct
-     * @covers Brickoo\Component\IO\Printing\Renderer\OutputBufferRenderer::render
-     * @covers Brickoo\Component\IO\Printing\Renderer\OutputBufferRenderer::isBufferTurnedOff
-     * @covers Brickoo\Component\IO\Printing\Renderer\OutputBufferRenderer::isBufferLessThan
-     * @covers Brickoo\Component\IO\Printing\Renderer\OutputBufferRenderer::sumBufferWith
-     * @covers Brickoo\Component\IO\Printing\Renderer\OutputBufferRenderer::clearBuffer
-     * @covers Brickoo\Component\IO\Printing\Renderer\OutputBufferRenderer::output
-     * @covers Brickoo\Component\IO\Printing\Renderer\OutputBufferRenderer::__destruct
+     * @covers Brickoo\Component\IO\Printing\OutputBufferPrinter::__construct
+     * @covers Brickoo\Component\IO\Printing\OutputBufferPrinter::doPrint
+     * @covers Brickoo\Component\IO\Printing\OutputBufferPrinter::isBufferTurnedOff
+     * @covers Brickoo\Component\IO\Printing\OutputBufferPrinter::isBufferLessThan
+     * @covers Brickoo\Component\IO\Printing\OutputBufferPrinter::sumBufferWith
+     * @covers Brickoo\Component\IO\Printing\OutputBufferPrinter::clearBuffer
+     * @covers Brickoo\Component\IO\Printing\OutputBufferPrinter::output
+     * @covers Brickoo\Component\IO\Printing\OutputBufferPrinter::__destruct
      */
-    public function testRenderWithOutputBuffer() {
+    public function testPrintWithOutputBuffer() {
         $firstText = "Test case output";
         $lastText = str_repeat(".", 10);
         $expectedOutput = $firstText.$lastText;
 
-        $renderer = new OutputBufferRenderer(strlen($firstText));
-        $renderer->render($firstText);
-        $renderer->render($lastText);
+        $printer = new OutputBufferPrinter(strlen($firstText));
+        $printer->doPrint($firstText);
+        $printer->doPrint($lastText);
         $this->expectOutputString($expectedOutput);
     }
 

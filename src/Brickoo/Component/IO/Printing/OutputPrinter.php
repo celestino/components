@@ -27,20 +27,20 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\IO\Printing\Renderer;
+namespace Brickoo\Component\IO\Printing;
 
 /**
- * OutputRenderer
+ * OutputPrinter
  *
  * Describes an output renderer.
  */
-interface OutputRenderer {
+interface OutputPrinter {
 
     /**
      * Render the output to the renderer target.
      * @param string $output
-     * @return \Brickoo\Component\IO\Printing\Renderer\OutputRenderer
+     * @return \Brickoo\Component\IO\Printing\OutputPrinter
      */
-    public function render($output);
+    public function doPrint($output);
 
 }
