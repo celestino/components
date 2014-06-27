@@ -12,7 +12,7 @@ use Brickoo\Component\Annotation\Annotation,
 
 $readerResult = new AnnotationReaderResult("definition.name", "\\SomeClass");
 $readerResult->addAnnotation(new Annotation(Annotation::TARGET_CLASS, "\\SomeClass", "Controller", ["path" => "/"]));
-$readerResult->addAnnotation(new Annotation(Annotation::TARGET_CLASS, "\\SomeClass", "Route", ["path" => "/list"]));
-$readerResult->addAnnotation(new Annotation(Annotation::TARGET_CLASS, "\\SomeClass", "Assert", [])); // maxlength missing
+$readerResult->addAnnotation(new Annotation(Annotation::TARGET_METHOD, "\\SomeClass", "Route", ["path" => "/list"]));
+$readerResult->addAnnotation(new Annotation(Annotation::TARGET_PROPERTY, "\\SomeClass", "Assert", [])); // maxlength missing
 
 return $readerResult;
