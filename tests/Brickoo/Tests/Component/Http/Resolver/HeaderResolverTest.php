@@ -64,10 +64,44 @@ class HeaderResolverTest extends PHPUnit_Framework_TestCase {
         $headerResolver = new HeaderResolver($headerMap, $headerLoader);
         $headers = $headerResolver->getHeaders();
         $this->assertInternalType("array", $headers);
+
         foreach ($headers as $header) {
             $this->assertInstanceOf("\\Brickoo\\Component\\Http\\Header\\GenericHeader", $header);
             if ($header->getName() == "Accept") {
                 $this->assertInstanceOf("\\Brickoo\\Component\\Http\\Header\\AcceptHeader", $header);
+            }
+        }
+    }
+
+    /**
+     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::__construct
+     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::getHeaderLists
+     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::loadHeaders
+     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::hasMappingHeaderClass
+     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::getHeader
+     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::createMappingHeader
+     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::createGenericHeader
+     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::normalizeHeaders
+     */
+    public function testGetHeaderLists() {
+        $headerMap = include realpath(__DIR__)."/Assets/validHeader.map";
+        $headerLoader = $this->getHeaderResolverPluginStub();
+        $headerLoader->expects($this->any())
+                     ->method("getHeaders")
+                     ->will($this->returnValue([
+                         "Accept" => "text/html,application/xhtml+xml,application/xml;q=0.9,image/web,*/*;q=0.8",
+                         "Connection" => "keep-alive"
+                     ]));
+        $headerResolver = new HeaderResolver($headerMap, $headerLoader);
+        $headerLists = $headerResolver->getHeaderLists();
+        $this->assertInternalType("array", $headerLists);
+        $this->assertEquals(2, count($headerLists));
+
+        foreach ($headerLists as $headerName => $headerList) {
+            $this->assertInstanceOf("\\Brickoo\\Component\\Http\\HttpHeaderList", $headerList);
+            if ($headerName == "Accept") {
+                $this->assertInstanceOf("\\Brickoo\\Component\\Http\\Header\\GenericHeader", $headerList->first());
+                $this->assertInstanceOf("\\Brickoo\\Component\\Http\\Header\\AcceptHeader", $headerList->first());
             }
         }
     }

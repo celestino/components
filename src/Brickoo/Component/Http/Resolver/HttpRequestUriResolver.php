@@ -29,7 +29,7 @@
 
 namespace Brickoo\Component\Http\Resolver;
 
-use Brickoo\Component\Http\MessageHeader,
+use Brickoo\Component\Http\HttpMessageHeader,
     Brickoo\Component\Http\UriResolver;
 
 /**
@@ -40,7 +40,7 @@ use Brickoo\Component\Http\MessageHeader,
  */
 class HttpRequestUriResolver implements UriResolver {
 
-    /** @var \Brickoo\Component\Http\MessageHeader */
+    /** @var \Brickoo\Component\Http\HttpMessageHeader */
     private $header;
 
     /** @var array */
@@ -48,10 +48,10 @@ class HttpRequestUriResolver implements UriResolver {
 
     /**
      * Class constructor.
-     * @param \Brickoo\Component\Http\MessageHeader $header
+     * @param \Brickoo\Component\Http\HttpMessageHeader $header
      * @param array $serverValues the server variables as key/value pairs
      */
-    public function __construct(MessageHeader $header, array $serverValues = []) {
+    public function __construct(HttpMessageHeader $header, array $serverValues = []) {
         $this->header = $header;
         $this->serverValues = $serverValues;
     }

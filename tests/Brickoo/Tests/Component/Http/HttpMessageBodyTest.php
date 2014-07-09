@@ -29,57 +29,55 @@
 
 namespace Brickoo\Tests\Component\Http;
 
-use Brickoo\Component\Http\HttpMessage,
+use Brickoo\Component\Http\HttpMessageBody,
     PHPUnit_Framework_TestCase;
 
 /**
- * HttpMessage
+ * HttpMessageBodyTest
  *
- * Test suite for the HttpMessage class.
- * @see Brickoo\Component\Http\HttpMessage
+ * Test suite for the HttpMessageBody class.
+ * @see Brickoo\Component\Http\HttpMessageBody
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class HttpMessageTest extends PHPUnit_Framework_TestCase {
+class HttpMessageBodyTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * @covers Brickoo\Component\Http\HttpMessage::__construct
-     * @covers Brickoo\Component\Http\HttpMessage::getHeader
+     * @covers Brickoo\Component\Http\HttpMessageBody::__construct
+     * @expectedException \InvalidArgumentException
      */
-    public function testGetHeader() {
-        $messageHeader = $this->getMessageHeaderStub();
-        $httpMessage = new HttpMessage($messageHeader, $this->getHttpMessageBodyStub());
-        $this->assertSame($messageHeader, $httpMessage->getHeader());
+    public function testConstructorInvalidContentThrowsException() {
+        new HttpMessageBody(["wrongType"]);
     }
 
     /**
-     * @covers Brickoo\Component\Http\HttpMessage::__construct
-     * @covers Brickoo\Component\Http\HttpMessage::getBody
+     * @covers Brickoo\Component\Http\HttpMessageBody::__construct
+     * @covers Brickoo\Component\Http\HttpMessageBody::getContent
      */
-    public function testGetBody() {
-        $messageBody = $this->getHttpMessageBodyStub();
-        $httpMessage = new HttpMessage($this->getMessageHeaderStub(), $messageBody);
-        $this->assertSame($messageBody, $httpMessage->getBody());
+    public function testGetContent() {
+        $content = "test content";
+        $messageBody = new HttpMessageBody($content);
+        $this->assertEquals($content, $messageBody->getContent());
     }
 
     /**
-     * Returns a message header stub.
-     * @return \Brickoo\Component\Http\HttpMessageHeader
+     * @covers Brickoo\Component\Http\HttpMessageBody::setContent
+     * @covers Brickoo\Component\Http\HttpMessageBody::getContent
      */
-    private function getMessageHeaderStub() {
-        return $this->getMockBuilder("\\Brickoo\\Component\\Http\\HttpMessageHeader")
-            ->disableOriginalConstructor()
-            ->getMock();
+    public function testSetContent() {
+        $content = "test content";
+        $messageBody = new HttpMessageBody("");
+        $this->assertSame($messageBody, $messageBody->setContent($content));
+        $this->assertEquals($content, $messageBody->getContent());
     }
 
     /**
-     * Returns a message body stub.
-     * @return \Brickoo\Component\Http\HttpMessageBody
+     * @covers Brickoo\Component\Http\HttpMessageBody::getContent
+     * @expectedException \InvalidArgumentException
      */
-    private function getHttpMessageBodyStub() {
-        return $this->getMockBuilder("\\Brickoo\\Component\\Http\\HttpMessageBody")
-            ->disableOriginalConstructor()
-            ->getMock();
+    public function testSetContentInvalidContentArgumentThrowsException() {
+        $messageBody = new HttpMessageBody("");
+        $messageBody->setContent(["wrongType"]);
     }
 
 }

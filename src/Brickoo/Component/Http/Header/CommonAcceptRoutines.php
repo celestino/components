@@ -63,7 +63,7 @@ trait CommonAcceptRoutines {
      */
     private function getHeaderValues($headerValue) {
         return $this->getExtractedHeaderValuesByRegex(
-            "~^(?<value>[a-z\/\+\-\*0-9]+)\s*(\;\s*q\=(?<quality>(0\.\d{1,5}|1\.0|[01])))?~i",
+            "~^(?<value>[a-z\\/\\+\\-\\*0-9]+)\\s*(\\;\\s*q\\=(?<quality>(0\\.\\d{1,5}|1\\.0|[01])))?~i",
             $headerValue
         );
     }

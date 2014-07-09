@@ -31,33 +31,60 @@ namespace Brickoo\Component\Http;
 
 use Brickoo\Component\Http\Exception\HeaderNotFoundException,
     Brickoo\Component\Common\Container,
-    Brickoo\Component\Validation\Argument;
+    Brickoo\Component\Validation\Argument,
+    Brickoo\Component\Validation\Constraint\IsInstanceOfConstraint,
+    Brickoo\Component\Validation\Validator\ConstraintValidator,
+    Traversable;
 
 /**
- * MessageHeader
+ * HttpMessageHeader
  *
  * Implements a http message header.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class MessageHeader extends Container {
+class HttpMessageHeader extends Container {
+
+    /** @param array $headerLists */
+    public function __construct(array $headerLists = []) {
+        parent::__construct($headerLists, new ConstraintValidator(
+            new IsInstanceOfConstraint("\\Brickoo\\Component\\Http\HttpHeaderList")
+        ));
+    }
 
     /**
-     * Sets a header using the header name as storage key.
+     * Add a header using the header name as storage key.
      * @param \Brickoo\Component\Http\HttpHeader $header
-     * @return \Brickoo\Component\Http\MessageHeader
+     * @return \Brickoo\Component\Http\HttpMessageHeader
      */
-    public function setHeader(HttpHeader $header) {
-        $this->set($header->getName(), $header);
+    public function addHeader(HttpHeader $header) {
+        $headerName = $header->getName();
+
+        if (! $this->contains($headerName)) {
+            $this->set($headerName, new HttpHeaderList());
+        }
+
+        $this->get($headerName)->add($header);
         return $this;
     }
 
     /**
-     * Returns the header by its name.
+     * Return the header by its name.
+     * The first header from the concrete header list will be returned.
      * @param string $headerName
      * @throws \Brickoo\Component\Http\Exception\HeaderNotFoundException
      * @return \Brickoo\Component\Http\HttpHeader
      */
     public function getHeader($headerName) {
+        return $this->getHeaderList($headerName)->first();
+    }
+
+    /**
+     * Return the header list of a header.
+     * @param string $headerName
+     * @throws \Brickoo\Component\Http\Exception\HeaderNotFoundException
+     * @return \Brickoo\Component\Http\HttpHeaderList
+     */
+    public function getHeaderList($headerName) {
         Argument::IsString($headerName);
         if (! $this->contains($headerName)) {
             throw new HeaderNotFoundException($headerName);
@@ -66,38 +93,22 @@ class MessageHeader extends Container {
     }
 
     /**
-     * Coverts message headers to a request header string.
+     * Covert message headers to a header string.
      * @return string the representation of the message headers
      */
     public function toString() {
         $headerString = "";
 
-        $headers = $this->normalizeHeaders($this->toArray());
-        foreach($headers as $key => $value) {
-            $headerString .= sprintf("%s: %s\r\n", $key, $value);
+        $headerLists = $this->normalizeHeaders($this->toArray());
+        foreach($headerLists as $headerList) {
+            $headerString .= $headerList->toString();
         }
 
         return $headerString;
     }
 
     /**
-     * Transforms the headers to an array of key/value pairs.
-     * @override Container::toArray
-     * @return array the transformed headers
-     */
-    public function toArray() {
-        $aggregatedHeaders = [];
-
-        $headers = $this->getIterator();
-        foreach ($headers as $header) {
-            $aggregatedHeaders[$header->getName()] = $header->getValue();
-        }
-
-        return $aggregatedHeaders;
-    }
-
-    /**
-     * Normalizes the headers keys.
+     * Normalize the headers keys.
      * @param array $headers the headers to normalized
      * @return array the normalized headers
      */

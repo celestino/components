@@ -27,50 +27,31 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Http;
+namespace Brickoo\Component\Http\Exception;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Http\Exception;
 
 /**
- * MessageBody
+ * HeaderListElementNotAvailableException
  *
- * Implements a http message body.
+ * Exception thrown if the header list did not
+ * have an element on a list position.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class MessageBody {
-
-    /** @var string */
-    protected $content;
+class HeaderListElementNotAvailableException extends Exception {
 
     /**
      * Class constructor.
-     * @param string $content the body content
-     * @throws \InvalidArgumentException
+     * Calls the parent Exception constructor.
+     * @param integer $listPosition the list position
+     * @param \Exception $previousException
      */
-    public function __construct($content = "") {
-        Argument::IsString($content);
-        $this->content = $content;
-    }
-
-    /**
-     * Returns the message body.
-     * @return string the body
-     */
-    public function getContent() {
-        return $this->content;
-    }
-
-    /**
-     * Sets the content of the message body.
-     * @param string $content the body content to set
-     * @throws \InvalidArgumentException
-     * @return \Brickoo\Component\Http\MessageBody
-     */
-    public function setContent($content) {
-        Argument::IsString($content);
-        $this->content = $content;
-        return $this;
+    public function __construct($listPosition, \Exception $previousException = null) {
+        parent::__construct(
+            sprintf("The header list element on position `%d` is not available.", $listPosition),
+            0, $previousException
+        );
     }
 
 }

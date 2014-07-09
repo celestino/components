@@ -78,7 +78,7 @@ class HttpResponseTest extends PHPUnit_Framework_TestCase {
     }
 
     /** @covers Brickoo\Component\Http\HttpResponse::getBody */
-    public function testGetMessageBody() {
+    public function testGetHttpMessageBody() {
         $body = $this->getHttpMessageStub();
         $message = $this->getHttpMessageStub();
         $message->expects($this->any())
@@ -112,7 +112,7 @@ class HttpResponseTest extends PHPUnit_Framework_TestCase {
                ->method("toString")
                ->will($this->returnValue("Unit: TEST\r\n"));
 
-        $body = $this->getHttpMessageBodyStub();
+        $body = $this->getHttpHttpMessageBodyStub();
         $body->expects($this->any())
              ->method("getContent")
              ->will($this->returnValue("test case content"));
@@ -161,20 +161,20 @@ class HttpResponseTest extends PHPUnit_Framework_TestCase {
 
     /**
      * Returns a http message header stub.
-     * @return \Brickoo\Component\Http\MessageHeader
+     * @return \Brickoo\Component\Http\HttpMessageHeader
      */
     private function getHttpMessageHeaderStub() {
-        return $this->getMockBuilder("\\Brickoo\\Component\\Http\\MessageHeader")
+        return $this->getMockBuilder("\\Brickoo\\Component\\Http\\HttpMessageHeader")
             ->disableOriginalConstructor()
             ->getMock();
     }
 
     /**
      * Returns a http message body stub.
-     * @return \Brickoo\Component\Http\MessageBody
+     * @return \Brickoo\Component\Http\HttpMessageBody
      */
-    private function getHttpMessageBodyStub() {
-        return $this->getMockBuilder("\\Brickoo\\Component\\Http\\MessageBody")
+    private function getHttpHttpMessageBodyStub() {
+        return $this->getMockBuilder("\\Brickoo\\Component\\Http\\HttpMessageBody")
             ->disableOriginalConstructor()
             ->getMock();
     }

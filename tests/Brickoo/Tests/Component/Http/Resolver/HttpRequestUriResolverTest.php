@@ -182,10 +182,10 @@ class HttpRequestUriResolverTest extends PHPUnit_Framework_TestCase {
 
     /**
      * Returns a message header stub.
-     * @return \Brickoo\Component\Http\MessageHeader
+     * @return \Brickoo\Component\Http\HttpMessageHeader
      */
     private function getMessageHeaderStub() {
-        return $this->getMockBuilder("\\Brickoo\\Component\\Http\\MessageHeader")
+        return $this->getMockBuilder("\\Brickoo\\Component\\Http\\HttpMessageHeader")
             ->disableOriginalConstructor()
             ->getMock();
     }
@@ -194,10 +194,10 @@ class HttpRequestUriResolverTest extends PHPUnit_Framework_TestCase {
      * Returns a message header mock.
      * @param string $headerName
      * @param \Brickoo\Component\Http\HttpHeader $headerStub
-     * @return \Brickoo\Component\Http\MessageHeader
+     * @return \Brickoo\Component\Http\HttpMessageHeader
      */
     private function getMessageHeaderMock($headerName, $headerStub) {
-        $messageHeader = $this->getMockBuilder("\\Brickoo\\Component\\Http\\MessageHeader")
+        $messageHeader = $this->getMockBuilder("\\Brickoo\\Component\\Http\\HttpMessageHeader")
             ->disableOriginalConstructor()
             ->getMock();
         $messageHeader->expects($this->any())

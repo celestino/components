@@ -34,7 +34,7 @@ use Brickoo\Component\Http\Exception;
 /**
  * HeaderNotFoundException
  *
- * Exception thrown if the response status code is unknown.
+ * Exception thrown if a header could not be found.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 

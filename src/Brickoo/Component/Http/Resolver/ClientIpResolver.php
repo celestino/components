@@ -29,7 +29,7 @@
 
 namespace Brickoo\Component\Http\Resolver;
 
-use Brickoo\Component\Http\MessageHeader;
+use Brickoo\Component\Http\HttpMessageHeader;
 
 /**
  * ClientIpResolver
@@ -39,7 +39,7 @@ use Brickoo\Component\Http\MessageHeader;
  */
 class ClientIpResolver {
 
-    /** @var \Brickoo\Component\Http\MessageHeader */
+    /** @var \Brickoo\Component\Http\HttpMessageHeader */
     private $headers;
 
     /** @var array */
@@ -50,11 +50,11 @@ class ClientIpResolver {
 
     /**
      * Class constructor.
-     * @param \Brickoo\Component\Http\MessageHeader $headers
+     * @param \Brickoo\Component\Http\HttpMessageHeader $headers
      * @param array $serverVars the server variables
      * @param array $proxyServers the proxies to recognize
      */
-    public function __construct(MessageHeader $headers, array $serverVars = [], array $proxyServers = []) {
+    public function __construct(HttpMessageHeader $headers, array $serverVars = [], array $proxyServers = []) {
         $this->headers = $headers;
         $this->serverVars = $serverVars;
         $this->proxyServers = $proxyServers;

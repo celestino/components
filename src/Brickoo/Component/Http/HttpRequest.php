@@ -106,7 +106,7 @@ class HttpRequest {
 
     /**
      * Returns the message header.
-     * @return \Brickoo\Component\Http\MessageHeader
+     * @return \Brickoo\Component\Http\HttpMessageHeader
      */
     public function getHeader() {
         return $this->message->getHeader();
@@ -114,7 +114,7 @@ class HttpRequest {
 
     /**
      * Returns the message body.
-     * @return \Brickoo\Component\Http\MessageBody
+     * @return \Brickoo\Component\Http\HttpMessageBody
      */
     public function getBody() {
         return $this->message->getBody();

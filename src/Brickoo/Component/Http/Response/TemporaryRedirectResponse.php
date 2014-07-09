@@ -33,8 +33,8 @@ use Brickoo\Component\Http\HttpMessage,
     Brickoo\Component\Http\HttpResponse,
     Brickoo\Component\Http\HttpStatus,
     Brickoo\Component\Http\HttpVersion,
-    Brickoo\Component\Http\MessageBody,
-    Brickoo\Component\Http\MessageHeader,
+    Brickoo\Component\Http\HttpMessageBody,
+    Brickoo\Component\Http\HttpMessageHeader,
     Brickoo\Component\Http\Header\GenericHeader;
 
 /**
@@ -57,8 +57,8 @@ class TemporaryRedirectResponse extends HttpResponse {
             new HttpVersion(HttpVersion::HTTP_1_1),
             new HttpStatus(HttpStatus::CODE_TEMPORARY_REDIRECT),
             new HttpMessage(
-                (new MessageHeader())->setHeader(new GenericHeader("Location", $location)),
-                new MessageBody()
+                (new HttpMessageHeader())->addHeader(new GenericHeader("Location", $location)),
+                new HttpMessageBody()
             )
         );
     }

@@ -38,25 +38,25 @@ namespace Brickoo\Component\Http;
 
 class HttpMessage {
 
-    /** @var \Brickoo\Component\Http\MessageHeader */
+    /** @var \Brickoo\Component\Http\HttpMessageHeader */
     private $messageHeader;
 
-    /** @var \Brickoo\Component\Http\MessageBody */
+    /** @var \Brickoo\Component\Http\HttpMessageBody */
     private $messageBody;
 
     /**
      * Class constructor.
-     * @param \Brickoo\Component\Http\MessageHeader $messageHeader
-     * @param \Brickoo\Component\Http\MessageBody $messageBody
+     * @param \Brickoo\Component\Http\HttpMessageHeader $messageHeader
+     * @param \Brickoo\Component\Http\HttpMessageBody $messageBody
      */
-    public function __construct(MessageHeader $messageHeader, MessageBody $messageBody) {
+    public function __construct(HttpMessageHeader $messageHeader, HttpMessageBody $messageBody) {
         $this->messageHeader = $messageHeader;
         $this->messageBody = $messageBody;
     }
 
     /**
      * Returns the message header.
-     * @return \Brickoo\Component\Http\MessageHeader
+     * @return \Brickoo\Component\Http\HttpMessageHeader
      */
     public function getHeader() {
         return $this->messageHeader;
@@ -64,7 +64,7 @@ class HttpMessage {
 
     /**
      * Returns the message body.
-     * @return \Brickoo\Component\Http\MessageBody
+     * @return \Brickoo\Component\Http\HttpMessageBody
      */
     public function getBody() {
         return $this->messageBody;

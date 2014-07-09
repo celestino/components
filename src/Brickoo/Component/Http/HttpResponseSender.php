@@ -33,13 +33,13 @@ use InvalidArgumentException,
     Brickoo\Component\Http\Exception\StatusCodeDoesNotAllowMessageBodyException;
 
 /**
- * ResponseSender
+ * HttpResponseSender
  *
  * Implements a default response sender using php output functions.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class ResponseSender {
+class HttpResponseSender {
 
     /* @var string */
     private $headerFunction;
@@ -61,13 +61,13 @@ class ResponseSender {
      * @return void
      */
     public function send(HttpResponse $response) {
-        $this->checkStatusAllowsMessageBodyContent($response);
+        $this->checkStatusAllowsHttpMessageBodyContent($response);
         $this->sendStatus(
             $response->getStatus()->toString(),
             $response->getVersion()->toString()
         );
         $this->sendMessageHeader($response->getHeader());
-        $this->sendMessageBody($response->getBody());
+        $this->sendHttpMessageBody($response->getBody());
     }
 
     /**
@@ -83,23 +83,37 @@ class ResponseSender {
     }
 
     /**
-     * Sends the message headers to the output buffer.
-     * Argument added for unit testing purposes
-     * @param \Brickoo\Component\Http\MessageHeader $messageHeader
-     * @return void
+     * Send the message headers to the output buffer.
+     * @param \Brickoo\Component\Http\HttpMessageHeader $messageHeader
+     * @return \Brickoo\Component\Http\HttpResponseSender
      */
-    private function sendMessageHeader(MessageHeader $messageHeader) {
-        foreach($messageHeader->toArray() as $key => $value) {
-            call_user_func($this->headerFunction, sprintf("%s: %s", $key, $value));
+    private function sendMessageHeader(HttpMessageHeader $messageHeader) {
+        foreach($messageHeader as $headerList) {
+            $this->sendHeaderList($headerList);
         }
+        return $this;
+    }
+
+    /**
+     * Send the headers from the header list.
+     * @param HttpHeaderList $list
+     * @return \Brickoo\Component\Http\HttpResponseSender
+     */
+    private function sendHeaderList(HttpHeaderList $list) {
+        foreach ($list as $header) {
+            call_user_func($this->headerFunction,
+                sprintf("%s: %s", $header->getName(), $header->getValue())
+            );
+        }
+        return $this;
     }
 
     /**
      * Sends the body to the output buffer.
-     * @param \Brickoo\Component\Http\MessageBody $messageBody
-     * @return \Brickoo\Component\Http\MessageBody
+     * @param \Brickoo\Component\Http\HttpMessageBody $messageBody
+     * @return \Brickoo\Component\Http\HttpMessageBody
      */
-    private function sendMessageBody(MessageBody $messageBody) {
+    private function sendHttpMessageBody(HttpMessageBody $messageBody) {
         echo $messageBody->getContent();
     }
 
@@ -107,9 +121,9 @@ class ResponseSender {
      * Checks if the status code does allow message body content.
      * @param \Brickoo\Component\Http\HttpResponse $response
      * @throws StatusCodeDoesNotAllowMessageBodyException
-     * @return \Brickoo\Component\Http\ResponseSender
+     * @return \Brickoo\Component\Http\HttpResponseSender
      */
-    private function checkStatusAllowsMessageBodyContent(HttpResponse $response) {
+    private function checkStatusAllowsHttpMessageBodyContent(HttpResponse $response) {
         $statusCode = $response->getStatus()->getCode();
         if ((($statusCode >= 100 && $statusCode <= 199)
                 || ($statusCode == 204)

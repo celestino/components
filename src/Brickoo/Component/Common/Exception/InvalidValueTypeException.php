@@ -42,13 +42,12 @@ class InvalidValueTypeException extends Exception {
     /**
      * Class constructor.
      * Calls the parent Exception constructor.
-     * @param string $value
+     * @param mixed $value
      * @param \Exception $previousException
      */
     public function __construct($value, \Exception $previousException = null) {
-        parent::__construct(sprintf(
-            "The value of type `%s` is invalid.", gettype($value)
-        ), 0, $previousException);
+        $type = (is_object($value) ? get_class($value) : gettype($value));
+        parent::__construct(sprintf("The value of type `%s` is invalid.", $type), 0, $previousException);
     }
 
 }

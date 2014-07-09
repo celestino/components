@@ -33,8 +33,8 @@ use Brickoo\Component\Http\HttpMessage,
     Brickoo\Component\Http\HttpResponse,
     Brickoo\Component\Http\HttpStatus,
     Brickoo\Component\Http\HttpVersion,
-    Brickoo\Component\Http\MessageBody,
-    Brickoo\Component\Http\MessageHeader,
+    Brickoo\Component\Http\HttpMessageBody,
+    Brickoo\Component\Http\HttpMessageHeader,
     Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint;
 
 /**
@@ -59,7 +59,7 @@ class SuccessfullyResponse extends HttpResponse {
             new HttpStatus(HttpStatus::CODE_OK),
             new HttpMessage(
                 $this->createMessageHeader($messageHeaders),
-                new MessageBody($bodyContent)
+                new HttpMessageBody($bodyContent)
             )
         );
     }
@@ -68,15 +68,15 @@ class SuccessfullyResponse extends HttpResponse {
      * Creates a message header object containing passed headers.
      * @param array $messageHeaders instances of \Brickoo\Component\Http\HttpHeader
      * @throws \InvalidArgumentException
-     * @return \Brickoo\Component\Http\MessageHeader
+     * @return \Brickoo\Component\Http\HttpMessageHeader
      */
     private function createMessageHeader(array $messageHeaders) {
         if (! (new ContainsInstancesOfConstraint("\\Brickoo\\Component\\Http\\HttpHeader"))->matches($messageHeaders)) {
             throw new \InvalidArgumentException("Invalid message headers.");
         }
-        $messageHeader = new MessageHeader();
+        $messageHeader = new HttpMessageHeader();
         foreach ($messageHeaders as $header) {
-            $messageHeader->setHeader($header);
+            $messageHeader->addHeader($header);
         }
         return $messageHeader;
     }

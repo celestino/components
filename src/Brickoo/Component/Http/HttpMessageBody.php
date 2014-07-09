@@ -27,57 +27,50 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Tests\Component\Http;
+namespace Brickoo\Component\Http;
 
-use Brickoo\Component\Http\MessageBody,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Validation\Argument;
 
 /**
- * MessageBodyTest
+ * HttpMessageBody
  *
- * Test suite for the MessageBody class.
- * @see Brickoo\Component\Http\MessageBody
+ * Implements a http message body.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class MessageBodyTest extends PHPUnit_Framework_TestCase {
+class HttpMessageBody {
+
+    /** @var string */
+    protected $content;
 
     /**
-     * @covers Brickoo\Component\Http\MessageBody::__construct
-     * @expectedException \InvalidArgumentException
+     * Class constructor.
+     * @param string $content the body content
+     * @throws \InvalidArgumentException
      */
-    public function testConstructorInvalidContentThrowsException() {
-        new MessageBody(["wrongType"]);
+    public function __construct($content = "") {
+        Argument::IsString($content);
+        $this->content = $content;
     }
 
     /**
-     * @covers Brickoo\Component\Http\MessageBody::__construct
-     * @covers Brickoo\Component\Http\MessageBody::getContent
+     * Returns the message body.
+     * @return string the body
      */
-    public function testGetContent() {
-        $content = "test content";
-        $messageBody = new MessageBody($content);
-        $this->assertEquals($content, $messageBody->getContent());
+    public function getContent() {
+        return $this->content;
     }
 
     /**
-     * @covers Brickoo\Component\Http\MessageBody::setContent
-     * @covers Brickoo\Component\Http\MessageBody::getContent
+     * Sets the content of the message body.
+     * @param string $content the body content to set
+     * @throws \InvalidArgumentException
+     * @return \Brickoo\Component\Http\HttpMessageBody
      */
-    public function testSetContent() {
-        $content = "test content";
-        $messageBody = new MessageBody("");
-        $this->assertSame($messageBody, $messageBody->setContent($content));
-        $this->assertEquals($content, $messageBody->getContent());
-    }
-
-    /**
-     * @covers Brickoo\Component\Http\MessageBody::getContent
-     * @expectedException \InvalidArgumentException
-     */
-    public function testSetContentInvalidContentArgumentThrowsException() {
-        $messageBody = new MessageBody("");
-        $messageBody->setContent(["wrongType"]);
+    public function setContent($content) {
+        Argument::IsString($content);
+        $this->content = $content;
+        return $this;
     }
 
 }

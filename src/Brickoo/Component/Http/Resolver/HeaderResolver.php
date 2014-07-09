@@ -30,6 +30,7 @@
 namespace Brickoo\Component\Http\Resolver;
 
 use Brickoo\Component\Http\Header\GenericHeader,
+    Brickoo\Component\Http\HttpHeaderList,
     Brickoo\Component\Http\Resolver\Exception\HeaderClassNotFoundException;
 
 /**
@@ -62,7 +63,8 @@ class HeaderResolver {
     }
 
     /**
-     * Returns a collection of http headers.
+     * Return a collection of http headers.
+     * Duplicate headers will be overridden.
      * @return array<\Brickoo\Component\Http\HttpHeader>
      */
     public function getHeaders() {
@@ -76,7 +78,25 @@ class HeaderResolver {
     }
 
     /**
-     * Loads the headers into local cache.
+     * Return a collection of http header lists containing
+     * the http header. Does support header duplicates.
+     * @return array<\Brickoo\Component\Http\HttpHeaderList>
+     */
+    public function getHeaderLists() {
+        $this->loadHeaders();
+
+        $headers = [];
+        foreach ($this->loadedHeaders as $headerName => $headerValue) {
+            if (! isset($headers[$headerName])) {
+                $headers[$headerName] = new HttpHeaderList();
+            }
+            $headers[$headerName]->add($this->getHeader($headerName, $headerValue));
+        }
+        return $headers;
+    }
+
+    /**
+     * Load the headers into local cache.
      * @return \Brickoo\Component\Http\Resolver\HeaderResolver
      */
     private function loadHeaders() {
@@ -87,16 +107,16 @@ class HeaderResolver {
     }
 
     /**
-     * Checks if the header has a mapping class.
+     * Check if the header has a mapping class.
      * @param string $headerName
      * @return boolean check result
      */
     private function hasMappingHeaderClass($headerName) {
-        return array_key_exists($headerName, $this->headerMap);
+        return isset($this->headerMap[$headerName]);
     }
 
     /**
-     * Returns the corresponding header instance.
+     * Return the corresponding header instance.
      * @param string $headerName
      * @param string $headerValue
      * @return \Brickoo\Component\Http\HttpHeader
@@ -109,7 +129,7 @@ class HeaderResolver {
     }
 
     /**
-     * Creates a header instance from a mapping class.
+     * Create a header instance from a mapping class.
      * @param string $headerClass
      * @param string $headerValue
      * @throws \Brickoo\Component\Http\Resolver\Exception\HeaderClassNotFoundException
@@ -118,7 +138,7 @@ class HeaderResolver {
     private function createMappingHeader($headerClass, $headerValue) {
         try {
             if (! class_exists($headerClass)) {
-                throw new Exception("Unable to load class.");
+                throw new Exception("Unable to load mapping header class.");
             }
         }
         catch (\Exception $exception) {
@@ -128,7 +148,7 @@ class HeaderResolver {
     }
 
     /**
-     * Creates a generic header with the header name and value.
+     * Create a generic header with the header name and value.
      * @param string $headerName
      * @param string $headerValue
      * @return \Brickoo\Component\Http\Header\GenericHeader
@@ -138,7 +158,7 @@ class HeaderResolver {
     }
 
     /**
-     * Normalizes the headers keys.
+     * Normalize the headers keys.
      * @param array $headers the headers to normalize
      * @return array the normalized headers
      */

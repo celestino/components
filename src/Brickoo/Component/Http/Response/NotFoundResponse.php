@@ -33,8 +33,8 @@ use Brickoo\Component\Http\HttpMessage,
     Brickoo\Component\Http\HttpResponse,
     Brickoo\Component\Http\HttpStatus,
     Brickoo\Component\Http\HttpVersion,
-    Brickoo\Component\Http\MessageBody,
-    Brickoo\Component\Http\MessageHeader;
+    Brickoo\Component\Http\HttpMessageBody,
+    Brickoo\Component\Http\HttpMessageHeader;
 
 /**
  * NotFoundResponse
@@ -50,7 +50,7 @@ class NotFoundResponse extends HttpResponse {
         parent::__construct(
             new HttpVersion(HttpVersion::HTTP_1_1),
             new HttpStatus(HttpStatus::CODE_NOT_FOUND),
-            new HttpMessage(new MessageHeader(), new MessageBody())
+            new HttpMessage(new HttpMessageHeader(), new HttpMessageBody())
         );
     }
 
