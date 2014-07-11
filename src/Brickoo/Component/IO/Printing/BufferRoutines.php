@@ -29,14 +29,13 @@
 
 namespace Brickoo\Component\IO\Printing;
 
-use Brickoo\Component\Validation\Argument;
-
 /**
- * OutputBufferPrinter
+ * BufferRoutines
  *
- * Implementation of a printer for the output buffer.
+ * Provides common buffer routines used
+ * by buffered printer implementations.
  */
-class OutputBufferPrinter implements OutputPrinter {
+trait BufferRoutines {
 
     /** @var integer */
     private $bufferLength;
@@ -45,47 +44,20 @@ class OutputBufferPrinter implements OutputPrinter {
     private $buffer;
 
     /**
-     * @param integer $bufferLength bellow or equal zero turns the buffer off
-     * @throws \InvalidArgumentException
+     * Return the buffered content.
+     * @return string the buffer content
      */
-    public function __construct($bufferLength = 0) {
-        Argument::IsInteger($bufferLength);
-        $this->buffer = "";
-        $this->bufferLength = $bufferLength;
-    }
-
-    /** {@inheritdoc} */
-    public function doPrint($output) {
-        if ($this->isBufferTurnedOff()) {
-            $this->output($output);
-            return $this;
-        }
-
-        if ($this->isBufferLessThan($this->sumBufferWith($output))) {
-            $this->output($this->buffer);
-            $this->clearBuffer();
-        }
-
-        $this->buffer .= $output;
-        return $this;
+    private function getBuffer() {
+        return $this->buffer;
     }
 
     /**
-     * Destructor.
-     * Output any buffered content before destruction
-     * @return void
-     */
-    public function __destruct() {
-        $this->output($this->buffer);
-    }
-
-    /**
-     * Output the content.
+     * Add content to the buffer.
      * @param string $content
-     * @return \Brickoo\Component\IO\Printing\OutputBufferPrinter
+     * @return \Brickoo\Component\IO\Printing\BufferRoutines
      */
-    private function output($content) {
-        echo $content;
+    private function addToBuffer($content) {
+        $this->buffer .= $content;
         return $this;
     }
 
@@ -118,7 +90,7 @@ class OutputBufferPrinter implements OutputPrinter {
 
     /**
      * Clear the output buffer.
-     * @return \Brickoo\Component\IO\Printing\OutputBufferPrinter
+     * @return \Brickoo\Component\IO\Printing\OutputBufferedPrinter
      */
     private function clearBuffer() {
         $this->buffer = "";

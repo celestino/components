@@ -29,7 +29,7 @@
 
 namespace Brickoo\Component\Annotation;
 
-use Brickoo\Component\IO\Printing\OutputBufferPrinter,
+use Brickoo\Component\IO\Printing\OutputBufferedPrinter,
     Brickoo\Component\IO\Printing\PlainTextPrinter,
     Brickoo\Component\IO\Printing\Printable,
     Brickoo\Component\IO\Printing\Printer;
@@ -64,7 +64,7 @@ class AnnotationReaderResultPrinter implements Printable {
      */
     public function getPrinter() {
         if (! $this->printer instanceof Printer) {
-            $this->printer = new PlainTextPrinter(new OutputBufferPrinter());
+            $this->printer = new PlainTextPrinter(new OutputBufferedPrinter());
         }
         return $this->printer;
     }
