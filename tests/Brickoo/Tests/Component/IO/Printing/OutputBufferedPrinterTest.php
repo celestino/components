@@ -51,6 +51,7 @@ class OutputBufferedPrinterTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\IO\Printing\OutputBufferedPrinter::__construct
+     * @covers Brickoo\Component\IO\Printing\BufferRoutines::initializeBuffer
      * @covers Brickoo\Component\IO\Printing\OutputBufferedPrinter::doPrint
      * @covers Brickoo\Component\IO\Printing\BufferRoutines::isBufferTurnedOff
      */
@@ -63,6 +64,7 @@ class OutputBufferedPrinterTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\IO\Printing\OutputBufferedPrinter::__construct
+     * @covers Brickoo\Component\IO\Printing\BufferRoutines::initializeBuffer
      * @covers Brickoo\Component\IO\Printing\OutputBufferedPrinter::doPrint
      * @covers Brickoo\Component\IO\Printing\BufferRoutines::addToBuffer
      * @covers Brickoo\Component\IO\Printing\BufferRoutines::getBuffer
@@ -71,7 +73,7 @@ class OutputBufferedPrinterTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\IO\Printing\BufferRoutines::sumBufferWith
      * @covers Brickoo\Component\IO\Printing\BufferRoutines::clearBuffer
      * @covers Brickoo\Component\IO\Printing\OutputBufferedPrinter::output
-     * @covers Brickoo\Component\IO\Printing\OutputBufferedPrinter::__destruct
+     * @covers Brickoo\Component\IO\Printing\OutputBufferedPrinter::flushBuffer
      */
     public function testPrintWithOutputBuffer() {
         $firstText = "Test case output";
@@ -81,7 +83,28 @@ class OutputBufferedPrinterTest extends PHPUnit_Framework_TestCase {
         $printer = new OutputBufferedPrinter(strlen($firstText));
         $printer->doPrint($firstText);
         $printer->doPrint($lastText);
+        $printer->flushBuffer();
         $this->expectOutputString($expectedOutput);
+    }
+
+    /**
+     * @covers Brickoo\Component\IO\Printing\OutputBufferedPrinter::doPrint
+     * @covers Brickoo\Component\IO\Printing\OutputBufferedPrinter::flushBuffer
+     */
+    public function testFlushBufferedContent() {
+        $text = "Test case output";
+        $printer = new OutputBufferedPrinter(strlen($text));
+        $printer->doPrint($text);
+        $printer->flushBuffer();
+        $this->expectOutputString($text);
+    }
+
+    /** @covers Brickoo\Component\IO\Printing\OutputBufferedPrinter::doPrint */
+    public function testBufferedContentIsNotPrinted() {
+        $text = "Test case output";
+        $printer = new OutputBufferedPrinter(strlen($text));
+        $printer->doPrint($text);
+        $this->expectOutputString("");
     }
 
 }

@@ -29,23 +29,36 @@
 
 namespace Brickoo\Component\IO\Printing;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\IO\Stream\Stream,
+    Brickoo\Component\IO\Stream\StreamWriter,
+    Brickoo\Component\Validation\Argument;
 
 /**
- * OutputBufferedPrinter
+ * StreamPrinter
  *
- * Implementation of a printer for the output buffer.
+ * Implements a buffered stream printer.
  */
-class OutputBufferedPrinter implements OutputPrinter {
+class StreamBufferedPrinter implements OutputPrinter {
 
     use BufferRoutines;
 
+    /** @const integer */
+    const MAX_RETRIES = 1;
+
+    /** @var \Brickoo\Component\IO\Stream\Stream */
+    private $stream;
+
+    /** @var \Brickoo\Component\IO\Stream\StreamWriter */
+    private $streamWriter;
+
     /**
-     * @param integer $bufferLength bellow or equal zero turns the buffer off
+     * @param \Brickoo\Component\IO\Stream\Stream $stream
+     * @param integer $bufferLength default buffer length 255 bytes
      * @throws \InvalidArgumentException
      */
-    public function __construct($bufferLength = 0) {
+    public function __construct(Stream $stream, $bufferLength = 255) {
         Argument::IsInteger($bufferLength);
+        $this->stream = $stream;
         $this->initializeBuffer($bufferLength);
     }
 
@@ -67,7 +80,7 @@ class OutputBufferedPrinter implements OutputPrinter {
 
     /**
      * Flush the output buffer and clear the local buffer.
-     * @return \Brickoo\Component\IO\Printing\OutputBufferedPrinter
+     * @return \Brickoo\Component\IO\Printing\StreamBufferedPrinter
      */
     public function flushBuffer() {
         $this->output($this->getBuffer())->clearBuffer();
@@ -75,13 +88,29 @@ class OutputBufferedPrinter implements OutputPrinter {
     }
 
     /**
-     * Output the content.
+     * Output the content to the stream.
      * @param string $content
-     * @return \Brickoo\Component\IO\Printing\OutputBufferedPrinter
+     * @return \Brickoo\Component\IO\Stream\StreamWriter
      */
     private function output($content) {
-        echo $content;
+        $this->getStreamWriter()->write($content);
         return $this;
+    }
+
+    /**
+     * Lazy initialization of the stream writer dependency.
+     * Refresh the used stream resource if loaded.
+     * @return \Brickoo\Component\IO\Stream\StreamWriter
+     */
+    private function getStreamWriter() {
+        $streamResource = $this->stream->open();
+
+        if ($this->streamWriter === null) {
+            $this->streamWriter = new StreamWriter($streamResource, static::MAX_RETRIES);
+            return $this->streamWriter;
+        }
+
+        return $this->streamWriter->refreshResource($streamResource);
     }
 
 }

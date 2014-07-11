@@ -85,7 +85,7 @@ class StreamWriterTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\IO\Stream\StreamWriter::__construct
      * @covers Brickoo\Component\IO\Stream\StreamWriter::write
-     * * @covers Brickoo\Component\IO\Stream\StreamWriter::writeWithRetryLoop
+     * @covers Brickoo\Component\IO\Stream\StreamWriter::writeWithRetryLoop
      * @covers \Brickoo\Component\IO\Stream\Exception\UnableToWriteBytesException
      * @expectedException \Brickoo\Component\IO\Stream\Exception\UnableToWriteBytesException
      */
@@ -97,6 +97,21 @@ class StreamWriterTest extends PHPUnit_Framework_TestCase {
         $streamWriter->write("some content");
         fclose($resource);
         unlink($filename);
+    }
+
+    /**
+     * @covers Brickoo\Component\IO\Stream\StreamWriter::refreshResource
+     * @covers Brickoo\Component\IO\Stream\StreamWriter::write
+     */
+    public function testResourceCanBeRefreshed() {
+        $filename = sys_get_temp_dir() . DIRECTORY_SEPARATOR . "streamWriterTest";
+        $streamWriter = new StreamWriter(fopen($filename, "rb+"));
+        $resource = fopen("php://memory", "rb+");
+        $streamWriter->refreshResource($resource);
+        $streamWriter->write("test case");
+        fseek($resource, 0);
+        $this->assertEquals("test case", fgets($resource));
+        fclose($resource);
     }
 
 }

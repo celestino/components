@@ -61,6 +61,17 @@ class StreamWriter {
     }
 
     /**
+     * Refresh the local stream resource.
+     * @param resource $streamResource
+     * @return \Brickoo\Component\IO\Stream\StreamWriter
+     */
+    public function refreshResource($streamResource) {
+        Argument::IsResource($streamResource);
+        $this->streamResource = $streamResource;
+        return $this;
+    }
+
+    /**
      * Writes the content to the stream resource.
      * @param string $content
      * @throws \Brickoo\Component\IO\Stream\Exception\InvalidResourceHandleException

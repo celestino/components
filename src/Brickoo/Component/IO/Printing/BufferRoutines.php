@@ -44,6 +44,17 @@ trait BufferRoutines {
     private $buffer;
 
     /**
+     * Initialize the buffer.
+     * @param integer $bufferLength
+     * @param string $bufferContent
+     * @return \Brickoo\Component\IO\Printing\BufferRoutines
+     */
+    private function initializeBuffer($bufferLength = 255, $bufferContent = "") {
+        $this->bufferLength = $bufferLength;
+        $this->buffer = $bufferContent;
+    }
+
+    /**
      * Return the buffered content.
      * @return string the buffer content
      */
