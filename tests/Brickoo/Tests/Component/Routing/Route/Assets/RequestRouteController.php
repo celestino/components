@@ -2,10 +2,10 @@
 
 namespace Brickoo\Tests\Component\Routing\Route\Assets;
 
-class ExecutableRouteController {
+class RequestRouteController {
 
     public function returnText() {
-        return "ExecutableRouteController::returnText executed.";
+        return "RequestRouteController::returnText executed.";
     }
 
 }

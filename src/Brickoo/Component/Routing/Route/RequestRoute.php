@@ -34,12 +34,12 @@ use ReflectionClass,
     Brickoo\Component\Validation\Argument;
 
 /**
- * ExecutableRoute
+ * RequestRoute
  *
  * Implementation of an executable route containing the responsible route.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class ExecutableRoute {
+class RequestRoute {
 
     /** @var \Brickoo\Component\Routing\Route\Route */
     private $route;
@@ -58,7 +58,7 @@ class ExecutableRoute {
     }
 
     /**
-     * Returns the matched route.
+     * Return the matched route.
      * @return \Brickoo\Component\Routing\Route\Route
      */
     public function getRoute() {
@@ -66,7 +66,7 @@ class ExecutableRoute {
     }
 
     /**
-     * Returns the route parameters and values as pairs.
+     * Return the route parameters and values as pairs.
      * @return array the route parameters and values
      */
     public function getParameters() {
@@ -74,7 +74,7 @@ class ExecutableRoute {
     }
 
     /**
-     * Returns the value of the parameter.
+     * Return the value of the parameter.
      * @param string $parameter the parameter name
      * @throws \Brickoo\Component\Routing\Route\Exception\ParameterNotAvailableException
      * @return string the parameter value
@@ -90,7 +90,7 @@ class ExecutableRoute {
     }
 
     /**
-     * Checks if the parameter is available.
+     * Check if the parameter is available.
      * @param string $parameter the parameter name
      * @return boolean check result
      */
@@ -100,12 +100,12 @@ class ExecutableRoute {
     }
 
     /**
-     * Executes the route controller action.
+     * Call the route controller action.
      * This method allows to be called with any arguments
      * which should be forwarded to the controller constructor.
      * @return mixed the controller returned response
      */
-    public function execute() {
+    public function callControllerAction() {
         $class = new ReflectionClass($this->route->getController());
         $controller = $class->newInstanceArgs(func_get_args());
         return call_user_func([$controller, $this->route->getAction()]);

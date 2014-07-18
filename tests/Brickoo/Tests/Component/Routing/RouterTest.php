@@ -179,11 +179,10 @@ class RouterTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Brickoo\Component\Routing\Router::getExecutableRoute
-     * @covers Brickoo\Component\Routing\Router::getMatchingExecutableRoute
+     * @covers Brickoo\Component\Routing\Router::getRequestRoute
      * @covers Brickoo\Component\Routing\Router::getMatchingRouteFromCollection
      */
-    public function testGetExecutableRoute() {
+    public function testGetRequestRoute() {
         $route = $this->getRouteStub();
 
         $routeCollection = $this->getRouteCollectionStub();
@@ -195,13 +194,11 @@ class RouterTest extends PHPUnit_Framework_TestCase {
                         ->will($this->returnValue(new \ArrayIterator(array($route))));
 
         $router = new Router($this->getRouteCollectorStub($routeCollection), $this->getRouteMatcherMock($route));
-        $this->assertInstanceOf("\\Brickoo\\Component\\Routing\\Route\\ExecutableRoute", ($executableRoute = $router->getExecutableRoute()));
-        $this->assertSame($executableRoute, $router->getExecutableRoute());
+        $this->assertInstanceOf("\\Brickoo\\Component\\Routing\\Route\\RequestRoute", ($requestRoute = $router->getRequestRoute()));
     }
 
     /**
-     * @covers Brickoo\Component\Routing\Router::getExecutableRoute
-     * @covers Brickoo\Component\Routing\Router::getMatchingExecutableRoute
+     * @covers Brickoo\Component\Routing\Router::getRequestRoute
      * @covers Brickoo\Component\Routing\Router::getMatchingRouteFromCollection
      * @covers Brickoo\Component\Routing\Exception\NoMatchingRouteFoundException
      * @expectedException \Brickoo\Component\Routing\Exception\NoMatchingRouteFoundException
@@ -213,7 +210,7 @@ class RouterTest extends PHPUnit_Framework_TestCase {
                         ->will($this->returnValue(new \ArrayIterator()));
 
         $router = new Router($this->getRouteCollectorStub($routeCollection), $this->getRouteMatcherMock());
-        $router->getExecutableRoute();
+        $router->getRequestRoute();
     }
 
     /**

@@ -30,7 +30,7 @@
 namespace Brickoo\Component\Routing;
 
 use Brickoo\Component\Routing\Route\Route,
-    Brickoo\Component\Routing\Route\ExecutableRoute,
+    Brickoo\Component\Routing\Route\RequestRoute,
     Brickoo\Component\Routing\Exception\NoMatchingRouteFoundException,
     Brickoo\Component\Routing\Exception\RouteNotFoundException,
     Brickoo\Component\Routing\Route\RouteCollection,
@@ -47,9 +47,6 @@ use Brickoo\Component\Routing\Route\Route,
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 class Router {
-
-    /**  @var \Brickoo\Component\Routing\Route\ExecutableRoute */
-    private $executableRoute;
 
     /** @var \Brickoo\Component\Routing\Route\Matcher\RouteMatcher */
     private $routeMatcher;
@@ -119,25 +116,11 @@ class Router {
     }
 
     /**
-     * Returns the executable route.
+     * Returns the matching request route.
      * @throws \Brickoo\Component\Routing\Exception\NoMatchingRouteFoundException
-     * @return \Brickoo\Component\Routing\Route\ExecutableRoute
+     * @return \Brickoo\Component\Routing\Route\RequestRoute
      */
-    public function getExecutableRoute() {
-        if ($this->executableRoute instanceof ExecutableRoute) {
-            return $this->executableRoute;
-        }
-
-        $this->executableRoute = $this->getMatchingExecutableRoute();
-        return $this->executableRoute;
-    }
-
-    /**
-     * Returns the matching executable route.
-     * @throws \Brickoo\Component\Routing\Exception\NoMatchingRouteFoundException
-     * @return \Brickoo\Component\Routing\Route\ExecutableRoute
-     */
-    private function getMatchingExecutableRoute() {
+    public function getRequestRoute() {
         $matchingRoute = null;
 
         foreach ($this->getRouteCollectorIterator() as $routeCollection) {
@@ -147,7 +130,7 @@ class Router {
             }
         }
 
-        if (! $matchingRoute instanceof ExecutableRoute) {
+        if (! $matchingRoute instanceof RequestRoute) {
             throw new NoMatchingRouteFoundException();
         }
 
@@ -163,7 +146,7 @@ class Router {
         $matchingRoute = null;
         foreach ($routeCollection as $route) {
             if ($this->routeMatcher->matchesRoute($route)) {
-                $matchingRoute = new ExecutableRoute($route, $this->routeMatcher->getRouteParameters());
+                $matchingRoute = new RequestRoute($route, $this->routeMatcher->getRouteParameters());
                 break;
             }
         }
