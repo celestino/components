@@ -25,7 +25,7 @@ Add this requirement to your composer.json `"require": {"brickoo/components": "d
 
 
 ###Testing
-Brickoo has been tested with PHPUnit 4.0.
+Brickoo has been tested with PHPUnit 4.1.
 
 
 ###Contributing
