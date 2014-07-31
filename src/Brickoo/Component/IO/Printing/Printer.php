@@ -34,6 +34,7 @@ namespace Brickoo\Component\IO\Printing;
  *
  * Describes a printer with the possibility to format output
  * by using a fluid interface.
+ * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 interface Printer {
 

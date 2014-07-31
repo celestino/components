@@ -35,6 +35,7 @@ use Brickoo\Component\IO\Stream\Exception\UnableToCreateResourceHandleException;
  * FileStream
  *
  * Implementation of a stream based on a file resource.
+ * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 class FileStream implements Stream {
 

@@ -39,6 +39,7 @@ use Brickoo\Component\IO\Stream\Exception\InvalidResourceHandleException,
  * Implements a stream writer who
  * does use a max. number of retries to write
  * the content to the resource.
+ * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 class StreamWriter {
 

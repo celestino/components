@@ -34,6 +34,7 @@ use Brickoo\Component\Validation\Argument;
  * FileStreamConfig
  *
  * Implements a configuration for file based streams.
+ * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 class FileStreamConfig {
 

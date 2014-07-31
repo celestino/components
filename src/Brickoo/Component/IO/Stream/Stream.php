@@ -33,6 +33,7 @@ namespace Brickoo\Component\IO\Stream;
  * Stream
  *
  * Describes a stream resource handler.
+ * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 interface Stream {
 

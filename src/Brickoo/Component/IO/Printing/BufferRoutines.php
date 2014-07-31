@@ -34,6 +34,7 @@ namespace Brickoo\Component\IO\Printing;
  *
  * Provides common buffer routines used
  * by buffered printer implementations.
+ * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 trait BufferRoutines {
 

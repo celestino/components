@@ -41,7 +41,7 @@ use Brickoo\Component\Annotation\Annotation,
 /**
  * DependencyAnnotation
  *
- * Implements an dependency annotation for dependency injection usage.
+ * Implements a dependency annotation for dependency injection usage.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 class DependencyAnnotation {

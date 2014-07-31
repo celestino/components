@@ -37,6 +37,7 @@ use Brickoo\Component\IO\Stream\Stream,
  * StreamPrinter
  *
  * Implements a buffered stream printer.
+ * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 class StreamBufferedPrinter implements OutputPrinter {
 

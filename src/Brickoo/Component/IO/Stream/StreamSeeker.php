@@ -36,6 +36,7 @@ use Brickoo\Component\IO\Stream\Exception\InvalidResourceHandleException,
  * StreamSeeker
  *
  * Seeks to positions in supported streams.
+ * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 class StreamSeeker {
 

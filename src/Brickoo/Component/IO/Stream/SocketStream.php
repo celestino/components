@@ -35,6 +35,7 @@ use Brickoo\Component\IO\Stream\Exception\UnableToOpenStreamException;
  * SocketStream
  *
  * Implements a handler for creating socket based streams.
+ * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 class SocketStream implements Stream {
 

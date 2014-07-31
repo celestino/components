@@ -32,8 +32,8 @@ namespace Brickoo\Component\IO\Printing;
 /**
  * Printable
  *
- * Describes a printable object which does
- * return a \Brickoo\Component\IO\Printing\Printer instance..
+ * Describes a printable object.
+ * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 interface Printable {
 

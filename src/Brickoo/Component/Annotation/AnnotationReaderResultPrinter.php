@@ -38,6 +38,7 @@ use Brickoo\Component\IO\Printing\OutputBufferedPrinter,
  * AnnotationReaderResultPrinter
  *
  * Implementation of an annotation reader result printer.
+ * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 class AnnotationReaderResultPrinter implements Printable {
 

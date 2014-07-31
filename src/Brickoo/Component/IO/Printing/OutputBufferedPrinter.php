@@ -35,6 +35,7 @@ use Brickoo\Component\Validation\Argument;
  * OutputBufferedPrinter
  *
  * Implementation of a printer for the output buffer.
+ * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 class OutputBufferedPrinter implements OutputPrinter {
 

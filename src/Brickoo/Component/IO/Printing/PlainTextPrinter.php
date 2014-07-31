@@ -35,6 +35,7 @@ use Brickoo\Component\Validation\Argument;
  * PlainTextPrinter
  *
  * Implementation of a plain text printer.
+ * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 class PlainTextPrinter implements Printer {
 

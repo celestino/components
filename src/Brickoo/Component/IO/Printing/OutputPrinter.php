@@ -33,6 +33,7 @@ namespace Brickoo\Component\IO\Printing;
  * OutputPrinter
  *
  * Describes an output renderer.
+ * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 interface OutputPrinter {
 

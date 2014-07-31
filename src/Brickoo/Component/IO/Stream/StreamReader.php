@@ -37,6 +37,7 @@ use Brickoo\Component\IO\Stream\Exception\InvalidResourceHandleException,
  * StreamReader
  *
  * Implements a stream reader.
+ * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 class StreamReader {
 
