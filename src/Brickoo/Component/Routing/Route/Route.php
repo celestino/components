@@ -57,12 +57,6 @@ interface Route {
     public function getController();
 
     /**
-     * Returns the action method of the responsible controller.
-     * @return string the controller action method
-     */
-    public function getAction();
-
-    /**
      * Returns all the regular expression rules available.
      * @return array the regular expression rules if any
      */

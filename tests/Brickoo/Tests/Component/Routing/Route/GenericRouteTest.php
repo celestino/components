@@ -60,11 +60,6 @@ class GenericRouteTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals("NewspaperController", $this->getRouteFixture()->getController());
     }
 
-    /** @covers Brickoo\Component\Routing\Route\GenericRoute::getAction */
-    public function testGetAction() {
-        $this->assertEquals("getArticle", $this->getRouteFixture()->getAction());
-    }
-
     /** @covers Brickoo\Component\Routing\Route\GenericRoute::setRules */
     public function testSetRules() {
         $expectedRules = ["name" => "[\\w\\-]+", "page" => "[0-9]+"];

@@ -50,9 +50,6 @@ class GenericRoute implements Route {
     /** @var string */
     protected $controller;
 
-    /** @var string */
-    protected $action;
-
     /** @var array */
     protected $defaultValues;
 
@@ -64,19 +61,16 @@ class GenericRoute implements Route {
      * @param string $name
      * @param string $path
      * @param string $controller
-     * @param string $action
      * @throws \InvalidArgumentException
      */
-    public function __construct($name, $path, $controller, $action) {
+    public function __construct($name, $path, $controller) {
         Argument::IsString($name);
         Argument::IsString($path);
         Argument::IsString($controller);
-        Argument::IsString($action);
 
         $this->name = $name;
         $this->path = $path;
         $this->controller = $controller;
-        $this->action = $action;
         $this->rules = [];
         $this->defaultValues = [];
     }
@@ -94,11 +88,6 @@ class GenericRoute implements Route {
     /** {@inheritDoc} */
     public function getController() {
         return $this->controller;
-    }
-
-    /** {@inheritDoc} */
-    public function getAction() {
-        return $this->action;
     }
 
     /** {@inheritDoc} */
