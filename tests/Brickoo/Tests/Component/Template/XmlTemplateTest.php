@@ -42,6 +42,12 @@ use Brickoo\Component\Template\XmlTemplate,
  */
 class XmlTemplateTest extends PHPUnit_Framework_TestCase {
 
+    public function setUp() {
+        if ((! class_exists("DOMDocument")) || (! class_exists("XSLTProcessor"))) {
+            $this->markTestSkipped("Missing DOMDocument|XSLTProcessor dependencies.");
+        }
+    }
+
     /**
      * @covers Brickoo\Component\Template\XmlTemplate::__construct
      * @expectedException \InvalidArgumentException

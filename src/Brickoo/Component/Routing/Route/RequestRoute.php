@@ -99,16 +99,4 @@ class RequestRoute {
         return isset($this->parameters[$parameter]);
     }
 
-    /**
-     * Call the route controller action.
-     * This method allows to be called with any arguments
-     * which should be forwarded to the controller constructor.
-     * @return mixed the controller returned response
-     */
-    public function callControllerAction() {
-        $class = new ReflectionClass($this->route->getController());
-        $controller = $class->newInstanceArgs(func_get_args());
-        return call_user_func([$controller, $this->route->getAction()]);
-    }
-
 }

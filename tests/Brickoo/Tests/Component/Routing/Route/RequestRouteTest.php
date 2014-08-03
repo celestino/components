@@ -105,22 +105,6 @@ class RequestRouteTest extends PHPUnit_Framework_TestCase {
         $executableRoute->hasParameter(["wrongType"]);
     }
 
-    /** @covers Brickoo\Component\Routing\Route\RequestRoute::callControllerAction */
-    public function testExecute() {
-        require_once realpath(__DIR__) . "/Assets/RequestRouteController.php";
-
-        $route = $this->getRouteStub();
-        $route->expects($this->once())
-              ->method("getController")
-              ->will($this->returnValue("\\Brickoo\\Tests\\Component\\Routing\\Route\\Assets\\RequestRouteController"));
-        $route->expects($this->once())
-              ->method("getAction")
-              ->will($this->returnValue("returnText"));
-
-        $executableRoute = new RequestRoute($route);
-        $this->assertEquals("RequestRouteController::returnText executed.", $executableRoute->callControllerAction());
-    }
-
     /**
      * Returns a route stub.
      * @return \Brickoo\Component\Routing\Route\Route
