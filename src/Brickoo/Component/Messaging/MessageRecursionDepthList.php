@@ -29,8 +29,8 @@
 
 namespace Brickoo\Component\Messaging;
 
-use Brickoo\Component\Common\Container,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Container;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * MessageRecursionDepthList

@@ -29,8 +29,8 @@
 
 namespace Brickoo\Component\Annotation\Definition;
 
-use Brickoo\Component\Annotation\Annotation,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Annotation\Annotation;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * AnnotationDefinition
@@ -49,7 +49,7 @@ class AnnotationDefinition {
     /** @var boolean */
     private $required;
 
-    /** @var array<ParameterDefinition> */
+    /** @var ParameterDefinition[] */
     private $requiredParameters;
 
     /** @var array<ParameterDefinition> */
@@ -124,7 +124,7 @@ class AnnotationDefinition {
 
     /**
      * Returns the required parameters.
-     * @return array the required parameters
+     * @return ParameterDefinition[] the required parameters
      */
     public function getRequiredParameters() {
         return $this->requiredParameters;
@@ -140,7 +140,7 @@ class AnnotationDefinition {
 
     /**
      * Returns the optional parameters.
-     * @return array the optional parameters
+     * @return ParameterDefinition[] the optional parameters
      */
     public function getOptionalParameters() {
         return $this->optionalParameters;

@@ -29,9 +29,9 @@
 
 namespace Brickoo\Component\IO\Printing;
 
-use Brickoo\Component\IO\Stream\Stream,
-    Brickoo\Component\IO\Stream\StreamWriter,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\IO\Stream\Stream;
+use Brickoo\Component\IO\Stream\StreamWriter;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * StreamPrinter
@@ -91,7 +91,7 @@ class StreamBufferedPrinter implements OutputPrinter {
     /**
      * Output the content to the stream.
      * @param string $content
-     * @return \Brickoo\Component\IO\Stream\StreamWriter
+     * @return StreamBufferedPrinter
      */
     private function output($content) {
         $this->getStreamWriter()->write($content);

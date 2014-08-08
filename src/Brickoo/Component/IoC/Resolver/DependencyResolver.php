@@ -29,11 +29,11 @@
 
 namespace Brickoo\Component\IoC\Resolver;
 
-use Brickoo\Component\IoC\Definition\ArgumentDefinition,
-    Brickoo\Component\IoC\Definition\DependencyDefinition,
-    Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer,
-    Brickoo\Component\IoC\Definition\InjectionDefinition,
-    Brickoo\Component\IoC\DIContainer;
+use Brickoo\Component\IoC\Definition\ArgumentDefinition;
+use Brickoo\Component\IoC\Definition\DependencyDefinition;
+use Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer;
+use Brickoo\Component\IoC\Definition\InjectionDefinition;
+use Brickoo\Component\IoC\DIContainer;
 
 /**
  * DependencyResolver

@@ -29,10 +29,10 @@
 
 namespace Brickoo\Component\IoC\Resolver;
 
-use Brickoo\Component\IoC\DIContainer,
-    Brickoo\Component\IoC\Definition\DependencyDefinition,
-    Brickoo\Component\IoC\Resolver\Exception\DefinitionTypeUnknownException,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\IoC\DIContainer;
+use Brickoo\Component\IoC\Definition\DependencyDefinition;
+use Brickoo\Component\IoC\Resolver\Exception\DefinitionTypeUnknownException;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * DefinitionResolver
@@ -128,9 +128,9 @@ class DefinitionResolver {
 
     /**
      * Returns the corresponding type resolver.
-     * @param mixed $dependency
+     * @param callable $dependency
      * @throws \Brickoo\Component\IoC\Resolver\Exception\DefinitionTypeUnknownException
-     * @return \Brickoo\Component\IoC\Resolver\DefinitionResolver
+     * @return integer
      */
     private function getResolverType($dependency) {
         if ($dependency instanceof \Closure) {

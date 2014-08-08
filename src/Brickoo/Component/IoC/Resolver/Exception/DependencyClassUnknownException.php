@@ -42,7 +42,7 @@ class DependencyClassUnknownException extends Exception {
     /**
      * Class constructor.
      * Calls the parent exception constructor.
-     * @param mixed $className
+     * @param string $className
      * @param \Exception $previousException
      */
     public function __construct($className, \Exception $previousException = null) {
