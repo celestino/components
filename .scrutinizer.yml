@@ -1,0 +1,15 @@
+tools:
+    php_sim: true
+    php_pdepend: true
+    php_analyzer: true
+filter:
+    excluded_paths:
+        - 'tests/*'
+build:
+    tests:
+        override:
+            -
+                command: 'phpunit -c ./tests/phpunit.xml --coverage-clover=some-file'
+                coverage:
+                    file: 'some-file'
+                    format: 'php-clover'
