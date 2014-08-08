@@ -54,7 +54,7 @@ class Router {
     /** @var \Brickoo\Component\Routing\Route\Collector\RouteCollector */
     private $routeCollector;
 
-    /** @var \ArrayIterator */
+    /** @var \Iterator */
     private $routeCollectorIterator;
 
     /**
