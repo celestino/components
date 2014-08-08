@@ -70,7 +70,6 @@ trait BufferRoutines {
      */
     private function addToBuffer($content) {
         $this->buffer .= $content;
-        return $this;
     }
 
     /**
@@ -102,7 +101,7 @@ trait BufferRoutines {
 
     /**
      * Clear the output buffer.
-     * @return BufferRoutines
+     * @return \Brickoo\Component\IO\Printing\BufferRoutines
      */
     private function clearBuffer() {
         $this->buffer = "";
