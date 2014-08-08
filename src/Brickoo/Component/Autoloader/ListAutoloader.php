@@ -29,9 +29,9 @@
 
 namespace Brickoo\Component\Autoloader;
 
-use Brickoo\Component\Autoloader\Exception\ClassNotRegisteredException,
-    Brickoo\Component\Autoloader\Exception\DuplicateClassRegistrationException,
-    Brickoo\Component\Autoloader\Exception\FileDoesNotExistException;
+use Brickoo\Component\Autoloader\Exception\ClassNotRegisteredException;
+use Brickoo\Component\Autoloader\Exception\DuplicateClassRegistrationException;
+use Brickoo\Component\Autoloader\Exception\FileDoesNotExistException;
 
 /**
  * ListAutoloader

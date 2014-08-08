@@ -29,8 +29,8 @@
 
 namespace Brickoo\Component\Routing\Route\Collector;
 
-use ArrayIterator,
-    Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint;
+use ArrayIterator;
+use Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint;
 
 /**
  * CallbackRouteCollector

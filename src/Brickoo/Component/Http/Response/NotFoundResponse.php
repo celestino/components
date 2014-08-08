@@ -29,12 +29,12 @@
 
 namespace Brickoo\Component\Http\Response;
 
-use Brickoo\Component\Http\HttpMessage,
-    Brickoo\Component\Http\HttpResponse,
-    Brickoo\Component\Http\HttpStatus,
-    Brickoo\Component\Http\HttpVersion,
-    Brickoo\Component\Http\HttpMessageBody,
-    Brickoo\Component\Http\HttpMessageHeader;
+use Brickoo\Component\Http\HttpMessage;
+use Brickoo\Component\Http\HttpResponse;
+use Brickoo\Component\Http\HttpStatus;
+use Brickoo\Component\Http\HttpVersion;
+use Brickoo\Component\Http\HttpMessageBody;
+use Brickoo\Component\Http\HttpMessageHeader;
 
 /**
  * NotFoundResponse

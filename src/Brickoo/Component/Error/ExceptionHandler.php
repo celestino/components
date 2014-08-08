@@ -29,10 +29,10 @@
 
 namespace Brickoo\Component\Error;
 
-use Brickoo\Component\Error\Messaging\Message\ExceptionMessage,
-    Brickoo\Component\Error\Exception\DuplicateHandlerRegistrationException,
-    Brickoo\Component\Error\Exception\HandlerNotRegisteredException,
-    Brickoo\Component\Messaging\MessageDispatcher;
+use Brickoo\Component\Error\Messaging\Message\ExceptionMessage;
+use Brickoo\Component\Error\Exception\DuplicateHandlerRegistrationException;
+use Brickoo\Component\Error\Exception\HandlerNotRegisteredException;
+use Brickoo\Component\Messaging\MessageDispatcher;
 
 /**
  * ExceptionHandler

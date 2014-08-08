@@ -29,11 +29,11 @@
 
 namespace Brickoo\Component\Annotation;
 
-use Brickoo\Component\Annotation\Definition\DefinitionCollection,
-    Brickoo\Component\Annotation\Exception\FileDoesNotExistException,
-    Brickoo\Component\Annotation\Exception\UnableToLocateQualifiedClassNameException,
-    Brickoo\Component\Validation\Argument,
-    ReflectionClass;
+use Brickoo\Component\Annotation\Definition\DefinitionCollection;
+use Brickoo\Component\Annotation\Exception\FileDoesNotExistException;
+use Brickoo\Component\Annotation\Exception\UnableToLocateQualifiedClassNameException;
+use Brickoo\Component\Validation\Argument;
+use ReflectionClass;
 
 /**
  * AnnotationClassFileReader

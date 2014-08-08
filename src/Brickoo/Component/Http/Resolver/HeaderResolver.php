@@ -29,9 +29,9 @@
 
 namespace Brickoo\Component\Http\Resolver;
 
-use Brickoo\Component\Http\Header\GenericHeader,
-    Brickoo\Component\Http\HttpHeaderList,
-    Brickoo\Component\Http\Resolver\Exception\HeaderClassNotFoundException;
+use Brickoo\Component\Http\Header\GenericHeader;
+use Brickoo\Component\Http\HttpHeaderList;
+use Brickoo\Component\Http\Resolver\Exception\HeaderClassNotFoundException;
 
 /**
  * HeaderResolver

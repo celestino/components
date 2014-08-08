@@ -29,8 +29,7 @@
 
 namespace Brickoo\Component\Log;
 
-use Brickoo\Component\Filesystem\File,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * Filesystem

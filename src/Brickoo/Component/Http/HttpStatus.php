@@ -46,7 +46,7 @@ Class HttpStatus extends HttpStatusCode {
 
     /**
      * Class constructor.
-     * @param string $status the http status
+     * @param integer $status the http status
      * @throws \InvalidArgumentException
      * @throws \Brickoo\Component\Http\Exception\InvalidHttpStatusException
      */

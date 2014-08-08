@@ -29,13 +29,13 @@
 
 namespace Brickoo\Component\Log\Messaging\Listener;
 
-use Brickoo\Component\Log\Logger,
-    Brickoo\Component\Log\Messaging\Messages,
-    Brickoo\Component\Log\Messaging\Message\LogMessage,
-    Brickoo\Component\Messaging\Listener,
-    Brickoo\Component\Messaging\Message,
-    Brickoo\Component\Messaging\MessageDispatcher,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Log\Logger;
+use Brickoo\Component\Log\Messaging\Messages;
+use Brickoo\Component\Log\Messaging\Message\LogMessage;
+use Brickoo\Component\Messaging\Listener;
+use Brickoo\Component\Messaging\Message;
+use Brickoo\Component\Messaging\MessageDispatcher;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * LogMessageListener

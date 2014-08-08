@@ -29,10 +29,10 @@
 
 namespace Brickoo\Component\Messaging;
 
-use ArrayIterator,
-    Countable,
-    IteratorAggregate,
-    Brickoo\Component\Messaging\Exception\ResponseNotAvailableException;
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use Brickoo\Component\Messaging\Exception\ResponseNotAvailableException;
 
 /**
  * MessageResponseCollection

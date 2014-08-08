@@ -29,9 +29,9 @@
 
 namespace Brickoo\Component\Messaging;
 
-use Brickoo\Component\Messaging\Exception\ListenerNotAvailableException,
-    Brickoo\Component\Messaging\Exception\ListenersNotAvailableException,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Messaging\Exception\ListenerNotAvailableException;
+use Brickoo\Component\Messaging\Exception\ListenersNotAvailableException;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * ListenerCollection

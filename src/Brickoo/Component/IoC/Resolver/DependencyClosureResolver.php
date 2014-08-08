@@ -29,9 +29,9 @@
 
 namespace Brickoo\Component\IoC\Resolver;
 
-use Brickoo\Component\IoC\Definition\DependencyDefinition,
-    Brickoo\Component\IoC\Resolver\Exception\InvalidDependencyResolverResultTypeException,
-    Brickoo\Component\IoC\Resolver\Exception\InvalidDependencyTypeException;
+use Brickoo\Component\IoC\Definition\DependencyDefinition;
+use Brickoo\Component\IoC\Resolver\Exception\InvalidDependencyResolverResultTypeException;
+use Brickoo\Component\IoC\Resolver\Exception\InvalidDependencyTypeException;
 
 /**
  * DependencyCallableResolver

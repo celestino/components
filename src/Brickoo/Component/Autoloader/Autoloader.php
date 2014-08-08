@@ -29,8 +29,8 @@
 
 namespace Brickoo\Component\Autoloader;
 
-use Brickoo\Component\Autoloader\Exception\DuplicateAutoloaderRegistrationException,
-    Brickoo\Component\Autoloader\Exception\AutoloaderNotRegisteredException;
+use Brickoo\Component\Autoloader\Exception\DuplicateAutoloaderRegistrationException;
+use Brickoo\Component\Autoloader\Exception\AutoloaderNotRegisteredException;
 
 /**
  * Autoloader

@@ -29,8 +29,8 @@
 
 namespace Brickoo\Component\Messaging;
 
-use Brickoo\Component\Messaging\Exception\MaxRecursionDepthReachedException,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Messaging\Exception\MaxRecursionDepthReachedException;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * MessageDispatcher

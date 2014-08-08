@@ -29,10 +29,10 @@
 
 namespace Brickoo\Component\Annotation;
 
-use Brickoo\Component\IO\Printing\OutputBufferedPrinter,
-    Brickoo\Component\IO\Printing\PlainTextPrinter,
-    Brickoo\Component\IO\Printing\Printable,
-    Brickoo\Component\IO\Printing\Printer;
+use Brickoo\Component\IO\Printing\OutputBufferedPrinter;
+use Brickoo\Component\IO\Printing\PlainTextPrinter;
+use Brickoo\Component\IO\Printing\Printable;
+use Brickoo\Component\IO\Printing\Printer;
 
 /**
  * AnnotationReaderResultPrinter

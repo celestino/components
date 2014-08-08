@@ -29,11 +29,11 @@
 
 namespace Brickoo\Component\Routing\Route\Matcher;
 
-use Brickoo\Component\Http\HttpRequest,
-    Brickoo\Component\Routing\Route\HttpRoute,
-    Brickoo\Component\Routing\Route\Route,
-    Brickoo\Component\Routing\Route\RouteCollection,
-    Brickoo\Component\Routing\Route\RoutePathRegexGenerator;
+use Brickoo\Component\Http\HttpRequest;
+use Brickoo\Component\Routing\Route\HttpRoute;
+use Brickoo\Component\Routing\Route\Route;
+use Brickoo\Component\Routing\Route\RouteCollection;
+use Brickoo\Component\Routing\Route\RoutePathRegexGenerator;
 
 /**
  * HttpRouteMatcher

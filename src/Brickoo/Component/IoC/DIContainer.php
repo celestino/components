@@ -29,13 +29,13 @@
 
 namespace Brickoo\Component\IoC;
 
-use Brickoo\Component\Common\Container,
-    Brickoo\Component\IoC\Definition\DependencyDefinition,
-    Brickoo\Component\IoC\Exception\DefinitionNotAvailableException,
-    Brickoo\Component\IoC\Exception\InfiniteDependencyResolveLoopException,
-    Brickoo\Component\IoC\Resolver\DefinitionResolver,
-    Brickoo\Component\Validation\Validator\ConstraintValidator,
-    Brickoo\Component\Validation\Constraint\IsInstanceOfConstraint;
+use Brickoo\Component\Common\Container;
+use Brickoo\Component\IoC\Definition\DependencyDefinition;
+use Brickoo\Component\IoC\Exception\DefinitionNotAvailableException;
+use Brickoo\Component\IoC\Exception\InfiniteDependencyResolveLoopException;
+use Brickoo\Component\IoC\Resolver\DefinitionResolver;
+use Brickoo\Component\Validation\Validator\ConstraintValidator;
+use Brickoo\Component\Validation\Constraint\IsInstanceOfConstraint;
 
 /**
  * DIContainer

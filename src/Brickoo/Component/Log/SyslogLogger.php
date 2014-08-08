@@ -29,9 +29,9 @@
 
 namespace Brickoo\Component\Log;
 
-use Brickoo\Component\IO\Stream\SocketStream,
-    Brickoo\Component\IO\Stream\StreamWriter,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\IO\Stream\SocketStream;
+use Brickoo\Component\IO\Stream\StreamWriter;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * SyslogLogger

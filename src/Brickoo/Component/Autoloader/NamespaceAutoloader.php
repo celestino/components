@@ -29,9 +29,9 @@
 
 namespace Brickoo\Component\Autoloader;
 
-use Brickoo\Component\Autoloader\Exception\DirectoryDoesNotExistException,
-    Brickoo\Component\Autoloader\Exception\DuplicateNamespaceRegistrationException,
-    Brickoo\Component\Autoloader\Exception\NamespaceNotRegisteredException;
+use Brickoo\Component\Autoloader\Exception\DirectoryDoesNotExistException;
+use Brickoo\Component\Autoloader\Exception\DuplicateNamespaceRegistrationException;
+use Brickoo\Component\Autoloader\Exception\NamespaceNotRegisteredException;
 
 /**
  * NamespaceAutoloader

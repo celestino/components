@@ -29,8 +29,8 @@
 
 namespace Brickoo\Component\Routing\Route;
 
-use Brickoo\Component\Validation\Argument,
-    UnexpectedValueException;
+use Brickoo\Component\Validation\Argument;
+use UnexpectedValueException;
 
 /**
  * GenericRoute

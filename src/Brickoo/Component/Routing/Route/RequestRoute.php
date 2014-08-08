@@ -29,9 +29,8 @@
 
 namespace Brickoo\Component\Routing\Route;
 
-use ReflectionClass,
-    Brickoo\Component\Routing\Route\Exception\ParameterNotAvailableException,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Routing\Route\Exception\ParameterNotAvailableException;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * RequestRoute

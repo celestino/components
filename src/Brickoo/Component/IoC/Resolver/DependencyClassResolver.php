@@ -29,9 +29,9 @@
 
 namespace Brickoo\Component\IoC\Resolver;
 
-use Brickoo\Component\IoC\Definition\DependencyDefinition,
-    Brickoo\Component\IoC\Definition\InjectionDefinition,
-    Brickoo\Component\IoC\Resolver\Exception\DependencyClassUnknownException;
+use Brickoo\Component\IoC\Definition\DependencyDefinition;
+use Brickoo\Component\IoC\Definition\InjectionDefinition;
+use Brickoo\Component\IoC\Resolver\Exception\DependencyClassUnknownException;
 
 /**
  * DependencyClassResolver

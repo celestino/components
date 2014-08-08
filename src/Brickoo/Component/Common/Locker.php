@@ -29,9 +29,9 @@
 
 namespace Brickoo\Component\Common;
 
-use Brickoo\Component\Common\Exception\LockFailedException,
-    Brickoo\Component\Common\Exception\UnlockFailedException,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Exception\LockFailedException;
+use Brickoo\Component\Common\Exception\UnlockFailedException;
+use Brickoo\Component\Validation\Argument;
 
 
 /**

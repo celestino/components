@@ -29,12 +29,12 @@
 
 namespace Brickoo\Component\Routing\Route\Collector;
 
-use ArrayIterator,
-    Brickoo\Component\Messaging\GenericMessage,
-    Brickoo\Component\Messaging\MessageDispatcher,
-    Brickoo\Component\Messaging\MessageResponseCollection,
-    Brickoo\Component\Routing\Messaging\Messages,
-    Brickoo\Component\Routing\Route\RouteCollection;
+use ArrayIterator;
+use Brickoo\Component\Messaging\GenericMessage;
+use Brickoo\Component\Messaging\MessageDispatcher;
+use Brickoo\Component\Messaging\MessageResponseCollection;
+use Brickoo\Component\Routing\Messaging\Messages;
+use Brickoo\Component\Routing\Route\RouteCollection;
 
 /**
  * MessageRouteCollector

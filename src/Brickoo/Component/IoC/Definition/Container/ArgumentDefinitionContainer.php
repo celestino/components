@@ -29,11 +29,11 @@
 
 namespace Brickoo\Component\IoC\Definition\Container;
 
-use Brickoo\Component\IoC\Definition\ArgumentDefinition,
-    Brickoo\Component\IoC\Definition\Container\Exception\ArgumentNotAvailableException,
-    Brickoo\Component\IoC\Definition\Container\Exception\DuplicateParameterDefinitionException,
-    Brickoo\Component\Validation\Argument,
-    Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint;
+use Brickoo\Component\IoC\Definition\ArgumentDefinition;
+use Brickoo\Component\IoC\Definition\Container\Exception\ArgumentNotAvailableException;
+use Brickoo\Component\IoC\Definition\Container\Exception\DuplicateParameterDefinitionException;
+use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint;
 
 /**
  * ArgumentDefinitionContainer
@@ -92,7 +92,7 @@ class ArgumentDefinitionContainer implements \IteratorAggregate, \Countable {
 
     /**
      * Sets the list of arguments to the dependency definition.
-     * @param \Traversable|array<\Brickoo\Component\IoC\Definition\ArgumentDefinition> $arguments
+     * @param ArgumentDefinition[] $arguments
      * @throws \InvalidArgumentException
      * @return \Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer
      */

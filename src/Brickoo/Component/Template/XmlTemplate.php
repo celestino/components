@@ -29,14 +29,14 @@
 
 namespace Brickoo\Component\Template;
 
-use Brickoo\Component\Template\Exception,
-    Brickoo\Component\Template\Exception\RenderingException,
-    Brickoo\Component\Template\Exception\UnableToLoadFileException,
-    Brickoo\Component\Template\Exception\XmlTransformationException,
-    Brickoo\Component\Validation\Argument,
-    DOMDocument,
-    LibXMLError,
-    XSLTProcessor;
+use Brickoo\Component\Template\Exception;
+use Brickoo\Component\Template\Exception\RenderingException;
+use Brickoo\Component\Template\Exception\UnableToLoadFileException;
+use Brickoo\Component\Template\Exception\XmlTransformationException;
+use Brickoo\Component\Validation\Argument;
+use DOMDocument;
+use LibXMLError;
+use XSLTProcessor;
 
 /**
  * XmlTemplate

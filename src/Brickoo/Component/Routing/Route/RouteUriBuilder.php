@@ -29,10 +29,10 @@
 
 namespace Brickoo\Component\Routing\Route;
 
-use Brickoo\Component\Routing\Router,
-    Brickoo\Component\Routing\Route\Exception\PathNotValidException,
-    Brickoo\Component\Routing\Route\Exception\RouteRequiredParametersMissingException,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Routing\Router;
+use Brickoo\Component\Routing\Route\Exception\PathNotValidException;
+use Brickoo\Component\Routing\Route\Exception\RouteRequiredParametersMissingException;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * RouteUriBuilder

@@ -29,8 +29,8 @@
 
 namespace Brickoo\Component\Http;
 
-use Brickoo\Component\Http\Exception\InvalidHttpMethodException,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Http\Exception\InvalidHttpMethodException;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * HttpMethod

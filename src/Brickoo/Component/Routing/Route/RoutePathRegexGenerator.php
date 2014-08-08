@@ -88,7 +88,7 @@ class RoutePathRegexGenerator  {
     /**
      * Replaces the route parameters with the rules defined.
      * @param string $routePath the route path
-     * @param array $parameters the dynamic parameters of the route
+     * @param string[] $parameters the dynamic parameters of the route
      * @param \Brickoo\Component\Routing\Route\Route $route
      * @internal param string $regex the regular expression to modify
      * @return void

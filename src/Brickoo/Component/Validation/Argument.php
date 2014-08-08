@@ -167,7 +167,7 @@ class Argument {
 
     /**
      * Check if the argument is a resource.
-     * @param mixed $argument the argument to validate
+     * @param resource $argument the argument to validate
      * @throws \InvalidArgumentException if the validation fails
      * @return boolean check result
      */

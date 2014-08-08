@@ -29,9 +29,9 @@
 
 namespace Brickoo\Component\Validation\Validator;
 
-use Brickoo\Component\Validation\Constraint\AndOrConstraint,
-    Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint,
-    InvalidArgumentException;
+use Brickoo\Component\Validation\Constraint\AndOrConstraint;
+use Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint;
+use InvalidArgumentException;
 
 /**
  * Validator

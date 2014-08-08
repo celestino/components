@@ -29,13 +29,13 @@
 
 namespace Brickoo\Component\Error\Messaging\Listener;
 
-use Brickoo\Component\Error\Messaging\Messages,
-    Brickoo\Component\Error\Messaging\Message\ErrorMessage,
-    Brickoo\Component\Messaging\Listener,
-    Brickoo\Component\Messaging\Message,
-    Brickoo\Component\Messaging\MessageDispatcher,
-    Brickoo\Component\Log\Logger,
-    Brickoo\Component\Log\Messaging\Message\LogMessage;
+use Brickoo\Component\Error\Messaging\Messages;
+use Brickoo\Component\Error\Messaging\Message\ErrorMessage;
+use Brickoo\Component\Messaging\Listener;
+use Brickoo\Component\Messaging\Message;
+use Brickoo\Component\Messaging\MessageDispatcher;
+use Brickoo\Component\Log\Logger;
+use Brickoo\Component\Log\Messaging\Message\LogMessage;
 
 /**
  * ErrorLogMessageListener

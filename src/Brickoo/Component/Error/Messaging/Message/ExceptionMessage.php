@@ -29,8 +29,8 @@
 
 namespace Brickoo\Component\Error\Messaging\Message;
 
-use Brickoo\Component\Error\Messaging\Messages,
-    Brickoo\Component\Messaging\GenericMessage;
+use Brickoo\Component\Error\Messaging\Messages;
+use Brickoo\Component\Messaging\GenericMessage;
 
 /**
  * ExceptionMessage

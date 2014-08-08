@@ -29,9 +29,9 @@
 
 namespace Brickoo\Component\IoC\Definition;
 
-use Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer,
-    Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer;
+use Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * DependencyDefinition

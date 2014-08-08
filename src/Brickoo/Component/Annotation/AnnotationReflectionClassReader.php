@@ -29,8 +29,8 @@
 
 namespace Brickoo\Component\Annotation;
 
-use Brickoo\Component\Annotation\Definition\DefinitionCollection,
-    ReflectionClass;
+use Brickoo\Component\Annotation\Definition\DefinitionCollection;
+use ReflectionClass;
 
 /**
  * AnnotationReflectionClassReader
@@ -158,7 +158,7 @@ class AnnotationReflectionClassReader {
     /**
      * Adds the annotations to the result collection.
      * @param \Brickoo\Component\Annotation\AnnotationReaderResult $result
-     * @param array $annotations
+     * @param Annotation[] $annotations
      * @return \Brickoo\Component\Annotation\AnnotationReflectionClassReader
      */
     private function addResultAnnotations(AnnotationReaderResult $result, array $annotations) {

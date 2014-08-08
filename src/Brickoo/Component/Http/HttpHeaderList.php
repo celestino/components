@@ -29,13 +29,13 @@
 
 namespace Brickoo\Component\Http;
 
-use ArrayIterator,
-    Brickoo\Component\Http\Exception\HeaderListElementNotAvailableException,
-    Brickoo\Component\Validation\Argument,
-    Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint,
-    Countable,
-    InvalidArgumentException,
-    IteratorAggregate;
+use ArrayIterator;
+use Brickoo\Component\Http\Exception\HeaderListElementNotAvailableException;
+use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint;
+use Countable;
+use InvalidArgumentException;
+use IteratorAggregate;
 
 /**
  * HttpHeaderList

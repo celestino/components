@@ -29,11 +29,11 @@
 
 namespace Brickoo\Component\Routing\Route;
 
-use ArrayIterator,
-    IteratorAggregate,
-    Brickoo\Component\Routing\Route\Exception\DuplicateRouteException,
-    Brickoo\Component\Routing\Route\Exception\RouteNotFoundException,
-    Brickoo\Component\Validation\Argument;
+use ArrayIterator;
+use IteratorAggregate;
+use Brickoo\Component\Routing\Route\Exception\DuplicateRouteException;
+use Brickoo\Component\Routing\Route\Exception\RouteNotFoundException;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * RouteCollection

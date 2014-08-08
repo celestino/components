@@ -29,8 +29,8 @@
 
 namespace Brickoo\Component\Cache\Messaging\Message;
 
-use Brickoo\Component\Cache\Messaging\Messages,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Cache\Messaging\Messages;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * StoreMessage

@@ -29,8 +29,8 @@
 
 namespace Brickoo\Component\Cache\Adapter;
 
-use Brickoo\Component\Validation\Argument,
-    DirectoryIterator;
+use Brickoo\Component\Validation\Argument;
+use DirectoryIterator;
 
 /**
  * FilesystemAdapter

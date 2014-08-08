@@ -102,7 +102,7 @@ trait BufferRoutines {
 
     /**
      * Clear the output buffer.
-     * @return \Brickoo\Component\IO\Printing\OutputBufferedPrinter
+     * @return BufferRoutines
      */
     private function clearBuffer() {
         $this->buffer = "";

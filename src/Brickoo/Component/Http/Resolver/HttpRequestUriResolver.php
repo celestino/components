@@ -29,8 +29,8 @@
 
 namespace Brickoo\Component\Http\Resolver;
 
-use Brickoo\Component\Http\HttpMessageHeader,
-    Brickoo\Component\Http\UriResolver;
+use Brickoo\Component\Http\HttpMessageHeader;
+use Brickoo\Component\Http\UriResolver;
 
 /**
  * HttpRequestUriResolver
@@ -132,7 +132,7 @@ class HttpRequestUriResolver implements UriResolver {
      * Returns a server variable or the default value if it does not exist.
      * @param string $key the key of the server variable
      * @param string $defaultValue the default value to return
-     * @return string|mixed the value of the server variable otherwise the default value
+     * @return string|null the value of the server variable otherwise the default value
      */
     private function getServerVar($key, $defaultValue = null) {
         if (isset($this->serverValues[$key])) {

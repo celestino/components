@@ -29,8 +29,8 @@
 
 namespace Brickoo\Component\Http\Header;
 
-use Brickoo\Component\Http\Header\Exception\InvalidCookieValueException,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Http\Header\Exception\InvalidCookieValueException;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * SetCookieHeader

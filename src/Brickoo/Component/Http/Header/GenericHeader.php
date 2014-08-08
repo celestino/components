@@ -29,8 +29,8 @@
 
 namespace Brickoo\Component\Http\Header;
 
-use Brickoo\Component\Http\HttpHeader,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Http\HttpHeader;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * GenericHeader

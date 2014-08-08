@@ -29,8 +29,8 @@
 
 namespace Brickoo\Component\Routing\Route\Matcher;
 
-use Brickoo\Component\Routing\Route\Route,
-    Brickoo\Component\Routing\Route\RouteCollection;
+use Brickoo\Component\Routing\Route\Route;
+use Brickoo\Component\Routing\Route\RouteCollection;
 
 /**
  * RouteMatcher

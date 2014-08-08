@@ -29,14 +29,14 @@
 
 namespace Brickoo\Component\Routing\Route\Collector;
 
-use ArrayIterator,
-    Brickoo\Component\Routing\Route\RouteCollection,
-    Brickoo\Component\Validation\Argument,
-    DirectoryIterator,
-    InvalidArgumentException,
-    RecursiveDirectoryIterator,
-    RecursiveIteratorIterator,
-    RegexIterator;
+use ArrayIterator;
+use Brickoo\Component\Routing\Route\RouteCollection;
+use Brickoo\Component\Validation\Argument;
+use DirectoryIterator;
+use InvalidArgumentException;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use RegexIterator;
 
 /**
  * FileCollector

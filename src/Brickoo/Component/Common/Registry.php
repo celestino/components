@@ -29,11 +29,11 @@
 
 namespace Brickoo\Component\Common;
 
-use Brickoo\Component\Common\Exception\DuplicateRegistrationException,
-    Brickoo\Component\Common\Exception\IdentifierLockedException,
-    Brickoo\Component\Common\Exception\IdentifierNotRegisteredException,
-    Brickoo\Component\Common\Exception\ReadonlyModeException,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Exception\DuplicateRegistrationException;
+use Brickoo\Component\Common\Exception\IdentifierLockedException;
+use Brickoo\Component\Common\Exception\IdentifierNotRegisteredException;
+use Brickoo\Component\Common\Exception\ReadonlyModeException;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * Registry

@@ -29,8 +29,8 @@
 
 namespace Brickoo\Component\Template;
 
-use Brickoo\Component\Template\Exception\RenderingException,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Template\Exception\RenderingException;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * PhpTemplate

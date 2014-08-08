@@ -29,14 +29,14 @@
 
 namespace Brickoo\Component\IoC\Annotation;
 
-use Brickoo\Component\Annotation\Annotation,
-    Brickoo\Component\Annotation\AnnotationReaderResult,
-    Brickoo\Component\Annotation\Definition\AnnotationDefinition,
-    Brickoo\Component\IoC\Definition\ArgumentDefinition,
-    Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer,
-    Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer,
-    Brickoo\Component\IoC\Definition\DependencyDefinition,
-    Brickoo\Component\IoC\Definition\InjectionDefinition;
+use Brickoo\Component\Annotation\Annotation;
+use Brickoo\Component\Annotation\AnnotationReaderResult;
+use Brickoo\Component\Annotation\Definition\AnnotationDefinition;
+use Brickoo\Component\IoC\Definition\ArgumentDefinition;
+use Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer;
+use Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer;
+use Brickoo\Component\IoC\Definition\DependencyDefinition;
+use Brickoo\Component\IoC\Definition\InjectionDefinition;
 
 /**
  * DependencyAnnotation

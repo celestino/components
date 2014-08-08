@@ -29,10 +29,10 @@
 
 namespace Brickoo\Component\Annotation;
 
-use ArrayIterator,
-    Brickoo\Component\Annotation\Definition\DefinitionCollection,
-    Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationException,
-    Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationParametersException;
+use ArrayIterator;
+use Brickoo\Component\Annotation\Definition\DefinitionCollection;
+use Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationException;
+use Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationParametersException;
 
 /**
  * AnnotationReaderResultValidator

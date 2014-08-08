@@ -29,8 +29,8 @@
 
 namespace Brickoo\Component\IO\Stream;
 
-use Brickoo\Component\IO\Stream\Exception\InvalidResourceHandleException,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\IO\Stream\Exception\InvalidResourceHandleException;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * StreamSeeker

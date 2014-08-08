@@ -29,9 +29,8 @@
 
 namespace Brickoo\Component\Session;
 
-use Brickoo\Component\Session\Exception\SessionAlreadyStartedException,
-    Brickoo\Component\Validation\Argument,
-    SessionHandler;
+use Brickoo\Component\Session\Exception\SessionAlreadyStartedException;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * SessionManager

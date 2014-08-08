@@ -29,9 +29,9 @@
 
 namespace Brickoo\Component\IO\Stream;
 
-use Brickoo\Component\IO\Stream\Exception\InvalidResourceHandleException,
-    Brickoo\Component\IO\Stream\Exception\UnableToWriteBytesException,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\IO\Stream\Exception\InvalidResourceHandleException;
+use Brickoo\Component\IO\Stream\Exception\UnableToWriteBytesException;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * StreamWriter

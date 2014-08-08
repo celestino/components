@@ -29,14 +29,14 @@
 
 namespace Brickoo\Component\Routing;
 
-use Brickoo\Component\Routing\Route\Route,
-    Brickoo\Component\Routing\Route\RequestRoute,
-    Brickoo\Component\Routing\Exception\NoMatchingRouteFoundException,
-    Brickoo\Component\Routing\Exception\RouteNotFoundException,
-    Brickoo\Component\Routing\Route\RouteCollection,
-    Brickoo\Component\Routing\Route\Collector\RouteCollector,
-    Brickoo\Component\Routing\Route\Matcher\RouteMatcher,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Routing\Route\Route;
+use Brickoo\Component\Routing\Route\RequestRoute;
+use Brickoo\Component\Routing\Exception\NoMatchingRouteFoundException;
+use Brickoo\Component\Routing\Exception\RouteNotFoundException;
+use Brickoo\Component\Routing\Route\RouteCollection;
+use Brickoo\Component\Routing\Route\Collector\RouteCollector;
+use Brickoo\Component\Routing\Route\Matcher\RouteMatcher;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * Router
@@ -140,7 +140,7 @@ class Router {
     /**
      * Returns the matching route from collection if available.
      * @param \Brickoo\Component\Routing\Route\RouteCollection $routeCollection
-     * @return \Brickoo\Component\Routing\Route\Route otherwise null
+     * @return RequestRoute|null otherwise null
      */
     private function getMatchingRouteFromCollection(RouteCollection $routeCollection) {
         $matchingRoute = null;

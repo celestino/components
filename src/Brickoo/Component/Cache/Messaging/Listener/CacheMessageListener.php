@@ -29,18 +29,18 @@
 
 namespace Brickoo\Component\Cache\Messaging\Listener;
 
-use Brickoo\Component\Cache\CacheProxy,
-    Brickoo\Component\Cache\Messaging\Messages,
-    Brickoo\Component\Cache\Messaging\Message\DeleteMessage,
-    Brickoo\Component\Cache\Messaging\Message\FlushMessage,
-    Brickoo\Component\Cache\Messaging\Message\RetrieveByCallbackMessage,
-    Brickoo\Component\Cache\Messaging\Message\RetrieveMessage,
-    Brickoo\Component\Cache\Messaging\Message\StoreMessage,
-    Brickoo\Component\Messaging\ListenerAggregate,
-    Brickoo\Component\Messaging\Message,
-    Brickoo\Component\Messaging\MessageDispatcher,
-    Brickoo\Component\Messaging\MessageListener,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Cache\CacheProxy;
+use Brickoo\Component\Cache\Messaging\Messages;
+use Brickoo\Component\Cache\Messaging\Message\DeleteMessage;
+use Brickoo\Component\Cache\Messaging\Message\FlushMessage;
+use Brickoo\Component\Cache\Messaging\Message\RetrieveByCallbackMessage;
+use Brickoo\Component\Cache\Messaging\Message\RetrieveMessage;
+use Brickoo\Component\Cache\Messaging\Message\StoreMessage;
+use Brickoo\Component\Messaging\ListenerAggregate;
+use Brickoo\Component\Messaging\Message;
+use Brickoo\Component\Messaging\MessageDispatcher;
+use Brickoo\Component\Messaging\MessageListener;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * CacheMessageListener

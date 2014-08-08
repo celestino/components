@@ -29,10 +29,10 @@
 
 namespace Brickoo\Component\Annotation;
 
-use ArrayIterator,
-    Brickoo\Component\Annotation\Exception\InvalidTargetException,
-    Brickoo\Component\Validation\Argument,
-    IteratorAggregate;
+use ArrayIterator;
+use Brickoo\Component\Annotation\Exception\InvalidTargetException;
+use Brickoo\Component\Validation\Argument;
+use IteratorAggregate;
 
 /**
  * AnnotationReaderResult

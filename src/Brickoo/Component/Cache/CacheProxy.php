@@ -29,9 +29,9 @@
 
 namespace Brickoo\Component\Cache;
 
-use Brickoo\Component\Cache\Adapter\AdapterPoolIterator,
-    Brickoo\Component\Cache\Exception\AdapterNotFoundException,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Cache\Adapter\AdapterPoolIterator;
+use Brickoo\Component\Cache\Exception\AdapterNotFoundException;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * CacheProxy

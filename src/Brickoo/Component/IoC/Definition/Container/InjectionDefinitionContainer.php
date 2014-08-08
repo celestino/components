@@ -29,11 +29,11 @@
 
 namespace Brickoo\Component\IoC\Definition\Container;
 
-use Brickoo\Component\IoC\Definition\InjectionDefinition,
-    Brickoo\Component\IoC\Definition\Container\Exception\DefinitionNotAvailableException,
-    Brickoo\Component\IoC\Definition\Container\Exception\DuplicateInjectionDefinitionException,
-    Brickoo\Component\Validation\Argument,
-    Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint;
+use Brickoo\Component\IoC\Definition\InjectionDefinition;
+use Brickoo\Component\IoC\Definition\Container\Exception\DefinitionNotAvailableException;
+use Brickoo\Component\IoC\Definition\Container\Exception\DuplicateInjectionDefinitionException;
+use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint;
 
 /**
  * InjectionDefinitionContainer
@@ -90,7 +90,7 @@ class InjectionDefinitionContainer implements \IteratorAggregate, \Countable {
 
     /**
      * Sets the list of injections to the dependency definition.
-     * @param \Traversable|array<\Brickoo\Component\IoC\Definition\InjectionDefinition> $injections
+     * @param InjectionDefinition[] $injections
      * @throws \InvalidArgumentException
      * @return \Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer
      */

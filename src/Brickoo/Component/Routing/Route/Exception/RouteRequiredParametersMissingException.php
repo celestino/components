@@ -44,7 +44,7 @@ class RouteRequiredParametersMissingException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param string $routeName the route name
-     * @param array $parametersMissed the parameters missed as array values
+     * @param string[] $parametersMissed the parameters missed as array values
      * @param \Exception $previousException
      */
     public function __construct($routeName, array $parametersMissed, \Exception $previousException = null) {

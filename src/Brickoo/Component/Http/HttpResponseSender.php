@@ -29,8 +29,8 @@
 
 namespace Brickoo\Component\Http;
 
-use InvalidArgumentException,
-    Brickoo\Component\Http\Exception\StatusCodeDoesNotAllowMessageBodyException;
+use InvalidArgumentException;
+use Brickoo\Component\Http\Exception\StatusCodeDoesNotAllowMessageBodyException;
 
 /**
  * HttpResponseSender

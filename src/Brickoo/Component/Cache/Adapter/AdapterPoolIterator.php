@@ -29,10 +29,10 @@
 
 namespace Brickoo\Component\Cache\Adapter;
 
-use Brickoo\Component\Cache\Adapter\Exception\PoolIdentifierDoesNotExistException,
-    Brickoo\Component\Cache\Adapter\Exception\PoolIsEmptyException,
-    Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Cache\Adapter\Exception\PoolIdentifierDoesNotExistException;
+use Brickoo\Component\Cache\Adapter\Exception\PoolIsEmptyException;
+use Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * AdapterPoolIterator

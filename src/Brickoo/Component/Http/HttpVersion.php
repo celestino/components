@@ -29,8 +29,8 @@
 
 namespace Brickoo\Component\Http;
 
-use Brickoo\Component\Http\Exception\InvalidHttpVersionException,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Http\Exception\InvalidHttpVersionException;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * HttpVersion

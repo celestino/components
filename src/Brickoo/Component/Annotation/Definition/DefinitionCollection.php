@@ -29,11 +29,11 @@
 
 namespace Brickoo\Component\Annotation\Definition;
 
-use ArrayIterator,
-    Brickoo\Component\Annotation\Exception\AnnotationNotAvailableException,
-    Brickoo\Component\Validation\Argument,
-    Countable,
-    IteratorAggregate;
+use ArrayIterator;
+use Brickoo\Component\Annotation\Exception\AnnotationNotAvailableException;
+use Brickoo\Component\Validation\Argument;
+use Countable;
+use IteratorAggregate;
 
 /**
  * DefinitionCollection

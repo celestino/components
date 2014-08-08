@@ -29,9 +29,9 @@
 
 namespace Brickoo\Component\Log\Messaging\Message;
 
-use Brickoo\Component\Log\Messaging\Messages,
-    Brickoo\Component\Messaging\GenericMessage,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Log\Messaging\Messages;
+use Brickoo\Component\Messaging\GenericMessage;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * LogMessage
