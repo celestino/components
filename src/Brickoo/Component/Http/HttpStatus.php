@@ -41,7 +41,7 @@ use Brickoo\Component\Http\Exception\InvalidHttpStatusException,
 
 Class HttpStatus extends HttpStatusCode {
 
-    /** @var string */
+    /** @var integer */
     private $status;
 
     /**
