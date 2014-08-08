@@ -41,6 +41,9 @@ use Brickoo\Component\Validation\Argument;
 
 class PhpTemplate implements Template {
 
+    /** @var string */
+    protected $templateFile;
+
     /** @var array */
     protected $templateVars;
 
