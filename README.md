@@ -1,5 +1,12 @@
 
-##Brickoo components [![Build Status](https://secure.travis-ci.org/brickoo/components.png)](http://travis-ci.org/brickoo/components)
+##Brickoo components
+[![Build Status](https://secure.travis-ci.org/brickoo/components.png)](http://travis-ci.org/brickoo/components)
+[![Code Coverage](https://scrutinizer-ci.com/g/brickoo/components/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/brickoo/components/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/brickoo/components/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/brickoo/components/?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/brickoo/components/v/stable.svg)](https://packagist.org/packages/brickoo/components)
+[![Latest Unstable Version](https://poser.pugx.org/brickoo/components/v/unstable.svg)](https://packagist.org/packages/brickoo/components)
+[![License](https://poser.pugx.org/brickoo/components/license.svg)](https://packagist.org/packages/brickoo/components)
+
 Brickoo components are designed with simplicity in mind.
 
 ###Requirements
@@ -25,7 +32,7 @@ Add this requirement to your composer.json `"require": {"brickoo/components": "d
 
 
 ###Testing
-Brickoo has been tested with PHPUnit 4.1.
+Brickoo has been tested with PHPUnit 4.2.
 
 
 ###Contributing
