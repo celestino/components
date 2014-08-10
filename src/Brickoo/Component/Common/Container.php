@@ -29,10 +29,10 @@
 
 namespace Brickoo\Component\Common;
 
-use ArrayIterator,
-    Brickoo\Component\Common\Exception\InvalidValueTypeException,
-    Brickoo\Component\Validation\Argument,
-    Brickoo\Component\Validation\Validator\Validator;
+use ArrayIterator;
+use Brickoo\Component\Common\Exception\InvalidValueTypeException;
+use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Validation\Validator\Validator;
 
 /**
  * Container
@@ -92,7 +92,7 @@ class Container implements \IteratorAggregate, \Countable {
      * Returns the value of the given key.
      * @param string|integer $key
      * @param mixed $defaultValue
-     * @throws \InvalidArgumentException
+     * @param string $key
      * @return mixed the key associated value otherwise the default value
      */
     public function get($key, $defaultValue = null) {

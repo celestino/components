@@ -29,12 +29,11 @@
 
 namespace Brickoo\Component\Http;
 
-use Brickoo\Component\Http\Exception\HeaderNotFoundException,
-    Brickoo\Component\Common\Container,
-    Brickoo\Component\Validation\Argument,
-    Brickoo\Component\Validation\Constraint\IsInstanceOfConstraint,
-    Brickoo\Component\Validation\Validator\ConstraintValidator,
-    Traversable;
+use Brickoo\Component\Http\Exception\HeaderNotFoundException;
+use Brickoo\Component\Common\Container;
+use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Validation\Constraint\IsInstanceOfConstraint;
+use Brickoo\Component\Validation\Validator\ConstraintValidator;
 
 /**
  * HttpMessageHeader

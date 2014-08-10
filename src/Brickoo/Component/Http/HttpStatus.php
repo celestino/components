@@ -29,8 +29,8 @@
 
 namespace Brickoo\Component\Http;
 
-use Brickoo\Component\Http\Exception\InvalidHttpStatusException,
-    Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Http\Exception\InvalidHttpStatusException;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * HttpStatus
