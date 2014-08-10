@@ -64,7 +64,11 @@ class UriQuery extends Container {
         }
 
         parse_str(rawurldecode($query), $importedQueryParameters);
-        $this->fromArray($importedQueryParameters);
+
+        if (is_array($importedQueryParameters)) {
+            $this->fromArray($importedQueryParameters);
+        }
+
         return $this;
     }
 
