@@ -92,7 +92,7 @@ class HttpRequestUriResolver implements UriResolver {
         if ((! $requestPath = $this->getServerVar("REQUEST_URI")) && (! $requestPath = $this->getServerVar("ORIG_PATH_INFO"))) {
             $requestPath = $this->getIISRequestUri();
         }
-        return "/". trim(rawurldecode(parse_url($requestPath, PHP_URL_PATH)), "/");
+        return "/". trim(rawurldecode(strval(parse_url($requestPath, PHP_URL_PATH))), "/");
     }
 
     /** {@inheritDoc} */
