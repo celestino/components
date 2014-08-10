@@ -46,6 +46,12 @@ class XmlTemplateTest extends PHPUnit_Framework_TestCase {
         if ((! class_exists("DOMDocument")) || (! class_exists("XSLTProcessor"))) {
             $this->markTestSkipped("Missing DOMDocument|XSLTProcessor dependencies.");
         }
+
+        if (defined("HHVM_VERSION")) {
+            $this->markTestSkipped(
+                "Problems caused by HHVM v3.2.0 at importing stylesheets."
+            );
+        }
     }
 
     /**
