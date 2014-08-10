@@ -49,12 +49,12 @@ class DefinitionResolverTest extends PHPUnit_Framework_TestCase {
      */
     public function testSetResolver() {
         $resolver = new DependencyClassResolver($this->getDiContainerStub());
-        $defintionResolver = new DefinitionResolver();
+        $definitionResolver = new DefinitionResolver();
         $this->assertSame(
-            $defintionResolver,
-            $defintionResolver->setResolver(DefinitionResolver::TYPE_CLASS, $resolver)
+            $definitionResolver,
+            $definitionResolver->setResolver(DefinitionResolver::TYPE_CLASS, $resolver)
         );
-        $this->assertAttributeCount(1, "resolvers", $defintionResolver);
+        $this->assertAttributeCount(1, "resolvers", $definitionResolver);
     }
 
     /**

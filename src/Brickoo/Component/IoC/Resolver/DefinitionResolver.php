@@ -101,11 +101,6 @@ class DefinitionResolver {
         }
 
         switch ($definitionType) {
-            case self::TYPE_UNSUPPORTED:
-            default:
-                throw new DefinitionTypeUnknownException($definitionType);
-                break;
-
             case self::TYPE_CLOSURE:
                 $resolver = new DependencyClosureResolver($diContainer);
                 break;
@@ -120,6 +115,10 @@ class DefinitionResolver {
 
             case self::TYPE_CLASS:
                 $resolver = new DependencyClassResolver($diContainer);
+                break;
+
+            case self::TYPE_UNSUPPORTED:
+                throw new DefinitionTypeUnknownException($definitionType);
         }
 
         $this->resolvers[$definitionType] = $resolver;
