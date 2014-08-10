@@ -170,7 +170,7 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
      * @return integer the position
      */
     private function getMappingPosition($adapterIdentifier) {
-        return array_search($adapterIdentifier, $this->mappingKeys, true);
+        return intval(array_search($adapterIdentifier, $this->mappingKeys, true));
     }
 
 }
