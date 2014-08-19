@@ -48,11 +48,12 @@ trait BufferRoutines {
      * Initialize the buffer.
      * @param integer $bufferLength
      * @param string $bufferContent
-     * @return \Brickoo\Component\IO\Printing\BufferRoutines
+     * @return mixed
      */
     private function initializeBuffer($bufferLength = 255, $bufferContent = "") {
         $this->bufferLength = $bufferLength;
         $this->buffer = $bufferContent;
+        return $this;
     }
 
     /**
@@ -66,7 +67,7 @@ trait BufferRoutines {
     /**
      * Add content to the buffer.
      * @param string $content
-     * @return \Brickoo\Component\IO\Printing\BufferRoutines
+     * @return mixed
      */
     private function addToBuffer($content) {
         $this->buffer .= $content;
@@ -101,7 +102,7 @@ trait BufferRoutines {
 
     /**
      * Clear the output buffer.
-     * @return \Brickoo\Component\IO\Printing\BufferRoutines
+     * @return mixed
      */
     private function clearBuffer() {
         $this->buffer = "";
