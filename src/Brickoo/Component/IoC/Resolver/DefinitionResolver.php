@@ -132,7 +132,7 @@ class DefinitionResolver {
 
     /**
      * Returns the corresponding type resolver.
-     * @param callable $dependency
+     * @param mixed $dependency
      * @throws \Brickoo\Component\IoC\Resolver\Exception\DefinitionTypeUnknownException
      * @return integer
      */

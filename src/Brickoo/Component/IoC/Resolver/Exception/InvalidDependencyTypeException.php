@@ -43,7 +43,7 @@ class InvalidDependencyTypeException extends Exception {
     /**
      * Class constructor.
      * Calls the parent exception constructor.
-     * @param callable $definitionDependency
+     * @param mixed $definitionDependency
      * @param \Exception $previousException
      */
     public function __construct($definitionDependency, \Exception $previousException = null) {
