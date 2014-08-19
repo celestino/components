@@ -79,6 +79,7 @@ trait CommonAcceptRoutines {
         $fields = explode(",", $headerValue);
 
         foreach ($fields as $field) {
+            $matches = array();
             if (preg_match($regex, trim($field), $matches) && isset($matches["value"])) {
                 $matches["quality"] = (isset($matches["quality"]) ? $matches["quality"] : 1);
                 $results[trim($matches["value"])] = (float)$matches["quality"];
