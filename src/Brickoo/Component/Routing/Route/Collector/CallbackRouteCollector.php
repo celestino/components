@@ -58,8 +58,9 @@ class CallbackRouteCollector implements RouteCollector {
     /** {@inheritDoc} */
     public function collect() {
         if (($collections = call_user_func($this->callback))
+            && is_array($collections)
             && (new ContainsInstancesOfConstraint("\\Brickoo\\Component\\Routing\\Route\\RouteCollection"))->matches($collections)
-        ){
+        ) {
             $this->collections = $collections;
         }
         return $this->getIterator();
