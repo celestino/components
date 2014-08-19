@@ -51,7 +51,7 @@ class DependencyDefinition {
     /** @var \Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer */
     private $injectionsContainer;
 
-    /** @var object|callable|string|\Closure */
+    /** @var mixed */
     private $dependency;
 
     /** @var integer */
@@ -78,7 +78,7 @@ class DependencyDefinition {
     }
 
     /**
-     * Returns the dependency scope.
+     * Return the dependency scope.
      * @return integer the dependency scope
      */
     public function getScope() {
@@ -86,7 +86,7 @@ class DependencyDefinition {
     }
 
     /**
-     * Returns the dependency arguments definitions container.
+     * Return the dependency arguments definitions container.
      * @return \Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer
      */
     public function getArgumentsContainer() {
@@ -94,7 +94,7 @@ class DependencyDefinition {
     }
 
     /**
-     * Returns the dependency injection definitions container.
+     * Return the dependency injection definitions container.
      * @return \Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer
      */
     public function getInjectionsContainer() {
@@ -102,16 +102,16 @@ class DependencyDefinition {
     }
 
     /**
-     * Returns the dependency provided.
-     * @return Object|callable the dependency
+     * Return the dependency provided.
+     * @return mixed
      */
     public function getDependency() {
         return $this->dependency;
     }
 
     /**
-     * Sets the dependency of the definition.
-     * @param object|callable|string|\Closure $dependency
+     * Set the dependency of the definition.
+     * @param mixed $dependency
      * @return \Brickoo\Component\IoC\Definition\DependencyDefinition
      */
     public function setDependency($dependency) {
