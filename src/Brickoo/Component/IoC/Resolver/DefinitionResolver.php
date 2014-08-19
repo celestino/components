@@ -118,7 +118,12 @@ class DefinitionResolver {
                 break;
 
             case self::TYPE_UNSUPPORTED:
-                throw new DefinitionTypeUnknownException($definitionType);
+            default:
+                $resolver = null;
+        }
+
+        if ($resolver === null) {
+            throw new DefinitionTypeUnknownException($definitionType);
         }
 
         $this->resolvers[$definitionType] = $resolver;
