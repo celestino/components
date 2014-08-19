@@ -49,10 +49,10 @@ class HttpRouteMatcher implements RouteMatcher {
     /** @var \Brickoo\Component\Routing\Route\RoutePathRegexGenerator */
     private $regexGenerator;
 
-    /** @var null|array */
+    /** @var array */
     private $routeParameters;
 
-    /** @var null|array */
+    /** @var array */
     private $pathParameters;
 
     /**
@@ -63,6 +63,8 @@ class HttpRouteMatcher implements RouteMatcher {
     public function __construct(HttpRequest $request, RoutePathRegexGenerator $regexGenerator) {
         $this->request = $request;
         $this->regexGenerator = $regexGenerator;
+        $this->routeParameters = [];
+        $this->pathParameters = [];
     }
 
     /** {@inheritDoc} */
@@ -76,8 +78,7 @@ class HttpRouteMatcher implements RouteMatcher {
             return false;
         }
 
-        $this->pathParameters = null;
-        $this->routeParameters = null;
+        $this->routeParameters = [];
 
         if (($doesMatch = $this->isMatchingRoute($route))) {
             $this->routeParameters = $this->collectRouteParameters($route);
@@ -99,7 +100,7 @@ class HttpRouteMatcher implements RouteMatcher {
     private function isAllowedRoute(HttpRoute $route) {
         return (
             $route->getMethod() !== null
-            && preg_match("~^(". $route->getMethod() .")$~i", $this->request->getMethod()) == 1
+            && preg_match("~^(". $route->getMethod() .")$~i", $this->request->getMethod()->toString()) == 1
             && (
                 (($hostname = $route->getHostname()) === null)
                 || preg_match("~^(". $hostname .")$~i", $this->request->getUri()->getHostname()) == 1
@@ -118,6 +119,8 @@ class HttpRouteMatcher implements RouteMatcher {
      * @return boolean check result
      */
     private function isMatchingRoute(HttpRoute $route) {
+        $this->pathParameters = array();
+
         return (preg_match($this->regexGenerator->generate($route),
             $this->request->getUri()->getPath(),
             $this->pathParameters
