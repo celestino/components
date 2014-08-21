@@ -22,13 +22,13 @@ Get a copy of the components repository:
 Installation using composer:
 
 1. Get [Composer](http://getcomposer.org/)
-2. Require Brickoo components with `php composer.phar require brickoo/components dev-master`
+2. Require Brickoo components with `php composer.phar require brickoo/components 4.0`
 3. Install dependencies with `php composer.phar install`
 
 
 Composer JSON requirement entry:
 
-Add this requirement to your composer.json `"require": {"brickoo/components": "dev-master"}`
+Add this requirement to your composer.json `"require": {"brickoo/components": "4.0"}`
 
 
 ###Testing
