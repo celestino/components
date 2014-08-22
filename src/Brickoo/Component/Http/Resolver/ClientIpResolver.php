@@ -108,8 +108,10 @@ class ClientIpResolver {
             && ($forwardedIps = $this->headers->getHeader("X-Forwarded-For")->getValue())
         ){
             $forwardedIps = array_filter(
-                preg_split("/[\s]*,[\s]*/", $forwardedIps),
-                function($ip){return filter_var($ip, FILTER_VALIDATE_IP);}
+                preg_split("/[\\s]*,[\\s]*/", $forwardedIps),
+                function($ipToValidate) {
+                    return filter_var($ipToValidate, FILTER_VALIDATE_IP);
+                }
             );
 
             if (! empty($forwardedIps)) {

@@ -37,17 +37,4 @@ use Brickoo\Component\IO\Exception;
  * Exception thrown if a stream resource could not be created.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class UnableToOpenStreamException extends Exception {
-
-    /**
-     * Class constructor.
-     * Calls the parent Exception constructor.
-     * @param string $errorMessage
-     * @param integer $errorCode
-     * @param \Exception $previousException
-     */
-    public function __construct($errorMessage, $errorCode, \Exception $previousException = null) {
-        parent::__construct($errorMessage, $errorCode, $previousException);
-    }
-
-}
+class UnableToOpenStreamException extends Exception {}

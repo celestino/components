@@ -38,17 +38,4 @@ use Brickoo\Component\Error\Exception;
  * @see Brickoo\Component\Error\ErrorHandler
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class ErrorOccurredException extends Exception {
-
-    /**
-     * Class constructor.
-     * Calls the parent Exception constructor.
-     * @param string $errorMessage the message passed by the error handler
-     * @param integer $errorCode the error code passed by the error handler
-     * @param \Exception $previousException
-     */
-    public function __construct($errorMessage, $errorCode, \Exception $previousException = null) {
-        parent::__construct($errorMessage, $errorCode, $previousException);
-    }
-
-}
+class ErrorOccurredException extends Exception {}
