@@ -46,7 +46,7 @@ class UnableToLocateQualifiedClassNameException extends Exception {
      * @param \Exception $previousException
      */
     public function __construct($filename, \Exception $previousException = null) {
-        parent::__construct(sprintf("Unable to locate qualified class name for file `%s`.", $filename), 0 , $previousException);
+        parent::__construct(sprintf("Unable to locate qualified class name for file `%s`.", $filename), 0, $previousException);
     }
 
 }

@@ -34,7 +34,7 @@ checks:
         verify_argument_usable_as_reference: true
         verify_property_names: true
         single_namespace_per_use: true
-        space_after_cast: true
+        space_after_cast: false
         spacing_around_conditional_operators: true
         spacing_around_non_conditional_operators: true
         spacing_of_function_arguments: true

@@ -49,7 +49,7 @@ class MissingRequiredAnnotationParametersException extends Exception {
     public function __construct($annotationName, array $annotationParameters, \Exception $previousException = null) {
         parent::__construct(
             sprintf("Annotation `%s` parameters (`%s`) missed.", $annotationName, implode("`, `", $annotationParameters)),
-            0 , $previousException
+            0, $previousException
         );
     }
 

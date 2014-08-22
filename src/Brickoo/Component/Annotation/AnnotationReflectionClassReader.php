@@ -97,7 +97,7 @@ class AnnotationReflectionClassReader {
             $this->parseAnnotations(
                 $result,
                 Annotation::TARGET_METHOD,
-                sprintf("%s::%s" , $class->getName(), $method->getName()),
+                sprintf("%s::%s", $class->getName(), $method->getName()),
                 $method->getDocComment()
             );
         }
@@ -120,7 +120,7 @@ class AnnotationReflectionClassReader {
             $this->parseAnnotations(
                 $result,
                 Annotation::TARGET_PROPERTY,
-                sprintf("%s::%s" , $class->getName(), $property->getName()),
+                sprintf("%s::%s", $class->getName(), $property->getName()),
                 $property->getDocComment()
             );
         }
