@@ -5,6 +5,7 @@ tools:
 filter:
     excluded_paths:
         - 'tests/*'
+
 checks:
     php:
         code_rating: true
@@ -34,7 +35,7 @@ checks:
         verify_argument_usable_as_reference: true
         verify_property_names: true
         single_namespace_per_use: true
-        space_after_cast: false
+        space_after_cast: true
         spacing_around_conditional_operators: true
         spacing_around_non_conditional_operators: true
         spacing_of_function_arguments: true
@@ -69,7 +70,7 @@ checks:
         no_unnecessary_function_call_in_for_loop: true
         no_short_open_tag: true
         no_short_method_names:
-            minimum: ''
+            minimum: '2'
         no_mixed_inline_html: true
         no_goto: true
         no_global_keyword: true
@@ -97,11 +98,19 @@ checks:
         avoid_perl_style_comments: true
         avoid_multiple_statements_on_same_line: true
         avoid_closing_tag: true
-build:
-    tests:
-        override:
-            -
-                command: 'phpunit -c ./tests/phpunit.xml --coverage-clover=some-file'
-                coverage:
-                    file: 'some-file'
-                    format: 'php-clover'
+        avoid_usage_of_logical_operators: true
+        prefer_sapi_constant: true
+        avoid_unnecessary_concatenation: true
+        scope_indentation:
+            spaces_per_level: '4'
+        remove_php_closing_tag: true
+        psr2_class_declaration: true
+        psr2_control_structure_declaration: true
+        psr2_switch_declaration: true
+        no_space_between_concatenation_operator: true
+        fix_php_opening_tag: true
+        fix_linefeed: true
+        fix_line_ending: true
+        fix_identation_4spaces: true
+        encourage_postdec_operator: true
+        avoid_aliased_php_functions: true
