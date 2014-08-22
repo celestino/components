@@ -35,7 +35,6 @@ checks:
         verify_argument_usable_as_reference: true
         verify_property_names: true
         single_namespace_per_use: true
-        space_after_cast: true
         spacing_around_conditional_operators: true
         spacing_around_non_conditional_operators: true
         spacing_of_function_arguments: true
@@ -104,7 +103,6 @@ checks:
         scope_indentation:
             spaces_per_level: '4'
         remove_php_closing_tag: true
-        psr2_class_declaration: true
         psr2_control_structure_declaration: true
         psr2_switch_declaration: true
         no_space_between_concatenation_operator: true
@@ -114,6 +112,8 @@ checks:
         fix_identation_4spaces: true
         encourage_postdec_operator: true
         avoid_aliased_php_functions: true
+        remove_trailing_whitespace: true
+
 build:
     tests:
         override:
