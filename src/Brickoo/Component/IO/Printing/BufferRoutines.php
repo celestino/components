@@ -71,7 +71,7 @@ trait BufferRoutines {
      */
     private function addToBuffer($content) {
         $this->buffer .= $content;
-        return this;
+        return $this;
     }
 
     /**
