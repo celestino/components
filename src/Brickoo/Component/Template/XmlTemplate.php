@@ -46,7 +46,7 @@ use XSLTProcessor;
  */
 class XmlTemplate implements Template {
 
-   /** @var string */
+    /** @var string */
     private $xsltFilename;
 
     /** @var \DOMDocument */

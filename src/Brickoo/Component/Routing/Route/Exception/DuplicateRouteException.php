@@ -47,7 +47,7 @@ class DuplicateRouteException extends Exception {
      * @param null|\Exception $previousException
      */
     public function __construct($name, \Exception $previousException = null) {
-        parent::__construct(sprintf("The route `%s` does already exist.", $name), 0 ,$previousException);
+        parent::__construct(sprintf("The route `%s` does already exist.", $name), 0, $previousException);
     }
 
 }

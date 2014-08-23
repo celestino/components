@@ -101,7 +101,7 @@ class HttpRequestUriResolverTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Http\Resolver\HttpRequestUriResolver::getPath
-     * @covers Brickoo\Component\Http\Resolver\HttpRequestUriResolver::getIISRequestUri
+     * @covers Brickoo\Component\Http\Resolver\HttpRequestUriResolver::getIisRequestUri
      */
     public function testGetPathWithoutProviders() {
         $uriResolver = new HttpRequestUriResolver($this->getMessageHeaderStub(), []);
@@ -128,7 +128,7 @@ class HttpRequestUriResolverTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Http\Resolver\HttpRequestUriResolver::getPath
-     * @covers Brickoo\Component\Http\Resolver\HttpRequestUriResolver::getIISRequestUri
+     * @covers Brickoo\Component\Http\Resolver\HttpRequestUriResolver::getIisRequestUri
      */
     public function testGetPathFromISSOriginalUrlHeader() {
         $uriResolver = new HttpRequestUriResolver($this->getMessageHeaderMock("X-Original-Url", $this->getHeaderStub("/path/to/app")));
@@ -137,7 +137,7 @@ class HttpRequestUriResolverTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Http\Resolver\HttpRequestUriResolver::getPath
-     * @covers Brickoo\Component\Http\Resolver\HttpRequestUriResolver::getIISRequestUri
+     * @covers Brickoo\Component\Http\Resolver\HttpRequestUriResolver::getIisRequestUri
      */
     public function testGetPathFromISSRewriteUrlHeader() {
         $headerChecks = [["X-Original-Url", false], ["X-Rewrite-Url", true]];

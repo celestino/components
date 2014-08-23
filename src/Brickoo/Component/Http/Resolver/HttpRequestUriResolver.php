@@ -90,7 +90,7 @@ class HttpRequestUriResolver implements UriResolver {
     /** {@inheritDoc} */
     public function getPath() {
         if ((! $requestPath = $this->getServerVar("REQUEST_URI")) && (! $requestPath = $this->getServerVar("ORIG_PATH_INFO"))) {
-            $requestPath = $this->getIISRequestUri();
+            $requestPath = $this->getIisRequestUri();
         }
         return "/".trim(rawurldecode(strval(parse_url($requestPath, PHP_URL_PATH))), "/");
     }
@@ -117,7 +117,7 @@ class HttpRequestUriResolver implements UriResolver {
      * Returns the IIS request ur assigned if available.
      * @return string|null the request uri or null on unavailable
      */
-    private function getIISRequestUri() {
+    private function getIisRequestUri() {
         if ($this->header->contains("X-Original-Url")) {
             return $this->header->getHeader("X-Original-Url")->getValue();
         }

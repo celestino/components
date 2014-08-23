@@ -50,7 +50,7 @@ class UriFactory {
             $uriResolver->getPath(),
             $this->createQuery($uriResolver),
             $uriResolver->getFragment()
-       );
+        );
     }
 
     /**

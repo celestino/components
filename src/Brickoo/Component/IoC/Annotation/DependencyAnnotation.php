@@ -124,11 +124,11 @@ class DependencyAnnotation {
 
         $targetLocation = null;
         if (preg_match(
-                "~^\\\\?[a-zA-Z_\\x7f-\\xff][\\w\\x7f-\\xff\\\\]*\\:\\:(?<target>([a-zA-Z_\\x7f-\\xff]+))$~",
-                $annotation->getTargetLocation(),
-                $matches
+            "~^\\\\?[a-zA-Z_\\x7f-\\xff][\\w\\x7f-\\xff\\\\]*\\:\\:(?<target>([a-zA-Z_\\x7f-\\xff]+))$~",
+            $annotation->getTargetLocation(),
+            $matches
         )) {
-           $targetLocation = $matches["target"];
+            $targetLocation = $matches["target"];
         }
         return $targetLocation;
     }

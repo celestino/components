@@ -63,7 +63,7 @@ abstract class DependencyResolver {
      * Returns the DI container instance.
      * @return \Brickoo\Component\IoC\DIContainer
      */
-    public function getDIContainer() {
+    public function getDiContainer() {
         return $this->diContainer;
     }
 
@@ -113,13 +113,13 @@ abstract class DependencyResolver {
         $argumentValue = $argument->getValue();
 
         if (is_callable($argumentValue)) {
-            return call_user_func($argumentValue, $this->getDIContainer());
+            return call_user_func($argumentValue, $this->getDiContainer());
         }
 
         if (is_string($argumentValue)
             && strpos($argumentValue, $this->definitionPrefix) === 0
         ) {
-            return $this->getDIContainer()->retrieve(
+            return $this->getDiContainer()->retrieve(
                 substr($argumentValue, strlen($this->definitionPrefix))
             );
         }

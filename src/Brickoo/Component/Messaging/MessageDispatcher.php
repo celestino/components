@@ -64,7 +64,7 @@ class MessageDispatcher {
      * @return string the listener unique identifier
      */
     public function attach(Listener $listener) {
-      return $this->listenerCollection->add($listener);
+        return $this->listenerCollection->add($listener);
     }
 
     /**

@@ -75,7 +75,6 @@ checks:
         no_global_keyword: true
         no_exit: true
         no_eval: true
-        no_error_suppression: true
         no_empty_statements: true
         no_else_if_statements: true
         no_duplicate_arguments: true

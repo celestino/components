@@ -48,12 +48,12 @@ class DependencyResolverTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\IoC\Resolver\DependencyResolver::__construct
-     * @covers Brickoo\Component\IoC\Resolver\DependencyResolver::getDIContainer
+     * @covers Brickoo\Component\IoC\Resolver\DependencyResolver::getDiContainer
      */
     public function testGetDIContainer() {
         $diContainer = $this->getDiContainerStub();
         $resolver = new DependencyResolverFixture($diContainer);
-        $this->assertSame($diContainer, $resolver->getDIContainer());
+        $this->assertSame($diContainer, $resolver->getDiContainer());
     }
 
     /**
