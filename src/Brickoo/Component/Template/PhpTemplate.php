@@ -84,13 +84,14 @@ class PhpTemplate implements Template {
     /** {@inheritDoc} */
     public function render() {
         try {
-            extract($this->templateVars, EXTR_SKIP);
             ob_start();
+            extract($this->templateVars, EXTR_SKIP);
             require ($this->templateFile);
             $output = ob_get_contents();
             ob_end_clean();
         }
         catch (\Exception $exception) {
+            ob_end_clean();
             throw new RenderingException($exception);
         }
 
