@@ -165,7 +165,7 @@ class PlainTextPrinter implements Printer {
      */
     private function getIndentation($amount) {
         if ($this->indentMode == self::INDENT_SPACES) {
-            $amount = $amount *4;
+            $amount = $amount * 4;
         }
         return str_repeat($this->indentMode, $amount);
     }

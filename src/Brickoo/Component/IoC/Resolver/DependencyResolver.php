@@ -139,11 +139,11 @@ abstract class DependencyResolver {
             return $targetObject;
         }
 
-        if (($injectionDefinitions =  $injectionsContainer->getByTarget(InjectionDefinition::TARGET_METHOD))) {
+        if (($injectionDefinitions = $injectionsContainer->getByTarget(InjectionDefinition::TARGET_METHOD))) {
             $this->injectDependenciesToMethods($targetObject, $injectionDefinitions);
         }
 
-        if (($injectionDefinitions =  $injectionsContainer->getByTarget(InjectionDefinition::TARGET_PROPERTY))) {
+        if (($injectionDefinitions = $injectionsContainer->getByTarget(InjectionDefinition::TARGET_PROPERTY))) {
             $this->injectDependenciesToProperties($targetObject, $injectionDefinitions);
         }
 

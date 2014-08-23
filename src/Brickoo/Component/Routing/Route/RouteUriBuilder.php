@@ -119,7 +119,7 @@ class RouteUriBuilder {
      * @return string the created uri string
      */
     private function createUriString($uriPath, $queryString) {
-        return rtrim($this->baseUrl, "/").$uriPath. (empty($queryString) ? "" : "?".ltrim($queryString, "?"));
+        return rtrim($this->baseUrl, "/").$uriPath.(empty($queryString) ? "" : "?".ltrim($queryString, "?"));
     }
 
 }

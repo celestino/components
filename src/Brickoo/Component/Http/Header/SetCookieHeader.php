@@ -181,7 +181,7 @@ class SetCookieHeader extends GenericHeader {
         }
 
         if ($this->secure) {
-            $attributes .="; Secure";
+            $attributes .= "; Secure";
         }
 
         if ($this->httpOnly) {

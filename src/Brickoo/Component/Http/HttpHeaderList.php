@@ -125,7 +125,7 @@ class HttpHeaderList implements IteratorAggregate, Countable {
      * @return HttpHeader
      */
     public function last() {
-        return $this->get(count($this) -1);
+        return $this->get(count($this) - 1);
     }
 
     /**

@@ -159,7 +159,7 @@ class Argument {
      * @throws \InvalidArgumentException if the validation fails
      * @return boolean check result
      */
-    public static function isObject($argument){
+    public static function isObject($argument) {
         return self::handleArgumentValidation(is_object($argument),
             $argument, "The argument must be an object."
         );
@@ -171,7 +171,7 @@ class Argument {
      * @throws \InvalidArgumentException if the validation fails
      * @return boolean check result
      */
-    public static function isResource($argument){
+    public static function isResource($argument) {
         return self::handleArgumentValidation(is_resource($argument),
             $argument, "The argument must be a resource."
         );

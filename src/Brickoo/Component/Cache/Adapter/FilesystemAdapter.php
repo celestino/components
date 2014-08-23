@@ -139,7 +139,7 @@ class FilesystemAdapter implements Adapter {
      * @return string the cache file path
      */
     private function getCacheFilePath($identifier) {
-        return $this->cacheDirectory.$identifier .$this->cacheFileNameSuffix;
+        return $this->cacheDirectory.$identifier.$this->cacheFileNameSuffix;
     }
 
 }

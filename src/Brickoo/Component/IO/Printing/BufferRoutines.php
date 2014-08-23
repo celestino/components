@@ -48,7 +48,7 @@ trait BufferRoutines {
      * Initialize the buffer.
      * @param integer $bufferLength
      * @param string $bufferContent
-     * @return BufferRoutines
+     * @return mixed
      */
     private function initializeBuffer($bufferLength = 255, $bufferContent = "") {
         $this->bufferLength = $bufferLength;
@@ -71,6 +71,7 @@ trait BufferRoutines {
      */
     private function addToBuffer($content) {
         $this->buffer .= $content;
+        return this;
     }
 
     /**
@@ -102,7 +103,7 @@ trait BufferRoutines {
 
     /**
      * Clear the output buffer.
-     * @return BufferRoutines
+     * @return mixed
      */
     private function clearBuffer() {
         $this->buffer = "";
