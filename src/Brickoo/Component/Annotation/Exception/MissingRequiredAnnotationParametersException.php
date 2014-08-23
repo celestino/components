@@ -44,7 +44,7 @@ class MissingRequiredAnnotationParametersException extends Exception {
      * Calls the parent exception constructor.
      * @param string $annotationName
      * @param string[] $annotationParameters
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($annotationName, array $annotationParameters, \Exception $previousException = null) {
         parent::__construct(

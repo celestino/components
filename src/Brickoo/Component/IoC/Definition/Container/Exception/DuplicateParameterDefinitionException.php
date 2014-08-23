@@ -42,7 +42,7 @@ class DuplicateParameterDefinitionException extends Exception {
      * Class constructor.
      * Calls the parent exception constructor.
      * @param string $parameterName
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($parameterName, \Exception $previousException = null) {
         parent::__construct(sprintf("Parameter `%s` already defined.", $parameterName), 0 , $previousException);

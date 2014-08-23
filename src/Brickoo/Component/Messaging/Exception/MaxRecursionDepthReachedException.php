@@ -44,7 +44,7 @@ class MaxRecursionDepthReachedException extends Exception {
      * Calls the parent exception constructor.
      * @param string $messageName the message which has an infinite loop
      * @param integer $recursionDepth the max recursion depth reached
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($messageName, $recursionDepth, \Exception $previousException = null) {
         parent::__construct(sprintf('The message `%s` reached a recursion depth of %d.', $messageName, $recursionDepth), 0, $previousException);

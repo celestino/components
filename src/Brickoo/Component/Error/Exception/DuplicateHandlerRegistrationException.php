@@ -43,7 +43,7 @@ class DuplicateHandlerRegistrationException extends Exception {
      * Class constructor.
      * Calls the parent exception constructor.
      * @param string $handlerName the handler name already registered
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($handlerName, \Exception $previousException = null) {
         parent::__construct(sprintf('The `%s` is already registered.', $handlerName), 0, $previousException);

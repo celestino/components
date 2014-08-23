@@ -43,7 +43,7 @@ class DefinitionNotAvailableException extends Exception {
      * Class constructor.
      * Calls the parent exception constructor.
      * @param string $definitionName
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($definitionName , \Exception $previousException = null) {
         parent::__construct(sprintf("Definition `%s` does not exists.", $definitionName), 0 , $previousException);

@@ -45,7 +45,7 @@ class DuplicateNamespaceRegistrationException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param string $namespace the namespace trying to register
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($namespace, \Exception $previousException = null) {
         parent::__construct(sprintf("The namespace`%s` is already registered.", $namespace), 0, $previousException);

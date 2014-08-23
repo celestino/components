@@ -43,7 +43,7 @@ class AutoloaderNotRegisteredException extends Exception {
     /**
      * Class constructor.
      * Calls the parent Exception constructor.
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct(\Exception $previousException = null) {
         parent::__construct("This object is not registered as an autoloader", 0, $previousException);

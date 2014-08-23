@@ -44,7 +44,7 @@ class DuplicateRegistrationException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param string $identifier the identifier which is registered.
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($identifier, \Exception $previousException = null) {
         parent::__construct(sprintf("The identifier `%s` is already registered.", $identifier), 0, $previousException);

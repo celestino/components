@@ -43,7 +43,7 @@ class UnableToCreateResourceHandleException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param string $resource
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($resource, \Exception $previousException = null) {
         parent::__construct(sprintf("Resource `%s` not accessible.", $resource), 0, $previousException);

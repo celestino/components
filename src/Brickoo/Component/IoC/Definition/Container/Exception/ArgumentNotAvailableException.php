@@ -42,7 +42,7 @@ class ArgumentNotAvailableException extends Exception {
      * Class constructor.
      * Calls the parent exception constructor.
      * @param string $argumentName
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($argumentName , \Exception $previousException = null) {
         parent::__construct(sprintf("Argument `%s` does not exists.", $argumentName), 0 , $previousException);

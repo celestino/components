@@ -43,7 +43,7 @@ class AccessModeUnknownException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param integer $accessMode
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($accessMode, \Exception $previousException = null) {
         parent::__construct(sprintf("The access mode `%d` is unknown.", $accessMode), 0, $previousException);

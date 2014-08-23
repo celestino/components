@@ -44,7 +44,7 @@ class InvalidHttpStatusException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param integer $status the invalid status
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($status, \Exception $previousException = null) {
         parent::__construct(sprintf("The status `%d` is not valid.", $status), 0, $previousException);

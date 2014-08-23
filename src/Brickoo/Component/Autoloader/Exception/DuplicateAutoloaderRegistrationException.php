@@ -43,7 +43,7 @@ class DuplicateAutoloaderRegistrationException extends Exception {
     /**
      * Class constructor.
      * Calls the parent Exception constructor.
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct(\Exception $previousException = null) {
         parent::__construct("Autoloader instance already registered.", 0, $previousException);

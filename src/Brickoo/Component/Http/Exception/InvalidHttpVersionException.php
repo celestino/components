@@ -44,7 +44,7 @@ class InvalidHttpVersionException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param string $version the invalid version
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($version, \Exception $previousException = null) {
         parent::__construct(sprintf("The version `%s` is not valid.", $version), 0, $previousException);

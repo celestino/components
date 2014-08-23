@@ -43,7 +43,7 @@ class MissingRequiredAnnotationException extends Exception {
      * Class constructor.
      * Calls the parent exception constructor.
      * @param string $annotationName
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($annotationName, \Exception $previousException = null) {
         parent::__construct(sprintf("Annotation `%s` missed.", $annotationName), 0, $previousException);

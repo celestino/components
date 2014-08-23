@@ -44,7 +44,7 @@ class HandlerNotRegisteredException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param string $handlerName the handler name not registered
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($handlerName, \Exception $previousException = null) {
         parent::__construct(sprintf('The `%s` is not registered.', $handlerName), 0, $previousException);

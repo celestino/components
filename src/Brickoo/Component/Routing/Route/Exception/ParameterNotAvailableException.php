@@ -44,7 +44,7 @@ class ParameterNotAvailableException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param string $name the parameter name used
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($name, \Exception $previousException = null) {
         parent::__construct(sprintf("The parameter `%s` is not available.", $name), 0, $previousException);

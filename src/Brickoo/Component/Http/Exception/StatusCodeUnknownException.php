@@ -45,7 +45,7 @@ class StatusCodeUnknownException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param string $statusCode
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($statusCode, \Exception $previousException = null) {
         parent::__construct(sprintf("The status code `%s` does not have a phrase.", $statusCode), 0, $previousException);

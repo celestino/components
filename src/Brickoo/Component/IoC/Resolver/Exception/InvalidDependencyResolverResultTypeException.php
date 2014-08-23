@@ -44,7 +44,7 @@ class InvalidDependencyResolverResultTypeException extends Exception {
      * Class constructor.
      * Calls the parent exception constructor.
      * @param mixed $definitionResult
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($definitionResult, \Exception $previousException = null) {
         parent::__construct(sprintf("Invalid definition result of type `%s`.", gettype($definitionResult)), 0 , $previousException);

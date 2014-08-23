@@ -45,7 +45,7 @@ class NamespaceNotRegisteredException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param string $namespace the namespace tried to unregister
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($namespace, \Exception $previousException = null) {
         parent::__construct(sprintf("The namespace `%s` is not registered.", $namespace), 0, $previousException);

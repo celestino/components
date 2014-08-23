@@ -43,7 +43,7 @@ class NoMatchingRouteFoundException extends Exception {
     /**
      * Class constructor.
      * Calls the parent Exception constructor.
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct(\Exception $previousException = null) {
         parent::__construct("No matching route could be found.", 0, $previousException);

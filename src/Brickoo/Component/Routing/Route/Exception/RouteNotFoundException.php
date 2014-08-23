@@ -44,7 +44,7 @@ class RouteNotFoundException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param string $name the route which could not be found.
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($name, \Exception $previousException = null) {
         parent::__construct(sprintf("The route `%s` could not be found.", $name), 0, $previousException);

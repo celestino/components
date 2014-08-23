@@ -44,7 +44,7 @@ class InvalidDependencyTypeException extends Exception {
      * Class constructor.
      * Calls the parent exception constructor.
      * @param mixed $definitionDependency
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($definitionDependency, \Exception $previousException = null) {
         parent::__construct(sprintf("Invalid definition dependency of type `%s`.", gettype($definitionDependency)), 0 , $previousException);

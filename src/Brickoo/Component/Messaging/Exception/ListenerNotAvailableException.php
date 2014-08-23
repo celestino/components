@@ -43,7 +43,7 @@ class ListenerNotAvailableException extends Exception {
     /**
      * Calls the parent exception constructor.
      * @param string $listenerUID the listener unique identifier not available
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($listenerUID, \Exception $previousException = null) {
         parent::__construct(sprintf('The listener with the UID `%s` is not available.', $listenerUID), 0, $previousException);

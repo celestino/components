@@ -45,7 +45,7 @@ class PathNotValidException extends Exception {
      * Calls the parent Exception constructor.
      * @param string $routeName the route name
      * @param string $invalidPath the path which is not valid
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($routeName, $invalidPath, \Exception $previousException = null) {
         parent::__construct(

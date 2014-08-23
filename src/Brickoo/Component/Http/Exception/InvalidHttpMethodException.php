@@ -44,7 +44,7 @@ class InvalidHttpMethodException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param string $method the invalid method
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($method, \Exception $previousException = null) {
         parent::__construct(sprintf("The http method `%s` is not valid.", $method), 0, $previousException);

@@ -43,7 +43,7 @@ class DependencyClassUnknownException extends Exception {
      * Class constructor.
      * Calls the parent exception constructor.
      * @param string $className
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($className, \Exception $previousException = null) {
         parent::__construct(sprintf("The dependency class `%s` is unknown.", $className), 0 , $previousException);

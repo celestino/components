@@ -44,7 +44,7 @@ class UnableToLoadFileException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param string $filename
-     * @param \Exception $previousException the previous exception thrown
+     * @param null|\Exception $previousException the previous exception thrown
      */
     public function __construct($filename, \Exception $previousException = null) {
         parent::__construct(sprintf("Unable to load file `%s`.", $filename), 0, $previousException);

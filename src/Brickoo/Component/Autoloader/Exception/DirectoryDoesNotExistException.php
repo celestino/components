@@ -44,7 +44,7 @@ class DirectoryDoesNotExistException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param string $directory the directory which does not exists
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($directory, \Exception $previousException = null) {
         parent::__construct(sprintf("Directory `%s` does not exists or is not readable.", $directory), 0, $previousException);

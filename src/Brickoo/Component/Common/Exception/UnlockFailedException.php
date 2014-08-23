@@ -46,7 +46,7 @@ class UnlockFailedException extends \Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param string $identifier the identifier which are not locked
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($identifier, \Exception $previousException = null) {
         parent::__construct(sprintf("Unable to unlock `%s`, this identifier is not locked.", $identifier), 0, $previousException);

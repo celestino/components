@@ -44,7 +44,7 @@ class HeaderClassNotFoundException extends Exception {
      * Class constructor.
      * Calls the parent exception constructor.
      * @param string $headerClass the header class not found
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($headerClass, \Exception $previousException = null) {
         parent::__construct(sprintf("The header class `%s` could not be found.", $headerClass), 0 , $previousException);

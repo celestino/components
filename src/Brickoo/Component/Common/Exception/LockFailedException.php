@@ -46,7 +46,7 @@ class LockFailedException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param string $identifier the identifier which can not be locked
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($identifier, \Exception $previousException = null) {
         parent::__construct(sprintf("Unable to lock the identifier `%s`.", $identifier), 0, $previousException);

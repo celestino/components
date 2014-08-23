@@ -42,7 +42,7 @@ class PoolIdentifierDoesNotExistException extends Exception {
     /**
      * Calls the parent \Exception constructor.
      * @param string $entryKey the adapter pool key which is not available.
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($entryKey, \Exception $previousException = null) {
         parent::__construct(sprintf('The adapter pool entry `%s` is not available.', $entryKey), 0, $previousException);

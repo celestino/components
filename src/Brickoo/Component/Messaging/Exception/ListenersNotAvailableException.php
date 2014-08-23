@@ -43,7 +43,7 @@ class ListenersNotAvailableException extends Exception {
     /**
      * Calls the parent exception constructor.
      * @param string $messageName the message which has not a listener queue
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($messageName, \Exception $previousException = null) {
         parent::__construct(sprintf('The listeners for the message `%s` are not available.', $messageName), 0, $previousException);

@@ -44,7 +44,7 @@ class XmlTransformationException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param string $errorMessage
-     * @param \Exception $previousException the previous exception thrown
+     * @param null|\Exception $previousException the previous exception thrown
      */
     public function __construct($errorMessage, \Exception $previousException = null) {
         parent::__construct($errorMessage, 0, $previousException);

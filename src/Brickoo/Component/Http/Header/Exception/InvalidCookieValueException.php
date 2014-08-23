@@ -44,7 +44,7 @@ class InvalidCookieValueException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param string $invalidCookieValue
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($invalidCookieValue, \Exception $previousException = null) {
         parent::__construct(

@@ -45,7 +45,7 @@ class HeaderListElementNotAvailableException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param integer $listPosition the list position
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($listPosition, \Exception $previousException = null) {
         parent::__construct(

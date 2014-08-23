@@ -43,7 +43,7 @@ class UnableToWriteBytesException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param integer $numberOfBytes
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($numberOfBytes, \Exception $previousException = null) {
         parent::__construct(sprintf("Unable to write %d bytes.", $numberOfBytes), 0, $previousException);

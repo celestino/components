@@ -43,7 +43,7 @@ class InvalidValueTypeException extends Exception {
      * Class constructor.
      * Calls the parent Exception constructor.
      * @param mixed $value
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($value, \Exception $previousException = null) {
         $type = (is_object($value) ? get_class($value) : gettype($value));
