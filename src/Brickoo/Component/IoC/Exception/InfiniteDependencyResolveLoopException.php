@@ -45,8 +45,8 @@ class InfiniteDependencyResolveLoopException extends Exception {
      * @param string $definitionName
      * @param null|\Exception $previousException
      */
-    public function __construct($definitionName , \Exception $previousException = null) {
-        parent::__construct(sprintf("Definition `%s` triggers an infinite loop detection.", $definitionName), 0 , $previousException);
+    public function __construct($definitionName, \Exception $previousException = null) {
+        parent::__construct(sprintf("Definition `%s` triggers an infinite loop detection.", $definitionName), 0, $previousException);
     }
 
 }

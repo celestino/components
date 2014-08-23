@@ -45,7 +45,7 @@ class DuplicateInjectionDefinitionException extends Exception {
      * @param null|\Exception $previousException
      */
     public function __construct($injectionTargetName, \Exception $previousException = null) {
-        parent::__construct(sprintf("Injection with target `%s` already defined.", $injectionTargetName), 0 , $previousException);
+        parent::__construct(sprintf("Injection with target `%s` already defined.", $injectionTargetName), 0, $previousException);
     }
 
 }

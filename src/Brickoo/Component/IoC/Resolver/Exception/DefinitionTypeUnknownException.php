@@ -45,8 +45,8 @@ class DefinitionTypeUnknownException extends Exception {
      * @param string $definitionType
      * @param null|\Exception $previousException
      */
-    public function __construct($definitionType , \Exception $previousException = null) {
-        parent::__construct(sprintf("Definition type `%s` is unknown.", $definitionType), 0 , $previousException);
+    public function __construct($definitionType, \Exception $previousException = null) {
+        parent::__construct(sprintf("Definition type `%s` is unknown.", $definitionType), 0, $previousException);
     }
 
 }

@@ -47,7 +47,7 @@ class FileDoesNotExistException extends Exception {
      * @param null|\Exception $previousException
      */
     public function __construct($filePath, \Exception $previousException = null) {
-        parent::__construct(sprintf("File does not exists `%s`.", $filePath), 0 , $previousException);
+        parent::__construct(sprintf("File does not exists `%s`.", $filePath), 0, $previousException);
     }
 
 }
