@@ -42,7 +42,7 @@ class AnnotationNotAvailableException extends Exception {
     /**
      * Class constructor.
      * Calls the parent exception constructor.
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct(\Exception $previousException = null) {
         parent::__construct("Annotation does not exists.", 0, $previousException);

@@ -118,7 +118,7 @@ class AnnotationParser {
      * @return array the annotations matches
      */
     private function getAnnotationsMatches($annotationPrefix, $docComment) {
-        $matches = null;
+        $matches = [];
         preg_match_all(
             sprintf(self::REGEX_ANNOTATION,
                 preg_quote($annotationPrefix, "~"),
@@ -140,10 +140,10 @@ class AnnotationParser {
         $annotationList = [];
         foreach ($annotationsMatches[self::REGEX_CAPTURE_ANNOTATION] as $currentIndex => $annotation) {
             if ($this->isAnnotationInWhitelist($annotation)) {
-               $annotationList[] = [
-                   "name" => $annotation,
-                   "values" => $this->getAnnotationValues($currentIndex, $annotationsMatches)
-               ];
+                $annotationList[] = [
+                    "name" => $annotation,
+                    "values" => $this->getAnnotationValues($currentIndex, $annotationsMatches)
+                ];
             }
         }
         return $annotationList;

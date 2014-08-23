@@ -43,7 +43,7 @@ class InvalidTargetException extends Exception {
      * Class constructor.
      * Calls the parent exception constructor.
      * @param integer $target
-     * @param \Exception $previousException
+     * @param null|\Exception $previousException
      */
     public function __construct($target, \Exception $previousException = null) {
         parent::__construct(sprintf("Invalid target `%d`.", $target), 0, $previousException);

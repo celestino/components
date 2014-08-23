@@ -93,7 +93,7 @@ class AnnotationReaderResultPrinter implements Printable {
      * @param \ArrayIterator $annotations
      * @return \Brickoo\Component\Annotation\AnnotationReaderResultPrinter
      */
-    private function printAnnotationsByTarget($targetName, \ArrayIterator $annotations)  {
+    private function printAnnotationsByTarget($targetName, \ArrayIterator $annotations) {
         foreach ($annotations as $annotation) {
             $this->getPrinter()
                 ->addText(sprintf("Annotation => @%s [%s] %s",
