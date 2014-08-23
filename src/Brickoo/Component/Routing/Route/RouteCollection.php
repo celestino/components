@@ -109,7 +109,7 @@ class RouteCollection implements IteratorAggregate {
 
     /**
      * Adds routes to the current collection.
-     * @param array $routes values implementing \Brickoo\Component\Routing\Route\Interfaces\Route
+     * @param array $routes values implementing \Brickoo\Component\Routing\Route\Route
      * @throws \Brickoo\Component\Routing\Route\Exception\DuplicateRouteException
      * @return \Brickoo\Component\Routing\Route\RouteCollection
      */

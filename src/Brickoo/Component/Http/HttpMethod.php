@@ -39,7 +39,7 @@ use Brickoo\Component\Validation\Argument;
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-Class HttpMethod {
+class HttpMethod {
 
     /** http methods */
     const HEAD = "HEAD";

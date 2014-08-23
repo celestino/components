@@ -39,7 +39,7 @@ use Brickoo\Component\Validation\Argument;
  * @link http://tools.ietf.org/html/rfc6265
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-Class SetCookieHeader extends GenericHeader {
+class SetCookieHeader extends GenericHeader {
 
     /** @var string */
     private $name;

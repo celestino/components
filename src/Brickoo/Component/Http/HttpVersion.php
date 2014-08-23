@@ -39,7 +39,7 @@ use Brickoo\Component\Validation\Argument;
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-Class HttpVersion {
+class HttpVersion {
 
     /** http versions */
     const HTTP_1_0 = "HTTP/1.0";

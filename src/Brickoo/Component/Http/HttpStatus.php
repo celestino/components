@@ -39,7 +39,7 @@ use Brickoo\Component\Validation\Argument;
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-Class HttpStatus extends HttpStatusCode {
+class HttpStatus extends HttpStatusCode {
 
     /** @var integer */
     private $status;

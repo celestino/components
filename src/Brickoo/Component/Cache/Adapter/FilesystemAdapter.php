@@ -99,7 +99,7 @@ class FilesystemAdapter implements Adapter {
         }
 
         $file = fopen($this->getCacheFilePath($identifier), "w");
-        fwrite($file, date(self::LIFETIME_FORMAT, (time()+ $lifetime)).$content);
+        fwrite($file, date(self::LIFETIME_FORMAT, (time() + $lifetime)).$content);
         fclose($file);
 
         return $this;

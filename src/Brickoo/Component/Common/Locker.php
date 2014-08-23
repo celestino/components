@@ -33,7 +33,6 @@ use Brickoo\Component\Common\Exception\LockFailedException;
 use Brickoo\Component\Common\Exception\UnlockFailedException;
 use Brickoo\Component\Validation\Argument;
 
-
 /**
  * Locker
  *

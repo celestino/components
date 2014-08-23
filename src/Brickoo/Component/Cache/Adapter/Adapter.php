@@ -35,7 +35,7 @@ namespace Brickoo\Component\Cache\Adapter;
  * Defines a caching adapter.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-Interface Adapter {
+interface Adapter {
 
     /**
      * Returns the cached content from the matching identifier.
