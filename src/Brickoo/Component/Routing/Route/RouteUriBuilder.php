@@ -101,7 +101,7 @@ class RouteUriBuilder {
         $pathParameters = array_merge($route->getDefaultValues(), $pathParameters);
 
         foreach ($pathParameters as $parameter => $value) {
-            $routePath = str_replace("{". $parameter ."}", $value, $routePath);
+            $routePath = str_replace("{".$parameter."}", $value, $routePath);
         }
 
         $matches = [];
@@ -119,7 +119,7 @@ class RouteUriBuilder {
      * @return string the created uri string
      */
     private function createUriString($uriPath, $queryString) {
-        return rtrim($this->baseUrl, "/") . $uriPath. (empty($queryString) ? "" : "?". ltrim($queryString, "?"));
+        return rtrim($this->baseUrl, "/").$uriPath. (empty($queryString) ? "" : "?".ltrim($queryString, "?"));
     }
 
 }

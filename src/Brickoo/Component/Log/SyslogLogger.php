@@ -119,7 +119,7 @@ class SyslogLogger implements Logger {
 
         $messageHeader = $this->getMessageHeader($severity);
         foreach ($messages as $message) {
-            $streamWriter->write($messageHeader ." ". $message);
+            $streamWriter->write($messageHeader." ".$message);
         }
 
         $this->socketStream->close();

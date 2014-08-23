@@ -144,7 +144,7 @@ class ArgumentTest extends PHPUnit_Framework_TestCase {
      * @expectedException \InvalidArgumentException
      */
     public function testIsFunctionAvailableThrowsArgumentException() {
-        Argument::IsFunctionAvailable("doesNotExists". time());
+        Argument::IsFunctionAvailable("doesNotExists".time());
     }
 
     /** @covers Brickoo\Component\Validation\Argument::IsTraversable */

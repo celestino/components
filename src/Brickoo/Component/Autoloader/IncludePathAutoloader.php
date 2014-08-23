@@ -98,7 +98,7 @@ class IncludePathAutoloader extends Autoloader {
      * @return string the absolute file path
      */
     private function getAbsolutePath($className) {
-        return $this->includePath . $this->getTranslatedClassPath($className);
+        return $this->includePath.$this->getTranslatedClassPath($className);
     }
 
     /**
@@ -107,7 +107,7 @@ class IncludePathAutoloader extends Autoloader {
      * @return string the translated class path
      */
     private function getTranslatedClassPath($className) {
-        return DIRECTORY_SEPARATOR . str_replace("\\", DIRECTORY_SEPARATOR, $className) .".php";
+        return DIRECTORY_SEPARATOR.str_replace("\\", DIRECTORY_SEPARATOR, $className).".php";
     }
 
 }

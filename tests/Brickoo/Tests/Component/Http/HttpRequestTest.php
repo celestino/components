@@ -195,9 +195,9 @@ class HttpRequestTest extends PHPUnit_Framework_TestCase {
 
 
         $expectedValue = sprintf("%s %s %s\r\n",
-            $methodString, $urlPath ."?". $queryString, $versionString
+            $methodString, $urlPath."?".$queryString, $versionString
         );
-        $expectedValue .= $headerString ."\r\n\r\n". $bodyString;
+        $expectedValue .= $headerString."\r\n\r\n".$bodyString;
 
         $Request = new HttpRequest($method, $version, $uri, $message);
         $this->assertEquals($expectedValue, $Request->toString());

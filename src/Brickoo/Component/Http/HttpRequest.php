@@ -125,15 +125,15 @@ class HttpRequest {
      * @return string the request representation
      */
     public function toString() {
-        $queryString = (($queryString = $this->getQuery()->toString()) ? "?". $queryString : "");
+        $queryString = (($queryString = $this->getQuery()->toString()) ? "?".$queryString : "");
 
         $request  = sprintf("%s %s %s\r\n",
             $this->getMethod()->toString(),
-            $this->getUri()->getPath() . $queryString,
+            $this->getUri()->getPath().$queryString,
             $this->getVersion()->toString()
         );
         $request .= rtrim($this->getHeader()->toString(), "\r\n");
-        $request .= "\r\n\r\n". $this->getBody()->getContent();
+        $request .= "\r\n\r\n".$this->getBody()->getContent();
 
         return $request;
     }

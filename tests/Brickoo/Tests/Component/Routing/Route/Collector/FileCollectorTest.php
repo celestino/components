@@ -73,7 +73,7 @@ class FileRouteCollectorTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Routing\Route\Collector\FileRouteCollector::getFilePaths
      */
     public function testCollectNonRecursively() {
-        $routingPath = realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR ."Assets".DIRECTORY_SEPARATOR ."Routes";
+        $routingPath = realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR."Assets".DIRECTORY_SEPARATOR."Routes";
         $routingFilename = "routes.php";
         $searchRecursively = false;
 
@@ -87,7 +87,7 @@ class FileRouteCollectorTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Routing\Route\Collector\FileRouteCollector::getRecursiveFilePaths
      */
     public function testCollectRecursively() {
-        $routingPath = realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR ."Assets";
+        $routingPath = realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR."Assets";
         $routingFilename = "routes.php";
         $searchRecursively = true;
 

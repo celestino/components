@@ -163,7 +163,7 @@ class NamespaceAutoloader extends Autoloader {
                     || (strlen($chosenNamespace) < strlen($namespace)))
             ){
                 $chosenNamespace = $namespace;
-                $namespaceClassPath = $path . $this->getTranslatedClassPath(substr($className, strlen($namespace)));
+                $namespaceClassPath = $path.$this->getTranslatedClassPath(substr($className, strlen($namespace)));
             }
         }
         return $namespaceClassPath;
@@ -175,7 +175,7 @@ class NamespaceAutoloader extends Autoloader {
      * @return string the translated class path
      */
     private function getTranslatedClassPath($className) {
-        return DIRECTORY_SEPARATOR . str_replace("\\", DIRECTORY_SEPARATOR, $className) .".php";
+        return DIRECTORY_SEPARATOR.str_replace("\\", DIRECTORY_SEPARATOR, $className).".php";
     }
 
 }

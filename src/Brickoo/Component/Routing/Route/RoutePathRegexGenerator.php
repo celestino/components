@@ -64,7 +64,7 @@ class RoutePathRegexGenerator  {
             $this->replaceRoutePathWithRulesExpressions($routePath, $matches['parameters'], $route);
         }
 
-        return "~^/". trim($routePath, "/") ."$~i";
+        return "~^/".trim($routePath, "/")."$~i";
     }
 
     /**
@@ -99,20 +99,20 @@ class RoutePathRegexGenerator  {
                 continue;
             }
 
-            if (strpos($routePath, "/{". $parameterName ."}") !== false) {
-                $routePath = str_replace("/{". $parameterName ."}",
+            if (strpos($routePath, "/{".$parameterName."}") !== false) {
+                $routePath = str_replace("/{".$parameterName."}",
                     ($route->hasDefaultValue($parameterName) ?
-                        "(/(?<". $parameterName .">(". $route->getRule($parameterName) .")?))?" :
-                        "/(?<". $parameterName .">". $route->getRule($parameterName) .")"
+                        "(/(?<".$parameterName.">(".$route->getRule($parameterName).")?))?" :
+                        "/(?<".$parameterName.">".$route->getRule($parameterName).")"
                     ),
                     $routePath
                 );
             }
             else {
-                $routePath = str_replace("{". $parameterName ."}",
+                $routePath = str_replace("{".$parameterName."}",
                     ($route->hasDefaultValue($parameterName) ?
-                        "(?<". $parameterName .">(". $route->getRule($parameterName) .")?)" :
-                        "(?<". $parameterName .">". $route->getRule($parameterName) .")"
+                        "(?<".$parameterName.">(".$route->getRule($parameterName).")?)" :
+                        "(?<".$parameterName.">".$route->getRule($parameterName).")"
                     ),
                     $routePath
                 );

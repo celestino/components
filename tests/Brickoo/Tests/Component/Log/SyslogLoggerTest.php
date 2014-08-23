@@ -64,7 +64,7 @@ class SyslogLoggerTest extends PHPUnit_Framework_TestCase {
 
         $hostname = "myServer";
         $logMessage = "Message to log.";
-        $expectedRegexMessage = "~^\\<[0-9]+\\>[0-9]{4}\\-[0-9]{2}\\-[0-9]{2}T[0-9]{2}\\:[0-9]{2}\\:[0-9]{2}\\+[0-9]{2}\\:[0-9]{2} ". $hostname ." ". $logMessage ."$~";
+        $expectedRegexMessage = "~^\\<[0-9]+\\>[0-9]{4}\\-[0-9]{2}\\-[0-9]{2}T[0-9]{2}\\:[0-9]{2}\\:[0-9]{2}\\+[0-9]{2}\\:[0-9]{2} ".$hostname." ".$logMessage."$~";
 
         $syslogLogger = new SyslogLogger($socketStream, $hostname);
         $this->assertSame($syslogLogger, $syslogLogger->log($logMessage, SyslogLogger::SEVERITY_INFO));

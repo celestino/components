@@ -109,7 +109,7 @@ class HttpResponse {
 
         $statusCode = $this->getStatus()->getCode();
         if (($statusCode > 199) && ($statusCode != 204) && ($statusCode != 304)) {
-            $response .= "\r\n" . $this->getBody()->getContent();
+            $response .= "\r\n".$this->getBody()->getContent();
         }
         return $response;
     }

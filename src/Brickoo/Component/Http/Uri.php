@@ -131,14 +131,14 @@ class Uri {
         $uriParts = sprintf("%s://%s", $this->getScheme(), $this->getAuthority()->toString());
 
         if ($queryString = $this->getQuery()->toString()) {
-            $queryString = "?". $queryString;
+            $queryString = "?".$queryString;
         }
 
         if ($fragment = $this->getFragment()) {
-            $fragment = "#". $fragment;
+            $fragment = "#".$fragment;
         }
 
-        return  $uriParts . $this->getPath() . $queryString . $fragment;
+        return  $uriParts.$this->getPath().$queryString.$fragment;
     }
 
  }

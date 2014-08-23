@@ -59,8 +59,8 @@ class FilesystemLoggerTest extends PHPUnit_Framework_TestCase {
         date_default_timezone_set("UTC");
 
         $logMessage = "Message to log.";
-        $expectedFilename = sys_get_temp_dir() . DIRECTORY_SEPARATOR . date("Y-m-d") .".log";
-        $expectedRegexMessage = "~^\\[[0-9]{4}\\-[0-9]{2}\\-[0-9]{2} [0-9]{2}\\:[0-9]{2}\\:[0-9]{2}\\]\\[[a-zA-Z]+\\] ". $logMessage . PHP_EOL ."$~";
+        $expectedFilename = sys_get_temp_dir() . DIRECTORY_SEPARATOR . date("Y-m-d").".log";
+        $expectedRegexMessage = "~^\\[[0-9]{4}\\-[0-9]{2}\\-[0-9]{2} [0-9]{2}\\:[0-9]{2}\\:[0-9]{2}\\]\\[[a-zA-Z]+\\] ".$logMessage . PHP_EOL."$~";
 
         $filesystemLogger = new FilesystemLogger(sys_get_temp_dir());
         $this->assertSame($filesystemLogger, $filesystemLogger->log($logMessage, FilesystemLogger::SEVERITY_DEBUG));

@@ -83,7 +83,7 @@ class XmlTemplateTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Template\XmlTemplate::render
      */
     public function testRender() {
-        $xsltFilename = __DIR__ ."/assets/XsltTemplate.xsl";
+        $xsltFilename = __DIR__."/assets/XsltTemplate.xsl";
         $xmlDocument = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><content>test content</content>";
         $expectedValue = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>".PHP_EOL."<root>test content</root>".PHP_EOL;
 
@@ -119,7 +119,7 @@ class XmlTemplateTest extends PHPUnit_Framework_TestCase {
      * @expectedException \Brickoo\Component\Template\Exception\RenderingException
      */
     public function testXsltTemplateThrowsRenderException() {
-        $xsltFilename = __DIR__ ."/assets/ExceptionThrowingTemplate.xsl";
+        $xsltFilename = __DIR__."/assets/ExceptionThrowingTemplate.xsl";
         $xmlDocument = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?><content>test content</content>";
 
         $document = new DOMDocument();

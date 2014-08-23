@@ -132,6 +132,6 @@ class SessionContainer implements \Countable, \IteratorAggregate{
      * @return string the session namespace of the property
      */
     private function getNamespace($property) {
-        return $this->sessionNamespace .".". $property;
+        return $this->sessionNamespace.".".$property;
     }
 }

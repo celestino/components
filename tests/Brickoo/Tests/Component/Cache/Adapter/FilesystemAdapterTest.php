@@ -107,7 +107,7 @@ class FilesystemAdapterTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Cache\Adapter\FilesystemAdapter::isReady */
     public function testIsReady() {
-        $failureCacheDirectory = dirname(__FILE__) . DIRECTORY_SEPARATOR ."DOES_NOT_EXIST". DIRECTORY_SEPARATOR;
+        $failureCacheDirectory = dirname(__FILE__) . DIRECTORY_SEPARATOR."DOES_NOT_EXIST".DIRECTORY_SEPARATOR;
 
         $filesystemAdapter = new FilesystemAdapter($failureCacheDirectory);
         $this->assertFalse($filesystemAdapter->isReady());
@@ -121,7 +121,7 @@ class FilesystemAdapterTest extends PHPUnit_Framework_TestCase {
      * @return string the assets directory path
      */
     private function getAssetsDirectoryPath() {
-        return dirname(__FILE__) . DIRECTORY_SEPARATOR ."assets". DIRECTORY_SEPARATOR;
+        return dirname(__FILE__) . DIRECTORY_SEPARATOR."assets".DIRECTORY_SEPARATOR;
     }
 
 }

@@ -68,7 +68,7 @@ class HttpRequestUriResolver implements UriResolver {
             $isSecure = (! empty($secureMode)) && (strtolower($secureMode) != "off" && $secureMode != "0");
         }
 
-        return "http". ($isSecure ? "s" : "");
+        return "http".($isSecure ? "s" : "");
     }
 
     /** {@inheritDoc} */
@@ -92,7 +92,7 @@ class HttpRequestUriResolver implements UriResolver {
         if ((! $requestPath = $this->getServerVar("REQUEST_URI")) && (! $requestPath = $this->getServerVar("ORIG_PATH_INFO"))) {
             $requestPath = $this->getIISRequestUri();
         }
-        return "/". trim(rawurldecode(strval(parse_url($requestPath, PHP_URL_PATH))), "/");
+        return "/".trim(rawurldecode(strval(parse_url($requestPath, PHP_URL_PATH))), "/");
     }
 
     /** {@inheritDoc} */
@@ -100,7 +100,7 @@ class HttpRequestUriResolver implements UriResolver {
         if (! $queryString = $this->getServerVar("QUERY_STRING")) {
             $queryArray = [];
             foreach ($_GET as $key => $value) {
-                $queryArray[] = $key ."=". $value;
+                $queryArray[] = $key."=".$value;
             }
             $queryString = implode("&", $queryArray);
         }

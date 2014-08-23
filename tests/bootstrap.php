@@ -37,6 +37,6 @@ include_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader
 include_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Autoloader/NamespaceAutoloader.php');
 
 $autoloader = new \Brickoo\Component\Autoloader\NamespaceAutoloader([
-    "Brickoo\\Component" => realpath(dirname(__FILE__)) ."/../src/Brickoo/Component"
+    "Brickoo\\Component" => realpath(dirname(__FILE__))."/../src/Brickoo/Component"
 ]);
 $autoloader->register();

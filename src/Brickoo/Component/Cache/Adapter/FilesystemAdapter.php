@@ -64,7 +64,7 @@ class FilesystemAdapter implements Adapter {
         Argument::IsBoolean($serializeCacheContent);
         Argument::IsString($cacheFileNameSuffix);
 
-        $this->cacheDirectory = rtrim($cacheDirectory, "\\/") . DIRECTORY_SEPARATOR;
+        $this->cacheDirectory = rtrim($cacheDirectory, "\\/").DIRECTORY_SEPARATOR;
         $this->serializeCacheContent = $serializeCacheContent;
         $this->cacheFileNameSuffix = $cacheFileNameSuffix;
     }
@@ -99,7 +99,7 @@ class FilesystemAdapter implements Adapter {
         }
 
         $file = fopen($this->getCacheFilePath($identifier), "w");
-        fwrite($file, date(self::LIFETIME_FORMAT, (time()+ $lifetime)) . $content);
+        fwrite($file, date(self::LIFETIME_FORMAT, (time()+ $lifetime)).$content);
         fclose($file);
 
         return $this;
@@ -122,7 +122,7 @@ class FilesystemAdapter implements Adapter {
                 && ($fileName = $FileInfo->getFilename())
                 && preg_match(sprintf("~%s$~", $this->cacheFileNameSuffix), $fileName)
             ){
-                unlink($FileInfo->getPath() . DIRECTORY_SEPARATOR . $fileName);
+                unlink($FileInfo->getPath().DIRECTORY_SEPARATOR.$fileName);
             }
         }
         return $this;
@@ -139,7 +139,7 @@ class FilesystemAdapter implements Adapter {
      * @return string the cache file path
      */
     private function getCacheFilePath($identifier) {
-        return $this->cacheDirectory . $identifier .$this->cacheFileNameSuffix;
+        return $this->cacheDirectory.$identifier .$this->cacheFileNameSuffix;
     }
 
 }

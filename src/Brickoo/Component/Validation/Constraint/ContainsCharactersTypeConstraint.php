@@ -51,7 +51,7 @@ class ContainsCharactersTypeConstraint implements Constraint {
      */
     public function __construct($expectedType) {
         Argument::IsString($expectedType);
-        Argument::IsFunctionAvailable($cTypeFunctionName = "ctype_". $expectedType);
+        Argument::IsFunctionAvailable($cTypeFunctionName = "ctype_".$expectedType);
 
         $this->cTypeFunctionName = $cTypeFunctionName;
     }

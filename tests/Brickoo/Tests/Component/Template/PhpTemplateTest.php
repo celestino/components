@@ -56,7 +56,7 @@ class PhpTemplateTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Template\PhpTemplate::render
      */
     public function testRender() {
-        $templateFile = __DIR__ ."/assets/UnitTestPhpTemplate.php";
+        $templateFile = __DIR__."/assets/UnitTestPhpTemplate.php";
         $expectedValue = "<html><head></head><body>test content</body></html>";
 
         $template = new PhpTemplate("");
@@ -71,7 +71,7 @@ class PhpTemplateTest extends PHPUnit_Framework_TestCase {
      * @expectedException \Brickoo\Component\Template\Exception\RenderingException
      */
     public function testRenderThrowsRenderingException() {
-        $template = new PhpTemplate(__DIR__ ."/assets/ExceptionThrowingPhpTemplate.php");
+        $template = new PhpTemplate(__DIR__."/assets/ExceptionThrowingPhpTemplate.php");
         $template->render();
     }
 

@@ -53,7 +53,7 @@ class FilesystemLogger implements Logger {
     public function __construct($logsDirectory) {
         Argument::IsString($logsDirectory);
 
-        $this->logsDirectory = rtrim($logsDirectory, "\\/") . DIRECTORY_SEPARATOR;
+        $this->logsDirectory = rtrim($logsDirectory, "\\/").DIRECTORY_SEPARATOR;
         $this->severityDescription = [
             Logger::SEVERITY_EMERGENCY    => "Emergency",
             Logger::SEVERITY_ALERT        => "Alert",
@@ -75,7 +75,7 @@ class FilesystemLogger implements Logger {
         }
 
         $logMessage = $this->convertToLogMessage($messages, $severity);
-        $location = $this->logsDirectory . date("Y-m-d") . ".log";
+        $location = $this->logsDirectory.date("Y-m-d").".log";
 
         $file = fopen($location, "a");
         fwrite($file, $logMessage);
@@ -95,7 +95,7 @@ class FilesystemLogger implements Logger {
         Argument::IsInteger($severity);
 
         $messagePrefix = sprintf("[%s][%s] ", date("Y-m-d H:i:s"), $this->severityDescription[$severity]);
-        return $messagePrefix . implode(PHP_EOL . $messagePrefix, $messages) . PHP_EOL;
+        return $messagePrefix.implode(PHP_EOL.$messagePrefix, $messages).PHP_EOL;
     }
 
 }

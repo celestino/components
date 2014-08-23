@@ -51,7 +51,7 @@ class ContainsInternalTypeConstraint implements Constraint {
      */
     public function __construct($expectedType) {
         Argument::IsString($expectedType);
-        Argument::IsFunctionAvailable($callFunctionName = "is_". strtolower($expectedType));
+        Argument::IsFunctionAvailable($callFunctionName = "is_".strtolower($expectedType));
         $this->callFunctionName = $callFunctionName;
     }
 

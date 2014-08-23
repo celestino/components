@@ -51,7 +51,7 @@ class RequestHeaderResolverPluginTest extends PHPUnit_Framework_TestCase {
         }
 
         if (! function_exists("apache_request_headers")) {
-            require_once realpath(__DIR__) ."/Assets/requiredFunctions.php";
+            require_once realpath(__DIR__)."/Assets/requiredFunctions.php";
         }
 
         $expectedHeaders = ["CONNECTION" => "keep-alive", "X-Unit-Test" => "ok"];

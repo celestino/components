@@ -100,14 +100,14 @@ class HttpRouteMatcher implements RouteMatcher {
     private function isAllowedRoute(HttpRoute $route) {
         return (
             $route->getMethod() !== null
-            && preg_match("~^(". $route->getMethod() .")$~i", $this->request->getMethod()->toString()) == 1
+            && preg_match("~^(".$route->getMethod().")$~i", $this->request->getMethod()->toString()) == 1
             && (
                 (($hostname = $route->getHostname()) === null)
-                || preg_match("~^(". $hostname .")$~i", $this->request->getUri()->getHostname()) == 1
+                || preg_match("~^(".$hostname.")$~i", $this->request->getUri()->getHostname()) == 1
             )
             && (
                 (($scheme = $route->getScheme()) === null)
-                || preg_match("~^(". $scheme .")$~i", $this->request->getUri()->getScheme()) == 1
+                || preg_match("~^(".$scheme.")$~i", $this->request->getUri()->getScheme()) == 1
             )
         );
     }
