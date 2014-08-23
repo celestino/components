@@ -58,6 +58,8 @@ class AndOrConstraint implements Constraint {
 
     /** {@inheritDoc} */
     public function matches($value) {
+        $this->removeFailures();
+
         $matches = true;
         foreach ($this->constraints as $constraintGroup) {
             if (($matches = $this->doesConstraintGroupMatch($constraintGroup, $value))) {
@@ -69,10 +71,19 @@ class AndOrConstraint implements Constraint {
 
     /**
      * Returns the last constraint which did not match.
-     * @return \Brickoo\Component\Validation\Constraint\Constraint
+     * @return null|\Brickoo\Component\Validation\Constraint\Constraint
      */
     public function getFailedConstraint() {
         return $this->failedConstraint;
+    }
+
+    /**
+     * Remove the failures if any.
+     * @return \Brickoo\Component\Validation\Constraint\AndOrConstraint
+     */
+    private function removeFailures() {
+        $this->failedConstraint = null;
+        return $this;
     }
 
     /**

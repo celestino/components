@@ -47,6 +47,7 @@ class AndOrConstraintTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Validation\Constraint\AndOrConstraint::__construct
      * @covers Brickoo\Component\Validation\Constraint\AndOrConstraint::matches
+     * @covers Brickoo\Component\Validation\Constraint\AndOrConstraint::removeFailures
      * @covers Brickoo\Component\Validation\Constraint\AndOrConstraint::doesConstraintGroupMatch
      * @covers Brickoo\Component\Validation\Constraint\AndOrConstraint::getConcreteFailedConstraint
      */
@@ -61,6 +62,7 @@ class AndOrConstraintTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Validation\Constraint\AndOrConstraint::matches
+     * @covers Brickoo\Component\Validation\Constraint\AndOrConstraint::removeFailures
      * @covers Brickoo\Component\Validation\Constraint\AndOrConstraint::doesConstraintGroupMatch
      * @covers Brickoo\Component\Validation\Constraint\AndOrConstraint::getConcreteFailedConstraint
      */
@@ -102,6 +104,21 @@ class AndOrConstraintTest extends PHPUnit_Framework_TestCase {
         );
         $this->assertFalse($andOrConstraint->matches(12345));
         $this->assertSame($constraint, $andOrConstraint->getFailedConstraint());
+    }
+
+    /**
+     * @covers Brickoo\Component\Validation\Constraint\AndOrConstraint::matches
+     * @covers Brickoo\Component\Validation\Constraint\AndOrConstraint::removeFailures
+     */
+    public function testRemoveFailures() {
+        $andOrConstraint = new AndOrConstraint(
+            [$constraint = new IsTypeConstraint("string")]
+        );
+        $this->assertFalse($andOrConstraint->matches(12345));
+        $this->assertSame($constraint, $andOrConstraint->getFailedConstraint());
+
+        $this->assertTrue($andOrConstraint->matches("success"));
+        $this->assertNull($andOrConstraint->getFailedConstraint());
     }
 
 }
