@@ -49,7 +49,7 @@ class LengthConstraint implements Constraint {
     /**
      * Class constructor.
      * @param integer $minLength
-     * @param Integer $maxLength
+     * @param null|Integer $maxLength
      */
     public function __construct($minLength, $maxLength = null) {
         Argument::IsInteger($minLength);

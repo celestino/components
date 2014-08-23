@@ -67,7 +67,7 @@ class ConstraintValidator implements Validator {
 
     /**
      * Returns the last constraint which did not match.
-     * @return \Brickoo\Component\Validation\Constraint\Constraint otherwise null
+     * @return null|\Brickoo\Component\Validation\Constraint\Constraint otherwise null
      */
     public function getFailedConstraint() {
         return $this->constraintGroup->getFailedConstraint();
