@@ -66,8 +66,8 @@ class PlainTextPrinter implements Printer {
      * @throws \InvalidArgumentException
      */
     public function __construct(OutputPrinter $outputRenderer, $indentMode = self::INDENT_TABS, $eolSeparator = PHP_EOL) {
-        Argument::IsString($indentMode);
-        Argument::IsString($eolSeparator);
+        Argument::isString($indentMode);
+        Argument::isString($eolSeparator);
         $this->indentationAmount = 0;
         $this->bufferedTextLine = "";
         $this->outputRenderer = $outputRenderer;
@@ -84,7 +84,7 @@ class PlainTextPrinter implements Printer {
 
     /** {@inheritdoc} */
     public function indent($amount = 1) {
-        Argument::IsInteger($amount);
+        Argument::isInteger($amount);
         if ($this->hasBufferedText()) {
             $this->appendText($this->getIndentation($amount));
             return $this;
@@ -95,7 +95,7 @@ class PlainTextPrinter implements Printer {
 
     /** {@inheritdoc} */
     public function outdent($amount = 1) {
-        Argument::IsInteger($amount);
+        Argument::isInteger($amount);
         $this->indentationAmount -= $amount;
         $this->indentationAmount = $this->indentationAmount < 0
             ? 0 : $this->indentationAmount;
@@ -104,7 +104,7 @@ class PlainTextPrinter implements Printer {
 
     /** {@inheritdoc} */
     public function addText($text) {
-        Argument::IsString($text);
+        Argument::isString($text);
 
         if ((! $this->hasBufferedText()) && $this->indentationAmount > 0) {
             $this->appendText($this->getIndentation($this->indentationAmount));

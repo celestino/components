@@ -52,15 +52,15 @@ class LengthConstraint implements Constraint {
      * @param null|Integer $maxLength
      */
     public function __construct($minLength, $maxLength = null) {
-        Argument::IsInteger($minLength);
-        Argument::IsInteger($maxLength);
+        Argument::isInteger($minLength);
+        Argument::isInteger($maxLength);
         $this->minLength = $minLength;
         $this->maxLength = $maxLength;
     }
 
     /** {@inheritDoc} */
     public function matches($value) {
-        Argument::IsString($value);
+        Argument::isString($value);
         $valueLength = strlen($value);
 
         return ($valueLength >= $this->minLength

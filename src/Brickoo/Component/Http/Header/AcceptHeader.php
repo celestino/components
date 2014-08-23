@@ -61,8 +61,8 @@ class AcceptHeader extends GenericHeader {
      * @return \Brickoo\Component\Http\Header\AcceptHeader
      */
     public function setType($acceptType, $quality = 1.0) {
-        Argument::IsString($acceptType);
-        Argument::IsFloat($quality);
+        Argument::isString($acceptType);
+        Argument::isFloat($quality);
 
         $this->getTypes();
         $this->acceptTypes[$acceptType] = $quality;
@@ -87,7 +87,7 @@ class AcceptHeader extends GenericHeader {
      * @return boolean check result
      */
     public function isTypeSupported($type) {
-        Argument::IsString($type);
+        Argument::isString($type);
         return array_key_exists($type, $this->getTypes());
     }
 

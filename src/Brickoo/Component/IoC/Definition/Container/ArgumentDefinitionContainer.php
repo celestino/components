@@ -70,7 +70,7 @@ class ArgumentDefinitionContainer implements \IteratorAggregate, \Countable {
      * @return boolean check result
      */
     public function contains($argumentName) {
-        Argument::IsString($argumentName);
+        Argument::isString($argumentName);
         return isset($this->arguments[$argumentName]);
     }
 
@@ -116,7 +116,7 @@ class ArgumentDefinitionContainer implements \IteratorAggregate, \Countable {
      * @return \Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer
      */
     public function remove($argumentName) {
-        Argument::IsString($argumentName);
+        Argument::isString($argumentName);
 
         if ($this->contains($argumentName)) {
             unset($this->arguments[$argumentName]);
@@ -132,7 +132,7 @@ class ArgumentDefinitionContainer implements \IteratorAggregate, \Countable {
      * @return \Brickoo\Component\IoC\Definition\ArgumentDefinition
      */
     public function get($argumentName) {
-        Argument::IsString($argumentName);
+        Argument::isString($argumentName);
 
         if (! $this->contains($argumentName)) {
             throw new ArgumentNotAvailableException($argumentName);

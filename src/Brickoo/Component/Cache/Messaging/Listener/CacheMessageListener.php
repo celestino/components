@@ -63,7 +63,7 @@ class CacheMessageListener implements ListenerAggregate {
      * @param integer $listenerPriority the listener priority
      */
     public function __construct(CacheProxy $cacheProxy, $listenerPriority = 0) {
-        Argument::IsInteger($listenerPriority);
+        Argument::isInteger($listenerPriority);
         $this->cacheProxy = $cacheProxy;
         $this->listenerPriority = $listenerPriority;
     }

@@ -60,7 +60,7 @@ class XmlTemplate implements Template {
      */
     public function __construct(DOMDocument $xmlDocument, $xsltFilename = null) {
         if ($xsltFilename !== null) {
-            Argument::IsString($xsltFilename);
+            Argument::isString($xsltFilename);
         }
         $this->xsltFilename = $xsltFilename;
         $this->xmlDocument = $xmlDocument;
@@ -73,7 +73,7 @@ class XmlTemplate implements Template {
      * @return \Brickoo\Component\Template\XmlTemplate
      */
     public function setXsltFilename($xsltFilename) {
-        Argument::IsString($xsltFilename);
+        Argument::isString($xsltFilename);
         $this->xsltFilename = $xsltFilename;
         return $this;
     }

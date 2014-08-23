@@ -60,8 +60,8 @@ class AcceptLanguageHeader extends GenericHeader {
      * @return \Brickoo\Component\Http\Header\AcceptLanguageHeader
      */
     public function setLanguage($language, $quality = 1.0) {
-        Argument::IsString($language);
-        Argument::IsFloat($quality);
+        Argument::isString($language);
+        Argument::isFloat($quality);
 
         $this->getLanguages();
         $this->acceptLanguages[$language] = $quality;
@@ -86,7 +86,7 @@ class AcceptLanguageHeader extends GenericHeader {
      * @return boolean check result
      */
     public function isLanguageSupported($language) {
-        Argument::IsString($language);
+        Argument::isString($language);
         return array_key_exists($language, $this->getLanguages());
     }
 

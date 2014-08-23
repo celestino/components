@@ -55,8 +55,8 @@ class MessageListener implements Listener {
      * @param callable $callback
      */
     public function __construct($messageName, $priority, callable $callback) {
-        Argument::IsString($messageName);
-        Argument::IsInteger($priority);
+        Argument::isString($messageName);
+        Argument::isInteger($priority);
 
         $this->messageName = $messageName;
         $this->priority = $priority;

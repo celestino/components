@@ -49,7 +49,7 @@ class MessageRecursionDepthList extends Container {
      * @param integer $recursionDepthLimit default 5
      */
     public function __construct($recursionDepthLimit = 5) {
-        Argument::IsInteger($recursionDepthLimit);
+        Argument::isInteger($recursionDepthLimit);
         $this->recursionDepthLimit = $recursionDepthLimit;
         parent::__construct();
     }
@@ -60,7 +60,7 @@ class MessageRecursionDepthList extends Container {
      * @return \Brickoo\Component\Messaging\MessageRecursionDepthList
      */
     public function addMessage($messageName) {
-        Argument::IsString($messageName);
+        Argument::isString($messageName);
         $this->set($messageName, 0);
         return $this;
     }
@@ -71,7 +71,7 @@ class MessageRecursionDepthList extends Container {
      * @return integer the message recursion depth
      */
     public function getRecursionDepth($messageName) {
-        Argument::IsString($messageName);
+        Argument::isString($messageName);
         return $this->get($messageName, 0);
     }
 
@@ -81,7 +81,7 @@ class MessageRecursionDepthList extends Container {
      * @return boolean check result
      */
     public function isDepthLimitReached($messageName) {
-        Argument::IsString($messageName);
+        Argument::isString($messageName);
         return $this->contains($messageName)
             && $this->get($messageName) >= $this->recursionDepthLimit;
     }
@@ -92,7 +92,7 @@ class MessageRecursionDepthList extends Container {
      * @return \Brickoo\Component\Messaging\MessageRecursionDepthList
      */
     public function increaseDepth($messageName) {
-        Argument::IsString($messageName);
+        Argument::isString($messageName);
         $depth = $this->getRecursionDepth($messageName);
         $this->set($messageName, ++$depth);
         return $this;
@@ -104,7 +104,7 @@ class MessageRecursionDepthList extends Container {
      * @return \Brickoo\Component\Messaging\MessageRecursionDepthList
      */
     public function decreaseDepth($messageName) {
-        Argument::IsString($messageName);
+        Argument::isString($messageName);
         $depth = $this->getRecursionDepth($messageName);
         $this->set($messageName, --$depth);
         return $this;

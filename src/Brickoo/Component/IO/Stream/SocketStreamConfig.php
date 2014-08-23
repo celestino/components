@@ -64,9 +64,9 @@ class SocketStreamConfig {
      * @param array $context
      */
     public function __construct($address, $port, $timeout = 30, $connectionType = STREAM_CLIENT_CONNECT, array $context = array()) {
-        Argument::IsString($address);
-        Argument::IsInteger($timeout);
-        Argument::IsInteger($connectionType);
+        Argument::isString($address);
+        Argument::isInteger($timeout);
+        Argument::isInteger($connectionType);
 
         $this->serverAddress = $address;
         $this->serverPort = $port;

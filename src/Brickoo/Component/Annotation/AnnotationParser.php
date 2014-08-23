@@ -63,7 +63,7 @@ class AnnotationParser {
      * @param string $annotationPrefix
      */
     public function __construct($annotationPrefix = "@") {
-        Argument::IsString($annotationPrefix);
+        Argument::isString($annotationPrefix);
         $this->annotationPrefix = $annotationPrefix;
         $this->annotationWhitelist = [];
     }
@@ -74,7 +74,7 @@ class AnnotationParser {
      * @return \Brickoo\Component\Annotation\AnnotationParser
      */
     public function setAnnotationPrefix($annotationPrefix) {
-        Argument::IsString($annotationPrefix);
+        Argument::isString($annotationPrefix);
         $this->annotationPrefix = $annotationPrefix;
         return $this;
     }
@@ -98,9 +98,9 @@ class AnnotationParser {
      * @return array<\Brickoo\Component\Annotation\Annotation>
      */
     public function parse($target, $targetLocation, $docComment) {
-        Argument::IsInteger($target);
-        Argument::IsString($targetLocation);
-        Argument::IsString($docComment);
+        Argument::isInteger($target);
+        Argument::isString($targetLocation);
+        Argument::isString($docComment);
 
         $annotations = null;
         if (($annotationsMatches = $this->getAnnotationsMatches($this->annotationPrefix, $docComment))

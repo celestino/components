@@ -70,7 +70,7 @@ class DependencyDefinition {
         ArgumentDefinitionContainer $argumentsContainer = null,
         InjectionDefinitionContainer $injectionsContainer = null
     ) {
-        Argument::IsInteger($scope);
+        Argument::isInteger($scope);
         $this->scope = $scope;
         $this->setDependency($dependency);
         $this->argumentsContainer = $argumentsContainer ?: new ArgumentDefinitionContainer();

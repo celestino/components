@@ -52,8 +52,8 @@ class GenericHeader implements HttpHeader {
      * @param string $headerValue
      */
     public function __construct($headerName, $headerValue) {
-        Argument::IsString($headerName);
-        Argument::IsString($headerValue);
+        Argument::isString($headerName);
+        Argument::isString($headerValue);
         $this->headerName = $headerName;
         $this->headerValue = $headerValue;
     }

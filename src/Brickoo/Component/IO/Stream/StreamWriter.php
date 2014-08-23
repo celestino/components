@@ -55,8 +55,8 @@ class StreamWriter {
      * @throws \InvalidArgumentException
      */
     public function __construct($streamResource, $numberOfRetries = 3) {
-        Argument::IsResource($streamResource);
-        Argument::IsInteger($numberOfRetries);
+        Argument::isResource($streamResource);
+        Argument::isInteger($numberOfRetries);
         $this->streamResource = $streamResource;
         $this->numberOfRetries = $numberOfRetries;
     }
@@ -67,7 +67,7 @@ class StreamWriter {
      * @return \Brickoo\Component\IO\Stream\StreamWriter
      */
     public function refreshResource($streamResource) {
-        Argument::IsResource($streamResource);
+        Argument::isResource($streamResource);
         $this->streamResource = $streamResource;
         return $this;
     }

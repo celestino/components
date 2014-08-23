@@ -63,7 +63,7 @@ class AnnotationClassFileReader {
      * @return \Brickoo\Component\Annotation\AnnotationReaderResult
      */
     public function getAnnotations(DefinitionCollection $collection, $filename) {
-        Argument::IsString($filename);
+        Argument::isString($filename);
         $reflectionClass = $this->getReflectionClass($filename);
         return $this->annotationReflectionReader->getAnnotations($collection, $reflectionClass);
     }

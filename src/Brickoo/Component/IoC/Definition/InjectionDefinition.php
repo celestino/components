@@ -62,8 +62,8 @@ class InjectionDefinition {
      * @throws \InvalidArgumentException
      */
     public function __construct($target, $targetName, ArgumentDefinitionContainer $container) {
-        Argument::IsString($target);
-        Argument::IsString($targetName);
+        Argument::isString($target);
+        Argument::isString($targetName);
         $this->target = $target;
         $this->targetName = $targetName;
         $this->argumentsContainer = $container;
@@ -83,7 +83,7 @@ class InjectionDefinition {
      * @return boolean check result
      */
     public function isTarget($target) {
-        Argument::IsString($target);
+        Argument::isString($target);
         return ($this->getTarget() == $target);
     }
 

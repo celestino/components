@@ -57,8 +57,8 @@ class AnnotationReaderResult implements IteratorAggregate {
      * @param string $className
      */
     public function __construct($collectionName, $className) {
-        Argument::IsString($collectionName);
-        Argument::IsString($className);
+        Argument::isString($collectionName);
+        Argument::isString($className);
         $this->collectionName = $collectionName;
         $this->className = $className;
         $this->annotations = [
@@ -121,7 +121,7 @@ class AnnotationReaderResult implements IteratorAggregate {
      * @return \ArrayIterator<Annotation>
      */
     public function getAnnotationsByTarget($target) {
-        Argument::IsInteger($target);
+        Argument::isInteger($target);
 
         if (! $this->isTargetValid($target)) {
             throw new InvalidTargetException($target);

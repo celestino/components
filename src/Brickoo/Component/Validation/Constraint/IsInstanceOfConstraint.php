@@ -47,7 +47,7 @@ class IsInstanceOfConstraint implements Constraint {
      * @param string $compareValue
      */
     public function __construct($compareValue) {
-        Argument::IsString($compareValue);
+        Argument::isString($compareValue);
         $this->compareValue = $compareValue;
     }
 

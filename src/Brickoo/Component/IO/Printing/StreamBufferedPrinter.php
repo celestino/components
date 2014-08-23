@@ -58,7 +58,7 @@ class StreamBufferedPrinter implements OutputPrinter {
      * @throws \InvalidArgumentException
      */
     public function __construct(Stream $stream, $bufferLength = 255) {
-        Argument::IsInteger($bufferLength);
+        Argument::isInteger($bufferLength);
         $this->stream = $stream;
         $this->initializeBuffer($bufferLength);
     }

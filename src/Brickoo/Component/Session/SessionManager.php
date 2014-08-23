@@ -60,7 +60,7 @@ class SessionManager {
      * @return string the previously used session identifier
      */
     public function setId($identifier) {
-        Argument::IsString($identifier);
+        Argument::isString($identifier);
         $this->checkSessionStart();
         return session_id($identifier);
     }
@@ -91,7 +91,7 @@ class SessionManager {
      * @return string the previously used session name
      */
     public function setName($name) {
-        Argument::IsString($name);
+        Argument::isString($name);
         $this->checkSessionStart();
         return session_name($name);
     }
@@ -116,11 +116,11 @@ class SessionManager {
      * @return \Brickoo\Component\Session\SessionManager
      */
     public function setCookieParams($lifetime, $path, $domain, $secure = false, $httpOnly = false) {
-        Argument::IsInteger($lifetime);
-        Argument::IsString($path);
-        Argument::IsString($domain);
-        Argument::IsBoolean($secure);
-        Argument::IsBoolean($httpOnly);
+        Argument::isInteger($lifetime);
+        Argument::isString($path);
+        Argument::isString($domain);
+        Argument::isBoolean($secure);
+        Argument::isBoolean($httpOnly);
 
         $this->checkSessionStart();
         session_set_cookie_params($lifetime, $path, $domain, $secure, $httpOnly);
@@ -143,7 +143,7 @@ class SessionManager {
      * @return \Brickoo\Component\Session\SessionManager
      */
     public function setCacheLimiter($limiter) {
-        Argument::IsString($limiter);
+        Argument::isString($limiter);
         session_cache_limiter($limiter);
         return $this;
     }

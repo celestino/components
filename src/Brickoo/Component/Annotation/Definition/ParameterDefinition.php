@@ -56,9 +56,9 @@ class ParameterDefinition {
      * @throws \InvalidArgumentException
      */
     public function __construct($name, $type, $required = true) {
-        Argument::IsString($name);
-        Argument::IsString($type);
-        Argument::IsBoolean($required);
+        Argument::isString($name);
+        Argument::isString($type);
+        Argument::isBoolean($required);
         $this->name = $name;
         $this->type = $type;
         $this->required = $required;

@@ -59,8 +59,8 @@ class RouteCollection implements IteratorAggregate {
      * @param string $path the routes common path
      */
     public function __construct($name = "", $path = "") {
-        Argument::IsString($name);
-        Argument::IsString($path);
+        Argument::isString($name);
+        Argument::isString($path);
 
         $this->name = $name;
         $this->path = $path;
@@ -139,7 +139,7 @@ class RouteCollection implements IteratorAggregate {
      * @return \Brickoo\Component\Routing\Route\Route
      */
     public function getRoute($routeName) {
-        Argument::IsString($routeName);
+        Argument::isString($routeName);
 
         if (! $this->hasRoute($routeName)) {
             throw new RouteNotFoundException($routeName);
@@ -155,7 +155,7 @@ class RouteCollection implements IteratorAggregate {
      * @return boolean check result
      */
     public function hasRoute($routeName) {
-        Argument::IsString($routeName);
+        Argument::isString($routeName);
         return isset($this->routes[$routeName]);
     }
 

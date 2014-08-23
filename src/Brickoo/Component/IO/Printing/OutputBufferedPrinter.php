@@ -46,7 +46,7 @@ class OutputBufferedPrinter implements OutputPrinter {
      * @throws \InvalidArgumentException
      */
     public function __construct($bufferLength = 0) {
-        Argument::IsInteger($bufferLength);
+        Argument::isInteger($bufferLength);
         $this->initializeBuffer($bufferLength);
     }
 

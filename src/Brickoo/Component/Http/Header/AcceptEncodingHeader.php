@@ -60,8 +60,8 @@ class AcceptEncodingHeader extends GenericHeader {
      * @return \Brickoo\Component\Http\Header\AcceptEncodingHeader
      */
     public function setEncoding($acceptEncoding, $quality = 1.0) {
-        Argument::IsString($acceptEncoding);
-        Argument::IsFloat($quality);
+        Argument::isString($acceptEncoding);
+        Argument::isFloat($quality);
 
         $this->getEncodings();
         $this->acceptEncodings[$acceptEncoding] = $quality;
@@ -86,7 +86,7 @@ class AcceptEncodingHeader extends GenericHeader {
      * @return boolean check result
      */
     public function isEncodingSupported($encoding) {
-        Argument::IsString($encoding);
+        Argument::isString($encoding);
         return array_key_exists($encoding, $this->getEncodings());
     }
 

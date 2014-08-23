@@ -92,7 +92,7 @@ class Registry extends Locker {
      * @return mixed the value of the registered identifier
      */
     public function get($identifier) {
-        Argument::IsStringOrInteger($identifier);
+        Argument::isStringOrInteger($identifier);
 
         if (! $this->isRegistered($identifier)) {
             throw new IdentifierNotRegisteredException($identifier);
@@ -112,7 +112,7 @@ class Registry extends Locker {
      * @return \Brickoo\Component\Common\Registry
      */
     public function register($identifier, $value) {
-        Argument::IsStringOrInteger($identifier);
+        Argument::isStringOrInteger($identifier);
 
         if ($this->isReadOnly()) {
             throw new ReadonlyModeException();
@@ -136,7 +136,7 @@ class Registry extends Locker {
      * @return \Brickoo\Component\Common\Registry
      */
     public function override($identifier, $value) {
-        Argument::IsStringOrInteger($identifier);
+        Argument::isStringOrInteger($identifier);
 
         if ($this->isReadOnly()) {
             throw new ReadonlyModeException();
@@ -159,7 +159,7 @@ class Registry extends Locker {
      * @return \Brickoo\Component\Common\Registry
      */
     public function unregister($identifier) {
-        Argument::IsStringOrInteger($identifier);
+        Argument::isStringOrInteger($identifier);
 
         if ($this->isReadOnly()) {
             throw new ReadonlyModeException();
@@ -183,7 +183,7 @@ class Registry extends Locker {
      * @return boolean check result
      */
     public function isRegistered($identifier) {
-        Argument::IsStringOrInteger($identifier);
+        Argument::isStringOrInteger($identifier);
         return array_key_exists($identifier, $this->registrations);
     }
 
@@ -195,7 +195,7 @@ class Registry extends Locker {
      * @return \Brickoo\Component\Common\Registry
      */
     public function setReadOnly($mode = true) {
-        Argument::IsBoolean($mode);
+        Argument::isBoolean($mode);
 
         $this->readOnly = $mode;
         return $this;

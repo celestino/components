@@ -49,7 +49,7 @@ class StringHeaderResolverPlugin implements HeaderResolverPlugin {
      * @param string $headers the message headers as string
      */
     public function __construct($headers) {
-        Argument::IsString($headers);
+        Argument::isString($headers);
         $this->headers = $headers;
     }
 

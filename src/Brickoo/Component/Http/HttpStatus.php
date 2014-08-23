@@ -51,7 +51,7 @@ class HttpStatus extends HttpStatusCode {
      * @throws \Brickoo\Component\Http\Exception\InvalidHttpStatusException
      */
     public function __construct($status) {
-        Argument::IsInteger($status);
+        Argument::isInteger($status);
 
         if (! $this->isValid($status)) {
             throw new InvalidHttpStatusException($status);

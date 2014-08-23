@@ -62,7 +62,7 @@ class ErrorHandler {
      * @param boolean $convertToException flag to convert errors to exceptions
      */
     public function __construct(MessageDispatcher $messageDispatcher, $convertToException = true) {
-        Argument::IsBoolean($convertToException);
+        Argument::isBoolean($convertToException);
         $this->messageDispatcher = $messageDispatcher;
         $this->convertToException = $convertToException;
         $this->isRegistered = false;

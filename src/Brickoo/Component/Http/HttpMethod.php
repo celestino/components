@@ -62,7 +62,7 @@ class HttpMethod {
      * @throws \Brickoo\Component\Http\Exception\InvalidHttpMethodException
      */
     public function __construct($method) {
-        Argument::IsString($method);
+        Argument::isString($method);
 
         if (! $this->isValid($method)) {
             throw new InvalidHttpMethodException($method);

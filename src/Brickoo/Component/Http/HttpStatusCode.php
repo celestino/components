@@ -144,7 +144,7 @@ class HttpStatusCode {
      * @return string the status code phrase
      */
     public function getPhrase($statusCode) {
-        Argument::IsInteger($statusCode);
+        Argument::isInteger($statusCode);
 
         if (! $this->hasPhrase($statusCode)) {
             throw new StatusCodeUnknownException($statusCode);

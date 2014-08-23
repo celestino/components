@@ -78,7 +78,7 @@ class HttpHeaderList implements IteratorAggregate, Countable {
      * @return \Brickoo\Component\Http\HttpHeader
      */
     public function get($position) {
-        Argument::IsInteger($position);
+        Argument::isInteger($position);
         if (! $this->has($position)) {
             throw new HeaderListElementNotAvailableException($position);
         }
@@ -92,7 +92,7 @@ class HttpHeaderList implements IteratorAggregate, Countable {
      * @return boolean check result
      */
     public function has($position) {
-        Argument::IsInteger($position);
+        Argument::isInteger($position);
         return isset($this->elements[$position]);
     }
 
@@ -103,7 +103,7 @@ class HttpHeaderList implements IteratorAggregate, Countable {
      * @return \Brickoo\Component\Http\HttpHeaderList
      */
     public function remove($position) {
-        Argument::IsInteger($position);
+        Argument::isInteger($position);
         if ($this->has($position)) {
             unset($this->elements[$position]);
         }

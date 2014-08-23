@@ -84,7 +84,7 @@ class Container implements \IteratorAggregate, \Countable {
      * @return boolean check result
      */
     public function contains($key) {
-        Argument::IsStringOrInteger($key);
+        Argument::isStringOrInteger($key);
         return isset($this->container[$key]);
     }
 
@@ -96,7 +96,7 @@ class Container implements \IteratorAggregate, \Countable {
      * @return mixed the key associated value otherwise the default value
      */
     public function get($key, $defaultValue = null) {
-        Argument::IsStringOrInteger($key);
+        Argument::isStringOrInteger($key);
 
         if ($this->contains($key)) {
             return $this->container[$key];
@@ -113,7 +113,7 @@ class Container implements \IteratorAggregate, \Countable {
      * @return \Brickoo\Component\Common\Container
      */
     public function set($key, $value) {
-        Argument::IsStringOrInteger($key);
+        Argument::isStringOrInteger($key);
 
         if (! $this->isValueTypeValid($value)) {
             throw new InvalidValueTypeException($value);
@@ -130,7 +130,7 @@ class Container implements \IteratorAggregate, \Countable {
      * @return \Brickoo\Component\Common\Container
      */
     public function remove($key) {
-        Argument::IsStringOrInteger($key);
+        Argument::isStringOrInteger($key);
 
         if ($this->contains($key)) {
             unset($this->container[$key]);

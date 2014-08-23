@@ -88,8 +88,8 @@ class SyslogLogger implements Logger {
      * @throws \InvalidArgumentException if an argument is not valid
      */
     public function __construct(SocketStream $socketStream, $hostname, $facility = self::FACILITY_USER_0) {
-        Argument::IsString($hostname);
-        Argument::IsInteger($facility);
+        Argument::isString($hostname);
+        Argument::isInteger($facility);
 
         $this->socketStream = $socketStream;
         $this->hostname = $hostname;
@@ -98,7 +98,7 @@ class SyslogLogger implements Logger {
 
     /** {@inheritDoc} */
     public function log($messages, $severity) {
-        Argument::IsInteger($severity);
+        Argument::isInteger($severity);
 
         if (! is_array($messages)) {
             $messages = [$messages];

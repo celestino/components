@@ -76,8 +76,8 @@ class Router {
      * @return \Brickoo\Component\Routing\Route\Route
      */
     public function getRoute($routeName, $collectionName = "") {
-        Argument::IsString($routeName);
-        Argument::IsString($collectionName);
+        Argument::isString($routeName);
+        Argument::isString($collectionName);
 
         $route = null;
         foreach ($this->getRouteCollectorIterator() as $routeCollection) {
@@ -102,8 +102,8 @@ class Router {
      * @return boolean check result
      */
     public function hasRoute($routeName, $collectionName = "") {
-        Argument::IsString($collectionName);
-        Argument::IsString($routeName);
+        Argument::isString($collectionName);
+        Argument::isString($routeName);
 
         try {
             $route = $this->getRoute($routeName, $collectionName);

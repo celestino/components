@@ -49,7 +49,7 @@ class HttpMessageBody {
      * @throws \InvalidArgumentException
      */
     public function __construct($content = "") {
-        Argument::IsString($content);
+        Argument::isString($content);
         $this->content = $content;
     }
 
@@ -68,7 +68,7 @@ class HttpMessageBody {
      * @return \Brickoo\Component\Http\HttpMessageBody
      */
     public function setContent($content) {
-        Argument::IsString($content);
+        Argument::isString($content);
         $this->content = $content;
         return $this;
     }

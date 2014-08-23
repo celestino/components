@@ -68,8 +68,8 @@ class CacheProxy {
      * @return mixed the cached content
      */
     public function getByCallback($identifier, callable $callback, array $callbackArguments, $lifetime) {
-        Argument::IsString($identifier);
-        Argument::IsInteger($lifetime);
+        Argument::isString($identifier);
+        Argument::isInteger($lifetime);
 
         if ((!$content = $this->get($identifier)) && ($content = call_user_func_array($callback, $callbackArguments))) {
             $this->set($identifier, $content, $lifetime);
@@ -85,7 +85,7 @@ class CacheProxy {
      * @return mixed the cached content
      */
     public function get($identifier) {
-        Argument::IsString($identifier);
+        Argument::isString($identifier);
         return $this->getAdapter()->get($identifier);
     }
 
@@ -100,8 +100,8 @@ class CacheProxy {
      * @return \Brickoo\Component\Cache\CacheProxy
      */
     public function set($identifier, $content, $lifetime) {
-        Argument::IsString($identifier);
-        Argument::IsInteger($lifetime);
+        Argument::isString($identifier);
+        Argument::isInteger($lifetime);
         $this->getAdapter()->set($identifier, $content, $lifetime);
         return $this;
     }
@@ -114,7 +114,7 @@ class CacheProxy {
      * @return \Brickoo\Component\Cache\CacheProxy
      */
     public function delete($identifier) {
-        Argument::IsString($identifier);
+        Argument::isString($identifier);
         $this->adapterPoolIterator->rewind();
         while ($this->adapterPoolIterator->valid()) {
             if ($this->adapterPoolIterator->isCurrentReady()) {

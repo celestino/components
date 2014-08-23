@@ -49,7 +49,7 @@ class MemoryAdapter implements Adapter {
 
     /** {@inheritDoc} */
     public function get($identifier) {
-        Argument::IsString($identifier);
+        Argument::isString($identifier);
         if (! array_key_exists($identifier, $this->cacheValues)) {
             return null;
         }
@@ -58,14 +58,14 @@ class MemoryAdapter implements Adapter {
 
     /** {@inheritDoc} */
     public function set($identifier, $content, $lifetime = 0) {
-        Argument::IsString($identifier);
+        Argument::isString($identifier);
         $this->cacheValues[$identifier] = $content;
         return $this;
     }
 
     /** {@inheritDoc} */
     public function delete($identifier) {
-        Argument::IsString($identifier);
+        Argument::isString($identifier);
         if (array_key_exists($identifier, $this->cacheValues)) {
             unset($this->cacheValues[$identifier]);
         }

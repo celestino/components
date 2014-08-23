@@ -64,7 +64,7 @@ class HttpRoute extends GenericRoute {
      * @return \Brickoo\Component\Routing\Route\HttpRoute
      */
     public function setMethod($method) {
-        Argument::IsString($method);
+        Argument::isString($method);
         $this->method = strtoupper($method);
         return $this;
     }
@@ -84,7 +84,7 @@ class HttpRoute extends GenericRoute {
      * @return \Brickoo\Component\Routing\Route\HttpRoute
      */
     public function setScheme($scheme) {
-        Argument::IsString($scheme);
+        Argument::isString($scheme);
         $this->scheme = $scheme;
         return $this;
     }
@@ -104,7 +104,7 @@ class HttpRoute extends GenericRoute {
      * @return \Brickoo\Component\Routing\Route\HttpRoute
      */
     public function setHostname($hostname) {
-        Argument::IsString($hostname);
+        Argument::isString($hostname);
         $this->hostname = $hostname;
         return $this;
     }

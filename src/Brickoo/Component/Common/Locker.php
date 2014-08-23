@@ -63,7 +63,7 @@ abstract class Locker implements \Countable {
      * @return string the unlock key
      */
     public function lock($identifier) {
-        Argument::IsStringOrInteger($identifier);
+        Argument::isStringOrInteger($identifier);
 
         if ((! $this->isIdentifierAvailable($identifier)) || $this->isLocked($identifier)) {
             throw new LockFailedException($identifier);
@@ -82,8 +82,8 @@ abstract class Locker implements \Countable {
      * @return \Brickoo\Component\Common\Locker
      */
     public function unlock($identifier, $unlockKey) {
-        Argument::IsStringOrInteger($identifier);
-        Argument::IsString($unlockKey);
+        Argument::isStringOrInteger($identifier);
+        Argument::isString($unlockKey);
 
         if(! $this->isLocked($identifier) || ($this->locked[$identifier] !== $unlockKey)) {
             throw new UnlockFailedException($identifier);
@@ -100,7 +100,7 @@ abstract class Locker implements \Countable {
      * @return boolean check result
      */
     public function isLocked($identifier) {
-        Argument::IsStringOrInteger($identifier);
+        Argument::isStringOrInteger($identifier);
 
         return array_key_exists($identifier, $this->locked);
     }

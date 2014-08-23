@@ -41,19 +41,19 @@ class DoNothingAdapter implements Adapter {
 
     /** {@inheritDoc} */
     public function get($identifier) {
-        Argument::IsString($identifier);
+        Argument::isString($identifier);
     }
 
     /** {@inheritDoc} */
     public function set($identifier, $content, $lifetime) {
-        Argument::IsString($identifier);
-        Argument::IsInteger($lifetime);
+        Argument::isString($identifier);
+        Argument::isInteger($lifetime);
         return $this;
     }
 
     /** {@inheritDoc} */
     public function delete($identifier) {
-        Argument::IsString($identifier);
+        Argument::isString($identifier);
         return $this;
     }
 

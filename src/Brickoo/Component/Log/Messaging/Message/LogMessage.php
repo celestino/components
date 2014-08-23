@@ -53,7 +53,7 @@ class LogMessage extends GenericMessage {
      * @param integer $severity
      */
     public function __construct(array $messages, $severity) {
-        Argument::IsInteger($severity);
+        Argument::isInteger($severity);
         parent::__construct(Messages::LOG, null, [self::PARAM_LOG_MESSAGES => $messages, self::PARAM_LOG_SEVERITY => $severity]);
     }
 

@@ -63,9 +63,9 @@ class AnnotationDefinition {
      * @throws \InvalidArgumentException
      */
     public function __construct($annotationName, $target = Annotation::TARGET_CLASS, $required = true) {
-        Argument::IsString($annotationName);
-        Argument::IsInteger($target);
-        Argument::IsBoolean($required);
+        Argument::isString($annotationName);
+        Argument::isInteger($target);
+        Argument::isBoolean($required);
         $this->target = $target;
         $this->annotationName = $annotationName;
         $this->required = $required;
@@ -87,7 +87,7 @@ class AnnotationDefinition {
      * @return boolean check result
      */
     public function isTarget($target) {
-        Argument::IsInteger($target);
+        Argument::isInteger($target);
         return $this->getTarget() == $target;
     }
 

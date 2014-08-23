@@ -56,7 +56,7 @@ class LogMessageListener implements Listener {
      * @param integer $priority the priority level
      */
     public function __construct(Logger $logger, $priority = 0) {
-        Argument::IsInteger($priority);
+        Argument::isInteger($priority);
         $this->logger = $logger;
         $this->listenerPriority = $priority;
     }

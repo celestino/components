@@ -55,7 +55,7 @@ class DefinitionCollection  implements Countable, IteratorAggregate {
      * @param string $uniqueName
      */
     public function __construct($uniqueName) {
-        Argument::IsString($uniqueName);
+        Argument::isString($uniqueName);
         $this->uniqueName = $uniqueName;
         $this->annotationsContainer = [];
     }
@@ -131,7 +131,7 @@ class DefinitionCollection  implements Countable, IteratorAggregate {
      * @return \ArrayIterator containing annotations definitions
      */
     public function getAnnotationsDefinitionsByTarget($target) {
-        Argument::IsInteger($target);
+        Argument::isInteger($target);
         $annotationsDefinitions = [];
         foreach ($this as $annotationDefinition) {
             if ($annotationDefinition->isTarget($target)) {

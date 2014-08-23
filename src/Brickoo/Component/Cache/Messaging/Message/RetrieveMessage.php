@@ -42,7 +42,7 @@ class RetrieveMessage extends CacheMessage {
 
     /** @param string $identifier */
     public function __construct($identifier) {
-        Argument::IsString($identifier);
+        Argument::isString($identifier);
         parent::__construct(Messages::GET, null, [self::PARAM_IDENTIFIER => $identifier]);
     }
 

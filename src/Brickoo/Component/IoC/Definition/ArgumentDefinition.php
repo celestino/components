@@ -50,7 +50,7 @@ class ArgumentDefinition {
      * @param string $name
      */
     public function __construct($value, $name = "") {
-        Argument::IsString($name);
+        Argument::isString($name);
         $this->name = $name;
         $this->value = $value;
     }

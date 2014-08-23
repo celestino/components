@@ -51,8 +51,8 @@ class UriAuthority {
      * @param integer $portNumber
      */
     public function __construct($hostname, $portNumber = 80) {
-        Argument::IsString($hostname);
-        Argument::IsInteger($portNumber);
+        Argument::isString($hostname);
+        Argument::isInteger($portNumber);
 
         $this->hostname = $hostname;
         $this->portNumber = $portNumber;

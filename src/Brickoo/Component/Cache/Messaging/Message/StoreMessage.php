@@ -46,8 +46,8 @@ class StoreMessage extends CacheMessage {
      * @param integer $cacheLifetime the max. cache lifetime for the content
      */
     public function __construct($identifier, $content, $cacheLifetime = 60) {
-        Argument::IsString($identifier);
-        Argument::IsInteger($cacheLifetime);
+        Argument::isString($identifier);
+        Argument::isInteger($cacheLifetime);
         parent::__construct(Messages::SET, null, [
             self::PARAM_IDENTIFIER => $identifier,
             self::PARAM_CONTENT => $content,

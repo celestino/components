@@ -57,7 +57,7 @@ class UriQuery extends Container {
      * @return \Brickoo\Component\Http\UriQuery
      */
     public function fromString($query) {
-        Argument::IsString($query);
+        Argument::isString($query);
 
         if (($position = strpos($query, "?")) !== false) {
             $query = substr($query, $position + 1);

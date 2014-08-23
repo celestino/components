@@ -60,9 +60,9 @@ class FilesystemAdapter implements Adapter {
      * @throws \InvalidArgumentException if an argument is not valid
      */
     public function __construct($cacheDirectory, $serializeCacheContent = true, $cacheFileNameSuffix = ".cache") {
-        Argument::IsString($cacheDirectory);
-        Argument::IsBoolean($serializeCacheContent);
-        Argument::IsString($cacheFileNameSuffix);
+        Argument::isString($cacheDirectory);
+        Argument::isBoolean($serializeCacheContent);
+        Argument::isString($cacheFileNameSuffix);
 
         $this->cacheDirectory = rtrim($cacheDirectory, "\\/").DIRECTORY_SEPARATOR;
         $this->serializeCacheContent = $serializeCacheContent;
@@ -71,7 +71,7 @@ class FilesystemAdapter implements Adapter {
 
     /** {@inheritDoc} */
     public function get($identifier) {
-        Argument::IsString($identifier);
+        Argument::isString($identifier);
         $timestampBytesLength = strlen(date(self::LIFETIME_FORMAT));
         $cacheFilePath = $this->getCacheFilePath($identifier);
 
@@ -91,8 +91,8 @@ class FilesystemAdapter implements Adapter {
 
     /** {@inheritDoc} */
     public function set($identifier, $content, $lifetime) {
-        Argument::IsString($identifier);
-        Argument::IsInteger($lifetime);
+        Argument::isString($identifier);
+        Argument::isInteger($lifetime);
 
         if ($this->serializeCacheContent) {
             $content = serialize($content);
@@ -107,7 +107,7 @@ class FilesystemAdapter implements Adapter {
 
     /** {@inheritDoc} */
     public function delete($identifier) {
-        Argument::IsString($identifier);
+        Argument::isString($identifier);
         if (file_exists(($fileName = $this->getCacheFilePath($identifier)))) {
             unlink($fileName);
         }

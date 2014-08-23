@@ -48,8 +48,8 @@ class RetrieveByCallbackMessage extends CacheMessage {
      * @param integer $cacheLifetime the max. cache lifetime for the fresh loaded content
      */
     public function __construct($identifier, callable $callback, array $callbackArguments = [], $cacheLifetime = 60) {
-        Argument::IsString($identifier);
-        Argument::IsInteger($cacheLifetime);
+        Argument::isString($identifier);
+        Argument::isInteger($cacheLifetime);
         parent::__construct(Messages::CALLBACK, null, [
             self::PARAM_IDENTIFIER => $identifier,
             self::PARAM_CALLBACK => $callback,

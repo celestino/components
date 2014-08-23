@@ -50,8 +50,8 @@ class ContainsCharactersTypeConstraint implements Constraint {
      * @throws \InvalidArgumentException if an argument is not valid.
      */
     public function __construct($expectedType) {
-        Argument::IsString($expectedType);
-        Argument::IsFunctionAvailable($cTypeFunctionName = "ctype_".$expectedType);
+        Argument::isString($expectedType);
+        Argument::isFunctionAvailable($cTypeFunctionName = "ctype_".$expectedType);
 
         $this->cTypeFunctionName = $cTypeFunctionName;
     }
@@ -61,7 +61,7 @@ class ContainsCharactersTypeConstraint implements Constraint {
      * @param array|\Traversable $traversable
      */
     public function matches($traversable) {
-        Argument::IsTraversable($traversable);
+        Argument::isTraversable($traversable);
 
         $result = true;
         foreach ($traversable as $value) {

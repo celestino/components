@@ -48,7 +48,7 @@ class RegexConstraint implements Constraint {
      * @throws \InvalidArgumentException if an argument is not valid
      */
     public function __construct($regularExpression) {
-        Argument::IsString($regularExpression);
+        Argument::isString($regularExpression);
         $this->regularExpression = $regularExpression;
     }
 
@@ -57,7 +57,7 @@ class RegexConstraint implements Constraint {
      * @param string $value
      */
     public function matches($value) {
-        Argument::IsString($value);
+        Argument::isString($value);
         return (preg_match_all($this->regularExpression, $value) > 0);
     }
 

@@ -46,165 +46,165 @@ class ArgumentTest extends PHPUnit_Framework_TestCase {
 
     /** {@inheritdoc} */
     public function tearDown() {
-        Argument::$THROW_EXCEPTIONS = true;
+        Argument::$throwExceptions = true;
     }
 
-    /** @covers Brickoo\Component\Validation\Argument::IsString */
+    /** @covers Brickoo\Component\Validation\Argument::isString */
     public function testIsString() {
-        $this->assertTrue(Argument::IsString("test"));
+        $this->assertTrue(Argument::isString("test"));
     }
 
     /**
-     * @covers Brickoo\Component\Validation\Argument::IsString
-     * @covers Brickoo\Component\Validation\Argument::HandleArgumentValidation
+     * @covers Brickoo\Component\Validation\Argument::isString
+     * @covers Brickoo\Component\Validation\Argument::handleArgumentValidation
      * @expectedException \InvalidArgumentException
      */
     public function testIsStringThrowsInvalidArgumentException() {
-        Argument::IsString(new \stdClass());
+        Argument::isString(new \stdClass());
     }
 
-    /** @covers Brickoo\Component\Validation\Argument::IsInteger */
+    /** @covers Brickoo\Component\Validation\Argument::isInteger */
     public function testIsInteger() {
-        $this->assertTrue(Argument::IsInteger(1234));
-        $this->assertTrue(Argument::IsInteger(0));
+        $this->assertTrue(Argument::isInteger(1234));
+        $this->assertTrue(Argument::isInteger(0));
     }
 
     /**
-     * @covers Brickoo\Component\Validation\Argument::IsInteger
+     * @covers Brickoo\Component\Validation\Argument::isInteger
      * @expectedException \InvalidArgumentException
      */
     public function testIsIntegerThrowsInvalidArgumentException() {
-        Argument::IsInteger(new \stdClass());
+        Argument::isInteger(new \stdClass());
     }
 
-    /** @covers Brickoo\Component\Validation\Argument::IsStringOrInteger */
+    /** @covers Brickoo\Component\Validation\Argument::isStringOrInteger */
     public function testIsStringOrInteger() {
-        $this->assertTrue(Argument::IsStringOrInteger(''));
-        $this->assertTrue(Argument::IsStringOrInteger(0));
+        $this->assertTrue(Argument::isStringOrInteger(''));
+        $this->assertTrue(Argument::isStringOrInteger(0));
     }
 
     /**
-     * @covers Brickoo\Component\Validation\Argument::IsStringOrInteger
+     * @covers Brickoo\Component\Validation\Argument::isStringOrInteger
      * @expectedException \InvalidArgumentException
      */
     public function testIsStringOrIntegerThrowsInvalidArgumentException() {
-        Argument::IsStringOrInteger(array("wrongType"));
+        Argument::isStringOrInteger(array("wrongType"));
     }
 
-    /** @covers Brickoo\Component\Validation\Argument::IsBoolean */
+    /** @covers Brickoo\Component\Validation\Argument::isBoolean */
     public function testIsBoolean() {
-        $this->assertTrue(Argument::IsBoolean(true));
-        $this->assertTrue(Argument::IsBoolean(false));
+        $this->assertTrue(Argument::isBoolean(true));
+        $this->assertTrue(Argument::isBoolean(false));
     }
 
     /**
-     * @covers Brickoo\Component\Validation\Argument::IsBoolean
+     * @covers Brickoo\Component\Validation\Argument::isBoolean
      * @expectedException \InvalidArgumentException
      */
     public function testIsBooleanThrowsInvalidArgumentException() {
-        Argument::IsBoolean(null);
+        Argument::isBoolean(null);
     }
 
-    /** @covers Brickoo\Component\Validation\Argument::IsFloat */
+    /** @covers Brickoo\Component\Validation\Argument::isFloat */
     public function testIsFloat() {
-        $this->assertTrue(Argument::IsFloat(1.234));
+        $this->assertTrue(Argument::isFloat(1.234));
     }
 
     /**
-     * @covers Brickoo\Component\Validation\Argument::IsFloat
+     * @covers Brickoo\Component\Validation\Argument::isFloat
      * @expectedException \InvalidArgumentException
      */
     public function testIsFloatThrowsInvalidArgumentException() {
-        Argument::IsFloat(1);
+        Argument::isFloat(1);
     }
 
-    /** @covers Brickoo\Component\Validation\Argument::IsNotEmpty */
+    /** @covers Brickoo\Component\Validation\Argument::isNotEmpty */
     public function testIsNotEmpty() {
-        $this->assertTrue(Argument::IsNotEmpty(true));
-        $this->assertTrue(Argument::IsNotEmpty(1));
-        $this->assertTrue(Argument::IsNotEmpty("test"));
-        $this->assertTrue(Argument::IsNotEmpty(array("test")));
+        $this->assertTrue(Argument::isNotEmpty(true));
+        $this->assertTrue(Argument::isNotEmpty(1));
+        $this->assertTrue(Argument::isNotEmpty("test"));
+        $this->assertTrue(Argument::isNotEmpty(array("test")));
     }
 
     /**
-     * @covers Brickoo\Component\Validation\Argument::IsNotEmpty
+     * @covers Brickoo\Component\Validation\Argument::isNotEmpty
      * @expectedException \InvalidArgumentException
      */
     public function testIsNotEmptyThrowsInvalidArgumentException() {
-        Argument::IsNotEmpty(false);
+        Argument::isNotEmpty(false);
     }
 
-    /** @covers Brickoo\Component\Validation\Argument::IsFunctionAvailable */
+    /** @covers Brickoo\Component\Validation\Argument::isFunctionAvailable */
     public function testIsFunctionAvailable() {
-        $this->assertTrue(Argument::IsFunctionAvailable("phpinfo"));
+        $this->assertTrue(Argument::isFunctionAvailable("phpinfo"));
     }
 
     /**
-     * @covers Brickoo\Component\Validation\Argument::IsFunctionAvailable
+     * @covers Brickoo\Component\Validation\Argument::isFunctionAvailable
      * @expectedException \InvalidArgumentException
      */
     public function testIsFunctionAvailableThrowsArgumentException() {
-        Argument::IsFunctionAvailable("doesNotExists".time());
+        Argument::isFunctionAvailable("doesNotExists".time());
     }
 
-    /** @covers Brickoo\Component\Validation\Argument::IsTraversable */
+    /** @covers Brickoo\Component\Validation\Argument::isTraversable */
     public function testIsTraversable() {
-        $this->assertTrue(Argument::IsTraversable([]));
-        $this->assertTrue(Argument::IsTraversable(new Container()));
+        $this->assertTrue(Argument::isTraversable([]));
+        $this->assertTrue(Argument::isTraversable(new Container()));
     }
 
     /**
-     * @covers Brickoo\Component\Validation\Argument::IsTraversable
+     * @covers Brickoo\Component\Validation\Argument::isTraversable
      * @expectedException \InvalidArgumentException
      */
     public function testIsTraversableThrowsArgumentException() {
-        Argument::IsTraversable("wrongType");
+        Argument::isTraversable("wrongType");
     }
 
-    /** @covers Brickoo\Component\Validation\Argument::IsCallable */
+    /** @covers Brickoo\Component\Validation\Argument::isCallable */
     public function testIsCallable() {
-        $this->assertTrue(Argument::IsCallable('is_string'));
+        $this->assertTrue(Argument::isCallable('is_string'));
     }
 
     /**
-     * @covers Brickoo\Component\Validation\Argument::IsCallable
+     * @covers Brickoo\Component\Validation\Argument::isCallable
      * @expectedException \InvalidArgumentException
      */
     public function testIsCallableThrowsArgumentException() {
-        Argument::IsCallable("iAmNotCallable");
+        Argument::isCallable("iAmNotCallable");
     }
 
-    /** @covers Brickoo\Component\Validation\Argument::IsObject */
+    /** @covers Brickoo\Component\Validation\Argument::isObject */
     public function testIsObject() {
-        $this->assertTrue(Argument::IsObject(new \stdClass()));
+        $this->assertTrue(Argument::isObject(new \stdClass()));
     }
 
     /**
-     * @covers Brickoo\Component\Validation\Argument::IsObject
+     * @covers Brickoo\Component\Validation\Argument::isObject
      * @expectedException \InvalidArgumentException
      */
     public function testIsObjectThrowsArgumentException() {
-        Argument::IsObject(array("wrongType"));
+        Argument::isObject(array("wrongType"));
     }
 
-    /** @covers Brickoo\Component\Validation\Argument::IsResource */
+    /** @covers Brickoo\Component\Validation\Argument::isResource */
     public function testIsResource() {
         $file = fopen("php://memory", "r");
-        $this->assertTrue(Argument::IsResource($file));
+        $this->assertTrue(Argument::isResource($file));
         fclose($file);
     }
 
     /**
-     * @covers Brickoo\Component\Validation\Argument::IsResource
+     * @covers Brickoo\Component\Validation\Argument::isResource
      * @expectedException \InvalidArgumentException
      */
     public function testIsResourceThrowsArgumentException() {
-        Argument::IsResource("wrongType");
+        Argument::isResource("wrongType");
     }
 
     /**
-     * @covers Brickoo\Component\Validation\Argument::GetInvalidArgumentException
-     * @covers Brickoo\Component\Validation\Argument::GetArgumentStringRepresentation
+     * @covers Brickoo\Component\Validation\Argument::getInvalidArgumentException
+     * @covers Brickoo\Component\Validation\Argument::getArgumentStringRepresentation
      */
     public function testThrowingAnDefaultInvalidArgumentException() {
         $argument = "test";
@@ -214,9 +214,9 @@ class ArgumentTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Brickoo\Component\Validation\Argument::GetInvalidArgumentException
-     * @covers Brickoo\Component\Validation\Argument::GetErrorMessage
-     * @covers Brickoo\Component\Validation\Argument::GetArgumentStringRepresentation
+     * @covers Brickoo\Component\Validation\Argument::getInvalidArgumentException
+     * @covers Brickoo\Component\Validation\Argument::getErrorMessage
+     * @covers Brickoo\Component\Validation\Argument::getArgumentStringRepresentation
      */
     public function testThrowingAnObjectInvalidArgumentException() {
         $argument = new \stdClass();
@@ -230,30 +230,30 @@ class ArgumentTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Brickoo\Component\Validation\Argument::HandleArgumentValidation
-     * @covers Brickoo\Component\Validation\Argument::GetErrorMessage
-     * @covers Brickoo\Component\Validation\Argument::GetArgumentStringRepresentation
+     * @covers Brickoo\Component\Validation\Argument::handleArgumentValidation
+     * @covers Brickoo\Component\Validation\Argument::getErrorMessage
+     * @covers Brickoo\Component\Validation\Argument::getArgumentStringRepresentation
      * @expectedException PHPUnit_Framework_Error_Warning
      */
     public function testTriggeringError() {
-        Argument::$THROW_EXCEPTIONS = false;
+        Argument::$throwExceptions = false;
         $argument = new \stdClass();
         $errorMessage = "Testing triggering an error.";
 
-        $this->assertFalse(Argument::HandleArgumentValidation(false, $argument, $errorMessage));
+        $this->assertFalse(Argument::handleArgumentValidation(false, $argument, $errorMessage));
     }
 
     /**
-     * @covers Brickoo\Component\Validation\Argument::HandleArgumentValidation
-     * @covers Brickoo\Component\Validation\Argument::GetErrorMessage
-     * @covers Brickoo\Component\Validation\Argument::GetArgumentStringRepresentation
+     * @covers Brickoo\Component\Validation\Argument::handleArgumentValidation
+     * @covers Brickoo\Component\Validation\Argument::getErrorMessage
+     * @covers Brickoo\Component\Validation\Argument::getArgumentStringRepresentation
      */
     public function testTriggeringErrorReturnFalse() {
-        Argument::$THROW_EXCEPTIONS = false;
+        Argument::$throwExceptions = false;
         $argument = new \stdClass();
         $errorMessage = "Testing triggering an error.";
 
-        $this->assertFalse(@Argument::HandleArgumentValidation(false, $argument, $errorMessage));
+        $this->assertFalse(@Argument::handleArgumentValidation(false, $argument, $errorMessage));
     }
 
 }

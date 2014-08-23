@@ -64,9 +64,9 @@ class GenericRoute implements Route {
      * @throws \InvalidArgumentException
      */
     public function __construct($name, $path, $controller) {
-        Argument::IsString($name);
-        Argument::IsString($path);
-        Argument::IsString($controller);
+        Argument::isString($name);
+        Argument::isString($path);
+        Argument::isString($controller);
 
         $this->name = $name;
         $this->path = $path;
@@ -97,7 +97,7 @@ class GenericRoute implements Route {
 
     /** {@inheritDoc} */
     public function getRule($parameter) {
-        Argument::IsString($parameter);
+        Argument::isString($parameter);
 
         if (! $this->hasRule($parameter)) {
             throw new UnexpectedValueException(
@@ -115,7 +115,7 @@ class GenericRoute implements Route {
 
     /** {@inheritDoc} */
     public function hasRule($parameter) {
-        Argument::IsString($parameter);
+        Argument::isString($parameter);
         return array_key_exists($parameter, $this->rules);
     }
 
@@ -132,7 +132,7 @@ class GenericRoute implements Route {
 
     /** {@inheritDoc} */
     public function getDefaultValue($parameter) {
-        Argument::IsString($parameter);
+        Argument::isString($parameter);
 
         if (!$this->hasDefaultValue($parameter)) {
             throw new UnexpectedValueException(
@@ -144,7 +144,7 @@ class GenericRoute implements Route {
 
     /** {@inheritDoc} */
     public function hasDefaultValue($parameter) {
-        Argument::IsString($parameter);
+        Argument::isString($parameter);
         return array_key_exists($parameter, $this->defaultValues);
     }
 

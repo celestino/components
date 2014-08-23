@@ -47,7 +47,7 @@ class SessionContainer implements \Countable, \IteratorAggregate{
      * @param string $sessionNamespace the namespace to use
      */
     public function __construct($sessionNamespace) {
-        Argument::IsString($sessionNamespace);
+        Argument::isString($sessionNamespace);
         $this->sessionNamespace = $sessionNamespace;
     }
 
@@ -58,7 +58,7 @@ class SessionContainer implements \Countable, \IteratorAggregate{
     * @return boolean check result
     */
     public function contains($property) {
-        Argument::IsString($property);
+        Argument::isString($property);
         return isset($_SESSION[$this->getNamespace($property)]);
     }
 
@@ -70,7 +70,7 @@ class SessionContainer implements \Countable, \IteratorAggregate{
      * @return mixed the property hold content or the default value if the property does not exist
      */
     public function get($property, $defaultValue = null) {
-        Argument::IsString($property);
+        Argument::isString($property);
 
         if (! $this->contains($property)) {
             return $defaultValue;
@@ -87,7 +87,7 @@ class SessionContainer implements \Countable, \IteratorAggregate{
      * @return \Brickoo\Component\Session\SessionContainer
      */
     public function set($property, $value) {
-        Argument::IsString($property);
+        Argument::isString($property);
         $_SESSION[$this->getNamespace($property)] = $value;
         return $this;
     }
@@ -99,7 +99,7 @@ class SessionContainer implements \Countable, \IteratorAggregate{
      * @return \Brickoo\Component\Session\SessionContainer
      */
     public function remove($property) {
-        Argument::IsString($property);
+        Argument::isString($property);
 
         if ($this->contains($property)) {
             unset($_SESSION[$this->getNamespace($property)]);

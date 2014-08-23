@@ -49,7 +49,7 @@ class ErrorMessage extends GenericMessage {
 
     /** @param string $errorMessage */
     public function __construct($errorMessage) {
-        Argument::IsString($errorMessage);
+        Argument::isString($errorMessage);
         parent::__construct(Messages::ERROR, null, [self::PARAM_ERROR_MESSAGE => $errorMessage]);
     }
 

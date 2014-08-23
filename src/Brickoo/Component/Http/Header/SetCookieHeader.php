@@ -71,7 +71,7 @@ class SetCookieHeader extends GenericHeader {
      * @param string $cookieValue
      */
     public function __construct($cookieName, $cookieValue = "") {
-        Argument::IsString($cookieName);
+        Argument::isString($cookieName);
         $this->setValue($cookieValue);
         $this->name = $cookieName;
         $this->headerName = "Set-Cookie";
@@ -87,7 +87,7 @@ class SetCookieHeader extends GenericHeader {
      * @return \Brickoo\Component\Http\Header\SetCookieHeader
      */
     public function setValue($cookieValue) {
-        Argument::IsString($cookieValue);
+        Argument::isString($cookieValue);
         if (preg_match("~[,;\\s]+~", $cookieValue) == 1) {
             throw new InvalidCookieValueException($cookieValue);
         }
@@ -102,7 +102,7 @@ class SetCookieHeader extends GenericHeader {
      * @return \Brickoo\Component\Http\Header\SetCookieHeader
      */
     public function setExpirationDate($expirationDate) {
-        Argument::IsString($expirationDate);
+        Argument::isString($expirationDate);
         $expirationDate = preg_match("~^[0-9]{10}$~", $expirationDate) ?
             intval($expirationDate) : strtotime($expirationDate);
         $this->expires = date(DATE_RFC1123, $expirationDate);
@@ -116,7 +116,7 @@ class SetCookieHeader extends GenericHeader {
      * @return \Brickoo\Component\Http\Header\SetCookieHeader
      */
     public function setMaxAge($maxAge) {
-        Argument::IsInteger($maxAge);
+        Argument::isInteger($maxAge);
         $this->maxAge = $maxAge;
         return $this;
     }
@@ -128,7 +128,7 @@ class SetCookieHeader extends GenericHeader {
      * @return \Brickoo\Component\Http\Header\SetCookieHeader
      */
     public function setDomain($domain) {
-        Argument::IsString($domain);
+        Argument::isString($domain);
         $this->domain = $domain;
         return $this;
     }
@@ -140,7 +140,7 @@ class SetCookieHeader extends GenericHeader {
      * @return \Brickoo\Component\Http\Header\SetCookieHeader
      */
     public function setSecure($secure) {
-        Argument::IsBoolean($secure);
+        Argument::isBoolean($secure);
         $this->secure = $secure;
         return $this;
     }
@@ -152,7 +152,7 @@ class SetCookieHeader extends GenericHeader {
      * @return \Brickoo\Component\Http\Header\SetCookieHeader
      */
     public function setHttpOnly($httpOnly) {
-        Argument::IsBoolean($httpOnly);
+        Argument::isBoolean($httpOnly);
         $this->httpOnly = $httpOnly;
         return $this;
     }

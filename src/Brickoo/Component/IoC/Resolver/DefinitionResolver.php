@@ -83,7 +83,7 @@ class DefinitionResolver {
      * @return \Brickoo\Component\IoC\Resolver\DefinitionResolver
      */
     public function setResolver($resolverType, DependencyResolver $resolver) {
-        Argument::IsInteger($resolverType);
+        Argument::isInteger($resolverType);
         $this->resolvers[$resolverType] = $resolver;
         return $this;
     }

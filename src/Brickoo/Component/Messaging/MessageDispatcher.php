@@ -84,7 +84,7 @@ class MessageDispatcher {
      * @return \Brickoo\Component\Messaging\MessageDispatcher
      */
     public function detach($listenerUID) {
-        Argument::IsString($listenerUID);
+        Argument::isString($listenerUID);
         $this->listenerCollection->remove($listenerUID);
         return $this;
     }

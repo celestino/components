@@ -46,7 +46,7 @@ class StreamReader {
 
     /** @param resource $streamResource */
     public function __construct($streamResource) {
-        Argument::IsResource($streamResource);
+        Argument::isResource($streamResource);
         $this->streamResource = $streamResource;
     }
 
@@ -58,7 +58,7 @@ class StreamReader {
      * @return string the read content
      */
     public function read($bytes = 1024) {
-        Argument::IsInteger($bytes);
+        Argument::isInteger($bytes);
 
         if (! is_resource($this->streamResource)) {
             throw new InvalidResourceHandleException();

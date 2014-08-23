@@ -84,7 +84,7 @@ class HttpMessageHeader extends Container {
      * @return \Brickoo\Component\Http\HttpHeaderList
      */
     public function getHeaderList($headerName) {
-        Argument::IsString($headerName);
+        Argument::isString($headerName);
         if (! $this->contains($headerName)) {
             throw new HeaderNotFoundException($headerName);
         }

@@ -54,7 +54,7 @@ class PhpTemplate implements Template {
      * @throws \InvalidArgumentException if an argument is not valid
      */
     public function __construct($templateFile, array $templateVars = []) {
-        Argument::IsString($templateFile);
+        Argument::isString($templateFile);
         $this->templateFile = $templateFile;
         $this->templateVars = $templateVars;
     }
@@ -65,7 +65,7 @@ class PhpTemplate implements Template {
      * @return \Brickoo\Component\Template\PhpTemplate
      */
     public function setTemplateFile($templateFile) {
-        Argument::IsString($templateFile);
+        Argument::isString($templateFile);
         $this->templateFile = $templateFile;
         return $this;
     }

@@ -51,7 +51,7 @@ class FilesystemLogger implements Logger {
     * @param string $logsDirectory the directory to store the log messages
     */
     public function __construct($logsDirectory) {
-        Argument::IsString($logsDirectory);
+        Argument::isString($logsDirectory);
 
         $this->logsDirectory = rtrim($logsDirectory, "\\/").DIRECTORY_SEPARATOR;
         $this->severityDescription = [
@@ -68,7 +68,7 @@ class FilesystemLogger implements Logger {
 
     /** {@inheritDoc} */
     public function log($messages, $severity) {
-        Argument::IsInteger($severity);
+        Argument::isInteger($severity);
 
         if (! is_array($messages)) {
             $messages = [$messages];
@@ -92,7 +92,7 @@ class FilesystemLogger implements Logger {
      * @return string the packed log message
      */
     private function convertToLogMessage(array $messages, $severity) {
-        Argument::IsInteger($severity);
+        Argument::isInteger($severity);
 
         $messagePrefix = sprintf("[%s][%s] ", date("Y-m-d H:i:s"), $this->severityDescription[$severity]);
         return $messagePrefix.implode(PHP_EOL.$messagePrefix, $messages).PHP_EOL;

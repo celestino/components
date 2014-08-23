@@ -78,7 +78,7 @@ class ListenerCollection {
      * @return \Brickoo\Component\Messaging\MessageListener
      */
     public function get($listenerUID) {
-        Argument::IsString($listenerUID);
+        Argument::isString($listenerUID);
 
         if (! $this->has($listenerUID)) {
             throw new ListenerNotAvailableException($listenerUID);
@@ -94,7 +94,7 @@ class ListenerCollection {
      * @return boolean check result
      */
     public function has($listenerUID) {
-        Argument::IsString($listenerUID);
+        Argument::isString($listenerUID);
         return isset($this->listeners[$listenerUID]);
     }
 
@@ -106,7 +106,7 @@ class ListenerCollection {
      * @return \Brickoo\Component\Messaging\ListenerCollection
      */
     public function remove($listenerUID) {
-        Argument::IsString($listenerUID);
+        Argument::isString($listenerUID);
 
         if (! $this->has($listenerUID)) {
             throw new ListenerNotAvailableException($listenerUID);
@@ -127,7 +127,7 @@ class ListenerCollection {
      * @return array the collected message listeners ordered by priority.
      */
     public function getListeners($messageName) {
-        Argument::IsString($messageName);
+        Argument::isString($messageName);
 
         if (! $this->hasListeners($messageName)) {
             throw new ListenersNotAvailableException($messageName);
@@ -143,7 +143,7 @@ class ListenerCollection {
      * @return boolean check result
      */
     public function hasListeners($messageName) {
-        Argument::IsString($messageName);
+        Argument::isString($messageName);
         return (isset($this->listenerQueues[$messageName]));
     }
 

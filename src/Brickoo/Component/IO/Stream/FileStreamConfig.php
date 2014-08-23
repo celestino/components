@@ -58,9 +58,9 @@ class FileStreamConfig {
      * @throws \InvalidArgumentException
      */
     public function __construct($filename, $mode, $useIncludePath = false, array $context = array()) {
-        Argument::IsString($filename);
-        Argument::IsInteger($mode);
-        Argument::IsBoolean($useIncludePath);
+        Argument::isString($filename);
+        Argument::isInteger($mode);
+        Argument::isBoolean($useIncludePath);
 
         $this->filename = $filename;
         $this->mode = $mode;

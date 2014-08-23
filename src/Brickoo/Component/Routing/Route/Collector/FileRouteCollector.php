@@ -67,9 +67,9 @@ class FileRouteCollector implements RouteCollector {
      * @throws \InvalidArgumentException if an argument is not valid
      */
     public function __construct($routingPath, $routingFilename, $searchRecursively = false) {
-        Argument::IsString($routingPath);
-        Argument::IsString($routingFilename);
-        Argument::IsBoolean($searchRecursively);
+        Argument::isString($routingPath);
+        Argument::isString($routingFilename);
+        Argument::isBoolean($searchRecursively);
 
         if (empty($routingPath)) {
             throw new InvalidArgumentException("The routing path cannot be empty.");

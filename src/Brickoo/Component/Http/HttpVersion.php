@@ -56,7 +56,7 @@ class HttpVersion {
      * @throws \Brickoo\Component\Http\Exception\InvalidHttpVersionException
      */
     public function __construct($version) {
-        Argument::IsString($version);
+        Argument::isString($version);
 
         if (! $this->isValid($version)) {
             throw new InvalidHttpVersionException($version);

@@ -60,8 +60,8 @@ class AcceptCharsetHeader extends GenericHeader {
      * @return \Brickoo\Component\Http\Header\AcceptCharsetHeader
      */
     public function setCharset($acceptCharset, $quality = 1.0) {
-        Argument::IsString($acceptCharset);
-        Argument::IsFloat($quality);
+        Argument::isString($acceptCharset);
+        Argument::isFloat($quality);
 
         $this->getCharsets();
         $this->acceptCharsets[$acceptCharset] = $quality;
@@ -85,7 +85,7 @@ class AcceptCharsetHeader extends GenericHeader {
      * @return boolean check result
      */
     public function isCharsetSupported($charset) {
-        Argument::IsString($charset);
+        Argument::isString($charset);
         return array_key_exists($charset, $this->getCharsets());
     }
 

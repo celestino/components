@@ -50,8 +50,8 @@ class ContainsInternalTypeConstraint implements Constraint {
      * @throws \InvalidArgumentException if an argument is not valid.
      */
     public function __construct($expectedType) {
-        Argument::IsString($expectedType);
-        Argument::IsFunctionAvailable($callFunctionName = "is_".strtolower($expectedType));
+        Argument::isString($expectedType);
+        Argument::isFunctionAvailable($callFunctionName = "is_".strtolower($expectedType));
         $this->callFunctionName = $callFunctionName;
     }
 
@@ -60,7 +60,7 @@ class ContainsInternalTypeConstraint implements Constraint {
      * @param array|\Traversable $traversable
      */
     public function matches($traversable) {
-        Argument::IsTraversable($traversable);
+        Argument::isTraversable($traversable);
 
         $result = true;
         foreach ($traversable as $value) {

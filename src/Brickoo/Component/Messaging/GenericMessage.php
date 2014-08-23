@@ -60,10 +60,10 @@ class GenericMessage implements Message {
      * @throws \InvalidArgumentException
      */
     public function __construct($name, $sender = null, array $parameters = []) {
-        Argument::IsString($name);
+        Argument::isString($name);
 
         if ($sender !== null) {
-            Argument::IsObject($sender);
+            Argument::isObject($sender);
         }
 
         $this->name = $name;
@@ -101,7 +101,7 @@ class GenericMessage implements Message {
 
     /** {@inheritDoc} */
     public function getParam($identifier, $defaultValue = null) {
-        Argument::IsString($identifier);
+        Argument::isString($identifier);
 
         if (! $this->hasParam($identifier)) {
             return $defaultValue;
@@ -112,7 +112,7 @@ class GenericMessage implements Message {
 
     /** {@inheritDoc} */
     public function hasParam($identifier) {
-        Argument::IsString($identifier);
+        Argument::isString($identifier);
         return isset($this->params[$identifier]);
     }
 

@@ -70,7 +70,7 @@ class InjectionDefinitionContainer implements \IteratorAggregate, \Countable {
      * @return boolean check result
      */
     public function contains($injectionTargetName) {
-        Argument::IsString($injectionTargetName);
+        Argument::isString($injectionTargetName);
         return isset($this->injections[$injectionTargetName]);
     }
 
@@ -146,7 +146,7 @@ class InjectionDefinitionContainer implements \IteratorAggregate, \Countable {
      * @return array the target matching injection definitions.
      */
     public function getByTarget($target) {
-        Argument::IsString($target);
+        Argument::isString($target);
         $injections = [];
         foreach ($this->getAll() as $injection) {
             if ($injection->isTarget($target)) {

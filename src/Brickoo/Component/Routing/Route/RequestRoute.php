@@ -79,7 +79,7 @@ class RequestRoute {
      * @return string the parameter value
      */
     public function getParameter($parameter) {
-        Argument::IsString($parameter);
+        Argument::isString($parameter);
 
         if (! $this->hasParameter($parameter)) {
             throw new ParameterNotAvailableException($parameter);
@@ -94,7 +94,7 @@ class RequestRoute {
      * @return boolean check result
      */
     public function hasParameter($parameter) {
-        Argument::IsString($parameter);
+        Argument::isString($parameter);
         return isset($this->parameters[$parameter]);
     }
 

@@ -64,9 +64,9 @@ class Uri {
      * @param string $fragment
      */
     public function __construct($scheme, UriAuthority $authority, $path, UriQuery $query, $fragment) {
-        Argument::IsString($scheme);
-        Argument::IsString($path);
-        Argument::IsString($fragment);
+        Argument::isString($scheme);
+        Argument::isString($path);
+        Argument::isString($fragment);
 
         $this->scheme = $scheme;
         $this->authority = $authority;

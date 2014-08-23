@@ -57,7 +57,7 @@ class ContainsKeysConstraint implements Constraint {
      * @param array|\Traversable $traversable
      */
     public function matches($traversable) {
-        Argument::IsTraversable($traversable);
+        Argument::isTraversable($traversable);
 
         $result = array_diff($this->expectedKeys, $this->getTraversableKeys($traversable));
         return empty($result);

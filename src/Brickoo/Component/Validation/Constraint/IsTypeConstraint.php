@@ -49,8 +49,8 @@ class IsTypeConstraint implements Constraint {
      * @throws \InvalidArgumentException if an argument is not valid.
      */
     public function __construct($expectedType) {
-        Argument::IsString($expectedType);
-        Argument::IsFunctionAvailable($callFunctionName = "is_".strtolower($expectedType));
+        Argument::isString($expectedType);
+        Argument::isFunctionAvailable($callFunctionName = "is_".strtolower($expectedType));
         $this->callFunctionName = $callFunctionName;
     }
 
