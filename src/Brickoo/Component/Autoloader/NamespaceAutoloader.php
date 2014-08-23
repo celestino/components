@@ -151,7 +151,7 @@ class NamespaceAutoloader extends Autoloader {
     /**
      * Returns the path for a namespace class.
      * @param string $className
-     * @return string the namespace based path otherwise null
+     * @return string|null the namespace based path otherwise null
      */
     private function getNamespaceClassPath($className) {
         $namespaceClassPath = null;

@@ -54,8 +54,8 @@ class XmlTemplate implements Template {
 
     /**
      * Class constructor.
-     * @param string $xsltFilename
      * @param \DOMDocument $xmlDocument
+     * @param null|string $xsltFilename
      * @throws \InvalidArgumentException
      */
     public function __construct(DOMDocument $xmlDocument, $xsltFilename = null) {

@@ -115,7 +115,7 @@ class HttpRequestUriResolver implements UriResolver {
 
     /**
      * Returns the IIS request ur assigned if available.
-     * @return string the request uri or null on unavailable
+     * @return string|null the request uri or null on unavailable
      */
     private function getIISRequestUri() {
         if ($this->header->contains("X-Original-Url")) {
@@ -131,7 +131,7 @@ class HttpRequestUriResolver implements UriResolver {
     /**
      * Returns a server variable or the default value if it does not exist.
      * @param string $key the key of the server variable
-     * @param string $defaultValue the default value to return
+     * @param string|null $defaultValue the default value to return
      * @return string|null the value of the server variable otherwise the default value
      */
     private function getServerVar($key, $defaultValue = null) {

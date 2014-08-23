@@ -61,8 +61,8 @@ class DependencyDefinition {
      * Class constructor.
      * @param mixed $dependency
      * @param integer $scope
-     * @param \Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer $argumentsContainer
-     * @param \Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer $injectionsContainer
+     * @param null|\Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer $argumentsContainer
+     * @param null|\Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer $injectionsContainer
      */
     public function __construct(
         $dependency,

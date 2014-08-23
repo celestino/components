@@ -81,7 +81,7 @@ class ClientIpResolver {
 
     /**
      * Returns the original client ip.
-     * @return string the original client ip otherwise null
+     * @return string|null the original client ip otherwise null
      */
     private function getOriginalClientIp() {
         if(($forwardedIp = $this->getForwardedClientIp()) !== null) {

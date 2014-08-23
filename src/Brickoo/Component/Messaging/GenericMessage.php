@@ -55,7 +55,7 @@ class GenericMessage implements Message {
 
     /**
      * @param string $name the message name
-     * @param object $sender the sender object
+     * @param null|object $sender the sender object
      * @param array $parameters the parameters to add to the message
      * @throws \InvalidArgumentException
      */

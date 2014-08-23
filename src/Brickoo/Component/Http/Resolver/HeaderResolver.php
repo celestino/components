@@ -133,7 +133,7 @@ class HeaderResolver {
      * @param string $headerClass
      * @param string $headerValue
      * @throws \Brickoo\Component\Http\Resolver\Exception\HeaderClassNotFoundException
-     * @return \Brickoo\Component\Http\Resolver\HeaderResolver
+     * @return \Brickoo\Component\Http\HttpHeader
      */
     private function createMappingHeader($headerClass, $headerValue) {
         try {

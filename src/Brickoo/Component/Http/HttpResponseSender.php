@@ -111,10 +111,11 @@ class HttpResponseSender {
     /**
      * Sends the body to the output buffer.
      * @param \Brickoo\Component\Http\HttpMessageBody $messageBody
-     * @return \Brickoo\Component\Http\HttpMessageBody
+     * @return \Brickoo\Component\Http\HttpResponseSender
      */
     private function sendHttpMessageBody(HttpMessageBody $messageBody) {
         echo $messageBody->getContent();
+        return $this;
     }
 
     /**

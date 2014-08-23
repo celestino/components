@@ -115,7 +115,7 @@ class DependencyAnnotation {
     /**
      * Returns the injection target (method,property) name.
      * @param \Brickoo\Component\Annotation\Annotation $annotation
-     * @return string the target name otherwise null on failure
+     * @return string|null the target name otherwise null on failure
      */
     private function getInjectionTargetName(Annotation $annotation) {
         if ($annotation->getTarget() == Annotation::TARGET_CLASS) {

@@ -128,7 +128,7 @@ class AnnotationParser {
             ),
             $docComment, $matches
         );
-        return $matches;
+        return $matches ?: [];
     }
 
     /**
