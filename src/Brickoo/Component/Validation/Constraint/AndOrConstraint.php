@@ -107,7 +107,7 @@ class AndOrConstraint implements Constraint {
     /**
      * Returns the concrete failed constraint.
      * @param \Brickoo\Component\Validation\Constraint\Constraint $constraint
-     * @return \Brickoo\Component\Validation\Constraint\AndOrConstraint
+     * @return null|\Brickoo\Component\Validation\Constraint\AndOrConstraint
      */
     private function getConcreteFailedConstraint(Constraint $constraint) {
         if ($constraint instanceof AndOrConstraint) {
