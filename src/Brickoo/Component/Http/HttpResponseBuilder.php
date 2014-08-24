@@ -127,7 +127,7 @@ class HttpResponseBuilder {
 
     /**
      * Set the http message header dependency.
-     * @param HttpMessageHeader $httpMessageHeader
+     * @param HttpMessageHeader|null $httpMessageHeader
      * @return \Brickoo\Component\Http\HttpResponseBuilder
      */
     public function setHttpMessageHeader(HttpMessageHeader $httpMessageHeader = null) {
@@ -162,7 +162,7 @@ class HttpResponseBuilder {
 
     /**
      * Set the response http message dependency.
-     * @param HttpMessage $httpMessage
+     * @param HttpMessage|null $httpMessage
      * @return \Brickoo\Component\Http\HttpResponseBuilder
      */
     public function setHttpMessage(HttpMessage $httpMessage = null) {
