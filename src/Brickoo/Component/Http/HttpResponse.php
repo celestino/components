@@ -49,7 +49,7 @@ class HttpResponse {
 
     /**
      * Class constructor.
-     * @param \Brickoo\Component\Http\HttpVersion
+     * @param \Brickoo\Component\Http\HttpVersion $version
      * @param \Brickoo\Component\Http\HttpStatus $status
      * @param \Brickoo\Component\Http\HttpMessage $message
      */
@@ -60,7 +60,7 @@ class HttpResponse {
     }
 
     /**
-     * Returns the response status number.
+     * Returns the response status.
      * @return \Brickoo\Component\Http\HttpStatus
      */
     public function getStatus() {
@@ -97,6 +97,18 @@ class HttpResponse {
      */
     public function getBody() {
         return $this->message->getBody();
+    }
+
+    /**
+     * Inject the dependencies from an other response.
+     * @param HttpResponse $httpResponse
+     * @return \Brickoo\Component\Http\HttpResponse
+     */
+    public function inject(HttpResponse $httpResponse) {
+        $this->version = $httpResponse->getVersion();
+        $this->status = $httpResponse->getStatus();
+        $this->message = $httpResponse->getMessage();
+        return $this;
     }
 
     /**

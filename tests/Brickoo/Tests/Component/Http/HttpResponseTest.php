@@ -29,8 +29,15 @@
 
 namespace Brickoo\Tests\Component\Http;
 
-use Brickoo\Component\Http\HttpResponse,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Http\HttpResponse;
+use Brickoo\Component\Http\HttpVersion;
+use Brickoo\Component\Http\HttpStatus;
+use Brickoo\Component\Http\HttpMessage;
+use Brickoo\Component\Http\HttpMessageBody;
+use Brickoo\Component\Http\HttpMessageHeader;
+use Brickoo\Component\Http\HttpHeaderList;
+use Brickoo\Component\Http\Header\GenericHeader;
+use PHPUnit_Framework_TestCase;
 
 /**
  * HttpResponseTest
@@ -88,42 +95,47 @@ class HttpResponseTest extends PHPUnit_Framework_TestCase {
         $this->assertSame($body, $httpResponse->getBody());
     }
 
+    /** @covers Brickoo\Component\Http\HttpResponse::inject */
+    public function testInjectDependencies() {
+        $httpResponse = new HttpResponse(
+            $this->getHttpVersionStub(),
+            $this->getHttpStatusStub(),
+            $this->getHttpMessageStub()
+        );
+
+        $version = new HttpVersion(HttpVersion::HTTP_1_1);
+        $status = new HttpStatus(HttpStatus::CODE_OK);
+        $message = new HttpMessage(
+            new HttpMessageHeader([
+                new HttpHeaderList([
+                    new GenericHeader("Unit", "TEST")
+                ])
+            ]),
+            new HttpMessageBody("test case content")
+        );
+        $injectedResponse = new HttpResponse($version, $status, $message);
+        $this->assertSame($httpResponse, $httpResponse->inject($injectedResponse));
+        $this->assertSame($version, $httpResponse->getVersion());
+        $this->assertSame($status, $httpResponse->getStatus());
+        $this->assertSame($message, $httpResponse->getMessage());
+    }
+
     /** @covers Brickoo\Component\Http\HttpResponse::toString */
     public function testToString() {
         $expectedOutput  = "HTTP/1.1 200 OK\r\n";
         $expectedOutput .= "Unit: TEST\r\n";
         $expectedOutput .= "\r\ntest case content";
 
-        $status = $this->getHttpStatusStub();
-        $status->expects($this->any())
-               ->method("getCode")
-               ->will($this->returnValue(200));
-        $status->expects($this->any())
-               ->method("toString")
-               ->will($this->returnValue("200 OK"));
-
-        $version = $this->getHttpVersionStub();
-        $version->expects($this->any())
-                ->method("toString")
-                ->will($this->returnValue("HTTP/1.1"));
-
-        $header = $this->getHttpMessageHeaderStub();
-        $header->expects($this->any())
-               ->method("toString")
-               ->will($this->returnValue("Unit: TEST\r\n"));
-
-        $body = $this->getHttpHttpMessageBodyStub();
-        $body->expects($this->any())
-             ->method("getContent")
-             ->will($this->returnValue("test case content"));
-
-        $message = $this->getHttpMessageStub();
-        $message->expects($this->any())
-                ->method("getHeader")
-                ->will($this->returnValue($header));
-        $message->expects($this->any())
-                ->method("getBody")
-                ->will($this->returnValue($body));
+        $version = new HttpVersion(HttpVersion::HTTP_1_1);
+        $status = new HttpStatus(HttpStatus::CODE_OK);
+        $message = new HttpMessage(
+            new HttpMessageHeader([
+                new HttpHeaderList([
+                    new GenericHeader("Unit", "TEST")
+                ])
+            ]),
+            new HttpMessageBody("test case content")
+        );
 
         $httpResponse = new HttpResponse($version, $status, $message);
         $this->assertEquals($expectedOutput, $httpResponse->toString());
@@ -155,26 +167,6 @@ class HttpResponseTest extends PHPUnit_Framework_TestCase {
      */
     private function getHttpMessageStub() {
         return $this->getMockBuilder("\\Brickoo\\Component\\Http\\HttpMessage")
-            ->disableOriginalConstructor()
-            ->getMock();
-    }
-
-    /**
-     * Returns a http message header stub.
-     * @return \Brickoo\Component\Http\HttpMessageHeader
-     */
-    private function getHttpMessageHeaderStub() {
-        return $this->getMockBuilder("\\Brickoo\\Component\\Http\\HttpMessageHeader")
-            ->disableOriginalConstructor()
-            ->getMock();
-    }
-
-    /**
-     * Returns a http message body stub.
-     * @return \Brickoo\Component\Http\HttpMessageBody
-     */
-    private function getHttpHttpMessageBodyStub() {
-        return $this->getMockBuilder("\\Brickoo\\Component\\Http\\HttpMessageBody")
             ->disableOriginalConstructor()
             ->getMock();
     }

@@ -32,7 +32,7 @@ namespace Brickoo\Component\Http\Response;
 use Brickoo\Component\Http\HttpMessage;
 use Brickoo\Component\Http\HttpResponse;
 use Brickoo\Component\Http\HttpStatus;
-use Brickoo\Component\Http\HttpVersion;
+use Brickoo\Component\Http\HttpResponseBuilder;
 use Brickoo\Component\Http\HttpMessageBody;
 use Brickoo\Component\Http\HttpMessageHeader;
 use Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint;
@@ -54,13 +54,14 @@ class SuccessfullyResponse extends HttpResponse {
      * @throws \InvalidArgumentException
      */
     public function __construct($bodyContent = "", array $messageHeaders= []) {
-        parent::__construct(
-            new HttpVersion(HttpVersion::HTTP_1_1),
-            new HttpStatus(HttpStatus::CODE_OK),
-            new HttpMessage(
-                $this->createMessageHeader($messageHeaders),
-                new HttpMessageBody($bodyContent)
-            )
+        $this->inject(
+            (new HttpResponseBuilder())
+                ->setHttpStatus(new HttpStatus(HttpStatus::CODE_OK))
+                ->setHttpMessage(new HttpMessage(
+                    $this->createMessageHeader($messageHeaders),
+                    new HttpMessageBody($bodyContent)
+                ))
+                ->build()
         );
     }
 

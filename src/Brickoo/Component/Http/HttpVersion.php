@@ -44,7 +44,8 @@ class HttpVersion {
     /** http versions */
     const HTTP_1_0 = "HTTP/1.0";
     const HTTP_1_1 = "HTTP/1.1";
-    const HTTP_2_0 = "HTTP/2.0";
+    const HTTP_2_0 = "HTTP/2";
+    const HTTP_3_0 = "HTTP/3";
 
     /** @var string */
     private $version;

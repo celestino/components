@@ -29,12 +29,9 @@
 
 namespace Brickoo\Component\Http\Response;
 
-use Brickoo\Component\Http\HttpMessage;
 use Brickoo\Component\Http\HttpResponse;
 use Brickoo\Component\Http\HttpStatus;
-use Brickoo\Component\Http\HttpVersion;
-use Brickoo\Component\Http\HttpMessageBody;
-use Brickoo\Component\Http\HttpMessageHeader;
+use Brickoo\Component\Http\HttpResponseBuilder;
 
 /**
  * BadRequestResponse
@@ -47,10 +44,10 @@ use Brickoo\Component\Http\HttpMessageHeader;
 class BadRequestResponse extends HttpResponse {
 
     public function __construct() {
-        parent::__construct(
-            new HttpVersion(HttpVersion::HTTP_1_1),
-            new HttpStatus(HttpStatus::CODE_BAD_REQUEST),
-            new HttpMessage(new HttpMessageHeader(), new HttpMessageBody())
+        $this->inject(
+            (new HttpResponseBuilder())
+                ->setHttpStatus(new HttpStatus(HttpStatus::CODE_BAD_REQUEST))
+                ->build()
         );
     }
 
