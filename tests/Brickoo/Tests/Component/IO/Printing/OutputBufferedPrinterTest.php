@@ -51,9 +51,9 @@ class OutputBufferedPrinterTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\IO\Printing\OutputBufferedPrinter::__construct
-     * @covers Brickoo\Component\IO\Printing\BufferRoutines::initializeBuffer
-     * @covers Brickoo\Component\IO\Printing\OutputBufferedPrinter::doPrint
-     * @covers Brickoo\Component\IO\Printing\BufferRoutines::isBufferTurnedOff
+     * @covers Brickoo\Component\IO\Printing\BufferedPrinter::initializeBuffer
+     * @covers Brickoo\Component\IO\Printing\BufferedPrinter::doPrint
+     * @covers Brickoo\Component\IO\Printing\BufferedPrinter::isBufferTurnedOff
      */
     public function testPrintWithoutOutputBuffer() {
         $expectedOutput = "Test case output";
@@ -64,16 +64,16 @@ class OutputBufferedPrinterTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\IO\Printing\OutputBufferedPrinter::__construct
-     * @covers Brickoo\Component\IO\Printing\BufferRoutines::initializeBuffer
-     * @covers Brickoo\Component\IO\Printing\OutputBufferedPrinter::doPrint
-     * @covers Brickoo\Component\IO\Printing\BufferRoutines::addToBuffer
-     * @covers Brickoo\Component\IO\Printing\BufferRoutines::getBuffer
-     * @covers Brickoo\Component\IO\Printing\BufferRoutines::isBufferTurnedOff
-     * @covers Brickoo\Component\IO\Printing\BufferRoutines::isBufferLessThan
-     * @covers Brickoo\Component\IO\Printing\BufferRoutines::sumBufferWith
-     * @covers Brickoo\Component\IO\Printing\BufferRoutines::clearBuffer
      * @covers Brickoo\Component\IO\Printing\OutputBufferedPrinter::output
-     * @covers Brickoo\Component\IO\Printing\OutputBufferedPrinter::flushBuffer
+     * @covers Brickoo\Component\IO\Printing\BufferedPrinter::initializeBuffer
+     * @covers Brickoo\Component\IO\Printing\BufferedPrinter::doPrint
+     * @covers Brickoo\Component\IO\Printing\BufferedPrinter::addToBuffer
+     * @covers Brickoo\Component\IO\Printing\BufferedPrinter::getBuffer
+     * @covers Brickoo\Component\IO\Printing\BufferedPrinter::isBufferTurnedOff
+     * @covers Brickoo\Component\IO\Printing\BufferedPrinter::isBufferLessThan
+     * @covers Brickoo\Component\IO\Printing\BufferedPrinter::sumBufferWith
+     * @covers Brickoo\Component\IO\Printing\BufferedPrinter::clearBuffer
+     * @covers Brickoo\Component\IO\Printing\BufferedPrinter::flushBuffer
      */
     public function testPrintWithOutputBuffer() {
         $firstText = "Test case output";
@@ -88,8 +88,8 @@ class OutputBufferedPrinterTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Brickoo\Component\IO\Printing\OutputBufferedPrinter::doPrint
-     * @covers Brickoo\Component\IO\Printing\OutputBufferedPrinter::flushBuffer
+     * @covers Brickoo\Component\IO\Printing\BufferedPrinter::doPrint
+     * @covers Brickoo\Component\IO\Printing\BufferedPrinter::flushBuffer
      */
     public function testFlushBufferedContent() {
         $text = "Test case output";
@@ -99,7 +99,7 @@ class OutputBufferedPrinterTest extends PHPUnit_Framework_TestCase {
         $this->expectOutputString($text);
     }
 
-    /** @covers Brickoo\Component\IO\Printing\OutputBufferedPrinter::doPrint */
+    /** @covers Brickoo\Component\IO\Printing\BufferedPrinter::doPrint */
     public function testBufferedContentIsNotPrinted() {
         $text = "Test case output";
         $printer = new OutputBufferedPrinter(strlen($text));

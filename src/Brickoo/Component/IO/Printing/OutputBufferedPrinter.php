@@ -37,9 +37,7 @@ use Brickoo\Component\Validation\Argument;
  * Implementation of a printer for the output buffer.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class OutputBufferedPrinter implements OutputPrinter {
-
-    use BufferRoutines;
+class OutputBufferedPrinter extends BufferedPrinter {
 
     /**
      * @param integer $bufferLength bellow or equal zero turns the buffer off
@@ -51,36 +49,7 @@ class OutputBufferedPrinter implements OutputPrinter {
     }
 
     /** {@inheritdoc} */
-    public function doPrint($output) {
-        if ($this->isBufferTurnedOff()) {
-            $this->output($output);
-            return $this;
-        }
-
-        if ($this->isBufferLessThan($this->sumBufferWith($output))) {
-            $this->output($this->getBuffer());
-            $this->clearBuffer();
-        }
-
-        $this->addToBuffer($output);
-        return $this;
-    }
-
-    /**
-     * Flush the output buffer and clear the local buffer.
-     * @return \Brickoo\Component\IO\Printing\OutputBufferedPrinter
-     */
-    public function flushBuffer() {
-        $this->output($this->getBuffer())->clearBuffer();
-        return $this;
-    }
-
-    /**
-     * Output the content.
-     * @param string $content
-     * @return \Brickoo\Component\IO\Printing\OutputBufferedPrinter
-     */
-    private function output($content) {
+    protected function output($content) {
         echo $content;
         return $this;
     }

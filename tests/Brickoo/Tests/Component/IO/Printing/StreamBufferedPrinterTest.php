@@ -45,11 +45,11 @@ class StreamBufferedPrinterTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\IO\Printing\StreamBufferedPrinter::__construct
-     * @covers Brickoo\Component\IO\Printing\BufferRoutines::initializeBuffer
-     * @covers Brickoo\Component\IO\Printing\StreamBufferedPrinter::doPrint
-     * @covers Brickoo\Component\IO\Printing\StreamBufferedPrinter::flushBuffer
      * @covers Brickoo\Component\IO\Printing\StreamBufferedPrinter::output
      * @covers Brickoo\Component\IO\Printing\StreamBufferedPrinter::getStreamWriter
+     * @covers Brickoo\Component\IO\Printing\BufferedPrinter::initializeBuffer
+     * @covers Brickoo\Component\IO\Printing\BufferedPrinter::doPrint
+     * @covers Brickoo\Component\IO\Printing\BufferedPrinter::flushBuffer
      */
     public function testPrintBufferedContentToStream() {
         $expectedContent = "test case content";
@@ -65,10 +65,10 @@ class StreamBufferedPrinterTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\IO\Printing\StreamBufferedPrinter::__construct
-     * @covers Brickoo\Component\IO\Printing\StreamBufferedPrinter::doPrint
-     * @covers Brickoo\Component\IO\Printing\StreamBufferedPrinter::flushBuffer
      * @covers Brickoo\Component\IO\Printing\StreamBufferedPrinter::output
      * @covers Brickoo\Component\IO\Printing\StreamBufferedPrinter::getStreamWriter
+     * @covers Brickoo\Component\IO\Printing\BufferedPrinter::doPrint
+     * @covers Brickoo\Component\IO\Printing\BufferedPrinter::flushBuffer
      */
     public function testPrintDirectContentToStream() {
         $expectedContent = "test case content";
@@ -82,7 +82,7 @@ class StreamBufferedPrinterTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Brickoo\Component\IO\Printing\StreamBufferedPrinter::doPrint
+     * @covers Brickoo\Component\IO\Printing\BufferedPrinter::doPrint
      * @covers Brickoo\Component\IO\Printing\StreamBufferedPrinter::getStreamWriter
      */
     public function testStreamWriteResourceIsRefreshed() {

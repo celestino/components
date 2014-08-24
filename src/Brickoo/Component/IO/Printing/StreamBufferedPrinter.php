@@ -39,9 +39,7 @@ use Brickoo\Component\Validation\Argument;
  * Implements a buffered stream printer.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class StreamBufferedPrinter implements OutputPrinter {
-
-    use BufferRoutines;
+class StreamBufferedPrinter extends BufferedPrinter {
 
     /** @const integer */
     const MAX_RETRIES = 1;
@@ -64,36 +62,7 @@ class StreamBufferedPrinter implements OutputPrinter {
     }
 
     /** {@inheritdoc} */
-    public function doPrint($output) {
-        if ($this->isBufferTurnedOff()) {
-            $this->output($output);
-            return $this;
-        }
-
-        if ($this->isBufferLessThan($this->sumBufferWith($output))) {
-            $this->output($this->getBuffer());
-            $this->clearBuffer();
-        }
-
-        $this->addToBuffer($output);
-        return $this;
-    }
-
-    /**
-     * Flush the output buffer and clear the local buffer.
-     * @return \Brickoo\Component\IO\Printing\StreamBufferedPrinter
-     */
-    public function flushBuffer() {
-        $this->output($this->getBuffer())->clearBuffer();
-        return $this;
-    }
-
-    /**
-     * Output the content to the stream.
-     * @param string $content
-     * @return StreamBufferedPrinter
-     */
-    private function output($content) {
+    protected function output($content) {
         $this->getStreamWriter()->write($content);
         return $this;
     }
