@@ -44,7 +44,7 @@ class InjectionDefinitionContainerTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer::__construct
-     * @covers Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer::isEmpty
+     * @covers Brickoo\Component\IoC\Definition\Container\DefinitionContainer::isEmpty
      */
     public function testDefinitionContainerIsEmpty() {
         $definitionContainer = new InjectionDefinitionContainer();
@@ -58,7 +58,7 @@ class InjectionDefinitionContainerTest extends PHPUnit_Framework_TestCase {
         $this->assertFalse($definitionContainer->isEmpty());
     }
 
-    /** @covers Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer::contains */
+    /** @covers Brickoo\Component\IoC\Definition\Container\DefinitionContainer::contains */
     public function testDefinitionContainerContainsAnInjectionDefinition() {
         $injectionName = "\\SomeClass::someMethod";
 
@@ -72,9 +72,10 @@ class InjectionDefinitionContainerTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer::set
-     * @covers Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer::add
-     * @covers Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer::count
+     * @covers Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer::setInjections
+     * @covers Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer::addInjection
+     * @covers Brickoo\Component\IoC\Definition\Container\DefinitionContainer::add
+     * @covers Brickoo\Component\IoC\Definition\Container\DefinitionContainer::count
      */
     public function testDefinitionContainerAddingListOfInjections() {
         $injection_1 = $this->getInjectionDefinitionStub();
@@ -89,37 +90,38 @@ class InjectionDefinitionContainerTest extends PHPUnit_Framework_TestCase {
 
         $injectionList = [$injection_1, $injection_2];
         $definitionContainer = new InjectionDefinitionContainer();
-        $this->assertSame($definitionContainer, $definitionContainer->set($injectionList));
+        $this->assertSame($definitionContainer, $definitionContainer->setInjections($injectionList));
         $this->assertEquals(2, count($definitionContainer));
     }
 
     /**
-     * @covers Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer::add
+     * @covers Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer::addInjection
+     * @covers Brickoo\Component\IoC\Definition\Container\DefinitionContainer::add
      * @covers Brickoo\Component\IoC\Definition\Container\Exception\DuplicateInjectionDefinitionException
      * @expectedException \Brickoo\Component\IoC\Definition\Container\Exception\DuplicateInjectionDefinitionException
      */
-    public function testDefinitionContainerAddingDumplicateArgumentThrowsException() {
+    public function testDefinitionContainerAddingDuplicateArgumentThrowsException() {
         $injection = $this->getInjectionDefinitionStub();
         $injection->expects($this->any())
                   ->method("getTargetName")
                   ->will($this->returnValue("\\SomeClass::someMethod"));
 
         $definitionContainer = new InjectionDefinitionContainer([$injection]);
-        $definitionContainer->add($injection);
+        $definitionContainer->addInjection($injection);
     }
 
     /**
-     * @covers Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer::set
+     * @covers Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer::setInjections
      * @expectedException \InvalidArgumentException
      */
     public function testDefinitionContainerSetInvalidTypeThrowsException() {
         $definitionContainer = new InjectionDefinitionContainer();
-        $definitionContainer->set([new \stdClass()]);
+        $definitionContainer->setInjections([new \stdClass()]);
     }
 
     /**
-     * @covers Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer::remove
-     * @covers Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer::count
+     * @covers Brickoo\Component\IoC\Definition\Container\DefinitionContainer::remove
+     * @covers Brickoo\Component\IoC\Definition\Container\DefinitionContainer::count
      */
     public function testDefinitionContainerRemovingArgument() {
         $injectionName = "\\SomeClass::someMethod";
@@ -135,7 +137,7 @@ class InjectionDefinitionContainerTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(0, count($definitionContainer));
     }
 
-    /** @covers Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer::get */
+    /** @covers Brickoo\Component\IoC\Definition\Container\DefinitionContainer::get */
     public function testDefinitionContainerRetrievingArgument() {
         $injectionName = "\\SomeClass::someMethod";
 
@@ -149,7 +151,7 @@ class InjectionDefinitionContainerTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer::get
+     * @covers Brickoo\Component\IoC\Definition\Container\DefinitionContainer::get
      * @covers Brickoo\Component\IoC\Definition\Container\Exception\DefinitionNotAvailableException
      * @expectedException \Brickoo\Component\IoC\Definition\Container\Exception\DefinitionNotAvailableException
      */
@@ -159,8 +161,8 @@ class InjectionDefinitionContainerTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer::getIterator
-     * @covers Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer::getAll
+     * @covers Brickoo\Component\IoC\Definition\Container\DefinitionContainer::getIterator
+     * @covers Brickoo\Component\IoC\Definition\Container\DefinitionContainer::getAll
      */
     public function testDefinitionContainerRetrievingAllArguments() {
         $injectionName = "\\SomeClass::someMethod";

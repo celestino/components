@@ -41,37 +41,14 @@ use Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint;
  * Implements a container for injection definitions.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class InjectionDefinitionContainer implements \IteratorAggregate, \Countable {
-
-    /** @var array<string, \Brickoo\Component\IoC\Definition\InjectionDefinition> */
-    private $injections;
+class InjectionDefinitionContainer extends DefinitionContainer {
 
     /**
      * Class constructor
-     * @param array<\Brickoo\Component\IoC\Definition\InjectionDefinition> $injections
+     * @param \Brickoo\Component\IoC\Definition\InjectionDefinition[] $injections
      */
     public function __construct(array $injections = []) {
-        $this->injections = [];
-        $this->set($injections);
-    }
-
-    /**
-     * Checks if the definition has not injections.
-     * @return boolean check result
-     */
-    public function isEmpty() {
-        return empty($this->injections);
-    }
-
-    /**
-     * Checks if the definition contains an injection.
-     * @param string $injectionTargetName
-     * @throws \InvalidArgumentException
-     * @return boolean check result
-     */
-    public function contains($injectionTargetName) {
-        Argument::isString($injectionTargetName);
-        return isset($this->injections[$injectionTargetName]);
+        $this->setInjections($injections);
     }
 
     /**
@@ -80,11 +57,11 @@ class InjectionDefinitionContainer implements \IteratorAggregate, \Countable {
      * @throws \Brickoo\Component\IoC\Definition\Container\Exception\DuplicateInjectionDefinitionException
      * @return \Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer
      */
-    public function add(InjectionDefinition $injection) {
+    public function addInjection(InjectionDefinition $injection) {
         if ($this->contains(($targetName = $injection->getTargetName()))) {
             throw new DuplicateInjectionDefinitionException($targetName);
         }
-        $this->injections[$targetName] = $injection;
+        $this->add($targetName, $injection);
         return $this;
     }
 
@@ -94,50 +71,16 @@ class InjectionDefinitionContainer implements \IteratorAggregate, \Countable {
      * @throws \InvalidArgumentException
      * @return \Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer
      */
-    public function set($injections) {
+    public function setInjections($injections) {
         if (! (new ContainsInstancesOfConstraint("\\Brickoo\\Component\\IoC\\Definition\\InjectionDefinition"))->matches($injections)) {
             throw new \InvalidArgumentException(
                 "The definition injections keys must be of type `\\Brickoo\\Component\\IoC\\Definition\\InjectionDefinition`."
             );
         }
         foreach ($injections as $injection) {
-            $this->add($injection);
+            $this->addInjection($injection);
         }
         return $this;
-    }
-
-    /**
-     * Removes an injection definition from container.
-     * @param string $injectionName
-     * @throws \InvalidArgumentException
-     * @return \Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer
-     */
-    public function remove($injectionName) {
-        if ($this->contains($injectionName)) {
-            unset($this->injections[$injectionName]);
-        }
-        return $this;
-    }
-
-    /**
-     * Returns an injection definition by its name.
-     * @param string $injectionTargetName
-     * @throws \Brickoo\Component\IoC\Definition\Container\Exception\DefinitionNotAvailableException
-     * @return \Brickoo\Component\IoC\Definition\InjectionDefinition
-     */
-    public function get($injectionTargetName) {
-        if (! $this->contains($injectionTargetName)) {
-            throw new DefinitionNotAvailableException($injectionTargetName);
-        }
-        return $this->injections[$injectionTargetName];
-    }
-
-    /**
-     * Returns the available injection definitions.
-     * @return array<\Brickoo\Component\IoC\Definition\InjectionDefinition>
-     */
-    public function getAll() {
-        return array_values($this->injections);
     }
 
     /**
@@ -154,24 +97,6 @@ class InjectionDefinitionContainer implements \IteratorAggregate, \Countable {
             }
         }
         return $injections;
-    }
-
-    /**
-     * Retrieve an array iterator containing the injections.
-     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return \ArrayIterator
-     */
-    public function getIterator() {
-        return new \ArrayIterator($this->getAll());
-    }
-
-    /**
-     * Count injection in the container.
-     * @link http://php.net/manual/en/countable.count.php
-     * @return integer the amount of injections
-     */
-    public function count() {
-        return count($this->injections);
     }
 
 }

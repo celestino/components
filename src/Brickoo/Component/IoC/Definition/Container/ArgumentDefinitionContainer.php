@@ -30,9 +30,7 @@
 namespace Brickoo\Component\IoC\Definition\Container;
 
 use Brickoo\Component\IoC\Definition\ArgumentDefinition;
-use Brickoo\Component\IoC\Definition\Container\Exception\ArgumentNotAvailableException;
 use Brickoo\Component\IoC\Definition\Container\Exception\DuplicateParameterDefinitionException;
-use Brickoo\Component\Validation\Argument;
 use Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint;
 
 /**
@@ -41,37 +39,14 @@ use Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint;
  * Implements a container for argument definitions.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class ArgumentDefinitionContainer implements \IteratorAggregate, \Countable {
-
-    /** @var array<string, \Brickoo\Component\IoC\Definition\ArgumentDefinition> */
-    private $arguments;
+class ArgumentDefinitionContainer extends DefinitionContainer {
 
     /**
      * Class constructor.
-     * @param array<\Brickoo\Component\IoC\Definition\ArgumentDefinition> $arguments
+     * @param \Brickoo\Component\IoC\Definition\ArgumentDefinition[] $arguments
      */
     public function __construct(array $arguments = []) {
-        $this->arguments = [];
-        $this->set($arguments);
-    }
-
-    /**
-     * Checks if the definition container is empty.
-     * @return boolean check result
-     */
-    public function isEmpty() {
-        return empty($this->arguments);
-    }
-
-    /**
-     * Checks if the definition contains an argument.
-     * @param string $argumentName
-     * @throws \InvalidArgumentException
-     * @return boolean check result
-     */
-    public function contains($argumentName) {
-        Argument::isString($argumentName);
-        return isset($this->arguments[$argumentName]);
+        $this->setArguments($arguments);
     }
 
     /**
@@ -80,13 +55,13 @@ class ArgumentDefinitionContainer implements \IteratorAggregate, \Countable {
      * @throws \Brickoo\Component\IoC\Definition\Container\Exception\DuplicateParameterDefinitionException
      * @return \Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer
      */
-    public function add(ArgumentDefinition $argument) {
+    public function addArgument(ArgumentDefinition $argument) {
         if (($hasName = $argument->hasName()) && $this->contains($argument->getName())) {
             throw new DuplicateParameterDefinitionException($argument->getName());
         }
 
         $argumentKey = $hasName ? $argument->getName() : uniqid("arg:");
-        $this->arguments[$argumentKey] = $argument;
+        $this->add($argumentKey, $argument);
         return $this;
     }
 
@@ -96,7 +71,7 @@ class ArgumentDefinitionContainer implements \IteratorAggregate, \Countable {
      * @throws \InvalidArgumentException
      * @return \Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer
      */
-    public function set($arguments) {
+    public function setArguments($arguments) {
         if (! (new ContainsInstancesOfConstraint("\\Brickoo\\Component\\IoC\\Definition\\ArgumentDefinition"))->matches($arguments)) {
             throw new \InvalidArgumentException(
                 "The definition arguments keys must be of type `\\Brickoo\\Component\\IoC\\Definition\\ArgumentDefinition`."
@@ -104,67 +79,9 @@ class ArgumentDefinitionContainer implements \IteratorAggregate, \Countable {
         }
 
         foreach ($arguments as $argument) {
-            $this->add($argument);
+            $this->addArgument($argument);
         }
         return $this;
-    }
-
-    /**
-     * Removes an argument from the container.
-     * @param string $argumentName
-     * @throws \InvalidArgumentException
-     * @return \Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer
-     */
-    public function remove($argumentName) {
-        Argument::isString($argumentName);
-
-        if ($this->contains($argumentName)) {
-            unset($this->arguments[$argumentName]);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Returns an argument definition by its name.
-     * @param string $argumentName
-     * @throws \Brickoo\Component\IoC\Definition\Container\Exception\ArgumentNotAvailableException
-     * @return \Brickoo\Component\IoC\Definition\ArgumentDefinition
-     */
-    public function get($argumentName) {
-        Argument::isString($argumentName);
-
-        if (! $this->contains($argumentName)) {
-            throw new ArgumentNotAvailableException($argumentName);
-        }
-
-        return $this->arguments[$argumentName];
-    }
-
-    /**
-     * Returns all argument definitions.
-     * @return array<\Brickoo\Component\IoC\Definition\ArgumentDefinition>
-     */
-    public function getAll() {
-        return array_values($this->arguments);
-    }
-
-    /**
-     * Retrieve an array iterator.
-     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return \ArrayIterator containing the arguments
-     */
-    public function getIterator() {
-        return new \ArrayIterator($this->getAll());
-    }
-
-    /**
-     * Count container arguments.
-     * @link http://php.net/manual/en/countable.count.php
-     * @return integer the amount of arguments
-     */
-    public function count() {
-        return count($this->arguments);
     }
 
 }

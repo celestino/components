@@ -43,7 +43,7 @@ class ArgumentDefinitionContainerTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer::__construct
-     * @covers Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer::isEmpty
+     * @covers Brickoo\Component\IoC\Definition\Container\DefinitionContainer::isEmpty
      */
     public function testDefinitionContainerIsEmpty() {
         $definitionContainer = new ArgumentDefinitionContainer();
@@ -52,7 +52,7 @@ class ArgumentDefinitionContainerTest extends PHPUnit_Framework_TestCase {
         $this->assertFalse($definitionContainer->isEmpty());
     }
 
-    /** @covers Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer::contains */
+    /** @covers Brickoo\Component\IoC\Definition\Container\DefinitionContainer::contains */
     public function testDefinitionContainerContainsAnArgument() {
         $argumentName = "argumentName";
 
@@ -69,23 +69,25 @@ class ArgumentDefinitionContainerTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer::set
-     * @covers Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer::add
-     * @covers Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer::count
+     * @covers Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer::setArguments
+     * @covers Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer::addArgument
+     * @covers Brickoo\Component\IoC\Definition\Container\DefinitionContainer::add
+     * @covers Brickoo\Component\IoC\Definition\Container\DefinitionContainer::count
      */
-    public function testDefinitionContainerAddingListOfArgumenta() {
+    public function testDefinitionContainerAddingListOfArguments() {
         $argumentList = [$this->getArgumentDefinitionStub(), $this->getArgumentDefinitionStub()];
         $definitionContainer = new ArgumentDefinitionContainer();
-        $this->assertSame($definitionContainer, $definitionContainer->set($argumentList));
+        $this->assertSame($definitionContainer, $definitionContainer->setArguments($argumentList));
         $this->assertEquals(2, count($definitionContainer));
     }
 
     /**
-     * @covers Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer::add
+     * @covers Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer::addArgument
+     * @covers Brickoo\Component\IoC\Definition\Container\DefinitionContainer::add
      * @covers Brickoo\Component\IoC\Definition\Container\Exception\DuplicateParameterDefinitionException
      * @expectedException \Brickoo\Component\IoC\Definition\Container\Exception\DuplicateParameterDefinitionException
      */
-    public function testDefinitionContainerAddingDumplicateArgumentThrowsException() {
+    public function testDefinitionContainerAddingDuplicateArgumentThrowsException() {
         $argument = $this->getArgumentDefinitionStub();
         $argument->expects($this->any())
                  ->method("hasName")
@@ -95,21 +97,21 @@ class ArgumentDefinitionContainerTest extends PHPUnit_Framework_TestCase {
                  ->will($this->returnValue("argumentName"));
 
         $definitionContainer = new ArgumentDefinitionContainer([$argument]);
-        $definitionContainer->add($argument);
+        $definitionContainer->addArgument($argument);
     }
 
     /**
-     * @covers Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer::set
+     * @covers Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer::setArguments
      * @expectedException \InvalidArgumentException
      */
     public function testDefinitionContainerSetInvalidTypeThrowsException() {
         $definitionContainer = new ArgumentDefinitionContainer();
-        $definitionContainer->set([new \stdClass()]);
+        $definitionContainer->setArguments([new \stdClass()]);
     }
 
     /**
-     * @covers Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer::remove
-     * @covers Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer::count
+     * @covers Brickoo\Component\IoC\Definition\Container\DefinitionContainer::remove
+     * @covers Brickoo\Component\IoC\Definition\Container\DefinitionContainer::count
      */
     public function testDefinitionContainerRemovingArgument() {
         $argument = $this->getArgumentDefinitionStub();
@@ -126,7 +128,7 @@ class ArgumentDefinitionContainerTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(0, count($definitionContainer));
     }
 
-    /** @covers Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer::get */
+    /** @covers Brickoo\Component\IoC\Definition\Container\DefinitionContainer::get */
     public function testDefinitionContainerRetrievingArgument() {
         $argument = $this->getArgumentDefinitionStub();
         $argument->expects($this->any())
@@ -141,9 +143,9 @@ class ArgumentDefinitionContainerTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer::get
-     * @covers Brickoo\Component\IoC\Definition\Container\Exception\ArgumentNotAvailableException
-     * @expectedException \Brickoo\Component\IoC\Definition\Container\Exception\ArgumentNotAvailableException
+     * @covers Brickoo\Component\IoC\Definition\Container\DefinitionContainer::get
+     * @covers Brickoo\Component\IoC\Definition\Container\Exception\DefinitionNotAvailableException
+     * @expectedException \Brickoo\Component\IoC\Definition\Container\Exception\DefinitionNotAvailableException
      */
     public function testDefinitionContainerRetrievingUnknownArgumentThrowsException() {
         $definitionContainer = new ArgumentDefinitionContainer();
@@ -151,8 +153,8 @@ class ArgumentDefinitionContainerTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer::getIterator
-     * @covers Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer::getAll
+     * @covers Brickoo\Component\IoC\Definition\Container\DefinitionContainer::getIterator
+     * @covers Brickoo\Component\IoC\Definition\Container\DefinitionContainer::getAll
      */
     public function testDefinitionContainerRetrievingAllArguments() {
         $definitionContainer = new ArgumentDefinitionContainer([$this->getArgumentDefinitionStub()]);
