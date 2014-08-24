@@ -31,6 +31,7 @@ namespace Brickoo\Component\Http\Resolver;
 
 use Brickoo\Component\Http\Header\GenericHeader;
 use Brickoo\Component\Http\HttpHeaderList;
+use Brickoo\Component\Http\HttpHeaderNormalizer;
 use Brickoo\Component\Http\Resolver\Exception\HeaderClassNotFoundException;
 
 /**
@@ -41,6 +42,8 @@ use Brickoo\Component\Http\Resolver\Exception\HeaderClassNotFoundException;
  */
 
 class HeaderResolver {
+
+    use HttpHeaderNormalizer;
 
     /** @var array */
     private $headerMap;
@@ -155,25 +158,6 @@ class HeaderResolver {
      */
     private function createGenericHeader($headerName, $headerValue) {
         return new GenericHeader($headerName, $headerValue);
-    }
-
-    /**
-     * Normalize the headers keys.
-     * @param array $headers the headers to normalize
-     * @return array the normalized headers
-     */
-    private function normalizeHeaders(array $headers) {
-        $normalizedHeaders = [];
-
-        foreach ($headers as $headerName => $headerValue) {
-            $headerName = str_replace(" ", "-", ucwords(
-                strtolower(str_replace(["_", "-"], " ", $headerName))
-            ));
-            $normalizedHeaders[$headerName] = $headerValue;
-        }
-
-        ksort($normalizedHeaders);
-        return $normalizedHeaders;
     }
 
 }

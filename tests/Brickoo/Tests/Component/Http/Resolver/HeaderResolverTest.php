@@ -50,7 +50,7 @@ class HeaderResolverTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\Resolver\HeaderResolver::getHeader
      * @covers Brickoo\Component\Http\Resolver\HeaderResolver::createMappingHeader
      * @covers Brickoo\Component\Http\Resolver\HeaderResolver::createGenericHeader
-     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::normalizeHeaders
+     * @covers Brickoo\Component\Http\HttpHeaderNormalizer::normalizeHeaders
      */
     public function testGetHeadersWithValidMap() {
         $headerMap = include realpath(__DIR__)."/Assets/validHeader.map";
@@ -81,7 +81,7 @@ class HeaderResolverTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\Resolver\HeaderResolver::getHeader
      * @covers Brickoo\Component\Http\Resolver\HeaderResolver::createMappingHeader
      * @covers Brickoo\Component\Http\Resolver\HeaderResolver::createGenericHeader
-     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::normalizeHeaders
+     * @covers Brickoo\Component\Http\HttpHeaderNormalizer::normalizeHeaders
      */
     public function testGetHeaderLists() {
         $headerMap = include realpath(__DIR__)."/Assets/validHeader.map";
@@ -114,7 +114,7 @@ class HeaderResolverTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\Resolver\HeaderResolver::getHeader
      * @covers Brickoo\Component\Http\Resolver\HeaderResolver::createMappingHeader
      * @covers Brickoo\Component\Http\Resolver\HeaderResolver::createGenericHeader
-     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::normalizeHeaders
+     * @covers Brickoo\Component\Http\HttpHeaderNormalizer::normalizeHeaders
      * @covers Brickoo\Component\Http\Resolver\Exception\HeaderClassNotFoundException
      * @expectedException \Brickoo\Component\Http\Resolver\Exception\HeaderClassNotFoundException
      */

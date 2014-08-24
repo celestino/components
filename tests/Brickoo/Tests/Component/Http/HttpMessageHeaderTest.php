@@ -90,7 +90,7 @@ class HttpMessageHeaderTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Http\HttpMessageHeader::toString
-     * @covers Brickoo\Component\Http\HttpMessageHeader::normalizeHeaders
+     * @covers Brickoo\Component\Http\HttpHeaderNormalizer::normalizeHeaders
      *
      */
     public function testToString() {

@@ -45,7 +45,7 @@ abstract class Autoloader {
     /** @var boolean */
     private $isRegistered;
 
-    /** @var boolean*/
+    /** @var boolean */
     private $prependAutoloader;
 
     /**

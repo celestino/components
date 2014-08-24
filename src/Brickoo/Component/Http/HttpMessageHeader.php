@@ -43,6 +43,8 @@ use Brickoo\Component\Validation\Validator\ConstraintValidator;
  */
 class HttpMessageHeader extends Container {
 
+    use HttpHeaderNormalizer;
+
     /** @param array $headerLists */
     public function __construct(array $headerLists = []) {
         parent::__construct($headerLists, new ConstraintValidator(
@@ -104,25 +106,6 @@ class HttpMessageHeader extends Container {
         }
 
         return $headerString;
-    }
-
-    /**
-     * Normalize the headers keys.
-     * @param array $headers the headers to normalized
-     * @return array the normalized headers
-     */
-    private function normalizeHeaders(array $headers) {
-        $normalizedHeaders = [];
-
-        foreach ($headers as $headerName => $headerValue) {
-            $headerName = str_replace(" ", "-", ucwords(
-                strtolower(str_replace(["_", "-"], " ", $headerName))
-            ));
-            $normalizedHeaders[$headerName] = $headerValue;
-        }
-
-        ksort($normalizedHeaders);
-        return $normalizedHeaders;
     }
 
 }
