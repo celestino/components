@@ -49,6 +49,8 @@ class AnnotationReflectionClassReaderTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Annotation\AnnotationReflectionClassReader::addMethodsAnnotations
      * @covers Brickoo\Component\Annotation\AnnotationReflectionClassReader::addPropertiesAnnotations
      * @covers Brickoo\Component\Annotation\AnnotationReflectionClassReader::getAnnotationsNames
+     * @covers Brickoo\Component\Annotation\AnnotationReflectionClassReader::setAnnotationWhiteList
+     * @covers Brickoo\Component\Annotation\AnnotationReflectionClassReader::parseAnnotationList
      * @covers Brickoo\Component\Annotation\AnnotationReflectionClassReader::parseAnnotations
      * @covers Brickoo\Component\Annotation\AnnotationReflectionClassReader::addResultAnnotations
      */

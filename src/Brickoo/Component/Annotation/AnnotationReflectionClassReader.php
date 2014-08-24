@@ -73,10 +73,7 @@ class AnnotationReflectionClassReader {
      * @return \Brickoo\Component\Annotation\AnnotationReflectionClassReader
      */
     private function addClassAnnotations(AnnotationReaderResult $result, DefinitionCollection $collection, ReflectionClass $class) {
-        $this->annotationParser->setAnnotationWhitelist($this->getAnnotationsNames(
-            $collection->getAnnotationsDefinitionsByTarget(Annotation::TARGET_CLASS)
-        ));
-
+        $this->setAnnotationWhiteList($collection, Annotation::TARGET_CLASS);
         $this->parseAnnotations($result, Annotation::TARGET_CLASS, $class->getName(), $class->getDocComment());
         return $this;
     }
@@ -89,18 +86,8 @@ class AnnotationReflectionClassReader {
      * @return \Brickoo\Component\Annotation\AnnotationReflectionClassReader
      */
     private function addMethodsAnnotations(AnnotationReaderResult $result, DefinitionCollection $collection, ReflectionClass $class) {
-        $this->annotationParser->setAnnotationWhitelist($this->getAnnotationsNames(
-            $collection->getAnnotationsDefinitionsByTarget(Annotation::TARGET_METHOD)
-        ));
-
-        foreach ($class->getMethods() as $method) {
-            $this->parseAnnotations(
-                $result,
-                Annotation::TARGET_METHOD,
-                sprintf("%s::%s", $class->getName(), $method->getName()),
-                $method->getDocComment()
-            );
-        }
+        $this->setAnnotationWhiteList($collection, Annotation::TARGET_METHOD);
+        $this->parseAnnotationList($result, $class, Annotation::TARGET_METHOD);
         return $this;
     }
 
@@ -112,16 +99,49 @@ class AnnotationReflectionClassReader {
      * @return \Brickoo\Component\Annotation\AnnotationReflectionClassReader
      */
     private function addPropertiesAnnotations(AnnotationReaderResult $result, DefinitionCollection $collection, ReflectionClass $class) {
-        $this->annotationParser->setAnnotationWhitelist($this->getAnnotationsNames(
-            $collection->getAnnotationsDefinitionsByTarget(Annotation::TARGET_PROPERTY)
-        ));
+        $this->setAnnotationWhiteList($collection, Annotation::TARGET_PROPERTY);
+        $this->parseAnnotationList($result, $class, Annotation::TARGET_PROPERTY);
+        return $this;
+    }
 
-        foreach ($class->getProperties() as $property) {
+    /**
+     * Set the annotation white list for an annotation type.
+     * @param \Brickoo\Component\Annotation\Definition\DefinitionCollection $collection
+     * @param integer $targetType
+     * @return \Brickoo\Component\Annotation\AnnotationReflectionClassReader
+     */
+    private function setAnnotationWhiteList(DefinitionCollection $collection, $targetType) {
+        $this->annotationParser->setAnnotationWhitelist($this->getAnnotationsNames(
+            $collection->getAnnotationsDefinitionsByTarget($targetType)
+        ));
+        return $this;
+    }
+
+    /**
+     * Parse the annotation list from class member of a type.
+     * @param \Brickoo\Component\Annotation\AnnotationReaderResult $result
+     * @param \ReflectionClass $reflectionClass
+     * @param integer $targetType
+     * @return \Brickoo\Component\Annotation\AnnotationReflectionClassReader
+     */
+    private function parseAnnotationList(AnnotationReaderResult $result, ReflectionClass $reflectionClass, $targetType) {
+        $reflectionMemberList = [];
+
+        switch ($targetType) {
+            case Annotation::TARGET_METHOD:
+                $reflectionMemberList = $reflectionClass->getMethods();
+                break;
+            case Annotation::TARGET_PROPERTY:
+                $reflectionMemberList = $reflectionClass->getProperties();
+                break;
+        }
+
+        foreach ($reflectionMemberList as $member) {
             $this->parseAnnotations(
                 $result,
-                Annotation::TARGET_PROPERTY,
-                sprintf("%s::%s", $class->getName(), $property->getName()),
-                $property->getDocComment()
+                $targetType,
+                sprintf("%s::%s", $reflectionClass->getName(), $member->getName()),
+                $member->getDocComment()
             );
         }
         return $this;
