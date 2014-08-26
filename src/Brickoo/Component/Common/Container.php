@@ -92,7 +92,6 @@ class Container implements \IteratorAggregate, \Countable {
      * Returns the value of the given key.
      * @param string|integer $key
      * @param mixed $defaultValue
-     * @param string $key
      * @return mixed the key associated value otherwise the default value
      */
     public function get($key, $defaultValue = null) {
