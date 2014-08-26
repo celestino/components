@@ -118,7 +118,7 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
 
     /** {@inheritDoc} */
     public function select($adapterIdentifier) {
-        Argument::isStringOrInteger($adapterIdentifier);
+        Argument::isString($adapterIdentifier);
 
         if (! $this->has($adapterIdentifier)) {
             throw new PoolIdentifierDoesNotExistException($adapterIdentifier);
@@ -150,7 +150,7 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
 
     /** {@inheritDoc} */
     public function has($adapterIdentifier) {
-        Argument::isStringOrInteger($adapterIdentifier);
+        Argument::isString($adapterIdentifier);
         return in_array($adapterIdentifier, $this->mappingKeys, true);
     }
 
@@ -166,7 +166,7 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
 
     /**
      * Returns the position inside the adapter pool.
-     * @param string|integer $adapterIdentifier
+     * @param string $adapterIdentifier
      * @return integer the position
      */
     private function getMappingPosition($adapterIdentifier) {

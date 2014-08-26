@@ -94,13 +94,17 @@ class RegistryTest extends PHPUnit_Framework_TestCase {
         $this->registry->isIdentifierAvailable(array("wrongType"));
     }
 
-    /** @covers Brickoo\Component\Common\Registry::register */
+    /**
+     * @covers Brickoo\Component\Common\Registry::register
+     * @covers Brickoo\Component\Common\Registry::set
+     */
     public function testRegister() {
         $this->assertSame($this->registry, $this->registry->register("town", "bonn"));
     }
 
     /**
      * @covers Brickoo\Component\Common\Registry::register
+     * @covers Brickoo\Component\Common\Registry::set
      * @covers Brickoo\Component\Common\Registry::setReadOnly
      * @covers Brickoo\Component\Common\Exception\ReadonlyModeException
      * @expectedException \Brickoo\Component\Common\Exception\ReadonlyModeException
@@ -143,7 +147,10 @@ class RegistryTest extends PHPUnit_Framework_TestCase {
         $this->registry->get("name");
     }
 
-    /** @covers Brickoo\Component\Common\Registry::override */
+    /**
+     * @covers Brickoo\Component\Common\Registry::override
+     * @covers Brickoo\Component\Common\Registry::register
+     */
     public function testOverride() {
         $this->assertSame($this->registry, $this->registry->override("name", "framework"));
     }
@@ -161,6 +168,7 @@ class RegistryTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Common\Registry::override
+     * @covers Brickoo\Component\Common\Registry::set
      * @covers Brickoo\Component\Common\Exception\ReadonlyModeException
      * @expectedException \Brickoo\Component\Common\Exception\ReadonlyModeException
      */

@@ -58,31 +58,30 @@ abstract class Locker implements \Countable {
      * Locks the identifier and returns an unlock key.
      * Extended by the Registry class, override and unregister methods of the
      * Registry class are disabled for this identifier(s)
-     * @param string|integer $identifier the identifier to lock
+     * @param string $identifier the identifier to lock
      * @throws \Brickoo\Component\Common\Exception\LockFailedException
      * @return string the unlock key
      */
     public function lock($identifier) {
-        Argument::isStringOrInteger($identifier);
+        Argument::isString($identifier);
 
         if ((! $this->isIdentifierAvailable($identifier)) || $this->isLocked($identifier)) {
             throw new LockFailedException($identifier);
         }
 
         $this->locked[$identifier] = ($unlockKey = uniqid($identifier));
-
         return $unlockKey;
     }
 
     /**
      * Unlocks the locked identifier matching the lock key.
-     * @param string|integer $identifier the identifier which should be unlocked
+     * @param string $identifier the identifier which should be unlocked
      * @param string $unlockKey the key to unlock the identifier
      * @throws \Brickoo\Component\Common\Exception\UnlockFailedException
      * @return \Brickoo\Component\Common\Locker
      */
     public function unlock($identifier, $unlockKey) {
-        Argument::isStringOrInteger($identifier);
+        Argument::isString($identifier);
         Argument::isString($unlockKey);
 
         if(! $this->isLocked($identifier) || ($this->locked[$identifier] !== $unlockKey)) {
@@ -90,18 +89,16 @@ abstract class Locker implements \Countable {
         }
 
         unset($this->locked[$identifier]);
-
         return $this;
     }
 
     /**
      * Checks if the identifier is currently locked.
-     * @param string|integer $identifier the identifier to check
+     * @param string $identifier the identifier to check
      * @return boolean check result
      */
     public function isLocked($identifier) {
-        Argument::isStringOrInteger($identifier);
-
+        Argument::isString($identifier);
         return array_key_exists($identifier, $this->locked);
     }
 

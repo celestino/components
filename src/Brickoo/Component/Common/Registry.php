@@ -86,7 +86,7 @@ class Registry extends Locker {
 
     /**
      * Returns the registered value from the given identifier.
-     * @param string|integer $identifier the identifier so retrieve the value from
+     * @param string $identifier the identifier so retrieve the value from
      * @throws \InvalidArgumentException if the identifier is not valid
      * @throws \Brickoo\Component\Common\Exception\IdentifierNotRegisteredException
      * @return mixed the value of the registered identifier
@@ -105,61 +105,53 @@ class Registry extends Locker {
      * Register an identifier-value pair.
      * Take care of registering objects who are assigned somewhere else
      * as an reference the changes applies to the registered objects as well.
-     * @param string|integer $identifier the identifier to register
+     * @param string $identifier the identifier to register
      * @param mixed $value the identifier value to register with
      * @throws \Brickoo\Component\Common\Exception\DuplicateRegistrationException
      * @throws \Brickoo\Component\Common\Exception\ReadonlyModeException
      * @return \Brickoo\Component\Common\Registry
      */
     public function register($identifier, $value) {
-        Argument::isStringOrInteger($identifier);
-
-        if ($this->isReadOnly()) {
-            throw new ReadonlyModeException();
-        }
+        Argument::isString($identifier);
 
         if ($this->isRegistered($identifier)) {
             throw new DuplicateRegistrationException($identifier);
         }
 
-        $this->registrations[$identifier] = $value;
+        $this->set($identifier, $value);
         return $this;
     }
 
     /**
      * Overrides an existing identifier with the new value (!).
      * If the identifier ist not registered it will be registered.
-     * @param string|integer $identifier the identifier to register
+     * @param string $identifier the identifier to register
      * @param mixed $value the identifier value to register
      * @throws \Brickoo\Component\Common\Exception\ReadonlyModeException
      * @throws \Brickoo\Component\Common\Exception\IdentifierLockedException
      * @return \Brickoo\Component\Common\Registry
      */
     public function override($identifier, $value) {
-        Argument::isStringOrInteger($identifier);
-
-        if ($this->isReadOnly()) {
-            throw new ReadonlyModeException();
-        }
+        Argument::isString($identifier);
 
         if ($this->isLocked($identifier)) {
             throw new IdentifierLockedException($identifier);
         }
 
-        $this->registrations[$identifier] = $value;
+        $this->set($identifier, $value);
         return $this;
     }
 
     /**
      * Unregister the identifier and his value.
-     * @param string|integer $identifier the identifier to unregister
+     * @param string $identifier the identifier to unregister
      * @throws \Brickoo\Component\Common\Exception\ReadonlyModeException
      * @throws \Brickoo\Component\Common\Exception\IdentifierLockedException
      * @throws \Brickoo\Component\Common\Exception\IdentifierNotRegisteredException
      * @return \Brickoo\Component\Common\Registry
      */
     public function unregister($identifier) {
-        Argument::isStringOrInteger($identifier);
+        Argument::isString($identifier);
 
         if ($this->isReadOnly()) {
             throw new ReadonlyModeException();
@@ -179,11 +171,11 @@ class Registry extends Locker {
 
     /**
      * Check if the identifier is registered.
-     * @param string|integer $identifier the identifier to check
+     * @param string $identifier the identifier to check
      * @return boolean check result
      */
     public function isRegistered($identifier) {
-        Argument::isStringOrInteger($identifier);
+        Argument::isString($identifier);
         return array_key_exists($identifier, $this->registrations);
     }
 
@@ -230,6 +222,23 @@ class Registry extends Locker {
     /** {@inheritDoc} */
     public function isIdentifierAvailable($identifier) {
         return $this->isRegistered($identifier);
+    }
+
+    /**
+     * Set the registered identifier and value.
+     * @param string $identifier
+     * @param mixed $value
+     * @throws Exception\DuplicateRegistrationException
+     * @throws Exception\ReadonlyModeException
+     * @return \Brickoo\Component\Common\Registry
+     */
+    private function set($identifier, $value) {
+        if ($this->isReadOnly()) {
+            throw new ReadonlyModeException();
+        }
+
+        $this->registrations[$identifier] = $value;
+        return $this;
     }
 
 }

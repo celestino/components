@@ -39,7 +39,7 @@ interface AdapterPool {
 
     /**
      * Selects a pool entry by its identifier.
-     * @param string|integer $identifier the pool entry identifier
+     * @param string $identifier the pool entry identifier
      * @throws \InvalidArgumentException
      * @throws \Brickoo\Component\Cache\Adapter\Exception\PoolIdentifierDoesNotExistException
      * @return \Brickoo\Component\Cache\Adapter\AdapterPool
@@ -48,7 +48,7 @@ interface AdapterPool {
 
     /**
      * Checks if a pool adapter entry exists.
-     * @param string|integer $identifier the pool adapter identifier
+     * @param string $identifier the pool adapter identifier
      * @throws \InvalidArgumentException
      * @return boolean check result
      */
@@ -56,7 +56,7 @@ interface AdapterPool {
 
     /**
      * Removes a pool adapter entry by its identifier.
-     * @param string|integer $identifier the pool adapter identifier
+     * @param string $identifier the pool adapter identifier
      * @throws \InvalidArgumentException
      * @throws \Brickoo\Component\Cache\Adapter\Exception\PoolIdentifierDoesNotExistException
      * @return \Brickoo\Component\Cache\Adapter\AdapterPool
