@@ -31,7 +31,7 @@ namespace Brickoo\Tests\Component\Validation\Constraint;
 
 use Brickoo\Component\Validation\Constraint\AndOrConstraint,
     Brickoo\Component\Validation\Constraint\IsEqualToConstraint,
-    Brickoo\Component\Validation\Constraint\IsTypeConstraint,
+    Brickoo\Component\Validation\Constraint\IsInternalTypeConstraint,
     PHPUnit_Framework_TestCase;
 
 /**
@@ -54,7 +54,7 @@ class AndOrConstraintTest extends PHPUnit_Framework_TestCase {
     public function testMatchingValueWithConstraintGroupUsingAND() {
         $andOrConstraint = new AndOrConstraint([
             new IsEqualToConstraint("12345"),
-            new IsTypeConstraint("string")
+            new IsInternalTypeConstraint("string")
         ]);
         $this->assertTrue($andOrConstraint->matches("12345"));
         $this->assertFalse($andOrConstraint->matches(12345));
@@ -69,7 +69,7 @@ class AndOrConstraintTest extends PHPUnit_Framework_TestCase {
     public function testMatchingValueWithConstraintGroupUsingOR() {
         $andOrConstraint = new AndOrConstraint(
             [new IsEqualToConstraint("test")],
-            [new IsTypeConstraint("string")]
+            [new IsInternalTypeConstraint("string")]
         );
         $this->assertTrue($andOrConstraint->matches("test"));
         $this->assertTrue($andOrConstraint->matches("otherString"));
@@ -84,7 +84,7 @@ class AndOrConstraintTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetFailedConstraint() {
         $andOrConstraint = new AndOrConstraint(
-            [$constraint = new IsTypeConstraint("string")]
+            [$constraint = new IsInternalTypeConstraint("string")]
         );
         $this->assertFalse($andOrConstraint->matches(12345));
         $this->assertSame($constraint, $andOrConstraint->getFailedConstraint());
@@ -99,7 +99,7 @@ class AndOrConstraintTest extends PHPUnit_Framework_TestCase {
     public function testGetFailedConstraintFromNestedGroup() {
         $andOrConstraint = new AndOrConstraint(
             [new AndOrConstraint([
-                $constraint = new IsTypeConstraint("string")
+                $constraint = new IsInternalTypeConstraint("string")
             ])]
         );
         $this->assertFalse($andOrConstraint->matches(12345));
@@ -112,7 +112,7 @@ class AndOrConstraintTest extends PHPUnit_Framework_TestCase {
      */
     public function testRemoveFailures() {
         $andOrConstraint = new AndOrConstraint(
-            [$constraint = new IsTypeConstraint("string")]
+            [$constraint = new IsInternalTypeConstraint("string")]
         );
         $this->assertFalse($andOrConstraint->matches(12345));
         $this->assertSame($constraint, $andOrConstraint->getFailedConstraint());

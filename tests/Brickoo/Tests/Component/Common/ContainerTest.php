@@ -30,7 +30,7 @@
 namespace Brickoo\Tests\Component\Common;
 
 use Brickoo\Component\Common\Container,
-    Brickoo\Component\Validation\Constraint\IsTypeConstraint,
+    Brickoo\Component\Validation\Constraint\IsInternalTypeConstraint,
     Brickoo\Component\Validation\Validator\ConstraintValidator,
     PHPUnit_Framework_TestCase;
 
@@ -83,7 +83,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase {
      * @expectedException \Brickoo\Component\Common\Exception\InvalidValueTypeException
      */
     public function testSetInvalidValueTypeThrowsException() {
-        $container = new Container([], new ConstraintValidator(new IsTypeConstraint("integer")));
+        $container = new Container([], new ConstraintValidator(new IsInternalTypeConstraint("integer")));
         $container->set("unit", "test");
     }
 
@@ -119,7 +119,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase {
      * @expectedException \Brickoo\Component\Common\Exception\InvalidValueTypeException
      */
     public function testFromArrayWithInvalidValueTypeThrowsException() {
-        $container = new Container([], new ConstraintValidator(new IsTypeConstraint("integer")));
+        $container = new Container([], new ConstraintValidator(new IsInternalTypeConstraint("integer")));
         $container->fromArray([123, "wrongType"]);
     }
 

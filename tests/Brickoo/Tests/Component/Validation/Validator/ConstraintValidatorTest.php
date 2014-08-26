@@ -30,7 +30,7 @@
 namespace Brickoo\Tests\Component\Validation\Validator;
 
 use Brickoo\Component\Validation\Constraint\IsEqualToConstraint,
-    Brickoo\Component\Validation\Constraint\IsTypeConstraint,
+    Brickoo\Component\Validation\Constraint\IsInternalTypeConstraint,
     Brickoo\Component\Validation\Validator\ConstraintValidator,
     PHPUnit_Framework_TestCase;
 
@@ -62,7 +62,7 @@ class ConstraintValidatorTest extends PHPUnit_Framework_TestCase {
     public function testMatchingValueWithConstraints() {
         $constraintValidator = new ConstraintValidator(
             new IsEqualToConstraint("12345"),
-            new IsTypeConstraint("string")
+            new IsInternalTypeConstraint("string")
         );
         $this->assertTrue($constraintValidator->isValid("12345"));
         $this->assertFalse($constraintValidator->isValid(12345));
@@ -75,7 +75,7 @@ class ConstraintValidatorTest extends PHPUnit_Framework_TestCase {
     public function testGetFailedConstraint() {
         $constraintValidator = new ConstraintValidator(
             new IsEqualToConstraint("12345"),
-            ($constraint = new IsTypeConstraint("string"))
+            ($constraint = new IsInternalTypeConstraint("string"))
         );
         $this->assertFalse($constraintValidator->isValid(12345));
         $this->assertSame($constraint, $constraintValidator->getFailedConstraint());
