@@ -100,32 +100,7 @@ class DefinitionResolver {
             return $this->resolvers[$definitionType];
         }
 
-        switch ($definitionType) {
-            case self::TYPE_CLOSURE:
-                $resolver = new DependencyClosureResolver($diContainer);
-                break;
-
-            case self::TYPE_OBJECT:
-                $resolver = new DependencyObjectResolver($diContainer);
-                break;
-
-            case self::TYPE_CALLABLE:
-                $resolver = new DependencyCallableResolver($diContainer);
-                break;
-
-            case self::TYPE_CLASS:
-                $resolver = new DependencyClassResolver($diContainer);
-                break;
-
-            case self::TYPE_UNSUPPORTED:
-            default:
-                $resolver = null;
-        }
-
-        if ($resolver === null) {
-            throw new DefinitionTypeUnknownException($definitionType);
-        }
-
+        $resolver = $this->getDefinitionResolverByType($definitionType, $diContainer);
         $this->resolvers[$definitionType] = $resolver;
         return $resolver;
     }
@@ -133,7 +108,6 @@ class DefinitionResolver {
     /**
      * Returns the corresponding type resolver.
      * @param mixed $dependency
-     * @throws \Brickoo\Component\IoC\Resolver\Exception\DefinitionTypeUnknownException
      * @return integer
      */
     private function getResolverType($dependency) {
@@ -154,6 +128,29 @@ class DefinitionResolver {
         }
 
         return self::TYPE_UNSUPPORTED;
+    }
+
+    /**
+     * Return the corresponding resolver by type.
+     * @param integer $definitionType
+     * @param DIContainer $diContainer
+     * @throws \Brickoo\Component\IoC\Resolver\Exception\DefinitionTypeUnknownException
+     * @return \Brickoo\Component\IoC\Resolver\DependencyResolver
+     */
+    private function getDefinitionResolverByType($definitionType, DIContainer $diContainer) {
+        $resolvers = [
+            self::TYPE_CLOSURE => "\\DependencyClosureResolver",
+            self::TYPE_OBJECT => "\\DependencyObjectResolver",
+            self::TYPE_CALLABLE => "\\DependencyCallableResolver",
+            self::TYPE_CLASS => "\\DependencyClassResolver"
+        ];
+
+        if (! isset($resolvers[$definitionType])) {
+            throw new DefinitionTypeUnknownException($definitionType);
+        }
+
+        $className = __NAMESPACE__.$resolvers[$definitionType];
+        return new $className($diContainer);
     }
 
 }

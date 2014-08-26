@@ -61,6 +61,7 @@ class DefinitionResolverTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\IoC\Resolver\DefinitionResolver::resolve
      * @covers Brickoo\Component\IoC\Resolver\DefinitionResolver::getResolver
      * @covers Brickoo\Component\IoC\Resolver\DefinitionResolver::getResolverType
+     * @covers Brickoo\Component\IoC\Resolver\DefinitionResolver::getDefinitionResolverByType
      */
     public function testResolverClassDefinitionWithResolverFromCache() {
         $definition = new DependencyDefinition("\\stdClass");
@@ -77,6 +78,7 @@ class DefinitionResolverTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\IoC\Resolver\DefinitionResolver::resolve
      * @covers Brickoo\Component\IoC\Resolver\DefinitionResolver::getResolver
      * @covers Brickoo\Component\IoC\Resolver\DefinitionResolver::getResolverType
+     * @covers Brickoo\Component\IoC\Resolver\DefinitionResolver::getDefinitionResolverByType
      */
     public function testResolverObjectDefinition() {
         $dependency = new \stdClass();
@@ -91,6 +93,7 @@ class DefinitionResolverTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\IoC\Resolver\DefinitionResolver::resolve
      * @covers Brickoo\Component\IoC\Resolver\DefinitionResolver::getResolver
      * @covers Brickoo\Component\IoC\Resolver\DefinitionResolver::getResolverType
+     * @covers Brickoo\Component\IoC\Resolver\DefinitionResolver::getDefinitionResolverByType
      */
     public function testResolverCallableDefinition() {
         $definition = new DependencyDefinition([$this, "callableCallbackResolverHelper"]);
@@ -104,6 +107,7 @@ class DefinitionResolverTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\IoC\Resolver\DefinitionResolver::resolve
      * @covers Brickoo\Component\IoC\Resolver\DefinitionResolver::getResolver
      * @covers Brickoo\Component\IoC\Resolver\DefinitionResolver::getResolverType
+     * @covers Brickoo\Component\IoC\Resolver\DefinitionResolver::getDefinitionResolverByType
      */
     public function testResolverClosureDefinition() {
         $dependency = new \stdClass();
@@ -120,6 +124,7 @@ class DefinitionResolverTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\IoC\Resolver\DefinitionResolver::resolve
      * @covers Brickoo\Component\IoC\Resolver\DefinitionResolver::getResolver
      * @covers Brickoo\Component\IoC\Resolver\DefinitionResolver::getResolverType
+     * @covers Brickoo\Component\IoC\Resolver\DefinitionResolver::getDefinitionResolverByType
      * @covers Brickoo\Component\IoC\Resolver\Exception\DefinitionTypeUnknownException
      * @expectedException \Brickoo\Component\IoC\Resolver\Exception\DefinitionTypeUnknownException
      */
