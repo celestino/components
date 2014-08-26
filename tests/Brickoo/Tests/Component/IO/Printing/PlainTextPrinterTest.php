@@ -107,7 +107,6 @@ class PlainTextPrinterTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\IO\Printing\PlainTextPrinter::outdent
      * @covers Brickoo\Component\IO\Printing\PlainTextPrinter::doPrint
      * @covers Brickoo\Component\IO\Printing\PlainTextPrinter::getOutputPrinter
-     * @covers Brickoo\Component\IO\Printing\PlainTextPrinter::appendText
      * @covers Brickoo\Component\IO\Printing\PlainTextPrinter::hasBufferedText
      * @covers Brickoo\Component\IO\Printing\PlainTextPrinter::clearTextBuffer
      * @covers Brickoo\Component\IO\Printing\PlainTextPrinter::getIndentation

@@ -85,8 +85,9 @@ class PlainTextPrinter implements Printer {
     /** {@inheritdoc} */
     public function indent($amount = 1) {
         Argument::isInteger($amount);
+
         if ($this->hasBufferedText()) {
-            $this->appendText($this->getIndentation($amount));
+            $this->addText($this->getIndentation($amount));
             return $this;
         }
         $this->indentationAmount += $amount;
@@ -107,10 +108,10 @@ class PlainTextPrinter implements Printer {
         Argument::isString($text);
 
         if ((! $this->hasBufferedText()) && $this->indentationAmount > 0) {
-            $this->appendText($this->getIndentation($this->indentationAmount));
+            $this->bufferedTextLine .= $this->getIndentation($this->indentationAmount);
         }
 
-        $this->appendText($text);
+        $this->bufferedTextLine .= $text;
         return $this;
     }
 
@@ -129,16 +130,6 @@ class PlainTextPrinter implements Printer {
      */
     private function getOutputPrinter() {
         return $this->outputRenderer;
-    }
-
-    /**
-     * Append text to the buffer.
-     * @param string $text
-     * @return \Brickoo\Component\IO\Printing\PlainTextPrinter
-     */
-    private function appendText($text) {
-        $this->bufferedTextLine .= $text;
-        return $this;
     }
 
     /**
