@@ -32,17 +32,13 @@ namespace Brickoo\Component\Validation\Constraint;
 use Brickoo\Component\Validation\Argument;
 
 /**
- * ContainsCharactersTypeConstraint
+ * IsInternalTypeConstraint
  *
- * Constraint to assert that an array or traversable
- * contains only values with characters of an expected type.
- * @see http://www.php.net/manual/de/ref.ctype.php
+ * Asserts that a value matches the expected internal type.
+ * This class uses the php is_* comparisons functions.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class ContainsCharactersTypeConstraint implements Constraint {
-
-    /** @var string */
-    private $cTypeFunctionName;
+class IsInternalTypeConstraint extends FunctionCallbackConstraint {
 
     /**
      * Class constructor.
@@ -51,26 +47,7 @@ class ContainsCharactersTypeConstraint implements Constraint {
      */
     public function __construct($expectedType) {
         Argument::isString($expectedType);
-        Argument::isFunctionAvailable($cTypeFunctionName = "ctype_".$expectedType);
-
-        $this->cTypeFunctionName = $cTypeFunctionName;
-    }
-
-    /**
-     * {@inheritDoc}
-     * @param array|\Traversable $traversable
-     */
-    public function matches($traversable) {
-        Argument::isTraversable($traversable);
-
-        $result = true;
-        foreach ($traversable as $value) {
-            if (! call_user_func($this->cTypeFunctionName, $value)) {
-                $result = false;
-                break;
-            }
-        }
-        return $result;
+        parent::__construct("is_".strtolower($expectedType));
     }
 
 }
