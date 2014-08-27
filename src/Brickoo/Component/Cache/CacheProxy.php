@@ -29,6 +29,7 @@
 
 namespace Brickoo\Component\Cache;
 
+use Brickoo\Component\Cache\Adapter\Adapter;
 use Brickoo\Component\Cache\Adapter\AdapterPoolIterator;
 use Brickoo\Component\Cache\Exception\AdapterNotFoundException;
 use Brickoo\Component\Validation\Argument;
@@ -115,13 +116,9 @@ class CacheProxy {
      */
     public function delete($identifier) {
         Argument::isString($identifier);
-        $this->adapterPoolIterator->rewind();
-        while ($this->adapterPoolIterator->valid()) {
-            if ($this->adapterPoolIterator->isCurrentReady()) {
-                $this->adapterPoolIterator->current()->delete($identifier);
-            }
-            $this->adapterPoolIterator->next();
-        }
+        $this->executeIterationCallback(function(Adapter $readyAdapter) use ($identifier) {
+            $readyAdapter->delete($identifier);
+        });
         return $this;
     }
 
@@ -130,13 +127,9 @@ class CacheProxy {
      * @return \Brickoo\Component\Cache\CacheProxy
      */
     public function flush() {
-        $this->adapterPoolIterator->rewind();
-        while ($this->adapterPoolIterator->valid()) {
-            if ($this->adapterPoolIterator->isCurrentReady()) {
-                $this->adapterPoolIterator->current()->flush();
-            }
-            $this->adapterPoolIterator->next();
-        }
+        $this->executeIterationCallback(function(Adapter $readyAdapter) {
+            $readyAdapter->flush();
+        });
         return $this;
     }
 
@@ -145,10 +138,9 @@ class CacheProxy {
      * @return \Brickoo\Component\Cache\Adapter\Adapter
      */
     private function getAdapter() {
-        if ($this->adapter !== null) {
-            return $this->adapter;
+        if ($this->adapter === null) {
+            $this->adapter = $this->getReadyAdapter();
         }
-        $this->adapter = $this->getReadyAdapter();
         return $this->adapter;
     }
 
@@ -159,18 +151,39 @@ class CacheProxy {
      */
     private function getReadyAdapter() {
         $adapter = null;
-        $this->adapterPoolIterator->rewind();
-        while ($adapter === null && $this->adapterPoolIterator->valid()) {
-            if ($this->adapterPoolIterator->isCurrentReady()) {
-                $adapter = $this->adapterPoolIterator->current();
-            }
-            $this->adapterPoolIterator->next();
-        }
+
+        $this->executeIterationCallback(function(Adapter $readyAdapter) use (&$adapter) {
+            $adapter = $readyAdapter;
+        });
 
         if ($adapter === null) {
             throw new AdapterNotFoundException();
         }
         return $adapter;
+    }
+
+    /**
+     * Execute a callback on every ready adapter.
+     * @param \Closure $callbackFunction
+     * @return \Brickoo\Component\Cache\CacheProxy
+     */
+    private function executeIterationCallback(\Closure $callbackFunction) {
+        $this->rewindAdapterPool();
+
+        while ($this->adapterPoolIterator->valid()
+            && $this->adapterPoolIterator->isCurrentReady()) {
+                $callbackFunction($this->adapterPoolIterator->current());
+        }
+        return $this;
+    }
+
+    /**
+     * Rewind the adapter pool.
+     * @return \Brickoo\Component\Cache\CacheProxy
+     */
+    private function rewindAdapterPool() {
+        $this->adapterPoolIterator->rewind();
+        return $this;
     }
 
 }

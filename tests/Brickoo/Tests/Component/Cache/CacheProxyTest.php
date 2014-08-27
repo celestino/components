@@ -91,6 +91,8 @@ class CacheProxyTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Cache\CacheProxy::get
      * @covers Brickoo\Component\Cache\CacheProxy::getAdapter
      * @covers Brickoo\Component\Cache\CacheProxy::getReadyAdapter
+     * @covers Brickoo\Component\Cache\CacheProxy::executeIterationCallback
+     * @covers Brickoo\Component\Cache\CacheProxy::rewindAdapterPool
      */
     public function testGetCachedContentFromAnAdapter() {
         $cacheIdentifier = "someIdentifier";
@@ -131,6 +133,8 @@ class CacheProxyTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Cache\CacheProxy::set
      * @covers Brickoo\Component\Cache\CacheProxy::getAdapter
      * @covers Brickoo\Component\Cache\CacheProxy::getReadyAdapter
+     * @covers Brickoo\Component\Cache\CacheProxy::executeIterationCallback
+     * @covers Brickoo\Component\Cache\CacheProxy::rewindAdapterPool
      */
     public function testStoringContentToCacheWithAnAdapter() {
         $cacheIdentifier = "someIdentifier";
@@ -164,7 +168,11 @@ class CacheProxyTest extends PHPUnit_Framework_TestCase {
         $cacheProxy->set("some_valid_identifier", "", "wrongType");
     }
 
-    /** @covers Brickoo\Component\Cache\CacheProxy::delete */
+    /**
+     * @covers Brickoo\Component\Cache\CacheProxy::delete
+     * @covers Brickoo\Component\Cache\CacheProxy::executeIterationCallback
+     * @covers Brickoo\Component\Cache\CacheProxy::rewindAdapterPool
+     */
     public function testDeleteCachedContentWithAnAdapter() {
         $cacheIdentifier = "someIdentifier";
         $adapter = $this->getAdapterStub();
@@ -184,7 +192,11 @@ class CacheProxyTest extends PHPUnit_Framework_TestCase {
         $cacheProxy->delete(["wrongType"]);
     }
 
-    /** @covers Brickoo\Component\Cache\CacheProxy::flush */
+    /**
+     * @covers Brickoo\Component\Cache\CacheProxy::flush
+     * @covers Brickoo\Component\Cache\CacheProxy::executeIterationCallback
+     * @covers Brickoo\Component\Cache\CacheProxy::rewindAdapterPool
+     */
     public function testFlushCachedContent() {
         $adapter = $this->getAdapterStub();
         $adapter->expects($this->once())
@@ -205,7 +217,7 @@ class CacheProxyTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Retruns an adapter stub.
+     * Return an adapter stub.
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
     private function getAdapterStub() {
