@@ -29,8 +29,6 @@
 
 namespace Brickoo\Component\Http\Header;
 
-use Brickoo\Component\Validation\Argument;
-
 /**
  * AcceptEncodingHeader
  *

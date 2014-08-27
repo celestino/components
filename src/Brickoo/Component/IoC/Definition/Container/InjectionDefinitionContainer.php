@@ -30,7 +30,6 @@
 namespace Brickoo\Component\IoC\Definition\Container;
 
 use Brickoo\Component\IoC\Definition\InjectionDefinition;
-use Brickoo\Component\IoC\Definition\Container\Exception\DefinitionNotAvailableException;
 use Brickoo\Component\IoC\Definition\Container\Exception\DuplicateInjectionDefinitionException;
 use Brickoo\Component\Validation\Argument;
 use Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint;

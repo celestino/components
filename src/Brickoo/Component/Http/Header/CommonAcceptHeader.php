@@ -39,6 +39,9 @@ use Brickoo\Component\Validation\Argument;
  */
 trait CommonAcceptHeader {
 
+    /** @var string */
+    protected $headerValue;
+
     /** @var array */
     private $listEntries = [];
 
@@ -46,7 +49,7 @@ trait CommonAcceptHeader {
      * Set a header list entry.
      * @param string $key
      * @param float $quality
-     * @return \Brickoo\Component\Http\Header\CommonAcceptHeader
+     * @return \Brickoo\Component\Http\HttpHeader
      */
     public function setEntry($key, $quality = 1.0) {
         Argument::isString($key);
@@ -64,7 +67,7 @@ trait CommonAcceptHeader {
      */
     public function getEntries() {
         if (empty($this->listEntries)) {
-            $this->listEntries = $this->getHeaderValues($this->getValue());
+            $this->listEntries = $this->getHeaderValues($this->headerValue);
         }
         return $this->listEntries;
     }
