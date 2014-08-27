@@ -117,7 +117,7 @@ build:
     tests:
         override:
             -
-                command: 'phpunit -c ./tests/phpunit.xml --coverage-clover=some-file'
+                command: 'phpunit -c phpunit.xml --coverage-clover=some-file'
                 coverage:
                     file: 'some-file'
                     format: 'php-clover'

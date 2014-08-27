@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpunit
+    stopOnError="false"
+    stopOnFailure="false"
+    strict="false"
+    verbose="true"
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    bootstrap="./tests/bootstrap.php">
+    <testsuites>
+        <testsuite name="BrickOO Components">
+            <directory>./tests/Brickoo/Tests/Component/Annotation</directory>
+            <directory>./tests/Brickoo/Tests/Component/Autoloader</directory>
+            <directory>./tests/Brickoo/Tests/Component/Cache</directory>
+            <directory>./tests/Brickoo/Tests/Component/Error</directory>
+            <directory>./tests/Brickoo/Tests/Component/Messaging</directory>
+            <directory>./tests/Brickoo/Tests/Component/Filesystem</directory>
+            <directory>./tests/Brickoo/Tests/Component/Http</directory>
+            <directory>./tests/Brickoo/Tests/Component/IoC</directory>
+            <directory>./tests/Brickoo/Tests/Component/IO</directory>
+            <directory>./tests/Brickoo/Tests/Component/Log</directory>
+            <directory>./tests/Brickoo/Tests/Component/Common</directory>
+            <directory>./tests/Brickoo/Tests/Component/Network</directory>
+            <directory>./tests/Brickoo/Tests/Component/Routing</directory>
+            <directory>./tests/Brickoo/Tests/Component/Session</directory>
+            <directory>./tests/Brickoo/Tests/Component/Template</directory>
+            <directory>./tests/Brickoo/Tests/Component/Validation</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src/Brickoo</directory>
+        </whitelist>
+    </filter>
+</phpunit>

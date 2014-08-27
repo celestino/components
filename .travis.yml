@@ -10,4 +10,4 @@ matrix:
 before_script:
   - if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then echo "extension = memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi;
 script:
-  - phpunit -c ./tests/phpunit.xml;
+  - phpunit -c phpunit.xml;
