@@ -18,5 +18,10 @@
         "psr-0": {
             "Brickoo": "src"
         }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.0.x-dev"
+        }
     }
 }
