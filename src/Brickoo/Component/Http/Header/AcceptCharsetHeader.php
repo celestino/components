@@ -39,10 +39,7 @@ use Brickoo\Component\Validation\Argument;
  */
 class AcceptCharsetHeader extends GenericHeader {
 
-    use CommonAcceptRoutines;
-
-    /** @var array */
-    private $acceptCharsets;
+    use CommonAcceptHeader;
 
     /**
      * Class constructor.
@@ -50,43 +47,6 @@ class AcceptCharsetHeader extends GenericHeader {
      */
     public function __construct($headerValue = "") {
         parent::__construct("Accept-Charset", $headerValue);
-        $this->acceptCharsets = [];
-    }
-
-    /**
-     * Sets an accepted charset with its quality.
-     * @param string $acceptCharset
-     * @param float $quality
-     * @return \Brickoo\Component\Http\Header\AcceptCharsetHeader
-     */
-    public function setCharset($acceptCharset, $quality = 1.0) {
-        Argument::isString($acceptCharset);
-        Argument::isFloat($quality);
-
-        $this->getCharsets();
-        $this->acceptCharsets[$acceptCharset] = $quality;
-        $this->headerValue = $this->buildValue($this->acceptCharsets);
-        return $this;
-    }
-    /**
-     * Returns the accepted charset.
-     * @return array the accepted charset
-     */
-    public function getCharsets() {
-        if (empty($this->acceptCharsets)) {
-            $this->acceptCharsets = $this->getHeaderValues($this->getValue());
-        }
-        return $this->acceptCharsets;
-    }
-
-    /**
-     * Checks if the passed encoding type is supported.
-     * @param string $charset the charset to check
-     * @return boolean check result
-     */
-    public function isCharsetSupported($charset) {
-        Argument::isString($charset);
-        return array_key_exists($charset, $this->getCharsets());
     }
 
 }

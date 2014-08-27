@@ -39,10 +39,7 @@ use Brickoo\Component\Validation\Argument;
  */
 class AcceptEncodingHeader extends GenericHeader {
 
-    use CommonAcceptRoutines;
-
-    /** @var array */
-    private $acceptEncodings;
+    use CommonAcceptHeader;
 
     /**
      * Class constructor.
@@ -50,44 +47,6 @@ class AcceptEncodingHeader extends GenericHeader {
      */
     public function __construct($headerValue = "") {
         parent::__construct("Accept-Encoding", $headerValue);
-        $this->acceptEncodings = [];
-    }
-
-    /**
-     * Sets an accepted encoding with its quality.
-     * @param string $acceptEncoding
-     * @param float $quality
-     * @return \Brickoo\Component\Http\Header\AcceptEncodingHeader
-     */
-    public function setEncoding($acceptEncoding, $quality = 1.0) {
-        Argument::isString($acceptEncoding);
-        Argument::isFloat($quality);
-
-        $this->getEncodings();
-        $this->acceptEncodings[$acceptEncoding] = $quality;
-        $this->headerValue = $this->buildValue($this->acceptEncodings);
-        return $this;
-    }
-
-    /**
-     * Returns the accepted encodings.
-     * @return array the accepted encodings
-     */
-    public function getEncodings() {
-        if (empty($this->acceptEncodings)) {
-            $this->acceptEncodings = $this->getHeaderValues($this->getValue());
-        }
-        return $this->acceptEncodings;
-    }
-
-    /**
-     * Checks if the passed encoding type is supported.
-     * @param string $encoding the encoding type to check
-     * @return boolean check result
-     */
-    public function isEncodingSupported($encoding) {
-        Argument::isString($encoding);
-        return array_key_exists($encoding, $this->getEncodings());
     }
 
 }

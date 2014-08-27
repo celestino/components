@@ -29,14 +29,55 @@
 
 namespace Brickoo\Component\Http\Header;
 
+use Brickoo\Component\Validation\Argument;
+
 /**
- * CommonAcceptRoutines
+ * CommonAcceptHeader
  *
  * Implements common accept header routines.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
+trait CommonAcceptHeader {
 
-trait CommonAcceptRoutines {
+    /** @var array */
+    private $listEntries = [];
+
+    /**
+     * Set a header list entry.
+     * @param string $key
+     * @param float $quality
+     * @return \Brickoo\Component\Http\Header\CommonAcceptHeader
+     */
+    public function setEntry($key, $quality = 1.0) {
+        Argument::isString($key);
+        Argument::isFloat($quality);
+
+        $this->getEntries();
+        $this->listEntries[$key] = $quality;
+        $this->headerValue = $this->buildValue($this->listEntries);
+        return $this;
+    }
+
+    /**
+     * Return the header list entries.
+     * @return array sorted header list
+     */
+    public function getEntries() {
+        if (empty($this->listEntries)) {
+            $this->listEntries = $this->getHeaderValues($this->getValue());
+        }
+        return $this->listEntries;
+    }
+
+    /**
+     * Check if the accept key is supported.
+     * @param string $acceptKey
+     * @return boolean check result
+     */
+    public function isSupported($acceptKey) {
+        Argument::isString($acceptKey);
+        return array_key_exists($acceptKey, $this->getEntries());
+    }
 
     /**
      * Builds on header value from the header values.

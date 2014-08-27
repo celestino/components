@@ -39,10 +39,7 @@ use Brickoo\Component\Validation\Argument;
  */
 class AcceptLanguageHeader extends GenericHeader {
 
-    use CommonAcceptRoutines;
-
-    /** @var array */
-    private $acceptLanguages;
+    use CommonAcceptHeader;
 
     /**
      * Class constructor.
@@ -50,44 +47,6 @@ class AcceptLanguageHeader extends GenericHeader {
      */
     public function __construct($headerValue = "") {
         parent::__construct("Accept-Language", $headerValue);
-        $this->acceptLanguages = [];
-    }
-
-    /**
-     * Sets an accepted language.
-     * @param string $language
-     * @param float $quality
-     * @return \Brickoo\Component\Http\Header\AcceptLanguageHeader
-     */
-    public function setLanguage($language, $quality = 1.0) {
-        Argument::isString($language);
-        Argument::isFloat($quality);
-
-        $this->getLanguages();
-        $this->acceptLanguages[$language] = $quality;
-        $this->headerValue = $this->buildValue($this->acceptLanguages);
-        return $this;
-    }
-
-    /**
-     * Returns the accepted languages.
-     * @return array the accepted languages
-     */
-    public function getLanguages() {
-        if (empty($this->acceptLanguages)) {
-            $this->acceptLanguages = $this->getHeaderValues($this->getValue());
-        }
-        return $this->acceptLanguages;
-    }
-
-    /**
-     * Checks if the passed language is supported.
-     * @param string $language the language to check
-     * @return boolean check result
-     */
-    public function isLanguageSupported($language) {
-        Argument::isString($language);
-        return array_key_exists($language, $this->getLanguages());
     }
 
 }

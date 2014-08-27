@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Http;
 
-use Brickoo\Component\Http\Header\AcceptLanguageHeader,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Http\Header\AcceptLanguageHeader;
+use PHPUnit_Framework_TestCase;
 
 /**
  * AcceptLanguageHeaderTest
@@ -39,7 +39,6 @@ use Brickoo\Component\Http\Header\AcceptLanguageHeader,
  * @see Brickoo\Component\Http\Header\AcceptLanguageHeader
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class AcceptLanguageHeaderTest extends PHPUnit_Framework_TestCase {
 
     /**
@@ -52,40 +51,40 @@ class AcceptLanguageHeaderTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers  Brickoo\Component\Http\Header\AcceptLanguageHeader::__construct
-     * @covers  Brickoo\Component\Http\Header\AcceptLanguageHeader::getLanguages
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptRoutines::getHeaderValues
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptRoutines::getExtractedHeaderValuesByRegex
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getEntries
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getHeaderValues
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getExtractedHeaderValuesByRegex
      */
     public function testGetLanguages() {
         $acceptLanguageHeader = new AcceptLanguageHeader("gzip,deflate;q=0.9");
-        $this->assertEquals(["gzip" => 1.0, "deflate" => 0.9], $acceptLanguageHeader->getLanguages());
+        $this->assertEquals(["gzip" => 1.0, "deflate" => 0.9], $acceptLanguageHeader->getEntries());
     }
 
     /**
-     * @covers  Brickoo\Component\Http\Header\AcceptLanguageHeader::setLanguage
-     * @covers  Brickoo\Component\Http\Header\AcceptLanguageHeader::getLanguages
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptRoutines::getHeaderValues
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptRoutines::getExtractedHeaderValuesByRegex
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptRoutines::buildValue
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::setEntry
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getEntries
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getHeaderValues
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getExtractedHeaderValuesByRegex
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::buildValue
      */
     public function testSetLanguagesToExistingOnes() {
         $acceptLanguageHeader = new AcceptLanguageHeader("gzip");
-        $this->assertEquals(["gzip" => 1.0], $acceptLanguageHeader->getLanguages());
-        $this->assertSame($acceptLanguageHeader, $acceptLanguageHeader->setLanguage("deflate", 0.9));
-        $this->assertEquals(["gzip" => 1.0, "deflate" => 0.9], $acceptLanguageHeader->getLanguages());
+        $this->assertEquals(["gzip" => 1.0], $acceptLanguageHeader->getEntries());
+        $this->assertSame($acceptLanguageHeader, $acceptLanguageHeader->setEntry("deflate", 0.9));
+        $this->assertEquals(["gzip" => 1.0, "deflate" => 0.9], $acceptLanguageHeader->getEntries());
         $this->assertEquals("gzip, deflate;q=0.9", $acceptLanguageHeader->getValue());
     }
 
     /**
-     * @covers  Brickoo\Component\Http\Header\AcceptLanguageHeader::isLanguageSupported
-     * @covers  Brickoo\Component\Http\Header\AcceptLanguageHeader::getLanguages
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptRoutines::getHeaderValues
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptRoutines::getExtractedHeaderValuesByRegex
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::isSupported
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getEntries
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getHeaderValues
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getExtractedHeaderValuesByRegex
      */
     public function testIsLanguageSupported() {
         $acceptLanguageHeader = new AcceptLanguageHeader("gzip");
-        $this->assertTrue($acceptLanguageHeader->isLanguageSupported("gzip"));
-        $this->assertFalse($acceptLanguageHeader->isLanguageSupported("deflate"));
+        $this->assertTrue($acceptLanguageHeader->isSupported("gzip"));
+        $this->assertFalse($acceptLanguageHeader->isSupported("deflate"));
     }
 
 }

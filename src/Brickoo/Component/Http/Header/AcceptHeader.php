@@ -40,10 +40,7 @@ use Brickoo\Component\Validation\Argument;
 
 class AcceptHeader extends GenericHeader {
 
-    use CommonAcceptRoutines;
-
-    /** @var array */
-    private $acceptTypes;
+    use CommonAcceptHeader;
 
     /**
      * Class constructor.
@@ -51,44 +48,6 @@ class AcceptHeader extends GenericHeader {
      */
     public function __construct($headerValue = "") {
         parent::__construct("Accept", $headerValue);
-        $this->acceptTypes = [];
-    }
-
-    /**
-     * Sets an accept type with its quality.
-     * @param string $acceptType
-     * @param float $quality
-     * @return \Brickoo\Component\Http\Header\AcceptHeader
-     */
-    public function setType($acceptType, $quality = 1.0) {
-        Argument::isString($acceptType);
-        Argument::isFloat($quality);
-
-        $this->getTypes();
-        $this->acceptTypes[$acceptType] = $quality;
-        $this->headerValue = $this->buildValue($this->acceptTypes);
-        return $this;
-    }
-
-    /**
-     * Returns the accepted types.
-     * @return array the accepted types
-     */
-    public function getTypes() {
-        if (empty($this->acceptTypes)) {
-            $this->acceptTypes = $this->getHeaderValues($this->getValue());
-        }
-        return $this->acceptTypes;
-    }
-
-    /**
-     * Checks if the passed type is supported.
-     * @param string $type the type to check
-     * @return boolean check result
-     */
-    public function isTypeSupported($type) {
-        Argument::isString($type);
-        return array_key_exists($type, $this->getTypes());
     }
 
 }

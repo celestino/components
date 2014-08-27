@@ -48,7 +48,7 @@ class HttpMessageHeader extends Container {
     /** @param array $headerLists */
     public function __construct(array $headerLists = []) {
         parent::__construct($headerLists, new ConstraintValidator(
-            new IsInstanceOfConstraint("\\Brickoo\\Component\\Http\HttpHeaderList")
+            new IsInstanceOfConstraint("\\Brickoo\\Component\\Http\\HttpHeaderList")
         ));
     }
 

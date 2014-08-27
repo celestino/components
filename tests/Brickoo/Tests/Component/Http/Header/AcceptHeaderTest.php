@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Http;
 
-use Brickoo\Component\Http\Header\AcceptHeader,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Http\Header\AcceptHeader;
+use PHPUnit_Framework_TestCase;
 
 /**
  * AcceptHeaderTest
@@ -39,7 +39,6 @@ use Brickoo\Component\Http\Header\AcceptHeader,
  * @see Brickoo\Component\Http\HeaderAcceptHeader
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class AcceptHeaderTest extends PHPUnit_Framework_TestCase {
 
     /**
@@ -52,45 +51,45 @@ class AcceptHeaderTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Http\Header\AcceptHeader::__construct
-     * @covers Brickoo\Component\Http\Header\AcceptHeader::setType
+     * @covers Brickoo\Component\Http\Header\CommonAcceptHeader::setEntry
      * @expectedException \InvalidArgumentException
      */
     public function testSetTypeInvalidArgumentThrowsException() {
         $acceptHeader = new AcceptHeader("text/html");
-        $acceptHeader->setType(["wrongType"]);
+        $acceptHeader->setEntry(["wrongType"]);
     }
 
     /**
-     * @covers Brickoo\Component\Http\Header\AcceptHeader::setType
-     * @covers Brickoo\Component\Http\Header\AcceptHeader::getTypes
-     * @covers Brickoo\Component\Http\Header\AcceptHeader::buildValue
+     * @covers Brickoo\Component\Http\Header\CommonAcceptHeader::setEntry
+     * @covers Brickoo\Component\Http\Header\CommonAcceptHeader::getEntries
+     * @covers Brickoo\Component\Http\Header\CommonAcceptHeader::buildValue
      */
     public function testSetType() {
         $acceptHeader = new AcceptHeader("text/html");
-        $this->assertSame($acceptHeader, $acceptHeader->setType("text/xml", 0.8));
+        $this->assertSame($acceptHeader, $acceptHeader->setEntry("text/xml", 0.8));
         $this->assertEquals("text/html, text/xml;q=0.8", $acceptHeader->getValue());
     }
 
     /**
-     * @covers Brickoo\Component\Http\Header\AcceptHeader::getTypes
-     * @covers Brickoo\Component\Http\Header\AcceptHeader::getHeaderValues
-     * @covers Brickoo\Component\Http\Header\AcceptHeader::getExtractedHeaderValuesByRegex
+     * @covers Brickoo\Component\Http\Header\CommonAcceptHeader::getEntries
+     * @covers Brickoo\Component\Http\Header\CommonAcceptHeader::getHeaderValues
+     * @covers Brickoo\Component\Http\Header\CommonAcceptHeader::getExtractedHeaderValuesByRegex
      */
     public function testGetTypes() {
         $acceptHeader = new AcceptHeader("text/html,text/xml;q=0.8");
-        $this->assertEquals(["text/html" => 1, "text/xml" => 0.8], $acceptHeader->getTypes());
+        $this->assertEquals(["text/html" => 1, "text/xml" => 0.8], $acceptHeader->getEntries());
     }
 
     /**
-     * @covers Brickoo\Component\Http\Header\AcceptHeader::isTypeSupported
-     * @covers Brickoo\Component\Http\Header\AcceptHeader::getTypes
-     * @covers Brickoo\Component\Http\Header\AcceptHeader::getHeaderValues
-     * @covers Brickoo\Component\Http\Header\AcceptHeader::getExtractedHeaderValuesByRegex
+     * @covers Brickoo\Component\Http\Header\CommonAcceptHeader::isSupported
+     * @covers Brickoo\Component\Http\Header\CommonAcceptHeader::getEntries
+     * @covers Brickoo\Component\Http\Header\CommonAcceptHeader::getHeaderValues
+     * @covers Brickoo\Component\Http\Header\CommonAcceptHeader::getExtractedHeaderValuesByRegex
      */
     public function testIsTypeSupported() {
         $acceptHeader = new AcceptHeader("text/html,text/xml;q=0.8");
-        $this->assertTrue($acceptHeader->isTypeSupported("text/xml"));
-        $this->assertFalse($acceptHeader->isTypeSupported("application/json"));
+        $this->assertTrue($acceptHeader->isSupported("text/xml"));
+        $this->assertFalse($acceptHeader->isSupported("application/json"));
     }
 
 }

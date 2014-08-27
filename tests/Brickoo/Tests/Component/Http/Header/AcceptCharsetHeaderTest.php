@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Http;
 
-use Brickoo\Component\Http\Header\AcceptCharsetHeader,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Http\Header\AcceptCharsetHeader;
+use PHPUnit_Framework_TestCase;
 
 /**
  * AcceptCharsetHeaderTest
@@ -39,7 +39,6 @@ use Brickoo\Component\Http\Header\AcceptCharsetHeader,
  * @see Brickoo\Component\Http\Header\AcceptCharsetHeader
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class AcceptCharsetHeaderTest extends PHPUnit_Framework_TestCase {
 
     /**
@@ -52,40 +51,40 @@ class AcceptCharsetHeaderTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers  Brickoo\Component\Http\Header\AcceptCharsetHeader::__construct
-     * @covers  Brickoo\Component\Http\Header\AcceptCharsetHeader::getCharsets
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptRoutines::getHeaderValues
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptRoutines::getExtractedHeaderValuesByRegex
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getEntries
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getHeaderValues
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getExtractedHeaderValuesByRegex
      */
     public function testGetCharsets() {
         $acceptCharsetHeader = new AcceptCharsetHeader("utf-8,ISO-8859-1;q=0.9");
-        $this->assertEquals(["utf-8" => 1.0, "ISO-8859-1" => 0.9], $acceptCharsetHeader->getCharsets());
+        $this->assertEquals(["utf-8" => 1.0, "ISO-8859-1" => 0.9], $acceptCharsetHeader->getEntries());
     }
 
     /**
-     * @covers  Brickoo\Component\Http\Header\AcceptCharsetHeader::setCharset
-     * @covers  Brickoo\Component\Http\Header\AcceptCharsetHeader::getCharsets
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptRoutines::getHeaderValues
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptRoutines::getExtractedHeaderValuesByRegex
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptRoutines::buildValue
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::setEntry
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getEntries
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getHeaderValues
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getExtractedHeaderValuesByRegex
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::buildValue
      */
-    public function testSetCharsetsToExistingOnes() {
+    public function testOverrideCharsetEntry() {
         $acceptCharsetHeader = new AcceptCharsetHeader("utf-8");
-        $this->assertEquals(["utf-8" => 1.0], $acceptCharsetHeader->getCharsets());
-        $this->assertSame($acceptCharsetHeader, $acceptCharsetHeader->setCharset("ISO-8859-1", 0.9));
-        $this->assertEquals(["utf-8" => 1.0, "ISO-8859-1" => 0.9], $acceptCharsetHeader->getCharsets());
+        $this->assertEquals(["utf-8" => 1.0], $acceptCharsetHeader->getEntries());
+        $this->assertSame($acceptCharsetHeader, $acceptCharsetHeader->setEntry("ISO-8859-1", 0.9));
+        $this->assertEquals(["utf-8" => 1.0, "ISO-8859-1" => 0.9], $acceptCharsetHeader->getEntries());
         $this->assertEquals("utf-8, ISO-8859-1;q=0.9", $acceptCharsetHeader->getValue());
     }
 
     /**
-     * @covers  Brickoo\Component\Http\Header\AcceptCharsetHeader::isCharsetSupported
-     * @covers  Brickoo\Component\Http\Header\AcceptCharsetHeader::getCharsets
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptRoutines::getHeaderValues
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptRoutines::getExtractedHeaderValuesByRegex
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::isSupported
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getEntries
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getHeaderValues
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getExtractedHeaderValuesByRegex
      */
     public function testIsCharsetSupported() {
         $acceptCharsetHeader = new AcceptCharsetHeader("utf-8");
-        $this->assertTrue($acceptCharsetHeader->isCharsetSupported("utf-8"));
-        $this->assertFalse($acceptCharsetHeader->isCharsetSupported("ISO-8859-1"));
+        $this->assertTrue($acceptCharsetHeader->isSupported("utf-8"));
+        $this->assertFalse($acceptCharsetHeader->isSupported("ISO-8859-1"));
     }
 
 }
