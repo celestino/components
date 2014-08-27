@@ -59,10 +59,7 @@ class AnnotationReaderResultPrinter implements Printable {
         return $this;
     }
 
-    /**
-     * Return the printer.
-     * @return \Brickoo\Component\IO\Printing\Printer
-     */
+    /** {@inheritdoc} */
     public function getPrinter() {
         if (! $this->printer instanceof Printer) {
             $this->printer = new PlainTextPrinter(new OutputBufferedPrinter());
