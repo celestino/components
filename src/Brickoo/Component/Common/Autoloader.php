@@ -27,20 +27,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Autoloader;
+namespace Brickoo\Component\Common;
 
-use Brickoo\Component\Autoloader\Exception\DirectoryDoesNotExistException;
-use Brickoo\Component\Autoloader\Exception\DuplicateNamespaceRegistrationException;
-use Brickoo\Component\Autoloader\Exception\NamespaceNotRegisteredException;
+use Brickoo\Component\Common\Exception\DuplicateAutoloaderRegistrationException;
+use Brickoo\Component\Common\Exception\AutoloaderNotRegisteredException;
+use Brickoo\Component\Common\Exception\DirectoryDoesNotExistException;
+use Brickoo\Component\Common\Exception\DuplicateNamespaceRegistrationException;
+use Brickoo\Component\Common\Exception\NamespaceNotRegisteredException;
 
 /**
- * NamespaceAutoloader
+ * Autoloader
  *
- * Implementation of an autoloader to register namespaces based class loading.
+ * Implementation of a namespace based autoloader.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
+class Autoloader {
 
-class NamespaceAutoloader extends Autoloader {
+    /** @var boolean */
+    private $isRegistered;
+
+    /** @var boolean */
+    private $prependAutoloader;
 
     /** @var array */
     private $namespaces;
@@ -50,11 +57,12 @@ class NamespaceAutoloader extends Autoloader {
      * @param array $namespaces the namespaces to register as namespace => path structure.
      * @param boolean $prepend flag to prepend or append to the PHP autoloader list
      * @throws \InvalidArgumentException if an argument is not valid
-     * @throws \Brickoo\Component\Autoloader\Exception\DirectoryDoesNotExistException
-     * @throws \Brickoo\Component\Autoloader\Exception\DuplicateNamespaceRegistrationException
+     * @throws \Brickoo\Component\Common\Exception\DirectoryDoesNotExistException
+     * @throws \Brickoo\Component\Common\Exception\DuplicateNamespaceRegistrationException
      */
     public function __construct(array $namespaces = [], $prepend = true) {
-        parent::__construct($prepend);
+        $this->isRegistered = false;
+        $this->prependAutoloader = (boolean)$prepend;
         $this->namespaces = [];
 
         foreach ($namespaces as $namespace => $includePath) {
@@ -64,13 +72,47 @@ class NamespaceAutoloader extends Autoloader {
     }
 
     /**
+     * Register the autoloader.
+     * @throws \Brickoo\Component\Common\Exception\DuplicateAutoloaderRegistrationException
+     * @return \Brickoo\Component\Common\Autoloader
+     */
+    public function register() {
+        if ($this->isRegistered) {
+            require_once "Exception".DIRECTORY_SEPARATOR."DuplicateAutoloaderRegistrationException.php";
+            throw new DuplicateAutoloaderRegistrationException();
+        }
+
+        spl_autoload_register([$this, "load"], true, $this->prependAutoloader);
+        $this->isRegistered = true;
+
+        return $this;
+    }
+
+    /**
+     * Unregister the autoloader.
+     * @throws \Brickoo\Component\Common\Exception\AutoloaderNotRegisteredException
+     * @return \Brickoo\Component\Common\Autoloader
+     */
+    public function unregister() {
+        if (! $this->isRegistered) {
+            require_once "Exception".DIRECTORY_SEPARATOR."AutoloaderNotRegisteredException.php";
+            throw new AutoloaderNotRegisteredException();
+        }
+
+        spl_autoload_unregister([$this, "load"]);
+        $this->isRegistered = false;
+
+        return $this;
+    }
+
+    /**
      * Register the namespace to the available namespaces.
      * @param string $namespace the namespace to register
      * @param string $includePath the absolute path to the namespace
      * @throws Exception\DirectoryDoesNotExistException
      * @throws Exception\DuplicateNamespaceRegistrationException
      * @throws \InvalidArgumentException if an argument is not valid
-     * @return \Brickoo\Component\Autoloader\NamespaceAutoloader
+     * @return \Brickoo\Component\Common\Autoloader
      */
     public function registerNamespace($namespace, $includePath) {
         if ((! is_string($namespace)) || (! $namespace = trim($namespace, "\\")) || (! is_string($includePath))) {
@@ -95,8 +137,8 @@ class NamespaceAutoloader extends Autoloader {
      * Unregister the namespace available by the given name.
      * @param string $namespace the name of the namespace to remove
      * @throws \InvalidArgumentException if an argument is not valid
-     * @throws \Brickoo\Component\Autoloader\Exception\NamespaceNotRegisteredException
-     * @return \Brickoo\Component\Autoloader\NamespaceAutoloader
+     * @throws \Brickoo\Component\Common\Exception\NamespaceNotRegisteredException
+     * @return \Brickoo\Component\Common\Autoloader
      */
     public function unregisterNamespace($namespace) {
         if (! $this->isNamespaceRegistered($namespace)) {
@@ -130,7 +172,13 @@ class NamespaceAutoloader extends Autoloader {
         return $this->namespaces;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Loads the requested class.
+     * Commonly this is the auto loader callback function registered.
+     * @param string $className the class to load
+     * @throws \InvalidArgumentException if an argument is not valid
+     * @return boolean true on success false on failure
+     */
     public function load($className) {
         if ((! is_string($className)) || (! $className = trim($className, "\\"))) {
             throw new \InvalidArgumentException("Invalid class argument used.");

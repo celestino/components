@@ -27,27 +27,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Autoloader\Exception;
+namespace Brickoo\Component\Common\Exception;
 
-use Brickoo\Component\Autoloader\Exception;
+use Brickoo\Component\Common\Exception;
 
 /**
- * DirectoryDoesNotExistException
+ * DuplicateAutoloaderRegistrationException
  *
- * Exception thrown if trying to access a directory which does not exist.
+ * Exception thrown if trying to register the autoloader again.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class DirectoryDoesNotExistException extends Exception {
+class DuplicateAutoloaderRegistrationException extends Exception {
 
     /**
      * Class constructor.
      * Calls the parent Exception constructor.
-     * @param string $directory the directory which does not exists
      * @param null|\Exception $previousException
      */
-    public function __construct($directory, \Exception $previousException = null) {
-        parent::__construct(sprintf("Directory `%s` does not exists or is not readable.", $directory), 0, $previousException);
+    public function __construct(\Exception $previousException = null) {
+        parent::__construct("Autoloader instance already registered.", 0, $previousException);
     }
 
 }

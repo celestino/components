@@ -27,13 +27,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Tests\Component\Autoloader\Assets;
+namespace Brickoo\Component\Common\Exception;
+
+use Brickoo\Component\Common\Exception;
 
 /**
- * DefaultPathLoadableClass
+ * AutoloaderNotRegisteredException
  *
- * Test class for the NamespaceAutoloader with default loader path set.
+ * Exception thrown if trying to unregister an autoloader without being registered before.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class DefaultPathLoadableClass {}
+class AutoloaderNotRegisteredException extends Exception {
+
+    /**
+     * Class constructor.
+     * Calls the parent Exception constructor.
+     * @param null|\Exception $previousException
+     */
+    public function __construct(\Exception $previousException = null) {
+        parent::__construct("This object is not registered as an autoloader", 0, $previousException);
+    }
+
+}

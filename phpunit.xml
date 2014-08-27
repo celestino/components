@@ -12,7 +12,6 @@
     <testsuites>
         <testsuite name="BrickOO Components">
             <directory>./tests/Brickoo/Tests/Component/Annotation</directory>
-            <directory>./tests/Brickoo/Tests/Component/Autoloader</directory>
             <directory>./tests/Brickoo/Tests/Component/Cache</directory>
             <directory>./tests/Brickoo/Tests/Component/Error</directory>
             <directory>./tests/Brickoo/Tests/Component/Messaging</directory>

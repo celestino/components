@@ -27,27 +27,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Autoloader\Exception;
+namespace Brickoo\Component\Common\Exception;
 
-use Brickoo\Component\Autoloader\Exception;
+use Brickoo\Component\Common\Exception;
 
 /**
- * ClassNotRegisteredException
+ * NamespaceNotRegisteredException
  *
- * Exception thrown if trying to unregister a class without being registered before.
+ * Exception thrown by the Autoloader class if trying to unregister a namespace
+ * which has not been registered before.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class ClassNotRegisteredException extends Exception {
+class NamespaceNotRegisteredException extends Exception {
 
     /**
      * Class constructor.
      * Calls the parent Exception constructor.
-     * @param string $className the class not registered
+     * @param string $namespace the namespace tried to unregister
      * @param null|\Exception $previousException
      */
-    public function __construct($className, \Exception $previousException = null) {
-        parent::__construct(sprintf("The class `%s` is not registered", $className), 0, $previousException);
+    public function __construct($namespace, \Exception $previousException = null) {
+        parent::__construct(sprintf("The namespace `%s` is not registered.", $namespace), 0, $previousException);
     }
 
 }

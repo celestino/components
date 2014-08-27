@@ -27,121 +27,167 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Tests\Component\Autoloader;
+namespace Brickoo\Tests\Component\Common;
 
-use Brickoo\Component\Autoloader\NamespaceAutoloader,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Common\Autoloader;
+use Brickoo\Component\Common\Exception\AutoloaderNotRegisteredException;
+use Brickoo\Component\Common\Exception\DuplicateAutoloaderRegistrationException;
+use PHPUnit_Framework_TestCase;
 
 /**
- * Test suite for the NamespaceAutoloader class.
- * @see Brickoo\Component\Autoloader\NamespaceAutoloader
+ * Test suite for the Autoloader class.
+ * @see Brickoo\Component\Common\Autoloader
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
+class AutoloaderTest extends PHPUnit_Framework_TestCase {
 
-class NamespaceAutoloaderTest extends PHPUnit_Framework_TestCase {
-
-    /** @covers Brickoo\Component\Autoloader\NamespaceAutoloader::__construct */
+    /** @covers Brickoo\Component\Common\Autoloader::__construct */
     public function testConstructor() {
-        $namespaceAutoloader = new NamespaceAutoloader(["TestNamespace" => __DIR__], true);
-        $this->assertInstanceOf("\\Brickoo\\Component\\Autoloader\\Autoloader", $namespaceAutoloader);
+        $autoloader = new Autoloader(["Vendor\\Library" => "./"]);
+        $this->assertAttributeEquals(false, "isRegistered", $autoloader);
     }
 
-    /** @covers Brickoo\Component\Autoloader\NamespaceAutoloader::registerNamespace */
+    /** @covers Brickoo\Component\Common\Autoloader::register */
+    public function testRegisterAutoloader() {
+        $autoloader = new Autoloader();
+        $this->assertAttributeEquals(false, "isRegistered", $autoloader);
+        $this->assertSame($autoloader, $autoloader->register());
+        $this->assertAttributeEquals(true, "isRegistered", $autoloader);
+        $this->assertTrue(spl_autoload_unregister(array($autoloader, "load")));
+    }
+
+    /**
+     * @covers Brickoo\Component\Common\Autoloader::register
+     * @covers Brickoo\Component\Common\Exception\DuplicateAutoloaderRegistrationException
+     * @expectedException \Brickoo\Component\Common\Exception\DuplicateAutoloaderRegistrationException
+     */
+    public function testRegistrationThrowsDuplicateAutoloaderRegistrationException() {
+        $autoloader = new Autoloader();
+        try{
+            $autoloader->register();
+            $autoloader->register();
+        }
+        catch (DuplicateAutoloaderRegistrationException $Exception) {
+            $this->assertTrue(spl_autoload_unregister(array($autoloader, "load")));
+            throw $Exception;
+        }
+    }
+
+    /** @covers Brickoo\Component\Common\Autoloader::unregister */
+    public function testUnregisterAutoloader() {
+        $autoloader = new Autoloader();
+        $autoloader->register();
+        $this->assertAttributeEquals(true, "isRegistered", $autoloader);
+        $this->assertSame($autoloader, $autoloader->unregister());
+        $this->assertAttributeEquals(false, "isRegistered", $autoloader);
+    }
+
+    /**
+     * @covers Brickoo\Component\Common\Autoloader::unregister
+     * @covers Brickoo\Component\Common\Exception\AutoloaderNotRegisteredException
+     * @expectedException \Brickoo\Component\Common\Exception\AutoloaderNotRegisteredException
+     */
+    public function testUnregisterThrowsAutoloaderNotRegisteredException() {
+        $autoloader = new Autoloader();
+        $autoloader->unregister();
+    }
+
+    /** @covers Brickoo\Component\Common\Autoloader::registerNamespace */
     public function testRegisterNamespace() {
         $expectedNamespace = array("TestNamespace" => dirname(__FILE__));
-        $namespaceAutoloader = new NamespaceAutoloader();
+        $namespaceAutoloader = new Autoloader();
         $this->assertSame($namespaceAutoloader, $namespaceAutoloader->registerNamespace("TestNamespace", dirname(__FILE__)));
         $this->assertAttributeEquals($expectedNamespace, "namespaces", $namespaceAutoloader);
     }
 
     /**
-     * @covers Brickoo\Component\Autoloader\NamespaceAutoloader::registerNamespace
+     * @covers Brickoo\Component\Common\Autoloader::registerNamespace
      * @expectedException \InvalidArgumentException
      */
     public function testRegisterNamespaceThrowsInvalidArgumentException() {
-        $namespaceAutoloader = new NamespaceAutoloader();
+        $namespaceAutoloader = new Autoloader();
         $namespaceAutoloader->registerNamespace(["wrongType"], null);
     }
 
     /**
-     * @covers Brickoo\Component\Autoloader\NamespaceAutoloader::registerNamespace
-     * @covers Brickoo\Component\Autoloader\Exception\DirectoryDoesNotExistException
-     * @expectedException \Brickoo\Component\Autoloader\Exception\DirectoryDoesNotExistException
+     * @covers Brickoo\Component\Common\Autoloader::registerNamespace
+     * @covers Brickoo\Component\Common\Exception\DirectoryDoesNotExistException
+     * @expectedException \Brickoo\Component\Common\Exception\DirectoryDoesNotExistException
      */
     public function testRegisterNamespaceThrowsDirectoryDoesNotExistException() {
-        $namespaceAutoloader = new NamespaceAutoloader();
+        $namespaceAutoloader = new Autoloader();
         $namespaceAutoloader->registerNamespace("brickoo", "path/does/not/exist");
     }
 
     /**
-     * @covers Brickoo\Component\Autoloader\NamespaceAutoloader::registerNamespace
-     * @covers Brickoo\Component\Autoloader\Exception\DuplicateNamespaceRegistrationException
-     * @expectedException \Brickoo\Component\Autoloader\Exception\DuplicateNamespaceRegistrationException
+     * @covers Brickoo\Component\Common\Autoloader::registerNamespace
+     * @covers Brickoo\Component\Common\Exception\DuplicateNamespaceRegistrationException
+     * @expectedException \Brickoo\Component\Common\Exception\DuplicateNamespaceRegistrationException
      */
     public function testRegisterDuplicateNamespaceThrowsDuplicateNamespaceRegistrationException() {
-        $namespaceAutoloader = new NamespaceAutoloader();
+        $namespaceAutoloader = new Autoloader();
         $namespaceAutoloader->registerNamespace("TestNamespace", dirname(__FILE__));
         $namespaceAutoloader->registerNamespace("TestNamespace", dirname(__FILE__));
     }
 
-    /** @covers Brickoo\Component\Autoloader\NamespaceAutoloader::unregisterNamespace */
+    /** @covers Brickoo\Component\Common\Autoloader::unregisterNamespace */
     public function testUnregisterNamespace() {
-        $namespaceAutoloader = new NamespaceAutoloader();
+        $namespaceAutoloader = new Autoloader();
         $namespaceAutoloader->registerNamespace("TestNamespace", dirname(__FILE__));
         $this->assertSame($namespaceAutoloader, $namespaceAutoloader->unregisterNamespace("TestNamespace"));
         $this->assertAttributeEquals([], "namespaces", $namespaceAutoloader);
     }
 
     /**
-     * @covers Brickoo\Component\Autoloader\NamespaceAutoloader::unregisterNamespace
-     * @covers Brickoo\Component\Autoloader\Exception\NamespaceNotRegisteredException
-     * @expectedException \Brickoo\Component\Autoloader\Exception\NamespaceNotRegisteredException
+     * @covers Brickoo\Component\Common\Autoloader::unregisterNamespace
+     * @covers Brickoo\Component\Common\Exception\NamespaceNotRegisteredException
+     * @expectedException \Brickoo\Component\Common\Exception\NamespaceNotRegisteredException
      */
     public function testUnregisterNamespaceThrowsNamespaceNotRegisteredException() {
-        $namespaceAutoloader = new NamespaceAutoloader();
+        $namespaceAutoloader = new Autoloader();
         $namespaceAutoloader->unregisterNamespace("NotRegisteredNamespace");
     }
 
-    /** @covers Brickoo\Component\Autoloader\NamespaceAutoloader::getRegisteredNamespaces */
+    /** @covers Brickoo\Component\Common\Autoloader::getRegisteredNamespaces */
     public function testGetRegisteredNamespaces() {
         $expectedNamespaces = array("TestNamespace" => dirname(__FILE__));
-        $namespaceAutoloader = new NamespaceAutoloader();
+        $namespaceAutoloader = new Autoloader();
         $namespaceAutoloader->registerNamespace("TestNamespace", dirname(__FILE__));
         $this->assertEquals($expectedNamespaces, $namespaceAutoloader->getRegisteredNamespaces());
     }
 
-    /** @covers Brickoo\Component\Autoloader\NamespaceAutoloader::isNamespaceRegistered */
+    /** @covers Brickoo\Component\Common\Autoloader::isNamespaceRegistered */
     public function testIsNamespaceRegistered() {
-        $namespaceAutoloader = new NamespaceAutoloader();
+        $namespaceAutoloader = new Autoloader();
         $namespaceAutoloader->registerNamespace("TestNamespace", dirname(__FILE__));
         $this->assertTrue($namespaceAutoloader->isNamespaceRegistered("TestNamespace"));
         $this->assertFalse($namespaceAutoloader->isNamespaceRegistered("OtherNamespace"));
     }
 
-    /** @covers Brickoo\Component\Autoloader\NamespaceAutoloader::isNamespaceRegistered */
+    /** @covers Brickoo\Component\Common\Autoloader::isNamespaceRegistered */
     public function testIsNamespaceRegisteredFails() {
-        $namespaceAutoloader = new NamespaceAutoloader();
+        $namespaceAutoloader = new Autoloader();
         $namespaceAutoloader->registerNamespace("TestNamespace", dirname(__FILE__));
         $this->assertFalse($namespaceAutoloader->isNamespaceRegistered("fail"));
         $this->assertTrue($namespaceAutoloader->isNamespaceRegistered("TestNamespace"));
     }
 
     /**
-     * @covers Brickoo\Component\Autoloader\NamespaceAutoloader::isNamespaceRegistered
+     * @covers Brickoo\Component\Common\Autoloader::isNamespaceRegistered
      * @expectedException \InvalidArgumentException
      */
     public function testIsNamespaceRegisteredThrowsInvalidArgumentException() {
-        $namespaceAutoloader = new NamespaceAutoloader();
+        $namespaceAutoloader = new Autoloader();
         $namespaceAutoloader->isNamespaceRegistered(["wrongType"]);
     }
 
     /**
-     * @covers Brickoo\Component\Autoloader\NamespaceAutoloader::load
-     * @covers Brickoo\Component\Autoloader\NamespaceAutoloader::getNamespaceClassPath
-     * @covers Brickoo\Component\Autoloader\NamespaceAutoloader::getTranslatedClassPath
+     * @covers Brickoo\Component\Common\Autoloader::load
+     * @covers Brickoo\Component\Common\Autoloader::getNamespaceClassPath
+     * @covers Brickoo\Component\Common\Autoloader::getTranslatedClassPath
      */
     public function testLoadClassWithHigherNamespacePathMatch() {
-        $namespaceAutoloader = new NamespaceAutoloader();
+        $namespaceAutoloader = new Autoloader();
         $namespaceAutoloader->registerNamespace("Autoloader", dirname(__FILE__));
         $namespaceAutoloader->registerNamespace("Autoloader\\Assets", dirname(__FILE__)."/Assets");
         $this->assertTrue($namespaceAutoloader->load("Autoloader\\Assets\\NamespaceLoadableClass"));
@@ -149,28 +195,28 @@ class NamespaceAutoloaderTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Brickoo\Component\Autoloader\NamespaceAutoloader::load
+     * @covers Brickoo\Component\Common\Autoloader::load
      * @expectedException \InvalidArgumentException
      */
     public function testLoadClassThrowsInvalidArgumentException() {
-        $namespaceAutoloader = new NamespaceAutoloader();
+        $namespaceAutoloader = new Autoloader();
         $namespaceAutoloader->load("\\");
     }
 
     /**
-     * @covers Brickoo\Component\Autoloader\NamespaceAutoloader::load
-     * @covers Brickoo\Component\Autoloader\NamespaceAutoloader::getNamespaceClassPath
+     * @covers Brickoo\Component\Common\Autoloader::load
+     * @covers Brickoo\Component\Common\Autoloader::getNamespaceClassPath
      */
     public function testLoadClassReturnsFalseIfNotRegistered() {
-        $namespaceAutoloader = new NamespaceAutoloader();
+        $namespaceAutoloader = new Autoloader();
         $this->assertFalse($namespaceAutoloader->load("Namespace\\not\\registered"));
     }
 
-    /** @covers Brickoo\Component\Autoloader\NamespaceAutoloader::load */
+    /** @covers Brickoo\Component\Common\Autoloader::load */
     public function testLoadFileDoesNotExistReturnsFalse() {
-        $namespaceAutoloader = new NamespaceAutoloader();
+        $namespaceAutoloader = new Autoloader();
         $namespaceAutoloader->registerNamespace("Brickoo", dirname(__FILE__));
         $this->assertFalse($namespaceAutoloader->load("Brickoo\\DoesNotExist"));
     }
 
- }
+}
