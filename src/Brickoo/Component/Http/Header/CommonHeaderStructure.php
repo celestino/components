@@ -27,38 +27,66 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Tests\Component\Http;
+namespace Brickoo\Component\Http\Header;
 
-use Brickoo\Component\Http\Header\AcceptCharsetHeader;
-use PHPUnit_Framework_TestCase;
+use Brickoo\Component\Validation\Argument;
 
 /**
- * AcceptCharsetHeaderTest
+ * GenericHeader
  *
- * Test suite for the AcceptCharsetHeader class.
- * @see Brickoo\Component\Http\Header\AcceptCharsetHeader
+ * Implements a generic header.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class AcceptCharsetHeaderTest extends PHPUnit_Framework_TestCase {
+trait CommonHeaderStructure {
+
+    /** @var string */
+    protected $headerName;
+
+    /** @var string */
+    protected $headerValue;
 
     /**
-     * @covers  Brickoo\Component\Http\Header\AcceptCharsetHeader::__construct
-     * @expectedException \InvalidArgumentException
+     * Return the header name.
+     * @return string the header name
      */
-    public function testConstructorInvalidHeaderValueThrowsException() {
-        new AcceptCharsetHeader(["wrongType"]);
+    public function getName() {
+        return $this->headerName;
     }
 
     /**
-     * @covers  Brickoo\Component\Http\Header\AcceptCharsetHeader::__construct
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::__construct
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getName
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getValue
+     * Set the header name.
+     * @param string $headerName
+     * @throws \InvalidArgumentException
      */
-    public function testHeaderConstructor() {
-        $acceptCharsetHeader = new AcceptCharsetHeader("utf-8,ISO-8859-1;q=0.9");
-        $this->assertEquals("Accept-Charset", $acceptCharsetHeader->getName());
-        $this->assertEquals("utf-8,ISO-8859-1;q=0.9", $acceptCharsetHeader->getValue());
+    public function setName($headerName) {
+        Argument::isString($headerName);
+        $this->headerName = $headerName;
+    }
+
+    /**
+     * Return the header value.
+     * @return string the header value
+     */
+    public function getValue() {
+        return $this->headerValue;
+    }
+
+    /**
+     * Set the header value.
+     * @param string $headerValue
+     * @throws \InvalidArgumentException
+     */
+    public function setValue($headerValue) {
+        Argument::isString($headerValue);
+        $this->headerValue = $headerValue;
+    }
+
+    /**
+     * Return a string representation of the header.
+     * @return string the string representation
+     */
+    public function toString() {
+        return sprintf("%s: %s", ucfirst($this->getName()), $this->getValue());
     }
 
 }

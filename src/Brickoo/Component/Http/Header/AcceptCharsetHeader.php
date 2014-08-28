@@ -35,13 +35,12 @@ namespace Brickoo\Component\Http\Header;
  * Implements an accept-charset header.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class AcceptCharsetHeader extends GenericHeader {
-
-    use CommonAcceptHeader;
+class AcceptCharsetHeader extends CommonAcceptHeader {
 
     /**
      * Class constructor.
      * @param string $headerValue
+     * @throws \InvalidArgumentException
      */
     public function __construct($headerValue = "") {
         parent::__construct("Accept-Charset", $headerValue);

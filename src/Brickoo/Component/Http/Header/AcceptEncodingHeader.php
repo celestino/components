@@ -35,9 +35,7 @@ namespace Brickoo\Component\Http\Header;
  * Implements an accept-encoding header.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class AcceptEncodingHeader extends GenericHeader {
-
-    use CommonAcceptHeader;
+class AcceptEncodingHeader extends CommonAcceptHeader {
 
     /**
      * Class constructor.

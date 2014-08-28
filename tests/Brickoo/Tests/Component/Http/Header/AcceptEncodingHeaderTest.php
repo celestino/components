@@ -52,39 +52,13 @@ class AcceptEncodingHeaderTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers  Brickoo\Component\Http\Header\AcceptEncodingHeader::__construct
      * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getEntries
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getHeaderValues
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getExtractedHeaderValuesByRegex
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getName
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getValue
      */
-    public function testGetEncodings() {
+    public function testHeaderConstructor() {
         $acceptEncodingHeader = new AcceptEncodingHeader("gzip,deflate;q=0.9");
-        $this->assertEquals(["gzip" => 1.0, "deflate" => 0.9], $acceptEncodingHeader->getEntries());
-    }
-
-    /**
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::setEntry
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getEntries
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getHeaderValues
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getExtractedHeaderValuesByRegex
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::buildValue
-     */
-    public function testSetEncodingsToExistingOnes() {
-        $acceptEncodingHeader = new AcceptEncodingHeader("gzip");
-        $this->assertEquals(["gzip" => 1.0], $acceptEncodingHeader->getEntries());
-        $this->assertSame($acceptEncodingHeader, $acceptEncodingHeader->setEntry("deflate", 0.9));
-        $this->assertEquals(["gzip" => 1.0, "deflate" => 0.9], $acceptEncodingHeader->getEntries());
-        $this->assertEquals("gzip, deflate;q=0.9", $acceptEncodingHeader->getValue());
-    }
-
-    /**
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::isSupported
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getEntries
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getHeaderValues
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getExtractedHeaderValuesByRegex
-     */
-    public function testIsEncodingSupported() {
-        $acceptEncodingHeader = new AcceptEncodingHeader("gzip");
-        $this->assertTrue($acceptEncodingHeader->isSupported("gzip"));
-        $this->assertFalse($acceptEncodingHeader->isSupported("deflate"));
+        $this->assertEquals("Accept-Encoding", $acceptEncodingHeader->getName());
+        $this->assertEquals("gzip,deflate;q=0.9", $acceptEncodingHeader->getValue());
     }
 
 }

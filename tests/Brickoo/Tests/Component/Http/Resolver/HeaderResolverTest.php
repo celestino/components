@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Http\Resolver;
 
-use Brickoo\Component\Http\Resolver\HeaderResolver,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Http\Resolver\HeaderResolver;
+use PHPUnit_Framework_TestCase;
 
 /**
  * HeaderResolver
@@ -39,7 +39,6 @@ use Brickoo\Component\Http\Resolver\HeaderResolver,
  * @see Brickoo\Component\Http\Resolver\HeaderResolver
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HeaderResolverTest extends PHPUnit_Framework_TestCase {
 
     /**
@@ -66,7 +65,7 @@ class HeaderResolverTest extends PHPUnit_Framework_TestCase {
         $this->assertInternalType("array", $headers);
 
         foreach ($headers as $header) {
-            $this->assertInstanceOf("\\Brickoo\\Component\\Http\\Header\\GenericHeader", $header);
+            $this->assertInstanceOf("\\Brickoo\\Component\\Http\\HttpHeader", $header);
             if ($header->getName() == "Accept") {
                 $this->assertInstanceOf("\\Brickoo\\Component\\Http\\Header\\AcceptHeader", $header);
             }
@@ -100,7 +99,6 @@ class HeaderResolverTest extends PHPUnit_Framework_TestCase {
         foreach ($headerLists as $headerName => $headerList) {
             $this->assertInstanceOf("\\Brickoo\\Component\\Http\\HttpHeaderList", $headerList);
             if ($headerName == "Accept") {
-                $this->assertInstanceOf("\\Brickoo\\Component\\Http\\Header\\GenericHeader", $headerList->first());
                 $this->assertInstanceOf("\\Brickoo\\Component\\Http\\Header\\AcceptHeader", $headerList->first());
             }
         }

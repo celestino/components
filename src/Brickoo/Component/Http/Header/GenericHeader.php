@@ -30,7 +30,6 @@
 namespace Brickoo\Component\Http\Header;
 
 use Brickoo\Component\Http\HttpHeader;
-use Brickoo\Component\Validation\Argument;
 
 /**
  * GenericHeader
@@ -38,39 +37,20 @@ use Brickoo\Component\Validation\Argument;
  * Implements a generic header.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
+
 class GenericHeader implements HttpHeader {
 
-    /** @var string */
-    protected $headerName;
-
-    /** @var string */
-    protected $headerValue;
+    use CommonHeaderStructure;
 
     /**
      * Class constructor.
      * @param string $headerName
      * @param string $headerValue
+     * @throws \InvalidArgumentException
      */
     public function __construct($headerName, $headerValue) {
-        Argument::isString($headerName);
-        Argument::isString($headerValue);
-        $this->headerName = $headerName;
-        $this->headerValue = $headerValue;
-    }
-
-    /** {@inheritDoc} */
-    public function getName() {
-        return $this->headerName;
-    }
-
-    /** {@inheritDoc} */
-    public function getValue() {
-        return $this->headerValue;
-    }
-
-    /** {@inheritDoc} */
-    public function toString() {
-        return sprintf("%s: %s", ucfirst($this->getName()), $this->getValue());
+        $this->setName($headerName);
+        $this->setValue($headerValue);
     }
 
 }

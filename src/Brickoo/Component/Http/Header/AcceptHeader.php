@@ -36,9 +36,7 @@ namespace Brickoo\Component\Http\Header;
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class AcceptHeader extends GenericHeader {
-
-    use CommonAcceptHeader;
+class AcceptHeader extends CommonAcceptHeader {
 
     /**
      * Class constructor.

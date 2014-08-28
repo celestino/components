@@ -35,9 +35,7 @@ namespace Brickoo\Component\Http\Header;
  * Implements an accept-language header.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class AcceptLanguageHeader extends GenericHeader {
-
-    use CommonAcceptHeader;
+class AcceptLanguageHeader extends CommonAcceptHeader {
 
     /**
      * Class constructor.

@@ -38,19 +38,19 @@ namespace Brickoo\Component\Http;
 interface HttpHeader {
 
     /**
-     * Returns the header name.
+     * Return the header name.
      * @return string the header name
      */
     public function getName();
 
     /**
-     * Returns the header value.
+     * Return the header value.
      * @return string the header value
      */
     public function getValue();
 
     /**
-     * Returns a string representation of the header.
+     * Return a string representation of the header.
      * @return string the string representation
      */
     public function toString();

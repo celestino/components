@@ -29,6 +29,7 @@
 
 namespace Brickoo\Component\Http\Header;
 
+use Brickoo\Component\Http\HttpHeader;
 use Brickoo\Component\Validation\Argument;
 
 /**
@@ -37,13 +38,23 @@ use Brickoo\Component\Validation\Argument;
  * Implements common accept header routines.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-trait CommonAcceptHeader {
+class CommonAcceptHeader  implements HttpHeader {
 
-    /** @var string */
-    protected $headerValue;
+    use CommonHeaderStructure;
 
     /** @var array */
     private $listEntries = [];
+
+    /**
+     * Class constructor.
+     * @param string $headerName
+     * @param string $headerValue
+     * @throws \InvalidArgumentException
+     */
+    public function __construct($headerName, $headerValue) {
+        $this->setName($headerName);
+        $this->setValue($headerValue);
+    }
 
     /**
      * Set a header list entry.
@@ -57,7 +68,7 @@ trait CommonAcceptHeader {
 
         $this->getEntries();
         $this->listEntries[$key] = $quality;
-        $this->headerValue = $this->buildValue($this->listEntries);
+        $this->setValue($this->buildValue($this->listEntries));
         return $this;
     }
 
@@ -67,7 +78,7 @@ trait CommonAcceptHeader {
      */
     public function getEntries() {
         if (empty($this->listEntries)) {
-            $this->listEntries = $this->getHeaderValues($this->headerValue);
+            $this->listEntries = $this->getHeaderValues($this->getValue());
         }
         return $this->listEntries;
     }

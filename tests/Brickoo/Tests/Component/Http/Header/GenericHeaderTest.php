@@ -60,19 +60,27 @@ class GenericHeaderTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Http\Header\GenericHeader::__construct
+     * @covers Brickoo\Component\Http\Header\GenericHeader::setName
      * @covers Brickoo\Component\Http\Header\GenericHeader::getName
      */
-    public function testGetHeaderName() {
+    public function testGetAndSetHeaderName() {
         $headerName = "Accept";
         $genericHeader = new GenericHeader($headerName, "*/*");
         $this->assertEquals($headerName, $genericHeader->getName());
+        $genericHeader->setName("Accept-Language");
+        $this->assertEquals("Accept-Language", $genericHeader->getName());
     }
 
-    /** @covers Brickoo\Component\Http\Header\GenericHeader::getValue */
-    public function testGetHeaderValue() {
+    /**
+     * @covers Brickoo\Component\Http\Header\GenericHeader::setValue
+     * @covers Brickoo\Component\Http\Header\GenericHeader::getValue
+     */
+    public function testGetAndSetHeaderValue() {
         $headerValue = "*/*";
         $genericHeader = new GenericHeader("Accept", $headerValue);
         $this->assertEquals($headerValue, $genericHeader->getValue());
+        $genericHeader->setValue("text/html");
+        $this->assertEquals("text/html", $genericHeader->getValue());
     }
 
     /** @covers Brickoo\Component\Http\Header\GenericHeader::toString */
