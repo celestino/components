@@ -29,10 +29,10 @@
 
 namespace Brickoo\Tests\Component\IoC;
 
-use Brickoo\Component\IoC\DIContainer,
-    Brickoo\Component\IoC\Definition\DependencyDefinition,
-    Brickoo\Component\IoC\Resolver\DefinitionResolver,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\IoC\DIContainer;
+use Brickoo\Component\IoC\Definition\DependencyDefinition;
+use Brickoo\Component\IoC\Resolver\DefinitionResolver;
+use PHPUnit_Framework_TestCase;
 
 /**
  * DIContainerTest
@@ -61,6 +61,9 @@ class DIContainerTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\IoC\DIContainer::retrieve
+     * @covers Brickoo\Component\IoC\DIContainer::checkDependencyAccess
+     * @covers Brickoo\Component\IoC\DIContainer::hasSingletonScope
+     * @covers Brickoo\Component\IoC\DIContainer::createDependency
      * @covers Brickoo\Component\IoC\DIContainer::contains
      * @covers Brickoo\Component\IoC\DIContainer::resolveDefinition
      * @covers Brickoo\Component\IoC\DIContainer::getResolver
@@ -83,13 +86,16 @@ class DIContainerTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\IoC\DIContainer::retrieve
+     * @covers Brickoo\Component\IoC\DIContainer::checkDependencyAccess
+     * @covers Brickoo\Component\IoC\DIContainer::hasSingletonScope
+     * @covers Brickoo\Component\IoC\DIContainer::createDependency
      * @covers Brickoo\Component\IoC\DIContainer::contains
      * @covers Brickoo\Component\IoC\DIContainer::resolveDefinition
      * @covers Brickoo\Component\IoC\DIContainer::getResolver
      * @covers Brickoo\Component\IoC\DIContainer::getSingleton
      * @covers Brickoo\Component\IoC\DIContainer::storeSingleton
      */
-    public function testRetrieveDependencyWithSingletonScope() {
+    public function testRetrieveDependencyWithSingletonScopeTwiceSameInstance() {
         $dependency = new \stdClass();
         $definition = $this->getDependencyDefinitionStub();
         $definition->expects($this->any())
@@ -108,6 +114,7 @@ class DIContainerTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\IoC\DIContainer::retrieve
+     * @covers Brickoo\Component\IoC\DIContainer::checkDependencyAccess
      * @covers Brickoo\Component\IoC\DIContainer::contains
      * @covers Brickoo\Component\IoC\Exception\DefinitionNotAvailableException
      * @expectedException \Brickoo\Component\IoC\Exception\DefinitionNotAvailableException
@@ -119,6 +126,7 @@ class DIContainerTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\IoC\DIContainer::retrieve
+     * @covers Brickoo\Component\IoC\DIContainer::checkDependencyAccess
      * @covers Brickoo\Component\IoC\DIContainer::contains
      * @covers Brickoo\Component\IoC\Exception\InfiniteDependencyResolveLoopException
      * @expectedException \Brickoo\Component\IoC\Exception\InfiniteDependencyResolveLoopException

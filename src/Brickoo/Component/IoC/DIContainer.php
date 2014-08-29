@@ -86,27 +86,12 @@ class DIContainer extends Container {
      */
     public function retrieve($dependencyName) {
         try {
-            if (! $this->contains($dependencyName)) {
-                throw new DefinitionNotAvailableException($dependencyName);
-            }
-
-            if (isset($this->calledDependencies[$dependencyName])) {
-                throw new InfiniteDependencyResolveLoopException(array_pop($this->calledDependencies));
-            }
-
+            $this->checkDependencyAccess($dependencyName);
             $definition = $this->get($dependencyName);
-            $hasSingletonScope = ($definition->getScope() == DependencyDefinition::SCOPE_SINGLETON);
 
-            if ((! $hasSingletonScope)
-                || (! $dependency = $this->getSingleton($dependencyName))
-            ) {
-                $this->calledDependencies[$dependencyName] = true;
-                $dependency = $this->resolveDefinition($definition);
-                unset($this->calledDependencies[$dependencyName]);
-
-                if ($hasSingletonScope) {
-                    $this->storeSingleton($dependencyName, $dependency);
-                }
+            if ((! $this->hasSingletonScope($definition))
+                || (! $dependency = $this->getSingleton($dependencyName))) {
+                    $dependency = $this->createDependency($dependencyName, $definition);
             }
         }
         catch (Exception $exception) {
@@ -115,6 +100,31 @@ class DIContainer extends Container {
         }
 
         return $dependency;
+    }
+
+    private function checkDependencyAccess($dependencyName) {
+        if (! $this->contains($dependencyName)) {
+            throw new DefinitionNotAvailableException($dependencyName);
+        }
+
+        if (isset($this->calledDependencies[$dependencyName])) {
+            throw new InfiniteDependencyResolveLoopException(array_pop($this->calledDependencies));
+        }
+    }
+
+    private function createDependency($dependencyName, DependencyDefinition $definition) {
+        $this->calledDependencies[$dependencyName] = true;
+        $dependency = $this->resolveDefinition($definition);
+        unset($this->calledDependencies[$dependencyName]);
+
+        if ($this->hasSingletonScope($definition)) {
+            $this->storeSingleton($dependencyName, $dependency);
+        }
+        return $dependency;
+    }
+
+    private function hasSingletonScope(DependencyDefinition $definition) {
+        return ($definition->getScope() == DependencyDefinition::SCOPE_SINGLETON);
     }
 
     /**<
