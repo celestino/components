@@ -48,6 +48,7 @@ class RoutePathRegexGeneratorTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Routing\Route\RoutePathRegexGenerator::generate
      * @covers Brickoo\Component\Routing\Route\RoutePathRegexGenerator::getRoutePath
      * @covers Brickoo\Component\Routing\Route\RoutePathRegexGenerator::replaceRoutePathWithRulesExpressions
+     * @covers Brickoo\Component\Routing\Route\RoutePathRegexGenerator::replaceRoutePathParameter
      */
     public function testGeneratePathRegexFromRoute() {
         $expectedRegex = "~^".
@@ -66,6 +67,7 @@ class RoutePathRegexGeneratorTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Routing\Route\RoutePathRegexGenerator::generate
      * @covers Brickoo\Component\Routing\Route\RoutePathRegexGenerator::getRoutePath
      * @covers Brickoo\Component\Routing\Route\RoutePathRegexGenerator::replaceRoutePathWithRulesExpressions
+     * @covers Brickoo\Component\Routing\Route\RoutePathRegexGenerator::replaceRoutePathParameter
      */
     public function testGeneratePathRegexFromRouteWithoutRules() {
         $expectedRegex = "~^/(articles|artikeln)/{articleName}$~i";

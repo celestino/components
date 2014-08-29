@@ -90,33 +90,41 @@ class RoutePathRegexGenerator  {
      * @param string $routePath the route path
      * @param string[] $parameters the dynamic parameters of the route
      * @param \Brickoo\Component\Routing\Route\Route $route
-     * @internal param string $regex the regular expression to modify
      * @return void
      */
     private function replaceRoutePathWithRulesExpressions(&$routePath, array $parameters, Route $route) {
         foreach ($parameters as $parameterName) {
-            if (! $route->hasRule($parameterName)) {
-                continue;
+            if ($route->hasRule($parameterName)) {
+                $this->replaceRoutePathParameter($routePath, $parameterName, $route);
             }
+        }
+    }
 
-            if (strpos($routePath, "/{".$parameterName."}") !== false) {
-                $routePath = str_replace("/{".$parameterName."}",
-                    ($route->hasDefaultValue($parameterName) ?
-                        "(/(?<".$parameterName.">(".$route->getRule($parameterName).")?))?" :
-                        "/(?<".$parameterName.">".$route->getRule($parameterName).")"
-                    ),
-                    $routePath
-                );
-            }
-            else {
-                $routePath = str_replace("{".$parameterName."}",
-                    ($route->hasDefaultValue($parameterName) ?
-                        "(?<".$parameterName.">(".$route->getRule($parameterName).")?)" :
-                        "(?<".$parameterName.">".$route->getRule($parameterName).")"
-                    ),
-                    $routePath
-                );
-            }
+    /**
+     * Replace route path parameter placeholder.
+     * @param string $routePath
+     * @param string $parameterName
+     * @param \Brickoo\Component\Routing\Route\Route $route
+     * @return void
+     */
+    private function replaceRoutePathParameter(&$routePath, $parameterName, Route $route) {
+        if (strpos($routePath, "/{".$parameterName."}") !== false) {
+            $routePath = str_replace("/{".$parameterName."}",
+                ($route->hasDefaultValue($parameterName) ?
+                    "(/(?<".$parameterName.">(".$route->getRule($parameterName).")?))?" :
+                    "/(?<".$parameterName.">".$route->getRule($parameterName).")"
+                ),
+                $routePath
+            );
+        }
+        else {
+            $routePath = str_replace("{".$parameterName."}",
+                ($route->hasDefaultValue($parameterName) ?
+                    "(?<".$parameterName.">(".$route->getRule($parameterName).")?)" :
+                    "(?<".$parameterName.">".$route->getRule($parameterName).")"
+                ),
+                $routePath
+            );
         }
     }
 
