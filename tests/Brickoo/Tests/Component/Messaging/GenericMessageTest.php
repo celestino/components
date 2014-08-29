@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Messaging;
 
-use Brickoo\Component\Messaging\GenericMessage,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Messaging\GenericMessage;
+use PHPUnit_Framework_TestCase;
 
 /**
  * GenericMessageTest
@@ -44,7 +44,7 @@ class GenericMessageTest extends PHPUnit_Framework_TestCase {
     /** @covers Brickoo\Component\Messaging\GenericMessage::__construct */
     public function testConstructorImplementsInterface() {
         $params = ["key" => "value"];
-        $message = new GenericMessage("unittest", ($obj = new \stdClass()), $params);
+        $message = new GenericMessage("unittest", new \stdClass(), $params);
         $this->assertInstanceOf("\\Brickoo\\Component\\Messaging\\Message", $message);
     }
 
@@ -75,15 +75,17 @@ class GenericMessageTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers Brickoo\Component\Messaging\GenericMessage::setParam
      * @covers Brickoo\Component\Messaging\GenericMessage::getParams
      * @covers Brickoo\Component\Messaging\GenericMessage::getParam
      * @covers Brickoo\Component\Messaging\GenericMessage::hasParam
      */
     public function testParamsRoutines() {
         $params = ["key" => "value"];
-        $message = new GenericMessage("test.message", null, $params);
-        $this->assertFalse($message->hasParam("none"));
-        $this->assertEquals(null, $message->getParam("none"));
+        $message = new GenericMessage("test.message");
+        $this->assertFalse($message->hasParam("key"));
+        $this->assertEquals(null, $message->getParam("key"));
+        $this->assertSame($message, $message->setParam("key", "value"));
         $this->assertTrue($message->hasParam("key"));
         $this->assertEquals("value", $message->getParam("key"));
         $this->assertEquals($params, $message->getParams());

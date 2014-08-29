@@ -78,6 +78,14 @@ interface Message {
     public function getParam($identifier, $defaultValue = null);
 
     /**
+     * Set a parameters and its value.
+     * @param string $identifier
+     * @param mixed $value
+     * @return \Brickoo\Component\Messaging\Message
+     */
+    public function setParam($identifier, $value);
+
+    /**
      * Checks if the identifier is a available message parameter.
      * @param string $identifier the identifier to check the availability
      * @return boolean check result

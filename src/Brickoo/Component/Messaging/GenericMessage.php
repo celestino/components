@@ -100,6 +100,13 @@ class GenericMessage implements Message {
     }
 
     /** {@inheritDoc} */
+    public function setParam($identifier, $value) {
+        Argument::isString($identifier);
+        $this->params[$identifier] = $value;
+        return $this;
+    }
+
+    /** {@inheritDoc} */
     public function getParam($identifier, $defaultValue = null) {
         Argument::isString($identifier);
 

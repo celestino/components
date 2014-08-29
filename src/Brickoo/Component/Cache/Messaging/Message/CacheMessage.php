@@ -30,6 +30,7 @@
 namespace Brickoo\Component\Cache\Messaging\Message;
 
 use Brickoo\Component\Messaging\GenericMessage;
+use Brickoo\Component\Validation\Argument;
 
 /**
  * CacheMessage
@@ -70,7 +71,20 @@ class CacheMessage extends GenericMessage {
     const PARAM_LIFETIME = "lifetime";
 
     /**
-     * Returns the cache identifier.
+     * Set the cache message identifier.
+     * @param string $identifier
+     * @param mixed $value
+     * @throws \InvalidArgumentException
+     * @return \Brickoo\Component\Cache\Messaging\Message\CacheMessage
+     */
+    public function setIdentifier($identifier) {
+        Argument::isString($identifier);
+        $this->setParam(self::PARAM_IDENTIFIER, $identifier);
+        return $this;
+    }
+
+    /**
+     * Return the cache identifier.
      * @return string the cache identifier
      */
     public function getIdentifier() {
@@ -78,7 +92,17 @@ class CacheMessage extends GenericMessage {
     }
 
     /**
-     * Returns the content to cache.
+     * Set the cache message content to cache.
+     * @param mixed $content
+     * @return \Brickoo\Component\Cache\Messaging\Message\CacheMessage
+     */
+    public function setContent($content) {
+        $this->setParam(self::PARAM_CONTENT, $content);
+        return $this;
+    }
+
+    /**
+     * Return the content to cache.
      * @return mixed the content to cache
      */
     public function getContent() {
@@ -86,11 +110,31 @@ class CacheMessage extends GenericMessage {
     }
 
     /**
-     * Returns the callback for fresh content pull.
-     * @return callable the callback
+     * Set the retrieve fresh copy callback.
+     * @param callable $callback
+     * @return \Brickoo\Component\Cache\Messaging\Message\CacheMessage
+     */
+    public function setCallback(callable $callback) {
+        $this->setParam(self::PARAM_CALLBACK, $callback);
+        return $this;
+    }
+
+    /**
+     * Return the callback for fresh content pull.
+     * @return null|callable the callback otherwise null
      */
     public function getCallback() {
         return $this->getParam(self::PARAM_CALLBACK);
+    }
+
+    /**
+     * Set the callback arguments.
+     * @param array $arguments
+     * @return \Brickoo\Component\Cache\Messaging\Message\CacheMessage
+     */
+    public function setCallbackArguments(array $arguments) {
+        $this->setParam(self::PARAM_CALLBACK_ARGS, $arguments);
+        return $this;
     }
 
     /**
@@ -99,6 +143,18 @@ class CacheMessage extends GenericMessage {
      */
     public function getCallbackArguments() {
         return $this->getParam(self::PARAM_CALLBACK_ARGS);
+    }
+
+    /**
+     * Set the cache content lifetime.
+     * @param integer $lifetime
+     * @throws \InvalidArgumentException
+     * @return \Brickoo\Component\Cache\Messaging\Message\CacheMessage
+     */
+    public function setLifetime($lifetime) {
+        Argument::isInteger($lifetime);
+        $this->setParam(self::PARAM_LIFETIME, $lifetime);
+        return $this;
     }
 
     /**

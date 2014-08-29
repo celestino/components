@@ -30,7 +30,6 @@
 namespace Brickoo\Component\Cache\Messaging\Message;
 
 use Brickoo\Component\Cache\Messaging\Messages;
-use Brickoo\Component\Validation\Argument;
 
 /**
  * StoreMessage
@@ -44,15 +43,13 @@ class StoreMessage extends CacheMessage {
      * @param string $identifier the cache content identifier
      * @param mixed $content the content to cache
      * @param integer $cacheLifetime the max. cache lifetime for the content
+     * @throws \InvalidArgumentException
      */
     public function __construct($identifier, $content, $cacheLifetime = 60) {
-        Argument::isString($identifier);
-        Argument::isInteger($cacheLifetime);
-        parent::__construct(Messages::SET, null, [
-            self::PARAM_IDENTIFIER => $identifier,
-            self::PARAM_CONTENT => $content,
-            self::PARAM_LIFETIME => $cacheLifetime
-        ]);
+        parent::__construct(Messages::SET);
+        $this->setIdentifier($identifier)
+            ->setContent($content)
+            ->setLifetime($cacheLifetime);
     }
 
 }

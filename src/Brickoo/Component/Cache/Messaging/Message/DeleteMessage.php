@@ -30,7 +30,6 @@
 namespace Brickoo\Component\Cache\Messaging\Message;
 
 use Brickoo\Component\Cache\Messaging\Messages;
-use Brickoo\Component\Validation\Argument;
 
 /**
  * DeleteMessage
@@ -40,10 +39,13 @@ use Brickoo\Component\Validation\Argument;
  */
 class DeleteMessage extends CacheMessage {
 
-    /** @param string $identifier */
+    /**
+     * @param string $identifier
+     * @throws \InvalidArgumentException
+     */
     public function __construct($identifier) {
-        Argument::isString($identifier);
-        parent::__construct(Messages::DELETE, null, [self::PARAM_IDENTIFIER => $identifier]);
+        parent::__construct(Messages::DELETE);
+        $this->setIdentifier($identifier);
     }
 
 }

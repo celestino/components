@@ -30,7 +30,6 @@
 namespace Brickoo\Component\Cache\Messaging\Message;
 
 use Brickoo\Component\Cache\Messaging\Messages;
-use Brickoo\Component\Validation\Argument;
 
 /**
  * RetrieveByCallbackMessage
@@ -47,15 +46,12 @@ class RetrieveByCallbackMessage extends CacheMessage {
      * @param array $callbackArguments the callback arguments
      * @param integer $cacheLifetime the max. cache lifetime for the fresh loaded content
      */
-    public function __construct($identifier, callable $callback, array $callbackArguments = [], $cacheLifetime = 60) {
-        Argument::isString($identifier);
-        Argument::isInteger($cacheLifetime);
-        parent::__construct(Messages::CALLBACK, null, [
-            self::PARAM_IDENTIFIER => $identifier,
-            self::PARAM_CALLBACK => $callback,
-            self::PARAM_CALLBACK_ARGS => $callbackArguments,
-            self::PARAM_LIFETIME => $cacheLifetime
-        ]);
+    public function __construct($identifier, callable $callback, array $callbackArguments = [], $cacheLifetime = 0) {
+        parent::__construct(Messages::CALLBACK);
+        $this->setIdentifier($identifier)
+            ->setLifetime($cacheLifetime)
+            ->setCallback($callback)
+            ->setCallbackArguments($callbackArguments);
     }
 
 }

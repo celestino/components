@@ -43,38 +43,58 @@ use Brickoo\Component\Cache\Messaging\Messages,
 
 class CacheMessageTest extends PHPUnit_Framework_TestCase {
 
-    /** @covers Brickoo\Component\Cache\Messaging\Message\CacheMessage::getIdentifier */
+    /**
+     * @covers Brickoo\Component\Cache\Messaging\Message\CacheMessage::setIdentifier
+     * @covers Brickoo\Component\Cache\Messaging\Message\CacheMessage::getIdentifier
+     */
     public function testGetIdentifierReturnsParameterValue() {
         $identifier = "some_identifier";
-        $cacheMessage = new CacheMessage(Messages::GET, null, [CacheMessage::PARAM_IDENTIFIER => $identifier]);
+        $cacheMessage = new CacheMessage(Messages::GET);
+        $cacheMessage->setIdentifier($identifier);
         $this->assertEquals($identifier, $cacheMessage->getIdentifier());
     }
 
-    /** @covers Brickoo\Component\Cache\Messaging\Message\CacheMessage::getContent */
+    /**
+     * @covers Brickoo\Component\Cache\Messaging\Message\CacheMessage::setContent
+     * @covers Brickoo\Component\Cache\Messaging\Message\CacheMessage::getContent
+     */
     public function testGetContentReturnsParameterValue() {
         $content = "some cached content";
-        $cacheMessage = new CacheMessage(Messages::GET, null, [CacheMessage::PARAM_CONTENT => $content]);
+        $cacheMessage = new CacheMessage(Messages::GET);
+        $cacheMessage->setContent($content);
         $this->assertEquals($content, $cacheMessage->getContent());
     }
 
-    /** @covers Brickoo\Component\Cache\Messaging\Message\CacheMessage::getCallback */
+    /**
+     * @covers Brickoo\Component\Cache\Messaging\Message\CacheMessage::setCallback
+     * @covers Brickoo\Component\Cache\Messaging\Message\CacheMessage::getCallback
+     */
     public function testGetCallbackReturnsParameterValue() {
         $callback = function(){};
-        $cacheMessage = new CacheMessage(Messages::GET, null, [CacheMessage::PARAM_CALLBACK => $callback]);
+        $cacheMessage = new CacheMessage(Messages::GET);
+        $cacheMessage->setCallback($callback);
         $this->assertEquals($callback, $cacheMessage->getCallback());
     }
 
-    /** @covers Brickoo\Component\Cache\Messaging\Message\CacheMessage::getCallbackArguments */
+    /**
+     * @covers Brickoo\Component\Cache\Messaging\Message\CacheMessage::setCallbackArguments
+     * @covers Brickoo\Component\Cache\Messaging\Message\CacheMessage::getCallbackArguments
+     */
     public function testGetCallbackArgumentsReturnsParameterValue() {
-        $callbackArgs = [];
-        $cacheMessage = new CacheMessage(Messages::GET, null, [CacheMessage::PARAM_CALLBACK_ARGS => $callbackArgs]);
+        $callbackArgs = ["key" => "value"];
+        $cacheMessage = new CacheMessage(Messages::GET);
+        $cacheMessage->setCallbackArguments($callbackArgs);
         $this->assertEquals($callbackArgs, $cacheMessage->getCallbackArguments());
     }
 
-    /** @covers Brickoo\Component\Cache\Messaging\Message\CacheMessage::getLifetime */
+    /**
+     * @covers Brickoo\Component\Cache\Messaging\Message\CacheMessage::getLifetime
+     * @covers Brickoo\Component\Cache\Messaging\Message\CacheMessage::setLifetime
+     */
     public function testGetLifetimeReturnsParameterValue() {
         $lifetime = 60;
-        $cacheMessage = new CacheMessage(Messages::GET, null, [CacheMessage::PARAM_LIFETIME => $lifetime]);
+        $cacheMessage = new CacheMessage(Messages::GET);
+        $cacheMessage->setLifetime($lifetime);
         $this->assertEquals($lifetime, $cacheMessage->getLifetime());
     }
 
