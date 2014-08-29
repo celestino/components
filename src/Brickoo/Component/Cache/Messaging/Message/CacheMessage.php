@@ -121,7 +121,7 @@ class CacheMessage extends GenericMessage {
 
     /**
      * Return the callback for fresh content pull.
-     * @return null|callable the callback otherwise null
+     * @return callable
      */
     public function getCallback() {
         return $this->getParam(self::PARAM_CALLBACK);
