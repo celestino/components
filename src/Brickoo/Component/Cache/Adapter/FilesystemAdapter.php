@@ -116,13 +116,11 @@ class FilesystemAdapter implements Adapter {
 
     /** {@inheritDoc} */
     public function flush() {
-        $DirectoryIterator = new DirectoryIterator($this->cacheDirectory);
-        foreach ($DirectoryIterator as $FileInfo) {
-            if ($FileInfo->isFile()
-                && ($fileName = $FileInfo->getFilename())
-                && preg_match(sprintf("~%s$~", $this->cacheFileNameSuffix), $fileName)
-            ){
-                unlink($FileInfo->getPath().DIRECTORY_SEPARATOR.$fileName);
+        $directoryIterator = new DirectoryIterator($this->cacheDirectory);
+        foreach ($directoryIterator as $fileInfo) {
+            if ($fileInfo->isFile()
+                && preg_match(sprintf("~%s$~", $this->cacheFileNameSuffix), $fileInfo->getFilename())) {
+                    unlink($fileInfo->getPathname());
             }
         }
         return $this;
