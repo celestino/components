@@ -81,9 +81,8 @@ class CommonAcceptHeaderTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers  Brickoo\Component\Http\Header\CommonHeaderStructure::getValue
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getValue
      * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::setEntry
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::build
      */
     public function testBuildHeaderValue() {
         $acceptHeader = new CommonAcceptHeader("Accept", "text/html,application/xml;q=0.9");

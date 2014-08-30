@@ -68,7 +68,6 @@ trait CommonHeaderStructure {
      * @return string the header value
      */
     public function getValue() {
-        $this->build();
         return $this->headerValue;
     }
 
@@ -89,12 +88,5 @@ trait CommonHeaderStructure {
     public function toString() {
         return sprintf("%s: %s", ucfirst($this->getName()), $this->getValue());
     }
-
-    /**
-     * Build the header value before returning.
-     * Any custom implementation can override this method.
-     * The method must not throw any exceptions.
-     */
-    private function build() {}
 
 }

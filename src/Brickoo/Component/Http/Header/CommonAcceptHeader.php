@@ -90,7 +90,7 @@ class CommonAcceptHeader  implements HttpHeader {
     }
 
     /** {@inheritdoc} */
-    private function build() {
+    public function getValue() {
         $values = [];
         $headerValues = $this->getEntries();
         arsort($headerValues);
@@ -98,6 +98,7 @@ class CommonAcceptHeader  implements HttpHeader {
             $values[] = $value.($quality < 1 ? sprintf(";q=%.1f", $quality) : "");
         }
         $this->setValue(implode(",", $values));
+        return $this->headerValue;
     }
 
     /**

@@ -116,7 +116,6 @@ class SetCookieHeaderTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Http\Header\SetCookieHeader::getValue
-     * @covers Brickoo\Component\Http\Header\SetCookieHeader::build
      * @covers Brickoo\Component\Http\Header\SetCookieHeader::getAttributesRepresentation
      * @covers Brickoo\Component\Http\Header\SetCookieHeader::getAttributesSet
      */

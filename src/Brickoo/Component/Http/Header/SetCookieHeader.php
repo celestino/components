@@ -161,8 +161,9 @@ class SetCookieHeader implements HttpHeader {
     }
 
     /** {@inheritdoc} */
-    private function build() {
+    public function getValue() {
         $this->setValue(sprintf("%s=%s%s", $this->cookieName, $this->cookieValue, $this->getAttributesRepresentation()));
+        return $this->headerValue;
     }
 
     /**
@@ -175,7 +176,7 @@ class SetCookieHeader implements HttpHeader {
             "sprintf",
             array_merge([implode("; ", array_keys($attributes))], array_values($attributes))
         );
-        return empty($representation) ? "": "; ".$representation;
+        return empty($representation) ? "" : "; ".$representation;
     }
 
     /**
