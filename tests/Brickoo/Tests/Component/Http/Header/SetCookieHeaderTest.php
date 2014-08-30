@@ -44,33 +44,34 @@ class SetCookieHeaderTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Http\Header\SetCookieHeader::__construct
-     * @covers Brickoo\Component\Http\Header\SetCookieHeader::setValue
+     * @covers Brickoo\Component\Http\Header\SetCookieHeader::setCookieValue
      */
     public function testConstructorSetCookieValue() {
         $expectedValue = "12345";
         $cookieHeader = new SetCookieHeader("SID", $expectedValue);
-        $this->assertAttributeEquals($expectedValue, "value", $cookieHeader);
+        $this->assertAttributeEquals("SID", "cookieName", $cookieHeader);
+        $this->assertAttributeEquals($expectedValue, "cookieValue", $cookieHeader);
     }
 
     /**
      * @covers Brickoo\Component\Http\Header\SetCookieHeader::__construct
-     * @covers Brickoo\Component\Http\Header\SetCookieHeader::setValue
+     * @covers Brickoo\Component\Http\Header\SetCookieHeader::setCookieValue
      */
     public function testSetCookieValue() {
         $expectedValue = "12345";
         $cookieHeader = new SetCookieHeader("SID");
-        $this->assertSame($cookieHeader, $cookieHeader->setValue($expectedValue));
-        $this->assertAttributeEquals($expectedValue, "value", $cookieHeader);
+        $this->assertSame($cookieHeader, $cookieHeader->setCookieValue($expectedValue));
+        $this->assertAttributeEquals($expectedValue, "cookieValue", $cookieHeader);
     }
 
     /**
-     * @covers Brickoo\Component\Http\Header\SetCookieHeader::setValue
+     * @covers Brickoo\Component\Http\Header\SetCookieHeader::setCookieValue
      * @covers Brickoo\Component\Http\Header\Exception\InvalidCookieValueException
      * @expectedException \Brickoo\Component\Http\Header\Exception\InvalidCookieValueException
      */
     public function testSetInvalidCookieValueThrowsException() {
         $cookieHeader = new SetCookieHeader("SID");
-        $cookieHeader->setValue("invalid;cookie,value ");
+        $cookieHeader->setCookieValue("invalid;cookie,value ");
     }
 
     /** @covers Brickoo\Component\Http\Header\SetCookieHeader::setExpirationDate */
@@ -115,7 +116,9 @@ class SetCookieHeaderTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Http\Header\SetCookieHeader::getValue
-     * @covers Brickoo\Component\Http\Header\SetCookieHeader::getAttributes
+     * @covers Brickoo\Component\Http\Header\SetCookieHeader::build
+     * @covers Brickoo\Component\Http\Header\SetCookieHeader::getAttributesRepresentation
+     * @covers Brickoo\Component\Http\Header\SetCookieHeader::getAttributesSet
      */
     public function testGetValue() {
         $expectedValue = "SID=12345; Max-Age=3600; Domain=brickoo.com; Secure; HttpOnly";

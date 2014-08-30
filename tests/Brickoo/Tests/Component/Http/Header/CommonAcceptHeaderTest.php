@@ -52,7 +52,7 @@ class CommonAcceptHeaderTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::__construct
      * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getEntries
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getHeaderValues
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getHeaderListEntries
      * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getExtractedHeaderValuesByRegex
      */
     public function testGetEntries() {
@@ -63,27 +63,32 @@ class CommonAcceptHeaderTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::setEntry
      * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getEntries
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getHeaderValues
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getExtractedHeaderValuesByRegex
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::buildValue
      */
     public function testOverrideEntry() {
         $acceptHeader = new CommonAcceptHeader("Accept", "text/html,application/xml;q=0.9");
-        $acceptHeader->setEntry("application/xml", 0.5);
+        $this->assertSame($acceptHeader, $acceptHeader->setEntry("application/xml", 0.5));
         $this->assertEquals(["text/html" => 1.0, "application/xml" => 0.5], $acceptHeader->getEntries());
-        $this->assertEquals("text/html, application/xml;q=0.5", $acceptHeader->getValue());
     }
 
     /**
      * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::isSupported
      * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getEntries
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getHeaderValues
-     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::getExtractedHeaderValuesByRegex
      */
     public function testIsCharsetSupported() {
         $acceptHeader = new CommonAcceptHeader("Accept", "text/html,application/xml;q=0.9");
         $this->assertTrue($acceptHeader->isSupported("text/html"));
         $this->assertFalse($acceptHeader->isSupported("text/xml"));
+    }
+
+    /**
+     * @covers  Brickoo\Component\Http\Header\CommonHeaderStructure::getValue
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::setEntry
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeader::build
+     */
+    public function testBuildHeaderValue() {
+        $acceptHeader = new CommonAcceptHeader("Accept", "text/html,application/xml;q=0.9");
+        $this->assertSame($acceptHeader, $acceptHeader->setEntry("application/xml", 0.5));
+        $this->assertEquals("text/html,application/xml;q=0.5", $acceptHeader->getValue());
     }
 
 }

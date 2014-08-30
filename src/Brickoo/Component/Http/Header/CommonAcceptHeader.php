@@ -43,7 +43,7 @@ class CommonAcceptHeader  implements HttpHeader {
     use CommonHeaderStructure;
 
     /** @var array */
-    private $listEntries = [];
+    private $listEntries;
 
     /**
      * Class constructor.
@@ -54,6 +54,7 @@ class CommonAcceptHeader  implements HttpHeader {
     public function __construct($headerName, $headerValue) {
         $this->setName($headerName);
         $this->setValue($headerValue);
+        $this->listEntries = $this->getHeaderListEntries($headerValue);
     }
 
     /**
@@ -66,9 +67,7 @@ class CommonAcceptHeader  implements HttpHeader {
         Argument::isString($key);
         Argument::isFloat($quality);
 
-        $this->getEntries();
         $this->listEntries[$key] = $quality;
-        $this->setValue($this->buildValue($this->listEntries));
         return $this;
     }
 
@@ -77,9 +76,6 @@ class CommonAcceptHeader  implements HttpHeader {
      * @return array sorted header list
      */
     public function getEntries() {
-        if (empty($this->listEntries)) {
-            $this->listEntries = $this->getHeaderValues($this->getValue());
-        }
         return $this->listEntries;
     }
 
@@ -93,30 +89,23 @@ class CommonAcceptHeader  implements HttpHeader {
         return array_key_exists($acceptKey, $this->getEntries());
     }
 
-    /**
-     * Builds on header value from the header values.
-     * @param array $headerValues
-     * @return string the header value representation
-     */
-    private function buildValue(array $headerValues) {
-        $headerValue = "";
-        if (! empty($headerValues)) {
-            $values = [];
-            arsort($headerValues);
-            foreach ($headerValues as $value => $quality) {
-                $values[] = $value.($quality < 1 ? sprintf(";q=%.1f", $quality) : "");
-            }
-            $headerValue = implode(", ", $values);
+    /** {@inheritdoc} */
+    private function build() {
+        $values = [];
+        $headerValues = $this->getEntries();
+        arsort($headerValues);
+        foreach ($headerValues as $value => $quality) {
+            $values[] = $value.($quality < 1 ? sprintf(";q=%.1f", $quality) : "");
         }
-        return $headerValue;
+        $this->setValue(implode(",", $values));
     }
 
     /**
-     * Returns the header values supported by the request client.
+     * Returns the header list entries supported by the request client.
      * @param string $headerValue
-     * @return array the header values sorted by priority
+     * @return array the list entries sorted by priority
      */
-    private function getHeaderValues($headerValue) {
+    private function getHeaderListEntries($headerValue) {
         return $this->getExtractedHeaderValuesByRegex(
             "~^(?<value>[a-z\\/\\+\\-\\*0-9]+)\\s*(\\;\\s*q\\=(?<quality>(0\\.\\d{1,5}|1\\.0|[01])))?~i",
             $headerValue

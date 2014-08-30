@@ -29,6 +29,7 @@
 
 namespace Brickoo\Component\Http\Header;
 
+use Brickoo\Component\Http\HttpHeader;
 use Brickoo\Component\Http\Header\Exception\InvalidCookieValueException;
 use Brickoo\Component\Validation\Argument;
 
@@ -39,13 +40,15 @@ use Brickoo\Component\Validation\Argument;
  * @link http://tools.ietf.org/html/rfc6265
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class SetCookieHeader extends GenericHeader {
+class SetCookieHeader implements HttpHeader {
+
+    use CommonHeaderStructure;
 
     /** @var string */
-    private $name;
+    private $cookieName;
 
     /** @var string */
-    private $value;
+    private $cookieValue;
 
     /** @var string|null */
     private $expires;
@@ -72,9 +75,9 @@ class SetCookieHeader extends GenericHeader {
      */
     public function __construct($cookieName, $cookieValue = "") {
         Argument::isString($cookieName);
-        $this->setValue($cookieValue);
-        $this->name = $cookieName;
-        $this->headerName = "Set-Cookie";
+        $this->cookieName = $cookieName;
+        $this->setName("Set-Cookie");
+        $this->setCookieValue($cookieValue);
         $this->secure = false;
         $this->httpOnly = false;
     }
@@ -86,12 +89,12 @@ class SetCookieHeader extends GenericHeader {
      * @throws \Brickoo\Component\Http\Header\Exception\InvalidCookieValueException
      * @return \Brickoo\Component\Http\Header\SetCookieHeader
      */
-    public function setValue($cookieValue) {
+    public function setCookieValue($cookieValue) {
         Argument::isString($cookieValue);
         if (preg_match("~[,;\\s]+~", $cookieValue) == 1) {
             throw new InvalidCookieValueException($cookieValue);
         }
-        $this->value = $cookieValue;
+        $this->cookieValue = $cookieValue;
         return $this;
     }
 
@@ -158,37 +161,41 @@ class SetCookieHeader extends GenericHeader {
     }
 
     /** {@inheritdoc} */
-    public function getValue() {
-        $this->value = sprintf("%s=%s%s", $this->name, $this->value, $this->getAttributes());
-        return $this->value;
+    private function build() {
+        $this->setValue(sprintf("%s=%s%s", $this->cookieName, $this->cookieValue, $this->getAttributesRepresentation()));
     }
 
     /**
-     * Return the header attributes
-     * @return string the header attributes
+     * Return the cookie attributes representation
+     * @return string the cookie attributes representation
      */
-    private function getAttributes() {
-        $attributes = "";
-        foreach ([
-            "Expires" => $this->expires,
-            "Max-Age" => $this->maxAge,
-            "Domain" => $this->domain,
-            "Path" => $this->path] as $attributeKey => $attributeValue) {
+    private function getAttributesRepresentation() {
+        $attributes = $this->getAttributesSet();
+        $representation = call_user_func_array(
+            "sprintf",
+            array_merge([implode("; ", array_keys($attributes))], array_values($attributes))
+        );
+        return empty($representation) ? "": "; ".$representation;
+    }
 
-            if ($attributeValue !== null) {
-                $attributes .= sprintf("; %s=%s", $attributeKey, $attributeValue);
+    /**
+     * Return the attributes set.
+     * @return array the attributes set
+     */
+    private function getAttributesSet() {
+        return array_filter(
+            [
+                "Expires=%s" => $this->expires,
+                "Max-Age=%d" => $this->maxAge,
+                "Domain=%s" => $this->domain,
+                "Path=%s" => $this->path,
+                "Secure" => $this->secure,
+                "HttpOnly" => $this->httpOnly
+            ],
+            function($attribute) {
+                return $attribute !== null || $attribute === true;
             }
-        }
-
-        if ($this->secure) {
-            $attributes .= "; Secure";
-        }
-
-        if ($this->httpOnly) {
-            $attributes .= "; HttpOnly";
-        }
-
-        return $attributes;
+        );
     }
 
 }
