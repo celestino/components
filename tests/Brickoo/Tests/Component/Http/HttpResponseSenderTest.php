@@ -65,6 +65,7 @@ class HttpResponseSenderTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\HttpResponseSender::sendHeaderList
      * @covers Brickoo\Component\Http\HttpResponseSender::sendHttpMessageBody
      * @covers Brickoo\Component\Http\HttpResponseSender::checkStatusAllowsHttpMessageBodyContent
+     * @covers Brickoo\Component\Http\HttpResponseSender::statusDoesNotAllowBody
      */
     public function testSendResponse() {
         $headerFunction = function(){};

@@ -126,13 +126,22 @@ class HttpResponseSender {
      */
     private function checkStatusAllowsHttpMessageBodyContent(HttpResponse $response) {
         $statusCode = $response->getStatus()->getCode();
-        if ((($statusCode >= 100 && $statusCode <= 199)
-                || ($statusCode == 204)
-                || ($statusCode == 304))
-            && ($response->getBody()->getContent() != "")
-        ){
+        if (($response->getBody()->getContent() != "") && $this->statusDoesNotAllowBody($statusCode)) {
             throw new StatusCodeDoesNotAllowMessageBodyException($statusCode);
         }
         return $this;
+    }
+
+    /**
+     * Check if the status does not allow to have message body content.
+     * @param integer $statusCode
+     * @return boolean check result
+     */
+    private function statusDoesNotAllowBody($statusCode) {
+        return (
+            ($statusCode >= 100 && $statusCode <= 199)
+            || ($statusCode == 204)
+            || ($statusCode == 304)
+        );
     }
 }
