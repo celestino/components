@@ -70,6 +70,7 @@ class FileRouteCollectorTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Routing\Route\Collector\FileRouteCollector::collect
+     * @covers Brickoo\Component\Routing\Route\Collector\FileRouteCollector::collectRouteCollectionsFilePaths
      * @covers Brickoo\Component\Routing\Route\Collector\FileRouteCollector::getFilePaths
      */
     public function testCollectNonRecursively() {
@@ -84,6 +85,7 @@ class FileRouteCollectorTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Routing\Route\Collector\FileRouteCollector::collect
+     * @covers Brickoo\Component\Routing\Route\Collector\FileRouteCollector::collectRouteCollectionsFilePaths
      * @covers Brickoo\Component\Routing\Route\Collector\FileRouteCollector::getRecursiveFilePaths
      */
     public function testCollectRecursively() {

@@ -87,7 +87,7 @@ class FileRouteCollector implements RouteCollector {
 
     /** {@inheritDoc} */
     public function collect() {
-        $filePaths = $this->searchRecursively ? $this->getRecursiveFilePaths() : $this->getFilePaths();
+        $filePaths = $this->collectRouteCollectionsFilePaths();
 
         foreach ($filePaths as $filePath) {
             if (($routeCollection = include $filePath) && $routeCollection instanceof RouteCollection) {
@@ -104,6 +104,14 @@ class FileRouteCollector implements RouteCollector {
      */
     public function getIterator() {
         return new ArrayIterator($this->collections);
+    }
+
+    /**
+     * Return the collected route collections file paths.
+     * @return array the collected collection file paths
+     */
+    private function collectRouteCollectionsFilePaths() {
+        return $this->searchRecursively ? $this->getRecursiveFilePaths() : $this->getFilePaths();
     }
 
     /**
