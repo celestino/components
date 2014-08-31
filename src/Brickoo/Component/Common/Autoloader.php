@@ -142,12 +142,9 @@ class Autoloader {
      * @return boolean true on success false on failure
      */
     public function load($className) {
-        if (($namespaceClassPath = $this->getNamespaceClassPath($className)) === null) {
-            return false;
-        }
-
-        if ((! file_exists($namespaceClassPath))) {
-            return false;
+        if (($namespaceClassPath = $this->getNamespaceClassPath($className)) === null
+            || (! file_exists($namespaceClassPath))) {
+                return false;
         }
 
         include $namespaceClassPath;
@@ -190,17 +187,31 @@ class Autoloader {
      * @return string|null the namespace based path otherwise null
      */
     private function getNamespaceClassPath($className) {
-        $namespaceClassPath = null;
+        $chosenPath = "";
         $chosenNamespace = "";
 
         foreach($this->namespaces as $namespace => $path) {
             if ((strpos($className, $namespace) === 0)
                 && strlen($chosenNamespace) < strlen($namespace)) {
                     $chosenNamespace = $namespace;
-                    $namespaceClassPath = $path.$this->getTranslatedClassPath(substr($className, strlen($namespace)));
+                    $chosenPath = $path;
             }
         }
-        return $namespaceClassPath;
+        return $this->createClassPath($className, $chosenNamespace, $chosenPath);
+    }
+
+    /**
+     * Create the class filesystem loader path.
+     * @param string $className
+     * @param string $chosenNamespace
+     * @param string $chosenPath
+     * @return null|string the class path otherwise null
+     */
+    private function createClassPath($className, $chosenNamespace, $chosenPath) {
+        if (empty($chosenNamespace) || empty($chosenPath)) {
+            return null;
+        }
+        return $chosenPath.$this->getTranslatedClassPath(substr($className, strlen($chosenNamespace)));
     }
 
     /**

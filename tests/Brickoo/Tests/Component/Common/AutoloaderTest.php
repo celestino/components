@@ -140,6 +140,7 @@ class AutoloaderTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Common\Autoloader::load
      * @covers Brickoo\Component\Common\Autoloader::getNamespaceClassPath
+     * @covers Brickoo\Component\Common\Autoloader::createClassPath
      * @covers Brickoo\Component\Common\Autoloader::getTranslatedClassPath
      */
     public function testLoadClassWithHigherNamespacePathMatch() {
@@ -153,6 +154,7 @@ class AutoloaderTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Common\Autoloader::load
      * @covers Brickoo\Component\Common\Autoloader::getNamespaceClassPath
+     * @covers Brickoo\Component\Common\Autoloader::createClassPath
      */
     public function testLoadClassReturnsFalseIfNotRegistered() {
         $namespaceAutoloader = new Autoloader();
