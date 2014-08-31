@@ -111,23 +111,19 @@ class DefinitionResolver {
      * @return integer
      */
     private function getResolverType($dependency) {
-        if ($dependency instanceof \Closure) {
-            return self::TYPE_CLOSURE;
-        }
+        $matchingTypes = array_filter(
+            [
+                self::TYPE_CLOSURE => ($dependency instanceof \Closure),
+                self::TYPE_OBJECT => is_object($dependency),
+                self::TYPE_CALLABLE => is_callable($dependency),
+                self::TYPE_CLASS => (is_string($dependency) && class_exists($dependency)),
+                self::TYPE_UNSUPPORTED => true
+            ],
+            function ($value) {return $value === true;}
+        );
 
-        if (is_object($dependency)) {
-            return self::TYPE_OBJECT;
-        }
-
-        if (is_callable($dependency)) {
-            return self::TYPE_CALLABLE;
-        }
-
-        if (is_string($dependency) && class_exists($dependency)) {
-            return self::TYPE_CLASS;
-        }
-
-        return self::TYPE_UNSUPPORTED;
+        $types = array_keys($matchingTypes);
+        return array_shift($types);
     }
 
     /**
