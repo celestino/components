@@ -43,19 +43,19 @@ use Brickoo\Component\Validation\Argument;
 class DefinitionResolver {
 
     /** Unsupported definition type. */
-    const TYPE_UNSUPPORTED = 0;
+    const TYPE_UNSUPPORTED = "unsupported";
 
     /** Dependency is of type class */
-    const TYPE_CLASS = 1;
+    const TYPE_CLASS = "class";
 
     /** Dependency is of type closure */
-    const TYPE_CLOSURE = 2;
+    const TYPE_CLOSURE = "closure";
 
     /** Dependency is of type object */
-    const TYPE_OBJECT = 3;
+    const TYPE_OBJECT = "object";
 
     /** Dependency is of type callable */
-    const TYPE_CALLABLE = 4;
+    const TYPE_CALLABLE = "callable";
 
     /** @var array<string,\Brickoo\Component\IoC\Resolver\DependencyResolver> */
     private $resolvers;
@@ -78,12 +78,12 @@ class DefinitionResolver {
 
     /**
      * Sets a resolver for an explicit type.
-     * @param integer $resolverType
+     * @param string $resolverType
      * @param \Brickoo\Component\IoC\Resolver\DependencyResolver $resolver
      * @return \Brickoo\Component\IoC\Resolver\DefinitionResolver
      */
     public function setResolver($resolverType, DependencyResolver $resolver) {
-        Argument::isInteger($resolverType);
+        Argument::isString($resolverType);
         $this->resolvers[$resolverType] = $resolver;
         return $this;
     }
@@ -108,7 +108,7 @@ class DefinitionResolver {
     /**
      * Returns the corresponding type resolver.
      * @param mixed $dependency
-     * @return integer
+     * @return string
      */
     private function getResolverType($dependency) {
         $matchingTypes = array_filter(
@@ -128,7 +128,7 @@ class DefinitionResolver {
 
     /**
      * Return the corresponding resolver by type.
-     * @param integer $definitionType
+     * @param string $definitionType
      * @param DIContainer $diContainer
      * @throws \Brickoo\Component\IoC\Resolver\Exception\DefinitionTypeUnknownException
      * @return \Brickoo\Component\IoC\Resolver\DependencyResolver
