@@ -99,17 +99,40 @@ class HttpRouteMatcher implements RouteMatcher {
      */
     private function isAllowedRoute(HttpRoute $route) {
         return (
-            $route->getMethod() !== null
-            && preg_match("~^(".$route->getMethod().")$~i", $this->request->getMethod()->toString()) == 1
-            && (
-                (($hostname = $route->getHostname()) === null)
-                || preg_match("~^(".$hostname.")$~i", $this->request->getUri()->getHostname()) == 1
-            )
-            && (
-                (($scheme = $route->getScheme()) === null)
-                || preg_match("~^(".$scheme.")$~i", $this->request->getUri()->getScheme()) == 1
-            )
+            $this->isMethodAllowed($route->getMethod())
+            && $this->isHostnameAllowed($route->getHostname())
+            && $this->isSchemeAllowed($route->getScheme())
         );
+    }
+
+    /**
+     * Check if the http method is allowed.
+     * @param string $method
+     * @return boolean check result
+     */
+    private function isMethodAllowed($method) {
+        return $method === null
+            || (is_string($method) && preg_match("~^(".$method.")$~i", $this->request->getMethod()->toString()) == 1);
+    }
+
+    /**
+     * Check if the hostname is allowed.
+     * @param string $hostname
+     * @return boolean check result
+     */
+    private function isHostnameAllowed($hostname) {
+        return $hostname === null
+            || (is_string($hostname) && preg_match("~^(".$hostname.")$~i", $this->request->getUri()->getHostname()) == 1);
+    }
+
+    /**
+     * Check if the scheme is allowed.
+     * @param string $scheme
+     * @return boolean check result
+     */
+    private function isSchemeAllowed($scheme) {
+        return $scheme === null
+            || (is_string($scheme) && preg_match("~^(".$scheme.")$~i", $this->request->getUri()->getScheme()) == 1);
     }
 
     /**

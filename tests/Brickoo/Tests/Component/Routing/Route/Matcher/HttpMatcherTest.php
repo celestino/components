@@ -97,6 +97,9 @@ class HttpMatcherTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher::matchesRoute
      * @covers Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher::isAllowedRoute
+     * @covers Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher::isMethodAllowed
+     * @covers Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher::isHostnameAllowed
+     * @covers Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher::isSchemeAllowed
      * @covers Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher::isMatchingRoute
      */
     public function testMatchesRouteCompleteWorkflow() {
@@ -164,7 +167,7 @@ class HttpMatcherTest extends PHPUnit_Framework_TestCase {
             ->method("getPath")
             ->will($this->returnValue("/articles/doing_unit-tests"));
 
-        $httpMethod = $this->getMockBuilder("\\Brickoo\\Component\\Http\HttpMethod")
+        $httpMethod = $this->getMockBuilder("\\Brickoo\\Component\\Http\\HttpMethod")
             ->disableOriginalConstructor()->getMock();
         $httpMethod->expects($this->any())
                    ->method("toString")
