@@ -191,11 +191,11 @@ class Autoloader {
      */
     private function getNamespaceClassPath($className) {
         $namespaceClassPath = null;
-        $chosenNamespace = null;
+        $chosenNamespace = "";
 
         foreach($this->namespaces as $namespace => $path) {
             if ((strpos($className, $namespace) === 0)
-                && (($chosenNamespace === null) || (strlen($chosenNamespace) < strlen($namespace)))) {
+                && strlen($chosenNamespace) < strlen($namespace)) {
                     $chosenNamespace = $namespace;
                     $namespaceClassPath = $path.$this->getTranslatedClassPath(substr($className, strlen($namespace)));
             }
