@@ -124,8 +124,7 @@ class Router {
         $matchingRoute = null;
 
         foreach ($this->getRouteCollectorIterator() as $routeCollection) {
-            if ($this->routeMatcher->matchesCollection($routeCollection)
-                && ($matchingRoute = $this->getMatchingRouteFromCollection($routeCollection))) {
+            if (($matchingRoute = $this->getMatchingRoute($routeCollection))) {
                 break;
             }
         }
@@ -134,6 +133,19 @@ class Router {
             throw new NoMatchingRouteFoundException();
         }
 
+        return $matchingRoute;
+    }
+
+    /**
+     * Return the matching route.
+     * @param RouteCollection $routeCollection
+     * @return RequestRoute|null matching route otherwise null
+     */
+    private function getMatchingRoute(RouteCollection $routeCollection) {
+        $matchingRoute = null;
+        if ($this->routeMatcher->matchesCollection($routeCollection)) {
+            $matchingRoute = $this->getMatchingRouteFromCollection($routeCollection);
+        }
         return $matchingRoute;
     }
 

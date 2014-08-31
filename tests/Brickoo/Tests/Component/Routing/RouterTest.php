@@ -29,9 +29,9 @@
 
 namespace Brickoo\Tests\Component\Routing;
 
-use ArrayIterator,
-    Brickoo\Component\Routing\Router,
-    PHPUnit_Framework_TestCase;
+use ArrayIterator;
+use Brickoo\Component\Routing\Router;
+use PHPUnit_Framework_TestCase;
 
 /**
  * RouterTest
@@ -180,6 +180,7 @@ class RouterTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Routing\Router::getRequestRoute
+     * @covers Brickoo\Component\Routing\Router::getMatchingRoute
      * @covers Brickoo\Component\Routing\Router::getMatchingRouteFromCollection
      */
     public function testGetRequestRoute() {
@@ -194,11 +195,12 @@ class RouterTest extends PHPUnit_Framework_TestCase {
                         ->will($this->returnValue(new \ArrayIterator(array($route))));
 
         $router = new Router($this->getRouteCollectorStub($routeCollection), $this->getRouteMatcherMock($route));
-        $this->assertInstanceOf("\\Brickoo\\Component\\Routing\\Route\\RequestRoute", ($requestRoute = $router->getRequestRoute()));
+        $this->assertInstanceOf("\\Brickoo\\Component\\Routing\\Route\\RequestRoute", $router->getRequestRoute());
     }
 
     /**
      * @covers Brickoo\Component\Routing\Router::getRequestRoute
+     * @covers Brickoo\Component\Routing\Router::getMatchingRoute
      * @covers Brickoo\Component\Routing\Router::getMatchingRouteFromCollection
      * @covers Brickoo\Component\Routing\Exception\NoMatchingRouteFoundException
      * @expectedException \Brickoo\Component\Routing\Exception\NoMatchingRouteFoundException
