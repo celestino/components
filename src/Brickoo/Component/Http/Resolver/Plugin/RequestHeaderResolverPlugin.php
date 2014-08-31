@@ -42,15 +42,25 @@ class RequestHeaderResolverPlugin implements HeaderResolverPlugin {
 
     /** {@inheritDoc} */
     public function getHeaders() {
-        $headers = [];
-        foreach ($_SERVER as $key => $value) {
-            if (substr($key, 0, 5) == "HTTP_") {
-                $headers[substr($key, 5)] = $value;
-            }
-        }
+        $headers = $this->getPhpExtractedHttpHeaders($_SERVER);
 
         if (function_exists("apache_request_headers") && ($apacheHeaders = apache_request_headers())) {
             $headers = array_merge($headers, $apacheHeaders);
+        }
+        return $headers;
+    }
+
+    /**
+     * Return the http header list.
+     * @param array $list unfiltered list
+     * @return array header list
+     */
+    private function getPhpExtractedHttpHeaders(array $list) {
+        $headers = [];
+        foreach ($list as $key => $value) {
+            if (substr($key, 0, 5) == "HTTP_") {
+                $headers[substr($key, 5)] = $value;
+            }
         }
         return $headers;
     }

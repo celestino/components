@@ -42,6 +42,10 @@ use Brickoo\Component\Http\Resolver\Plugin\RequestHeaderResolverPlugin,
 
 class RequestHeaderResolverPluginTest extends PHPUnit_Framework_TestCase {
 
+    /**
+     * @cover Brickoo\Component\Htt\Resolver\Plugin\RequestHeaderResolverPlugin::getHeaders
+     * @cover Brickoo\Component\Htt\Resolver\Plugin\RequestHeaderResolverPlugin::getPhpExtractedHttpHeaders
+     */
     public function testGetHeadersFromGlobalServerValues() {
         if (defined("HHVM_VERSION")) {
             $this->markTestSkipped(
