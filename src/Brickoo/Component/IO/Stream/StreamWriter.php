@@ -102,15 +102,12 @@ class StreamWriter {
         $bytesLength = strlen($content);
         $bytesLeft = $bytesLength;
 
-        while ($bytesLeft > 0) {
+        while ($bytesLeft > 0 && $retries > 0) {
             $offset = $bytesLength - $bytesLeft;
             $bytesWritten = fwrite($streamResource, substr($content, $offset), $bytesLeft);
 
             if ($bytesWritten === false || $bytesWritten === 0) {
                 --$retries;
-                if ($retries == 0) {
-                    break;
-                }
                 continue;
             }
 
