@@ -29,11 +29,8 @@
 
 namespace Brickoo\Component\Common;
 
-use Brickoo\Component\Common\Exception\DuplicateAutoloaderRegistrationException;
-use Brickoo\Component\Common\Exception\AutoloaderNotRegisteredException;
 use Brickoo\Component\Common\Exception\DirectoryDoesNotExistException;
 use Brickoo\Component\Common\Exception\DuplicateNamespaceRegistrationException;
-use Brickoo\Component\Common\Exception\NamespaceNotRegisteredException;
 
 /**
  * Autoloader
@@ -73,34 +70,26 @@ class Autoloader {
 
     /**
      * Register the autoloader.
-     * @throws \Brickoo\Component\Common\Exception\DuplicateAutoloaderRegistrationException
      * @return \Brickoo\Component\Common\Autoloader
      */
     public function register() {
-        if ($this->isRegistered) {
-            require_once "Exception".DIRECTORY_SEPARATOR."DuplicateAutoloaderRegistrationException.php";
-            throw new DuplicateAutoloaderRegistrationException();
+        if (! $this->isRegistered) {
+            spl_autoload_register([$this, "load"], true, $this->prependAutoloader);
+            $this->isRegistered = true;
         }
-
-        spl_autoload_register([$this, "load"], true, $this->prependAutoloader);
-        $this->isRegistered = true;
 
         return $this;
     }
 
     /**
      * Unregister the autoloader.
-     * @throws \Brickoo\Component\Common\Exception\AutoloaderNotRegisteredException
      * @return \Brickoo\Component\Common\Autoloader
      */
     public function unregister() {
-        if (! $this->isRegistered) {
-            require_once "Exception".DIRECTORY_SEPARATOR."AutoloaderNotRegisteredException.php";
-            throw new AutoloaderNotRegisteredException();
+        if ($this->isRegistered) {
+            spl_autoload_unregister([$this, "load"]);
+            $this->isRegistered = false;
         }
-
-        spl_autoload_unregister([$this, "load"]);
-        $this->isRegistered = false;
 
         return $this;
     }
@@ -108,64 +97,38 @@ class Autoloader {
     /**
      * Register the namespace to the available namespaces.
      * @param string $namespace the namespace to register
-     * @param string $includePath the absolute path to the namespace
+     * @param string $namespacePath the absolute path to the namespace
      * @throws Exception\DirectoryDoesNotExistException
      * @throws Exception\DuplicateNamespaceRegistrationException
      * @throws \InvalidArgumentException if an argument is not valid
      * @return \Brickoo\Component\Common\Autoloader
      */
-    public function registerNamespace($namespace, $includePath) {
-        if ((! is_string($namespace)) || (! $namespace = trim($namespace, "\\")) || (! is_string($includePath))) {
-            throw new \InvalidArgumentException("Invalid arguments used.");
-        }
-
-        if (! is_dir($includePath)) {
-            require_once "Exception".DIRECTORY_SEPARATOR."DirectoryDoesNotExistException.php";
-            throw new DirectoryDoesNotExistException($includePath);
-        }
+    public function registerNamespace($namespace, $namespacePath) {
+        $this->validateNamespace($namespace);
+        $this->validateNamespacePath($namespacePath);
 
         if ($this->isNamespaceRegistered($namespace)) {
             require_once "Exception".DIRECTORY_SEPARATOR."DuplicateNamespaceRegistrationException.php";
             throw new DuplicateNamespaceRegistrationException($namespace);
         }
 
-        $this->namespaces[$namespace] = rtrim($includePath, "/\\");
+        $this->namespaces[$namespace] = rtrim($namespacePath, "/\\");
         return $this;
     }
 
     /**
-     * Unregister the namespace available by the given name.
-     * @param string $namespace the name of the namespace to remove
-     * @throws \InvalidArgumentException if an argument is not valid
-     * @throws \Brickoo\Component\Common\Exception\NamespaceNotRegisteredException
-     * @return \Brickoo\Component\Common\Autoloader
-     */
-    public function unregisterNamespace($namespace) {
-        if (! $this->isNamespaceRegistered($namespace)) {
-            require_once "Exception".DIRECTORY_SEPARATOR."NamespaceNotRegisteredException.php";
-            throw new NamespaceNotRegisteredException($namespace);
-        }
-
-        unset($this->namespaces[$namespace]);
-        return $this;
-    }
-
-    /**
-     * Checks if the given namespace has been registered.
+     * Check if the given namespace has been registered.
      * @param string $namespace the namespace to check
      * @throws \InvalidArgumentException if an argument is not valid
      * @return boolean check result
      */
     public function isNamespaceRegistered($namespace) {
-        if ((! is_string($namespace)) || (! $namespace = trim($namespace))) {
-            throw new \InvalidArgumentException("Invalid namespace argument used.");
-        }
-
+        $this->validateNamespace($namespace);
         return array_key_exists($namespace, $this->namespaces);
     }
 
     /**
-     * Returns the registered namespaces.
+     * Return the registered namespaces.
      * @return array the registered namespaces
      */
     public function getRegisteredNamespaces() {
@@ -173,17 +136,12 @@ class Autoloader {
     }
 
     /**
-     * Loads the requested class.
+     * Load the requested class.
      * Commonly this is the auto loader callback function registered.
      * @param string $className the class to load
-     * @throws \InvalidArgumentException if an argument is not valid
      * @return boolean true on success false on failure
      */
     public function load($className) {
-        if ((! is_string($className)) || (! $className = trim($className, "\\"))) {
-            throw new \InvalidArgumentException("Invalid class argument used.");
-        }
-
         if (($namespaceClassPath = $this->getNamespaceClassPath($className)) === null) {
             return false;
         }
@@ -192,8 +150,38 @@ class Autoloader {
             return false;
         }
 
-        include ($namespaceClassPath);
+        include $namespaceClassPath;
         return true;
+    }
+
+    /**
+     * Validate the namespace.
+     * @param string $namespace
+     * @throws \InvalidArgumentException
+     * @return void
+     */
+    private function validateNamespace($namespace) {
+        if (! is_string($namespace)) {
+            throw new \InvalidArgumentException("Invalid namespace argument used.");
+        }
+    }
+
+    /**
+     * Validate the namespace path.
+     * @param string $namespacePath
+     * @throws \Brickoo\Component\Common\Exception\DirectoryDoesNotExistException
+     * @throws \InvalidArgumentException
+     * @return void
+     */
+    private function validateNamespacePath($namespacePath) {
+        if (! is_string($namespacePath)) {
+            throw new \InvalidArgumentException("Invalid namespace path argument used.");
+        }
+
+        if (! is_dir($namespacePath)) {
+            require_once "Exception".DIRECTORY_SEPARATOR."DirectoryDoesNotExistException.php";
+            throw new DirectoryDoesNotExistException($namespacePath);
+        }
     }
 
     /**
@@ -207,11 +195,9 @@ class Autoloader {
 
         foreach($this->namespaces as $namespace => $path) {
             if ((strpos($className, $namespace) === 0)
-                && (($chosenNamespace === null)
-                    || (strlen($chosenNamespace) < strlen($namespace)))
-            ){
-                $chosenNamespace = $namespace;
-                $namespaceClassPath = $path.$this->getTranslatedClassPath(substr($className, strlen($namespace)));
+                && (($chosenNamespace === null) || (strlen($chosenNamespace) < strlen($namespace)))) {
+                    $chosenNamespace = $namespace;
+                    $namespaceClassPath = $path.$this->getTranslatedClassPath(substr($className, strlen($namespace)));
             }
         }
         return $namespaceClassPath;
