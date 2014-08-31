@@ -125,9 +125,8 @@ class CommonAcceptHeader  implements HttpHeader {
 
         foreach ($fields as $field) {
             $matches = array();
-            if (preg_match($regex, trim($field), $matches) && isset($matches["value"])) {
-                $matches["quality"] = (isset($matches["quality"]) ? $matches["quality"] : 1);
-                $results[trim($matches["value"])] = (float)$matches["quality"];
+            if (preg_match($regex, trim($field), $matches)) {
+                $results[trim($matches["value"])] = (float)(isset($matches["quality"]) ? $matches["quality"] : 1);
             }
         }
 
