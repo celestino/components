@@ -99,40 +99,21 @@ class HttpRouteMatcher implements RouteMatcher {
      */
     private function isAllowedRoute(HttpRoute $route) {
         return (
-            $this->isMethodAllowed($route->getMethod())
-            && $this->isHostnameAllowed($route->getHostname())
-            && $this->isSchemeAllowed($route->getScheme())
+            $this->doesPropertyMatch($route->getMethod(), $this->request->getMethod()->toString())
+            && $this->doesPropertyMatch($route->getHostname(), $this->request->getUri()->getHostname())
+            && $this->doesPropertyMatch($route->getScheme(), $this->request->getUri()->getScheme())
         );
     }
 
     /**
-     * Check if the http method is allowed.
-     * @param string $method
+     * Check if the route property matches the request.
+     * @param string $routeProperty
+     * @param string $requestProperty
      * @return boolean check result
      */
-    private function isMethodAllowed($method) {
-        return $method === null
-            || (is_string($method) && preg_match("~^(".$method.")$~i", $this->request->getMethod()->toString()) == 1);
-    }
-
-    /**
-     * Check if the hostname is allowed.
-     * @param string $hostname
-     * @return boolean check result
-     */
-    private function isHostnameAllowed($hostname) {
-        return $hostname === null
-            || (is_string($hostname) && preg_match("~^(".$hostname.")$~i", $this->request->getUri()->getHostname()) == 1);
-    }
-
-    /**
-     * Check if the scheme is allowed.
-     * @param string $scheme
-     * @return boolean check result
-     */
-    private function isSchemeAllowed($scheme) {
-        return $scheme === null
-            || (is_string($scheme) && preg_match("~^(".$scheme.")$~i", $this->request->getUri()->getScheme()) == 1);
+    private function doesPropertyMatch($routeProperty, $requestProperty) {
+        return $routeProperty === null
+            || (is_string($routeProperty) && preg_match("~^(".$routeProperty.")$~i", $requestProperty) == 1);
     }
 
     /**

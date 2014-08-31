@@ -97,9 +97,7 @@ class HttpMatcherTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher::matchesRoute
      * @covers Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher::isAllowedRoute
-     * @covers Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher::isMethodAllowed
-     * @covers Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher::isHostnameAllowed
-     * @covers Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher::isSchemeAllowed
+     * @covers Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher::doesPropertyMatch
      * @covers Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher::isMatchingRoute
      */
     public function testMatchesRouteCompleteWorkflow() {
