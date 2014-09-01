@@ -68,30 +68,37 @@ class ClientIpResolver {
         if (($remoteAddress = $this->getServerVar("REMOTE_ADDR", ""))
             && in_array($remoteAddress, $this->proxyServers)
             && ($originalClientIp = $this->getOriginalClientIp())) {
-                return $originalClientIp;
+            return $originalClientIp;
         }
         return $remoteAddress;
     }
 
     /**
-     * Returns the original client ip.
+     * Return the original client ip.
      * @return string|null the original client ip otherwise null
      */
     private function getOriginalClientIp() {
         if (($forwardedIp = $this->getForwardedClientIp()) !== null) {
             return $forwardedIp;
         }
+        return $this->getClientIpFromHeaders();
+    }
 
+    /**
+     * Return the client ip from the message headers.
+     * @return null|string
+     */
+    private function getClientIpFromHeaders() {
         if ($this->headers->contains("Client-Ip")
             && ($headerClientIp = $this->headers->getHeader("Client-Ip")->getValue())
             && filter_var($headerClientIp, FILTER_VALIDATE_IP)) {
-                return $headerClientIp;
+            return $headerClientIp;
         }
         return null;
     }
 
     /**
-     * Returns the forwarded client ip.
+     * Return the forwarded client ip.
      * @return string the forwarded client ip otherwise null
      */
     private function getForwardedClientIp() {
@@ -99,23 +106,24 @@ class ClientIpResolver {
 
         if ($this->headers->contains("X-Forwarded-For")
             && ($forwardedIps = $this->headers->getHeader("X-Forwarded-For")->getValue())) {
-                $forwardedIps = array_filter(
-                    preg_split("/[\\s]*,[\\s]*/", $forwardedIps),
-                    function($ipToValidate) {
-                        return filter_var($ipToValidate, FILTER_VALIDATE_IP);
-                    }
-                );
 
-                if (! empty($forwardedIps)) {
-                    $clientIp = array_shift($forwardedIps);
+            $forwardedIps = array_filter(
+                preg_split("/[\\s]*,[\\s]*/", $forwardedIps),
+                function($ipToValidate) {
+                    return filter_var($ipToValidate, FILTER_VALIDATE_IP);
                 }
+            );
+
+            if (! empty($forwardedIps)) {
+                $clientIp = array_shift($forwardedIps);
+            }
         }
 
         return $clientIp;
     }
 
     /**
-     * Returns the server variable value.
+     * Return the server variable value.
      * @param string $key
      * @param mixed $defaultValue
      * @return mixed the server variable value otherwise the default value

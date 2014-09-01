@@ -46,6 +46,7 @@ class ClientIpResolverTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getClientIp
      * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getOriginalClientIp
      * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getForwardedClientIp
+     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getClientIpFromHeaders
      * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getServerVar
      */
     public function testGetClientIpCouldBeEmpty() {
@@ -57,6 +58,7 @@ class ClientIpResolverTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getClientIp
      * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getOriginalClientIp
      * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getForwardedClientIp
+     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getClientIpFromHeaders
      * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getServerVar
      */
     public function testGetClientIpCouldReturnProxyIp() {
@@ -68,6 +70,7 @@ class ClientIpResolverTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getClientIp
      * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getOriginalClientIp
      * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getForwardedClientIp
+     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getClientIpFromHeaders
      * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getServerVar
      */
     public function testGetClientIpFromServerValue() {
@@ -79,6 +82,7 @@ class ClientIpResolverTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getClientIp
      * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getOriginalClientIp
      * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getForwardedClientIp
+     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getClientIpFromHeaders
      * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getServerVar
      */
     public function testGetClientIpFromClientIPHeader() {
@@ -99,6 +103,7 @@ class ClientIpResolverTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getClientIp
      * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getOriginalClientIp
      * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getForwardedClientIp
+     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getClientIpFromHeaders
      * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getServerVar
      */
     public function testGetClientIpForwarded() {
@@ -112,7 +117,7 @@ class ClientIpResolverTest extends PHPUnit_Framework_TestCase {
 
     /**
      * Returns a message header stub.
-     * @return \Brickoo\Component\Http\HttpMessageHeader
+     * @return \Brickoo\Component\Http\HttpMessageHeaders
      */
     private function getMessageHeaderStub() {
         return $this->getMockBuilder("\\Brickoo\\Component\\Http\\HttpMessageHeader")
