@@ -45,8 +45,9 @@ class HttpRequestUriResolverTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Http\Resolver\HttpRequestUriResolver::__construct
      * @covers Brickoo\Component\Http\Resolver\HttpRequestUriResolver::getScheme
+     * @covers Brickoo\Component\Http\Resolver\HttpRequestUriResolver::isForwardedFromHttps
      */
-    public function testGetSchemeFromForwardedProtocol() {
+    public function testGetSchemeFromForwardedProtocolIsSecure() {
         $messageHeader = $this->getMessageHeaderMock("X-Forwarded-Proto", $this->getHeaderStub("HTTPS"));
         $uriResolver = new HttpRequestUriResolver($messageHeader);
         $this->assertEquals("https", $uriResolver->getScheme());
@@ -55,10 +56,23 @@ class HttpRequestUriResolverTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Http\Resolver\HttpRequestUriResolver::getScheme
      * @covers Brickoo\Component\Http\Resolver\HttpRequestUriResolver::getServerVar
+     * @covers Brickoo\Component\Http\Resolver\HttpRequestUriResolver::isForwardedFromHttps
+     * @covers Brickoo\Component\Http\Resolver\HttpRequestUriResolver::isHttpsMode
      */
-    public function testGetSchemeFromServerValues() {
+    public function testGetSchemeFromServerValuesIsSecure() {
         $uriResolver = new HttpRequestUriResolver($this->getMessageHeaderStub(), ["HTTPS" => "on"]);
         $this->assertEquals("https", $uriResolver->getScheme());
+    }
+
+    /**
+     * @covers Brickoo\Component\Http\Resolver\HttpRequestUriResolver::getScheme
+     * @covers Brickoo\Component\Http\Resolver\HttpRequestUriResolver::getServerVar
+     * @covers Brickoo\Component\Http\Resolver\HttpRequestUriResolver::isForwardedFromHttps
+     * @covers Brickoo\Component\Http\Resolver\HttpRequestUriResolver::isHttpsMode
+     */
+    public function testGetSchemeFromServerValuesIsNotSecure() {
+        $uriResolver = new HttpRequestUriResolver($this->getMessageHeaderStub(), ["HTTPS" => "off"]);
+        $this->assertEquals("http", $uriResolver->getScheme());
     }
 
     /**

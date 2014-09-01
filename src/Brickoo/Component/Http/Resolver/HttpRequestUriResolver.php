@@ -58,16 +58,9 @@ class HttpRequestUriResolver implements UriResolver {
 
     /** {@inheritDoc} */
     public function getScheme() {
-        $isSecure = false;
-
-        if ($this->header->contains("X-Forwarded-Proto")) {
-            $httpsForwarded = $this->header->getHeader("X-Forwarded-Proto")->getValue();
-            $isSecure = (strtolower($httpsForwarded) == "https");
+        if (! ($isSecure = $this->isForwardedFromHttps())) {
+            $isSecure = $this->isHttpsMode();
         }
-        elseif ($secureMode = $this->getServerVar("HTTPS")) {
-            $isSecure = (! empty($secureMode)) && (strtolower($secureMode) != "off" && $secureMode != "0");
-        }
-
         return "http".($isSecure ? "s" : "");
     }
 
@@ -89,7 +82,8 @@ class HttpRequestUriResolver implements UriResolver {
 
     /** {@inheritDoc} */
     public function getPath() {
-        if ((! $requestPath = $this->getServerVar("REQUEST_URI")) && (! $requestPath = $this->getServerVar("ORIG_PATH_INFO"))) {
+        if ((! $requestPath = $this->getServerVar("REQUEST_URI"))
+            && (! $requestPath = $this->getServerVar("ORIG_PATH_INFO"))) {
             $requestPath = $this->getIisRequestUri();
         }
         return "/".trim(rawurldecode(strval(parse_url($requestPath, PHP_URL_PATH))), "/");
@@ -114,7 +108,32 @@ class HttpRequestUriResolver implements UriResolver {
     }
 
     /**
-     * Returns the IIS request ur assigned if available.
+     * Check if the request was forwarded from a https connection.
+     * @return boolean check result
+     */
+    private function isForwardedFromHttps() {
+        $isSecure = false;
+        if ($this->header->contains("X-Forwarded-Proto")) {
+            $httpsForwarded = $this->header->getHeader("X-Forwarded-Proto")->getValue();
+            $isSecure = (strtolower($httpsForwarded) == "https");
+        }
+        return $isSecure;
+    }
+
+    /**
+     * Check if the server provides a https connection.
+     * @return boolean check result
+     */
+    private function isHttpsMode() {
+        $isSecure = false;
+        if ($httpsMode = $this->getServerVar("HTTPS", "off")) {
+            $isSecure = in_array(strtolower($httpsMode), ["on", "1"]);
+        }
+        return $isSecure;
+    }
+
+    /**
+     * Return the IIS request ur assigned if available.
      * @return string|null the request uri or null on unavailable
      */
     private function getIisRequestUri() {
@@ -129,7 +148,7 @@ class HttpRequestUriResolver implements UriResolver {
     }
 
     /**
-     * Returns a server variable or the default value if it does not exist.
+     * Return a server variable or the default value if it does not exist.
      * @param string $key the key of the server variable
      * @param string|null $defaultValue the default value to return
      * @return string|null the value of the server variable otherwise the default value
