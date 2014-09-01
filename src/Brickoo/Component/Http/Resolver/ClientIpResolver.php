@@ -65,18 +65,12 @@ class ClientIpResolver {
      * @return string the client ip
      */
     public function getClientIp() {
-        $remoteAddressIsFromReversProxy = (
-            ($remoteAddress = $this->getServerVar("REMOTE_ADDR"))
+        if (($remoteAddress = $this->getServerVar("REMOTE_ADDR", ""))
             && in_array($remoteAddress, $this->proxyServers)
-        );
-
-        if ($remoteAddressIsFromReversProxy
-            && ($originalClientIp = $this->getOriginalClientIp())
-        ){
-            return $originalClientIp;
+            && ($originalClientIp = $this->getOriginalClientIp())) {
+                return $originalClientIp;
         }
-
-        return $remoteAddress ?: "";
+        return $remoteAddress;
     }
 
     /**
@@ -84,15 +78,14 @@ class ClientIpResolver {
      * @return string|null the original client ip otherwise null
      */
     private function getOriginalClientIp() {
-        if(($forwardedIp = $this->getForwardedClientIp()) !== null) {
+        if (($forwardedIp = $this->getForwardedClientIp()) !== null) {
             return $forwardedIp;
         }
 
         if ($this->headers->contains("Client-Ip")
             && ($headerClientIp = $this->headers->getHeader("Client-Ip")->getValue())
-            && filter_var($headerClientIp, FILTER_VALIDATE_IP)
-        ){
-            return $headerClientIp;
+            && filter_var($headerClientIp, FILTER_VALIDATE_IP)) {
+                return $headerClientIp;
         }
         return null;
     }
@@ -105,18 +98,17 @@ class ClientIpResolver {
         $clientIp = null;
 
         if ($this->headers->contains("X-Forwarded-For")
-            && ($forwardedIps = $this->headers->getHeader("X-Forwarded-For")->getValue())
-        ){
-            $forwardedIps = array_filter(
-                preg_split("/[\\s]*,[\\s]*/", $forwardedIps),
-                function($ipToValidate) {
-                    return filter_var($ipToValidate, FILTER_VALIDATE_IP);
-                }
-            );
+            && ($forwardedIps = $this->headers->getHeader("X-Forwarded-For")->getValue())) {
+                $forwardedIps = array_filter(
+                    preg_split("/[\\s]*,[\\s]*/", $forwardedIps),
+                    function($ipToValidate) {
+                        return filter_var($ipToValidate, FILTER_VALIDATE_IP);
+                    }
+                );
 
-            if (! empty($forwardedIps)) {
-                $clientIp = array_shift($forwardedIps);
-            }
+                if (! empty($forwardedIps)) {
+                    $clientIp = array_shift($forwardedIps);
+                }
         }
 
         return $clientIp;
