@@ -104,9 +104,7 @@ class StreamWriter {
 
         while ($bytesLeft > 0 && $retries > 0) {
             $offset = $bytesLength - $bytesLeft;
-            $bytesWritten = fwrite($streamResource, substr($content, $offset), $bytesLeft);
-
-            if ($bytesWritten === false || $bytesWritten === 0) {
+            if (! ($bytesWritten = fwrite($streamResource, substr($content, $offset), $bytesLeft))) {
                 --$retries;
                 continue;
             }
