@@ -177,7 +177,7 @@ class AnnotationParser {
      * @return array the parameters values pairs
      */
     private function getParameterValues($valuesString, $valuesRegex) {
-        $values = null;
+        $values = [];
         $parameterValues = [];
         if ((! empty($valuesString)) && preg_match_all($valuesRegex, $valuesString, $values) !== false) {
             $this->attachParameterValues($parameterValues, $values);
