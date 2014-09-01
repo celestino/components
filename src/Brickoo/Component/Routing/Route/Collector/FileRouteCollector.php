@@ -122,11 +122,9 @@ class FileRouteCollector implements RouteCollector {
         $collectedFilePaths = [];
 
         foreach (new DirectoryIterator($this->routingPath) as $splFileInfo) {
-            if ((! $splFileInfo->isDot())
-                && (! $splFileInfo->isDir())
-                && (strpos($splFileInfo->getFilename(), $this->routingFilename) !== false)
-            ) {
-                $collectedFilePaths[] = $splFileInfo->getRealPath();
+            if ($splFileInfo->isFile()
+                && (strpos($splFileInfo->getFilename(), $this->routingFilename) !== false)) {
+                    $collectedFilePaths[] = $splFileInfo->getRealPath();
             }
         }
 
