@@ -180,12 +180,22 @@ class AnnotationParser {
         $values = null;
         $parameterValues = [];
         if ((! empty($valuesString)) && preg_match_all($valuesRegex, $valuesString, $values) !== false) {
-            foreach ($values[self::REGEX_CAPTURE_PARAM] as $currentIndex => $param) {
-                $param = $param ?: $currentIndex;
-                $parameterValues[$param] = $this->convertValue($values[self::REGEX_CAPTURE_VALUE][$currentIndex]);
-            }
+            $this->attachParameterValues($parameterValues, $values);
         }
         return $parameterValues;
+    }
+
+    /**
+     * Attach the extracted parameters values.
+     * @param array &$parameterValues
+     * @param array $values
+     * @return void
+     */
+    private function attachParameterValues(&$parameterValues, array $values) {
+        foreach ($values[self::REGEX_CAPTURE_PARAM] as $currentIndex => $param) {
+            $param = $param ?: $currentIndex;
+            $parameterValues[$param] = $this->convertValue($values[self::REGEX_CAPTURE_VALUE][$currentIndex]);
+        }
     }
 
     /**

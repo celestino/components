@@ -65,6 +65,7 @@ class AnnotationParserTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Annotation\AnnotationParser::isAnnotationInWhitelist
      * @covers Brickoo\Component\Annotation\AnnotationParser::getAnnotationValues
      * @covers Brickoo\Component\Annotation\AnnotationParser::getParameterValues
+     * @covers Brickoo\Component\Annotation\AnnotationParser::attachParameterValues
      * @covers Brickoo\Component\Annotation\AnnotationParser::convertValue
      * @covers Brickoo\Component\Annotation\AnnotationParser::transformScalar
      * @covers Brickoo\Component\Annotation\AnnotationParser::convertAnnotations
