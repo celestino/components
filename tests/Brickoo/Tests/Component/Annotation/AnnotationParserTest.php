@@ -68,6 +68,8 @@ class AnnotationParserTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Annotation\AnnotationParser::attachParameterValues
      * @covers Brickoo\Component\Annotation\AnnotationParser::convertValue
      * @covers Brickoo\Component\Annotation\AnnotationParser::transformScalar
+     * @covers Brickoo\Component\Annotation\AnnotationParser::transformIfIsNumeric
+     * @covers Brickoo\Component\Annotation\AnnotationParser::transformIfIsBoolean
      * @covers Brickoo\Component\Annotation\AnnotationParser::convertAnnotations
      */
     public function testParseAnnotatedDocComment() {

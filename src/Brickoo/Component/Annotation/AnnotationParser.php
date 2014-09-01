@@ -220,10 +220,30 @@ class AnnotationParser {
      * @return mixed transformed value
      */
     private function transformScalar($value) {
+        $this->transformIfIsNumeric($value);
+        $this->transformIfIsBoolean($value);
+        return $value;
+    }
+
+    /**
+     * Transform value if is numeric.
+     * @param * $value
+     * @return float|integer|*
+     */
+    private function transformIfIsNumeric(&$value) {
         if (is_numeric($value)) {
             $value = strpos($value, ".") ? floatval($value) : intval($value);
         }
-        elseif ($value === "true" || $value === "false") {
+        return $value;
+    }
+
+    /**
+     * Transform value if is boolean.
+     * @param * $value
+     * @return boolean|*
+     */
+    private function transformIfIsBoolean(&$value) {
+        if ($value === "true" || $value === "false") {
             $value = $value === "true";
         }
         return $value;
