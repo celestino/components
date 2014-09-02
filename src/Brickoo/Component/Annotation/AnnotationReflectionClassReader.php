@@ -125,6 +125,25 @@ class AnnotationReflectionClassReader {
      * @return \Brickoo\Component\Annotation\AnnotationReflectionClassReader
      */
     private function parseAnnotationList(AnnotationReaderResult $result, ReflectionClass $reflectionClass, $targetType) {
+        $reflectionMemberList = $this->getReflectionMemberList($reflectionClass, $targetType);
+        foreach ($reflectionMemberList as $member) {
+            $this->parseAnnotations(
+                $result,
+                $targetType,
+                sprintf("%s::%s", $reflectionClass->getName(), $member->getName()),
+                $member->getDocComment()
+            );
+        }
+        return $this;
+    }
+
+    /**
+     * Get the reflection member list.
+     * @param ReflectionClass $reflectionClass
+     * @param integer $targetType
+     * @return array the reflection member list
+     */
+    private function getReflectionMemberList(ReflectionClass $reflectionClass, $targetType) {
         $reflectionMemberList = [];
 
         switch ($targetType) {
@@ -136,15 +155,7 @@ class AnnotationReflectionClassReader {
                 break;
         }
 
-        foreach ($reflectionMemberList as $member) {
-            $this->parseAnnotations(
-                $result,
-                $targetType,
-                sprintf("%s::%s", $reflectionClass->getName(), $member->getName()),
-                $member->getDocComment()
-            );
-        }
-        return $this;
+        return $reflectionMemberList;
     }
 
     /**
