@@ -70,31 +70,11 @@ class CacheMessageListener implements ListenerAggregate {
 
     /** {@inheritDoc} */
     public function attachListeners(MessageDispatcher $dispatcher) {
-        $dispatcher->attach(new MessageListener(
-            Messages::GET,
-            $this->listenerPriority,
-            [$this, "handleRetrieveMessage"]
-        ));
-        $dispatcher->attach(new MessageListener(
-            Messages::CALLBACK,
-            $this->listenerPriority,
-            [$this, "handleRetrieveByCallbackMessage"]
-        ));
-        $dispatcher->attach(new MessageListener(
-            Messages::SET,
-            $this->listenerPriority,
-            [$this, "handleStoreMessage"]
-        ));
-        $dispatcher->attach(new MessageListener(
-            Messages::DELETE,
-            $this->listenerPriority,
-            [$this, "handleDeleteMessage"]
-        ));
-        $dispatcher->attach(new MessageListener(
-            Messages::FLUSH,
-            $this->listenerPriority,
-            [$this, "handleFlushMessage"]
-        ));
+        $this->attachRetrieveMessageListener($dispatcher);
+        $this->attachRetrieveByCallbackMessageListener($dispatcher);
+        $this->attachStoreMessageListener($dispatcher);
+        $this->attachDeleteMessageListener($dispatcher);
+        $this->attachFlushMessageListener($dispatcher);
     }
 
     /**
@@ -112,7 +92,7 @@ class CacheMessageListener implements ListenerAggregate {
     /**
      * Handle the message to retrieve the cached content from the injected cache proxy
      * with a callback used as a fallback.
-     *@param \Brickoo\Component\Messaging\Message $message
+     * @param \Brickoo\Component\Messaging\Message $message
      * @return mixed the cached content otherwise null
      */
     public function handleRetrieveByCallbackMessage(Message $message) {
@@ -159,6 +139,71 @@ class CacheMessageListener implements ListenerAggregate {
         if ($message instanceof FlushMessage) {
             $this->cacheProxy->flush();
         }
+    }
+
+    /**
+     * Attach the listener for retrieve messages.
+     * @param MessageDispatcher $dispatcher
+     * @return void
+     */
+    private function attachRetrieveMessageListener(MessageDispatcher $dispatcher) {
+        $dispatcher->attach(new MessageListener(
+            Messages::GET,
+            $this->listenerPriority,
+            [$this, "handleRetrieveMessage"]
+        ));
+    }
+
+    /**
+     * Attach the listener for callback based messages.
+     * @param MessageDispatcher $dispatcher
+     * @return void
+     */
+    private function attachRetrieveByCallbackMessageListener(MessageDispatcher $dispatcher) {
+        $dispatcher->attach(new MessageListener(
+            Messages::CALLBACK,
+            $this->listenerPriority,
+            [$this, "handleRetrieveByCallbackMessage"]
+        ));
+    }
+
+    /**
+     * Attach the listener for storing messages.
+     * @param MessageDispatcher $dispatcher
+     * @return void
+     */
+    private function attachStoreMessageListener(MessageDispatcher $dispatcher) {
+        $dispatcher->attach(new MessageListener(
+            Messages::SET,
+            $this->listenerPriority,
+            [$this, "handleStoreMessage"]
+        ));
+    }
+
+    /**
+     * Attach the listener for delete messages.
+     * @param MessageDispatcher $dispatcher
+     * @return void
+     */
+    private function attachDeleteMessageListener(MessageDispatcher $dispatcher) {
+        $dispatcher->attach(new MessageListener(
+            Messages::DELETE,
+            $this->listenerPriority,
+            [$this, "handleDeleteMessage"]
+        ));
+    }
+
+    /**
+     * Attach the listener for flushing messages.
+     * @param MessageDispatcher $dispatcher
+     * @return void
+     */
+    private function attachFlushMessageListener(MessageDispatcher $dispatcher) {
+        $dispatcher->attach(new MessageListener(
+            Messages::FLUSH,
+            $this->listenerPriority,
+            [$this, "handleFlushMessage"]
+        ));
     }
 
 }

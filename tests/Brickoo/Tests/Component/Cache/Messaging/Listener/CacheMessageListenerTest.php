@@ -49,6 +49,11 @@ class CacheMessageListenerTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Cache\Messaging\Listener\CacheMessageListener::__construct
      * @covers Brickoo\Component\Cache\Messaging\Listener\CacheMessageListener::attachListeners
+     * @covers Brickoo\Component\Cache\Messaging\Listener\CacheMessageListener::attachRetrieveMessageListener
+     * @covers Brickoo\Component\Cache\Messaging\Listener\CacheMessageListener::attachRetrieveByCallbackMessageListener
+     * @covers Brickoo\Component\Cache\Messaging\Listener\CacheMessageListener::attachStoreMessageListener
+     * @covers Brickoo\Component\Cache\Messaging\Listener\CacheMessageListener::attachDeleteMessageListener
+     * @covers Brickoo\Component\Cache\Messaging\Listener\CacheMessageListener::attachFlushMessageListener
      */
     public function testAttachCacheMessageListenersToMessageDispatcher() {
         $messageDispatcher = $this->getMessageDispatcherStub();
