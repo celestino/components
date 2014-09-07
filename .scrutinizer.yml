@@ -112,12 +112,3 @@ checks:
         encourage_postdec_operator: true
         avoid_aliased_php_functions: true
         remove_trailing_whitespace: true
-
-build:
-    tests:
-        override:
-            -
-                command: 'phpunit -c phpunit.xml --coverage-clover=some-file'
-                coverage:
-                    file: 'some-file'
-                    format: 'php-clover'
