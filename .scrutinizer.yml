@@ -2,9 +2,6 @@ tools:
     php_sim: true
     php_pdepend: true
     php_analyzer: true
-    php_code_coverage:
-        enabled: true
-        test_command: phpunit -c phpunit.xml
 filter:
     excluded_paths:
         - 'tests/*'
@@ -114,3 +111,12 @@ checks:
         encourage_postdec_operator: true
         avoid_aliased_php_functions: true
         remove_trailing_whitespace: true
+
+build:
+    tests:
+        override:
+            -
+                command: 'phpunit -c phpunit.xml --coverage-clover=coverage'
+                coverage:
+                    file: 'coverage'
+                    format: 'php-clover'
