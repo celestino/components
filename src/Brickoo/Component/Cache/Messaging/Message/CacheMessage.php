@@ -73,7 +73,6 @@ class CacheMessage extends GenericMessage {
     /**
      * Set the cache message identifier.
      * @param string $identifier
-     * @param mixed $value
      * @throws \InvalidArgumentException
      * @return \Brickoo\Component\Cache\Messaging\Message\CacheMessage
      */

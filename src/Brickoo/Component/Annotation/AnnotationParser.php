@@ -231,7 +231,7 @@ class AnnotationParser {
 
     /**
      * Transform value if is numeric.
-     * @param * $value
+     * @param string $value
      * @return float|integer|*
      */
     private function transformIfIsNumeric(&$value) {

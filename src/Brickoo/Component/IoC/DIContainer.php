@@ -70,7 +70,7 @@ class DIContainer extends Container {
     }
 
     /**
-     * Returns the definition resolver.
+     * Return the definition resolver.
      * @return \Brickoo\Component\IoC\Resolver\DefinitionResolver
      */
     public function getResolver() {
@@ -78,7 +78,7 @@ class DIContainer extends Container {
     }
 
     /**
-     * Returns the resolved dependency.
+     * Return the resolved dependency.
      * @todo (PHP 5.5) replace catch block with finally
      * @param string $dependencyName
      * @throws \Brickoo\Component\IoC\Exception
@@ -102,6 +102,12 @@ class DIContainer extends Container {
         return $dependency;
     }
 
+    /** Check if the dependency can be accessed.
+     * @param string $dependencyName
+     * @throws Exception\InfiniteDependencyResolveLoopException
+     * @throws Exception\DefinitionNotAvailableException
+     * @return void
+     */
     private function checkDependencyAccess($dependencyName) {
         if (! $this->contains($dependencyName)) {
             throw new DefinitionNotAvailableException($dependencyName);
@@ -112,6 +118,12 @@ class DIContainer extends Container {
         }
     }
 
+    /**
+     * Create the dependency object.
+     * @param string $dependencyName
+     * @param DependencyDefinition $definition
+     * @return object
+     */
     private function createDependency($dependencyName, DependencyDefinition $definition) {
         $this->calledDependencies[$dependencyName] = true;
         $dependency = $this->resolveDefinition($definition);
@@ -127,8 +139,8 @@ class DIContainer extends Container {
         return ($definition->getScope() == DependencyDefinition::SCOPE_SINGLETON);
     }
 
-    /**<
-     * Returns the resolved dependency.
+    /**
+     * Return the resolved dependency.
      * @param DependencyDefinition $dependencyDefinition
      * @return object the defined dependency.
      */
@@ -149,7 +161,7 @@ class DIContainer extends Container {
     }
 
     /**
-     * Stores the dependency as singleton.
+     * Store the dependency as singleton.
      * @param string $dependencyName
      * @param object $dependency
      * @return \Brickoo\Component\IoC\DIContainer

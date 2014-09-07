@@ -114,7 +114,7 @@ abstract class Locker implements \Countable {
 
     /**
      * Abstract method needed to check if the identifier is available.
-     * @param string|integer $identifier the identifier to check
+     * @param string $identifier the identifier to check
      * @return boolean check result
      */
     abstract public function isIdentifierAvailable($identifier);
