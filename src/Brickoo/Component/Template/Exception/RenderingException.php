@@ -43,7 +43,7 @@ class RenderingException extends Exception {
     /**
      * Class constructor.
      * Calls the parent Exception constructor.
-     * @param null|\Exception $previousException the previous exception thrown
+     * @param \Exception $previousException the previous exception thrown
      */
     public function __construct(\Exception $previousException) {
         parent::__construct("Exception thrown during template rendering.", 0, $previousException);
