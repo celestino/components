@@ -143,14 +143,22 @@ class HttpRouteMatcher implements RouteMatcher {
 
         $routeParameters = [];
         foreach(array_keys($route->getRules()) as $ruleParameter) {
-            if (isset($this->pathParameters[$ruleParameter]) && (! empty($this->pathParameters[$ruleParameter]))) {
-                $routeParameters[$ruleParameter] = $this->pathParameters[$ruleParameter];
-            }
-            elseif ($route->hasDefaultValue($ruleParameter)) {
-                $routeParameters[$ruleParameter] = $route->getDefaultValue($ruleParameter);
-            }
+            $routeParameters[$ruleParameter] = $this->getRuleCorrespondingRouteParameter($ruleParameter, $route);
         }
         return $routeParameters;
+    }
+
+    /**
+     * Return the rule corresponding route parameter.
+     * @param string $ruleParameter
+     * @param HttpRoute $route
+     * @return mixed the rule corresponding route parameter
+     */
+    private function getRuleCorrespondingRouteParameter($ruleParameter, HttpRoute $route) {
+        if (isset($this->pathParameters[$ruleParameter]) && (! empty($this->pathParameters[$ruleParameter]))) {
+            return $this->pathParameters[$ruleParameter];
+        }
+        return $route->getDefaultValue($ruleParameter);
     }
 
 }

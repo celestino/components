@@ -117,6 +117,7 @@ class HttpMatcherTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher::getRouteParameters
      * @covers Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher::collectRouteParameters
+     * @covers Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher::getRuleCorrespondingRouteParameter
      */
     public function testGetRouteRulesParametersWithPageAsDefaultValue() {
         $expectedParameters = [
@@ -135,6 +136,7 @@ class HttpMatcherTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher::getRouteParameters
      * @covers Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher::collectRouteParameters
+     * @covers Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher::getRuleCorrespondingRouteParameter
      */
     public function testGetRouteRulesParametersWithoutRulesAreEmpty() {
         $expectedParameters = [];
