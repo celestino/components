@@ -95,16 +95,6 @@ class ExceptionHandler {
     }
 
     /**
-     * Unregister the ExceptionHandler on destruction.
-     * @return void
-     */
-    public function __destruct() {
-        if ($this->isRegistered()) {
-            $this->unregister();
-        }
-    }
-
-    /**
      * Handles the exception thrown by the user or system.
      * Dispatch a log message containing the exception message.
      * @param \Exception $exception the exception thrown

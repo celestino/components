@@ -89,14 +89,6 @@ class ExceptionHandlerTest extends PHPUnit_Framework_TestCase {
         $exceptionHandler->handleException(new \Exception("test case exception thrown", 123));
     }
 
-    /** @covers Brickoo\Component\Error\ExceptionHandler::__destruct */
-    public function testDestructorUnregister() {
-        $exceptionHandler = new ExceptionHandler($this->getMessageDispatcherStub());
-        $exceptionHandler->register();
-        $exceptionHandler->__destruct();
-        $this->assertAttributeEquals(false, "isRegistered", $exceptionHandler);
-    }
-
     /**
      * Returns an message manager stub.
      * @return \Brickoo\Component\Messaging\MessageDispatcher
