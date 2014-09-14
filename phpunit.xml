@@ -11,26 +11,26 @@
     bootstrap="./tests/bootstrap.php">
     <testsuites>
         <testsuite name="BrickOO Components">
-            <directory>./tests/Brickoo/Tests/Component/Annotation</directory>
-            <directory>./tests/Brickoo/Tests/Component/Cache</directory>
-            <directory>./tests/Brickoo/Tests/Component/Error</directory>
-            <directory>./tests/Brickoo/Tests/Component/Messaging</directory>
-            <directory>./tests/Brickoo/Tests/Component/Filesystem</directory>
-            <directory>./tests/Brickoo/Tests/Component/Http</directory>
-            <directory>./tests/Brickoo/Tests/Component/IoC</directory>
-            <directory>./tests/Brickoo/Tests/Component/IO</directory>
-            <directory>./tests/Brickoo/Tests/Component/Log</directory>
-            <directory>./tests/Brickoo/Tests/Component/Common</directory>
-            <directory>./tests/Brickoo/Tests/Component/Network</directory>
-            <directory>./tests/Brickoo/Tests/Component/Routing</directory>
-            <directory>./tests/Brickoo/Tests/Component/Session</directory>
-            <directory>./tests/Brickoo/Tests/Component/Template</directory>
-            <directory>./tests/Brickoo/Tests/Component/Validation</directory>
+            <directory>./tests/Annotation</directory>
+            <directory>./tests/Cache</directory>
+            <directory>./tests/Error</directory>
+            <directory>./tests/Messaging</directory>
+            <directory>./tests/Filesystem</directory>
+            <directory>./tests/Http</directory>
+            <directory>./tests/IoC</directory>
+            <directory>./tests/IO</directory>
+            <directory>./tests/Log</directory>
+            <directory>./tests/Common</directory>
+            <directory>./tests/Network</directory>
+            <directory>./tests/Routing</directory>
+            <directory>./tests/Session</directory>
+            <directory>./tests/Template</directory>
+            <directory>./tests/Validation</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src/Brickoo</directory>
+            <directory suffix=".php">./src</directory>
         </whitelist>
     </filter>
 </phpunit>

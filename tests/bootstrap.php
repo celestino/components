@@ -33,9 +33,11 @@
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-include_once (realpath(dirname(__FILE__)) .'/../src/Brickoo/Component/Common/Autoloader.php');
+date_default_timezone_set("UTC");
+
+include_once (realpath(dirname(__FILE__)) .'/../src/Common/Autoloader.php');
 
 $autoloader = new \Brickoo\Component\Common\Autoloader([
-    "Brickoo\\Component" => realpath(dirname(__FILE__))."/../src/Brickoo/Component"
+    "Brickoo\\Component" => realpath(dirname(__FILE__))."/../src"
 ]);
 $autoloader->register();
