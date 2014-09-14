@@ -15,12 +15,11 @@
         "php": ">=5.4.0"
     },
     "autoload": {
-        "psr-0": {"Brickoo": "src"},
-        "psr-4": {"Brickoo\\Component\\": "src/Brickoo/Component/"}
+        "psr-4": {"Brickoo\\Component\\": "src/"}
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "5.0.x-dev"
+            "dev-master": "5.1.x-dev"
         }
     }
 }
