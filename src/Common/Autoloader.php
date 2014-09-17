@@ -220,7 +220,8 @@ class Autoloader {
      * @return string the translated class path
      */
     private function getTranslatedClassPath($className) {
-        return DIRECTORY_SEPARATOR.str_replace("\\", DIRECTORY_SEPARATOR, $className).".php";
+        $translatedClassName = str_replace("_", DIRECTORY_SEPARATOR, $className);
+        return DIRECTORY_SEPARATOR.str_replace("\\", DIRECTORY_SEPARATOR, $translatedClassName).".php";
     }
 
 }
