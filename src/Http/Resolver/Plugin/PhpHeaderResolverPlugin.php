@@ -27,41 +27,42 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Tests\Component\Http\Resolver\Plugin;
+namespace Brickoo\Component\Http\Resolver\Plugin;
 
-use Brickoo\Component\Http\Resolver\Plugin\RequestHeaderResolverPlugin,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Http\Resolver\HeaderResolverPlugin;
 
 /**
- * RequestHeaderResolverPlugin
+ * PhpHeaderResolverPlugin
  *
- * Test suite for the RequestHeaderResolverPlugin class.
- * @see Brickoo\Component\Http\Resolver\RequestHeaderResolverPlugin
+ * Implements a http header resolver plugin based on the global server values.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class RequestHeaderResolverPluginTest extends PHPUnit_Framework_TestCase {
+class PhpHeaderResolverPlugin implements HeaderResolverPlugin {
+
+    /** {@inheritDoc} */
+    public function getHeaders() {
+        $headers = $this->getPhpExtractedHttpHeaders($_SERVER);
+
+        if (function_exists("apache_request_headers") && ($apacheHeaders = apache_request_headers())) {
+            $headers = array_merge($headers, $apacheHeaders);
+        }
+        return $headers;
+    }
 
     /**
-     * @cover Brickoo\Component\Htt\Resolver\Plugin\RequestHeaderResolverPlugin::getHeaders
-     * @cover Brickoo\Component\Htt\Resolver\Plugin\RequestHeaderResolverPlugin::getPhpExtractedHttpHeaders
+     * Return the http header list.
+     * @param array $list unfiltered list
+     * @return array header list
      */
-    public function testGetHeadersFromGlobalServerValues() {
-        if (defined("HHVM_VERSION")) {
-            $this->markTestSkipped(
-                "Unsupported routine by HHVM v3.1.0\n".
-                "https://github.com/facebook/hhvm/issues/985"
-            );
+    private function getPhpExtractedHttpHeaders(array $list) {
+        $headers = [];
+        foreach ($list as $key => $value) {
+            if (substr($key, 0, 5) == "HTTP_") {
+                $headers[substr($key, 5)] = $value;
+            }
         }
-
-        if (! function_exists("apache_request_headers")) {
-            require_once realpath(__DIR__)."/Assets/requiredFunctions.php";
-        }
-
-        $expectedHeaders = ["CONNECTION" => "keep-alive", "X-Unit-Test" => "ok"];
-        $_SERVER["HTTP_CONNECTION"] = "keep-alive";
-        $requestHeaderResolverPlugin = new RequestHeaderResolverPlugin();
-        $this->assertEquals($expectedHeaders, $requestHeaderResolverPlugin->getHeaders());
+        return $headers;
     }
 
 }
