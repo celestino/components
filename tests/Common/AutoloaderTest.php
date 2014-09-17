@@ -168,4 +168,17 @@ class AutoloaderTest extends PHPUnit_Framework_TestCase {
         $this->assertFalse($namespaceAutoloader->load("Brickoo\\DoesNotExist"));
     }
 
+    /**
+     * @covers Brickoo\Component\Common\Autoloader::load
+     * @covers Brickoo\Component\Common\Autoloader::getTranslatedClassPath
+     */
+    public function testLoadUnderscoreBasedNamespaceClass() {
+        $namespaceAutoloader = new Autoloader();
+        $namespaceAutoloader->registerNamespace("Autoloader\\Assets", dirname(__FILE__)."/Assets");
+
+        $this->assertFalse(class_exists("Brickoo\\Tests\\Component\\Autoloader\\Assets\\UnderscoreNamespaceLoadableClass", false));
+        $this->assertTrue($namespaceAutoloader->load("Autoloader\\Assets\\UnderscoreNamespaceLoadableClass"));
+        $this->assertTrue(class_exists("Brickoo\\Tests\\Component\\Autoloader\\Assets\\UnderscoreNamespaceLoadableClass"));
+    }
+
 }
