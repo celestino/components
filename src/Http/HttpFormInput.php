@@ -123,7 +123,7 @@ class HttpFormInput implements \IteratorAggregate {
     /**
      * Retrieve an external iterator.
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return ArrayIterator
+     * @return \ArrayIterator
      */
     public function getIterator() {
         return new \ArrayIterator($this->formFields);
