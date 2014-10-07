@@ -33,6 +33,7 @@ use Brickoo\Component\Http\Header\GenericHeader;
 use Brickoo\Component\Http\HttpHeaderList;
 use Brickoo\Component\Http\HttpHeaderNormalizer;
 use Brickoo\Component\Http\Resolver\Exception\HeaderClassNotFoundException;
+use Brickoo\Component\Http\Resolver\Plugin\HeaderResolverPlugin;
 
 /**
  * HeaderResolver
@@ -48,7 +49,7 @@ class HeaderResolver {
     /** @var array */
     private $headerMap;
 
-    /** @var \Brickoo\Component\Http\Resolver\HeaderResolverPlugin */
+    /** @var \Brickoo\Component\Http\Resolver\Plugin\HeaderResolverPlugin */
     private $resolverPlugin;
 
     /** @var array */
@@ -57,7 +58,7 @@ class HeaderResolver {
     /**
      * Class constructor.
      * @param array $headerMap a map array containing the header nam as key and target class as value
-     * @param \Brickoo\Component\Http\Resolver\HeaderResolverPlugin $resolverPlugin
+     * @param \Brickoo\Component\Http\Resolver\Plugin\HeaderResolverPlugin $resolverPlugin
      */
     public function __construct(array $headerMap, HeaderResolverPlugin $resolverPlugin) {
         $this->headerMap = $headerMap;
@@ -88,14 +89,14 @@ class HeaderResolver {
     public function getHeaderLists() {
         $this->loadHeaders();
 
-        $headers = [];
+        $headerLists = [];
         foreach ($this->loadedHeaders as $headerName => $headerValue) {
-            if (! isset($headers[$headerName])) {
-                $headers[$headerName] = new HttpHeaderList();
+            if (! isset($headerLists[$headerName])) {
+                $headerLists[$headerName] = new HttpHeaderList();
             }
-            $headers[$headerName]->add($this->getHeader($headerName, $headerValue));
+            $headerLists[$headerName]->add($this->getHeader($headerName, $headerValue));
         }
-        return $headers;
+        return $headerLists;
     }
 
     /**

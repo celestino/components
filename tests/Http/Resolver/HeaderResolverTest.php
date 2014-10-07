@@ -130,10 +130,10 @@ class HeaderResolverTest extends PHPUnit_Framework_TestCase {
 
     /**
      * Returns a header resolver loader stub.
-     * @return \Brickoo\Component\Http\Resolver\HeaderResolverPlugin
+     * @return \Brickoo\Component\Http\Resolver\Plugin\HeaderResolverPlugin
      */
     private function getHeaderResolverPluginStub() {
-        return $this->getMockBuilder("\\Brickoo\\Component\\Http\\Resolver\\HeaderResolverPlugin")
+        return $this->getMockBuilder("\\Brickoo\\Component\\Http\\Resolver\\Plugin\\HeaderResolverPlugin")
             ->disableOriginalConstructor()
             ->getMock();
     }

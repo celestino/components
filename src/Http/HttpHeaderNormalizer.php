@@ -29,9 +29,7 @@
 
 namespace Brickoo\Component\Http;
 
-/**
- * Implements a http header normalizer.
- */
+/** Implements a http header normalizer. */
 trait HttpHeaderNormalizer {
 
     /**

@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Http\Resolver;
+namespace Brickoo\Component\Http\Resolver\Plugin;
 
 /**
  * HeaderResolverPlugin
