@@ -68,11 +68,11 @@ class AnnotationReaderResultValidator {
      * @return void
      */
     private function validateAnnotations(ArrayIterator $definitions, ArrayIterator $results) {
-        if (($annotationsDefinitions = $this->getRequiredAnnotationsDefinitions($definitions))) {
-            $annotationsParameters = $this->getAnnotationsParameters($results);
+        if (($requiredAnnotationsParameters = $this->getRequiredAnnotationsParameters($definitions))) {
+            $annotationsValues = $this->getAnnotationsValues($results);
 
-            foreach ($annotationsDefinitions as $requiredAnnotation => $requiredParameters) {
-                $this->checkAnnotationRequirements($requiredAnnotation, $requiredParameters, $annotationsParameters);
+            foreach ($requiredAnnotationsParameters as $requiredAnnotation => $requiredParameters) {
+                $this->checkAnnotationRequirements($requiredAnnotation, $requiredParameters, $annotationsValues);
             }
         }
     }
@@ -80,9 +80,9 @@ class AnnotationReaderResultValidator {
     /**
      * Returns the required annotations and their parameters.
      * @param ArrayIterator $definitions
-     * @return array<String, ParameterDefinition> the required annotations definitions
+     * @return array required annotations definitions
      */
-    private function getRequiredAnnotationsDefinitions(ArrayIterator $definitions) {
+    private function getRequiredAnnotationsParameters(ArrayIterator $definitions) {
         $requiredAnnotations = [];
         foreach ($definitions as $annotationDefinition) {
             if ($annotationDefinition->isRequired() || $annotationDefinition->hasRequiredParameters()) {
@@ -93,11 +93,11 @@ class AnnotationReaderResultValidator {
     }
 
     /**
-     * Returns the available result annotations and their parameters.
+     * Returns the available result annotations and their values.
      * @param \ArrayIterator $annotationsIterator
-     * @return array<String, Array<mixed, mixed>> the result annotations and parameters
+     * @return array annotation values
      */
-    private function getAnnotationsParameters(ArrayIterator $annotationsIterator) {
+    private function getAnnotationsValues(ArrayIterator $annotationsIterator) {
         $annotations = [];
         foreach ($annotationsIterator as $annotation) {
             $annotations[$annotation->getName()] = $annotation->getValues();

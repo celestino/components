@@ -43,8 +43,8 @@ class AnnotationReaderResultValidatorTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::validate
      * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::validateAnnotations
-     * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::getRequiredAnnotationsDefinitions
-     * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::getAnnotationsParameters
+     * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::getRequiredAnnotationsParameters
+     * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::getAnnotationsValues
      * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::checkAnnotationRequirements
      * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::hasRequiredAnnotation
      * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::getMissingParameters
@@ -61,8 +61,8 @@ class AnnotationReaderResultValidatorTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::validate
      * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::validateAnnotations
-     * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::getRequiredAnnotationsDefinitions
-     * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::getAnnotationsParameters
+     * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::getRequiredAnnotationsParameters
+     * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::getAnnotationsValues
      * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::checkAnnotationRequirements
      * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::hasRequiredAnnotation
      * @covers Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationException
@@ -79,8 +79,8 @@ class AnnotationReaderResultValidatorTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::validate
      * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::validateAnnotations
-     * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::getRequiredAnnotationsDefinitions
-     * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::getAnnotationsParameters
+     * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::getRequiredAnnotationsParameters
+     * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::getAnnotationsValues
      * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::checkAnnotationRequirements
      * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::hasRequiredAnnotation
      * @covers Brickoo\Component\Annotation\AnnotationReaderResultValidator::getMissingParameters

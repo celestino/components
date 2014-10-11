@@ -131,7 +131,7 @@ abstract class DependencyResolver {
      * Injects the target object dependencies.
      * @param object $targetObject
      * @param \Brickoo\Component\IoC\Definition\DependencyDefinition $dependencyDefinition
-     * @return \Brickoo\Component\IoC\Resolver\DefinitionResolver
+     * @return \Brickoo\Component\IoC\Resolver\DependencyResolver
      */
     protected function injectDependencies($targetObject, DependencyDefinition $dependencyDefinition) {
         $injectionsContainer = $dependencyDefinition->getInjectionsContainer();

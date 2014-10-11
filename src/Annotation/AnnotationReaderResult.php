@@ -118,7 +118,7 @@ class AnnotationReaderResult implements IteratorAggregate {
      * @param integer $target
      * @throws \InvalidArgumentException
      * @throws \Brickoo\Component\Annotation\Exception\InvalidTargetException
-     * @return \ArrayIterator<Annotation>
+     * @return \ArrayIterator
      */
     public function getAnnotationsByTarget($target) {
         Argument::isInteger($target);

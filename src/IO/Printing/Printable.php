@@ -51,8 +51,8 @@ interface Printable {
     public function getPrinter();
 
     /**
-     * Run the printable.
-     * @return \Brickoo\Component\IO\Printing\Printer the printer
+     * Run the printer.
+     * @return \Brickoo\Component\IO\Printing\Printable
      */
     public function runPrinter();
 
