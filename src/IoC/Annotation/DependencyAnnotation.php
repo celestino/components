@@ -49,6 +49,9 @@ class DependencyAnnotation {
     /** Dependency annotation identifier */
     const DEPENDENCY_ANNOTATION = "Dependency";
 
+    /** Regular expression for matching the class target name */
+    const TARGET_NAME_REGEX = "~^\\\\?[a-zA-Z_\\x7f-\\xff][\\w\\x7f-\\xff\\\\]*\\:\\:(?<target>([a-zA-Z_\\x7f-\\xff]+))$~";
+
     /**
      * Returns the dependency annotation definition.
      * @param integer $target annotation target
@@ -124,7 +127,7 @@ class DependencyAnnotation {
 
         $targetLocation = null;
         if (preg_match(
-            "~^\\\\?[a-zA-Z_\\x7f-\\xff][\\w\\x7f-\\xff\\\\]*\\:\\:(?<target>([a-zA-Z_\\x7f-\\xff]+))$~",
+            self::TARGET_NAME_REGEX,
             $annotation->getTargetLocation(),
             $matches
         )) {
