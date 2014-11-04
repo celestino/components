@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Annotation\Definition;
 
-use Brickoo\Component\Annotation\Definition\ParameterDefinition,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Annotation\Definition\ParameterDefinition;
+use PHPUnit_Framework_TestCase;
 
 /**
  * Test suite for the ParameterDefinition class.

@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Http\Response;
 
-use Brickoo\Component\Http\Response\InternalServerErrorResponse,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Http\Response\InternalServerErrorResponse;
+use PHPUnit_Framework_TestCase;
 
 /**
  * InternalServerErrorResponseTest

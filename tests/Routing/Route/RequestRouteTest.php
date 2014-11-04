@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Routing\Route;
 
-use Brickoo\Component\Routing\Route\RequestRoute,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Routing\Route\RequestRoute;
+use PHPUnit_Framework_TestCase;
 
 /**
  * RequestRouteTest

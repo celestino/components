@@ -29,9 +29,9 @@
 
 namespace Brickoo\Tests\Component\Routing\Route\Collector;
 
-use Brickoo\Component\Routing\Route\RouteCollection,
-    Brickoo\Component\Routing\Route\Collector\CallbackRouteCollector,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Routing\Route\RouteCollection;
+use Brickoo\Component\Routing\Route\Collector\CallbackRouteCollector;
+use PHPUnit_Framework_TestCase;
 
 /**
  * CallbackRouteCollectorTest

@@ -29,16 +29,16 @@
 
 namespace Brickoo\Tests\Component\Http;
 
-use Brickoo\Component\Http\Header\GenericHeader,
-    Brickoo\Component\Http\HttpHeaderList,
-    Brickoo\Component\Http\HttpMessage,
-    Brickoo\Component\Http\HttpMessageHeader,
-    Brickoo\Component\Http\HttpResponse,
-    Brickoo\Component\Http\HttpStatus,
-    Brickoo\Component\Http\HttpVersion,
-    Brickoo\Component\Http\HttpMessageBody,
-    Brickoo\Component\Http\HttpResponseSender,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Http\Header\GenericHeader;
+use Brickoo\Component\Http\HttpHeaderList;
+use Brickoo\Component\Http\HttpMessage;
+use Brickoo\Component\Http\HttpMessageHeader;
+use Brickoo\Component\Http\HttpResponse;
+use Brickoo\Component\Http\HttpStatus;
+use Brickoo\Component\Http\HttpVersion;
+use Brickoo\Component\Http\HttpMessageBody;
+use Brickoo\Component\Http\HttpResponseSender;
+use PHPUnit_Framework_TestCase;
 
 /**
  * HttpResponseSenderTest

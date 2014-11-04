@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Cache\Messaging\Message;
 
-use Brickoo\Component\Cache\Messaging\Message\DeleteMessage,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Cache\Messaging\Message\DeleteMessage;
+use PHPUnit_Framework_TestCase;
 
 /**
  * DeleteMessageTest

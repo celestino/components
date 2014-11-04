@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\IO\Stream;
 
-use Brickoo\Component\IO\Stream\SocketStreamConfig,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\IO\Stream\SocketStreamConfig;
+use PHPUnit_Framework_TestCase;
 
 /**
  * SocketStreamConfigTest

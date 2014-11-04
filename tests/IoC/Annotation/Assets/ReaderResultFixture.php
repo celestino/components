@@ -1,7 +1,7 @@
 <?php
 
-use Brickoo\Component\Annotation\Annotation,
-    Brickoo\Component\Annotation\AnnotationReaderResult;
+use Brickoo\Component\Annotation\Annotation;
+use Brickoo\Component\Annotation\AnnotationReaderResult;
 
 /**
  * Annotations:

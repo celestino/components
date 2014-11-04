@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Http;
 
-use Brickoo\Component\Http\UriAuthority,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Http\UriAuthority;
+use PHPUnit_Framework_TestCase;
 
 /**
  * UriAuthorityTest

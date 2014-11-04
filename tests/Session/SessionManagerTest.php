@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Session;
 
-use Brickoo\Component\Session\SessionManager,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Session\SessionManager;
+use PHPUnit_Framework_TestCase;
 
 /**
  * SessionManagerTest

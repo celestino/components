@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Log\Messaging\Message;
 
-use Brickoo\Component\Log\Logger,
-    Brickoo\Component\Log\Messaging\Message\LogMessage;
+use Brickoo\Component\Log\Logger;
+use Brickoo\Component\Log\Messaging\Message\LogMessage;
 
 /**
  * LogMessageTest

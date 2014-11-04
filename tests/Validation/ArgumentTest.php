@@ -29,10 +29,10 @@
 
 namespace Brickoo\Tests\Component\Validation;
 
-use Brickoo\Component\Validation\Argument,
-    Brickoo\Component\Common\Container,
-    PHPUnit_Framework_Error_Warning,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Container;
+use PHPUnit_Framework_Error_Warning;
+use PHPUnit_Framework_TestCase;
 
 /**
  * ArgumentTest

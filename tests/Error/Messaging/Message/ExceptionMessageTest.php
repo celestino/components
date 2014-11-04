@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Error\Messaging\Message;
 
-use Brickoo\Component\Error\Messaging\Message\ExceptionMessage,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Error\Messaging\Message\ExceptionMessage;
+use PHPUnit_Framework_TestCase;
 
 /**
  * ExceptionMessageTest

@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Http\Response;
 
-use Brickoo\Component\Http\Response\PermanentlyRedirectResponse,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Http\Response\PermanentlyRedirectResponse;
+use PHPUnit_Framework_TestCase;
 
 /**
  * PermanentlyRedirectResponseTest

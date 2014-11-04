@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Messaging\Listener;
 
-use Brickoo\Component\Messaging\ListenerCollection,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Messaging\ListenerCollection;
+use PHPUnit_Framework_TestCase;
 
 /**
  * CollectionTest

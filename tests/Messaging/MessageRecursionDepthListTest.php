@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Messaging;
 
-use Brickoo\Component\Messaging\MessageRecursionDepthList,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Messaging\MessageRecursionDepthList;
+use PHPUnit_Framework_TestCase;
 
 /**
  * MessageRecursionDepthListTest

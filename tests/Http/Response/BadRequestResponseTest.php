@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Http\Response;
 
-use Brickoo\Component\Http\Response\BadRequestResponse,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Http\Response\BadRequestResponse;
+use PHPUnit_Framework_TestCase;
 
 /**
  * BadRequestResponseTest

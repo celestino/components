@@ -29,13 +29,13 @@
 
 namespace Brickoo\Tests\Component\IoC\Resolver;
 
-use Brickoo\Component\IoC\Definition\ArgumentDefinition,
-    Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer,
-    Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer,
-    Brickoo\Component\IoC\Definition\DependencyDefinition,
-    Brickoo\Component\IoC\Definition\InjectionDefinition,
-    Brickoo\Component\IoC\Resolver\DependencyClassResolver,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\IoC\Definition\ArgumentDefinition;
+use Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer;
+use Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer;
+use Brickoo\Component\IoC\Definition\DependencyDefinition;
+use Brickoo\Component\IoC\Definition\InjectionDefinition;
+use Brickoo\Component\IoC\Resolver\DependencyClassResolver;
+use PHPUnit_Framework_TestCase;
 
 /**
  * DependencyClassResolverTest

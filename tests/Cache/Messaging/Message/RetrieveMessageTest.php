@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Cache\Messaging\Message;
 
-use Brickoo\Component\Cache\Messaging\Message\RetrieveMessage,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Cache\Messaging\Message\RetrieveMessage;
+use PHPUnit_Framework_TestCase;
 
 /**
  * RetrieveMessageTest

@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Http;
 
-use Brickoo\Component\Http\HttpStatusCode,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Http\HttpStatusCode;
+use PHPUnit_Framework_TestCase;
 
 /**
  * HttpStatusCode

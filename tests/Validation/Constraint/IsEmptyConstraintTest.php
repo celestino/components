@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Constraint\IsEmptyConstraint,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Validation\Constraint\IsEmptyConstraint;
+use PHPUnit_Framework_TestCase;
 
 /**
  * IsEmptyConstraint

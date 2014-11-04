@@ -29,10 +29,10 @@
 
 namespace Brickoo\Tests\Component\Annotation;
 
-use Brickoo\Component\Annotation\Annotation,
-    Brickoo\Component\Annotation\AnnotationReflectionClassReader,
-    PHPUnit_Framework_TestCase,
-    ReflectionClass;
+use Brickoo\Component\Annotation\Annotation;
+use Brickoo\Component\Annotation\AnnotationReflectionClassReader;
+use PHPUnit_Framework_TestCase;
+use ReflectionClass;
 
 /**
  * Test suite for the AnnotationReflectionClassReader class.

@@ -29,9 +29,9 @@
 
 namespace Brickoo\Tests\Component\IO\Stream;
 
-use Brickoo\Component\IO\Stream\FileStream,
-    Brickoo\Component\IO\Stream\FileStreamConfig,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\IO\Stream\FileStream;
+use Brickoo\Component\IO\Stream\FileStreamConfig;
+use PHPUnit_Framework_TestCase;
 
 /**
  * FileStreamTest

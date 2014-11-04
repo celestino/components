@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Http;
 
-use Brickoo\Component\Http\UriQuery,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Http\UriQuery;
+use PHPUnit_Framework_TestCase;
 
 /**
  * UriQueryTest

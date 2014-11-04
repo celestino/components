@@ -29,10 +29,10 @@
 
 namespace Brickoo\Tests\Component\Validation\Validator;
 
-use Brickoo\Component\Validation\Constraint\IsEqualToConstraint,
-    Brickoo\Component\Validation\Constraint\IsInternalTypeConstraint,
-    Brickoo\Component\Validation\Validator\ConstraintValidator,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Validation\Constraint\IsEqualToConstraint;
+use Brickoo\Component\Validation\Constraint\IsInternalTypeConstraint;
+use Brickoo\Component\Validation\Validator\ConstraintValidator;
+use PHPUnit_Framework_TestCase;
 
 /**
  * ConstraintValidator

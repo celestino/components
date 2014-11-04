@@ -27,41 +27,41 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Tests\Component\Http\Resolver;
+namespace Brickoo\Tests\Component\Http\Aggregator;
 
-use Brickoo\Component\Http\Resolver\HeaderResolver;
+use Brickoo\Component\Http\Aggregator\HeaderAggregator;
 use PHPUnit_Framework_TestCase;
 
 /**
- * HeaderResolver
+ * HeaderAggregator
  *
- * Test suite for the HeaderResolver class.
- * @see Brickoo\Component\Http\Resolver\HeaderResolver
+ * Test suite for the HeaderAggregator class.
+ * @see Brickoo\Component\Http\Aggregator\HeaderAggregator
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class HeaderResolverTest extends PHPUnit_Framework_TestCase {
+class HeaderAggregatorTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::__construct
-     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::getHeaders
-     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::loadHeaders
-     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::hasMappingHeaderClass
-     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::getHeader
-     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::createMappingHeader
-     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::createGenericHeader
+     * @covers Brickoo\Component\Http\Aggregator\HeaderAggregator::__construct
+     * @covers Brickoo\Component\Http\Aggregator\HeaderAggregator::getHeaders
+     * @covers Brickoo\Component\Http\Aggregator\HeaderAggregator::loadHeaders
+     * @covers Brickoo\Component\Http\Aggregator\HeaderAggregator::hasMappingHeaderClass
+     * @covers Brickoo\Component\Http\Aggregator\HeaderAggregator::getHeader
+     * @covers Brickoo\Component\Http\Aggregator\HeaderAggregator::createMappingHeader
+     * @covers Brickoo\Component\Http\Aggregator\HeaderAggregator::createGenericHeader
      * @covers Brickoo\Component\Http\HttpHeaderNormalizer::normalizeHeaders
      */
     public function testGetHeadersWithValidMap() {
         $headerMap = include realpath(__DIR__)."/Assets/validHeader.map";
-        $headerLoader = $this->getHeaderResolverPluginStub();
+        $headerLoader = $this->getHeaderAggregatorStrategyStub();
         $headerLoader->expects($this->any())
                      ->method("getHeaders")
                      ->will($this->returnValue([
                          "Accept" => "text/html,application/xhtml+xml,application/xml;q=0.9,image/web,*/*;q=0.8",
                          "Connection" => "keep-alive"
                      ]));
-        $headerResolver = new HeaderResolver($headerMap, $headerLoader);
-        $headers = $headerResolver->getHeaders();
+        $headerAggregator = new HeaderAggregator($headerMap, $headerLoader);
+        $headers = $headerAggregator->getHeaders();
         $this->assertInternalType("array", $headers);
 
         foreach ($headers as $header) {
@@ -73,26 +73,26 @@ class HeaderResolverTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::__construct
-     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::getHeaderLists
-     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::loadHeaders
-     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::hasMappingHeaderClass
-     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::getHeader
-     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::createMappingHeader
-     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::createGenericHeader
+     * @covers Brickoo\Component\Http\Aggregator\HeaderAggregator::__construct
+     * @covers Brickoo\Component\Http\Aggregator\HeaderAggregator::getHeaderLists
+     * @covers Brickoo\Component\Http\Aggregator\HeaderAggregator::loadHeaders
+     * @covers Brickoo\Component\Http\Aggregator\HeaderAggregator::hasMappingHeaderClass
+     * @covers Brickoo\Component\Http\Aggregator\HeaderAggregator::getHeader
+     * @covers Brickoo\Component\Http\Aggregator\HeaderAggregator::createMappingHeader
+     * @covers Brickoo\Component\Http\Aggregator\HeaderAggregator::createGenericHeader
      * @covers Brickoo\Component\Http\HttpHeaderNormalizer::normalizeHeaders
      */
     public function testGetHeaderLists() {
         $headerMap = include realpath(__DIR__)."/Assets/validHeader.map";
-        $headerLoader = $this->getHeaderResolverPluginStub();
+        $headerLoader = $this->getHeaderAggregatorStrategyStub();
         $headerLoader->expects($this->any())
                      ->method("getHeaders")
                      ->will($this->returnValue([
                          "Accept" => "text/html,application/xhtml+xml,application/xml;q=0.9,image/web,*/*;q=0.8",
                          "Connection" => "keep-alive"
                      ]));
-        $headerResolver = new HeaderResolver($headerMap, $headerLoader);
-        $headerLists = $headerResolver->getHeaderLists();
+        $headerAggregator = new HeaderAggregator($headerMap, $headerLoader);
+        $headerLists = $headerAggregator->getHeaderLists();
         $this->assertInternalType("array", $headerLists);
         $this->assertEquals(2, count($headerLists));
 
@@ -105,35 +105,35 @@ class HeaderResolverTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::__construct
-     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::getHeaders
-     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::loadHeaders
-     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::hasMappingHeaderClass
-     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::getHeader
-     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::createMappingHeader
-     * @covers Brickoo\Component\Http\Resolver\HeaderResolver::createGenericHeader
+     * @covers Brickoo\Component\Http\Aggregator\HeaderAggregator::__construct
+     * @covers Brickoo\Component\Http\Aggregator\HeaderAggregator::getHeaders
+     * @covers Brickoo\Component\Http\Aggregator\HeaderAggregator::loadHeaders
+     * @covers Brickoo\Component\Http\Aggregator\HeaderAggregator::hasMappingHeaderClass
+     * @covers Brickoo\Component\Http\Aggregator\HeaderAggregator::getHeader
+     * @covers Brickoo\Component\Http\Aggregator\HeaderAggregator::createMappingHeader
+     * @covers Brickoo\Component\Http\Aggregator\HeaderAggregator::createGenericHeader
      * @covers Brickoo\Component\Http\HttpHeaderNormalizer::normalizeHeaders
-     * @covers Brickoo\Component\Http\Resolver\Exception\HeaderClassNotFoundException
-     * @expectedException \Brickoo\Component\Http\Resolver\Exception\HeaderClassNotFoundException
+     * @covers Brickoo\Component\Http\Aggregator\Exception\HeaderClassNotFoundException
+     * @expectedException \Brickoo\Component\Http\Aggregator\Exception\HeaderClassNotFoundException
      */
     public function testGetHeadersWithNotExistingHeaderThrowsException() {
         $headerMap = include realpath(__DIR__)."/Assets/wrongHeader.map";
-        $headerLoader = $this->getHeaderResolverPluginStub();
+        $headerLoader = $this->getHeaderAggregatorStrategyStub();
         $headerLoader->expects($this->any())
                      ->method("getHeaders")
                      ->will($this->returnValue([
                          "Accept" => "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
                      ]));
-        $headerResolver = new HeaderResolver($headerMap, $headerLoader);
-        $headerResolver->getHeaders();
+        $headerAggregator = new HeaderAggregator($headerMap, $headerLoader);
+        $headerAggregator->getHeaders();
     }
 
     /**
-     * Returns a header resolver loader stub.
-     * @return \Brickoo\Component\Http\Resolver\Plugin\HeaderResolverPlugin
+     * Returns a header Aggregator loader stub.
+     * @return \Brickoo\Component\Http\Aggregator\Strategy\HeaderAggregatorStrategy
      */
-    private function getHeaderResolverPluginStub() {
-        return $this->getMockBuilder("\\Brickoo\\Component\\Http\\Resolver\\Plugin\\HeaderResolverPlugin")
+    private function getHeaderAggregatorStrategyStub() {
+        return $this->getMockBuilder("\\Brickoo\\Component\\Http\\Aggregator\\Strategy\\HeaderAggregatorStrategy")
             ->disableOriginalConstructor()
             ->getMock();
     }

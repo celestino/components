@@ -29,9 +29,9 @@
 
 namespace Brickoo\Tests\Component\Annotation;
 
-use Brickoo\Component\Annotation\Annotation,
-    Brickoo\Component\Annotation\AnnotationParser,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Annotation\Annotation;
+use Brickoo\Component\Annotation\AnnotationParser;
+use PHPUnit_Framework_TestCase;
 
 /**
  * Test suite for the AnnotationParser class.

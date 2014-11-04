@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\IO\Printing;
 
-use Brickoo\Component\IO\Printing\OutputBufferedPrinter,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\IO\Printing\OutputBufferedPrinter;
+use PHPUnit_Framework_TestCase;
 
 /**
  * OutputBufferedPrinterTest

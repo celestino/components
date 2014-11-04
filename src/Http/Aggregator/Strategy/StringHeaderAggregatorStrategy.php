@@ -27,38 +27,43 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Tests\Component\Http\Resolver\Plugin;
+namespace Brickoo\Component\Http\Aggregator\Strategy;
 
-use Brickoo\Component\Http\Resolver\Plugin\StringHeaderResolverPlugin,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Validation\Argument;
 
 /**
- * StringHeaderResolverPluginTest
+ * StringHeaderAggregatorStrategy
  *
- * Test suite for the StringHeaderResolverPlugin class.
- * @see Brickoo\Component\Http\Resolver\StringHeaderResolverPlugin
+ * Implements a http header resolver Strategy based on a header string.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class StringHeaderResolverPluginTest extends PHPUnit_Framework_TestCase {
+class StringHeaderAggregatorStrategy implements HeaderAggregatorStrategy {
+
+    /** @var string */
+    private $headers;
 
     /**
-     * @covers  Brickoo\Component\Http\Resolver\Plugin\StringHeaderResolverPlugin::__construct
-     * @expectedException \InvalidArgumentException
+     * Class constructor.
+     * @param string $headers the message headers as string
      */
-    public function testConstructorInvalidHeaderStringThrowsException() {
-        new StringHeaderResolverPlugin(["wrongType"]);
+    public function __construct($headers) {
+        Argument::isString($headers);
+        $this->headers = $headers;
     }
 
-    /**
-     * @covers  Brickoo\Component\Http\Resolver\Plugin\StringHeaderResolverPlugin::__construct
-     * @covers  Brickoo\Component\Http\Resolver\Plugin\StringHeaderResolverPlugin::getHeaders
-     */
-    public function testGetHeadersFromString() {
-        $expectedHeaders = ["Accept" => "*/*", "Connection" => "keep-alive"];
-        $stringHeaderResolverPlugin = new StringHeaderResolverPlugin("Accept: */*\r\nConnection: keep-alive\r\n");
-        $this->assertEquals($expectedHeaders, $stringHeaderResolverPlugin->getHeaders());
-        //
+    /** {@inheritDoc} */
+    public function getHeaders() {
+        $extractedHeaders = [];
+        $fields = explode("\r\n", preg_replace("/\x0D\x0A[\x09\x20]+/", " ", $this->headers));
+
+        foreach ($fields as $field) {
+            $matches = [];
+            if (preg_match("/(?<name>[^:]+): (?<value>.+)/m", $field, $matches) == 1) {
+                $extractedHeaders[$matches["name"]] = trim($matches["value"]);
+            }
+        }
+        return $extractedHeaders;
     }
 
 }

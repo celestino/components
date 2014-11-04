@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Cache\Messaging\Message;
 
-use Brickoo\Component\Cache\Messaging\Message\StoreMessage,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Cache\Messaging\Message\StoreMessage;
+use PHPUnit_Framework_TestCase;
 
 /**
  * StoreMessageTest

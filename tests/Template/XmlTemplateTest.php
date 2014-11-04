@@ -29,9 +29,9 @@
 
 namespace Brickoo\Tests\Component\Template;
 
-use Brickoo\Component\Template\XmlTemplate,
-    DOMDocument,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Template\XmlTemplate;
+use DOMDocument;
+use PHPUnit_Framework_TestCase;
 
 /**
  * XmlTemplateTest

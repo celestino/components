@@ -2,10 +2,10 @@
 
 namespace Brickoo\Tests\Component\Messaging\Assets;
 
-use Brickoo\Component\Messaging\Message,
-    Brickoo\Component\Messaging\MessageDispatcher,
-    Brickoo\Component\Messaging\MessageListener,
-    Brickoo\Component\Messaging\ListenerAggregate;
+use Brickoo\Component\Messaging\Message;
+use Brickoo\Component\Messaging\MessageDispatcher;
+use Brickoo\Component\Messaging\MessageListener;
+use Brickoo\Component\Messaging\ListenerAggregate;
 
 class AggregatedListeners implements ListenerAggregate {
 

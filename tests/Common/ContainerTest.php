@@ -29,10 +29,10 @@
 
 namespace Brickoo\Tests\Component\Common;
 
-use Brickoo\Component\Common\Container,
-    Brickoo\Component\Validation\Constraint\IsInternalTypeConstraint,
-    Brickoo\Component\Validation\Validator\ConstraintValidator,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Common\Container;
+use Brickoo\Component\Validation\Constraint\IsInternalTypeConstraint;
+use Brickoo\Component\Validation\Validator\ConstraintValidator;
+use PHPUnit_Framework_TestCase;
 
 /**
  * containerTest

@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Annotation;
 
-use Brickoo\Component\Annotation\AnnotationReaderResultValidator,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Annotation\AnnotationReaderResultValidator;
+use PHPUnit_Framework_TestCase;
 
 /**
  * Test suite for the AnnotationReaderResultValidator class.

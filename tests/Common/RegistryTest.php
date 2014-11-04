@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Common;
 
-use Brickoo\Component\Common\Registry,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Common\Registry;
+use PHPUnit_Framework_TestCase;
 
 /**
  * RegistryTest

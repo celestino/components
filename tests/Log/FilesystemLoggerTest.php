@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Log;
 
-use Brickoo\Component\Log\FilesystemLogger,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Log\FilesystemLogger;
+use PHPUnit_Framework_TestCase;
 
 /**
  * FilesystemLoggerTest

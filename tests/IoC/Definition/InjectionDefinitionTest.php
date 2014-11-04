@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\IoC\Definition;
 
-use Brickoo\Component\IoC\Definition\InjectionDefinition,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\IoC\Definition\InjectionDefinition;
+use PHPUnit_Framework_TestCase;
 
 /**
  * InjectionDefinitionTest

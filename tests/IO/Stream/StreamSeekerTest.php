@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\IO\Stream;
 
-use Brickoo\Component\IO\Stream\StreamSeeker,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\IO\Stream\StreamSeeker;
+use PHPUnit_Framework_TestCase;
 
 /**
  * StreamSeekerTest

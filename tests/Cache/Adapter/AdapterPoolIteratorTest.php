@@ -29,9 +29,9 @@
 
 namespace Brickoo\Tests\Component\Cache\Adapter;
 
-use Brickoo\Component\Cache\Adapter\AdapterPoolIterator,
-    Brickoo\Component\Cache\Adapter\DoNothingAdapter,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Cache\Adapter\AdapterPoolIterator;
+use Brickoo\Component\Cache\Adapter\DoNothingAdapter;
+use PHPUnit_Framework_TestCase;
 
 /**
  * AdapterPoolIteratorTest

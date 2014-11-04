@@ -29,8 +29,8 @@
 
 namespace Tests\Brickoo\Component\Cache;
 
-use Brickoo\Component\Cache\Adapter\MemoryAdapter,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Cache\Adapter\MemoryAdapter;
+use PHPUnit_Framework_TestCase;
 
 /**
  * MemoryAdapterTest

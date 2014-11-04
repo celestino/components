@@ -27,51 +27,21 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Http;
+namespace Brickoo\Component\Http\Aggregator\Strategy;
 
 /**
- * UriResolver
+ * HeaderAggregatorStrategy
  *
- * Defines a resolver for an URI.
+ * Describes a http header aggregator Strategy.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-interface UriResolver {
+interface HeaderAggregatorStrategy {
 
     /**
-     * Returns the request scheme.
-     * @return string the request scheme
+     * Returns the loaded headers as key/value pairs.
+     * @return array the headers
      */
-    public function getScheme();
-
-    /**
-     * Returns the host name or address.
-     * @return string the host name or address
-     */
-    public function getHostname();
-
-    /**
-     * Returns the uri port.
-     * @return integer the uri port
-     */
-    public function getPort();
-
-    /**
-     * Returns the uri path.
-     * @return string the uri path
-     */
-    public function getPath();
-
-    /**
-     * Returns the uri query string.
-     * @return string the query string
-     */
-    public function getQueryString();
-
-    /**
-     * Returns the uri fragment.
-     * @return string the uri fragment
-     */
-    public function getFragment();
+    public function getHeaders();
 
 }

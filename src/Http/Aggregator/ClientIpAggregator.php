@@ -27,17 +27,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Http\Resolver;
+namespace Brickoo\Component\Http\Aggregator;
 
 use Brickoo\Component\Http\HttpMessageHeader;
 
 /**
- * ClientIpResolver
+ * ClientIpAggregator
  *
- * Implements a client ip solver.
+ * Implements a client ip aggregator.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class ClientIpResolver {
+class ClientIpAggregator {
 
     /** @var \Brickoo\Component\Http\HttpMessageHeader */
     private $headers;

@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\IoC\Definition\Container;
 
-use Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer;
+use PHPUnit_Framework_TestCase;
 
 /**
  * ArgumentDefinitionContainerTest

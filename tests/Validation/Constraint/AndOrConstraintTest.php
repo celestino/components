@@ -29,10 +29,10 @@
 
 namespace Brickoo\Tests\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Constraint\AndOrConstraint,
-    Brickoo\Component\Validation\Constraint\IsEqualToConstraint,
-    Brickoo\Component\Validation\Constraint\IsInternalTypeConstraint,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Validation\Constraint\AndOrConstraint;
+use Brickoo\Component\Validation\Constraint\IsEqualToConstraint;
+use Brickoo\Component\Validation\Constraint\IsInternalTypeConstraint;
+use PHPUnit_Framework_TestCase;
 
 /**
  * AndOrConstraint

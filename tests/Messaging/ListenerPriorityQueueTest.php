@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Messaging\Listener;
 
-use Brickoo\Component\Messaging\ListenerPriorityQueue,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Messaging\ListenerPriorityQueue;
+use PHPUnit_Framework_TestCase;
 
 /**
  * ListenerPriorityQueueTest

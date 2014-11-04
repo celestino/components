@@ -29,10 +29,10 @@
 
 namespace Brickoo\Tests\Component\Http;
 
-use Brickoo\Component\Http\HttpMethod,
-    Brickoo\Component\Http\HttpRequest,
-    Brickoo\Component\Http\HttpVersion,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Http\HttpMethod;
+use Brickoo\Component\Http\HttpRequest;
+use Brickoo\Component\Http\HttpVersion;
+use PHPUnit_Framework_TestCase;
 
 /**
  * HttpRequestTest

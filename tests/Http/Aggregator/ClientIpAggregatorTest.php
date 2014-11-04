@@ -27,63 +27,63 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Tests\Component\Http\Resolver;
+namespace Brickoo\Tests\Component\Http\Aggregator;
 
-use Brickoo\Component\Http\Resolver\ClientIpResolver,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Http\Aggregator\ClientIpAggregator;
+use PHPUnit_Framework_TestCase;
 
 /**
- * ClientIpResolver
+ * ClientIpAggregator
  *
- * Test suite for the ClientIpResolver class.
- * @see Brickoo\Component\Http\Resolver\ClientIpResolver
+ * Test suite for the ClientIpAggregator class.
+ * @see Brickoo\Component\Http\Aggregator\ClientIpAggregator
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class ClientIpResolverTest extends PHPUnit_Framework_TestCase {
+class ClientIpAggregatorTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::__construct
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getClientIp
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getOriginalClientIp
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getForwardedClientIp
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getClientIpFromHeaders
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getServerVar
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::__construct
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getClientIp
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getOriginalClientIp
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getForwardedClientIp
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getClientIpFromHeaders
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getServerVar
      */
     public function testGetClientIpCouldBeEmpty() {
-        $clientIpResolver = new ClientIpResolver($this->getMessageHeaderStub());
-        $this->assertEquals("", $clientIpResolver->getClientIp());
+        $clientIpAggregator = new ClientIpAggregator($this->getMessageHeaderStub());
+        $this->assertEquals("", $clientIpAggregator->getClientIp());
     }
 
     /**
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getClientIp
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getOriginalClientIp
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getForwardedClientIp
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getClientIpFromHeaders
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getServerVar
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getClientIp
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getOriginalClientIp
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getForwardedClientIp
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getClientIpFromHeaders
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getServerVar
      */
     public function testGetClientIpCouldReturnProxyIp() {
-        $clientIpResolver = new ClientIpResolver($this->getMessageHeaderStub(), ["REMOTE_ADDR" => "10.20.30.40"], ["10.20.30.40"]);
-        $this->assertEquals("10.20.30.40", $clientIpResolver->getClientIp());
+        $clientIpAggregator = new ClientIpAggregator($this->getMessageHeaderStub(), ["REMOTE_ADDR" => "10.20.30.40"], ["10.20.30.40"]);
+        $this->assertEquals("10.20.30.40", $clientIpAggregator->getClientIp());
     }
 
     /**
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getClientIp
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getOriginalClientIp
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getForwardedClientIp
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getClientIpFromHeaders
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getServerVar
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getClientIp
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getOriginalClientIp
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getForwardedClientIp
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getClientIpFromHeaders
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getServerVar
      */
     public function testGetClientIpFromServerValue() {
-        $clientIpResolver = new ClientIpResolver($this->getMessageHeaderStub(), ["REMOTE_ADDR" => "127.0.0.1"]);
-        $this->assertEquals("127.0.0.1", $clientIpResolver->getClientIp());
+        $clientIpAggregator = new ClientIpAggregator($this->getMessageHeaderStub(), ["REMOTE_ADDR" => "127.0.0.1"]);
+        $this->assertEquals("127.0.0.1", $clientIpAggregator->getClientIp());
     }
 
     /**
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getClientIp
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getOriginalClientIp
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getForwardedClientIp
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getClientIpFromHeaders
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getServerVar
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getClientIp
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getOriginalClientIp
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getForwardedClientIp
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getClientIpFromHeaders
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getServerVar
      */
     public function testGetClientIpFromClientIPHeader() {
         $headerChecks = [["X-Forwarded-For", false], ["Client-Ip", true]];
@@ -95,24 +95,24 @@ class ClientIpResolverTest extends PHPUnit_Framework_TestCase {
                       ->method("getHeader")
                       ->with("Client-Ip")
                       ->will($this->returnValue($this->getHeaderStub("127.0.0.1")));
-        $clientIpResolver = new ClientIpResolver($messageHeader, ["REMOTE_ADDR" => "10.20.30.40"], ["10.20.30.40"]);
-        $this->assertEquals("127.0.0.1", $clientIpResolver->getClientIp());
+        $clientIpAggregator = new ClientIpAggregator($messageHeader, ["REMOTE_ADDR" => "10.20.30.40"], ["10.20.30.40"]);
+        $this->assertEquals("127.0.0.1", $clientIpAggregator->getClientIp());
     }
 
     /**
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getClientIp
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getOriginalClientIp
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getForwardedClientIp
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getClientIpFromHeaders
-     * @covers Brickoo\Component\Http\Resolver\ClientIpResolver::getServerVar
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getClientIp
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getOriginalClientIp
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getForwardedClientIp
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getClientIpFromHeaders
+     * @covers Brickoo\Component\Http\Aggregator\ClientIpAggregator::getServerVar
      */
     public function testGetClientIpForwarded() {
-        $clientIpResolver = new ClientIpResolver(
+        $clientIpAggregator = new ClientIpAggregator(
             $this->getMessageHeaderMock("X-Forwarded-For", $this->getHeaderStub("127.0.0.1, 88.99.100.101")),
             ["REMOTE_ADDR" => "10.20.30.40"],
             ["10.20.30.40"]
         );
-        $this->assertEquals("127.0.0.1", $clientIpResolver->getClientIp());
+        $this->assertEquals("127.0.0.1", $clientIpAggregator->getClientIp());
     }
 
     /**

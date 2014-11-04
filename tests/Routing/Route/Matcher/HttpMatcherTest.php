@@ -29,9 +29,9 @@
 
 namespace Brickoo\Tests\Component\Routing\Route\Matcher;
 
-use Brickoo\Component\Routing\Route\HttpRoute,
-    Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Routing\Route\HttpRoute;
+use Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher;
+use PHPUnit_Framework_TestCase;
 
 /**
  * HttpMatcherTest

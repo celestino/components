@@ -27,41 +27,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Tests\Component\Http\Resolver\Plugin;
+namespace Brickoo\Component\Http\Aggregator\Exception;
 
-use Brickoo\Component\Http\Resolver\Plugin\PhpHeaderResolverPlugin,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Http\Aggregator\Exception;
 
 /**
- * PhpHeaderResolverPlugin
+ * HeaderClassNotFoundException
  *
- * Test suite for the PhpHeaderResolverPlugin class.
- * @see Brickoo\Component\Http\Resolver\PhpHeaderResolverPlugin
+ * Exception thrown if a header class could not be found.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class PhpHeaderResolverPluginTest extends PHPUnit_Framework_TestCase {
+class HeaderClassNotFoundException extends Exception {
 
     /**
-     * @cover Brickoo\Component\Htt\Resolver\Plugin\PhpHeaderResolverPlugin::getHeaders
-     * @cover Brickoo\Component\Htt\Resolver\Plugin\PhpHeaderResolverPlugin::getPhpExtractedHttpHeaders
+     * Class constructor.
+     * Calls the parent exception constructor.
+     * @param string $headerClass the header class not found
+     * @param null|\Exception $previousException
      */
-    public function testGetHeadersFromGlobalServerValues() {
-        if (defined("HHVM_VERSION")) {
-            $this->markTestSkipped(
-                "Unsupported routine by HHVM v3.1.0\n".
-                "https://github.com/facebook/hhvm/issues/985"
-            );
-        }
-
-        if (! function_exists("apache_request_headers")) {
-            require_once realpath(__DIR__)."/Assets/requiredFunctions.php";
-        }
-
-        $expectedHeaders = ["CONNECTION" => "keep-alive", "X-Unit-Test" => "ok"];
-        $_SERVER["HTTP_CONNECTION"] = "keep-alive";
-        $requestHeaderResolverPlugin = new PhpHeaderResolverPlugin();
-        $this->assertEquals($expectedHeaders, $requestHeaderResolverPlugin->getHeaders());
+    public function __construct($headerClass, \Exception $previousException = null) {
+        parent::__construct(sprintf("The header class `%s` could not be found.", $headerClass), 0, $previousException);
     }
 
 }

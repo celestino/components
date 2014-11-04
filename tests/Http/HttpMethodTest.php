@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Http;
 
-use Brickoo\Component\Http\HttpMethod,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Http\HttpMethod;
+use PHPUnit_Framework_TestCase;
 
 /**
  * HttpMethod

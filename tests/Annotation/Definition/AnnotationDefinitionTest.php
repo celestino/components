@@ -29,9 +29,9 @@
 
 namespace Brickoo\Tests\Component\Annotation\Definition;
 
-use Brickoo\Component\Annotation\Annotation,
-    Brickoo\Component\Annotation\Definition\AnnotationDefinition,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Annotation\Annotation;
+use Brickoo\Component\Annotation\Definition\AnnotationDefinition;
+use PHPUnit_Framework_TestCase;
 
 /**
  * Test suite for the AnnotationDefinition class.

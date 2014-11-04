@@ -29,10 +29,10 @@
 
 namespace Brickoo\Tests\Component\Log;
 
-use Brickoo\Component\IO\Stream\SocketStream,
-    Brickoo\Component\IO\Stream\SocketStreamConfig,
-    Brickoo\Component\Log\SyslogLogger,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\IO\Stream\SocketStream;
+use Brickoo\Component\IO\Stream\SocketStreamConfig;
+use Brickoo\Component\Log\SyslogLogger;
+use PHPUnit_Framework_TestCase;
 
 /**
  * SyslogLoggerTest

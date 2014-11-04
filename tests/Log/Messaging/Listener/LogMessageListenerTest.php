@@ -29,9 +29,9 @@
 
 namespace Brickoo\Tests\Component\Log\Messaging\Listener;
 
-use Brickoo\Component\Log\Logger,
-    Brickoo\Component\Log\Messaging\Listener\LogMessageListener,
-    Brickoo\Component\Log\Messaging\Messages;
+use Brickoo\Component\Log\Logger;
+use Brickoo\Component\Log\Messaging\Listener\LogMessageListener;
+use Brickoo\Component\Log\Messaging\Messages;
 
 /**
  * LogMessageListenerTest

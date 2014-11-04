@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint;
+use PHPUnit_Framework_TestCase;
 
 require_once "Fixture/TraversableInstancesFixture.php";
 

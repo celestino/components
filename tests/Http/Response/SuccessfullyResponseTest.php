@@ -29,9 +29,9 @@
 
 namespace Brickoo\Tests\Component\Http\Response;
 
-use Brickoo\Component\Http\Header\GenericHeader,
-    Brickoo\Component\Http\Response\SuccessfullyResponse,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Http\Header\GenericHeader;
+use Brickoo\Component\Http\Response\SuccessfullyResponse;
+use PHPUnit_Framework_TestCase;
 
 /**
  * SuccessfullyResponseTest

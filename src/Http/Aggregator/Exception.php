@@ -27,43 +27,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Http\Resolver\Plugin;
+namespace Brickoo\Component\Http\Aggregator;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Http\Exception as HttpException;
 
 /**
- * StringHeaderResolverPlugin
+ * Exception
  *
- * Implements a http header resolver plugin based on a header string.
+ * Defines a Http\Aggregator component exception.
+ * Used to catch all exceptions from this component.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class StringHeaderResolverPlugin implements HeaderResolverPlugin {
-
-    /** @var string */
-    private $headers;
-
-    /**
-     * Class constructor.
-     * @param string $headers the message headers as string
-     */
-    public function __construct($headers) {
-        Argument::isString($headers);
-        $this->headers = $headers;
-    }
-
-    /** {@inheritDoc} */
-    public function getHeaders() {
-        $extractedHeaders = [];
-        $fields = explode("\r\n", preg_replace("/\x0D\x0A[\x09\x20]+/", " ", $this->headers));
-
-        foreach ($fields as $field) {
-            $matches = [];
-            if (preg_match("/(?<name>[^:]+): (?<value>.+)/m", $field, $matches) == 1) {
-                $extractedHeaders[$matches["name"]] = trim($matches["value"]);
-            }
-        }
-        return $extractedHeaders;
-    }
-
-}
+class Exception extends HttpException {}

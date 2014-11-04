@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Http;
 
-use Brickoo\Component\Http\Uri,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Http\Uri;
+use PHPUnit_Framework_TestCase;
 
 /**
  * UriTest

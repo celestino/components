@@ -27,16 +27,41 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Http\Resolver;
+namespace Brickoo\Tests\Component\Http\Aggregator\Strategy;
 
-use Brickoo\Component\Http\Exception as HttpException;
+use Brickoo\Component\Http\Aggregator\Strategy\PhpHeaderAggregatorStrategy;
+use PHPUnit_Framework_TestCase;
 
 /**
- * Exception
+ * PhpHeaderAggregatorStrategy
  *
- * Defines a http\resolver component exception.
- * Used to catch all exceptions from this component.
+ * Test suite for the PhpHeaderAggregatorStrategy class.
+ * @see Brickoo\Component\Http\Aggregator\PhpHeaderAggregatorStrategy
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Exception extends HttpException {}
+class PhpHeaderAggregatorStrategyTest extends PHPUnit_Framework_TestCase {
+
+    /**
+     * @cover Brickoo\Component\Htt\Aggregator\Aggregator\PhpHeaderAggregatorStrategy::getHeaders
+     * @cover Brickoo\Component\Htt\Aggregator\Aggregator\PhpHeaderAggregatorStrategy::getPhpExtractedHttpHeaders
+     */
+    public function testGetHeadersFromGlobalServerValues() {
+        if (defined("HHVM_VERSION")) {
+            $this->markTestSkipped(
+                "Unsupported routine by HHVM v3.1.0\n".
+                "https://github.com/facebook/hhvm/issues/985"
+            );
+        }
+
+        if (! function_exists("apache_request_headers")) {
+            require_once realpath(__DIR__)."/Assets/requiredFunctions.php";
+        }
+
+        $expectedHeaders = ["CONNECTION" => "keep-alive", "X-Unit-Test" => "ok"];
+        $_SERVER["HTTP_CONNECTION"] = "keep-alive";
+        $requestHeaderAggregatorStrategy = new PhpHeaderAggregatorStrategy();
+        $this->assertEquals($expectedHeaders, $requestHeaderAggregatorStrategy->getHeaders());
+    }
+
+}

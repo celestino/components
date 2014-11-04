@@ -29,6 +29,8 @@
 
 namespace Brickoo\Component\Http;
 
+use Brickoo\Component\Http\Aggregator\UriAggregator;
+
 /**
  * UriFactory
  *
@@ -40,10 +42,10 @@ class UriFactory {
 
     /**
      * Creates a request uri instance.
-     * @param \Brickoo\Component\Http\UriResolver $uriResolver
+     * @param \Brickoo\Component\Http\Aggregator\UriAggregator $uriResolver
      * @return \Brickoo\Component\Http\Uri
      */
-    public function create(UriResolver $uriResolver) {
+    public function create(UriAggregator $uriResolver) {
         return new Uri(
             $uriResolver->getScheme(),
             $this->createAuthority($uriResolver),
@@ -55,19 +57,19 @@ class UriFactory {
 
     /**
      * Creates the authority dependency.
-     * @param \Brickoo\Component\Http\UriResolver $uriResolver
+     * @param \Brickoo\Component\Http\Aggregator\UriAggregator $uriResolver
      * @return \Brickoo\Component\Http\UriAuthority
      */
-    private function createAuthority(UriResolver $uriResolver) {
+    private function createAuthority(UriAggregator $uriResolver) {
         return new UriAuthority($uriResolver->getHostname(), $uriResolver->getPort());
     }
 
     /**
      * Creates the query dependency.
-     * @param \Brickoo\Component\Http\UriResolver $uriResolver
+     * @param \Brickoo\Component\Http\Aggregator\UriAggregator $uriResolver
      * @return \Brickoo\Component\Http\UriQuery
      */
-    private function createQuery(UriResolver $uriResolver) {
+    private function createQuery(UriAggregator $uriResolver) {
         return (new UriQuery())->fromString($uriResolver->getQueryString());
     }
 

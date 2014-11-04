@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\IO\Printing;
 
-use Brickoo\Component\IO\Printing\PlainTextPrinter,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\IO\Printing\PlainTextPrinter;
+use PHPUnit_Framework_TestCase;
 
 /**
  * PlainTextPrinterTestTest

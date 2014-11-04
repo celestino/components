@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Constraint\IsLessThanConstraint,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Validation\Constraint\IsLessThanConstraint;
+use PHPUnit_Framework_TestCase;
 
 /**
  * IsLessThanConstraint

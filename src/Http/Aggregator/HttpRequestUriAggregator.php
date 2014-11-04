@@ -27,18 +27,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Http\Resolver;
+namespace Brickoo\Component\Http\Aggregator;
 
 use Brickoo\Component\Http\HttpMessageHeader;
-use Brickoo\Component\Http\UriResolver;
 
 /**
- * HttpRequestUriResolver
+ * HttpRequestUriAggregator
  *
  * Implements a resolver for a http request uri.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class HttpRequestUriResolver implements UriResolver {
+class HttpRequestUriAggregator implements UriAggregator {
 
     /** @var \Brickoo\Component\Http\HttpMessageHeader */
     private $header;

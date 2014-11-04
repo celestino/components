@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Constraint\IsInstanceOfConstraint,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Validation\Constraint\IsInstanceOfConstraint;
+use PHPUnit_Framework_TestCase;
 
 /**
  * IsInstanceOfConstraintTest

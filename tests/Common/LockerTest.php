@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Common;
 
-use Brickoo\Component\Common\Locker,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Common\Locker;
+use PHPUnit_Framework_TestCase;
 
 /**
  * LockerTest

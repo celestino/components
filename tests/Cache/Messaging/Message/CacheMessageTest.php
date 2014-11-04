@@ -29,9 +29,9 @@
 
 namespace Brickoo\Tests\Component\Cache\Messaging\Message;
 
-use Brickoo\Component\Cache\Messaging\Messages,
-    Brickoo\Component\Cache\Messaging\Message\CacheMessage,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Cache\Messaging\Messages;
+use Brickoo\Component\Cache\Messaging\Message\CacheMessage;
+use PHPUnit_Framework_TestCase;
 
 /**
  * CacheMessageTest

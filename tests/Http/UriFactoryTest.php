@@ -29,8 +29,10 @@
 
 namespace Brickoo\Tests\Component\Http;
 
-use Brickoo\Component\Http\UriFactory,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Http\UriFactory;
+use PHPUnit_Framework_TestCase;
+use ArrayIterator;
+use ReflectionClass;
 
 /**
  * UriFactoryTest
@@ -48,7 +50,7 @@ class UriFactoryTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\UriFactory::createQuery
      */
     public function testCreateUri() {
-        $uriResolver = $this->getMockBuilder("\\Brickoo\\Component\\Http\\UriResolver")
+        $uriResolver = $this->getMockBuilder("\\Brickoo\\Component\\Http\\Aggregator\\UriAggregator")
             ->disableOriginalConstructor()->getMock();
         $uriResolver->expects($this->any())
                     ->method("getScheme")

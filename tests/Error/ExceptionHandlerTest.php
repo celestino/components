@@ -29,8 +29,8 @@
 
 namespace Tests\Brickoo\Component\Error;
 
-use Brickoo\Component\Error\ExceptionHandler,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Error\ExceptionHandler;
+use PHPUnit_Framework_TestCase;
 
 /**
  * ExceptionHandlerTest

@@ -30,8 +30,8 @@
 namespace Brickoo\Tests\Component\Annotation\Definition;
 
 use Brickoo\Component\Annotation\Annotation;
-use Brickoo\Component\Annotation\Definition\DefinitionCollection,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Annotation\Definition\DefinitionCollection;
+use PHPUnit_Framework_TestCase;
 
 /**
  * Test suite for the DefinitionCollection class.

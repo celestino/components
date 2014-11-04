@@ -27,16 +27,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Http\Resolver\Plugin;
+namespace Brickoo\Component\Http\Aggregator\Strategy;
 
 /**
- * PhpHeaderResolverPlugin
+ * PhpHeaderAggregatorStrategy
  *
- * Implements a http header resolver plugin based on the global server values.
+ * Implements a http header aggregator strategy based on the global server values.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class PhpHeaderResolverPlugin implements HeaderResolverPlugin {
+class PhpHeaderAggregatorStrategy implements HeaderAggregatorStrategy {
 
     /** {@inheritDoc} */
     public function getHeaders() {

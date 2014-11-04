@@ -27,30 +27,30 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Http\Resolver;
+namespace Brickoo\Component\Http\Aggregator;
 
 use Brickoo\Component\Http\Header\GenericHeader;
 use Brickoo\Component\Http\HttpHeaderList;
 use Brickoo\Component\Http\HttpHeaderNormalizer;
-use Brickoo\Component\Http\Resolver\Exception\HeaderClassNotFoundException;
-use Brickoo\Component\Http\Resolver\Plugin\HeaderResolverPlugin;
+use Brickoo\Component\Http\Aggregator\Exception\HeaderClassNotFoundException;
+use Brickoo\Component\Http\Aggregator\Strategy\HeaderAggregatorStrategy;
 
 /**
- * HeaderResolver
+ * HeaderAggregator
  *
  * Implements a http header solver.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class HeaderResolver {
+class HeaderAggregator {
 
     use HttpHeaderNormalizer;
 
     /** @var array */
     private $headerMap;
 
-    /** @var \Brickoo\Component\Http\Resolver\Plugin\HeaderResolverPlugin */
-    private $resolverPlugin;
+    /** @var \Brickoo\Component\Http\Aggregator\Strategy\HeaderAggregatorStrategy */
+    private $resolverStrategy;
 
     /** @var array */
     private $loadedHeaders;
@@ -58,11 +58,11 @@ class HeaderResolver {
     /**
      * Class constructor.
      * @param array $headerMap a map array containing the header nam as key and target class as value
-     * @param \Brickoo\Component\Http\Resolver\Plugin\HeaderResolverPlugin $resolverPlugin
+     * @param \Brickoo\Component\Http\Aggregator\Strategy\HeaderAggregatorStrategy $resolverStrategy
      */
-    public function __construct(array $headerMap, HeaderResolverPlugin $resolverPlugin) {
+    public function __construct(array $headerMap, HeaderAggregatorStrategy $resolverStrategy) {
         $this->headerMap = $headerMap;
-        $this->resolverPlugin = $resolverPlugin;
+        $this->resolverStrategy = $resolverStrategy;
         $this->loadedHeaders = [];
     }
 
@@ -101,11 +101,11 @@ class HeaderResolver {
 
     /**
      * Load the headers into local cache.
-     * @return \Brickoo\Component\Http\Resolver\HeaderResolver
+     * @return \Brickoo\Component\Http\Aggregator\HeaderAggregator
      */
     private function loadHeaders() {
         if (empty($this->loadedHeaders)) {
-            $this->loadedHeaders = $this->normalizeHeaders($this->resolverPlugin->getHeaders());
+            $this->loadedHeaders = $this->normalizeHeaders($this->resolverStrategy->getHeaders());
         }
         return $this;
     }
@@ -136,7 +136,7 @@ class HeaderResolver {
      * Create a header instance from a mapping class.
      * @param string $headerClass
      * @param string $headerValue
-     * @throws \Brickoo\Component\Http\Resolver\Exception\HeaderClassNotFoundException
+     * @throws \Brickoo\Component\Http\Aggregator\Exception\HeaderClassNotFoundException
      * @return \Brickoo\Component\Http\HttpHeader
      */
     private function createMappingHeader($headerClass, $headerValue) {

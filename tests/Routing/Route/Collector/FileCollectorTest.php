@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Routing\Route\Collector;
 
-use Brickoo\Component\Routing\Route\Collector\FileRouteCollector,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Routing\Route\Collector\FileRouteCollector;
+use PHPUnit_Framework_TestCase;
 
 /**
  * FileRouteCollectorTest

@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Http;
 
-use Brickoo\Component\Http\Header\SetCookieHeader,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Http\Header\SetCookieHeader;
+use PHPUnit_Framework_TestCase;
 
 /**
  * SetCookieHeaderTest

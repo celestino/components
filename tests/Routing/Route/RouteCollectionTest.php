@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Routing\Route;
 
-use Brickoo\Component\Routing\Route\RouteCollection,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Routing\Route\RouteCollection;
+use PHPUnit_Framework_TestCase;
 
 /**
  * RouteCollectionTest

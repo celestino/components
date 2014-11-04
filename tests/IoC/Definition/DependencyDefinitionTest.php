@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\IoC\Definition;
 
-use Brickoo\Component\IoC\Definition\DependencyDefinition,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\IoC\Definition\DependencyDefinition;
+use PHPUnit_Framework_TestCase;
 
 /**
  * DependencyDefinitionTest

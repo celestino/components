@@ -29,13 +29,13 @@
 
 namespace Brickoo\Tests\Component\Cache\Messaging\Listener;
 
-use Brickoo\Component\Cache\Messaging\Listener\CacheMessageListener,
-    Brickoo\Component\Cache\Messaging\Message\DeleteMessage,
-    Brickoo\Component\Cache\Messaging\Message\FlushMessage,
-    Brickoo\Component\Cache\Messaging\Message\RetrieveByCallbackMessage,
-    Brickoo\Component\Cache\Messaging\Message\RetrieveMessage,
-    Brickoo\Component\Cache\Messaging\Message\StoreMessage,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Cache\Messaging\Listener\CacheMessageListener;
+use Brickoo\Component\Cache\Messaging\Message\DeleteMessage;
+use Brickoo\Component\Cache\Messaging\Message\FlushMessage;
+use Brickoo\Component\Cache\Messaging\Message\RetrieveByCallbackMessage;
+use Brickoo\Component\Cache\Messaging\Message\RetrieveMessage;
+use Brickoo\Component\Cache\Messaging\Message\StoreMessage;
+use PHPUnit_Framework_TestCase;
 
 /**
  * CacheMessageListenerTest

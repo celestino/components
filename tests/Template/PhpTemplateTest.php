@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Template;
 
-use Brickoo\Component\Template\PhpTemplate,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Template\PhpTemplate;
+use PHPUnit_Framework_TestCase;
 
 /**
  * PhpTemplateTest

@@ -29,9 +29,9 @@
 
 namespace Brickoo\Tests\Component\IoC\Resolver;
 
-use Brickoo\Component\IoC\Definition\DependencyDefinition,
-    Brickoo\Component\IoC\Resolver\DependencyCallableResolver,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\IoC\Definition\DependencyDefinition;
+use Brickoo\Component\IoC\Resolver\DependencyCallableResolver;
+use PHPUnit_Framework_TestCase;
 
 /**
  * DependencyCallableResolverTest

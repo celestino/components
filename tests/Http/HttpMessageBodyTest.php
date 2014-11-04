@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Http;
 
-use Brickoo\Component\Http\HttpMessageBody,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Http\HttpMessageBody;
+use PHPUnit_Framework_TestCase;
 
 /**
  * HttpMessageBodyTest

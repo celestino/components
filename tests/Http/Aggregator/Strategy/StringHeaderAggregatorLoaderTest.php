@@ -27,27 +27,38 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Http\Resolver\Exception;
+namespace Brickoo\Tests\Component\Http\Aggregator\Strategy;
 
-use Brickoo\Component\Http\Resolver\Exception;
+use Brickoo\Component\Http\Aggregator\Strategy\StringHeaderAggregatorStrategy;
+use PHPUnit_Framework_TestCase;
 
 /**
- * HeaderClassNotFoundException
+ * StringHeaderAggregatorStrategyTest
  *
- * Exception thrown if a header class could not be found.
+ * Test suite for the StringHeaderAggregatorStrategy class.
+ * @see Brickoo\Component\Http\Aggregator\StringHeaderAggregatorStrategy
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class HeaderClassNotFoundException extends Exception {
+class StringHeaderAggregatorStrategyTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * Class constructor.
-     * Calls the parent exception constructor.
-     * @param string $headerClass the header class not found
-     * @param null|\Exception $previousException
+     * @covers  Brickoo\Component\Http\Aggregator\Strategy\StringHeaderAggregatorStrategy::__construct
+     * @expectedException \InvalidArgumentException
      */
-    public function __construct($headerClass, \Exception $previousException = null) {
-        parent::__construct(sprintf("The header class `%s` could not be found.", $headerClass), 0, $previousException);
+    public function testConstructorInvalidHeaderStringThrowsException() {
+        new StringHeaderAggregatorStrategy(["wrongType"]);
+    }
+
+    /**
+     * @covers  Brickoo\Component\Http\Aggregator\Strategy\StringHeaderAggregatorStrategy::__construct
+     * @covers  Brickoo\Component\Http\Aggregator\Strategy\StringHeaderAggregatorStrategy::getHeaders
+     */
+    public function testGetHeadersFromString() {
+        $expectedHeaders = ["Accept" => "*/*", "Connection" => "keep-alive"];
+        $stringHeaderAggregatorStrategy = new StringHeaderAggregatorStrategy("Accept: */*\r\nConnection: keep-alive\r\n");
+        $this->assertEquals($expectedHeaders, $stringHeaderAggregatorStrategy->getHeaders());
+        //
     }
 
 }

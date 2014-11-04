@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\IoC\Definition;
 
-use Brickoo\Component\IoC\Definition\ArgumentDefinition,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\IoC\Definition\ArgumentDefinition;
+use PHPUnit_Framework_TestCase;
 
 /**
  * ArgumentDefinitionTest

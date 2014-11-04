@@ -29,9 +29,9 @@
 
 namespace Brickoo\Tests\Component\Error\Messaging\Listener;
 
-use Brickoo\Component\Error\Messaging\Messages,
-    Brickoo\Component\Error\Messaging\Listener\ErrorLogMessageListener,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Error\Messaging\Messages;
+use Brickoo\Component\Error\Messaging\Listener\ErrorLogMessageListener;
+use PHPUnit_Framework_TestCase;
 
 /**
  * ErrorLogMessageListenerTest

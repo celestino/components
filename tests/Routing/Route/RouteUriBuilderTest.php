@@ -29,9 +29,9 @@
 
 namespace Brickoo\Tests\Component\Routing\Route;
 
-use Brickoo\Component\Routing\Route\RouteUriBuilder,
-    Brickoo\Component\Routing\Route\Exception\RouteNotFoundException,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Routing\Route\RouteUriBuilder;
+use Brickoo\Component\Routing\Route\Exception\RouteNotFoundException;
+use PHPUnit_Framework_TestCase;
 
 /**
  * RouteUriBuilderTest

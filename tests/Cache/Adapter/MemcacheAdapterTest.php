@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Cache\Adapter;
 
-use Brickoo\Component\Cache\Adapter\MemcacheAdapter,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Cache\Adapter\MemcacheAdapter;
+use PHPUnit_Framework_TestCase;
 
 /**
  * MemcacheAdapterTest

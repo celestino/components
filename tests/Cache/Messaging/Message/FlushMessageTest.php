@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Cache\Messaging\Message;
 
-use Brickoo\Component\Cache\Messaging\Message\FlushMessage,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Cache\Messaging\Message\FlushMessage;
+use PHPUnit_Framework_TestCase;
 
 /**
  * FlushMessageTest

@@ -29,8 +29,8 @@
 
 namespace Brickoo\Tests\Component\Messaging;
 
-use Brickoo\Component\Messaging\MessageResponseCollection,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Messaging\MessageResponseCollection;
+use PHPUnit_Framework_TestCase;
 
 /**
  * MessageResponseCollectionTest

@@ -29,12 +29,12 @@
 
 namespace Brickoo\Tests\Component\Routing\Route\Collector;
 
-use Brickoo\Component\Messaging\Message,
-    Brickoo\Component\Messaging\MessageDispatcher,
-    Brickoo\Component\Messaging\MessageListener,
-    Brickoo\Component\Routing\Messaging\Messages,
-    Brickoo\Component\Routing\Route\Collector\MessageRouteCollector,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Messaging\Message;
+use Brickoo\Component\Messaging\MessageDispatcher;
+use Brickoo\Component\Messaging\MessageListener;
+use Brickoo\Component\Routing\Messaging\Messages;
+use Brickoo\Component\Routing\Route\Collector\MessageRouteCollector;
+use PHPUnit_Framework_TestCase;
 
 /**
  * MessageRouteCollectorTest

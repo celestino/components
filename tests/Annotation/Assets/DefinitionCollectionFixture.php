@@ -1,9 +1,9 @@
 <?php
 
-use Brickoo\Component\Annotation\Annotation,
-    Brickoo\Component\Annotation\Definition\DefinitionCollection,
-    Brickoo\Component\Annotation\Definition\AnnotationDefinition,
-    Brickoo\Component\Annotation\Definition\ParameterDefinition;
+use Brickoo\Component\Annotation\Annotation;
+use Brickoo\Component\Annotation\Definition\DefinitionCollection;
+use Brickoo\Component\Annotation\Definition\AnnotationDefinition;
+use Brickoo\Component\Annotation\Definition\ParameterDefinition;
 
 /**
  * Definition annotations:

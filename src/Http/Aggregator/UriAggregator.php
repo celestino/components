@@ -27,21 +27,51 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Brickoo\Component\Http\Resolver\Plugin;
+namespace Brickoo\Component\Http\Aggregator;
 
 /**
- * HeaderResolverPlugin
+ * UriAggregator
  *
- * Describes a http header solver plugin.
+ * Defines an URI aggregator.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-interface HeaderResolverPlugin {
+interface UriAggregator {
 
     /**
-     * Returns the loaded headers as key/value pairs.
-     * @return array the headers
+     * Returns the request scheme.
+     * @return string the request scheme
      */
-    public function getHeaders();
+    public function getScheme();
+
+    /**
+     * Returns the host name or address.
+     * @return string the host name or address
+     */
+    public function getHostname();
+
+    /**
+     * Returns the uri port.
+     * @return integer the uri port
+     */
+    public function getPort();
+
+    /**
+     * Returns the uri path.
+     * @return string the uri path
+     */
+    public function getPath();
+
+    /**
+     * Returns the uri query string.
+     * @return string the query string
+     */
+    public function getQueryString();
+
+    /**
+     * Returns the uri fragment.
+     * @return string the uri fragment
+     */
+    public function getFragment();
 
 }

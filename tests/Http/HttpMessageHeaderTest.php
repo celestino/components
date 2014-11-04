@@ -29,9 +29,9 @@
 
 namespace Brickoo\Tests\Component\Http;
 
-use Brickoo\Component\Http\Header\GenericHeader,
-    Brickoo\Component\Http\HttpMessageHeader,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Http\Header\GenericHeader;
+use Brickoo\Component\Http\HttpMessageHeader;
+use PHPUnit_Framework_TestCase;
 
 /**
  * HttpMessageHeaderTest

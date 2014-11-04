@@ -29,9 +29,9 @@
 
 namespace Brickoo\Tests\Component\Cache;
 
-use Brickoo\Component\Cache\CacheProxy,
-    Brickoo\Component\Cache\Adapter\Adapter,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\Cache\CacheProxy;
+use Brickoo\Component\Cache\Adapter\Adapter;
+use PHPUnit_Framework_TestCase;
 
 /**
  * CacheProxyTest

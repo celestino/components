@@ -29,10 +29,10 @@
 
 namespace Brickoo\Tests\Component\IoC\Resolver;
 
-use Brickoo\Component\IoC\Definition\DependencyDefinition,
-    Brickoo\Component\IoC\Resolver\DefinitionResolver,
-    Brickoo\Component\IoC\Resolver\DependencyClassResolver,
-    PHPUnit_Framework_TestCase;
+use Brickoo\Component\IoC\Definition\DependencyDefinition;
+use Brickoo\Component\IoC\Resolver\DefinitionResolver;
+use Brickoo\Component\IoC\Resolver\DependencyClassResolver;
+use PHPUnit_Framework_TestCase;
 
 /**
  * DefinitionResolverTest
