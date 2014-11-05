@@ -53,7 +53,7 @@ class MemcacheAdapter implements Adapter {
      */
     public function __construct(\Memcache $memcache, $useCompression = false) {
         $this->memcache = $memcache;
-        $this->cacheCompression = $useCompression ? (defined("MEMCACHE_COMPRESSED") ? MEMCACHE_COMPRESSED : 2) : false;
+        $this->cacheCompression = $useCompression ? (defined("MEMCACHE_COMPRESSED") ? MEMCACHE_COMPRESSED : 2) : 0;
     }
 
     /** {@inheritDoc} */
