@@ -41,5 +41,5 @@ Brickoo is an open source project. If you would like to contribute to Brickoo, p
 
 
 ###License
-The files in this archive are released under the BSD-2-Clause license.
+The files in this archive are released under the MIT license.
 You can find a copy of this [license](http://brickoo.com/#license) in the LICENSE file included.
