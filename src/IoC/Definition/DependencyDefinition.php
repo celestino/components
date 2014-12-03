@@ -63,13 +63,12 @@ class DependencyDefinition {
         $dependency,
         $scope = self::SCOPE_PROTOTYPE,
         ArgumentDefinitionContainer $argumentsContainer = null,
-        InjectionDefinitionContainer $injectionsContainer = null
-    ) {
-        Argument::isInteger($scope);
-        $this->scope = $scope;
-        $this->setDependency($dependency);
-        $this->argumentsContainer = $argumentsContainer ?: new ArgumentDefinitionContainer();
-        $this->injectionsContainer = $injectionsContainer ?: new InjectionDefinitionContainer();
+        InjectionDefinitionContainer $injectionsContainer = null) {
+            Argument::isInteger($scope);
+            $this->scope = $scope;
+            $this->setDependency($dependency);
+            $this->argumentsContainer = $argumentsContainer ?: new ArgumentDefinitionContainer();
+            $this->injectionsContainer = $injectionsContainer ?: new InjectionDefinitionContainer();
     }
 
     /**

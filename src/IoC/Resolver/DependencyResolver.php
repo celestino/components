@@ -112,11 +112,10 @@ abstract class DependencyResolver {
         }
 
         if (is_string($argumentValue)
-            && strpos($argumentValue, $this->definitionPrefix) === 0
-        ) {
-            return $this->getDiContainer()->retrieve(
-                substr($argumentValue, strlen($this->definitionPrefix))
-            );
+            && strpos($argumentValue, $this->definitionPrefix) === 0) {
+                return $this->getDiContainer()->retrieve(
+                    substr($argumentValue, strlen($this->definitionPrefix))
+                );
         }
 
         return $argumentValue;
