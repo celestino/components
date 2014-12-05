@@ -3,7 +3,7 @@
     "description": "BrickOO components",
     "keywords": ["components", "brickoo", "oop", "api", "clean", "tested"],
     "homepage": "http://brickoo.com",
-    "license": "BSD-2-Clause",
+    "license": "MIT",
     "authors": [{
         "name": "Celestino Diaz",
         "email": "celestino.diaz@gmx.de"
