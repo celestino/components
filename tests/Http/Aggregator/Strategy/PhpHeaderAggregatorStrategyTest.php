@@ -42,13 +42,6 @@ class PhpHeaderAggregatorStrategyTest extends PHPUnit_Framework_TestCase {
      * @cover Brickoo\Component\Htt\Aggregator\Aggregator\PhpHeaderAggregatorStrategy::getPhpExtractedHttpHeaders
      */
     public function testGetHeadersFromGlobalServerValues() {
-        if (defined("HHVM_VERSION")) {
-            $this->markTestSkipped(
-                "Unsupported routine by HHVM v3.1.0\n".
-                "https://github.com/facebook/hhvm/issues/985"
-            );
-        }
-
         if (! function_exists("apache_request_headers")) {
             require_once realpath(__DIR__)."/Assets/requiredFunctions.php";
         }

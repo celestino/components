@@ -90,19 +90,17 @@ class XmlTemplate implements Template {
         }
 
         $lastErrorsState = libxml_use_internal_errors(true);
-
         try {
             $processor = $this->createXsltProcessor();
             if (($output = @$processor->transformToXml($this->xmlDocument)) === false) {
                 throw new XmlTransformationException($this->getLibXmlErrorMessage());
             }
+            libxml_use_internal_errors($lastErrorsState);
         }
-        catch (Exception $exception) {
+        catch (\Exception $exception) {
             libxml_use_internal_errors($lastErrorsState);
             throw new RenderingException($exception);
         }
-
-        libxml_use_internal_errors($lastErrorsState);
         return $output;
     }
 
@@ -128,8 +126,10 @@ class XmlTemplate implements Template {
             $this->xmlDocument->xmlVersion, $this->xmlDocument->xmlEncoding
         );
 
-        if (! $stylesheet->load($this->xsltFilename)) {
-            throw new UnableToLoadFileException($this->xsltFilename);
+        if (empty($this->xsltFilename)
+            || (! file_exists($this->xsltFilename))
+            || (! $stylesheet->load($this->xsltFilename))) {
+                throw new UnableToLoadFileException($this->xsltFilename);
         }
         return $stylesheet;
     }
