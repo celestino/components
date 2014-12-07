@@ -124,9 +124,8 @@ class DependencyAnnotation {
         if (preg_match(
             self::TARGET_NAME_REGEX,
             $annotation->getTargetLocation(),
-            $matches
-        )) {
-            $targetLocation = $matches["target"];
+            $matches)) {
+                $targetLocation = $matches["target"];
         }
         return $targetLocation;
     }

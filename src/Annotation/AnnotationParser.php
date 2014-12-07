@@ -89,7 +89,7 @@ class AnnotationParser {
      * @param string $targetLocation
      * @param string $docComment
      * @throws \InvalidArgumentException
-     * @return array<\Brickoo\Component\Annotation\Annotation>
+     * @return \Brickoo\Component\Annotation\Annotation[]
      */
     public function parse($target, $targetLocation, $docComment) {
         Argument::isInteger($target);
@@ -237,8 +237,8 @@ class AnnotationParser {
 
     /**
      * Transform value if is boolean.
-     * @param * $value
-     * @return boolean|*
+     * @param string $value
+     * @return boolean|string
      */
     private function transformIfIsBoolean(&$value) {
         if ($value === "true" || $value === "false") {
@@ -252,7 +252,7 @@ class AnnotationParser {
      * @param integer $target
      * @param string $targetLocation
      * @param array $annotationList
-     * @return array<\Brickoo\Component\Annotation\Annotation>
+     * @return \Brickoo\Component\Annotation\Annotation[]
      */
     private function convertAnnotations($target, $targetLocation, array $annotationList) {
         $annotations = [];
