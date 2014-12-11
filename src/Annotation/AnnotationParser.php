@@ -37,8 +37,9 @@ class AnnotationParser {
 
     /** @const regular expressions templates */
     const REGEX_ANNOTATION = "~[^\"]%s(?<%s>[\\w]+)[^%s(]*\\(\\s*(?<%s>[^\\)\\(]*)\\s*\\)~";
-    const REGEX_PARAMETER = "~((?<%s>\\w+)\\s*=)?\\s*(?<%s>(\"[^\"]*\")|(\\:\\[[^\\:]*\\]\\:)|[0-9\\.]+|true|false)~";
+    const REGEX_PARAMETER = "~((?<%s>\\w+)\\s*=)?\\s*(?<%s>(\"[^\"]*\")|[0-9\\.]+|true|false)~";
     const REGEX_VALUE = "~((?<%s>\\w+)\\s*=)?\\s*(?<%s>('[^']*')|[0-9\\.]+|true|false)~";
+    const REGEX_ARRAY = "~^\\[\\[.+\\]\\]$~";
 
     /** @const regular expressions capture groups  */
     const REGEX_CAPTURE_ANNOTATION = "annotation";
@@ -203,11 +204,11 @@ class AnnotationParser {
      */
     private function convertValue($value) {
         $value = trim($value, "\"'");
-        if (preg_match("~^\\:\\[.+\\]\\:$~", $value) == 0) {
+        if (preg_match(self::REGEX_ARRAY, $value) == 0) {
             return $this->transformScalar($value);
         }
 
-        $valuesString = trim($value, ":[]:");
+        $valuesString = trim($value, "[]");
         $valuesRegex = sprintf(self::REGEX_VALUE, self::REGEX_CAPTURE_PARAM, self::REGEX_CAPTURE_VALUE);
         return $this->getParameterValues($valuesString, $valuesRegex);
     }
@@ -226,25 +227,23 @@ class AnnotationParser {
     /**
      * Transform value if is numeric.
      * @param string $value
-     * @return float|integer|*
+     * @return void
      */
     private function transformIfIsNumeric(&$value) {
         if (is_numeric($value)) {
             $value = strpos($value, ".") ? floatval($value) : intval($value);
         }
-        return $value;
     }
 
     /**
      * Transform value if is boolean.
      * @param string $value
-     * @return boolean|string
+     * @return void
      */
     private function transformIfIsBoolean(&$value) {
         if ($value === "true" || $value === "false") {
             $value = $value === "true";
         }
-        return $value;
     }
 
     /**
