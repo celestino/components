@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2011-2014, Celestino Diaz <celestino.diaz@gmx.de>
+ * Copyright (c) 2011-2015, Celestino Diaz <celestino.diaz@gmx.de>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
