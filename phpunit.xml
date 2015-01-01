@@ -12,7 +12,7 @@
     <testsuites>
         <testsuite name="BrickOO Components">
             <directory>./tests/Annotation</directory>
-            <directory>./tests/Cache</directory>
+            <directory>./tests/Storage</directory>
             <directory>./tests/Error</directory>
             <directory>./tests/Messaging</directory>
             <directory>./tests/Filesystem</directory>
