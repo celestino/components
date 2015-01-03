@@ -26,6 +26,7 @@ namespace Brickoo\Tests\Component\Storage;
 
 use Brickoo\Component\Storage\StorageProxy;
 use Brickoo\Component\Storage\Adapter\Adapter;
+use Brickoo\Component\Storage\Adapter\AdapterPoolIterator;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -44,7 +45,7 @@ class StorageProxyTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Storage\StorageProxy::getReadyAdapter
      */
     public function testGetByCallbackFallbackFromAdapterPoolStoresResultAfter() {
-        $cacheIdentifier = "someIdentifier";
+        $storageIdentifier = "someIdentifier";
         $callback = function() {return "callback content";};
         $callbackArguments = [];
         $lifetime = 60;
@@ -55,12 +56,12 @@ class StorageProxyTest extends PHPUnit_Framework_TestCase {
                 ->will($this->returnValue(null));
         $adapter->expects($this->once())
                 ->method("set")
-                ->with($cacheIdentifier, "callback content", $lifetime);
+                ->with($storageIdentifier, "callback content", $lifetime);
 
-        $storageProxy = new StorageProxy($this->buildAdapterPoolIteratorStub($adapter));
+        $storageProxy = new StorageProxy($this->getAdapterPoolIterator([$adapter]));
         $this->assertEquals(
             "callback content",
-            $storageProxy->getByCallback($cacheIdentifier, $callback, $callbackArguments, $lifetime)
+            $storageProxy->getByCallback($storageIdentifier, $callback, $callbackArguments, $lifetime)
         );
     }
 
@@ -69,7 +70,7 @@ class StorageProxyTest extends PHPUnit_Framework_TestCase {
      * @expectedException \InvalidArgumentException
      */
     public function testGetByCallbackIdentifierThrowsInvalidArgumentException() {
-        $storageProxy = new StorageProxy($this->getAdapterPoolIteratorStub());
+        $storageProxy = new StorageProxy($this->getAdapterPoolIterator());
         $storageProxy->getByCallback(["wrongType"], function(){}, [], 60);
     }
 
@@ -78,7 +79,7 @@ class StorageProxyTest extends PHPUnit_Framework_TestCase {
      * @expectedException \InvalidArgumentException
      */
     public function testGetByCallbackLifetimeThrowsInvalidArgumentException() {
-        $storageProxy = new StorageProxy($this->getAdapterPoolIteratorStub());
+        $storageProxy = new StorageProxy($this->getAdapterPoolIterator());
         $storageProxy->getByCallback("some_identifier", function(){}, [], "wrongType");
     }
 
@@ -89,18 +90,18 @@ class StorageProxyTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Storage\StorageProxy::executeIterationCallback
      * @covers Brickoo\Component\Storage\StorageProxy::rewindAdapterPool
      */
-    public function testGetCachedContentFromAnAdapter() {
-        $cacheIdentifier = "someIdentifier";
-        $cachedContent = "some cached content";
+    public function testGetStoredContentFromAnAdapter() {
+        $storageIdentifier = "someIdentifier";
+        $storedContent = "some stored content";
 
         $adapter = $this->getAdapterStub();
         $adapter->expects($this->any())
                 ->method("get")
-                ->with($cacheIdentifier)
-                ->will($this->returnValue($cachedContent));
+                ->with($storageIdentifier)
+                ->will($this->returnValue($storedContent));
 
-        $storageProxy = new StorageProxy($this->buildAdapterPoolIteratorStub($adapter));
-        $this->assertEquals($cachedContent, $storageProxy->get($cacheIdentifier));
+        $storageProxy = new StorageProxy($this->getAdapterPoolIterator([$adapter]));
+        $this->assertEquals($storedContent, $storageProxy->get($storageIdentifier));
     }
 
     /**
@@ -111,7 +112,7 @@ class StorageProxyTest extends PHPUnit_Framework_TestCase {
      * @expectedException \Brickoo\Component\Storage\Exception\AdapterNotFoundException
      */
     public function testGetContentWithoutAReadyAdapterThrowsException() {
-        $storageProxy = new StorageProxy($this->getAdapterPoolIteratorStub());
+        $storageProxy = new StorageProxy($this->getAdapterPoolIterator());
         $storageProxy->get("some_identifier");
     }
 
@@ -120,7 +121,7 @@ class StorageProxyTest extends PHPUnit_Framework_TestCase {
      * @expectedException \InvalidArgumentException
      */
     public function testGetWithInvalidIdentifierThrowsArgumentException() {
-        $storageProxy = new StorageProxy($this->getAdapterPoolIteratorStub());
+        $storageProxy = new StorageProxy($this->getAdapterPoolIterator());
         $storageProxy->get(["wrongType"]);
     }
 
@@ -131,18 +132,18 @@ class StorageProxyTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Storage\StorageProxy::executeIterationCallback
      * @covers Brickoo\Component\Storage\StorageProxy::rewindAdapterPool
      */
-    public function testStoringContentToCacheWithAnAdapter() {
-        $cacheIdentifier = "someIdentifier";
-        $cacheContent = "some content ot cache";
+    public function testStoringContentWithAnAdapter() {
+        $storageIdentifier = "someIdentifier";
+        $storedContent = "some content to store";
         $lifetime = 60;
 
         $adapter = $this->getAdapterStub();
         $adapter->expects($this->once())
-                 ->method("set")
-                 ->with($cacheIdentifier, $cacheContent, $lifetime);
+                ->method("set")
+                ->with($storageIdentifier, $storedContent, $lifetime);
 
-        $storageProxy = new StorageProxy($this->buildAdapterPoolIteratorStub($adapter));
-        $this->assertSame($storageProxy, $storageProxy->set($cacheIdentifier, $cacheContent, $lifetime));
+        $storageProxy = new StorageProxy($this->getAdapterPoolIterator([$adapter]));
+        $this->assertSame($storageProxy, $storageProxy->set($storageIdentifier, $storedContent, $lifetime));
     }
 
     /**
@@ -150,7 +151,7 @@ class StorageProxyTest extends PHPUnit_Framework_TestCase {
      * @expectedException \InvalidArgumentException
      */
     public function testSetWithInvalidIdentifierThrowsArgumentException() {
-        $storageProxy = new StorageProxy($this->getAdapterPoolIteratorStub());
+        $storageProxy = new StorageProxy($this->getAdapterPoolIterator());
         $storageProxy->set(["wrongType"], "", 60);
     }
 
@@ -159,7 +160,7 @@ class StorageProxyTest extends PHPUnit_Framework_TestCase {
      * @expectedException \InvalidArgumentException
      */
     public function testSetLifetimeThrowsArgumentException() {
-        $storageProxy = new StorageProxy($this->getAdapterPoolIteratorStub());
+        $storageProxy = new StorageProxy($this->getAdapterPoolIterator());
         $storageProxy->set("some_valid_identifier", "", "wrongType");
     }
 
@@ -169,13 +170,13 @@ class StorageProxyTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Storage\StorageProxy::rewindAdapterPool
      */
     public function testDeleteCachedContentWithAnAdapter() {
-        $cacheIdentifier = "someIdentifier";
+        $storageIdentifier = "someIdentifier";
         $adapter = $this->getAdapterStub();
         $adapter->expects($this->once())
                 ->method("delete")
-                ->with($cacheIdentifier);
-        $storageProxy = new StorageProxy($this->buildAdapterPoolIteratorStub($adapter));
-        $this->assertSame($storageProxy, $storageProxy->delete($cacheIdentifier));
+                ->with($storageIdentifier);
+        $storageProxy = new StorageProxy($this->getAdapterPoolIterator([$adapter]));
+        $this->assertSame($storageProxy, $storageProxy->delete($storageIdentifier));
     }
 
     /**
@@ -183,7 +184,7 @@ class StorageProxyTest extends PHPUnit_Framework_TestCase {
      * @expectedException \InvalidArgumentException
      */
     public function testDeleteIdentifierThrowsArgumentException() {
-        $storageProxy = new StorageProxy($this->getAdapterPoolIteratorStub());
+        $storageProxy = new StorageProxy($this->getAdapterPoolIterator());
         $storageProxy->delete(["wrongType"]);
     }
 
@@ -196,53 +197,51 @@ class StorageProxyTest extends PHPUnit_Framework_TestCase {
         $adapter = $this->getAdapterStub();
         $adapter->expects($this->once())
                 ->method("flush");
-        $storageProxy = new StorageProxy($this->buildAdapterPoolIteratorStub($adapter));
+        $storageProxy = new StorageProxy($this->getAdapterPoolIterator([$adapter]));
         $this->assertSame($storageProxy, $storageProxy->flush());
     }
 
     /**
-     * Returns an AdapterPoolIterator stub.
+     * @covers Brickoo\Component\Storage\StorageProxy::get
+     * @covers Brickoo\Component\Storage\StorageProxy::getAdapter
+     * @covers Brickoo\Component\Storage\StorageProxy::getReadyAdapter
+     * @covers Brickoo\Component\Storage\StorageProxy::executeIterationCallback
+     */
+    public function testGetAdapterUsesFirstReadyAdapter() {
+        $storageIdentifier = "someId";
+        $storageContent = "some content";
+
+        $adapterExpected = $this->getAdapterStub();
+        $adapterExpected->expects($this->once())
+                        ->method("get")
+                        ->with($storageIdentifier)
+                        ->will($this->returnValue($storageContent));
+        $adapterUnexpected = $this->getAdapterStub();
+
+        $storageProxy = new StorageProxy($this->getAdapterPoolIterator([$adapterExpected, $adapterUnexpected]));
+        $this->assertEquals($storageContent, $storageProxy->get($storageIdentifier));
+    }
+
+    /**
+     * Returns an AdapterPoolIterator.
      * @param array $adaptersPool
      * @return \Brickoo\Component\Storage\Adapter\AdapterPoolIterator
      */
-    private function getAdapterPoolIteratorStub(array $adaptersPool = []) {
-        return $this->getMockBuilder("\\Brickoo\\Component\\Storage\\Adapter\\AdapterPoolIterator")
-            ->setConstructorArgs([$adaptersPool])
-            ->getMock();
+    private function getAdapterPoolIterator(array $adaptersPool = []) {
+        return new AdapterPoolIterator($adaptersPool);
     }
 
     /**
      * Return an adapter stub.
+     * @param boolean $isReady
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    private function getAdapterStub() {
-        return $this->getMock("\\Brickoo\\Component\\Storage\\Adapter\\Adapter");
-    }
-
-    /**
-     * Returns a pre-configured AdapterPoolIterator stub object.
-     * @param \Brickoo\Component\Storage\Adapter\Adapter $adapter
-     * @param integer $poolEntryKey the pool entry key
-     * @return \Brickoo\Component\Storage\Adapter\AdapterPoolIterator
-     */
-    private function buildAdapterPoolIteratorStub(Adapter $adapter, $poolEntryKey = 0) {
-        $adapterPoolIterator = $this->getAdapterPoolIteratorStub([$poolEntryKey => $adapter]);
-        $adapterPoolIterator->expects($this->any())
-                            ->method("isEmpty")
-                            ->will($this->returnValue(false));
-        $adapterPoolIterator->expects($this->any())
-                            ->method("valid")
-                            ->will($this->onConsecutiveCalls(true, false));
-        $adapterPoolIterator->expects($this->once())
-                            ->method("isCurrentReady")
-                            ->will($this->returnValue(true));
-        $adapterPoolIterator->expects($this->any())
-                            ->method("current")
-                            ->will($this->returnValue($adapter));
-        $adapterPoolIterator->expects($this->any())
-                            ->method("key")
-                            ->will($this->returnValue($poolEntryKey));
-        return $adapterPoolIterator;
+    private function getAdapterStub($isReady = true) {
+        $mock = $this->getMock("\\Brickoo\\Component\\Storage\\Adapter\\Adapter");
+        $mock->expects($this->any())
+             ->method("isReady")
+             ->will($this->returnValue($isReady));
+        return $mock;
     }
 
 }

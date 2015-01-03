@@ -27,16 +27,16 @@ namespace Brickoo\Component\Storage\Adapter;
 /**
  * Adapter
  *
- * Defines a caching adapter.
+ * Defines a storage adapter.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 interface Adapter {
 
     /**
-     * Returns the cached content from the matching identifier.
+     * Returns the stored content from the matching identifier.
      * @param string $identifier the identifier to retrieve the content from
      * @throws \InvalidArgumentException if an argument is not valid
-     * @return mixed the cached content or boolean false on failure
+     * @return mixed the stored content or boolean false on failure
      */
     public function get($identifier);
 
@@ -44,15 +44,15 @@ interface Adapter {
      * Sets the content hold by the given identifier.
      * If the identifier already exists the content will be replaced.
      * @param string $identifier the identifier which should hold the content
-     * @param mixed $content the content which should be cached
-     * @param integer $lifetime the lifetime of the cached content in seconds
+     * @param mixed $content the content which should be stored
+     * @param integer $lifetime the lifetime of the stored content in seconds
      * @throws \InvalidArgumentException if an argument is not valid
      * @return \Brickoo\Component\Storage\Adapter\Adapter
      */
     public function set($identifier, $content, $lifetime);
 
     /**
-     * Deletes the cached content hold by the identifier.
+     * Deletes the stored content hold by the identifier.
      * @param string $identifier the content identifier to remove
      * @throws \InvalidArgumentException if an argument is not valid
      * @return \Brickoo\Component\Storage\Adapter\Adapter
@@ -60,7 +60,7 @@ interface Adapter {
     public function delete($identifier);
 
     /**
-     * Flushes the cached values by removing (or flag as removed) any content hold.
+     * Flushes the stored values by removing (or flag as removed) any content hold.
      * @return \Brickoo\Component\Storage\Adapter\Adapter
      */
     public function flush();

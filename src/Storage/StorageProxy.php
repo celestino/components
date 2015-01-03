@@ -32,10 +32,13 @@ use Brickoo\Component\Validation\Argument;
 /**
  * StorageProxy
  *
- * Implements caching proxy using a cache adapter pool.
+ * Implements a storage proxy using an adapter pool.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 class StorageProxy {
+
+    /** @var string */
+    const BREAK_ITERATION_CALLBACK = "BIC";
 
     /** @var \Brickoo\Component\Storage\Adapter\Adapter */
     private $adapter;
@@ -53,32 +56,33 @@ class StorageProxy {
     }
 
     /**
-     * Returns a cached content or if the cached content is not available,
-     * it will be retrieved by the provided callback and stored back into the cache.
+     * Returns a stored content or if the stored content is not available,
+     * it will be retrieved by the provided callback and stored back into the storage.
      * @param string $identifier the identifier to retrieve/store the content from/to
-     * @param callable $callback the callback to call if the content is not cached
+     * @param callable $callback the callback to call if the content is not stored
      * @param array $callbackArguments the arguments to pass forward to the callback
-     * @param integer $lifetime the lifetime of the cached content in seconds
+     * @param integer $lifetime the lifetime of the stored content in seconds
      * @throws \InvalidArgumentException if an argument is not valid
      * @throws \Brickoo\Component\Storage\Exception\AdapterNotFoundException
-     * @return mixed the cached content
+     * @return mixed the stored content
      */
     public function getByCallback($identifier, callable $callback, array $callbackArguments, $lifetime) {
         Argument::isString($identifier);
         Argument::isInteger($lifetime);
 
-        if ((!$content = $this->get($identifier)) && ($content = call_user_func_array($callback, $callbackArguments))) {
-            $this->set($identifier, $content, $lifetime);
+        if ((! ($content = $this->get($identifier)))
+            && ($content = call_user_func_array($callback, $callbackArguments))) {
+                $this->set($identifier, $content, $lifetime);
         }
         return $content;
     }
 
     /**
-     * Returns the cached content hold by the identifier.
+     * Returns the stored content hold by the identifier.
      * @param string $identifier the identifier to retrieve the content
      * @throws \InvalidArgumentException if an argument is not valid
      * @throws \Brickoo\Component\Storage\Exception\AdapterNotFoundException
-     * @return mixed the cached content
+     * @return mixed the stored content
      */
     public function get($identifier) {
         Argument::isString($identifier);
@@ -89,8 +93,8 @@ class StorageProxy {
      * Sets the content hold by the given identifier.
      * If the identifier already exists the content will be replaced.
      * @param string $identifier the identifier which holds the content
-     * @param mixed $content the content to cache
-     * @param integer $lifetime the lifetime of the cached content
+     * @param mixed $content the content to store
+     * @param integer $lifetime the lifetime of the stored content
      * @throws \InvalidArgumentException if an argument is not valid
      * @throws \Brickoo\Component\Storage\Exception\AdapterNotFoundException
      * @return \Brickoo\Component\Storage\StorageProxy
@@ -103,33 +107,40 @@ class StorageProxy {
     }
 
     /**
-     * Deletes the cached content which is hold by the identifier.
-     * Removes the local cached content.
+     * Deletes the stored content which is hold by the identifier.
+     * Removes the local stored content.
      * @param string $identifier the identifier which holds the content
      * @throws \InvalidArgumentException if an argument is not valid
      * @return \Brickoo\Component\Storage\StorageProxy
      */
     public function delete($identifier) {
         Argument::isString($identifier);
-        $this->executeIterationCallback(function(Adapter $readyAdapter) use ($identifier) {
-            $readyAdapter->delete($identifier);
-        });
+        $this->executeIterationCallback(
+            function(Adapter $readyAdapter) use ($identifier) {
+                $readyAdapter->delete($identifier);
+                return null;
+            }
+        );
         return $this;
     }
 
     /**
-     * Flushes the cache hold by all ready adapters.
+     * Flushes the storage of all ready adapters.
      * @return \Brickoo\Component\Storage\StorageProxy
      */
     public function flush() {
-        $this->executeIterationCallback(function(Adapter $readyAdapter) {
-            $readyAdapter->flush();
-        });
+        $this->executeIterationCallback(
+            function(Adapter $readyAdapter) {
+                $readyAdapter->flush();
+                return null;
+            }
+        );
         return $this;
     }
 
     /**
      * Returns a ready adapter entry from the adapter pool.
+     * @throws \Brickoo\Component\Storage\Exception\AdapterNotFoundException
      * @return \Brickoo\Component\Storage\Adapter\Adapter
      */
     private function getAdapter() {
@@ -140,18 +151,21 @@ class StorageProxy {
     }
 
     /**
-     * Returns a ready adapter.
+     * Returns an adapter which is ready to use.
      * @throws \Brickoo\Component\Storage\Exception\AdapterNotFoundException
      * @return \Brickoo\Component\Storage\Adapter\Adapter
      */
     private function getReadyAdapter() {
         $adapter = null;
 
-        $this->executeIterationCallback(function(Adapter $readyAdapter) use (&$adapter) {
-            $adapter = $readyAdapter;
-        });
+        $this->executeIterationCallback(
+            function(Adapter $readyAdapter) use (&$adapter) {
+                $adapter = $readyAdapter;
+                return StorageProxy::BREAK_ITERATION_CALLBACK;
+            }
+        );
 
-        if ($adapter === null) {
+        if (! $adapter instanceof Adapter) {
             throw new AdapterNotFoundException();
         }
         return $adapter;
@@ -165,9 +179,11 @@ class StorageProxy {
     private function executeIterationCallback(\Closure $callbackFunction) {
         $this->rewindAdapterPool();
 
-        while ($this->adapterPoolIterator->valid()
+        $callbackValue = null;
+        while ($callbackValue !== self::BREAK_ITERATION_CALLBACK
+            && $this->adapterPoolIterator->valid()
             && $this->adapterPoolIterator->isCurrentReady()) {
-                $callbackFunction($this->adapterPoolIterator->current());
+                $callbackValue = $callbackFunction($this->adapterPoolIterator->current());
                 $this->adapterPoolIterator->next();
         }
         return $this;

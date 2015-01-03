@@ -52,11 +52,9 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
      * @throws \InvalidArgumentException if a pool entry does not match expected type
      */
     public function __construct(array $poolEntries) {
-        if (! (new ContainsInstancesOfConstraint("\\Brickoo\\Component\\Storage\\Adapter\\Adapter"))->matches($poolEntries)) {
-            throw new \InvalidArgumentException(sprintf(
-                "%s: The pool entries must be instances implementing \\Brickoo\\Component\\Storage\\Adapter\\Adapter interface.",
-                __CLASS__
-            ));
+        if ((! empty($poolEntries))
+            && (! (new ContainsInstancesOfConstraint("\\Brickoo\\Component\\Storage\\Adapter\\Adapter"))->matches($poolEntries))) {
+                throw new \InvalidArgumentException(sprintf("%s: The pool entries must implement the Adapter interface.", __CLASS__));
         }
 
         $this->poolEntries = array_values($poolEntries);
@@ -79,7 +77,7 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
      * @return \Brickoo\Component\Storage\Adapter\Adapter
      */
     public function current() {
-        if ($this->isEmpty() || (!isset($this->poolEntries[$this->currentPointerPosition]))) {
+        if ($this->isEmpty() || (! isset($this->poolEntries[$this->currentPointerPosition]))) {
             throw new PoolIsEmptyException();
         }
         return $this->poolEntries[$this->currentPointerPosition];
