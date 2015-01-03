@@ -59,7 +59,7 @@ class StorageMessageListener implements ListenerAggregate {
      */
     public function __construct(StorageProxy $storageProxy, $listenerPriority = 0) {
         Argument::isInteger($listenerPriority);
-        $this->cacheProxy = $storageProxy;
+        $this->storageProxy = $storageProxy;
         $this->listenerPriority = $listenerPriority;
     }
 
@@ -79,7 +79,7 @@ class StorageMessageListener implements ListenerAggregate {
      */
     public function handleRetrieveMessage(Message $message) {
         if ($message instanceof RetrieveMessage) {
-            return $this->cacheProxy->get($message->getIdentifier());
+            return $this->storageProxy->get($message->getIdentifier());
         }
         return null;
     }
@@ -92,7 +92,7 @@ class StorageMessageListener implements ListenerAggregate {
      */
     public function handleRetrieveByCallbackMessage(Message $message) {
         if ($message instanceof RetrieveByCallbackMessage) {
-            return $this->cacheProxy->getByCallback(
+            return $this->storageProxy->getByCallback(
                 $message->getIdentifier(),
                 $message->getCallback(),
                 $message->getCallbackArguments(),
@@ -109,7 +109,7 @@ class StorageMessageListener implements ListenerAggregate {
      */
     public function handleStoreMessage(Message $message) {
         if ($message instanceof StoreMessage) {
-            $this->cacheProxy->set($message->getIdentifier(), $message->getContent(), $message->getLifetime());
+            $this->storageProxy->set($message->getIdentifier(), $message->getContent(), $message->getLifetime());
         }
     }
 
@@ -121,7 +121,7 @@ class StorageMessageListener implements ListenerAggregate {
      */
     public function handleDeleteMessage(Message $message) {
         if ($message instanceof DeleteMessage) {
-            $this->cacheProxy->delete($message->getIdentifier());
+            $this->storageProxy->delete($message->getIdentifier());
         }
     }
 
@@ -132,7 +132,7 @@ class StorageMessageListener implements ListenerAggregate {
      */
     public function handleFlushMessage(Message $message) {
         if ($message instanceof FlushMessage) {
-            $this->cacheProxy->flush();
+            $this->storageProxy->flush();
         }
     }
 
