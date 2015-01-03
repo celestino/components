@@ -168,6 +168,7 @@ class CacheProxy {
         while ($this->adapterPoolIterator->valid()
             && $this->adapterPoolIterator->isCurrentReady()) {
                 $callbackFunction($this->adapterPoolIterator->current());
+                $this->adapterPoolIterator->next();
         }
         return $this;
     }
