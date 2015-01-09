@@ -47,7 +47,6 @@ class HttpMethod {
     const PATCH = "PATCH";
     const DELETE = "DELETE";
 
-
     /** @var string */
     private $method;
 
