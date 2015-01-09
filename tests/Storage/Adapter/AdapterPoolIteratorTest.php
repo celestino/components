@@ -177,13 +177,23 @@ class AdapterPoolIteratorTest extends PHPUnit_Framework_TestCase {
         $this->assertFalse($adapterPoolIterator->isEmpty());
     }
 
-    /** @covers Brickoo\Component\Storage\Adapter\AdapterPoolIterator::count     */
+    /** @covers Brickoo\Component\Storage\Adapter\AdapterPoolIterator::count */
     public function testCountAdapterPoolEntries() {
         $adapterPoolIterator = new AdapterPoolIterator([]);
         $this->assertEquals(0, count($adapterPoolIterator));
 
         $adapterPoolIterator = new AdapterPoolIterator($this->getPoolEntries());
         $this->assertEquals(2, count($adapterPoolIterator));
+    }
+
+    /** @covers Brickoo\Component\Storage\Adapter\AdapterPoolIterator::remove */
+    public function testAdapterIdentifierTypeOfInteger() {
+        $adapterPoolIterator = new AdapterPoolIterator([
+            $this->getAdapterStub(),
+            $this->getAdapterStub()
+        ]);
+        $adapterPoolIterator->remove(0);
+        $this->assertEquals(1, $adapterPoolIterator->key());
     }
 
     /**

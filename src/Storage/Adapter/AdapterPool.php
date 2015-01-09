@@ -43,7 +43,7 @@ interface AdapterPool {
 
     /**
      * Checks if a pool adapter entry exists.
-     * @param string $identifier the pool adapter identifier
+     * @param string|integer $identifier the pool adapter identifier
      * @throws \InvalidArgumentException
      * @return boolean check result
      */
