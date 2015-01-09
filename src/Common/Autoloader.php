@@ -57,10 +57,10 @@ class Autoloader {
         $this->prependAutoloader = (boolean)$prepend;
         $this->namespaces = [];
 
+        include_once "Exception.php";
         foreach ($namespaces as $namespace => $includePath) {
             $this->registerNamespace($namespace, $includePath);
         }
-        include_once "Exception.php";
     }
 
     /**
