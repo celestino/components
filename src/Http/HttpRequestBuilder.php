@@ -58,7 +58,6 @@ class HttpRequestBuilder {
     /**
      * Class constructor
      * @param array $serverVariables the PHP $_SERVER variables
-     * @return \Brickoo\Component\Http\HttpRequestBuilder
      */
     public function __construct(array $serverVariables) {
         $this->serverVariables = $serverVariables;
@@ -85,7 +84,7 @@ class HttpRequestBuilder {
 
     /**
      * Build the request method.
-     * @param \Brickoo\Component\Http\HttpMethod $requestMethod
+     * @param null|\Brickoo\Component\Http\HttpMethod $requestMethod
      * @return \Brickoo\Component\Http\HttpRequestBuilder
      */
     public function buildRequestMethod(HttpMethod $requestMethod = null) {
@@ -100,7 +99,7 @@ class HttpRequestBuilder {
 
     /**
      * Build the request protocol version.
-     * @param \Brickoo\Component\Http\HttpVersion $protocolVersion
+     * @param null|\Brickoo\Component\Http\HttpVersion $protocolVersion
      * @return \Brickoo\Component\Http\HttpRequestBuilder
      */
     public function buildProtocolVersion(HttpVersion $protocolVersion = null) {
@@ -115,15 +114,13 @@ class HttpRequestBuilder {
 
     /**
      * Build the uri dependency.
-     * @param \Brickoo\Component\Http\Uri $uri
+     * @param null|\Brickoo\Component\Http\Uri $uri
      * @throws \Brickoo\Component\Http\Exception\MissingBuilderDependencyException
      * @return \Brickoo\Component\Http\HttpRequestBuilder
      */
     public function buildUri(Uri $uri = null) {
         if ($uri === null) {
-            if (! $this->messageHeader instanceof HttpMessageHeader) {
-                throw new MissingBuilderDependencyException("HttpMessageHeader");
-            }
+            $this->checkMessageHeaderDependency();
 
             $uri = (new UriFactory)->create(
                 new HttpRequestUriAggregator(
@@ -138,15 +135,13 @@ class HttpRequestBuilder {
 
     /**
      * Build the request message dependency.
-     * @param \Brickoo\Component\Http\HttpMessage $message
+     * @param null|\Brickoo\Component\Http\HttpMessage $message
      * @throws \Brickoo\Component\Http\Exception\MissingBuilderDependencyException
      * @return \Brickoo\Component\Http\HttpRequestBuilder
      */
     public function buildMessage(HttpMessage $message = null) {
         if ($message === null) {
-            if (! $this->messageHeader instanceof HttpMessageHeader) {
-                throw new MissingBuilderDependencyException("HttpMessageHeader");
-            }
+            $this->checkMessageHeaderDependency();
 
             $message = new HttpMessage(
                 $this->messageHeader,
@@ -159,7 +154,7 @@ class HttpRequestBuilder {
 
     /**
      * Build the request message header dependency.
-     * @param \Brickoo\Component\Http\HttpMessageHeader $messageHeader
+     * @param null|\Brickoo\Component\Http\HttpMessageHeader $messageHeader
      * @return \Brickoo\Component\Http\HttpRequestBuilder
      */
     public function buildMessageHeader(HttpMessageHeader $messageHeader = null) {
@@ -183,6 +178,17 @@ class HttpRequestBuilder {
             return $this->serverVariables[$variableName];
         }
         return $defaultValue;
+    }
+
+    /**
+     * Check if the message header dependency is set.
+     * @throws MissingBuilderDependencyException
+     * @return void
+     */
+    private function checkMessageHeaderDependency() {
+        if (! $this->messageHeader instanceof HttpMessageHeader) {
+            throw new MissingBuilderDependencyException("HttpMessageHeader");
+        }
     }
 
 }
