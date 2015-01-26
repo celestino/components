@@ -32,8 +32,13 @@ namespace Brickoo\Component\Routing\Route;
  * expected segments as an OR condition.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class RoutePathRegexGenerator  {
+
+    /** @var integer */
+    const TEMPLATE_REQUIRED_KEY = 0;
+    const TEMPLATE_OPTIONAL_KEY = 1;
+    const TEMPLATE_REPLACE_KEY = 2;
+    const TEMPLATE_ANY_VALUE_KEY = 3;
 
     /** @var array */
     private $aliases;
@@ -59,7 +64,7 @@ class RoutePathRegexGenerator  {
             $this->replaceRoutePathWithRulesExpressions($routePath, $matches['parameters'], $route);
         }
 
-        return "~^/".trim($routePath, "/")."$~i";
+        return sprintf("~^/%s$~i", trim($routePath, "/"));
     }
 
     /**
@@ -83,44 +88,67 @@ class RoutePathRegexGenerator  {
     /**
      * Replaces the route parameters with the rules defined.
      * @param string $routePath the route path
-     * @param string[] $parameters the dynamic parameters of the route
+     * @param array $parameters the dynamic parameters of the route
      * @param \Brickoo\Component\Routing\Route\Route $route
      * @return void
      */
     private function replaceRoutePathWithRulesExpressions(&$routePath, array $parameters, Route $route) {
         foreach ($parameters as $parameterName) {
-            if ($route->hasRule($parameterName)) {
-                $this->replaceRoutePathParameter($routePath, $parameterName, $route);
-            }
+            $routePath = $this->replaceRoutePathParameter($routePath, $parameterName, $route);
         }
     }
 
     /**
-     * Replace route path parameter placeholder.
+     * Replace route path parameter placeholder with regex.
      * @param string $routePath
      * @param string $parameterName
      * @param \Brickoo\Component\Routing\Route\Route $route
-     * @return void
+     * @return string
      */
-    private function replaceRoutePathParameter(&$routePath, $parameterName, Route $route) {
-        if (strpos($routePath, "/{".$parameterName."}") !== false) {
-            $routePath = str_replace("/{".$parameterName."}",
-                ($route->hasDefaultValue($parameterName) ?
-                    "(/(?<".$parameterName.">(".$route->getRule($parameterName).")?))?" :
-                    "/(?<".$parameterName.">".$route->getRule($parameterName).")"
-                ),
+    private function replaceRoutePathParameter($routePath, $parameterName, Route $route) {
+        $template = $this->getRoutePathRegexTemplates($routePath, $parameterName);
+        if (! $route->hasRule($parameterName)) {
+            return str_replace(
+                sprintf($template[self::TEMPLATE_REPLACE_KEY], $parameterName),
+                sprintf($template[self::TEMPLATE_ANY_VALUE_KEY], $parameterName),
                 $routePath
             );
+        }
+
+        return str_replace(
+            sprintf($template[self::TEMPLATE_REPLACE_KEY], $parameterName),
+            ($route->hasDefaultValue($parameterName) ?
+                sprintf($template[self::TEMPLATE_OPTIONAL_KEY], $parameterName, $route->getRule($parameterName)) :
+                sprintf($template[self::TEMPLATE_REQUIRED_KEY], $parameterName, $route->getRule($parameterName))
+            ),
+            $routePath
+        );
+    }
+
+    /**
+     * Return the route path corresponding regex templates.
+     * @param string $routePath
+     * @param string $parameterName
+     * @return array
+     */
+    private function getRoutePathRegexTemplates($routePath, $parameterName) {
+        if (strpos($routePath, sprintf("/{%s}", $parameterName)) !== false) {
+            $template = [
+                self::TEMPLATE_REPLACE_KEY => "/{%s}",
+                self::TEMPLATE_REQUIRED_KEY => "/(?<%s>%s)",
+                self::TEMPLATE_OPTIONAL_KEY => "(/(?<%s>(%s)?))?",
+                self::TEMPLATE_ANY_VALUE_KEY => "/(?<%s>[^/]+)"
+            ];
         }
         else {
-            $routePath = str_replace("{".$parameterName."}",
-                ($route->hasDefaultValue($parameterName) ?
-                    "(?<".$parameterName.">(".$route->getRule($parameterName).")?)" :
-                    "(?<".$parameterName.">".$route->getRule($parameterName).")"
-                ),
-                $routePath
-            );
+            $template = [
+                self::TEMPLATE_REPLACE_KEY => "{%s}",
+                self::TEMPLATE_REQUIRED_KEY => "(?<%s>%s)",
+                self::TEMPLATE_OPTIONAL_KEY => "(?<%s>(%s)?)",
+                self::TEMPLATE_ANY_VALUE_KEY => "(?<%s>[^/]+)"
+            ];
         }
+        return $template;
     }
 
 }

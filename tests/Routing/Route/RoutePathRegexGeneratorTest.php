@@ -35,7 +35,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Routing\Route\RoutePathRegexGenerator
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class RoutePathRegexGeneratorTest extends PHPUnit_Framework_TestCase {
 
     /**
@@ -44,6 +43,7 @@ class RoutePathRegexGeneratorTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Routing\Route\RoutePathRegexGenerator::getRoutePath
      * @covers Brickoo\Component\Routing\Route\RoutePathRegexGenerator::replaceRoutePathWithRulesExpressions
      * @covers Brickoo\Component\Routing\Route\RoutePathRegexGenerator::replaceRoutePathParameter
+     * @covers Brickoo\Component\Routing\Route\RoutePathRegexGenerator::getRoutePathRegexTemplates
      */
     public function testGeneratePathRegexFromRoute() {
         $expectedRegex = "~^".
@@ -63,9 +63,10 @@ class RoutePathRegexGeneratorTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Routing\Route\RoutePathRegexGenerator::getRoutePath
      * @covers Brickoo\Component\Routing\Route\RoutePathRegexGenerator::replaceRoutePathWithRulesExpressions
      * @covers Brickoo\Component\Routing\Route\RoutePathRegexGenerator::replaceRoutePathParameter
+     * @covers Brickoo\Component\Routing\Route\RoutePathRegexGenerator::getRoutePathRegexTemplates
      */
     public function testGeneratePathRegexFromRouteWithoutRules() {
-        $expectedRegex = "~^/(articles|artikeln)/{articleName}$~i";
+        $expectedRegex = "~^/(articles|artikeln)/(?<articleName>[^/]+)$~i";
         $aliases = array("articles" => "artikeln");
 
         $route = new GenericRoute(
