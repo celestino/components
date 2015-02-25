@@ -33,7 +33,7 @@ use Brickoo\Component\Validation\Argument;
  *
  * This class can be used to have keep an lock status on specific identifiers.
  * Contains one abstract method (public boolean isIdentifierAvailable($identifier)).
- * The abstract method is implemented to assure the existence of identifiers.
+ * The abstract method must be implemented to assure the existence of identifiers.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 

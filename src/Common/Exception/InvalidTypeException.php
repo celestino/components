@@ -22,65 +22,30 @@
  * THE SOFTWARE.
  */
 
-namespace Brickoo\Component\Annotation\Definition;
+namespace Brickoo\Component\Common\Exception;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Exception;
 
 /**
- * ParameterDefinition
+ * InvalidTypeException
  *
- * Implements a parameter definition.
+ * Exception thrown if an invalid type is detected.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class ParameterDefinition {
-
-    /** @var string */
-    private $name;
-
-    /** @var string */
-    private $type;
-
-    /** @var boolean */
-    private $required;
+class InvalidTypeException extends Exception {
 
     /**
      * Class constructor.
-     * @param string $name
-     * @param string $type
-     * @param boolean $required
-     * @throws \InvalidArgumentException
+     * Calls the parent Exception constructor.
+     * @param string $invalidType
+     * @param null|\Exception $previousException
      */
-    public function __construct($name, $type, $required = true) {
-        Argument::isString($name);
-        Argument::isString($type);
-        Argument::isBoolean($required);
-        $this->name = $name;
-        $this->type = $type;
-        $this->required = $required;
-    }
-
-    /**
-     * Returns the parameter name.
-     * @return string the parameter name
-     */
-    public function getName() {
-        return $this->name;
-    }
-
-    /**
-     * Returns the parameter type.
-     * @return string the parameter type
-     */
-    public function getType() {
-        return $this->type;
-    }
-
-    /**
-     * Checks if the parameter is required.
-     * @return boolean check result
-     */
-    public function isRequired() {
-        return $this->required;
+    public function __construct($invalidType, \Exception $previousException = null) {
+        parent::__construct(
+            sprintf("The type `%s` is invalid.", $invalidType),
+            0,
+            $previousException
+        );
     }
 
 }

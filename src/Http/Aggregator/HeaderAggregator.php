@@ -64,7 +64,7 @@ class HeaderAggregator {
     /**
      * Return a collection of http headers.
      * Duplicate headers will be overridden.
-     * @return array<\Brickoo\Component\Http\HttpHeader>
+     * @return array
      */
     public function getHeaders() {
         $this->loadHeaders();
@@ -79,7 +79,7 @@ class HeaderAggregator {
     /**
      * Return a collection of http header lists containing
      * the http header. Does support header duplicates.
-     * @return array<\Brickoo\Component\Http\HttpHeaderList>
+     * @return array
      */
     public function getHeaderLists() {
         $this->loadHeaders();

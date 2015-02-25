@@ -55,6 +55,15 @@ class RegistryTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Common\Registry::__construct
      * @covers Brickoo\Component\Common\Registry::getAll
      */
+    public function testReadOnlyInConstructorWoksOnlyWithRegistrations() {
+        $registry = new Registry([], true);
+        $this->assertFalse($registry->isReadOnly());
+
+        $registry = new Registry(["value"], true);
+        $this->assertTrue($registry->isReadOnly());
+    }
+
+    /** @covers Brickoo\Component\Common\Registry::getAll */
     public function testGetRegistrations() {
         $this->assertInternalType("array", $this->registry->getAll());
         $this->registry->register("name", "john");

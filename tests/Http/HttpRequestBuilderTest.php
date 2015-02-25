@@ -24,12 +24,15 @@
 
 namespace Brickoo\Tests\Component\Http;
 
+use Brickoo\Component\Http\Aggregator\HttpRequestUriAggregator;
 use Brickoo\Component\Http\HttpMessage;
 use Brickoo\Component\Http\HttpMessageBody;
 use Brickoo\Component\Http\HttpMessageHeader;
 use Brickoo\Component\Http\HttpMethod;
 use Brickoo\Component\Http\HttpRequestBuilder;
 use Brickoo\Component\Http\HttpVersion;
+use Brickoo\Component\Http\Uri;
+use Brickoo\Component\Http\UriFactory;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -49,9 +52,10 @@ class HttpRequestBuilderTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\HttpRequestBuilder::buildMessage
      * @covers Brickoo\Component\Http\HttpRequestBuilder::buildUri
      * @covers Brickoo\Component\Http\HttpRequestBuilder::build
+     * @covers Brickoo\Component\Http\HttpRequestBuilder::checkMessageHeaderDependency
      * @covers Brickoo\Component\Http\HttpRequestBuilder::getServerVariable
      */
-    public function testHttpRequestBuild() {
+    public function testHttpRequestBuildWithDefaultDependencies() {
         $serverVars = [
             "SERVER_PROTOCOL" => "HTTP/1.0"
         ];
@@ -67,64 +71,54 @@ class HttpRequestBuilderTest extends PHPUnit_Framework_TestCase {
         );
     }
 
-    /** @covers Brickoo\Component\Http\HttpRequestBuilder::buildRequestMethod */
-    public function testSetHttpMethodDependency() {
-        $httpMethod = new HttpMethod(HttpMethod::GET);
-        $builder = new HttpRequestBuilder([]);
-        $this->assertSame($builder, $builder->buildRequestMethod($httpMethod));
-        $this->assertAttributeSame($httpMethod, "method", $builder);
-    }
+    /**
+     * @covers Brickoo\Component\Http\HttpRequestBuilder::__construct
+     * @covers Brickoo\Component\Http\HttpRequestBuilder::buildRequestMethod
+     * @covers Brickoo\Component\Http\HttpRequestBuilder::buildProtocolVersion
+     * @covers Brickoo\Component\Http\HttpRequestBuilder::buildMessageHeader
+     * @covers Brickoo\Component\Http\HttpRequestBuilder::buildMessage
+     * @covers Brickoo\Component\Http\HttpRequestBuilder::buildUri
+     * @covers Brickoo\Component\Http\HttpRequestBuilder::build
+     * @covers Brickoo\Component\Http\HttpRequestBuilder::checkMessageHeaderDependency
+     * @covers Brickoo\Component\Http\HttpRequestBuilder::getServerVariable
+     */
+    public function testHttpRequestBuildWithExplicitDependencies() {
+        $serverVars = [
+            "SERVER_PROTOCOL" => "HTTP/1.0"
+        ];
+        $messageHeader = new HttpMessageHeader();
 
-    /** @covers Brickoo\Component\Http\HttpRequestBuilder::buildProtocolVersion */
-    public function testSetHttpProtocolVersionDependency() {
-        $httpProtocol = new HttpVersion(HttpVersion::HTTP_1_0);
-        $builder = new HttpRequestBuilder([]);
-        $this->assertSame($builder, $builder->buildProtocolVersion($httpProtocol));
-        $this->assertAttributeSame($httpProtocol, "version", $builder);
-    }
+        $builder = new HttpRequestBuilder($serverVars);
+        $builder->buildRequestMethod(new HttpMethod(HttpMethod::GET))
+                ->buildProtocolVersion(new HttpVersion(HttpVersion::HTTP_1_1))
+                ->buildMessageHeader($messageHeader)
+                ->buildMessage(new HttpMessage(new HttpMessageHeader(), new HttpMessageBody()))
+                ->buildUri((new UriFactory())->create(new HttpRequestUriAggregator($messageHeader)));
 
-    /** @covers Brickoo\Component\Http\HttpRequestBuilder::buildMessageHeader */
-    public function testSetHttpMessageHeaderDependency() {
-        $httpMessageHeader = new HttpMessageHeader();
-        $builder = new HttpRequestBuilder([]);
-        $this->assertSame($builder, $builder->buildMessageHeader($httpMessageHeader));
-        $this->assertAttributeSame($httpMessageHeader, "messageHeader", $builder);
-    }
-
-    /** @covers Brickoo\Component\Http\HttpRequestBuilder::buildMessage */
-    public function testSetHttpMessageDependency() {
-        $httpMessage = new HttpMessage(new HttpMessageHeader(), new HttpMessageBody());
-        $builder = new HttpRequestBuilder([]);
-        $this->assertSame($builder, $builder->buildMessage($httpMessage));
-        $this->assertAttributeSame($httpMessage, "message", $builder);
+        $this->assertInstanceOf(
+            "\\Brickoo\\Component\\Http\\HttpRequest",
+            $builder->build()
+        );
     }
 
     /**
      * @covers Brickoo\Component\Http\HttpRequestBuilder::buildMessage
+     * @covers Brickoo\Component\Http\HttpRequestBuilder::checkMessageHeaderDependency
      * @covers Brickoo\Component\Http\Exception\MissingBuilderDependencyException
      * @expectedException \Brickoo\Component\Http\Exception\MissingBuilderDependencyException
      */
-    public function testBuildHttpMessageThrowsMissingMessageHeaderException() {
+    public function testBuildHttpMessageCanNotBeBuildWithoutMessageHeader() {
         $builder = new HttpRequestBuilder([]);
         $builder->buildMessage();
     }
 
-    /** @covers Brickoo\Component\Http\HttpRequestBuilder::buildUri */
-    public function testSetUriDependency() {
-        $uri = $this->getMockBuilder("\\Brickoo\\Component\\Http\\Uri")
-            ->disableOriginalConstructor()
-            ->getMock();
-        $builder = new HttpRequestBuilder([]);
-        $this->assertSame($builder, $builder->buildUri($uri));
-        $this->assertAttributeSame($uri, "uri", $builder);
-    }
-
     /**
      * @covers Brickoo\Component\Http\HttpRequestBuilder::buildUri
+     * @covers Brickoo\Component\Http\HttpRequestBuilder::checkMessageHeaderDependency
      * @covers Brickoo\Component\Http\Exception\MissingBuilderDependencyException
      * @expectedException \Brickoo\Component\Http\Exception\MissingBuilderDependencyException
      */
-    public function testBuildHttpUriThrowsMissingMessageHeaderException() {
+    public function testBuildHttpUriCanNotBeBuildWithoutMessageHeader() {
         $builder = new HttpRequestBuilder([]);
         $builder->buildUri();
     }

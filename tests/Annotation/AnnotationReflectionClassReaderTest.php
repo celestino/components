@@ -52,7 +52,7 @@ class AnnotationReflectionClassReaderTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetAnnotations() {
         include_once __DIR__."/Assets/AnnotatedClass.php";
-        $definitionCollectionFixture = include __DIR__ . "/Assets/DefinitionCollectionFixture.php";
+        $definitionCollectionFixture = include __DIR__ . "/Assets/AnnotationDefinitionCollectionFixture.php";
 
         $annotation = $this->getAnnotationStub();
         $annotation->expects($this->any())

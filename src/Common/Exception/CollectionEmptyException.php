@@ -22,33 +22,29 @@
  * THE SOFTWARE.
  */
 
-namespace Brickoo\Tests\Component\Annotation\Definition;
+namespace Brickoo\Component\Common\Exception;
 
-use Brickoo\Component\Annotation\Definition\ParameterDefinition;
-use PHPUnit_Framework_TestCase;
+use Brickoo\Component\Common\Exception;
 
 /**
- * Test suite for the ParameterDefinition class.
- * @see Brickoo\Component\Annotation\Definition\ParameterDefinition
+ * CollectionEmptyException
+ *
+ * Exception thrown if trying to retrieve an element from an empty collection.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
-class ParameterDefinitionTest extends PHPUnit_Framework_TestCase {
+class CollectionEmptyException extends Exception {
 
     /**
-     * @covers Brickoo\Component\Annotation\Definition\ParameterDefinition::__construct
-     * @covers Brickoo\Component\Annotation\Definition\ParameterDefinition::getName
-     * @covers Brickoo\Component\Annotation\Definition\ParameterDefinition::getType
-     * @covers Brickoo\Component\Annotation\Definition\ParameterDefinition::isRequired
+     * Class constructor.
+     * Calls the parent Exception constructor.
+     * @param null|\Exception $previousException
      */
-    public function testGetter() {
-        $name = "path";
-        $type = "string";
-        $required = true;
-        $definition = new ParameterDefinition($name, $type, $required);
-        $this->assertEquals($name, $definition->getName());
-        $this->assertEquals($type, $definition->getType());
-        $this->assertTrue($definition->isRequired());
+    public function __construct(\Exception $previousException = null) {
+        parent::__construct(
+            "The collection is empty, unable to retrieve an element.",
+            0,
+            $previousException
+        );
     }
 
 }

@@ -22,25 +22,65 @@
  * THE SOFTWARE.
  */
 
-namespace Brickoo\Component\Annotation\Exception;
+namespace Brickoo\Component\Annotation\Definition;
 
-use Brickoo\Component\Annotation\Exception;
+use Brickoo\Component\Validation\Argument;
 
 /**
- * AnnotationNotAvailableException
+ * AnnotationParameterDefinition
  *
- * Exception thrown if trying to retrieve an annotation which does not exist.
+ * Implements an annotation parameter definition.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class AnnotationNotAvailableException extends Exception {
+class AnnotationParameterDefinition {
+
+    /** @var string */
+    private $name;
+
+    /** @var string */
+    private $type;
+
+    /** @var boolean */
+    private $required;
 
     /**
      * Class constructor.
-     * Calls the parent exception constructor.
-     * @param null|\Exception $previousException
+     * @param string $name
+     * @param string $type
+     * @param boolean $required
+     * @throws \InvalidArgumentException
      */
-    public function __construct(\Exception $previousException = null) {
-        parent::__construct("Annotation does not exists.", 0, $previousException);
+    public function __construct($name, $type, $required = true) {
+        Argument::isString($name);
+        Argument::isString($type);
+        Argument::isBoolean($required);
+        $this->name = $name;
+        $this->type = $type;
+        $this->required = $required;
+    }
+
+    /**
+     * Returns the parameter name.
+     * @return string the parameter name
+     */
+    public function getName() {
+        return $this->name;
+    }
+
+    /**
+     * Returns the parameter type.
+     * @return string the parameter type
+     */
+    public function getType() {
+        return $this->type;
+    }
+
+    /**
+     * Checks if the parameter is required.
+     * @return boolean check result
+     */
+    public function isRequired() {
+        return $this->required;
     }
 
 }

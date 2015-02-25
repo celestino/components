@@ -44,7 +44,7 @@ class AnnotationClassFileReaderTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Annotation\AnnotationClassFileReader::getClassName
      */
     public function testGetAnnotations() {
-        $definitionStub = $this->getDefinitionStub();
+        $definitionStub = $this->getCollectionStub();
         $readerResult = $this->getAnnotationReaderResultStub();
         $reflectionReader = $this->getAnnotationReflectionReaderStub();
         $reflectionReader->expects($this->any())
@@ -68,7 +68,7 @@ class AnnotationClassFileReaderTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Annotation\AnnotationClassFileReader::getClassName
      */
     public function testGetAnnotationsWithNamespaceInBraces() {
-        $definitionStub = $this->getDefinitionStub();
+        $definitionStub = $this->getCollectionStub();
         $readerResult = $this->getAnnotationReaderResultStub();
         $reflectionReader = $this->getAnnotationReflectionReaderStub();
         $reflectionReader->expects($this->any())
@@ -90,7 +90,7 @@ class AnnotationClassFileReaderTest extends PHPUnit_Framework_TestCase {
      * @expectedException \Brickoo\Component\Annotation\Exception\FileDoesNotExistException
      */
     public function testFileDoesNotExistThrowsException() {
-        $definitionStub = $this->getDefinitionStub();
+        $definitionStub = $this->getCollectionStub();
         $reflectionReader = $this->getAnnotationReflectionReaderStub();
         $fileReader = new AnnotationClassFileReader($reflectionReader);
         $fileReader->getAnnotations($definitionStub, __DIR__."/Assets/DoesNotExist.php");
@@ -103,7 +103,7 @@ class AnnotationClassFileReaderTest extends PHPUnit_Framework_TestCase {
      * @expectedException \Brickoo\Component\Annotation\Exception\UnableToLocateQualifiedClassNameException
      */
     public function testInvalidClassFileThrowsException() {
-        $definitionStub = $this->getDefinitionStub();
+        $definitionStub = $this->getCollectionStub();
         $reflectionReader = $this->getAnnotationReflectionReaderStub();
         $fileReader = new AnnotationClassFileReader($reflectionReader);
         $fileReader->getAnnotations($definitionStub, __DIR__."/Assets/InvalidClassFile.php");
@@ -120,11 +120,11 @@ class AnnotationClassFileReaderTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Returns a DefinitionCollection stub.
-     * @return \Brickoo\Component\Annotation\Definition\DefinitionCollection
+     * Returns a Collection stub.
+     * @return \Brickoo\Component\Common\Collection
      */
-    private function getDefinitionStub() {
-        return $this->getMockBuilder("\\Brickoo\\Component\\Annotation\\Definition\\DefinitionCollection")
+    private function getCollectionStub() {
+        return $this->getMockBuilder("\\Brickoo\\Component\\Common\\Collection")
             ->disableOriginalConstructor()
             ->getMock();
     }

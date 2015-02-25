@@ -55,7 +55,7 @@ class Registry extends Locker {
     public function __construct(array $registrations = [], $readOnly = false) {
         parent::__construct();
         $this->registrations = $registrations;
-        $this->readOnly = (boolean)$readOnly;
+        $this->readOnly = (! empty($registrations)) && (boolean)$readOnly;
     }
 
     /**

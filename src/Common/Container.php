@@ -151,8 +151,8 @@ class Container implements \IteratorAggregate, \Countable {
     }
 
     /**
-     * Imports the container values from an array.
-     * @param array $container the container to import
+     * Imports the elements from an array.
+     * @param array $container
      * @throws \Brickoo\Component\Common\Exception\InvalidValueTypeException
      * @return \Brickoo\Component\Common\Container
      */

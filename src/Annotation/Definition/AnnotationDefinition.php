@@ -44,10 +44,10 @@ class AnnotationDefinition {
     /** @var boolean */
     private $required;
 
-    /** @var ParameterDefinition[] */
+    /** @var AnnotationParameterDefinition[] */
     private $requiredParameters;
 
-    /** @var array<ParameterDefinition> */
+    /** @var array */
     private $optionalParameters;
 
     /**
@@ -104,10 +104,10 @@ class AnnotationDefinition {
 
     /**
      * Adds a parameter to annotation.
-     * @param \Brickoo\Component\Annotation\Definition\ParameterDefinition $parameter
+     * @param \Brickoo\Component\Annotation\Definition\AnnotationParameterDefinition $parameter
      * @return \Brickoo\Component\Annotation\Definition\AnnotationDefinition
      */
-    public function addParameter(ParameterDefinition $parameter) {
+    public function addParameter(AnnotationParameterDefinition $parameter) {
         if ($parameter->isRequired()) {
             $this->requiredParameters[] = $parameter;
         }
@@ -119,7 +119,7 @@ class AnnotationDefinition {
 
     /**
      * Returns the required parameters.
-     * @return ParameterDefinition[] the required parameters
+     * @return AnnotationParameterDefinition[] the required parameters
      */
     public function getRequiredParameters() {
         return $this->requiredParameters;
@@ -135,7 +135,7 @@ class AnnotationDefinition {
 
     /**
      * Returns the optional parameters.
-     * @return ParameterDefinition[] the optional parameters
+     * @return AnnotationParameterDefinition[] the optional parameters
      */
     public function getOptionalParameters() {
         return $this->optionalParameters;

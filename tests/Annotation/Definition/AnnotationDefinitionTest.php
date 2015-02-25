@@ -117,11 +117,11 @@ class AnnotationDefinitionTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Returns a ParameterDefinition stub.
-     * @return \Brickoo\Component\Annotation\Definition\ParameterDefinition
+     * Returns a AnnotationParameterDefinition stub.
+     * @return \Brickoo\Component\Annotation\Definition\AnnotationParameterDefinition
      */
     private function getDefinitionParameterStub() {
-        return $this->getMockBuilder("\\Brickoo\\Component\\Annotation\\Definition\\ParameterDefinition")
+        return $this->getMockBuilder("\\Brickoo\\Component\\Annotation\\Definition\\AnnotationParameterDefinition")
             ->disableOriginalConstructor()
             ->getMock();
     }

@@ -47,7 +47,7 @@ class AnnotationReaderResultValidatorTest extends PHPUnit_Framework_TestCase {
     public function testValidate() {
         $validator = new AnnotationReaderResultValidator();
         $validator->validate(
-            include __DIR__ . "/Assets/DefinitionCollectionFixture.php",
+            include __DIR__ . "/Assets/AnnotationDefinitionCollectionFixture.php",
             include __DIR__."/Assets/ReaderResultFixture.php"
         );
         $this->assertInstanceOf("\\Brickoo\\Component\\Annotation\\AnnotationReaderResultValidator", $validator);
@@ -66,7 +66,7 @@ class AnnotationReaderResultValidatorTest extends PHPUnit_Framework_TestCase {
     public function testValidateThrowsMissingAnnotationException() {
         $validator = new AnnotationReaderResultValidator();
         $validator->validate(
-            include __DIR__ . "/Assets/DefinitionCollectionFixture.php",
+            include __DIR__ . "/Assets/AnnotationDefinitionCollectionFixture.php",
             include __DIR__."/Assets/MissingAnnotationReaderResultFixture.php"
         );
     }
@@ -85,7 +85,7 @@ class AnnotationReaderResultValidatorTest extends PHPUnit_Framework_TestCase {
     public function testValidateThrowsMissingParameterException() {
         $validator = new AnnotationReaderResultValidator();
         $validator->validate(
-            include __DIR__ . "/Assets/DefinitionCollectionFixture.php",
+            include __DIR__ . "/Assets/AnnotationDefinitionCollectionFixture.php",
             include __DIR__."/Assets/MissingParameterReaderResultFixture.php"
         );
     }
