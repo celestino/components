@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <phpunit
+    beStrictAboutTestsThatDoNotTestAnything="true"
+    checkForUnintentionallyCoveredCode="false"
+    beStrictAboutOutputDuringTests="true"
     stopOnError="false"
     stopOnFailure="false"
-    strict="false"
     verbose="true"
     colors="true"
     convertErrorsToExceptions="true"
