@@ -22,36 +22,27 @@
  * THE SOFTWARE.
  */
 
-namespace Brickoo\Component\Http\Response;
+namespace Brickoo\Component\Http\Header\Aggregator\Exception;
 
-use Brickoo\Component\Http\HttpResponse;
-use Brickoo\Component\Http\HttpStatus;
-use Brickoo\Component\Http\HttpResponseBuilder;
-use Brickoo\Component\Http\Header\GenericHeaderField;
+use Brickoo\Component\Http\Exception;
 
 /**
- * PermanentlyRedirectResponse
+ * HeaderFieldClassNotFoundException
  *
- * Implements a permanently redirect response.
- * Bookmarked links should change to the new location.
- * Request method may change by redirect.
- * @link http://tools.ietf.org/html/rfc2616#section-10.3.2
+ * Exception thrown if a header class could not be found.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class PermanentlyRedirectResponse extends HttpResponse {
+class HeaderFieldClassNotFoundException extends Exception {
 
     /**
      * Class constructor.
-     * @param string $location the redirect location
+     * Calls the parent exception constructor.
+     * @param string $fieldName
+     * @param null|\Exception $previousException
      */
-    public function __construct($location) {
-        $this->inject(
-            (new HttpResponseBuilder())
-                ->setHttpStatus(new HttpStatus(HttpStatus::CODE_MOVED_PERMANENTLY))
-                ->addHttpHeader(new GenericHeaderField("Location", $location))
-                ->build()
-        );
+    public function __construct($fieldName, \Exception $previousException = null) {
+        parent::__construct(sprintf("The header field `%s` has not a mapping class.", $fieldName), 0, $previousException);
     }
 
 }

@@ -22,36 +22,30 @@
  * THE SOFTWARE.
  */
 
-namespace Brickoo\Component\Http\Response;
+namespace Brickoo\Tests\Component\Http;
 
-use Brickoo\Component\Http\HttpResponse;
-use Brickoo\Component\Http\HttpStatus;
-use Brickoo\Component\Http\HttpResponseBuilder;
-use Brickoo\Component\Http\Header\GenericHeaderField;
+use Brickoo\Component\Http\Header\AcceptCharsetHeaderField;
+use PHPUnit_Framework_TestCase;
 
 /**
- * PermanentlyRedirectResponse
+ * AcceptCharsetHeaderFieldTest
  *
- * Implements a permanently redirect response.
- * Bookmarked links should change to the new location.
- * Request method may change by redirect.
- * @link http://tools.ietf.org/html/rfc2616#section-10.3.2
+ * Test suite for the AcceptCharsetHeaderField class.
+ * @see Brickoo\Component\Http\Header\AcceptCharsetHeaderField
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
-class PermanentlyRedirectResponse extends HttpResponse {
+class AcceptCharsetHeaderFieldTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * Class constructor.
-     * @param string $location the redirect location
+     * @covers  Brickoo\Component\Http\Header\AcceptCharsetHeaderField::__construct
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeaderField::__construct
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeaderField::getName
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeaderField::getValue
      */
-    public function __construct($location) {
-        $this->inject(
-            (new HttpResponseBuilder())
-                ->setHttpStatus(new HttpStatus(HttpStatus::CODE_MOVED_PERMANENTLY))
-                ->addHttpHeader(new GenericHeaderField("Location", $location))
-                ->build()
-        );
+    public function testHeaderConstructor() {
+        $acceptCharsetHeader = new AcceptCharsetHeaderField("utf-8,ISO-8859-1;q=0.9");
+        $this->assertEquals("Accept-Charset", $acceptCharsetHeader->getName());
+        $this->assertEquals("utf-8,ISO-8859-1;q=0.9", $acceptCharsetHeader->getValue());
     }
 
 }

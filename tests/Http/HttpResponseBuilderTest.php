@@ -30,7 +30,7 @@ use Brickoo\Component\Http\HttpStatus;
 use Brickoo\Component\Http\HttpMessage;
 use Brickoo\Component\Http\HttpMessageBody;
 use Brickoo\Component\Http\HttpMessageHeader;
-use Brickoo\Component\Http\Header\GenericHeader;
+use Brickoo\Component\Http\Header\GenericHeaderField;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -120,12 +120,12 @@ class HttpResponseBuilderTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Http\HttpResponseBuilder::addHttpHeader */
     public function testAddHeaderToHttpMessage() {
-        $httpHeader = new GenericHeader("Unit", "Test");
+        $httpHeader = new GenericHeaderField("Unit", "Test");
         $httpResponseBuilder = new HttpResponseBuilder();
         $httpResponseBuilder->addHttpHeader($httpHeader);
         $httpMessageHeader = $httpResponseBuilder->getHttpMessageHeader();
         $this->assertEquals(1, count($httpMessageHeader));
-        $this->assertSame($httpHeader, $httpMessageHeader->getHeader("Unit"));
+        $this->assertSame($httpHeader, $httpMessageHeader->getField("Unit"));
     }
 
 }

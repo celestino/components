@@ -22,36 +22,34 @@
  * THE SOFTWARE.
  */
 
-namespace Brickoo\Component\Http\Response;
+namespace Brickoo\Tests\Component\Http\Header\Aggregator\Strategy;
 
-use Brickoo\Component\Http\HttpResponse;
-use Brickoo\Component\Http\HttpStatus;
-use Brickoo\Component\Http\HttpResponseBuilder;
-use Brickoo\Component\Http\Header\GenericHeaderField;
+use Brickoo\Component\Http\Header\Aggregator\Strategy\PhpHeaderFieldsAggregatorStrategy;
+use PHPUnit_Framework_TestCase;
 
 /**
- * PermanentlyRedirectResponse
+ * PhpHeaderFieldsAggregatorStrategy
  *
- * Implements a permanently redirect response.
- * Bookmarked links should change to the new location.
- * Request method may change by redirect.
- * @link http://tools.ietf.org/html/rfc2616#section-10.3.2
+ * Test suite for the PhpHeaderFieldsAggregatorStrategy class.
+ * @see Brickoo\Component\Http\Header\Aggregator\PhpHeaderFieldsAggregatorStrategy
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class PermanentlyRedirectResponse extends HttpResponse {
+class PhpHeaderAggregatorStrategyTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * Class constructor.
-     * @param string $location the redirect location
+     * @cover Brickoo\Component\Http\Header\Aggregator\PhpHeaderFieldsAggregatorStrategy::getHeaderFields
+     * @cover Brickoo\Component\Http\Header\Aggregator\PhpHeaderFieldsAggregatorStrategy::getPhpExtractedHttpHeaders
      */
-    public function __construct($location) {
-        $this->inject(
-            (new HttpResponseBuilder())
-                ->setHttpStatus(new HttpStatus(HttpStatus::CODE_MOVED_PERMANENTLY))
-                ->addHttpHeader(new GenericHeaderField("Location", $location))
-                ->build()
-        );
+    public function testGetHeadersFromGlobalServerValues() {
+        if (! function_exists("apache_request_headers")) {
+            require_once realpath(__DIR__)."/Assets/requiredFunctions.php";
+        }
+
+        $expectedHeaders = ["CONNECTION" => "keep-alive", "X-Unit-Test" => "ok"];
+        $serverVars = ["HTTP_CONNECTION" => "keep-alive"];
+        $requestHeaderAggregatorStrategy = new PhpHeaderFieldsAggregatorStrategy($serverVars);
+        $this->assertEquals($expectedHeaders, $requestHeaderAggregatorStrategy->getHeaderFields());
     }
 
 }

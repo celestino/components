@@ -22,36 +22,47 @@
  * THE SOFTWARE.
  */
 
-namespace Brickoo\Component\Http\Response;
-
-use Brickoo\Component\Http\HttpResponse;
-use Brickoo\Component\Http\HttpStatus;
-use Brickoo\Component\Http\HttpResponseBuilder;
-use Brickoo\Component\Http\Header\GenericHeaderField;
+namespace Brickoo\Component\Http\Header\Aggregator\Strategy;
 
 /**
- * PermanentlyRedirectResponse
+ * PhpHeaderFieldsAggregatorStrategy
  *
- * Implements a permanently redirect response.
- * Bookmarked links should change to the new location.
- * Request method may change by redirect.
- * @link http://tools.ietf.org/html/rfc2616#section-10.3.2
+ * Implements a http header fields aggregator strategy based on the global server values.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class PermanentlyRedirectResponse extends HttpResponse {
+class PhpHeaderFieldsAggregatorStrategy implements HeaderFieldsAggregatorStrategy {
+
+    /** @var array */
+    private $serverVars;
+
+    /** @param array $serverVars */
+    public function __construct(array $serverVars) {
+        $this->serverVars = $serverVars;
+    }
+
+    /** {@inheritDoc} */
+    public function getHeaderFields() {
+        $headerFields = $this->getPhpExtractedHttpHeaderFields();
+
+        if (function_exists("apache_request_headers") && ($apacheHeaders = apache_request_headers())) {
+            $headerFields = array_merge($headerFields, $apacheHeaders);
+        }
+        return $headerFields;
+    }
 
     /**
-     * Class constructor.
-     * @param string $location the redirect location
+     * Return the http header field list.
+     * @return array header list
      */
-    public function __construct($location) {
-        $this->inject(
-            (new HttpResponseBuilder())
-                ->setHttpStatus(new HttpStatus(HttpStatus::CODE_MOVED_PERMANENTLY))
-                ->addHttpHeader(new GenericHeaderField("Location", $location))
-                ->build()
-        );
+    private function getPhpExtractedHttpHeaderFields() {
+        $headerFields = [];
+        foreach ($this->serverVars as $key => $value) {
+            if (substr($key, 0, 5) == "HTTP_") {
+                $headerFields[substr($key, 5)] = $value;
+            }
+        }
+        return $headerFields;
     }
 
 }

@@ -22,36 +22,29 @@
  * THE SOFTWARE.
  */
 
-namespace Brickoo\Component\Http\Response;
+namespace Brickoo\Tests\Component\Http;
 
-use Brickoo\Component\Http\HttpResponse;
-use Brickoo\Component\Http\HttpStatus;
-use Brickoo\Component\Http\HttpResponseBuilder;
-use Brickoo\Component\Http\Header\GenericHeaderField;
+use Brickoo\Component\Http\Header\AuthorizationHeaderField;
+use PHPUnit_Framework_TestCase;
 
 /**
- * PermanentlyRedirectResponse
+ * AuthorizationHeaderFieldTest
  *
- * Implements a permanently redirect response.
- * Bookmarked links should change to the new location.
- * Request method may change by redirect.
- * @link http://tools.ietf.org/html/rfc2616#section-10.3.2
+ * Test suite for the AuthorizationHeaderField class.
+ * @see Brickoo\Component\Http\Header\AuthorizationHeaderField
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class PermanentlyRedirectResponse extends HttpResponse {
+class AuthorizationHeaderFieldTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * Class constructor.
-     * @param string $location the redirect location
+     * @covers Brickoo\Component\Http\Header\AuthorizationHeaderField::__construct
+     * @covers Brickoo\Component\Http\Header\AuthorizationHeaderField::toString
      */
-    public function __construct($location) {
-        $this->inject(
-            (new HttpResponseBuilder())
-                ->setHttpStatus(new HttpStatus(HttpStatus::CODE_MOVED_PERMANENTLY))
-                ->addHttpHeader(new GenericHeaderField("Location", $location))
-                ->build()
-        );
+    public function testToString() {
+        $headerFieldValue = "Basic ". base64_encode("user:pwd");
+        $authorizationHeader = new AuthorizationHeaderField($headerFieldValue);
+        $this->assertEquals("Authorization: ".$headerFieldValue, $authorizationHeader->toString());
     }
 
 }

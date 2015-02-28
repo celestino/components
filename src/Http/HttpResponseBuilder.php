@@ -112,11 +112,11 @@ class HttpResponseBuilder {
 
     /**
      * Add a http header to the response message.
-     * @param HttpHeader $httpHeader
+     * @param HttpHeaderField $httpHeader
      * @return \Brickoo\Component\Http\HttpResponseBuilder
      */
-    public function addHttpHeader(HttpHeader $httpHeader) {
-        $this->getHttpMessageHeader()->addHeader($httpHeader);
+    public function addHttpHeader(HttpHeaderField $httpHeader) {
+        $this->getHttpMessageHeader()->addField($httpHeader);
         return $this;
     }
 

@@ -22,36 +22,32 @@
  * THE SOFTWARE.
  */
 
-namespace Brickoo\Component\Http\Response;
-
-use Brickoo\Component\Http\HttpResponse;
-use Brickoo\Component\Http\HttpStatus;
-use Brickoo\Component\Http\HttpResponseBuilder;
-use Brickoo\Component\Http\Header\GenericHeaderField;
+namespace Brickoo\Component\Http;
 
 /**
- * PermanentlyRedirectResponse
+ * HttpHeaderField
  *
- * Implements a permanently redirect response.
- * Bookmarked links should change to the new location.
- * Request method may change by redirect.
- * @link http://tools.ietf.org/html/rfc2616#section-10.3.2
+ * Defines a http header field.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
-class PermanentlyRedirectResponse extends HttpResponse {
+interface HttpHeaderField {
 
     /**
-     * Class constructor.
-     * @param string $location the redirect location
+     * Return the header name.
+     * @return string the header name
      */
-    public function __construct($location) {
-        $this->inject(
-            (new HttpResponseBuilder())
-                ->setHttpStatus(new HttpStatus(HttpStatus::CODE_MOVED_PERMANENTLY))
-                ->addHttpHeader(new GenericHeaderField("Location", $location))
-                ->build()
-        );
-    }
+    public function getName();
+
+    /**
+     * Return the header value.
+     * @return string the header value
+     */
+    public function getValue();
+
+    /**
+     * Return a string representation of the header.
+     * @return string the string representation
+     */
+    public function toString();
 
 }

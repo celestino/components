@@ -22,36 +22,29 @@
  * THE SOFTWARE.
  */
 
-namespace Brickoo\Component\Http\Response;
+namespace Brickoo\Tests\Component\Http;
 
-use Brickoo\Component\Http\HttpResponse;
-use Brickoo\Component\Http\HttpStatus;
-use Brickoo\Component\Http\HttpResponseBuilder;
-use Brickoo\Component\Http\Header\GenericHeaderField;
+use Brickoo\Component\Http\Header\AcceptEncodingHeaderField;
+use PHPUnit_Framework_TestCase;
 
 /**
- * PermanentlyRedirectResponse
+ * AcceptEncodingHeaderFieldTest
  *
- * Implements a permanently redirect response.
- * Bookmarked links should change to the new location.
- * Request method may change by redirect.
- * @link http://tools.ietf.org/html/rfc2616#section-10.3.2
+ * Test suite for the AcceptEncodingHeaderField class.
+ * @see Brickoo\Component\Http\Header\AcceptEncodingHeaderField
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
-class PermanentlyRedirectResponse extends HttpResponse {
+class AcceptEncodingHeaderFieldTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * Class constructor.
-     * @param string $location the redirect location
+     * @covers  Brickoo\Component\Http\Header\AcceptEncodingHeaderField::__construct
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeaderField::getName
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeaderField::getValue
      */
-    public function __construct($location) {
-        $this->inject(
-            (new HttpResponseBuilder())
-                ->setHttpStatus(new HttpStatus(HttpStatus::CODE_MOVED_PERMANENTLY))
-                ->addHttpHeader(new GenericHeaderField("Location", $location))
-                ->build()
-        );
+    public function testHeaderConstructor() {
+        $acceptEncodingHeader = new AcceptEncodingHeaderField("gzip,deflate;q=0.9");
+        $this->assertEquals("Accept-Encoding", $acceptEncodingHeader->getName());
+        $this->assertEquals("gzip,deflate;q=0.9", $acceptEncodingHeader->getValue());
     }
 
 }

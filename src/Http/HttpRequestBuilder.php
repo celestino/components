@@ -25,8 +25,9 @@
 namespace Brickoo\Component\Http;
 
 use Brickoo\Component\Http\Aggregator\HttpRequestUriAggregator;
-use Brickoo\Component\Http\Aggregator\HeaderAggregator;
-use Brickoo\Component\Http\Aggregator\Strategy\PhpHeaderAggregatorStrategy;
+use Brickoo\Component\Http\Header\Aggregator\HeaderFieldClassMap;
+use Brickoo\Component\Http\Header\Aggregator\HeaderFieldsAggregator;
+use Brickoo\Component\Http\Header\Aggregator\Strategy\PhpHeaderFieldsAggregatorStrategy;
 use Brickoo\Component\Http\Exception\MissingBuilderDependencyException;
 
 /**
@@ -160,7 +161,10 @@ class HttpRequestBuilder {
     public function buildMessageHeader(HttpMessageHeader $messageHeader = null) {
         if ($messageHeader === null) {
             $messageHeader = new HttpMessageHeader(
-                (new HeaderAggregator([], new PhpHeaderAggregatorStrategy()))->getHeaderLists()
+                (new HeaderFieldsAggregator(
+                    new HeaderFieldClassMap(),
+                    new PhpHeaderFieldsAggregatorStrategy($this->serverVariables)
+                ))->getHeaderFields()
             );
         }
         $this->messageHeader = $messageHeader;

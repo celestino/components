@@ -22,36 +22,29 @@
  * THE SOFTWARE.
  */
 
-namespace Brickoo\Component\Http\Response;
+namespace Brickoo\Component\Http;
 
-use Brickoo\Component\Http\HttpResponse;
-use Brickoo\Component\Http\HttpStatus;
-use Brickoo\Component\Http\HttpResponseBuilder;
-use Brickoo\Component\Http\Header\GenericHeaderField;
-
-/**
- * PermanentlyRedirectResponse
- *
- * Implements a permanently redirect response.
- * Bookmarked links should change to the new location.
- * Request method may change by redirect.
- * @link http://tools.ietf.org/html/rfc2616#section-10.3.2
- * @author Celestino Diaz <celestino.diaz@gmx.de>
- */
-
-class PermanentlyRedirectResponse extends HttpResponse {
+/** Implements a http header fields normalizer. */
+trait HttpHeaderFieldNameNormalizer {
 
     /**
-     * Class constructor.
-     * @param string $location the redirect location
+     * Return the normalized header fields.
+     * Normalize the header fields names.
+     * @param array $headerFields the header fields to normalize
+     * @return array
      */
-    public function __construct($location) {
-        $this->inject(
-            (new HttpResponseBuilder())
-                ->setHttpStatus(new HttpStatus(HttpStatus::CODE_MOVED_PERMANENTLY))
-                ->addHttpHeader(new GenericHeaderField("Location", $location))
-                ->build()
-        );
+    private function normalize(array $headerFields) {
+        $normalizedHeaderFields = [];
+
+        foreach ($headerFields as $headerFieldName => $headerFieldValue) {
+            $headerFieldName = str_replace(" ", "-", ucwords(
+                strtolower(str_replace(["_", "-"], " ", $headerFieldName))
+            ));
+            $normalizedHeaderFields[$headerFieldName] = $headerFieldValue;
+        }
+
+        ksort($normalizedHeaderFields);
+        return $normalizedHeaderFields;
     }
 
 }

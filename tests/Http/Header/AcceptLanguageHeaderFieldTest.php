@@ -22,36 +22,30 @@
  * THE SOFTWARE.
  */
 
-namespace Brickoo\Component\Http\Response;
+namespace Brickoo\Tests\Component\Http;
 
-use Brickoo\Component\Http\HttpResponse;
-use Brickoo\Component\Http\HttpStatus;
-use Brickoo\Component\Http\HttpResponseBuilder;
-use Brickoo\Component\Http\Header\GenericHeaderField;
+use Brickoo\Component\Http\Header\AcceptLanguageHeaderField;
+use PHPUnit_Framework_TestCase;
 
 /**
- * PermanentlyRedirectResponse
+ * AcceptLanguageHeaderFieldTest
  *
- * Implements a permanently redirect response.
- * Bookmarked links should change to the new location.
- * Request method may change by redirect.
- * @link http://tools.ietf.org/html/rfc2616#section-10.3.2
+ * Test suite for the AcceptLanguageHeaderField class.
+ * @see Brickoo\Component\Http\Header\AcceptLanguageHeaderField
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
-class PermanentlyRedirectResponse extends HttpResponse {
+class AcceptLanguageHeaderFieldTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * Class constructor.
-     * @param string $location the redirect location
+     * @covers  Brickoo\Component\Http\Header\AcceptLanguageHeaderField::__construct
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeaderField::__construct
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeaderField::getName
+     * @covers  Brickoo\Component\Http\Header\CommonAcceptHeaderField::getValue
      */
-    public function __construct($location) {
-        $this->inject(
-            (new HttpResponseBuilder())
-                ->setHttpStatus(new HttpStatus(HttpStatus::CODE_MOVED_PERMANENTLY))
-                ->addHttpHeader(new GenericHeaderField("Location", $location))
-                ->build()
-        );
+    public function testHeaderConstructor() {
+        $acceptHeader = new AcceptLanguageHeaderField("de,en-US;q=0.8,en;q=0.6");
+        $this->assertEquals("Accept-Language", $acceptHeader->getName());
+        $this->assertEquals("de,en-US;q=0.8,en;q=0.6", $acceptHeader->getValue());
     }
 
 }

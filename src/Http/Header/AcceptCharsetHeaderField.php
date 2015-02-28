@@ -22,36 +22,23 @@
  * THE SOFTWARE.
  */
 
-namespace Brickoo\Component\Http\Response;
-
-use Brickoo\Component\Http\HttpResponse;
-use Brickoo\Component\Http\HttpStatus;
-use Brickoo\Component\Http\HttpResponseBuilder;
-use Brickoo\Component\Http\Header\GenericHeaderField;
+namespace Brickoo\Component\Http\Header;
 
 /**
- * PermanentlyRedirectResponse
+ * AcceptCharsetHeaderField
  *
- * Implements a permanently redirect response.
- * Bookmarked links should change to the new location.
- * Request method may change by redirect.
- * @link http://tools.ietf.org/html/rfc2616#section-10.3.2
+ * Implements an accept-charset header field.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
-class PermanentlyRedirectResponse extends HttpResponse {
+class AcceptCharsetHeaderField extends CommonAcceptHeaderField {
 
     /**
      * Class constructor.
-     * @param string $location the redirect location
+     * @param string $headerFieldValue
+     * @throws \InvalidArgumentException
      */
-    public function __construct($location) {
-        $this->inject(
-            (new HttpResponseBuilder())
-                ->setHttpStatus(new HttpStatus(HttpStatus::CODE_MOVED_PERMANENTLY))
-                ->addHttpHeader(new GenericHeaderField("Location", $location))
-                ->build()
-        );
+    public function __construct($headerFieldValue = "") {
+        parent::__construct("Accept-Charset", $headerFieldValue);
     }
 
 }

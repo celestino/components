@@ -83,21 +83,9 @@ class HttpResponseSender {
      * @return \Brickoo\Component\Http\HttpResponseSender
      */
     private function sendMessageHeader(HttpMessageHeader $messageHeader) {
-        foreach($messageHeader as $headerList) {
-            $this->sendHeaderList($headerList);
-        }
-        return $this;
-    }
-
-    /**
-     * Send the headers from the header list.
-     * @param HttpHeaderList $list
-     * @return \Brickoo\Component\Http\HttpResponseSender
-     */
-    private function sendHeaderList(HttpHeaderList $list) {
-        foreach ($list as $header) {
+        foreach($messageHeader as $headerField) {
             call_user_func($this->headerFunction,
-                sprintf("%s: %s", $header->getName(), $header->getValue())
+                sprintf("%s: %s", $headerField->getName(), $headerField->getValue())
             );
         }
         return $this;

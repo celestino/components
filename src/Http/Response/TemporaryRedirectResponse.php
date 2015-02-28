@@ -27,7 +27,7 @@ namespace Brickoo\Component\Http\Response;
 use Brickoo\Component\Http\HttpResponse;
 use Brickoo\Component\Http\HttpStatus;
 use Brickoo\Component\Http\HttpResponseBuilder;
-use Brickoo\Component\Http\Header\GenericHeader;
+use Brickoo\Component\Http\Header\GenericHeaderField;
 
 /**
  * TemporaryRedirectResponse
@@ -48,7 +48,7 @@ class TemporaryRedirectResponse extends HttpResponse {
         $this->inject(
             (new HttpResponseBuilder())
                 ->setHttpStatus(new HttpStatus(HttpStatus::CODE_TEMPORARY_REDIRECT))
-                ->addHttpHeader(new GenericHeader("Location", $location))
+                ->addHttpHeader(new GenericHeaderField("Location", $location))
                 ->build()
         );
     }

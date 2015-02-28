@@ -24,8 +24,8 @@
 
 namespace Brickoo\Tests\Component\Http;
 
-use Brickoo\Component\Http\Header\GenericHeader;
-use Brickoo\Component\Http\HttpHeaderList;
+use Brickoo\Component\Http\Header\GenericHeaderField;
+use Brickoo\Component\Http\HttpHeaderFieldValueList;
 use Brickoo\Component\Http\HttpMessage;
 use Brickoo\Component\Http\HttpMessageHeader;
 use Brickoo\Component\Http\HttpResponse;
@@ -57,7 +57,6 @@ class HttpResponseSenderTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\HttpResponseSender::send
      * @covers Brickoo\Component\Http\HttpResponseSender::sendStatus
      * @covers Brickoo\Component\Http\HttpResponseSender::sendMessageHeader
-     * @covers Brickoo\Component\Http\HttpResponseSender::sendHeaderList
      * @covers Brickoo\Component\Http\HttpResponseSender::sendHttpMessageBody
      * @covers Brickoo\Component\Http\HttpResponseSender::checkStatusAllowsHttpMessageBodyContent
      * @covers Brickoo\Component\Http\HttpResponseSender::statusDoesNotAllowBody
@@ -70,7 +69,7 @@ class HttpResponseSenderTest extends PHPUnit_Framework_TestCase {
             new HttpVersion(HttpVersion::HTTP_1_1),
             new HttpStatus(HttpStatus::CODE_OK),
             new HttpMessage(
-                new HttpMessageHeader(["Location" => new HttpHeaderList([new GenericHeader("Location", "brickoo.com")])]),
+                new HttpMessageHeader([new GenericHeaderField("Location", "brickoo.com")]),
                 new HttpMessageBody($expectedBody)
             )
         );

@@ -22,36 +22,43 @@
  * THE SOFTWARE.
  */
 
-namespace Brickoo\Component\Http\Response;
+namespace Brickoo\Component\Http\Header\Aggregator\Strategy;
 
-use Brickoo\Component\Http\HttpResponse;
-use Brickoo\Component\Http\HttpStatus;
-use Brickoo\Component\Http\HttpResponseBuilder;
-use Brickoo\Component\Http\Header\GenericHeaderField;
+use Brickoo\Component\Validation\Argument;
 
 /**
- * PermanentlyRedirectResponse
+ * StringHeaderAggregatorStrategy
  *
- * Implements a permanently redirect response.
- * Bookmarked links should change to the new location.
- * Request method may change by redirect.
- * @link http://tools.ietf.org/html/rfc2616#section-10.3.2
+ * Implements a http header fields aggregator Strategy based on a header string.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class PermanentlyRedirectResponse extends HttpResponse {
+class StringHeaderAggregatorStrategy implements HeaderFieldsAggregatorStrategy {
+
+    /** @var string */
+    private $headerFields;
 
     /**
      * Class constructor.
-     * @param string $location the redirect location
+     * @param string $headerFields the message headerFields as string
      */
-    public function __construct($location) {
-        $this->inject(
-            (new HttpResponseBuilder())
-                ->setHttpStatus(new HttpStatus(HttpStatus::CODE_MOVED_PERMANENTLY))
-                ->addHttpHeader(new GenericHeaderField("Location", $location))
-                ->build()
-        );
+    public function __construct($headerFields) {
+        Argument::isString($headerFields);
+        $this->headerFields = $headerFields;
+    }
+
+    /** {@inheritDoc} */
+    public function getHeaderFields() {
+        $extractedHeaders = [];
+        $fields = explode("\r\n", preg_replace("/\x0D\x0A[\x09\x20]+/", " ", $this->headerFields));
+
+        foreach ($fields as $field) {
+            $matches = [];
+            if (preg_match("/(?<name>[^:]+): (?<value>.+)/m", $field, $matches) == 1) {
+                $extractedHeaders[$matches["name"]] = trim($matches["value"]);
+            }
+        }
+        return $extractedHeaders;
     }
 
 }

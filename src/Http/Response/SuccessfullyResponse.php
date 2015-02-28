@@ -45,15 +45,15 @@ class SuccessfullyResponse extends HttpResponse {
     /**
      * Class constructor.
      * @param string $bodyContent
-     * @param array $messageHeaders instances of \Brickoo\Component\Http\HttpHeader
+     * @param array $messageHeaderFields instances of \Brickoo\Component\Http\HttpHeaderField
      * @throws \InvalidArgumentException
      */
-    public function __construct($bodyContent = "", array $messageHeaders= []) {
+    public function __construct($bodyContent = "", array $messageHeaderFields = []) {
         $this->inject(
             (new HttpResponseBuilder())
                 ->setHttpStatus(new HttpStatus(HttpStatus::CODE_OK))
                 ->setHttpMessage(new HttpMessage(
-                    $this->createMessageHeader($messageHeaders),
+                    $this->createMessageHeader($messageHeaderFields),
                     new HttpMessageBody($bodyContent)
                 ))
                 ->build()
@@ -61,19 +61,14 @@ class SuccessfullyResponse extends HttpResponse {
     }
 
     /**
-     * Creates a message header object containing passed headers.
-     * @param array $messageHeaders instances of \Brickoo\Component\Http\HttpHeader
+     * Creates a message header object containing passed header fields.
+     * @param array $messageHeaderFields instances of \Brickoo\Component\Http\HttpHeaderField
      * @throws \InvalidArgumentException
      * @return \Brickoo\Component\Http\HttpMessageHeader
      */
-    private function createMessageHeader(array $messageHeaders) {
-        if (! (new ContainsInstancesOfConstraint("\\Brickoo\\Component\\Http\\HttpHeader"))->matches($messageHeaders)) {
-            throw new \InvalidArgumentException("Invalid message headers.");
-        }
+    private function createMessageHeader(array $messageHeaderFields) {
         $messageHeader = new HttpMessageHeader();
-        foreach ($messageHeaders as $header) {
-            $messageHeader->addHeader($header);
-        }
+        $messageHeader->fromArray($messageHeaderFields);
         return $messageHeader;
     }
 
