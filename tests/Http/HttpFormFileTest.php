@@ -57,7 +57,6 @@ class HttpFormFileTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @runInSeparateProcess
      * @covers Brickoo\Component\Http\HttpFormFile::moveTo
      * @covers Brickoo\Component\Http\HttpFormFile::generateTargetFilePath
      */

@@ -25,9 +25,11 @@
 namespace Brickoo\Component\Annotation;
 
 use ArrayIterator;
-use Brickoo\Component\Annotation\Definition\DefinitionCollection;
+use Brickoo\Component\Annotation\Definition\AnnotationDefinitionTargetFilter;
 use Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationException;
 use Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationParametersException;
+use Brickoo\Component\Common\Collection;
+use Traversable;
 
 /**
  * AnnotationReaderResultValidator
@@ -39,18 +41,19 @@ class AnnotationReaderResultValidator {
 
     /**
      * Validates a reader result against the provided definition.
-     * @param \Brickoo\Component\Annotation\Definition\DefinitionCollection $collection
+     * @param \Brickoo\Component\Common\Collection $collection
      * @param \Brickoo\Component\Annotation\AnnotationReaderResult $readerResult
      * @throws \Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationException
      * @throws \Brickoo\Component\Annotation\Exception\MissingRequiredAnnotationParametersException
      * @return void
      */
-    public function validate(DefinitionCollection $collection, AnnotationReaderResult $readerResult) {
+    public function validate(Collection $collection, AnnotationReaderResult $readerResult) {
         $targets = [Annotation::TARGET_CLASS, Annotation::TARGET_METHOD, Annotation::TARGET_PROPERTY];
 
+        $annotationFilter = new AnnotationDefinitionTargetFilter($collection);
         foreach ($targets as $annotationTarget) {
             $this->validateAnnotations(
-                $collection->getAnnotationsDefinitionsByTarget($annotationTarget),
+                $annotationFilter->filter($annotationTarget),
                 $readerResult->getAnnotationsByTarget($annotationTarget)
             );
         }
@@ -58,11 +61,11 @@ class AnnotationReaderResultValidator {
 
     /**
      * Validates the annotations definitions against the result.
-     * @param ArrayIterator $definitions
-     * @param ArrayIterator $results
+     * @param Traversable $definitions
+     * @param Traversable $results
      * @return void
      */
-    private function validateAnnotations(ArrayIterator $definitions, ArrayIterator $results) {
+    private function validateAnnotations(Traversable $definitions, Traversable $results) {
         if (($requiredAnnotationsParameters = $this->getRequiredAnnotationsParameters($definitions))) {
             $annotationsValues = $this->getAnnotationsValues($results);
 
@@ -74,10 +77,10 @@ class AnnotationReaderResultValidator {
 
     /**
      * Returns the required annotations and their parameters.
-     * @param ArrayIterator $definitions
+     * @param Traversable $definitions
      * @return array required annotations definitions
      */
-    private function getRequiredAnnotationsParameters(ArrayIterator $definitions) {
+    private function getRequiredAnnotationsParameters(Traversable $definitions) {
         $requiredAnnotations = [];
         foreach ($definitions as $annotationDefinition) {
             if ($annotationDefinition->isRequired() || $annotationDefinition->hasRequiredParameters()) {
@@ -89,10 +92,10 @@ class AnnotationReaderResultValidator {
 
     /**
      * Returns the available result annotations and their values.
-     * @param \ArrayIterator $annotationsIterator
+     * @param Traversable $annotationsIterator
      * @return array annotation values
      */
-    private function getAnnotationsValues(ArrayIterator $annotationsIterator) {
+    private function getAnnotationsValues(Traversable $annotationsIterator) {
         $annotations = [];
         foreach ($annotationsIterator as $annotation) {
             $annotations[$annotation->getName()] = $annotation->getValues();
@@ -132,7 +135,7 @@ class AnnotationReaderResultValidator {
      * Returns the missing required parameters if any.
      * @param array $requiredParameters
      * @param array $readParameters
-     * @return array<String> the missing parameters
+     * @return array the missing parameters
      */
     private function getMissingParameters(array $requiredParameters, array $readParameters) {
         $missingParameters = [];

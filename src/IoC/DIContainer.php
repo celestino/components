@@ -46,7 +46,7 @@ class DIContainer extends Container {
     /** @var array */
     private $calledDependencies;
 
-    /** @var array<string, object> */
+    /** @var array */
     private $singletons;
 
     /**

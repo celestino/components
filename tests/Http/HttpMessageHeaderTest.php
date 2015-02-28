@@ -24,7 +24,7 @@
 
 namespace Brickoo\Tests\Component\Http;
 
-use Brickoo\Component\Http\Header\GenericHeader;
+use Brickoo\Component\Http\Header\GenericHeaderField;
 use Brickoo\Component\Http\HttpMessageHeader;
 use PHPUnit_Framework_TestCase;
 
@@ -39,60 +39,34 @@ class HttpMessageHeaderTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Http\HttpMessageHeader::__construct
-     * @covers Brickoo\Component\Http\HttpMessageHeader::addHeader
-     * @covers Brickoo\Component\Http\HttpMessageHeader::getHeader
-     * @covers Brickoo\Component\Http\HttpMessageHeader::getHeaderList
-     * @covers Brickoo\Component\Http\HttpMessageHeader::contains
+     * @covers Brickoo\Component\Http\HttpMessageHeader::importHeaderFieldList
      */
-    public function testAddAndGetHeader() {
-        $header = new GenericHeader("Host", "brickoo.com");
-        $messageHeader = new HttpMessageHeader();
-        $this->assertSame($messageHeader, $messageHeader->addHeader($header));
-        $this->assertSame($header, $messageHeader->getHeader("Host"));
+    public function testImportHeaderFields() {
+        $headerField = new GenericHeaderField("Host", "brickoo.com");
+        $messageHeader = new HttpMessageHeader([$headerField]);
+        $this->assertSame($headerField, $messageHeader->getField("Host"));
     }
 
     /**
-     * @covers Brickoo\Component\Http\HttpMessageHeader::getHeader
-     * @covers Brickoo\Component\Http\HttpMessageHeader::getHeaderList
-     * @expectedException \InvalidArgumentException
+     * @covers Brickoo\Component\Http\HttpMessageHeader::__construct
+     * @covers Brickoo\Component\Http\HttpMessageHeader::addField
+     * @covers Brickoo\Component\Http\HttpMessageHeader::getField
      */
-    public function testGetHeaderWithInvalidNameThrowsException() {
+    public function testAddAndGetHeaderField() {
+        $headerField = new GenericHeaderField("Host", "brickoo.com");
         $messageHeader = new HttpMessageHeader();
-        $messageHeader->getHeader(["wrongType"]);
-    }
-
-    /**
-     * @covers Brickoo\Component\Http\HttpMessageHeader::getHeader
-     * @covers Brickoo\Component\Http\HttpMessageHeader::getHeaderList
-     * @covers Brickoo\Component\Http\Exception\HeaderNotFoundException
-     * @expectedException \Brickoo\Component\Http\Exception\HeaderNotFoundException
-     */
-    public function testGetHeaderWithMissingNameThrowsException() {
-        $messageHeader = new HttpMessageHeader();
-        $messageHeader->getHeader("Host");
-    }
-
-    /**
-     * @covers Brickoo\Component\Http\HttpMessageHeader::getHeaderList
-     * @covers Brickoo\Component\Http\HttpMessageHeader::contains
-     */
-    public function testGetHeaderList() {
-        $header = new GenericHeader("Host", "brickoo.com");
-        $messageHeader = new HttpMessageHeader();
-        $messageHeader->addHeader($header);
-        $this->assertInstanceOf("\\Brickoo\\Component\\Http\\HttpHeaderList",  $messageHeader->getHeaderList("Host"));
+        $messageHeader->addField($headerField);
+        $this->assertSame($headerField, $messageHeader->getField("Host"));
     }
 
     /**
      * @covers Brickoo\Component\Http\HttpMessageHeader::toString
-     * @covers Brickoo\Component\Http\HttpHeaderNormalizer::normalizeHeaders
-     *
+     * @covers Brickoo\Component\Http\HttpHeaderFieldNameNormalizer::normalize
      */
     public function testToString() {
         $expectedString = "Host: brickoo.com\r\n";
-        $header = new GenericHeader("Host", "brickoo.com");
         $messageHeader = new HttpMessageHeader();
-        $messageHeader->addHeader($header);
+        $messageHeader->addField(new GenericHeaderField("Host", "brickoo.com"));
         $this->assertEquals($expectedString, $messageHeader->toString());
     }
 

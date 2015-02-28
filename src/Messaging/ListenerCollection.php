@@ -37,10 +37,10 @@ use Brickoo\Component\Validation\Argument;
 
 class ListenerCollection {
 
-    /** @var array<ListenerPriorityQueue> */
+    /** @var array */
     private $listenerQueues;
 
-    /** @var array<Listener> */
+    /** @var array */
     private $listeners;
 
     public function __construct() {

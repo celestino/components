@@ -38,69 +38,61 @@ use Brickoo\Component\Validation\Validator\ConstraintValidator;
  */
 class HttpMessageHeader extends Container {
 
-    use HttpHeaderNormalizer;
+    use HttpHeaderFieldNameNormalizer;
 
-    /** @param array $headerLists */
-    public function __construct(array $headerLists = []) {
-        parent::__construct($headerLists, new ConstraintValidator(
-            new IsInstanceOfConstraint("\\Brickoo\\Component\\Http\\HttpHeaderList")
+    /** @param array $headerFieldList */
+    public function __construct(array $headerFieldList = []) {
+        parent::__construct([], new ConstraintValidator(
+            new IsInstanceOfConstraint("\\Brickoo\\Component\\Http\\HttpHeaderField")
         ));
+        $this->importHeaderFieldList($headerFieldList);
     }
 
     /**
-     * Add a header using the header name as storage key.
-     * @param \Brickoo\Component\Http\HttpHeader $header
+     * Add a header field using the field name as storage key.
+     * @param \Brickoo\Component\Http\HttpHeaderField $headerField
      * @return \Brickoo\Component\Http\HttpMessageHeader
      */
-    public function addHeader(HttpHeader $header) {
-        $headerName = $header->getName();
-
-        if (! $this->contains($headerName)) {
-            $this->set($headerName, new HttpHeaderList());
-        }
-
-        $this->get($headerName)->add($header);
+    public function addField(HttpHeaderField $headerField) {
+        $this->set($headerField->getName(), $headerField);
         return $this;
     }
 
     /**
-     * Return the header by its name.
-     * The first header from the concrete header list will be returned.
-     * @param string $headerName
+     * Return the header field by its name.
+     * @param string $headerFieldName
      * @throws \Brickoo\Component\Http\Exception\HeaderNotFoundException
-     * @return \Brickoo\Component\Http\HttpHeader
+     * @return null|\Brickoo\Component\Http\HttpHeaderField
      */
-    public function getHeader($headerName) {
-        return $this->getHeaderList($headerName)->first();
+    public function getField($headerFieldName) {
+        return $this->get($headerFieldName, null);
     }
 
     /**
-     * Return the header list of a header.
-     * @param string $headerName
-     * @throws \Brickoo\Component\Http\Exception\HeaderNotFoundException
-     * @return \Brickoo\Component\Http\HttpHeaderList
-     */
-    public function getHeaderList($headerName) {
-        Argument::isString($headerName);
-        if (! $this->contains($headerName)) {
-            throw new HeaderNotFoundException($headerName);
-        }
-        return $this->get($headerName);
-    }
-
-    /**
-     * Covert message headers to a header string.
-     * @return string the representation of the message headers
+     * Covert message header fields to a header string.
+     * @return string
      */
     public function toString() {
         $headerString = "";
 
-        $headerLists = $this->normalizeHeaders($this->toArray());
-        foreach($headerLists as $headerList) {
-            $headerString .= $headerList->toString();
+        $headerFields = $this->normalize($this->toArray());
+        foreach($headerFields as $headerField) {
+            $headerString .= $headerField->toString()."\r\n";
         }
 
         return $headerString;
+    }
+
+    /**
+     * Import the header fields from a list.
+     * @param array $headerFieldList
+     * @return \Brickoo\Component\Http\HttpMessageHeader
+     */
+    private function importHeaderFieldList(array $headerFieldList) {
+        foreach ($headerFieldList as $headerField) {
+            $this->addField($headerField);
+        }
+        return $this;
     }
 
 }

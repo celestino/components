@@ -29,6 +29,7 @@ date_default_timezone_set("UTC");
 include_once (realpath(dirname(__FILE__)) .'/../src/Common/Autoloader.php');
 
 $autoloader = new \Brickoo\Component\Common\Autoloader([
-    "Brickoo\\Component" => realpath(dirname(__FILE__))."/../src"
+    "Brickoo\\Component" => realpath(dirname(__FILE__))."/../src",
+    "Brickoo\\Tests\\Component" => realpath(dirname(__FILE__))
 ]);
 $autoloader->register();

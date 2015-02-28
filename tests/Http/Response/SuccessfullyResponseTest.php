@@ -24,7 +24,7 @@
 
 namespace Brickoo\Tests\Component\Http\Response;
 
-use Brickoo\Component\Http\Header\GenericHeader;
+use Brickoo\Component\Http\Header\GenericHeaderField;
 use Brickoo\Component\Http\Response\SuccessfullyResponse;
 use PHPUnit_Framework_TestCase;
 
@@ -58,21 +58,13 @@ class SuccessfullyResponseTest extends PHPUnit_Framework_TestCase {
     }
 
     /** @covers Brickoo\Component\Http\Response\SuccessfullyResponse::createMessageHeader */
-    public function testSuccessfullyResponseWithHeaders() {
+    public function testSuccessfullyResponseWithHeaderFields() {
         $content = "success";
-        $response = new SuccessfullyResponse($content, [new GenericHeader("X-Unit-Test", "ok")]);
+        $response = new SuccessfullyResponse($content, [new GenericHeaderField("X-Unit-Test", "ok")]);
         $expectedResponse = "HTTP/1.1 200 OK\r\n";
         $expectedResponse .= "X-Unit-Test: ok\r\n\r\n";
         $expectedResponse .= $content;
         $this->assertEquals($expectedResponse, $response->toString());
-    }
-
-    /**
-     * @covers Brickoo\Component\Http\Response\SuccessfullyResponse::createMessageHeader
-     * @expectedException \InvalidArgumentException
-     */
-    public function testSuccessfullyResponseInvalidHeaderThrowsException() {
-        new SuccessfullyResponse("", ["wrongType"]);
     }
 
 }

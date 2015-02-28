@@ -38,22 +38,6 @@ class PlainTextPrinterTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\IO\Printing\PlainTextPrinter::__construct
-     * @expectedException \InvalidArgumentException
-     */
-    public function testConstructorInvalidIndentModeThrowsInvalidArgumentException() {
-        new PlainTextPrinter($this->getOutputPrinterStub(), ["wrongType"]);
-    }
-
-    /**
-     * @covers Brickoo\Component\IO\Printing\PlainTextPrinter::__construct
-     * @expectedException \InvalidArgumentException
-     */
-    public function testConstructorInvalidEOLSeparatorThrowsInvalidArgumentException() {
-        new PlainTextPrinter($this->getOutputPrinterStub(), PlainTextPrinter::INDENT_SPACES, ["wrongType"]);
-    }
-
-    /**
-     * @covers Brickoo\Component\IO\Printing\PlainTextPrinter::__construct
      * @covers Brickoo\Component\IO\Printing\PlainTextPrinter::nextLine
      * @covers Brickoo\Component\IO\Printing\PlainTextPrinter::addText
      */
@@ -69,7 +53,7 @@ class PlainTextPrinterTest extends PHPUnit_Framework_TestCase {
 
         $printer = new PlainTextPrinter($outputPrinter, PlainTextPrinter::INDENT_SPACES, $lineSeparator);
         $printer->addText($text);
-        $printer->nextLine();
+        $this->assertSame($printer, $printer->nextLine());
     }
 
     /**
@@ -87,12 +71,15 @@ class PlainTextPrinterTest extends PHPUnit_Framework_TestCase {
                       ->will($this->returnSelf());
 
         $printer = new PlainTextPrinter($outputPrinter);
-        $printer->indent(1)
+        $this->assertSame(
+            $printer,
+            $printer->indent(1)
                 ->indent(1)
                 ->addText($text)
                 ->indent(1)
                 ->addText($text)
-                ->doPrint();
+                ->doPrint()
+        );
     }
 
     /**
@@ -120,12 +107,15 @@ class PlainTextPrinterTest extends PHPUnit_Framework_TestCase {
                       ->will($this->returnSelf());
 
         $printer = new PlainTextPrinter($outputPrinter, PlainTextPrinter::INDENT_SPACES, $lineSeparator);
-        $printer->indent($indentation)
+        $this->assertSame(
+            $printer,
+            $printer->indent($indentation)
                 ->addText($text)
                 ->nextLine()
                 ->outdent(1)
                 ->addText($text)
-                ->doPrint();
+                ->doPrint()
+        );
     }
 
     /**

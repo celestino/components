@@ -24,9 +24,9 @@
 
 namespace Brickoo\Component\Annotation;
 
-use Brickoo\Component\Annotation\Definition\DefinitionCollection;
 use Brickoo\Component\Annotation\Exception\FileDoesNotExistException;
 use Brickoo\Component\Annotation\Exception\UnableToLocateQualifiedClassNameException;
+use Brickoo\Component\Common\Collection;
 use Brickoo\Component\Validation\Argument;
 use ReflectionClass;
 
@@ -51,13 +51,13 @@ class AnnotationClassFileReader {
 
     /**
      *
-     * @param \Brickoo\Component\Annotation\Definition\DefinitionCollection $collection
+     * @param \Brickoo\Component\Common\Collection $collection
      * @param string $filename
      * @throws \Brickoo\Component\Annotation\Exception\FileDoesNotExistException
      * @throws \Brickoo\Component\Annotation\Exception\UnableToLocateQualifiedClassNameException
      * @return \Brickoo\Component\Annotation\AnnotationReaderResult
      */
-    public function getAnnotations(DefinitionCollection $collection, $filename) {
+    public function getAnnotations(Collection $collection, $filename) {
         Argument::isString($filename);
         $reflectionClass = $this->getReflectionClass($filename);
         return $this->annotationReflectionReader->getAnnotations($collection, $reflectionClass);

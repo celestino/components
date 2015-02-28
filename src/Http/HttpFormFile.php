@@ -118,8 +118,9 @@ class HttpFormFile {
 
         $targetFilePath = $this->generateTargetFilePath($targetPath, $targetFileName);
 
-        if (! move_uploaded_file($this->filePath, $targetFilePath)) {
-            throw new UnableToMoveFormFileException($this->filePath, $targetFilePath);
+        if ((! is_writable(dirname($targetFilePath)))
+            || (! move_uploaded_file($this->filePath, $targetFilePath))) {
+                throw new UnableToMoveFormFileException($this->filePath, $targetFilePath);
         }
 
         return $targetFilePath;

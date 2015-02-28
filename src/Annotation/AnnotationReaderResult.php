@@ -38,37 +38,23 @@ use IteratorAggregate;
 class AnnotationReaderResult implements IteratorAggregate {
 
     /** @var string */
-    private $collectionName;
-
-    /** @var string */
     private $className;
 
-    /** @var array<integer, array<Annotation>> */
+    /** @var array */
     private $annotations;
 
     /**
      * Class constructor.
-     * @param string $collectionName
      * @param string $className
      */
-    public function __construct($collectionName, $className) {
-        Argument::isString($collectionName);
+    public function __construct($className) {
         Argument::isString($className);
-        $this->collectionName = $collectionName;
         $this->className = $className;
         $this->annotations = [
             Annotation::TARGET_CLASS => [],
             Annotation::TARGET_METHOD => [],
             Annotation::TARGET_PROPERTY => []
         ];
-    }
-
-    /**
-     * Returns the collection name.
-     * @return string the collection name;
-     */
-    public function getCollectionName() {
-        return $this->collectionName;
     }
 
     /**

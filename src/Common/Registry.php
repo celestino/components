@@ -38,7 +38,6 @@ use Brickoo\Component\Validation\Argument;
  * Provides lock functionality for each identifier and an read only mode for all identifiers.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class Registry extends Locker {
 
     /** @var array */
@@ -55,24 +54,28 @@ class Registry extends Locker {
     public function __construct(array $registrations = [], $readOnly = false) {
         parent::__construct();
         $this->registrations = $registrations;
-        $this->readOnly = (boolean)$readOnly;
+        $this->readOnly = (! empty($registrations)) && (boolean)$readOnly;
     }
 
     /**
-     * Returns all assigned registrations.
-     * @return array the assigned registrations
+     * Return all assigned registrations as an array.
+     * @return array
      */
-    public function getAll() {
+    public function toArray() {
         return $this->registrations;
     }
 
     /**
-     * Adds a list of registrations to the registry.
-     * @param array $registrations the registrations to add
+     * Add a registration to the registry.
+     * @param mixed $registrations the registrations to add
      * @throws \InvalidArgumentException if passed registrations is empty
      * @return \Brickoo\Component\Common\Registry
      */
-    public function add(array $registrations) {
+    public function add($registrations) {
+        if ((! is_array($registrations)) && (! $registrations instanceof \Traversable)) {
+            $registrations = [$registrations];
+        }
+
         foreach($registrations as $identifier => $value) {
             $this->register($identifier, $value);
         }
@@ -80,11 +83,11 @@ class Registry extends Locker {
     }
 
     /**
-     * Returns the registered value from the given identifier.
+     * Return the registered value from the given identifier.
      * @param string $identifier the identifier so retrieve the value from
      * @throws \InvalidArgumentException if the identifier is not valid
      * @throws \Brickoo\Component\Common\Exception\IdentifierNotRegisteredException
-     * @return mixed the value of the registered identifier
+     * @return mixed
      */
     public function get($identifier) {
         Argument::isStringOrInteger($identifier);
@@ -107,7 +110,7 @@ class Registry extends Locker {
      * @return \Brickoo\Component\Common\Registry
      */
     public function register($identifier, $value) {
-        Argument::isString($identifier);
+        Argument::isStringOrInteger($identifier);
 
         if ($this->isRegistered($identifier)) {
             throw new DuplicateRegistrationException($identifier);
@@ -127,7 +130,7 @@ class Registry extends Locker {
      * @return \Brickoo\Component\Common\Registry
      */
     public function override($identifier, $value) {
-        Argument::isString($identifier);
+        Argument::isStringOrInteger($identifier);
 
         if ($this->isLocked($identifier)) {
             throw new IdentifierLockedException($identifier);
@@ -146,7 +149,7 @@ class Registry extends Locker {
      * @return \Brickoo\Component\Common\Registry
      */
     public function unregister($identifier) {
-        Argument::isString($identifier);
+        Argument::isStringOrInteger($identifier);
 
         if ($this->isReadOnly()) {
             throw new ReadonlyModeException();
@@ -167,10 +170,10 @@ class Registry extends Locker {
     /**
      * Check if the identifier is registered.
      * @param string $identifier the identifier to check
-     * @return boolean check result
+     * @return boolean
      */
     public function isRegistered($identifier) {
-        Argument::isString($identifier);
+        Argument::isStringOrInteger($identifier);
         return array_key_exists($identifier, $this->registrations);
     }
 
@@ -190,7 +193,7 @@ class Registry extends Locker {
 
     /**
      * Check if the mode is currently set to read only.
-     * @return boolean read only mode
+     * @return boolean
      */
     public function isReadOnly() {
         return $this->readOnly;
@@ -200,7 +203,7 @@ class Registry extends Locker {
      * Countable interface implementation.
      * Returns the number of registrations.
      * @see Countable::count()
-     * @return integer the number of registrations
+     * @return integer
      */
     public function count() {
         return count($this->registrations);
@@ -208,7 +211,7 @@ class Registry extends Locker {
 
     /**
      * Returns the number of locked identifiers.
-     * @return integer the number of locked identifiers
+     * @return integer
      */
     public function countLocked() {
         return count($this->locked);

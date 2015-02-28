@@ -61,7 +61,7 @@ class HttpRequestUriAggregator implements UriAggregator {
     /** {@inheritDoc} */
     public function getHostname() {
         if ($this->header->contains("Host")) {
-            return $this->header->getHeader("Host")->getValue();
+            return $this->header->getField("Host")->getValue();
         }
         return $this->getServerVar("SERVER_NAME", $this->getServerVar("SERVER_ADDR", "localhost"));
     }
@@ -69,7 +69,7 @@ class HttpRequestUriAggregator implements UriAggregator {
     /** {@inheritDoc} */
     public function getPort() {
         if ($this->header->contains("X-Forwarded-Port")) {
-            return (int)$this->header->getHeader("X-Forwarded-Port")->getValue();
+            return (int)$this->header->getField("X-Forwarded-Port")->getValue();
         }
         return (int)$this->getServerVar("SERVER_PORT", 80);
     }
@@ -108,7 +108,7 @@ class HttpRequestUriAggregator implements UriAggregator {
     private function isForwardedFromHttps() {
         $isSecure = false;
         if ($this->header->contains("X-Forwarded-Proto")) {
-            $httpsForwarded = $this->header->getHeader("X-Forwarded-Proto")->getValue();
+            $httpsForwarded = $this->header->getField("X-Forwarded-Proto")->getValue();
             $isSecure = (strtolower($httpsForwarded) == "https");
         }
         return $isSecure;
@@ -132,11 +132,11 @@ class HttpRequestUriAggregator implements UriAggregator {
      */
     private function getIisRequestUri() {
         if ($this->header->contains("X-Original-Url")) {
-            return $this->header->getHeader("X-Original-Url")->getValue();
+            return $this->header->getField("X-Original-Url")->getValue();
         }
 
         if ($this->header->contains("X-Rewrite-Url")) {
-            return $this->header->getHeader("X-Rewrite-Url")->getValue();
+            return $this->header->getField("X-Rewrite-Url")->getValue();
         }
         return null;
     }

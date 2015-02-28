@@ -80,7 +80,7 @@ class Container implements \IteratorAggregate, \Countable {
      */
     public function contains($key) {
         Argument::isStringOrInteger($key);
-        return isset($this->container[$key]);
+        return array_key_exists($key, $this->container);
     }
 
     /**
@@ -151,14 +151,14 @@ class Container implements \IteratorAggregate, \Countable {
     }
 
     /**
-     * Imports the container values from an array.
-     * @param array $container the container to import
+     * Imports the elements from an array.
+     * @param array $container
      * @throws \Brickoo\Component\Common\Exception\InvalidValueTypeException
      * @return \Brickoo\Component\Common\Container
      */
     public function fromArray(array $container) {
         foreach ($container as $key => $value) {
-            if (!$this->isValueTypeValid($value)) {
+            if (! $this->isValueTypeValid($value)) {
                 throw new InvalidValueTypeException($value);
             }
             $this->container[$key] = $value;

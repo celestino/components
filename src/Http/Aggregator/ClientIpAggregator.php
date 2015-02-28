@@ -35,7 +35,7 @@ use Brickoo\Component\Http\HttpMessageHeader;
 class ClientIpAggregator {
 
     /** @var \Brickoo\Component\Http\HttpMessageHeader */
-    private $headers;
+    private $httpHeader;
 
     /** @var array */
     private $proxyServers;
@@ -50,57 +50,61 @@ class ClientIpAggregator {
      * @param array $proxyServers the proxies to recognize
      */
     public function __construct(HttpMessageHeader $headers, array $serverVars = [], array $proxyServers = []) {
-        $this->headers = $headers;
+        $this->httpHeader = $headers;
         $this->serverVars = $serverVars;
         $this->proxyServers = $proxyServers;
     }
 
     /**
      * Returns the client ip address.
-     * @return string the client ip
+     * @return null|string
      */
     public function getClientIp() {
-        if (($remoteAddress = $this->getServerVar("REMOTE_ADDR", ""))
-            && in_array($remoteAddress, $this->proxyServers)
-            && ($originalClientIp = $this->getOriginalClientIp())) {
+        if (($remoteAddress = $this->getServerVar("REMOTE_ADDR")) !== null
+            && (! in_array($remoteAddress, $this->proxyServers))) {
+            return $remoteAddress;
+        }
+
+        if ($originalClientIp = $this->getOriginalClientIp()) {
             return $originalClientIp;
         }
-        return $remoteAddress;
+
+        return null;
     }
 
     /**
      * Return the original client ip.
-     * @return string|null the original client ip otherwise null
+     * @return null|string
      */
     private function getOriginalClientIp() {
         if (($forwardedIp = $this->getForwardedClientIp()) !== null) {
             return $forwardedIp;
         }
-        return $this->getClientIpFromHeaders();
+        return $this->getClientIpFromHeaderField();
     }
 
     /**
-     * Return the client ip from the message headers.
+     * Return the client ip from the message header fields.
      * @return null|string
      */
-    private function getClientIpFromHeaders() {
-        if ($this->headers->contains("Client-Ip")
-            && ($headerClientIp = $this->headers->getHeader("Client-Ip")->getValue())
+    private function getClientIpFromHeaderField() {
+        if ($this->httpHeader->contains("Client-Ip")
+            && ($headerClientIp = $this->httpHeader->getField("Client-Ip")->getValue())
             && filter_var($headerClientIp, FILTER_VALIDATE_IP)) {
-            return $headerClientIp;
+                return $headerClientIp;
         }
         return null;
     }
 
     /**
      * Return the forwarded client ip.
-     * @return string the forwarded client ip otherwise null
+     * @return null|string
      */
     private function getForwardedClientIp() {
         $clientIp = null;
 
-        if ($this->headers->contains("X-Forwarded-For")
-            && ($forwardedIps = $this->headers->getHeader("X-Forwarded-For")->getValue())) {
+        if ($this->httpHeader->contains("X-Forwarded-For")
+            && ($forwardedIps = $this->httpHeader->getField("X-Forwarded-For")->getValue())) {
 
             $forwardedIps = array_filter(
                 preg_split("/[\\s]*,[\\s]*/", $forwardedIps),
@@ -118,10 +122,11 @@ class ClientIpAggregator {
     }
 
     /**
-     * Return the server variable value.
+     * Return the server variable value
+     * or the default value if not available.
      * @param string $key
      * @param mixed $defaultValue
-     * @return mixed the server variable value otherwise the default value
+     * @return string
      */
     private function getServerVar($key, $defaultValue = null) {
         if (isset($this->serverVars[$key])) {

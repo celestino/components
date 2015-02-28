@@ -45,7 +45,7 @@ class AndOrConstraint implements Constraint {
      * each param represents an OR group.
      * Example: new AndOrConstraint([constraint1, constraint2], [constraint3])
      * Either constraint1 AND constraint2 OR constraint3 MUST match.
-     * @param array<Constraint> ...params
+     * @param array ...params
      */
     public function __construct() {
         $this->constraints = func_get_args();

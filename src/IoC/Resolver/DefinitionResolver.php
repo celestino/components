@@ -52,7 +52,7 @@ class DefinitionResolver {
     /** Dependency is of type callable */
     const TYPE_CALLABLE = "callable";
 
-    /** @var array<string,\Brickoo\Component\IoC\Resolver\DependencyResolver> */
+    /** @var array */
     private $resolvers;
 
     public function __construct() {

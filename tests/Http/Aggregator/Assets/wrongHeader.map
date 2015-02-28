@@ -1,6 +1,0 @@
-<?php
-
-return [
-    "Accept" => "\\Brickoo\\DoesNotExistHeader"
-];
-
