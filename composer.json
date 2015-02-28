@@ -16,10 +16,5 @@
     },
     "autoload": {
         "psr-4": {"Brickoo\\Component\\": "src/"}
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "6.0.x-dev"
-        }
     }
 }
