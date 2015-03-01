@@ -47,11 +47,11 @@ class SessionContainer implements \Countable, \IteratorAggregate{
     }
 
     /**
-    * Checks if the session property is available.
-    * @param string $property the property to check in the session
-    * @throws \InvalidArgumentException
-    * @return boolean check result
-    */
+     * Checks if the session property is available.
+     * @param string $property the property to check in the session
+     * @throws \InvalidArgumentException
+     * @return boolean check result
+     */
     public function contains($property) {
         Assert::isString($property);
         return isset($_SESSION[$this->getNamespace($property)]);

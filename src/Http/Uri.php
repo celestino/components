@@ -32,7 +32,6 @@ use Brickoo\Component\Common\Assert;
  * Implements an uniform resource identifier.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class Uri {
 
     /** @var string */

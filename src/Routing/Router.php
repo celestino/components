@@ -53,10 +53,10 @@ class Router {
     private $routeCollections;
 
     /**
-    * Class constructor.
-    * @param \Brickoo\Component\Routing\Route\Collector\RouteCollector $routeCollector
-    * @param \Brickoo\Component\Routing\Route\Matcher\RouteMatcher $routeMatcher
-    */
+     * Class constructor.
+     * @param \Brickoo\Component\Routing\Route\Collector\RouteCollector $routeCollector
+     * @param \Brickoo\Component\Routing\Route\Matcher\RouteMatcher $routeMatcher
+     */
     public function __construct(RouteCollector $routeCollector, RouteMatcher $routeMatcher) {
         $this->routeCollector = $routeCollector;
         $this->routeMatcher = $routeMatcher;

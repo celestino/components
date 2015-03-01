@@ -42,9 +42,9 @@ class FilesystemLogger implements Logger {
     private $logsDirectory;
 
     /**
-    * Class constructor.
-    * @param string $logsDirectory the directory to store the log messages
-    */
+     * Class constructor.
+     * @param string $logsDirectory the directory to store the log messages
+     */
     public function __construct($logsDirectory) {
         Assert::isString($logsDirectory);
 

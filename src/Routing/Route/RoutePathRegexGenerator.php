@@ -32,7 +32,7 @@ namespace Brickoo\Component\Routing\Route;
  * expected segments as an OR condition.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class RoutePathRegexGenerator  {
+class RoutePathRegexGenerator {
 
     /** @var integer */
     const TEMPLATE_REQUIRED_KEY = 0;

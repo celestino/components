@@ -62,7 +62,7 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
         $this->currentPointerPosition = 0;
     }
 
-     /**
+    /**
      * Checks if the current pool adapter entry is ready.
      * @throws \Brickoo\Component\Storage\Adapter\Exception\PoolIsEmptyException
      * @return boolean check result
