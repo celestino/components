@@ -25,7 +25,7 @@
 namespace Brickoo\Component\Routing\Route;
 
 use Brickoo\Component\Routing\Route\Exception\ParameterNotAvailableException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * RequestRoute
@@ -74,7 +74,7 @@ class RequestRoute {
      * @return string the parameter value
      */
     public function getParameter($parameter) {
-        Argument::isString($parameter);
+        Assert::isString($parameter);
 
         if (! $this->hasParameter($parameter)) {
             throw new ParameterNotAvailableException($parameter);
@@ -89,7 +89,7 @@ class RequestRoute {
      * @return boolean check result
      */
     public function hasParameter($parameter) {
-        Argument::isString($parameter);
+        Assert::isString($parameter);
         return isset($this->parameters[$parameter]);
     }
 

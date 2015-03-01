@@ -26,7 +26,7 @@ namespace Brickoo\Component\Http\Header;
 
 use Brickoo\Component\Common\ArrayList;
 use Brickoo\Component\Http\HttpHeaderField;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * CommonAcceptHeaderField
@@ -58,7 +58,7 @@ class CommonAcceptHeaderField  implements HttpHeaderField {
      * @return boolean check result
      */
     public function isAccepted($acceptKey) {
-        Argument::isString($acceptKey);
+        Assert::isString($acceptKey);
         return array_key_exists($acceptKey, $this->getFieldValuesList());
     }
 

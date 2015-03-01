@@ -26,7 +26,7 @@ namespace Brickoo\Component\Messaging;
 
 use Brickoo\Component\Messaging\Exception\ListenerNotAvailableException;
 use Brickoo\Component\Messaging\Exception\ListenersNotAvailableException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * ListenerCollection
@@ -73,7 +73,7 @@ class ListenerCollection {
      * @return \Brickoo\Component\Messaging\MessageListener
      */
     public function get($listenerUID) {
-        Argument::isString($listenerUID);
+        Assert::isString($listenerUID);
 
         if (! $this->has($listenerUID)) {
             throw new ListenerNotAvailableException($listenerUID);
@@ -89,7 +89,7 @@ class ListenerCollection {
      * @return boolean check result
      */
     public function has($listenerUID) {
-        Argument::isString($listenerUID);
+        Assert::isString($listenerUID);
         return isset($this->listeners[$listenerUID]);
     }
 
@@ -101,7 +101,7 @@ class ListenerCollection {
      * @return \Brickoo\Component\Messaging\ListenerCollection
      */
     public function remove($listenerUID) {
-        Argument::isString($listenerUID);
+        Assert::isString($listenerUID);
 
         if (! $this->has($listenerUID)) {
             throw new ListenerNotAvailableException($listenerUID);
@@ -122,7 +122,7 @@ class ListenerCollection {
      * @return array the collected message listeners ordered by priority.
      */
     public function getListeners($messageName) {
-        Argument::isString($messageName);
+        Assert::isString($messageName);
 
         if (! $this->hasListeners($messageName)) {
             throw new ListenersNotAvailableException($messageName);
@@ -138,7 +138,7 @@ class ListenerCollection {
      * @return boolean check result
      */
     public function hasListeners($messageName) {
-        Argument::isString($messageName);
+        Assert::isString($messageName);
         return (isset($this->listenerQueues[$messageName]));
     }
 

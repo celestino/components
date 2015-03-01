@@ -26,7 +26,7 @@ namespace Brickoo\Component\Error\Messaging\Message;
 
 use Brickoo\Component\Error\Messaging\Messages;
 use Brickoo\Component\Messaging\GenericMessage;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * ErrorMessage
@@ -44,7 +44,7 @@ class ErrorMessage extends GenericMessage {
 
     /** @param string $errorMessage */
     public function __construct($errorMessage) {
-        Argument::isString($errorMessage);
+        Assert::isString($errorMessage);
         parent::__construct(Messages::ERROR, null, [self::PARAM_ERROR_MESSAGE => $errorMessage]);
     }
 

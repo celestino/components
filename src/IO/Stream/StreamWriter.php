@@ -26,7 +26,7 @@ namespace Brickoo\Component\IO\Stream;
 
 use Brickoo\Component\IO\Stream\Exception\InvalidResourceHandleException;
 use Brickoo\Component\IO\Stream\Exception\UnableToWriteBytesException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * StreamWriter
@@ -50,8 +50,8 @@ class StreamWriter {
      * @throws \InvalidArgumentException
      */
     public function __construct($streamResource, $numberOfRetries = 3) {
-        Argument::isResource($streamResource);
-        Argument::isInteger($numberOfRetries);
+        Assert::isResource($streamResource);
+        Assert::isInteger($numberOfRetries);
         $this->streamResource = $streamResource;
         $this->numberOfRetries = $numberOfRetries;
     }
@@ -62,7 +62,7 @@ class StreamWriter {
      * @return \Brickoo\Component\IO\Stream\StreamWriter
      */
     public function refreshResource($streamResource) {
-        Argument::isResource($streamResource);
+        Assert::isResource($streamResource);
         $this->streamResource = $streamResource;
         return $this;
     }

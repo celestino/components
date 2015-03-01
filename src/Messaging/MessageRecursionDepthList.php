@@ -25,7 +25,7 @@
 namespace Brickoo\Component\Messaging;
 
 use Brickoo\Component\Common\Container;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * MessageRecursionDepthList
@@ -44,7 +44,7 @@ class MessageRecursionDepthList extends Container {
      * @param integer $recursionDepthLimit default 5
      */
     public function __construct($recursionDepthLimit = 5) {
-        Argument::isInteger($recursionDepthLimit);
+        Assert::isInteger($recursionDepthLimit);
         $this->recursionDepthLimit = $recursionDepthLimit;
         parent::__construct();
     }
@@ -55,7 +55,7 @@ class MessageRecursionDepthList extends Container {
      * @return \Brickoo\Component\Messaging\MessageRecursionDepthList
      */
     public function addMessage($messageName) {
-        Argument::isString($messageName);
+        Assert::isString($messageName);
         $this->set($messageName, 0);
         return $this;
     }
@@ -66,7 +66,7 @@ class MessageRecursionDepthList extends Container {
      * @return integer the message recursion depth
      */
     public function getRecursionDepth($messageName) {
-        Argument::isString($messageName);
+        Assert::isString($messageName);
         return $this->get($messageName, 0);
     }
 
@@ -76,7 +76,7 @@ class MessageRecursionDepthList extends Container {
      * @return boolean check result
      */
     public function isDepthLimitReached($messageName) {
-        Argument::isString($messageName);
+        Assert::isString($messageName);
         return $this->contains($messageName)
             && $this->get($messageName) >= $this->recursionDepthLimit;
     }
@@ -87,7 +87,7 @@ class MessageRecursionDepthList extends Container {
      * @return \Brickoo\Component\Messaging\MessageRecursionDepthList
      */
     public function increaseDepth($messageName) {
-        Argument::isString($messageName);
+        Assert::isString($messageName);
         $depth = $this->getRecursionDepth($messageName);
         $this->set($messageName, ++$depth);
         return $this;
@@ -99,7 +99,7 @@ class MessageRecursionDepthList extends Container {
      * @return \Brickoo\Component\Messaging\MessageRecursionDepthList
      */
     public function decreaseDepth($messageName) {
-        Argument::isString($messageName);
+        Assert::isString($messageName);
         $depth = $this->getRecursionDepth($messageName);
         $this->set($messageName, --$depth);
         return $this;

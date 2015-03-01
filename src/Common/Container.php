@@ -26,7 +26,7 @@ namespace Brickoo\Component\Common;
 
 use ArrayIterator;
 use Brickoo\Component\Common\Exception\InvalidValueTypeException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 use Brickoo\Component\Validation\Validator\Validator;
 
 /**
@@ -79,7 +79,7 @@ class Container implements \IteratorAggregate, \Countable {
      * @return boolean check result
      */
     public function contains($key) {
-        Argument::isStringOrInteger($key);
+        Assert::isStringOrInteger($key);
         return array_key_exists($key, $this->container);
     }
 
@@ -90,7 +90,7 @@ class Container implements \IteratorAggregate, \Countable {
      * @return mixed the key associated value otherwise the default value
      */
     public function get($key, $defaultValue = null) {
-        Argument::isStringOrInteger($key);
+        Assert::isStringOrInteger($key);
 
         if ($this->contains($key)) {
             return $this->container[$key];
@@ -107,7 +107,7 @@ class Container implements \IteratorAggregate, \Countable {
      * @return \Brickoo\Component\Common\Container
      */
     public function set($key, $value) {
-        Argument::isStringOrInteger($key);
+        Assert::isStringOrInteger($key);
 
         if (! $this->isValueTypeValid($value)) {
             throw new InvalidValueTypeException($value);
@@ -124,7 +124,7 @@ class Container implements \IteratorAggregate, \Countable {
      * @return \Brickoo\Component\Common\Container
      */
     public function remove($key) {
-        Argument::isStringOrInteger($key);
+        Assert::isStringOrInteger($key);
 
         if ($this->contains($key)) {
             unset($this->container[$key]);

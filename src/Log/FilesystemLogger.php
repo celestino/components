@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\Log;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * Filesystem
@@ -46,7 +46,7 @@ class FilesystemLogger implements Logger {
     * @param string $logsDirectory the directory to store the log messages
     */
     public function __construct($logsDirectory) {
-        Argument::isString($logsDirectory);
+        Assert::isString($logsDirectory);
 
         $this->logsDirectory = rtrim($logsDirectory, "\\/").DIRECTORY_SEPARATOR;
         $this->severityDescription = [
@@ -63,7 +63,7 @@ class FilesystemLogger implements Logger {
 
     /** {@inheritDoc} */
     public function log($messages, $severity) {
-        Argument::isInteger($severity);
+        Assert::isInteger($severity);
 
         if (! is_array($messages)) {
             $messages = [$messages];
@@ -87,7 +87,7 @@ class FilesystemLogger implements Logger {
      * @return string the packed log message
      */
     private function convertToLogMessage(array $messages, $severity) {
-        Argument::isInteger($severity);
+        Assert::isInteger($severity);
 
         $messagePrefix = sprintf("[%s][%s] ", date("Y-m-d H:i:s"), $this->severityDescription[$severity]);
         return $messagePrefix.implode(PHP_EOL.$messagePrefix, $messages).PHP_EOL;

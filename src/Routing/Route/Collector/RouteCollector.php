@@ -24,19 +24,18 @@
 
 namespace Brickoo\Component\Routing\Route\Collector;
 
-use IteratorAggregate;
 
 /**
  * RouteCollector
  *
- * Defines a route collector for iterable route collections.
+ * Defines a route collector.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-interface RouteCollector extends IteratorAggregate {
+interface RouteCollector {
 
     /**
-     * Collects and returns the routes as an iterator.
-     * @return \Iterator
+     * Returns a collection of the collected route collections.
+     * @return \Brickoo\Component\Common\Collection
      */
     public function collect();
 

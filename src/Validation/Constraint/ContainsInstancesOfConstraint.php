@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * ContainsInstancesOfConstraint
@@ -44,7 +44,7 @@ class ContainsInstancesOfConstraint implements Constraint {
      * @throws \InvalidArgumentException if an argument is not valid.
      */
     public function __construct($expectedInstanceType) {
-        Argument::isString($expectedInstanceType);
+        Assert::isString($expectedInstanceType);
         $this->expectedInstanceOf = $expectedInstanceType;
     }
 
@@ -53,7 +53,7 @@ class ContainsInstancesOfConstraint implements Constraint {
      * @param array|\Traversable $traversable
      */
     public function matches($traversable) {
-        Argument::isTraversable($traversable);
+        Assert::isTraversable($traversable);
 
         $result = true;
         foreach ($traversable as $value) {

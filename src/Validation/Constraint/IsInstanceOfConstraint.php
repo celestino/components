@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * IsInstanceOfConstraint
@@ -42,7 +42,7 @@ class IsInstanceOfConstraint implements Constraint {
      * @param string $compareValue
      */
     public function __construct($compareValue) {
-        Argument::isString($compareValue);
+        Assert::isString($compareValue);
         $this->compareValue = $compareValue;
     }
 

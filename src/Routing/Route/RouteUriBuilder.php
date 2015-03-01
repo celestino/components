@@ -27,7 +27,7 @@ namespace Brickoo\Component\Routing\Route;
 use Brickoo\Component\Routing\Router;
 use Brickoo\Component\Routing\Route\Exception\PathNotValidException;
 use Brickoo\Component\Routing\Route\Exception\RouteRequiredParametersMissingException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * RouteUriBuilder
@@ -54,7 +54,7 @@ class RouteUriBuilder {
      * @param \Brickoo\Component\Routing\Route\RoutePathRegexGenerator $regexGenerator
      */
     public function __construct($baseUrl, Router $router, RoutePathRegexGenerator $regexGenerator) {
-        Argument::isString($baseUrl);
+        Assert::isString($baseUrl);
         $this->baseUrl = $baseUrl;
         $this->router = $router;
         $this->regexGenerator = $regexGenerator;
@@ -70,8 +70,8 @@ class RouteUriBuilder {
      * @return string the built uri
      */
     public function build($routeName, array $pathParameters = [], $queryString = "") {
-        Argument::isString($routeName);
-        Argument::isString($queryString);
+        Assert::isString($routeName);
+        Assert::isString($queryString);
 
         $route = $this->router->getRoute($routeName);
         $expectedPath = $this->getExpectedRoutePath($route, $pathParameters);

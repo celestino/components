@@ -26,12 +26,12 @@ namespace Brickoo\Component\Log;
 
 use Brickoo\Component\IO\Stream\SocketStream;
 use Brickoo\Component\IO\Stream\StreamWriter;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * SyslogLogger
  *
- * Logs to a common syslog server over an udp socket connection
+ * Logs to a common syslog server over a socket stream.
  * @link http://tools.ietf.org/html/rfc3164
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
@@ -83,8 +83,8 @@ class SyslogLogger implements Logger {
      * @throws \InvalidArgumentException if an argument is not valid
      */
     public function __construct(SocketStream $socketStream, $hostname, $facility = self::FACILITY_USER_0) {
-        Argument::isString($hostname);
-        Argument::isInteger($facility);
+        Assert::isString($hostname);
+        Assert::isInteger($facility);
 
         $this->socketStream = $socketStream;
         $this->hostname = $hostname;
@@ -93,7 +93,7 @@ class SyslogLogger implements Logger {
 
     /** {@inheritDoc} */
     public function log($messages, $severity) {
-        Argument::isInteger($severity);
+        Assert::isInteger($severity);
 
         if (! is_array($messages)) {
             $messages = [$messages];

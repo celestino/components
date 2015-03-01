@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\Http;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 use Brickoo\Component\Http\Exception\HttpFormFileNotFoundException;
 use Brickoo\Component\Http\Exception\UnableToMoveFormFileException;
 
@@ -57,10 +57,10 @@ class HttpFormFile {
      * @throws \InvalidArgumentException
      */
     public function __construct($name, $filePath, $fileSize, $errorCode) {
-        Argument::isString($name);
-        Argument::isString($filePath);
-        Argument::isInteger($fileSize);
-        Argument::isInteger($errorCode);
+        Assert::isString($name);
+        Assert::isString($filePath);
+        Assert::isInteger($fileSize);
+        Assert::isInteger($errorCode);
         $this->name = $name;
         $this->filePath = $filePath;
         $this->fileSize = $fileSize;
@@ -109,8 +109,8 @@ class HttpFormFile {
      * @return string target file path
      */
     public function moveTo($targetPath, $targetFileName) {
-        Argument::isString($targetPath);
-        Argument::isString($targetFileName);
+        Assert::isString($targetPath);
+        Assert::isString($targetFileName);
 
         if (! file_exists($this->filePath)) {
             throw new HttpFormFileNotFoundException($this->filePath);

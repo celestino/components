@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\Http;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * UriAuthority
@@ -46,8 +46,8 @@ class UriAuthority {
      * @param integer $portNumber
      */
     public function __construct($hostname, $portNumber = 80) {
-        Argument::isString($hostname);
-        Argument::isInteger($portNumber);
+        Assert::isString($hostname);
+        Assert::isInteger($portNumber);
 
         $this->hostname = $hostname;
         $this->portNumber = $portNumber;

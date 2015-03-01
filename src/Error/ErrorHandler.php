@@ -29,7 +29,7 @@ use Brickoo\Component\Error\Messaging\Message\ErrorMessage;
 use Brickoo\Component\Error\Exception\DuplicateHandlerRegistrationException;
 use Brickoo\Component\Error\Exception\ErrorOccurredException;
 use Brickoo\Component\Error\Exception\HandlerNotRegisteredException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * ErrorHandler
@@ -57,7 +57,7 @@ class ErrorHandler {
      * @param boolean $convertToException flag to convert errors to exceptions
      */
     public function __construct(MessageDispatcher $messageDispatcher, $convertToException = true) {
-        Argument::isBoolean($convertToException);
+        Assert::isBoolean($convertToException);
         $this->messageDispatcher = $messageDispatcher;
         $this->convertToException = $convertToException;
         $this->isRegistered = false;

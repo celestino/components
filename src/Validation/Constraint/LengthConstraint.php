@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * LengthConstraint
@@ -47,15 +47,15 @@ class LengthConstraint implements Constraint {
      * @param null|Integer $maxLength
      */
     public function __construct($minLength, $maxLength = null) {
-        Argument::isInteger($minLength);
-        Argument::isInteger($maxLength);
+        Assert::isInteger($minLength);
+        Assert::isInteger($maxLength);
         $this->minLength = $minLength;
         $this->maxLength = $maxLength;
     }
 
     /** {@inheritDoc} */
     public function matches($value) {
-        Argument::isString($value);
+        Assert::isString($value);
         $valueLength = strlen($value);
 
         return ($valueLength >= $this->minLength

@@ -35,7 +35,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Routing\Route\Collector\CallbackRouteCollector
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class CallbackRouteCollectorTest extends PHPUnit_Framework_TestCase {
 
     /**
@@ -46,14 +45,11 @@ class CallbackRouteCollectorTest extends PHPUnit_Framework_TestCase {
         $routeCollection = new RouteCollection();
         $callback = function() use ($routeCollection) {return [$routeCollection];};
         $callbackCollector  =  new CallbackRouteCollector($callback);
-        $this->assertInstanceOf("\\ArrayIterator", ($iterator = $callbackCollector->collect()));
-        $this->assertSame($routeCollection, $iterator->current());
-    }
-
-    /** @covers Brickoo\Component\Routing\Route\Collector\CallbackRouteCollector::getIterator */
-    public function testGetIterator() {
-        $callbackCollector  =  new CallbackRouteCollector(function(){});
-        $this->assertInstanceOf("\\ArrayIterator", $callbackCollector->getIterator());
+        $this->assertInstanceOf(
+            "Brickoo\\Component\\Common\\Collection",
+            ($collection = $callbackCollector->collect())
+        );
+        $this->assertSame($routeCollection, $collection->shift());
     }
 
 }

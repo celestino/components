@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * TraversableContainsKeys
@@ -52,7 +52,7 @@ class ContainsKeysConstraint implements Constraint {
      * @param array|\Traversable $traversable
      */
     public function matches($traversable) {
-        Argument::isTraversable($traversable);
+        Assert::isTraversable($traversable);
 
         $result = array_diff($this->expectedKeys, $this->getTraversableKeys($traversable));
         return empty($result);

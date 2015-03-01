@@ -28,7 +28,7 @@ use Brickoo\Component\Template\Exception;
 use Brickoo\Component\Template\Exception\RenderingException;
 use Brickoo\Component\Template\Exception\UnableToLoadFileException;
 use Brickoo\Component\Template\Exception\XmlTransformationException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 use DOMDocument;
 use LibXMLError;
 use XSLTProcessor;
@@ -55,7 +55,7 @@ class XmlTemplate implements Template {
      */
     public function __construct(DOMDocument $xmlDocument, $xsltFilename = null) {
         if ($xsltFilename !== null) {
-            Argument::isString($xsltFilename);
+            Assert::isString($xsltFilename);
         }
         $this->xsltFilename = $xsltFilename;
         $this->xmlDocument = $xmlDocument;
@@ -68,7 +68,7 @@ class XmlTemplate implements Template {
      * @return \Brickoo\Component\Template\XmlTemplate
      */
     public function setXsltFilename($xsltFilename) {
-        Argument::isString($xsltFilename);
+        Assert::isString($xsltFilename);
         $this->xsltFilename = $xsltFilename;
         return $this;
     }

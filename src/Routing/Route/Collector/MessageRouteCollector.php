@@ -24,10 +24,10 @@
 
 namespace Brickoo\Component\Routing\Route\Collector;
 
-use ArrayIterator;
+use Brickoo\Component\Common\ArrayList;
+use Brickoo\Component\Common\Collection;
 use Brickoo\Component\Messaging\GenericMessage;
 use Brickoo\Component\Messaging\MessageDispatcher;
-use Brickoo\Component\Messaging\MessageResponseCollection;
 use Brickoo\Component\Routing\Messaging\Messages;
 use Brickoo\Component\Routing\Route\RouteCollection;
 
@@ -42,48 +42,34 @@ class MessageRouteCollector implements RouteCollector {
     /** @var \Brickoo\Component\Messaging\MessageDispatcher */
     private $messageDispatcher;
 
-    /** @var array */
-    private $collections;
-
     /**
      * Class constructor.
      * @param \Brickoo\Component\Messaging\MessageDispatcher $messageDispatcher
      */
     public function __construct(MessageDispatcher $messageDispatcher) {
         $this->messageDispatcher = $messageDispatcher;
-        $this->collections = [];
     }
 
     /** {@inheritDoc} */
     public function collect() {
         $message = new GenericMessage(Messages::COLLECT_ROUTES, $this);
         $this->messageDispatcher->dispatch($message);
-        $this->collections = $this->extractRouteCollections($message->getResponse());
-        return $this->getIterator();
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see IteratorAggregate::getIterator()
-     * @return \ArrayIterator containing the route collections
-     */
-    public function getIterator() {
-        return new ArrayIterator($this->collections);
+        return $this->extractRouteCollections($message->getResponseList());
     }
 
     /**
      * Extracts collected route collections from the message response.
-     * @param \Brickoo\Component\Messaging\MessageResponseCollection $messageResponseCollection
-     * @return array the extracted collections
+     * @param \Brickoo\Component\Common\ArrayList $messageResponseList
+     * @return array
      */
-    private function extractRouteCollections(MessageResponseCollection $messageResponseCollection) {
-        $collections = [];
-        while (! $messageResponseCollection->isEmpty()) {
-            if (($routeCollection = $messageResponseCollection->shift()) instanceof RouteCollection) {
-                $collections[] = $routeCollection;
+    private function extractRouteCollections(ArrayList $messageResponseList) {
+        $collection = new Collection();
+        foreach ($messageResponseList as $item) {
+            if ($item instanceof RouteCollection) {
+                $collection->add($item);
             }
         }
-        return $collections;
+        return $collection;
     }
 
 }

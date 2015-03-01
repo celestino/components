@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\IO\Printing;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * PlainTextPrinter
@@ -61,8 +61,8 @@ class PlainTextPrinter implements Printer {
      * @throws \InvalidArgumentException
      */
     public function __construct(OutputPrinter $outputRenderer, $indentMode = self::INDENT_TABS, $eolSeparator = PHP_EOL) {
-        Argument::isString($indentMode);
-        Argument::isString($eolSeparator);
+        Assert::isString($indentMode);
+        Assert::isString($eolSeparator);
         $this->indentationAmount = 0;
         $this->bufferedTextLine = "";
         $this->outputRenderer = $outputRenderer;
@@ -79,7 +79,7 @@ class PlainTextPrinter implements Printer {
 
     /** {@inheritdoc} */
     public function indent($amount = 1) {
-        Argument::isInteger($amount);
+        Assert::isInteger($amount);
 
         if ($this->hasBufferedText()) {
             $this->addText($this->getIndentation($amount));
@@ -91,7 +91,7 @@ class PlainTextPrinter implements Printer {
 
     /** {@inheritdoc} */
     public function outdent($amount = 1) {
-        Argument::isInteger($amount);
+        Assert::isInteger($amount);
         $this->indentationAmount -= $amount;
         $this->indentationAmount = $this->indentationAmount < 0
             ? 0 : $this->indentationAmount;
@@ -100,7 +100,7 @@ class PlainTextPrinter implements Printer {
 
     /** {@inheritdoc} */
     public function addText($text) {
-        Argument::isString($text);
+        Assert::isString($text);
 
         if ((! $this->hasBufferedText()) && $this->indentationAmount > 0) {
             $this->bufferedTextLine .= $this->getIndentation($this->indentationAmount);

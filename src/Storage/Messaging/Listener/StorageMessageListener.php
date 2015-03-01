@@ -35,7 +35,7 @@ use Brickoo\Component\Messaging\ListenerAggregate;
 use Brickoo\Component\Messaging\Message;
 use Brickoo\Component\Messaging\MessageDispatcher;
 use Brickoo\Component\Messaging\MessageListener;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * StorageMessageListener
@@ -58,7 +58,7 @@ class StorageMessageListener implements ListenerAggregate {
      * @param integer $listenerPriority the listener priority
      */
     public function __construct(StorageProxy $storageProxy, $listenerPriority = 0) {
-        Argument::isInteger($listenerPriority);
+        Assert::isInteger($listenerPriority);
         $this->storageProxy = $storageProxy;
         $this->listenerPriority = $listenerPriority;
     }

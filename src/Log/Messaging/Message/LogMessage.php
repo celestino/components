@@ -26,7 +26,7 @@ namespace Brickoo\Component\Log\Messaging\Message;
 
 use Brickoo\Component\Log\Messaging\Messages;
 use Brickoo\Component\Messaging\GenericMessage;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * LogMessage
@@ -48,7 +48,7 @@ class LogMessage extends GenericMessage {
      * @param integer $severity
      */
     public function __construct(array $messages, $severity) {
-        Argument::isInteger($severity);
+        Assert::isInteger($severity);
         parent::__construct(Messages::LOG, null, [self::PARAM_LOG_MESSAGES => $messages, self::PARAM_LOG_SEVERITY => $severity]);
     }
 

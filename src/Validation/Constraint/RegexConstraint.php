@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * RegexConstraint
@@ -43,7 +43,7 @@ class RegexConstraint implements Constraint {
      * @throws \InvalidArgumentException if an argument is not valid
      */
     public function __construct($regularExpression) {
-        Argument::isString($regularExpression);
+        Assert::isString($regularExpression);
         $this->regularExpression = $regularExpression;
     }
 
@@ -52,7 +52,7 @@ class RegexConstraint implements Constraint {
      * @param string $value
      */
     public function matches($value) {
-        Argument::isString($value);
+        Assert::isString($value);
         return (preg_match_all($this->regularExpression, $value) > 0);
     }
 

@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\Storage\Adapter;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * DoNothingAdapter
@@ -36,19 +36,19 @@ class DoNothingAdapter implements Adapter {
 
     /** {@inheritDoc} */
     public function get($identifier) {
-        Argument::isString($identifier);
+        Assert::isString($identifier);
     }
 
     /** {@inheritDoc} */
     public function set($identifier, $content, $lifetime) {
-        Argument::isString($identifier);
-        Argument::isInteger($lifetime);
+        Assert::isString($identifier);
+        Assert::isInteger($lifetime);
         return $this;
     }
 
     /** {@inheritDoc} */
     public function delete($identifier) {
-        Argument::isString($identifier);
+        Assert::isString($identifier);
         return $this;
     }
 

@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\Annotation;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * AnnotationParser
@@ -58,7 +58,7 @@ class AnnotationParser {
      * @param string $annotationPrefix
      */
     public function __construct($annotationPrefix = "@") {
-        Argument::isString($annotationPrefix);
+        Assert::isString($annotationPrefix);
         $this->annotationPrefix = $annotationPrefix;
         $this->annotationWhitelist = [];
     }
@@ -69,7 +69,7 @@ class AnnotationParser {
      * @return \Brickoo\Component\Annotation\AnnotationParser
      */
     public function setAnnotationPrefix($annotationPrefix) {
-        Argument::isString($annotationPrefix);
+        Assert::isString($annotationPrefix);
         $this->annotationPrefix = $annotationPrefix;
         return $this;
     }
@@ -93,9 +93,9 @@ class AnnotationParser {
      * @return \Brickoo\Component\Annotation\Annotation[]
      */
     public function parse($target, $targetLocation, $docComment) {
-        Argument::isInteger($target);
-        Argument::isString($targetLocation);
-        Argument::isString($docComment);
+        Assert::isInteger($target);
+        Assert::isString($targetLocation);
+        Assert::isString($docComment);
 
         $annotations = null;
         if (($annotationsMatches = $this->getAnnotationsMatches($this->annotationPrefix, $docComment))

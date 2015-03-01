@@ -25,7 +25,7 @@
 namespace Brickoo\Component\Template;
 
 use Brickoo\Component\Template\Exception\RenderingException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * PhpTemplate
@@ -49,7 +49,7 @@ class PhpTemplate implements Template {
      * @throws \InvalidArgumentException if an argument is not valid
      */
     public function __construct($templateFile, array $templateVars = []) {
-        Argument::isString($templateFile);
+        Assert::isString($templateFile);
         $this->templateFile = $templateFile;
         $this->templateVars = $templateVars;
     }
@@ -60,7 +60,7 @@ class PhpTemplate implements Template {
      * @return \Brickoo\Component\Template\PhpTemplate
      */
     public function setTemplateFile($templateFile) {
-        Argument::isString($templateFile);
+        Assert::isString($templateFile);
         $this->templateFile = $templateFile;
         return $this;
     }

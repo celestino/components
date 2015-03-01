@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * FunctionCallbackConstraint
@@ -44,8 +44,8 @@ class FunctionCallbackConstraint implements Constraint {
      * @throws \InvalidArgumentException if an argument is not valid.
      */
     public function __construct($functionName) {
-        Argument::isString($functionName);
-        Argument::isFunctionAvailable($functionName);
+        Assert::isString($functionName);
+        Assert::isFunctionAvailable($functionName);
         $this->callFunctionName = $functionName;
     }
 

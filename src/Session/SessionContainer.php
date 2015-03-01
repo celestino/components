@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\Session;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * SessionContainer
@@ -42,7 +42,7 @@ class SessionContainer implements \Countable, \IteratorAggregate{
      * @param string $sessionNamespace the namespace to use
      */
     public function __construct($sessionNamespace) {
-        Argument::isString($sessionNamespace);
+        Assert::isString($sessionNamespace);
         $this->sessionNamespace = $sessionNamespace;
     }
 
@@ -53,7 +53,7 @@ class SessionContainer implements \Countable, \IteratorAggregate{
     * @return boolean check result
     */
     public function contains($property) {
-        Argument::isString($property);
+        Assert::isString($property);
         return isset($_SESSION[$this->getNamespace($property)]);
     }
 
@@ -65,7 +65,7 @@ class SessionContainer implements \Countable, \IteratorAggregate{
      * @return mixed the property hold content or the default value if the property does not exist
      */
     public function get($property, $defaultValue = null) {
-        Argument::isString($property);
+        Assert::isString($property);
 
         if (! $this->contains($property)) {
             return $defaultValue;
@@ -82,7 +82,7 @@ class SessionContainer implements \Countable, \IteratorAggregate{
      * @return \Brickoo\Component\Session\SessionContainer
      */
     public function set($property, $value) {
-        Argument::isString($property);
+        Assert::isString($property);
         $_SESSION[$this->getNamespace($property)] = $value;
         return $this;
     }
@@ -94,7 +94,7 @@ class SessionContainer implements \Countable, \IteratorAggregate{
      * @return \Brickoo\Component\Session\SessionContainer
      */
     public function remove($property) {
-        Argument::isString($property);
+        Assert::isString($property);
 
         if ($this->contains($property)) {
             unset($_SESSION[$this->getNamespace($property)]);

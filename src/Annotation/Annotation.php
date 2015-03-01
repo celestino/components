@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\Annotation;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * Annotation
@@ -59,9 +59,9 @@ class Annotation  {
      * @param array $values the annotation values
      */
     public function __construct($target, $targetLocation, $name, array $values = []) {
-        Argument::isInteger($target);
-        Argument::isString($targetLocation);
-        Argument::isString($name);
+        Assert::isInteger($target);
+        Assert::isString($targetLocation);
+        Assert::isString($name);
         $this->target = $target;
         $this->targetLocation = $targetLocation;
         $this->name = $name;

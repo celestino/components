@@ -24,13 +24,13 @@
 
 namespace Brickoo\Component\Messaging;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\ArrayList;
+use Brickoo\Component\Common\Assert;
 
 /**
  * Implements a generic message which can be used or extended by any component.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class GenericMessage implements Message {
 
     /** @var string */
@@ -45,8 +45,8 @@ class GenericMessage implements Message {
     /** @var boolean */
     private $stopped;
 
-    /** @var \Brickoo\Component\Messaging\MessageResponseCollection */
-    private $response;
+    /** @var \Brickoo\Component\Common\Collection */
+    private $responseList;
 
     /**
      * @param string $name the message name
@@ -55,17 +55,17 @@ class GenericMessage implements Message {
      * @throws \InvalidArgumentException
      */
     public function __construct($name, $sender = null, array $parameters = []) {
-        Argument::isString($name);
+        Assert::isString($name);
 
         if ($sender !== null) {
-            Argument::isObject($sender);
+            Assert::isObject($sender);
         }
 
         $this->name = $name;
         $this->sender = $sender;
         $this->params = $parameters;
         $this->stopped = false;
-        $this->response = new MessageResponseCollection();
+        $this->responseList = new ArrayList();
     }
 
     /** {@inheritDoc} */
@@ -96,14 +96,14 @@ class GenericMessage implements Message {
 
     /** {@inheritDoc} */
     public function setParam($identifier, $value) {
-        Argument::isString($identifier);
+        Assert::isString($identifier);
         $this->params[$identifier] = $value;
         return $this;
     }
 
     /** {@inheritDoc} */
     public function getParam($identifier, $defaultValue = null) {
-        Argument::isString($identifier);
+        Assert::isString($identifier);
 
         if (! $this->hasParam($identifier)) {
             return $defaultValue;
@@ -114,7 +114,7 @@ class GenericMessage implements Message {
 
     /** {@inheritDoc} */
     public function hasParam($identifier) {
-        Argument::isString($identifier);
+        Assert::isString($identifier);
         return isset($this->params[$identifier]);
     }
 
@@ -133,13 +133,13 @@ class GenericMessage implements Message {
     }
 
     /** {@inheritDoc} */
-    public function getResponse() {
-        return $this->response;
+    public function getResponseList() {
+        return $this->responseList;
     }
 
     /** {@inheritDoc} */
-    public function setResponse(MessageResponseCollection $response) {
-        $this->response = $response;
+    public function setResponseList(ArrayList $responseList) {
+        $this->responseList = $responseList;
         return $this;
     }
 

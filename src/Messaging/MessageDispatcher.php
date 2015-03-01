@@ -25,7 +25,7 @@
 namespace Brickoo\Component\Messaging;
 
 use Brickoo\Component\Messaging\Exception\MaxRecursionDepthReachedException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * MessageDispatcher
@@ -33,7 +33,6 @@ use Brickoo\Component\Validation\Argument;
  * Implements methods for dispatching messages and handling message listeners.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class MessageDispatcher {
 
     /** @var \Brickoo\Component\Messaging\ListenerCollection */
@@ -79,7 +78,7 @@ class MessageDispatcher {
      * @return \Brickoo\Component\Messaging\MessageDispatcher
      */
     public function detach($listenerUID) {
-        Argument::isString($listenerUID);
+        Assert::isString($listenerUID);
         $this->listenerCollection->remove($listenerUID);
         return $this;
     }
@@ -98,7 +97,10 @@ class MessageDispatcher {
         }
 
         if ($this->messageRecursionDepthList->isDepthLimitReached($messageName)) {
-            throw new MaxRecursionDepthReachedException($messageName, $this->messageRecursionDepthList->getRecursionDepth($messageName));
+            throw new MaxRecursionDepthReachedException(
+                $messageName,
+                $this->messageRecursionDepthList->getRecursionDepth($messageName)
+            );
         }
 
         $this->messageRecursionDepthList->increaseDepth($messageName);

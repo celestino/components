@@ -28,7 +28,7 @@ use Brickoo\Component\Common\Exception\DuplicateRegistrationException;
 use Brickoo\Component\Common\Exception\IdentifierLockedException;
 use Brickoo\Component\Common\Exception\IdentifierNotRegisteredException;
 use Brickoo\Component\Common\Exception\ReadonlyModeException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * Registry
@@ -90,7 +90,7 @@ class Registry extends Locker {
      * @return mixed
      */
     public function get($identifier) {
-        Argument::isStringOrInteger($identifier);
+        Assert::isStringOrInteger($identifier);
 
         if (! $this->isRegistered($identifier)) {
             throw new IdentifierNotRegisteredException($identifier);
@@ -110,7 +110,7 @@ class Registry extends Locker {
      * @return \Brickoo\Component\Common\Registry
      */
     public function register($identifier, $value) {
-        Argument::isStringOrInteger($identifier);
+        Assert::isStringOrInteger($identifier);
 
         if ($this->isRegistered($identifier)) {
             throw new DuplicateRegistrationException($identifier);
@@ -130,7 +130,7 @@ class Registry extends Locker {
      * @return \Brickoo\Component\Common\Registry
      */
     public function override($identifier, $value) {
-        Argument::isStringOrInteger($identifier);
+        Assert::isStringOrInteger($identifier);
 
         if ($this->isLocked($identifier)) {
             throw new IdentifierLockedException($identifier);
@@ -149,7 +149,7 @@ class Registry extends Locker {
      * @return \Brickoo\Component\Common\Registry
      */
     public function unregister($identifier) {
-        Argument::isStringOrInteger($identifier);
+        Assert::isStringOrInteger($identifier);
 
         if ($this->isReadOnly()) {
             throw new ReadonlyModeException();
@@ -173,7 +173,7 @@ class Registry extends Locker {
      * @return boolean
      */
     public function isRegistered($identifier) {
-        Argument::isStringOrInteger($identifier);
+        Assert::isStringOrInteger($identifier);
         return array_key_exists($identifier, $this->registrations);
     }
 
@@ -185,7 +185,7 @@ class Registry extends Locker {
      * @return \Brickoo\Component\Common\Registry
      */
     public function setReadOnly($mode = true) {
-        Argument::isBoolean($mode);
+        Assert::isBoolean($mode);
 
         $this->readOnly = $mode;
         return $this;

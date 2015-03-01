@@ -25,7 +25,7 @@
 namespace Brickoo\Component\Session;
 
 use Brickoo\Component\Session\Exception\SessionAlreadyStartedException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * SessionManager
@@ -55,7 +55,7 @@ class SessionManager {
      * @return string the previously used session identifier
      */
     public function setId($identifier) {
-        Argument::isString($identifier);
+        Assert::isString($identifier);
         $this->checkSessionStart();
         return session_id($identifier);
     }
@@ -86,7 +86,7 @@ class SessionManager {
      * @return string the previously used session name
      */
     public function setName($name) {
-        Argument::isString($name);
+        Assert::isString($name);
         $this->checkSessionStart();
         return session_name($name);
     }
@@ -111,11 +111,11 @@ class SessionManager {
      * @return \Brickoo\Component\Session\SessionManager
      */
     public function setCookieParams($lifetime, $path, $domain, $secure = false, $httpOnly = false) {
-        Argument::isInteger($lifetime);
-        Argument::isString($path);
-        Argument::isString($domain);
-        Argument::isBoolean($secure);
-        Argument::isBoolean($httpOnly);
+        Assert::isInteger($lifetime);
+        Assert::isString($path);
+        Assert::isString($domain);
+        Assert::isBoolean($secure);
+        Assert::isBoolean($httpOnly);
 
         $this->checkSessionStart();
         session_set_cookie_params($lifetime, $path, $domain, $secure, $httpOnly);
@@ -138,7 +138,7 @@ class SessionManager {
      * @return \Brickoo\Component\Session\SessionManager
      */
     public function setCacheLimiter($limiter) {
-        Argument::isString($limiter);
+        Assert::isString($limiter);
         session_cache_limiter($limiter);
         return $this;
     }

@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\Http;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * Uri
@@ -59,9 +59,9 @@ class Uri {
      * @param string $fragment
      */
     public function __construct($scheme, UriAuthority $authority, $path, UriQuery $query, $fragment) {
-        Argument::isString($scheme);
-        Argument::isString($path);
-        Argument::isString($fragment);
+        Assert::isString($scheme);
+        Assert::isString($path);
+        Assert::isString($fragment);
 
         $this->scheme = $scheme;
         $this->authority = $authority;

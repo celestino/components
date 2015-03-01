@@ -26,7 +26,7 @@ namespace Brickoo\Component\Common;
 
 use ArrayIterator;
 use Brickoo\Component\Common\Exception\InvalidIndexException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 use Countable;
 use InvalidArgumentException;
 use IteratorAggregate;
@@ -57,7 +57,7 @@ class ArrayList implements IteratorAggregate, Countable {
      * @return string
      */
     public function get($index) {
-        Argument::isInteger($index);
+        Assert::isInteger($index);
         if (! $this->has($index)) {
             throw new InvalidIndexException($index);
         }
@@ -123,7 +123,7 @@ class ArrayList implements IteratorAggregate, Countable {
      * @return boolean
      */
     public function has($index) {
-        Argument::isInteger($index);
+        Assert::isInteger($index);
         return array_key_exists($index, $this->items);
     }
 

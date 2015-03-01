@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\Http;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * HttpMessageBody
@@ -44,7 +44,7 @@ class HttpMessageBody {
      * @throws \InvalidArgumentException
      */
     public function __construct($content = "") {
-        Argument::isString($content);
+        Assert::isString($content);
         $this->content = $content;
     }
 
@@ -63,7 +63,7 @@ class HttpMessageBody {
      * @return \Brickoo\Component\Http\HttpMessageBody
      */
     public function setContent($content) {
-        Argument::isString($content);
+        Assert::isString($content);
         $this->content = $content;
         return $this;
     }

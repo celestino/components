@@ -26,7 +26,7 @@ namespace Brickoo\Component\Annotation;
 
 use ArrayIterator;
 use Brickoo\Component\Annotation\Exception\InvalidTargetException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 use IteratorAggregate;
 
 /**
@@ -48,7 +48,7 @@ class AnnotationReaderResult implements IteratorAggregate {
      * @param string $className
      */
     public function __construct($className) {
-        Argument::isString($className);
+        Assert::isString($className);
         $this->className = $className;
         $this->annotations = [
             Annotation::TARGET_CLASS => [],
@@ -102,7 +102,7 @@ class AnnotationReaderResult implements IteratorAggregate {
      * @return \ArrayIterator
      */
     public function getAnnotationsByTarget($target) {
-        Argument::isInteger($target);
+        Assert::isInteger($target);
 
         if (! $this->isTargetValid($target)) {
             throw new InvalidTargetException($target);

@@ -27,7 +27,7 @@ namespace Brickoo\Component\Storage\Adapter;
 use Brickoo\Component\Storage\Adapter\Exception\PoolIdentifierDoesNotExistException;
 use Brickoo\Component\Storage\Adapter\Exception\PoolIsEmptyException;
 use Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * AdapterPoolIterator
@@ -111,7 +111,7 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
 
     /** {@inheritDoc} */
     public function select($adapterIdentifier) {
-        Argument::isStringOrInteger($adapterIdentifier);
+        Assert::isStringOrInteger($adapterIdentifier);
 
         if (! $this->has($adapterIdentifier)) {
             throw new PoolIdentifierDoesNotExistException($adapterIdentifier);
@@ -143,7 +143,7 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
 
     /** {@inheritDoc} */
     public function has($adapterIdentifier) {
-        Argument::isStringOrInteger($adapterIdentifier);
+        Assert::isStringOrInteger($adapterIdentifier);
         return in_array($adapterIdentifier, $this->mappingKeys, false);
     }
 

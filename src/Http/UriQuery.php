@@ -25,7 +25,7 @@
 namespace Brickoo\Component\Http;
 
 use Brickoo\Component\Common\Container;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * UriQuery
@@ -52,7 +52,7 @@ class UriQuery extends Container {
      * @return \Brickoo\Component\Http\UriQuery
      */
     public function fromString($query) {
-        Argument::isString($query);
+        Assert::isString($query);
 
         if (($position = strpos($query, "?")) !== false) {
             $query = substr($query, $position + 1);

@@ -27,7 +27,7 @@ namespace Brickoo\Component\Storage;
 use Brickoo\Component\Storage\Adapter\Adapter;
 use Brickoo\Component\Storage\Adapter\AdapterPoolIterator;
 use Brickoo\Component\Storage\Exception\AdapterNotFoundException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * StorageProxy
@@ -67,8 +67,8 @@ class StorageProxy {
      * @return mixed the stored content
      */
     public function getByCallback($identifier, callable $callback, array $callbackArguments, $lifetime) {
-        Argument::isString($identifier);
-        Argument::isInteger($lifetime);
+        Assert::isString($identifier);
+        Assert::isInteger($lifetime);
 
         if ((! ($content = $this->get($identifier)))
             && ($content = call_user_func_array($callback, $callbackArguments))) {
@@ -85,7 +85,7 @@ class StorageProxy {
      * @return mixed the stored content
      */
     public function get($identifier) {
-        Argument::isString($identifier);
+        Assert::isString($identifier);
         return $this->getAdapter()->get($identifier);
     }
 
@@ -100,8 +100,8 @@ class StorageProxy {
      * @return \Brickoo\Component\Storage\StorageProxy
      */
     public function set($identifier, $content, $lifetime) {
-        Argument::isString($identifier);
-        Argument::isInteger($lifetime);
+        Assert::isString($identifier);
+        Assert::isInteger($lifetime);
         $this->getAdapter()->set($identifier, $content, $lifetime);
         return $this;
     }
@@ -114,7 +114,7 @@ class StorageProxy {
      * @return \Brickoo\Component\Storage\StorageProxy
      */
     public function delete($identifier) {
-        Argument::isString($identifier);
+        Assert::isString($identifier);
         $this->executeIterationCallback(
             function(Adapter $readyAdapter) use ($identifier) {
                 $readyAdapter->delete($identifier);

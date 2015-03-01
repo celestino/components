@@ -24,9 +24,9 @@
 
 namespace Brickoo\Component\Routing\Route\Collector;
 
-use ArrayIterator;
+use Brickoo\Component\Common\Collection;
 use Brickoo\Component\Routing\Route\RouteCollection;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 use DirectoryIterator;
 use InvalidArgumentException;
 use RecursiveDirectoryIterator;
@@ -51,9 +51,6 @@ class FileRouteCollector implements RouteCollector {
     /** @var boolean */
     private $searchRecursively;
 
-    /** @var array */
-    private $collections;
-
     /**
      * Class constructor.
      * @param string $routingPath the routing directory path
@@ -62,9 +59,9 @@ class FileRouteCollector implements RouteCollector {
      * @throws \InvalidArgumentException if an argument is not valid
      */
     public function __construct($routingPath, $routingFilename, $searchRecursively = false) {
-        Argument::isString($routingPath);
-        Argument::isString($routingFilename);
-        Argument::isBoolean($searchRecursively);
+        Assert::isString($routingPath);
+        Assert::isString($routingFilename);
+        Assert::isBoolean($searchRecursively);
 
         if (empty($routingPath)) {
             throw new InvalidArgumentException("The routing path cannot be empty.");
@@ -77,28 +74,24 @@ class FileRouteCollector implements RouteCollector {
         $this->routingPath = $routingPath;
         $this->routingFilename = $routingFilename;
         $this->searchRecursively = $searchRecursively;
-        $this->collections = [];
     }
 
     /** {@inheritDoc} */
     public function collect() {
         $filePaths = $this->collectRouteCollectionsFilePaths();
 
+        $collection = new Collection();
         foreach ($filePaths as $filePath) {
-            if (($routeCollection = include $filePath) && $routeCollection instanceof RouteCollection) {
-                $this->collections[] = $routeCollection;
+            if (($routeCollection = $this->getRouteCollectionFromFilePath($filePath))
+                && $routeCollection instanceof RouteCollection) {
+                    $collection->add($routeCollection);
             }
         }
-        return $this->getIterator();
+        return $collection;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see IteratorAggregate::getIterator()
-     * @return \ArrayIterator containing the route collections
-     */
-    public function getIterator() {
-        return new ArrayIterator($this->collections);
+    private function getRouteCollectionFromFilePath($filePath) {
+        return include $filePath;
     }
 
     /**
@@ -139,7 +132,7 @@ class FileRouteCollector implements RouteCollector {
             $collectedFilePaths[] = $splFileInfo->getRealPath();
         }
 
-        return $collectedFilePaths;
+        return array_reverse($collectedFilePaths);
     }
 
 }

@@ -26,7 +26,7 @@ namespace Brickoo\Component\Http;
 
 use Brickoo\Component\Http\Exception\HeaderNotFoundException;
 use Brickoo\Component\Common\Container;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 use Brickoo\Component\Validation\Constraint\IsInstanceOfConstraint;
 use Brickoo\Component\Validation\Validator\ConstraintValidator;
 

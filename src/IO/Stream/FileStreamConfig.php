@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\IO\Stream;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * FileStreamConfig
@@ -54,9 +54,9 @@ class FileStreamConfig {
      * @throws \InvalidArgumentException
      */
     public function __construct($filename, $mode, $useIncludePath = false, array $context = array()) {
-        Argument::isString($filename);
-        Argument::isInteger($mode);
-        Argument::isBoolean($useIncludePath);
+        Assert::isString($filename);
+        Assert::isInteger($mode);
+        Assert::isBoolean($useIncludePath);
 
         $this->filename = $filename;
         $this->mode = $mode;

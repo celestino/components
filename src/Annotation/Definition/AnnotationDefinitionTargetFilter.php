@@ -27,7 +27,7 @@ namespace Brickoo\Component\Annotation\Definition;
 use ArrayIterator;
 use Brickoo\Component\Common\Collection;
 use Brickoo\Component\Common\Exception\InvalidTypeException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * AnnotationDefinitionTargetFilter
@@ -61,7 +61,7 @@ class AnnotationDefinitionTargetFilter {
      * @return \ArrayIterator
      */
     public function filter($target) {
-        Argument::isInteger($target);
+        Assert::isInteger($target);
         $annotationsDefinitions = [];
         foreach ($this->definitionsCollection as $annotationDefinition) {
             if ($annotationDefinition->isTarget($target)) {

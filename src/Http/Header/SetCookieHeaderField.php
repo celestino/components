@@ -26,7 +26,7 @@ namespace Brickoo\Component\Http\Header;
 
 use Brickoo\Component\Http\HttpHeaderField;
 use Brickoo\Component\Http\Header\Exception\InvalidCookieValueException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * SetCookieHeaderField
@@ -69,7 +69,7 @@ class SetCookieHeaderField implements HttpHeaderField {
      * @param string $cookieValue
      */
     public function __construct($cookieName, $cookieValue = "") {
-        Argument::isString($cookieName);
+        Assert::isString($cookieName);
         $this->cookieName = $cookieName;
         $this->setName("Set-Cookie");
         $this->setCookieValue($cookieValue);
@@ -85,7 +85,7 @@ class SetCookieHeaderField implements HttpHeaderField {
      * @return \Brickoo\Component\Http\Header\SetCookieHeaderField
      */
     public function setCookieValue($cookieValue) {
-        Argument::isString($cookieValue);
+        Assert::isString($cookieValue);
         if (preg_match("~[,;\\s]+~", $cookieValue) == 1) {
             throw new InvalidCookieValueException($cookieValue);
         }
@@ -100,7 +100,7 @@ class SetCookieHeaderField implements HttpHeaderField {
      * @return \Brickoo\Component\Http\Header\SetCookieHeaderField
      */
     public function setExpirationDate($expirationDate) {
-        Argument::isString($expirationDate);
+        Assert::isString($expirationDate);
         $expirationDate = preg_match("~^[0-9]{10}$~", $expirationDate) ?
             intval($expirationDate) : strtotime($expirationDate);
         $this->expires = date(DATE_RFC1123, $expirationDate);
@@ -114,7 +114,7 @@ class SetCookieHeaderField implements HttpHeaderField {
      * @return \Brickoo\Component\Http\Header\SetCookieHeaderField
      */
     public function setMaxAge($maxAge) {
-        Argument::isInteger($maxAge);
+        Assert::isInteger($maxAge);
         $this->maxAge = $maxAge;
         return $this;
     }
@@ -126,7 +126,7 @@ class SetCookieHeaderField implements HttpHeaderField {
      * @return \Brickoo\Component\Http\Header\SetCookieHeaderField
      */
     public function setDomain($domain) {
-        Argument::isString($domain);
+        Assert::isString($domain);
         $this->domain = $domain;
         return $this;
     }
@@ -138,7 +138,7 @@ class SetCookieHeaderField implements HttpHeaderField {
      * @return \Brickoo\Component\Http\Header\SetCookieHeaderField
      */
     public function setSecure($secure) {
-        Argument::isBoolean($secure);
+        Assert::isBoolean($secure);
         $this->secure = $secure;
         return $this;
     }
@@ -150,7 +150,7 @@ class SetCookieHeaderField implements HttpHeaderField {
      * @return \Brickoo\Component\Http\Header\SetCookieHeaderField
      */
     public function setHttpOnly($httpOnly) {
-        Argument::isBoolean($httpOnly);
+        Assert::isBoolean($httpOnly);
         $this->httpOnly = $httpOnly;
         return $this;
     }

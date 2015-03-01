@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * IsInternalTypeConstraint
@@ -41,7 +41,7 @@ class IsInternalTypeConstraint extends FunctionCallbackConstraint {
      * @throws \InvalidArgumentException if an argument is not valid.
      */
     public function __construct($expectedType) {
-        Argument::isString($expectedType);
+        Assert::isString($expectedType);
         parent::__construct("is_".strtolower($expectedType));
     }
 

@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\Annotation\Definition;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * AnnotationParameterDefinition
@@ -51,9 +51,9 @@ class AnnotationParameterDefinition {
      * @throws \InvalidArgumentException
      */
     public function __construct($name, $type, $required = true) {
-        Argument::isString($name);
-        Argument::isString($type);
-        Argument::isBoolean($required);
+        Assert::isString($name);
+        Assert::isString($type);
+        Assert::isBoolean($required);
         $this->name = $name;
         $this->type = $type;
         $this->required = $required;

@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\Routing\Route\Collector;
 
-use ArrayIterator;
+use Brickoo\Component\Common\Collection;
 use Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint;
 
 /**
@@ -35,38 +35,26 @@ use Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint;
  */
 class CallbackRouteCollector implements RouteCollector {
 
-    /** @var array */
-    private $collections;
-
     /** @var callable */
     private $callback;
 
     /**
      * Class constructor.
-     * @param callable $callback
+     * @param callable $callback the callback must return a list of route collections
      */
     public function __construct(callable $callback) {
         $this->callback  = $callback;
-        $this->collections = [];
     }
 
     /** {@inheritDoc} */
     public function collect() {
-        if (($collections = call_user_func($this->callback))
-            && is_array($collections)
-            && (new ContainsInstancesOfConstraint("\\Brickoo\\Component\\Routing\\Route\\RouteCollection"))->matches($collections)) {
-                $this->collections = $collections;
+        $collection = new Collection();
+        if (($routeCollections = call_user_func($this->callback))
+            && is_array($routeCollections)
+            && (new ContainsInstancesOfConstraint("\\Brickoo\\Component\\Routing\\Route\\RouteCollection"))->matches($routeCollections)) {
+                $collection->fromArray($routeCollections);
         }
-        return $this->getIterator();
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see IteratorAggregate::getIterator()
-     * @return \ArrayIterator containing the route collections
-     */
-    public function getIterator() {
-        return new ArrayIterator($this->collections);
+        return $collection;
     }
 
 }

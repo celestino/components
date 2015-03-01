@@ -22,18 +22,18 @@
  * THE SOFTWARE.
  */
 
-namespace Brickoo\Component\Validation;
+namespace Brickoo\Component\Common;
 
 use InvalidArgumentException;
 
 /**
- * Argument
- * Validates an argument by expectation and
- * throws an \InvalidArgumentException if the validation fails.
+ * Assert
+ *
+ * Assert the type of an argument value or values.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
 
-class Argument {
+class Assert {
 
     /** @var boolean */
     public static $throwExceptions = true;

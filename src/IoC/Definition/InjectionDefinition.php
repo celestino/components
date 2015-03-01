@@ -25,7 +25,7 @@
 namespace Brickoo\Component\IoC\Definition;
 
 use Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * InjectionDefinition
@@ -57,8 +57,8 @@ class InjectionDefinition {
      * @throws \InvalidArgumentException
      */
     public function __construct($target, $targetName, ArgumentDefinitionContainer $container) {
-        Argument::isString($target);
-        Argument::isString($targetName);
+        Assert::isString($target);
+        Assert::isString($targetName);
         $this->target = $target;
         $this->targetName = $targetName;
         $this->argumentsContainer = $container;
@@ -78,7 +78,7 @@ class InjectionDefinition {
      * @return boolean check result
      */
     public function isTarget($target) {
-        Argument::isString($target);
+        Assert::isString($target);
         return ($this->getTarget() == $target);
     }
 

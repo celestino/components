@@ -26,7 +26,7 @@ namespace Brickoo\Component\IoC\Definition\Container;
 
 use Brickoo\Component\IoC\Definition\InjectionDefinition;
 use Brickoo\Component\IoC\Definition\Container\Exception\DuplicateInjectionDefinitionException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 use Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint;
 
 /**
@@ -83,7 +83,7 @@ class InjectionDefinitionContainer extends DefinitionContainer {
      * @return array the target matching injection definitions.
      */
     public function getByTarget($target) {
-        Argument::isString($target);
+        Assert::isString($target);
         $injections = [];
         foreach ($this->getAll() as $injection) {
             if ($injection->isTarget($target)) {

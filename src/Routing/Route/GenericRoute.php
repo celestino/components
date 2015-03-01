@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\Routing\Route;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 use UnexpectedValueException;
 
 /**
@@ -59,9 +59,9 @@ class GenericRoute implements Route {
      * @throws \InvalidArgumentException
      */
     public function __construct($name, $path, $controller) {
-        Argument::isString($name);
-        Argument::isString($path);
-        Argument::isString($controller);
+        Assert::isString($name);
+        Assert::isString($path);
+        Assert::isString($controller);
 
         $this->name = $name;
         $this->path = $path;
@@ -92,7 +92,7 @@ class GenericRoute implements Route {
 
     /** {@inheritDoc} */
     public function getRule($parameter) {
-        Argument::isString($parameter);
+        Assert::isString($parameter);
 
         if (! $this->hasRule($parameter)) {
             throw new UnexpectedValueException(
@@ -110,7 +110,7 @@ class GenericRoute implements Route {
 
     /** {@inheritDoc} */
     public function hasRule($parameter) {
-        Argument::isString($parameter);
+        Assert::isString($parameter);
         return array_key_exists($parameter, $this->rules);
     }
 
@@ -127,7 +127,7 @@ class GenericRoute implements Route {
 
     /** {@inheritDoc} */
     public function getDefaultValue($parameter) {
-        Argument::isString($parameter);
+        Assert::isString($parameter);
 
         if (!$this->hasDefaultValue($parameter)) {
             throw new UnexpectedValueException(
@@ -139,7 +139,7 @@ class GenericRoute implements Route {
 
     /** {@inheritDoc} */
     public function hasDefaultValue($parameter) {
-        Argument::isString($parameter);
+        Assert::isString($parameter);
         return array_key_exists($parameter, $this->defaultValues);
     }
 

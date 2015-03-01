@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\IO\Stream;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * SocketStreamConfig
@@ -59,9 +59,9 @@ class SocketStreamConfig {
      * @param array $context
      */
     public function __construct($address, $port, $timeout = 30, $connectionType = STREAM_CLIENT_CONNECT, array $context = array()) {
-        Argument::isString($address);
-        Argument::isInteger($timeout);
-        Argument::isInteger($connectionType);
+        Assert::isString($address);
+        Assert::isInteger($timeout);
+        Assert::isInteger($connectionType);
 
         $this->serverAddress = $address;
         $this->serverPort = $port;

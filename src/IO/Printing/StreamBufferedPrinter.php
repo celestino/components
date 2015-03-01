@@ -26,7 +26,7 @@ namespace Brickoo\Component\IO\Printing;
 
 use Brickoo\Component\IO\Stream\Stream;
 use Brickoo\Component\IO\Stream\StreamWriter;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * StreamPrinter
@@ -51,7 +51,7 @@ class StreamBufferedPrinter extends BufferedPrinter {
      * @throws \InvalidArgumentException
      */
     public function __construct(Stream $stream, $bufferLength = 255) {
-        Argument::isInteger($bufferLength);
+        Assert::isInteger($bufferLength);
         $this->stream = $stream;
         $this->initializeBuffer($bufferLength);
     }

@@ -26,7 +26,7 @@ namespace Brickoo\Component\Common;
 
 use Brickoo\Component\Common\Exception\LockFailedException;
 use Brickoo\Component\Common\Exception\UnlockFailedException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * Locker
@@ -58,7 +58,7 @@ abstract class Locker implements \Countable {
      * @return string the unlock key
      */
     public function lock($identifier) {
-        Argument::isString($identifier);
+        Assert::isString($identifier);
 
         if ((! $this->isIdentifierAvailable($identifier)) || $this->isLocked($identifier)) {
             throw new LockFailedException($identifier);
@@ -76,8 +76,8 @@ abstract class Locker implements \Countable {
      * @return \Brickoo\Component\Common\Locker
      */
     public function unlock($identifier, $unlockKey) {
-        Argument::isString($identifier);
-        Argument::isString($unlockKey);
+        Assert::isString($identifier);
+        Assert::isString($unlockKey);
 
         if(! $this->isLocked($identifier) || ($this->locked[$identifier] !== $unlockKey)) {
             throw new UnlockFailedException($identifier);
@@ -93,7 +93,7 @@ abstract class Locker implements \Countable {
      * @return boolean check result
      */
     public function isLocked($identifier) {
-        Argument::isString($identifier);
+        Assert::isString($identifier);
         return array_key_exists($identifier, $this->locked);
     }
 

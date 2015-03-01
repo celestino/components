@@ -26,7 +26,7 @@ namespace Brickoo\Component\IoC\Definition;
 
 use Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer;
 use Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * DependencyDefinition
@@ -64,7 +64,7 @@ class DependencyDefinition {
         $scope = self::SCOPE_PROTOTYPE,
         ArgumentDefinitionContainer $argumentsContainer = null,
         InjectionDefinitionContainer $injectionsContainer = null) {
-            Argument::isInteger($scope);
+            Assert::isInteger($scope);
             $this->scope = $scope;
             $this->setDependency($dependency);
             $this->argumentsContainer = $argumentsContainer ?: new ArgumentDefinitionContainer();

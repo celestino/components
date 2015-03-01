@@ -24,6 +24,8 @@
 
 namespace Brickoo\Tests\Component\Messaging;
 
+use Brickoo\Component\Common\ArrayList;
+use Brickoo\Component\Common\Collection;
 use Brickoo\Component\Messaging\GenericMessage;
 use PHPUnit_Framework_TestCase;
 
@@ -111,19 +113,18 @@ class GenericMessageTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($message->hasParams("id", "name"));
     }
 
-    /** @covers Brickoo\Component\Messaging\GenericMessage::getResponse */
+    /** @covers Brickoo\Component\Messaging\GenericMessage::getResponseList */
     public function testGetResponse() {
         $message = new GenericMessage("test.message");
-        $this->assertInstanceOf("\\Brickoo\\Component\\Messaging\\MessageResponseCollection", $message->getResponse());
+        $this->assertInstanceOf("\\Brickoo\\Component\\Common\\ArrayList", $message->getResponseList());
     }
 
-    /** @covers Brickoo\Component\Messaging\GenericMessage::setResponse */
+    /** @covers Brickoo\Component\Messaging\GenericMessage::setResponseList */
     public function testSetResponse() {
-        $response = $this->getMockBuilder("\\Brickoo\\Component\\Messaging\\MessageResponseCollection")
-            ->disableOriginalConstructor()->getMock();
+        $responseList = new ArrayList();
         $message = new GenericMessage("test.message");
-        $this->assertSame($message, $message->setResponse($response));
-        $this->assertSame($response, $message->getResponse());
+        $this->assertSame($message, $message->setResponseList($responseList));
+        $this->assertSame($responseList, $message->getResponseList());
     }
 
 }

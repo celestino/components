@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\Routing\Route;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * HttpRoute
@@ -59,7 +59,7 @@ class HttpRoute extends GenericRoute {
      * @return \Brickoo\Component\Routing\Route\HttpRoute
      */
     public function setMethod($method) {
-        Argument::isString($method);
+        Assert::isString($method);
         $this->method = strtoupper($method);
         return $this;
     }
@@ -79,7 +79,7 @@ class HttpRoute extends GenericRoute {
      * @return \Brickoo\Component\Routing\Route\HttpRoute
      */
     public function setScheme($scheme) {
-        Argument::isString($scheme);
+        Assert::isString($scheme);
         $this->scheme = $scheme;
         return $this;
     }
@@ -99,7 +99,7 @@ class HttpRoute extends GenericRoute {
      * @return \Brickoo\Component\Routing\Route\HttpRoute
      */
     public function setHostname($hostname) {
-        Argument::isString($hostname);
+        Assert::isString($hostname);
         $this->hostname = $hostname;
         return $this;
     }

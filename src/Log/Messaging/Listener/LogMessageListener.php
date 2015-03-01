@@ -30,7 +30,7 @@ use Brickoo\Component\Log\Messaging\Message\LogMessage;
 use Brickoo\Component\Messaging\Listener;
 use Brickoo\Component\Messaging\Message;
 use Brickoo\Component\Messaging\MessageDispatcher;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * LogMessageListener
@@ -51,7 +51,7 @@ class LogMessageListener implements Listener {
      * @param integer $priority the priority level
      */
     public function __construct(Logger $logger, $priority = 0) {
-        Argument::isInteger($priority);
+        Assert::isInteger($priority);
         $this->logger = $logger;
         $this->listenerPriority = $priority;
     }

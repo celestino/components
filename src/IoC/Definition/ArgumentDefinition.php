@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\IoC\Definition;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * ArgumentDefinition
@@ -46,7 +46,7 @@ class ArgumentDefinition {
      * @param string $name
      */
     public function __construct($value, $name = "") {
-        Argument::isString($name);
+        Assert::isString($name);
         $this->name = $name;
         $this->value = $value;
     }

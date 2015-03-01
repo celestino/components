@@ -28,7 +28,7 @@ use ArrayIterator;
 use IteratorAggregate;
 use Brickoo\Component\Routing\Route\Exception\DuplicateRouteException;
 use Brickoo\Component\Routing\Route\Exception\RouteNotFoundException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * RouteCollection
@@ -54,8 +54,8 @@ class RouteCollection implements IteratorAggregate {
      * @param string $path the routes common path
      */
     public function __construct($name = "", $path = "") {
-        Argument::isString($name);
-        Argument::isString($path);
+        Assert::isString($name);
+        Assert::isString($path);
 
         $this->name = $name;
         $this->path = $path;
@@ -134,7 +134,7 @@ class RouteCollection implements IteratorAggregate {
      * @return \Brickoo\Component\Routing\Route\Route
      */
     public function getRoute($routeName) {
-        Argument::isString($routeName);
+        Assert::isString($routeName);
 
         if (! $this->hasRoute($routeName)) {
             throw new RouteNotFoundException($routeName);
@@ -150,7 +150,7 @@ class RouteCollection implements IteratorAggregate {
      * @return boolean check result
      */
     public function hasRoute($routeName) {
-        Argument::isString($routeName);
+        Assert::isString($routeName);
         return isset($this->routes[$routeName]);
     }
 

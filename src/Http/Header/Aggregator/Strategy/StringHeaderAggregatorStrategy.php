@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\Http\Header\Aggregator\Strategy;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * StringHeaderAggregatorStrategy
@@ -43,7 +43,7 @@ class StringHeaderAggregatorStrategy implements HeaderFieldsAggregatorStrategy {
      * @param string $headerFields the message headerFields as string
      */
     public function __construct($headerFields) {
-        Argument::isString($headerFields);
+        Assert::isString($headerFields);
         $this->headerFields = $headerFields;
     }
 

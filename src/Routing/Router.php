@@ -31,7 +31,7 @@ use Brickoo\Component\Routing\Exception\RouteNotFoundException;
 use Brickoo\Component\Routing\Route\RouteCollection;
 use Brickoo\Component\Routing\Route\Collector\RouteCollector;
 use Brickoo\Component\Routing\Route\Matcher\RouteMatcher;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * Router
@@ -71,8 +71,8 @@ class Router {
      * @return \Brickoo\Component\Routing\Route\Route
      */
     public function getRoute($routeName, $collectionName = "") {
-        Argument::isString($routeName);
-        Argument::isString($collectionName);
+        Assert::isString($routeName);
+        Assert::isString($collectionName);
 
         $route = null;
         foreach ($this->getRouteCollectorIterator() as $routeCollection) {
@@ -82,7 +82,7 @@ class Router {
             }
         }
 
-        if ($route === null) {
+        if ($route === null || (! $route instanceof Route)) {
             throw new RouteNotFoundException($routeName);
         }
 
@@ -97,17 +97,16 @@ class Router {
      * @return boolean check result
      */
     public function hasRoute($routeName, $collectionName = "") {
-        Argument::isString($collectionName);
-        Argument::isString($routeName);
+        Assert::isString($collectionName);
+        Assert::isString($routeName);
 
         try {
-            $route = $this->getRoute($routeName, $collectionName);
+            $this->getRoute($routeName, $collectionName);
+            return true;
         }
         catch (RouteNotFoundException $exception) {
             return false;
         }
-
-        return ($route instanceof Route);
     }
 
     /**

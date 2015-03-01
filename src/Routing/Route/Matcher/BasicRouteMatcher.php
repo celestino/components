@@ -29,19 +29,21 @@ use Brickoo\Component\Routing\Route\HttpRoute;
 use Brickoo\Component\Routing\Route\Route;
 use Brickoo\Component\Routing\Route\RouteCollection;
 use Brickoo\Component\Routing\Route\RoutePathRegexGenerator;
+use Brickoo\Component\Common\Assert;
 
 /**
- * HttpRouteMatcher
+ * BasicRouteMatcher
  *
- * Implementation of a http route matcher.
+ * Implementation of a basic route matcher.
+ * Matches the route collection and route against a path.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class HttpRouteMatcher implements RouteMatcher {
+class BasicRouteMatcher implements RouteMatcher {
 
     use CommonRouteMatcherRoutines;
 
-    /** @var \Brickoo\Component\Http\HttpRequest */
-    private $request;
+    /** @var string */
+    private $matchingPath;
 
     /** @var \Brickoo\Component\Routing\Route\RoutePathRegexGenerator */
     private $regexGenerator;
@@ -51,31 +53,29 @@ class HttpRouteMatcher implements RouteMatcher {
 
     /**
      * Class constructor
-     * @param \Brickoo\Component\Http\HttpRequest $request
+     * @param string $matchingPath
      * @param \Brickoo\Component\Routing\Route\RoutePathRegexGenerator $regexGenerator
      */
-    public function __construct(HttpRequest $request, RoutePathRegexGenerator $regexGenerator) {
-        $this->request = $request;
+    public function __construct($matchingPath, RoutePathRegexGenerator $regexGenerator) {
+        Assert::isString($matchingPath);
+        $this->matchingPath = $matchingPath;
         $this->regexGenerator = $regexGenerator;
         $this->routeParameters = [];
+        $this->pathParameters = [];
     }
 
     /** {@inheritDoc} */
     public function matchesCollection(RouteCollection $routeCollection) {
         return ((! $routeCollection->hasPath())
-            || strpos($this->request->getUri()->getPath(), $routeCollection->getPath()) === 0);
+            || strpos($this->matchingPath, $routeCollection->getPath()) === 0);
     }
 
     /** {@inheritDoc} */
     public function matchesRoute(Route $route) {
-        if ((! $route instanceof HttpRoute) || (! $this->isAllowedRoute($route))) {
-            return false;
-        }
-
         $this->routeParameters = [];
 
         if (($doesMatch = $this->isMatchingRoute(
-            $this->request->getUri()->getPath(),
+            $this->matchingPath,
             $this->regexGenerator->generate($route)))) {
                 $this->routeParameters = $this->collectRouteParameters($route);
         }
@@ -86,30 +86,6 @@ class HttpRouteMatcher implements RouteMatcher {
     /** {@inheritDoc} */
     public function getRouteParameters() {
         return $this->routeParameters ?: [];
-    }
-
-    /**
-     * Checks if the Route is allowed to be executed.
-     * @param \Brickoo\Component\Routing\Route\HttpRoute $route
-     * @return boolean check result
-     */
-    private function isAllowedRoute(HttpRoute $route) {
-        return (
-            $this->doesPropertyMatch($route->getMethod(), $this->request->getMethod()->toString())
-            && $this->doesPropertyMatch($route->getHostname(), $this->request->getUri()->getHostname())
-            && $this->doesPropertyMatch($route->getScheme(), $this->request->getUri()->getScheme())
-        );
-    }
-
-    /**
-     * Check if the route property matches the request.
-     * @param string $routeProperty
-     * @param string $requestProperty
-     * @return boolean check result
-     */
-    private function doesPropertyMatch($routeProperty, $requestProperty) {
-        return $routeProperty === null
-            || (is_string($routeProperty) && preg_match("~^(".$routeProperty.")$~i", $requestProperty) == 1);
     }
 
 }

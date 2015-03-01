@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\Http\Header;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * GenericHeaderField
@@ -54,7 +54,7 @@ trait CommonHeaderFieldStructure {
      * @throws \InvalidArgumentException
      */
     public function setName($headerFieldName) {
-        Argument::isString($headerFieldName);
+        Assert::isString($headerFieldName);
         $this->headerFieldName = $headerFieldName;
     }
 
@@ -72,7 +72,7 @@ trait CommonHeaderFieldStructure {
      * @throws \InvalidArgumentException
      */
     public function setValue($headerFieldValue) {
-        Argument::isString($headerFieldValue);
+        Assert::isString($headerFieldValue);
         $this->headerFieldValue = $headerFieldValue;
     }
 

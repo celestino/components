@@ -25,7 +25,7 @@
 namespace Brickoo\Component\IO\Stream;
 
 use Brickoo\Component\IO\Stream\Exception\InvalidResourceHandleException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * StreamSeeker
@@ -40,7 +40,7 @@ class StreamSeeker {
 
     /** @param resource $streamResource */
     public function __construct($streamResource) {
-        Argument::isResource($streamResource);
+        Assert::isResource($streamResource);
         $this->streamResource = $streamResource;
     }
 
@@ -77,7 +77,7 @@ class StreamSeeker {
      * @return boolean success of movement
      */
     public function seekTo($offset) {
-        Argument::isInteger($offset);
+        Assert::isInteger($offset);
         return $this->processSeek($offset, SEEK_SET);
     }
 
@@ -89,7 +89,7 @@ class StreamSeeker {
      * @return boolean success of movement
      */
     public function seek($offset) {
-        Argument::isInteger($offset);
+        Assert::isInteger($offset);
         return $this->processSeek($offset, SEEK_CUR);
     }
 
@@ -101,7 +101,7 @@ class StreamSeeker {
      * @return boolean success of movement
      */
     public function seekEnd($offset) {
-        Argument::isInteger($offset);
+        Assert::isInteger($offset);
         return $this->processSeek($offset, SEEK_END);
     }
 

@@ -36,36 +36,36 @@ use Brickoo\Component\Http\Aggregator\UriAggregator;
 class UriFactory {
 
     /**
-     * Creates a request uri instance.
-     * @param \Brickoo\Component\Http\Aggregator\UriAggregator $uriResolver
+     * Creates a uri instance.
+     * @param \Brickoo\Component\Http\Aggregator\UriAggregator $uriAggregator
      * @return \Brickoo\Component\Http\Uri
      */
-    public function create(UriAggregator $uriResolver) {
+    public function create(UriAggregator $uriAggregator) {
         return new Uri(
-            $uriResolver->getScheme(),
-            $this->createAuthority($uriResolver),
-            $uriResolver->getPath(),
-            $this->createQuery($uriResolver),
-            $uriResolver->getFragment()
+            $uriAggregator->getScheme(),
+            $this->createAuthority($uriAggregator),
+            $uriAggregator->getPath(),
+            $this->createQuery($uriAggregator),
+            $uriAggregator->getFragment()
         );
     }
 
     /**
      * Creates the authority dependency.
-     * @param \Brickoo\Component\Http\Aggregator\UriAggregator $uriResolver
+     * @param \Brickoo\Component\Http\Aggregator\UriAggregator $uriAggregator
      * @return \Brickoo\Component\Http\UriAuthority
      */
-    private function createAuthority(UriAggregator $uriResolver) {
-        return new UriAuthority($uriResolver->getHostname(), $uriResolver->getPort());
+    private function createAuthority(UriAggregator $uriAggregator) {
+        return new UriAuthority($uriAggregator->getHostname(), $uriAggregator->getPort());
     }
 
     /**
      * Creates the query dependency.
-     * @param \Brickoo\Component\Http\Aggregator\UriAggregator $uriResolver
+     * @param \Brickoo\Component\Http\Aggregator\UriAggregator $uriAggregator
      * @return \Brickoo\Component\Http\UriQuery
      */
-    private function createQuery(UriAggregator $uriResolver) {
-        return (new UriQuery())->fromString($uriResolver->getQueryString());
+    private function createQuery(UriAggregator $uriAggregator) {
+        return (new UriQuery())->fromString($uriAggregator->getQueryString());
     }
 
 }

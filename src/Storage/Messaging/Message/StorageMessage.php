@@ -25,7 +25,7 @@
 namespace Brickoo\Component\Storage\Messaging\Message;
 
 use Brickoo\Component\Messaging\GenericMessage;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * StorageMessage
@@ -72,7 +72,7 @@ class StorageMessage extends GenericMessage {
      * @return \Brickoo\Component\Storage\Messaging\Message\StorageMessage
      */
     public function setIdentifier($identifier) {
-        Argument::isString($identifier);
+        Assert::isString($identifier);
         $this->setParam(self::PARAM_IDENTIFIER, $identifier);
         return $this;
     }
@@ -146,7 +146,7 @@ class StorageMessage extends GenericMessage {
      * @return \Brickoo\Component\Storage\Messaging\Message\StorageMessage
      */
     public function setLifetime($lifetime) {
-        Argument::isInteger($lifetime);
+        Assert::isInteger($lifetime);
         $this->setParam(self::PARAM_LIFETIME, $lifetime);
         return $this;
     }

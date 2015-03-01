@@ -26,7 +26,7 @@ namespace Brickoo\Component\IO\Stream;
 
 use Brickoo\Component\IO\Stream\Exception\InvalidResourceHandleException;
 use Brickoo\Component\IO\Stream\Exception\UnableToReadBytesException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * StreamReader
@@ -41,7 +41,7 @@ class StreamReader {
 
     /** @param resource $streamResource */
     public function __construct($streamResource) {
-        Argument::isResource($streamResource);
+        Assert::isResource($streamResource);
         $this->streamResource = $streamResource;
     }
 
@@ -53,7 +53,7 @@ class StreamReader {
      * @return string the read content
      */
     public function read($bytes = 1024) {
-        Argument::isInteger($bytes);
+        Assert::isInteger($bytes);
 
         if (! is_resource($this->streamResource)) {
             throw new InvalidResourceHandleException();

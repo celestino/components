@@ -25,7 +25,7 @@
 namespace Brickoo\Component\Http;
 
 use Brickoo\Component\Http\Exception\InvalidHttpVersionException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * HttpVersion
@@ -52,7 +52,7 @@ class HttpVersion {
      * @throws \Brickoo\Component\Http\Exception\InvalidHttpVersionException
      */
     public function __construct($version) {
-        Argument::isString($version);
+        Assert::isString($version);
 
         if (! $this->isValid($version)) {
             throw new InvalidHttpVersionException($version);

@@ -7,7 +7,7 @@ use Brickoo\Component\Messaging\MessageDispatcher;
 use Brickoo\Component\Messaging\MessageListener;
 use Brickoo\Component\Messaging\ListenerAggregate;
 
-class AggregatedListeners implements ListenerAggregate {
+class AggregatableListenerFixture implements ListenerAggregate {
 
     public function attachListeners(MessageDispatcher $messageManager) {
         $messageManager->attach(new MessageListener(

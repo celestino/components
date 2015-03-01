@@ -25,7 +25,7 @@
 namespace Brickoo\Component\Annotation\Definition;
 
 use Brickoo\Component\Annotation\Annotation;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * AnnotationDefinition
@@ -58,9 +58,9 @@ class AnnotationDefinition {
      * @throws \InvalidArgumentException
      */
     public function __construct($annotationName, $target = Annotation::TARGET_CLASS, $required = true) {
-        Argument::isString($annotationName);
-        Argument::isInteger($target);
-        Argument::isBoolean($required);
+        Assert::isString($annotationName);
+        Assert::isInteger($target);
+        Assert::isBoolean($required);
         $this->target = $target;
         $this->annotationName = $annotationName;
         $this->required = $required;
@@ -82,7 +82,7 @@ class AnnotationDefinition {
      * @return boolean check result
      */
     public function isTarget($target) {
-        Argument::isInteger($target);
+        Assert::isInteger($target);
         return $this->getTarget() == $target;
     }
 

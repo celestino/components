@@ -27,7 +27,7 @@ namespace Brickoo\Component\IoC\Resolver;
 use Brickoo\Component\IoC\DIContainer;
 use Brickoo\Component\IoC\Definition\DependencyDefinition;
 use Brickoo\Component\IoC\Resolver\Exception\DefinitionTypeUnknownException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * DefinitionResolver
@@ -78,7 +78,7 @@ class DefinitionResolver {
      * @return \Brickoo\Component\IoC\Resolver\DefinitionResolver
      */
     public function setResolver($resolverType, DependencyResolver $resolver) {
-        Argument::isString($resolverType);
+        Assert::isString($resolverType);
         $this->resolvers[$resolverType] = $resolver;
         return $this;
     }

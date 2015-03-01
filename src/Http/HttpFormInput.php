@@ -25,7 +25,7 @@
 namespace Brickoo\Component\Http;
 
 use Brickoo\Component\Http\Exception\HttpFormFieldNotFoundException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * HttpFormInput
@@ -50,7 +50,7 @@ class HttpFormInput implements \IteratorAggregate {
      * @return boolean check result
      */
     public function hasField($formFieldName) {
-        Argument::isString($formFieldName);
+        Assert::isString($formFieldName);
         return isset($this->formFields[$formFieldName]);
     }
 
@@ -60,7 +60,7 @@ class HttpFormInput implements \IteratorAggregate {
      * @return boolean check result
      */
     public function hasFile($formFileFieldName) {
-        Argument::isString($formFileFieldName);
+        Assert::isString($formFileFieldName);
         return $this->hasField($formFileFieldName)
             && ($this->formFields[$formFileFieldName] instanceof HttpFormFile);
     }

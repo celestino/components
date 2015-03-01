@@ -25,7 +25,7 @@
 namespace Brickoo\Component\Http\Header\Aggregator;
 
 use Brickoo\Component\Http\Header\Aggregator\Exception\HeaderFieldClassNotFoundException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * HeaderFieldClassMap
@@ -53,7 +53,7 @@ class HeaderFieldClassMap {
      * @throws \Brickoo\Component\Http\Header\Aggregator\Exception\HeaderFieldClassNotFoundException
      */
     public function getClass($headerFieldName) {
-        Argument::isString($headerFieldName);
+        Assert::isString($headerFieldName);
         if (! $this->hasClass($headerFieldName)) {
             throw new HeaderFieldClassNotFoundException($headerFieldName);
         }
@@ -66,7 +66,7 @@ class HeaderFieldClassMap {
      * @return boolean
      */
     public function hasClass($headerFieldName) {
-        Argument::isStringOrInteger($headerFieldName);
+        Assert::isStringOrInteger($headerFieldName);
         return isset($this->map[$headerFieldName]);
     }
 

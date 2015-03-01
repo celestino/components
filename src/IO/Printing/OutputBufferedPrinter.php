@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\IO\Printing;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * OutputBufferedPrinter
@@ -39,7 +39,7 @@ class OutputBufferedPrinter extends BufferedPrinter {
      * @throws \InvalidArgumentException
      */
     public function __construct($bufferLength = 0) {
-        Argument::isInteger($bufferLength);
+        Assert::isInteger($bufferLength);
         $this->initializeBuffer($bufferLength);
     }
 

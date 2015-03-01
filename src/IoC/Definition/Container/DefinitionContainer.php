@@ -25,7 +25,7 @@
 namespace Brickoo\Component\IoC\Definition\Container;
 
 use Brickoo\Component\IoC\Definition\Container\Exception\DefinitionNotAvailableException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * Implements an abstract definition container.
@@ -50,7 +50,7 @@ abstract class DefinitionContainer implements \IteratorAggregate, \Countable {
      * @return boolean check result
      */
     public function contains($entryKey) {
-        Argument::isString($entryKey);
+        Assert::isString($entryKey);
         return isset($this->entries[$entryKey]);
     }
 
@@ -72,7 +72,7 @@ abstract class DefinitionContainer implements \IteratorAggregate, \Countable {
      * @return \Brickoo\Component\IoC\Definition\ArgumentDefinition
      */
     public function get($entryKey) {
-        Argument::isString($entryKey);
+        Assert::isString($entryKey);
 
         if (! $this->contains($entryKey)) {
             throw new DefinitionNotAvailableException($entryKey);
@@ -88,7 +88,7 @@ abstract class DefinitionContainer implements \IteratorAggregate, \Countable {
      * @return \Brickoo\Component\IoC\Definition\Container\DefinitionContainer
      */
     public function remove($entryKey) {
-        Argument::isString($entryKey);
+        Assert::isString($entryKey);
 
         if ($this->contains($entryKey)) {
             unset($this->entries[$entryKey]);

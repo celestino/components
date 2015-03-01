@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\Validation\Constraint;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * ContainsCharactersOfTypeConstraint
@@ -42,7 +42,7 @@ class ContainsCharactersOfTypeConstraint extends FunctionCallbackConstraint {
      * @throws \InvalidArgumentException if an argument is not valid.
      */
     public function __construct($expectedType) {
-        Argument::isString($expectedType);
+        Assert::isString($expectedType);
         parent::__construct("ctype_".$expectedType);
     }
 

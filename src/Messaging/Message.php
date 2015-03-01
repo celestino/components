@@ -24,13 +24,14 @@
 
 namespace Brickoo\Component\Messaging;
 
+use Brickoo\Component\Common\ArrayList;
+
 /**
  * Message
  *
  * Defines a message holding corresponding parameters and sender reference.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 interface Message {
 
     /**
@@ -95,17 +96,16 @@ interface Message {
     public function hasParams();
 
     /**
-     * Returns the message response.
-     * @throws \Brickoo\Component\Messaging\Exception\ResponseNotAvailableException
-     * @return \Brickoo\Component\Messaging\MessageResponseCollection $responseCollection
+     * Returns the message responses list.
+     * @return \Brickoo\Component\Common\ArrayList $responseList
      */
-    public function getResponse();
+    public function getResponseList();
 
     /**
-     * Sets the message response.
-     * @param \Brickoo\Component\Messaging\MessageResponseCollection $response
+     * Sets the message responses list.
+     * @param \Brickoo\Component\Common\ArrayList $responseList
      * @return \Brickoo\Component\Messaging\Message
      */
-    public function setResponse(MessageResponseCollection $response);
+    public function setResponseList(ArrayList $responseList);
 
 }

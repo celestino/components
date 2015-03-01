@@ -24,6 +24,7 @@
 
 namespace Brickoo\Tests\Component\Routing\Route\Collector;
 
+use Brickoo\Component\Common\Collection;
 use Brickoo\Component\Routing\Route\Collector\FileRouteCollector;
 use PHPUnit_Framework_TestCase;
 
@@ -34,7 +35,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Routing\Route\Collector\FileRouteCollector
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class FileRouteCollectorTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Routing\Route\Collector\FileRouteCollector::__construct */
@@ -66,21 +66,25 @@ class FileRouteCollectorTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Routing\Route\Collector\FileRouteCollector::collect
      * @covers Brickoo\Component\Routing\Route\Collector\FileRouteCollector::collectRouteCollectionsFilePaths
+     * @covers Brickoo\Component\Routing\Route\Collector\FileRouteCollector::getRouteCollectionFromFilePath
      * @covers Brickoo\Component\Routing\Route\Collector\FileRouteCollector::getFilePaths
      */
     public function testCollectNonRecursively() {
-        $routingPath = realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR."Assets".DIRECTORY_SEPARATOR."Routes";
+        $routingPath = realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR."Assets";
         $routingFilename = "routes.php";
         $searchRecursively = false;
 
         $fileRouteCollector = new FileRouteCollector($routingPath, $routingFilename, $searchRecursively);
-        $this->assertInstanceOf("\\ArrayIterator", $fileRouteCollector->collect());
-        $this->assertEquals(1, $fileRouteCollector->getIterator()->count());
+        $collection = $fileRouteCollector->collect();
+        $this->assertIsCollectionInstance($collection);
+        $this->assertCount(1, $collection);
+        $this->assertEquals("route.collection.1", $collection->shift()->getName());
     }
 
     /**
      * @covers Brickoo\Component\Routing\Route\Collector\FileRouteCollector::collect
      * @covers Brickoo\Component\Routing\Route\Collector\FileRouteCollector::collectRouteCollectionsFilePaths
+     * @covers Brickoo\Component\Routing\Route\Collector\FileRouteCollector::getRouteCollectionFromFilePath
      * @covers Brickoo\Component\Routing\Route\Collector\FileRouteCollector::getRecursiveFilePaths
      */
     public function testCollectRecursively() {
@@ -89,18 +93,17 @@ class FileRouteCollectorTest extends PHPUnit_Framework_TestCase {
         $searchRecursively = true;
 
         $fileRouteCollector = new FileRouteCollector($routingPath, $routingFilename, $searchRecursively);
-        $this->assertInstanceOf("\\ArrayIterator", $fileRouteCollector->collect());
-        $this->assertEquals(2, $fileRouteCollector->getIterator()->count());
+        $collection = $fileRouteCollector->collect();
+        $this->assertIsCollectionInstance($collection);
+        $this->assertCount(2, $collection);
+        $this->assertEquals("route.collection.1", $collection->shift()->getName());
+        $this->assertEquals("route.collection.2", $collection->shift()->getName());
     }
 
-    /** covers Brickoo\Component\Routing\Route\Collector\FileRouteCollector::getIterator */
-    public function testGetCollectionsIterator() {
-        $routingPath = realpath(dirname(__FILE__));
-        $routingFilename = "nothing_available.php";
-        $searchRecursively = false;
-
-        $fileRouteCollector = new FileRouteCollector($routingPath, $routingFilename, $searchRecursively);
-        $this->assertInstanceOf("\\ArrayIterator", $fileRouteCollector->getIterator());
-    }
+    /**
+     * Assert the collection matches type.
+     * @param Collection $collection
+     */
+    private function assertIsCollectionInstance(Collection $collection) {}
 
 }

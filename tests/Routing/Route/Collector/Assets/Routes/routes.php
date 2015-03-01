@@ -1,6 +1,6 @@
 <?php
 
-$collection = new \Brickoo\Component\Routing\Route\RouteCollection("routes", "/");
+$collection = new \Brickoo\Component\Routing\Route\RouteCollection("route.collection.2", "/");
 $collection->addRoutes([
     new \Brickoo\Component\Routing\Route\GenericRoute("test.route.2", "/", "SomeController", "someAction")
 ]);

@@ -24,7 +24,7 @@
 
 namespace Brickoo\Component\Messaging;
 
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * MessageListener
@@ -50,8 +50,8 @@ class MessageListener implements Listener {
      * @param callable $callback
      */
     public function __construct($messageName, $priority, callable $callback) {
-        Argument::isString($messageName);
-        Argument::isInteger($priority);
+        Assert::isString($messageName);
+        Assert::isInteger($priority);
 
         $this->messageName = $messageName;
         $this->priority = $priority;

@@ -25,7 +25,7 @@
 namespace Brickoo\Component\Http;
 
 use Brickoo\Component\Http\Exception\StatusCodeUnknownException;
-use Brickoo\Component\Validation\Argument;
+use Brickoo\Component\Common\Assert;
 
 /**
  * HttpStatusCode
@@ -139,7 +139,7 @@ class HttpStatusCode {
      * @return string the status code phrase
      */
     public function getPhrase($statusCode) {
-        Argument::isInteger($statusCode);
+        Assert::isInteger($statusCode);
 
         if (! $this->hasPhrase($statusCode)) {
             throw new StatusCodeUnknownException($statusCode);
