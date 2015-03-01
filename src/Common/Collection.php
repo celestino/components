@@ -128,7 +128,7 @@ class Collection implements \IteratorAggregate, \Countable {
     /**
      * Import the items from an array.
      * @param array $items
-     * @return \Brickoo\Component\Common\Container
+     * @return \Brickoo\Component\Common\Collection
      */
     public function fromArray(array $items) {
         foreach ($items as $item) {

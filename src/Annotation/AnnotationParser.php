@@ -216,7 +216,7 @@ class AnnotationParser {
     /**
      * Transforms the string to appropriate scalar.
      * @param string $value
-     * @return mixed transformed value
+     * @return string|float|integer|boolean transformed value
      */
     private function transformScalar($value) {
         $this->transformIfIsNumeric($value);

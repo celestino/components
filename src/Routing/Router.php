@@ -95,7 +95,7 @@ class Router {
      * @param string $routeName the route unique name
      * @param string $collectionName the route collections name
      * @throws \InvalidArgumentException if an argument is not valid
-     * @return boolean check result
+     * @return boolean
      */
     public function hasRoute($routeName, $collectionName = "") {
         Assert::isString($collectionName);
@@ -134,7 +134,7 @@ class Router {
     /**
      * Return the matching route.
      * @param RouteCollection $routeCollection
-     * @return RequestRoute|null matching route otherwise null
+     * @return null|RequestRoute
      */
     private function getMatchingRoute(RouteCollection $routeCollection) {
         $matchingRoute = null;
@@ -147,7 +147,7 @@ class Router {
     /**
      * Returns the matching route from collection if available.
      * @param \Brickoo\Component\Routing\Route\RouteCollection $routeCollection
-     * @return RequestRoute|null otherwise null
+     * @return null|RequestRoute
      */
     private function getMatchingRouteFromCollection(RouteCollection $routeCollection) {
         $matchingRoute = null;
@@ -165,7 +165,7 @@ class Router {
      * @param string $routeName
      * @param string $collectionName
      * @param \Brickoo\Component\Routing\Route\RouteCollection $routeCollection
-     * @return boolean check result
+     * @return boolean
      */
     private function isCollectionResponsible($routeName, $collectionName, RouteCollection $routeCollection) {
         return ((empty($collectionName) || $routeCollection->getName() == $collectionName)

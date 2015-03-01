@@ -139,9 +139,9 @@ class ArrayList implements IteratorAggregate, Countable {
     }
 
     /**
-     * Return the number of times the list contains the item.
+     * Check if list contains a value.
      * @param mixed $value
-     * @return integer
+     * @return boolean
      */
     public function contains($value) {
         return $this->indexOf($value) !== -1;
