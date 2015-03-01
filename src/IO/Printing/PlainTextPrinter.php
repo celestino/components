@@ -102,7 +102,7 @@ class PlainTextPrinter implements Printer {
     public function addText($text) {
         Assert::isString($text);
 
-        if ((! $this->hasBufferedText()) && $this->indentationAmount > 0) {
+        if ((!$this->hasBufferedText()) && $this->indentationAmount > 0) {
             $this->bufferedTextLine .= $this->getIndentation($this->indentationAmount);
         }
 
@@ -132,7 +132,7 @@ class PlainTextPrinter implements Printer {
      * @return boolean check result
      */
     private function hasBufferedText() {
-        return (! empty($this->bufferedTextLine));
+        return (!empty($this->bufferedTextLine));
     }
 
     /**

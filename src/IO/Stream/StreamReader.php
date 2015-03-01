@@ -55,7 +55,7 @@ class StreamReader {
     public function read($bytes = 1024) {
         Assert::isInteger($bytes);
 
-        if (! is_resource($this->streamResource)) {
+        if (!is_resource($this->streamResource)) {
             throw new InvalidResourceHandleException();
         }
 
@@ -69,7 +69,7 @@ class StreamReader {
      * @return string
      */
     public function readLine() {
-        if (! is_resource($this->streamResource)) {
+        if (!is_resource($this->streamResource)) {
             throw new InvalidResourceHandleException();
         }
 
@@ -86,7 +86,7 @@ class StreamReader {
      * @return string
      */
     public function readFile() {
-        if (! is_resource($this->streamResource)) {
+        if (!is_resource($this->streamResource)) {
             throw new InvalidResourceHandleException();
         }
 

@@ -54,7 +54,7 @@ class ListenerCollection {
      * @return string the listener queue unique identifier
      */
     public function add(Listener $listener) {
-        if (! $this->hasListeners(($messageName = $listener->getMessageName()))) {
+        if (!$this->hasListeners(($messageName = $listener->getMessageName()))) {
             $this->listenerQueues[$messageName] = new ListenerPriorityQueue();
         }
 
@@ -75,7 +75,7 @@ class ListenerCollection {
     public function get($listenerUID) {
         Assert::isString($listenerUID);
 
-        if (! $this->has($listenerUID)) {
+        if (!$this->has($listenerUID)) {
             throw new ListenerNotAvailableException($listenerUID);
         }
 
@@ -103,7 +103,7 @@ class ListenerCollection {
     public function remove($listenerUID) {
         Assert::isString($listenerUID);
 
-        if (! $this->has($listenerUID)) {
+        if (!$this->has($listenerUID)) {
             throw new ListenerNotAvailableException($listenerUID);
         }
 
@@ -124,7 +124,7 @@ class ListenerCollection {
     public function getListeners($messageName) {
         Assert::isString($messageName);
 
-        if (! $this->hasListeners($messageName)) {
+        if (!$this->hasListeners($messageName)) {
             throw new ListenersNotAvailableException($messageName);
         }
 

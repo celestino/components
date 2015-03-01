@@ -60,7 +60,7 @@ class Collection implements \IteratorAggregate, \Countable {
      * @return null|string
      */
     public function getType() {
-        if ($this->type === null && (! $this->isEmpty())) {
+        if ($this->type === null && (!$this->isEmpty())) {
             $this->type = $this->getItemType(reset($this->items));
         }
         return $this->type;

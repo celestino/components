@@ -40,7 +40,7 @@ class DependencyClosureResolver extends DependencyResolver {
     public function resolve(DependencyDefinition $dependencyDefinition) {
         $dependencyClosure = $dependencyDefinition->getDependency();
 
-        if (! $dependencyClosure instanceof \Closure) {
+        if (!$dependencyClosure instanceof \Closure) {
             throw new InvalidDependencyTypeException($dependencyClosure);
         }
 
@@ -49,7 +49,7 @@ class DependencyClosureResolver extends DependencyResolver {
             [$this->getDIContainer(), $this->collectArguments($dependencyDefinition->getArgumentsContainer())]
         );
 
-        if (! is_object($dependency)) {
+        if (!is_object($dependency)) {
             throw new InvalidDependencyResolverResultTypeException($dependency);
         }
 

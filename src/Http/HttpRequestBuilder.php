@@ -190,7 +190,7 @@ class HttpRequestBuilder {
      * @return void
      */
     private function checkMessageHeaderDependency() {
-        if (! $this->messageHeader instanceof HttpMessageHeader) {
+        if (!$this->messageHeader instanceof HttpMessageHeader) {
             throw new MissingBuilderDependencyException("HttpMessageHeader");
         }
     }

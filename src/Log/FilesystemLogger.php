@@ -65,7 +65,7 @@ class FilesystemLogger implements Logger {
     public function log($messages, $severity) {
         Assert::isInteger($severity);
 
-        if (! is_array($messages)) {
+        if (!is_array($messages)) {
             $messages = [$messages];
         }
 

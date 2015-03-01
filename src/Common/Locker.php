@@ -60,7 +60,7 @@ abstract class Locker implements \Countable {
     public function lock($identifier) {
         Assert::isString($identifier);
 
-        if ((! $this->isIdentifierAvailable($identifier)) || $this->isLocked($identifier)) {
+        if ((!$this->isIdentifierAvailable($identifier)) || $this->isLocked($identifier)) {
             throw new LockFailedException($identifier);
         }
 
@@ -79,7 +79,7 @@ abstract class Locker implements \Countable {
         Assert::isString($identifier);
         Assert::isString($unlockKey);
 
-        if(! $this->isLocked($identifier) || ($this->locked[$identifier] !== $unlockKey)) {
+        if(!$this->isLocked($identifier) || ($this->locked[$identifier] !== $unlockKey)) {
             throw new UnlockFailedException($identifier);
         }
 

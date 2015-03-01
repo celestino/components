@@ -39,7 +39,7 @@ class DependencyClassResolver extends DependencyResolver {
     /** {@inheritdoc} */
     public function resolve(DependencyDefinition $dependencyDefinition) {
         $dependencyClassName = (string)$dependencyDefinition->getDependency();
-        if (! class_exists($dependencyClassName)) {
+        if (!class_exists($dependencyClassName)) {
             throw new DependencyClassUnknownException($dependencyClassName);
         }
 

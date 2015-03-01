@@ -127,8 +127,8 @@ class XmlTemplate implements Template {
         );
 
         if (empty($this->xsltFilename)
-            || (! file_exists($this->xsltFilename))
-            || (! $stylesheet->load($this->xsltFilename))) {
+            || (!file_exists($this->xsltFilename))
+            || (!$stylesheet->load($this->xsltFilename))) {
                 throw new UnableToLoadFileException($this->xsltFilename);
         }
         return $stylesheet;

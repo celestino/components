@@ -93,7 +93,7 @@ class FileStream implements Stream {
 
         $configuration = $this->getConfiguration();
 
-        if (! ($resource = @fopen(
+        if (!($resource = @fopen(
             $configuration->getFilename(),
             $this->resolveMode($configuration->getMode()),
             $configuration->shouldUseIncludePath(),
@@ -126,7 +126,7 @@ class FileStream implements Stream {
      * @return string the resolved mode
      */
     private function resolveMode($mode) {
-        if (! isset($this->availableModes[$mode])) {
+        if (!isset($this->availableModes[$mode])) {
             throw new AccessModeUnknownException($mode);
         }
         return $this->availableModes[$mode];

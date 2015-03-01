@@ -42,7 +42,7 @@ class PhpHeaderAggregatorStrategyTest extends PHPUnit_Framework_TestCase {
      * @cover Brickoo\Component\Http\Header\Aggregator\PhpHeaderFieldsAggregatorStrategy::getPhpExtractedHttpHeaders
      */
     public function testGetHeadersFromGlobalServerValues() {
-        if (! function_exists("apache_request_headers")) {
+        if (!function_exists("apache_request_headers")) {
             require_once realpath(__DIR__)."/Assets/requiredFunctions.php";
         }
 

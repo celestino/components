@@ -74,7 +74,7 @@ class AnnotationReaderResult implements IteratorAggregate {
     public function addAnnotation(Annotation $annotation) {
         $target = $annotation->getTarget();
 
-        if (! $this->isTargetValid($target)) {
+        if (!$this->isTargetValid($target)) {
             throw new InvalidTargetException($target);
         }
 
@@ -104,7 +104,7 @@ class AnnotationReaderResult implements IteratorAggregate {
     public function getAnnotationsByTarget($target) {
         Assert::isInteger($target);
 
-        if (! $this->isTargetValid($target)) {
+        if (!$this->isTargetValid($target)) {
             throw new InvalidTargetException($target);
         }
 

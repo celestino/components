@@ -39,7 +39,7 @@ class DependencyObjectResolver extends DependencyResolver {
     public function resolve(DependencyDefinition $dependencyDefinition) {
         $dependency = $dependencyDefinition->getDependency();
 
-        if (! is_object($dependency)) {
+        if (!is_object($dependency)) {
             throw new InvalidDependencyResolverResultTypeException($dependency);
         }
 

@@ -68,7 +68,7 @@ class Autoloader {
      * @return \Brickoo\Component\Common\Autoloader
      */
     public function register() {
-        if (! $this->isRegistered) {
+        if (!$this->isRegistered) {
             spl_autoload_register([$this, "load"], true, $this->prependAutoloader);
             $this->isRegistered = true;
         }
@@ -138,7 +138,7 @@ class Autoloader {
      */
     public function load($className) {
         if (($namespaceClassPath = $this->getNamespaceClassPath($className)) === null
-            || (! file_exists($namespaceClassPath))) {
+            || (!file_exists($namespaceClassPath))) {
                 return false;
         }
 
@@ -153,7 +153,7 @@ class Autoloader {
      * @return void
      */
     private function validateNamespace($namespace) {
-        if (! is_string($namespace)) {
+        if (!is_string($namespace)) {
             throw new \InvalidArgumentException("Invalid namespace argument used.");
         }
     }
@@ -166,11 +166,11 @@ class Autoloader {
      * @return void
      */
     private function validateNamespacePath($namespacePath) {
-        if (! is_string($namespacePath)) {
+        if (!is_string($namespacePath)) {
             throw new \InvalidArgumentException("Invalid namespace path argument used.");
         }
 
-        if (! is_dir($namespacePath)) {
+        if (!is_dir($namespacePath)) {
             require_once "Exception".DIRECTORY_SEPARATOR."DirectoryDoesNotExistException.php";
             throw new DirectoryDoesNotExistException($namespacePath);
         }

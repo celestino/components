@@ -40,13 +40,13 @@ class DependencyCallableResolver extends  DependencyResolver {
     public function resolve(DependencyDefinition $dependencyDefinition) {
         $dependencyCallable = $dependencyDefinition->getDependency();
 
-        if (! is_callable($dependencyCallable)) {
+        if (!is_callable($dependencyCallable)) {
             throw new InvalidDependencyTypeException($dependencyCallable);
         }
 
         $dependency = call_user_func($dependencyCallable, $this->getDIContainer());
 
-        if (! is_object($dependency)) {
+        if (!is_object($dependency)) {
             throw new InvalidDependencyResolverResultTypeException($dependency);
         }
 

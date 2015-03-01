@@ -58,7 +58,7 @@ class HttpMethod {
     public function __construct($method) {
         Assert::isString($method);
 
-        if (! $this->isValid($method)) {
+        if (!$this->isValid($method)) {
             throw new InvalidHttpMethodException($method);
         }
 

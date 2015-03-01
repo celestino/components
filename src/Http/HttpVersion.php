@@ -54,7 +54,7 @@ class HttpVersion {
     public function __construct($version) {
         Assert::isString($version);
 
-        if (! $this->isValid($version)) {
+        if (!$this->isValid($version)) {
             throw new InvalidHttpVersionException($version);
         }
 

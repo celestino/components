@@ -74,7 +74,7 @@ abstract class DefinitionContainer implements \IteratorAggregate, \Countable {
     public function get($entryKey) {
         Assert::isString($entryKey);
 
-        if (! $this->contains($entryKey)) {
+        if (!$this->contains($entryKey)) {
             throw new DefinitionNotAvailableException($entryKey);
         }
 

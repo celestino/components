@@ -44,7 +44,7 @@ class HttpResponseSender {
      * @throws \InvalidArgumentException
      */
     public function __construct($headerFunction = "header") {
-        if (! is_callable($headerFunction)) {
+        if (!is_callable($headerFunction)) {
             throw new InvalidArgumentException("Header function must be callable.");
         }
         $this->headerFunction = $headerFunction;

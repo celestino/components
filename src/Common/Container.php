@@ -109,7 +109,7 @@ class Container implements \IteratorAggregate, \Countable {
     public function set($key, $value) {
         Assert::isStringOrInteger($key);
 
-        if (! $this->isValueTypeValid($value)) {
+        if (!$this->isValueTypeValid($value)) {
             throw new InvalidValueTypeException($value);
         }
 
@@ -158,7 +158,7 @@ class Container implements \IteratorAggregate, \Countable {
      */
     public function fromArray(array $container) {
         foreach ($container as $key => $value) {
-            if (! $this->isValueTypeValid($value)) {
+            if (!$this->isValueTypeValid($value)) {
                 throw new InvalidValueTypeException($value);
             }
             $this->container[$key] = $value;

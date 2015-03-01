@@ -39,7 +39,7 @@ use PHPUnit_Framework_TestCase;
 class XmlTemplateTest extends PHPUnit_Framework_TestCase {
 
     public function setUp() {
-        if ((! class_exists("DOMDocument")) || (! class_exists("XSLTProcessor"))) {
+        if ((!class_exists("DOMDocument")) || (!class_exists("XSLTProcessor"))) {
             $this->markTestSkipped("Missing DOMDocument|XSLTProcessor dependencies.");
         }
 

@@ -54,7 +54,7 @@ class Registry extends Locker {
     public function __construct(array $registrations = [], $readOnly = false) {
         parent::__construct();
         $this->registrations = $registrations;
-        $this->readOnly = (! empty($registrations)) && (boolean)$readOnly;
+        $this->readOnly = (!empty($registrations)) && (boolean)$readOnly;
     }
 
     /**
@@ -72,7 +72,7 @@ class Registry extends Locker {
      * @return \Brickoo\Component\Common\Registry
      */
     public function add($registrations) {
-        if ((! is_array($registrations)) && (! $registrations instanceof \Traversable)) {
+        if ((!is_array($registrations)) && (!$registrations instanceof \Traversable)) {
             $registrations = [$registrations];
         }
 
@@ -92,7 +92,7 @@ class Registry extends Locker {
     public function get($identifier) {
         Assert::isStringOrInteger($identifier);
 
-        if (! $this->isRegistered($identifier)) {
+        if (!$this->isRegistered($identifier)) {
             throw new IdentifierNotRegisteredException($identifier);
         }
 
@@ -159,7 +159,7 @@ class Registry extends Locker {
             throw new IdentifierLockedException($identifier);
         }
 
-        if (! $this->isRegistered($identifier)) {
+        if (!$this->isRegistered($identifier)) {
             throw new IdentifierNotRegisteredException($identifier);
         }
 

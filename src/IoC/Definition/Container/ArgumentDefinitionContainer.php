@@ -67,7 +67,7 @@ class ArgumentDefinitionContainer extends DefinitionContainer {
      * @return \Brickoo\Component\IoC\Definition\Container\ArgumentDefinitionContainer
      */
     public function setArguments($arguments) {
-        if (! (new ContainsInstancesOfConstraint("\\Brickoo\\Component\\IoC\\Definition\\ArgumentDefinition"))->matches($arguments)) {
+        if (!(new ContainsInstancesOfConstraint("\\Brickoo\\Component\\IoC\\Definition\\ArgumentDefinition"))->matches($arguments)) {
             throw new \InvalidArgumentException(
                 "The definition arguments keys must be of type `\\Brickoo\\Component\\IoC\\Definition\\ArgumentDefinition`."
             );

@@ -84,8 +84,8 @@ class DIContainer extends Container {
             $this->checkDependencyAccess($dependencyName);
             $definition = $this->get($dependencyName);
 
-            if ((! $this->hasSingletonScope($definition))
-                || (! $dependency = $this->getSingleton($dependencyName))) {
+            if ((!$this->hasSingletonScope($definition))
+                || (!$dependency = $this->getSingleton($dependencyName))) {
                     $dependency = $this->createDependency($dependencyName, $definition);
             }
         }
@@ -104,7 +104,7 @@ class DIContainer extends Container {
      * @return void
      */
     private function checkDependencyAccess($dependencyName) {
-        if (! $this->contains($dependencyName)) {
+        if (!$this->contains($dependencyName)) {
             throw new DefinitionNotAvailableException($dependencyName);
         }
 
@@ -162,7 +162,7 @@ class DIContainer extends Container {
      * @return \Brickoo\Component\IoC\DIContainer
      */
     private function storeSingleton($dependencyName, $dependency) {
-        if (! isset($this->singletons[$dependencyName])) {
+        if (!isset($this->singletons[$dependencyName])) {
             $this->singletons[$dependencyName] = $dependency;
         }
         return $this;

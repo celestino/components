@@ -60,7 +60,7 @@ trait CommonRouteMatcherRoutines {
      * @return array
      */
     private function collectRouteParameters(Route $route) {
-        if (! $route->hasRules()) {
+        if (!$route->hasRules()) {
             return [];
         }
 
@@ -79,7 +79,7 @@ trait CommonRouteMatcherRoutines {
      */
     private function getRuleCorrespondingRouteParameter($ruleParameter, Route $route) {
         if (isset($this->pathParameters[$ruleParameter])
-            && (! empty($this->pathParameters[$ruleParameter]))) {
+            && (!empty($this->pathParameters[$ruleParameter]))) {
                 return $this->pathParameters[$ruleParameter];
         }
         return $route->getDefaultValue($ruleParameter);

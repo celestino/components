@@ -48,7 +48,7 @@ class HttpStatus extends HttpStatusCode {
     public function __construct($status) {
         Assert::isInteger($status);
 
-        if (! $this->isValid($status)) {
+        if (!$this->isValid($status)) {
             throw new InvalidHttpStatusException($status);
         }
 

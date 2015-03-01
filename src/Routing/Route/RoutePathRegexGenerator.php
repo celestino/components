@@ -107,7 +107,7 @@ class RoutePathRegexGenerator {
      */
     private function replaceRoutePathParameter($routePath, $parameterName, Route $route) {
         $template = $this->getRoutePathRegexTemplates($routePath, $parameterName);
-        if (! $route->hasRule($parameterName)) {
+        if (!$route->hasRule($parameterName)) {
             return str_replace(
                 sprintf($template[self::TEMPLATE_REPLACE_KEY], $parameterName),
                 sprintf($template[self::TEMPLATE_ANY_VALUE_KEY], $parameterName),

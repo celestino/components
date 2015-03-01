@@ -52,7 +52,7 @@ class HttpRequestUriAggregator implements UriAggregator {
 
     /** {@inheritDoc} */
     public function getScheme() {
-        if (! ($isSecure = $this->isForwardedFromHttps())) {
+        if (!($isSecure = $this->isForwardedFromHttps())) {
             $isSecure = $this->isHttpsMode();
         }
         return "http".($isSecure ? "s" : "");
@@ -76,8 +76,8 @@ class HttpRequestUriAggregator implements UriAggregator {
 
     /** {@inheritDoc} */
     public function getPath() {
-        if ((! $requestPath = $this->getServerVar("REQUEST_URI"))
-            && (! $requestPath = $this->getServerVar("ORIG_PATH_INFO"))) {
+        if ((!$requestPath = $this->getServerVar("REQUEST_URI"))
+            && (!$requestPath = $this->getServerVar("ORIG_PATH_INFO"))) {
             $requestPath = $this->getIisRequestUri();
         }
         return "/".trim(rawurldecode(strval(parse_url($requestPath, PHP_URL_PATH))), "/");
@@ -85,7 +85,7 @@ class HttpRequestUriAggregator implements UriAggregator {
 
     /** {@inheritDoc} */
     public function getQueryString() {
-        if (! $queryString = $this->getServerVar("QUERY_STRING")) {
+        if (!$queryString = $this->getServerVar("QUERY_STRING")) {
             $queryArray = [];
             foreach ($_GET as $key => $value) {
                 $queryArray[] = $key."=".$value;

@@ -75,7 +75,7 @@ class StreamWriter {
      * @return \Brickoo\Component\IO\Stream\StreamWriter
      */
     public function write($content) {
-        if (! is_resource($this->streamResource)) {
+        if (!is_resource($this->streamResource)) {
             throw new InvalidResourceHandleException();
         }
 
@@ -99,7 +99,7 @@ class StreamWriter {
 
         while ($bytesLeft > 0 && $retries > 0) {
             $offset = $bytesLength - $bytesLeft;
-            if (! ($bytesWritten = fwrite($streamResource, substr($content, $offset), $bytesLeft))) {
+            if (!($bytesWritten = fwrite($streamResource, substr($content, $offset), $bytesLeft))) {
                 --$retries;
                 continue;
             }

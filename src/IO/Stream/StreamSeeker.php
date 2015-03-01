@@ -51,7 +51,7 @@ class StreamSeeker {
      * @return integer or false on failure
      */
     public function tell() {
-        if (! is_resource($this->streamResource)) {
+        if (!is_resource($this->streamResource)) {
             throw new InvalidResourceHandleException();
         }
         return ftell($this->streamResource);
@@ -64,7 +64,7 @@ class StreamSeeker {
      * @return boolean success or failure
      */
     public function rewind() {
-        if (! is_resource($this->streamResource)) {
+        if (!is_resource($this->streamResource)) {
             throw new InvalidResourceHandleException();
         }
         return rewind($this->streamResource);
@@ -113,7 +113,7 @@ class StreamSeeker {
      * @return boolean success of movement
      */
     private function processSeek($offset, $seekFlag) {
-        if (! is_resource($this->streamResource)) {
+        if (!is_resource($this->streamResource)) {
             throw new InvalidResourceHandleException();
         }
         return fseek($this->streamResource, $offset, $seekFlag) === 0;

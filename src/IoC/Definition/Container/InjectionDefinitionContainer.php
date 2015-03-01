@@ -66,7 +66,7 @@ class InjectionDefinitionContainer extends DefinitionContainer {
      * @return \Brickoo\Component\IoC\Definition\Container\InjectionDefinitionContainer
      */
     public function setInjections($injections) {
-        if (! (new ContainsInstancesOfConstraint("\\Brickoo\\Component\\IoC\\Definition\\InjectionDefinition"))->matches($injections)) {
+        if (!(new ContainsInstancesOfConstraint("\\Brickoo\\Component\\IoC\\Definition\\InjectionDefinition"))->matches($injections)) {
             throw new \InvalidArgumentException(
                 "The definition injections keys must be of type `\\Brickoo\\Component\\IoC\\Definition\\InjectionDefinition`."
             );

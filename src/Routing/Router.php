@@ -83,7 +83,7 @@ class Router {
             }
         }
 
-        if ($route === null || (! $route instanceof Route)) {
+        if ($route === null || (!$route instanceof Route)) {
             throw new RouteNotFoundException($routeName);
         }
 
@@ -124,7 +124,7 @@ class Router {
             }
         }
 
-        if (! $matchingRoute instanceof RequestRoute) {
+        if (!$matchingRoute instanceof RequestRoute) {
             throw new NoMatchingRouteFoundException();
         }
 

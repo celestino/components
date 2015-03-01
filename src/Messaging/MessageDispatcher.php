@@ -92,7 +92,7 @@ class MessageDispatcher {
     public function dispatch(Message $message) {
         $messageName = $message->getName();
 
-        if (! $this->listenerCollection->hasListeners($messageName)) {
+        if (!$this->listenerCollection->hasListeners($messageName)) {
             return $this;
         }
 

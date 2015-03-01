@@ -94,7 +94,7 @@ class AnnotationClassFileReader {
      * @return void
      */
     private function checkFileAvailability($filename) {
-        if (! is_readable($filename)) {
+        if (!is_readable($filename)) {
             throw new FileDoesNotExistException($filename);
         }
     }
@@ -108,7 +108,7 @@ class AnnotationClassFileReader {
         $matches = null;
         $namespace = "\\";
         preg_match("~namespace\\s+(?<namespace>[a-zA-Z_\x7f-\xff][\\\\\\w\x7f-\xff]+)\\s*[\\;\\{]{1}~i", $fileContent, $matches);
-        if (isset($matches["namespace"]) && (! empty($matches["namespace"]))) {
+        if (isset($matches["namespace"]) && (!empty($matches["namespace"]))) {
             $namespace .= $matches["namespace"]."\\";
         }
         return $namespace;

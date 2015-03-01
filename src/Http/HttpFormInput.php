@@ -72,7 +72,7 @@ class HttpFormInput implements \IteratorAggregate {
      * @return \Brickoo\Component\Http\HttpFormFile
      */
     public function getFile($formFileFieldName) {
-        if (! $this->hasFile($formFileFieldName)) {
+        if (!$this->hasFile($formFileFieldName)) {
             throw new HttpFormFieldNotFoundException($formFileFieldName);
         }
         return $this->getField($formFileFieldName);
@@ -85,7 +85,7 @@ class HttpFormInput implements \IteratorAggregate {
      * @return null|mixed the form field value otherwise the default value
      */
     public function getField($formFieldName, $defaultValue = null) {
-        if (! $this->hasField($formFieldName)) {
+        if (!$this->hasField($formFieldName)) {
             return $defaultValue;
         }
         return $this->formFields[$formFieldName];
@@ -107,7 +107,7 @@ class HttpFormInput implements \IteratorAggregate {
      * @return mixed
      */
     public function extract($formFieldName) {
-        if (! $this->hasField($formFieldName)) {
+        if (!$this->hasField($formFieldName)) {
             throw new HttpFormFieldNotFoundException($formFieldName);
         }
         $fieldValue = $this->formFields[$formFieldName];

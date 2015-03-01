@@ -90,7 +90,7 @@ class AndOrConstraint implements Constraint {
     private function doesConstraintGroupMatch(array $constraintGroup, $value) {
         $matches = true;
         foreach ($constraintGroup as $constraint) {
-            if (! $constraint->matches($value)) {
+            if (!$constraint->matches($value)) {
                 $this->failedConstraint = $this->getConcreteFailedConstraint($constraint);
                 $matches = false;
                 break;

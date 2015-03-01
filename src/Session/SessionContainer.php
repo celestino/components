@@ -67,7 +67,7 @@ class SessionContainer implements \Countable, \IteratorAggregate{
     public function get($property, $defaultValue = null) {
         Assert::isString($property);
 
-        if (! $this->contains($property)) {
+        if (!$this->contains($property)) {
             return $defaultValue;
         }
 

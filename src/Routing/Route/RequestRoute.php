@@ -76,7 +76,7 @@ class RequestRoute {
     public function getParameter($parameter) {
         Assert::isString($parameter);
 
-        if (! $this->hasParameter($parameter)) {
+        if (!$this->hasParameter($parameter)) {
             throw new ParameterNotAvailableException($parameter);
         }
 

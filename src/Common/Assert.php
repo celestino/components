@@ -106,7 +106,7 @@ class Assert {
      * @return boolean check result
      */
     public static function isNotEmpty($argument) {
-        return self::handleArgumentValidation((! empty($argument)),
+        return self::handleArgumentValidation((!empty($argument)),
             $argument, "The argument must not be empty."
         );
     }

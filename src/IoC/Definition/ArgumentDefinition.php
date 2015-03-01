@@ -56,7 +56,7 @@ class ArgumentDefinition {
      * @return boolean check result
      */
     public function hasName() {
-        return (! empty($this->name));
+        return (!empty($this->name));
     }
 
     /**

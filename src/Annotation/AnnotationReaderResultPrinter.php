@@ -56,7 +56,7 @@ class AnnotationReaderResultPrinter implements Printable {
 
     /** {@inheritdoc} */
     public function getPrinter() {
-        if (! $this->printer instanceof Printer) {
+        if (!$this->printer instanceof Printer) {
             $this->printer = new PlainTextPrinter(new OutputBufferedPrinter());
         }
         return $this->printer;

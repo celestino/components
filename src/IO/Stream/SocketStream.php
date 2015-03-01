@@ -73,7 +73,7 @@ class SocketStream implements Stream {
         $errorMessage = null;
         $configuration = $this->getConfiguration();
 
-        if (! ($resource = @stream_socket_client(
+        if (!($resource = @stream_socket_client(
             $configuration->getSocketAddress(),
             $errorCode, $errorMessage,
             $configuration->getConnectionTimeout(),

@@ -94,7 +94,7 @@ class GenericRoute implements Route {
     public function getRule($parameter) {
         Assert::isString($parameter);
 
-        if (! $this->hasRule($parameter)) {
+        if (!$this->hasRule($parameter)) {
             throw new UnexpectedValueException(
                 sprintf("The rule for `%s` does not exist.", $parameter)
             );
@@ -105,7 +105,7 @@ class GenericRoute implements Route {
 
     /** {@inheritDoc} */
     public function hasRules() {
-        return (! empty($this->rules));
+        return (!empty($this->rules));
     }
 
     /** {@inheritDoc} */

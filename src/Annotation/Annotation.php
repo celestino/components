@@ -105,7 +105,7 @@ class Annotation {
      * @return boolean check result
      */
     public function hasValues() {
-        return (! empty($this->values));
+        return (!empty($this->values));
     }
 
 }

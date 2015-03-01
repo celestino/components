@@ -94,7 +94,7 @@ class HeaderFieldsAggregator {
     private function createMappingHeaderField($headerFieldName, $headerFieldValue) {
         try {
             $headerFieldClass = $this->headerFieldClassMap->getClass($headerFieldName);
-            if (! class_exists($headerFieldClass)) {
+            if (!class_exists($headerFieldClass)) {
                 throw new \Exception("Unable to load mapping header class.");
             }
         }

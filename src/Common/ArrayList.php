@@ -58,7 +58,7 @@ class ArrayList implements IteratorAggregate, Countable {
      */
     public function get($index) {
         Assert::isInteger($index);
-        if (! $this->has($index)) {
+        if (!$this->has($index)) {
             throw new InvalidIndexException($index);
         }
         return $this->items[$index];
@@ -80,7 +80,7 @@ class ArrayList implements IteratorAggregate, Countable {
      * @throws InvalidIndexException
      */
     public function remove($index) {
-        if (! $this->has($index)) {
+        if (!$this->has($index)) {
             throw new InvalidIndexException($index);
         }
         unset($this->items[$index]);
@@ -93,7 +93,7 @@ class ArrayList implements IteratorAggregate, Countable {
      * @return \Brickoo\Component\Common\ArrayList
      */
     public function reverse() {
-        if (! $this->isEmpty()) {
+        if (!$this->isEmpty()) {
             $this->items = array_reverse($this->items, false);
         }
         return $this;
@@ -216,7 +216,7 @@ class ArrayList implements IteratorAggregate, Countable {
     public function toString() {
         return implode("\n" ,array_map(
             function($value) {
-                if (! is_scalar($value)) {
+                if (!is_scalar($value)) {
                     return gettype($value);
                 }
                 return is_bool($value) ? ($value ? "true" : "false") : $value;

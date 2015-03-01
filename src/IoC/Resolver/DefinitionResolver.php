@@ -136,7 +136,7 @@ class DefinitionResolver {
             self::TYPE_CLASS => "\\DependencyClassResolver"
         ];
 
-        if (! isset($resolvers[$definitionType])) {
+        if (!isset($resolvers[$definitionType])) {
             throw new DefinitionTypeUnknownException($definitionType);
         }
 

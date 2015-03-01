@@ -123,7 +123,7 @@ class RouteCollection implements IteratorAggregate {
      * @return boolean check result
      */
     public function hasRoutes() {
-        return (! empty($this->routes));
+        return (!empty($this->routes));
     }
 
     /**
@@ -136,7 +136,7 @@ class RouteCollection implements IteratorAggregate {
     public function getRoute($routeName) {
         Assert::isString($routeName);
 
-        if (! $this->hasRoute($routeName)) {
+        if (!$this->hasRoute($routeName)) {
             throw new RouteNotFoundException($routeName);
         }
 

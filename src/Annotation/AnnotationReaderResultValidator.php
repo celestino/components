@@ -113,7 +113,7 @@ class AnnotationReaderResultValidator {
      * @return void
      */
     private function checkAnnotationRequirements($requiredAnnotation, array $requiredParameters, array $annotationsRead) {
-        if (! $this->hasRequiredAnnotation($requiredAnnotation, $annotationsRead)) {
+        if (!$this->hasRequiredAnnotation($requiredAnnotation, $annotationsRead)) {
             throw new MissingRequiredAnnotationException($requiredAnnotation);
         }
         if (($missingParameters = $this->getMissingParameters($requiredParameters, $annotationsRead[$requiredAnnotation]))) {
@@ -140,7 +140,7 @@ class AnnotationReaderResultValidator {
     private function getMissingParameters(array $requiredParameters, array $readParameters) {
         $missingParameters = [];
         foreach ($requiredParameters as $parameter) {
-            if (! isset($readParameters[$parameter->getName()])) {
+            if (!isset($readParameters[$parameter->getName()])) {
                 $missingParameters[] = $parameter->getName();
             }
         }

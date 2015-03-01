@@ -99,7 +99,7 @@ class AnnotationParser {
 
         $annotations = null;
         if (($annotationsMatches = $this->getAnnotationsMatches($this->annotationPrefix, $docComment))
-            && (! empty($annotationsMatches[self::REGEX_CAPTURE_ANNOTATION]))
+            && (!empty($annotationsMatches[self::REGEX_CAPTURE_ANNOTATION]))
         ){
             $annotations = $this->convertAnnotations($target, $targetLocation, $this->getAnnotationList($annotationsMatches));
         }
@@ -175,7 +175,7 @@ class AnnotationParser {
     private function getParameterValues($valuesString, $valuesRegex) {
         $values = [];
         $parameterValues = [];
-        if ((! empty($valuesString))
+        if ((!empty($valuesString))
             && preg_match_all($valuesRegex, $valuesString, $values) !== false
             && $values !== null) {
             $this->attachParameterValues($parameterValues, $values);

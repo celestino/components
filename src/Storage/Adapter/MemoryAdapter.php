@@ -45,7 +45,7 @@ class MemoryAdapter implements Adapter {
     /** {@inheritDoc} */
     public function get($identifier) {
         Assert::isString($identifier);
-        if (! array_key_exists($identifier, $this->cacheValues)) {
+        if (!array_key_exists($identifier, $this->cacheValues)) {
             return null;
         }
         return $this->cacheValues[$identifier];

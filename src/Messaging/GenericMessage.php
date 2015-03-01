@@ -105,7 +105,7 @@ class GenericMessage implements Message {
     public function getParam($identifier, $defaultValue = null) {
         Assert::isString($identifier);
 
-        if (! $this->hasParam($identifier)) {
+        if (!$this->hasParam($identifier)) {
             return $defaultValue;
         }
 
@@ -123,7 +123,7 @@ class GenericMessage implements Message {
         $containsAllParameters = true;
         if (($arguments = func_get_args())) {
             foreach ($arguments as $argument) {
-                if (! $this->hasParam($argument)) {
+                if (!$this->hasParam($argument)) {
                     $containsAllParameters = false;
                     break;
                 }

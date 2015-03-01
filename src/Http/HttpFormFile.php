@@ -112,14 +112,14 @@ class HttpFormFile {
         Assert::isString($targetPath);
         Assert::isString($targetFileName);
 
-        if (! file_exists($this->filePath)) {
+        if (!file_exists($this->filePath)) {
             throw new HttpFormFileNotFoundException($this->filePath);
         }
 
         $targetFilePath = $this->generateTargetFilePath($targetPath, $targetFileName);
 
-        if ((! is_writable(dirname($targetFilePath)))
-            || (! move_uploaded_file($this->filePath, $targetFilePath))) {
+        if ((!is_writable(dirname($targetFilePath)))
+            || (!move_uploaded_file($this->filePath, $targetFilePath))) {
                 throw new UnableToMoveFormFileException($this->filePath, $targetFilePath);
         }
 

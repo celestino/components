@@ -52,8 +52,8 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
      * @throws \InvalidArgumentException if a pool entry does not match expected type
      */
     public function __construct(array $poolEntries) {
-        if ((! empty($poolEntries))
-            && (! (new ContainsInstancesOfConstraint("\\Brickoo\\Component\\Storage\\Adapter\\Adapter"))->matches($poolEntries))) {
+        if ((!empty($poolEntries))
+            && (!(new ContainsInstancesOfConstraint("\\Brickoo\\Component\\Storage\\Adapter\\Adapter"))->matches($poolEntries))) {
                 throw new \InvalidArgumentException(sprintf("%s: The pool entries must implement the Adapter interface.", __CLASS__));
         }
 
@@ -77,7 +77,7 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
      * @return \Brickoo\Component\Storage\Adapter\Adapter
      */
     public function current() {
-        if ($this->isEmpty() || (! isset($this->poolEntries[$this->currentPointerPosition]))) {
+        if ($this->isEmpty() || (!isset($this->poolEntries[$this->currentPointerPosition]))) {
             throw new PoolIsEmptyException();
         }
         return $this->poolEntries[$this->currentPointerPosition];
@@ -113,7 +113,7 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
     public function select($adapterIdentifier) {
         Assert::isStringOrInteger($adapterIdentifier);
 
-        if (! $this->has($adapterIdentifier)) {
+        if (!$this->has($adapterIdentifier)) {
             throw new PoolIdentifierDoesNotExistException($adapterIdentifier);
         }
 
@@ -123,7 +123,7 @@ class AdapterPoolIterator implements \Iterator, \Countable, AdapterPool {
 
     /** {@inheritDoc} */
     public function remove($adapterIdentifier) {
-        if (! $this->has($adapterIdentifier)) {
+        if (!$this->has($adapterIdentifier)) {
             throw new PoolIdentifierDoesNotExistException($adapterIdentifier);
         }
 

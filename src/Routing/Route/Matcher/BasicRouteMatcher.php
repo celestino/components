@@ -66,7 +66,7 @@ class BasicRouteMatcher implements RouteMatcher {
 
     /** {@inheritDoc} */
     public function matchesCollection(RouteCollection $routeCollection) {
-        return ((! $routeCollection->hasPath())
+        return ((!$routeCollection->hasPath())
             || strpos($this->matchingPath, $routeCollection->getPath()) === 0);
     }
 

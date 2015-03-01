@@ -70,7 +70,7 @@ class StorageProxy {
         Assert::isString($identifier);
         Assert::isInteger($lifetime);
 
-        if ((! ($content = $this->get($identifier)))
+        if ((!($content = $this->get($identifier)))
             && ($content = call_user_func_array($callback, $callbackArguments))) {
                 $this->set($identifier, $content, $lifetime);
         }
@@ -165,7 +165,7 @@ class StorageProxy {
             }
         );
 
-        if (! $adapter instanceof Adapter) {
+        if (!$adapter instanceof Adapter) {
             throw new AdapterNotFoundException();
         }
         return $adapter;

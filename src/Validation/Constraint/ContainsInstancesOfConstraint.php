@@ -57,7 +57,7 @@ class ContainsInstancesOfConstraint implements Constraint {
 
         $result = true;
         foreach ($traversable as $value) {
-            if (! $value instanceof $this->expectedInstanceOf) {
+            if (!$value instanceof $this->expectedInstanceOf) {
                 $result = false;
                 break;
             }

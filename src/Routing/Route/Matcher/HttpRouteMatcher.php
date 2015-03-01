@@ -62,13 +62,13 @@ class HttpRouteMatcher implements RouteMatcher {
 
     /** {@inheritDoc} */
     public function matchesCollection(RouteCollection $routeCollection) {
-        return ((! $routeCollection->hasPath())
+        return ((!$routeCollection->hasPath())
             || strpos($this->request->getUri()->getPath(), $routeCollection->getPath()) === 0);
     }
 
     /** {@inheritDoc} */
     public function matchesRoute(Route $route) {
-        if ((! $route instanceof HttpRoute) || (! $this->isAllowedRoute($route))) {
+        if ((!$route instanceof HttpRoute) || (!$this->isAllowedRoute($route))) {
             return false;
         }
 

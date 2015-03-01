@@ -91,7 +91,7 @@ class ErrorHandler {
      * @return \Brickoo\Component\Error\ErrorHandler
      */
     public function unregister() {
-        if (! $this->isRegistered()) {
+        if (!$this->isRegistered()) {
             throw new HandlerNotRegisteredException("ErrorHandler");
         }
         restore_error_handler();

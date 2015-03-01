@@ -81,7 +81,7 @@ class ExceptionHandler {
      * @return \Brickoo\Component\Error\ExceptionHandler
      */
     public function unregister() {
-        if (! $this->isRegistered()) {
+        if (!$this->isRegistered()) {
             throw new HandlerNotRegisteredException("ExceptionHandler");
         }
         restore_exception_handler();

@@ -54,7 +54,7 @@ class HeaderFieldClassMap {
      */
     public function getClass($headerFieldName) {
         Assert::isString($headerFieldName);
-        if (! $this->hasClass($headerFieldName)) {
+        if (!$this->hasClass($headerFieldName)) {
             throw new HeaderFieldClassNotFoundException($headerFieldName);
         }
         return "Brickoo\\Component\\Http\\Header\\".$this->map[$headerFieldName];

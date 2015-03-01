@@ -61,7 +61,7 @@ class ClientIpAggregator {
      */
     public function getClientIp() {
         if (($remoteAddress = $this->getServerVar("REMOTE_ADDR")) !== null
-            && (! in_array($remoteAddress, $this->proxyServers))) {
+            && (!in_array($remoteAddress, $this->proxyServers))) {
             return $remoteAddress;
         }
 
@@ -113,7 +113,7 @@ class ClientIpAggregator {
                 }
             );
 
-            if (! empty($forwardedIps)) {
+            if (!empty($forwardedIps)) {
                 $clientIp = array_shift($forwardedIps);
             }
         }

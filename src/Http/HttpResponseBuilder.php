@@ -72,7 +72,7 @@ class HttpResponseBuilder {
      * @return HttpVersion
      */
     public function getHttpVersion() {
-        if (! $this->httpVersion instanceof HttpVersion) {
+        if (!$this->httpVersion instanceof HttpVersion) {
             $this->httpVersion = new HttpVersion(HttpVersion::HTTP_1_1);
         }
         return $this->httpVersion;
@@ -93,7 +93,7 @@ class HttpResponseBuilder {
      * @return HttpStatus
      */
     public function getHttpStatus() {
-        if (! $this->httpStatus instanceof HttpStatus) {
+        if (!$this->httpStatus instanceof HttpStatus) {
             $this->httpStatus = new HttpStatus(HttpStatus::CODE_OK);
         }
         return $this->httpStatus;
@@ -146,7 +146,7 @@ class HttpResponseBuilder {
      * @return HttpMessage
      */
     public function getHttpMessage() {
-        if(! $this->httpMessage instanceof HttpMessage) {
+        if(!$this->httpMessage instanceof HttpMessage) {
             $this->httpMessage = new HttpMessage(
                 $this->getHttpMessageHeader(),
                 $this->getHttpMessageBody()
