@@ -60,7 +60,7 @@ class MessageRouteCollector implements RouteCollector {
     /**
      * Extracts collected route collections from the message response.
      * @param \Brickoo\Component\Common\ArrayList $messageResponseList
-     * @return array
+     * @return \Brickoo\Component\Common\Collection
      */
     private function extractRouteCollections(ArrayList $messageResponseList) {
         $collection = new Collection();

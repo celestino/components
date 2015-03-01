@@ -59,21 +59,20 @@ class AnnotationReflectionClassReader {
     public function getAnnotations(Collection $collection, ReflectionClass $reflectionClass) {
         $this->annotationTargetFilter = new AnnotationDefinitionTargetFilter(($collection));
         $readerResult = new AnnotationReaderResult($reflectionClass->getName());
-        $this->addClassAnnotations($readerResult, $collection, $reflectionClass);
-        $this->addMethodsAnnotations($readerResult, $collection, $reflectionClass);
-        $this->addPropertiesAnnotations($readerResult, $collection, $reflectionClass);
+        $this->addClassAnnotations($readerResult, $reflectionClass);
+        $this->addMethodsAnnotations($readerResult, $reflectionClass);
+        $this->addPropertiesAnnotations($readerResult, $reflectionClass);
         return $readerResult;
     }
 
     /**
      * Adds class annotations to the reader result.
      * @param \Brickoo\Component\Annotation\AnnotationReaderResult $result
-     * @param \Brickoo\Component\Common\Collection $collection
      * @param \ReflectionClass $class
      * @return \Brickoo\Component\Annotation\AnnotationReflectionClassReader
      */
-    private function addClassAnnotations(AnnotationReaderResult $result, Collection $collection, ReflectionClass $class) {
-        $this->setAnnotationWhiteList($collection, Annotation::TARGET_CLASS);
+    private function addClassAnnotations(AnnotationReaderResult $result, ReflectionClass $class) {
+        $this->setAnnotationWhiteList(Annotation::TARGET_CLASS);
         $this->parseAnnotations($result, Annotation::TARGET_CLASS, $class->getName(), $class->getDocComment());
         return $this;
     }
@@ -81,12 +80,11 @@ class AnnotationReflectionClassReader {
     /**
      * Adds methods annotations to the reader result.
      * @param \Brickoo\Component\Annotation\AnnotationReaderResult $result
-     * @param \Brickoo\Component\Common\Collection $collection
      * @param \ReflectionClass $class
      * @return \Brickoo\Component\Annotation\AnnotationReflectionClassReader
      */
-    private function addMethodsAnnotations(AnnotationReaderResult $result, Collection $collection, ReflectionClass $class) {
-        $this->setAnnotationWhiteList($collection, Annotation::TARGET_METHOD);
+    private function addMethodsAnnotations(AnnotationReaderResult $result, ReflectionClass $class) {
+        $this->setAnnotationWhiteList(Annotation::TARGET_METHOD);
         $this->parseAnnotationList($result, $class, Annotation::TARGET_METHOD);
         return $this;
     }
@@ -94,23 +92,21 @@ class AnnotationReflectionClassReader {
     /**
      * Adds properties annotations to the reader result.
      * @param \Brickoo\Component\Annotation\AnnotationReaderResult $result
-     * @param \Brickoo\Component\Common\Collection $collection
      * @param \ReflectionClass $class
      * @return \Brickoo\Component\Annotation\AnnotationReflectionClassReader
      */
-    private function addPropertiesAnnotations(AnnotationReaderResult $result, Collection $collection, ReflectionClass $class) {
-        $this->setAnnotationWhiteList($collection, Annotation::TARGET_PROPERTY);
+    private function addPropertiesAnnotations(AnnotationReaderResult $result, ReflectionClass $class) {
+        $this->setAnnotationWhiteList(Annotation::TARGET_PROPERTY);
         $this->parseAnnotationList($result, $class, Annotation::TARGET_PROPERTY);
         return $this;
     }
 
     /**
      * Set the annotation white list for an annotation type.
-     * @param \Brickoo\Component\Common\Collection $collection
      * @param integer $targetType
      * @return \Brickoo\Component\Annotation\AnnotationReflectionClassReader
      */
-    private function setAnnotationWhiteList(Collection $collection, $targetType) {
+    private function setAnnotationWhiteList($targetType) {
         $this->annotationParser->setAnnotationWhitelist(
             $this->getAnnotationsNames(
                 $this->annotationTargetFilter->filter($targetType)

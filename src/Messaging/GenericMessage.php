@@ -45,7 +45,7 @@ class GenericMessage implements Message {
     /** @var boolean */
     private $stopped;
 
-    /** @var \Brickoo\Component\Common\Collection */
+    /** @var \Brickoo\Component\Common\ArrayList */
     private $responseList;
 
     /**

@@ -133,8 +133,8 @@ class FileRouteCollector implements RouteCollector {
         $iterator = new RecursiveIteratorIterator($directory);
 
         $array = iterator_to_array($iterator);
-        usort($array, function(SplFileInfo $a, SplFileInfo $b) {
-            return $a->getPathname() < $b->getPathname();
+        usort($array, function(SplFileInfo $aFile, SplFileInfo $bFile) {
+            return $aFile->getPathname() < $bFile->getPathname();
         });
         $orderedIterator = new ArrayIterator($array);
 

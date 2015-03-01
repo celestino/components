@@ -32,7 +32,7 @@ use Brickoo\Component\Common\Assert;
  * Implements an annotation containing the target, name and values.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class Annotation  {
+class Annotation {
 
     /** @const annotation targets */
     const TARGET_CLASS = 1;

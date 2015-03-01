@@ -36,13 +36,13 @@ interface Message {
 
     /**
      * Returns the message name.
-     * @return string the message name
+     * @return string
      */
     public function getName();
 
     /**
      * Returns the sender object reference which triggered the message.
-     * @return object the sender object reference or null if not set
+     * @return object
      */
     public function getSender();
 
@@ -54,13 +54,13 @@ interface Message {
 
     /**
      * Checks if the message has been stopped.
-     * @return boolean check result
+     * @return boolean
      */
     public function isStopped();
 
     /**
      * Returns the message parameters.
-     * @return array the assigned message parameters
+     * @return array
      */
     public function getParams();
 
@@ -69,7 +69,7 @@ interface Message {
      * If the parameter does not exist, the default value is returned.
      * @param string $identifier the identifier to return the value from
      * @param mixed $defaultValue
-     * @return mixed the parameter value or null if not set
+     * @return mixed
      */
     public function getParam($identifier, $defaultValue = null);
 
@@ -84,14 +84,14 @@ interface Message {
     /**
      * Checks if the identifier is a available message parameter.
      * @param string $identifier the identifier to check the availability
-     * @return boolean check result
+     * @return boolean
      */
     public function hasParam($identifier);
 
     /**
      * Checks if the arguments are available message parameters.
      * Accepts any string arguments to check
-     * @return boolean check result
+     * @return boolean
      */
     public function hasParams();
 

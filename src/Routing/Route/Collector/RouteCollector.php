@@ -24,7 +24,6 @@
 
 namespace Brickoo\Component\Routing\Route\Collector;
 
-
 /**
  * RouteCollector
  *

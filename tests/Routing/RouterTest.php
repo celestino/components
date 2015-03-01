@@ -44,7 +44,7 @@ class RouterTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Routing\Router::__construct
      * @covers Brickoo\Component\Routing\Router::getRoute
-     * @covers Brickoo\Component\Routing\Router::getRouteCollectorIterator
+     * @covers Brickoo\Component\Routing\Router::getRouteCollections
      * @covers Brickoo\Component\Routing\Router::isCollectionResponsible
      */
     public function testGetRoute() {
@@ -64,7 +64,7 @@ class RouterTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Routing\Router::getRoute
-     * @covers Brickoo\Component\Routing\Router::getRouteCollectorIterator
+     * @covers Brickoo\Component\Routing\Router::getRouteCollections
      * @covers Brickoo\Component\Routing\Exception\RouteNotFoundException
      * @expectedException \Brickoo\Component\Routing\Exception\RouteNotFoundException
      */

@@ -49,8 +49,8 @@ class Router {
     /** @var \Brickoo\Component\Routing\Route\Collector\RouteCollector */
     private $routeCollector;
 
-    /** @var \Iterator */
-    private $routeCollectorIterator;
+    /** @var null|\Brickoo\Component\Common\Collection */
+    private $routeCollections;
 
     /**
     * Class constructor.
@@ -60,6 +60,7 @@ class Router {
     public function __construct(RouteCollector $routeCollector, RouteMatcher $routeMatcher) {
         $this->routeCollector = $routeCollector;
         $this->routeMatcher = $routeMatcher;
+        $this->routeCollections = null;
     }
 
     /**
@@ -75,7 +76,7 @@ class Router {
         Assert::isString($collectionName);
 
         $route = null;
-        foreach ($this->getRouteCollectorIterator() as $routeCollection) {
+        foreach ($this->getRouteCollections() as $routeCollection) {
             if ($this->isCollectionResponsible($routeName, $collectionName, $routeCollection)) {
                 $route = $routeCollection->getRoute($routeName);
                 break;
@@ -117,7 +118,7 @@ class Router {
     public function getRequestRoute() {
         $matchingRoute = null;
 
-        foreach ($this->getRouteCollectorIterator() as $routeCollection) {
+        foreach ($this->getRouteCollections() as $routeCollection) {
             if (($matchingRoute = $this->getMatchingRoute($routeCollection))) {
                 break;
             }
@@ -173,13 +174,13 @@ class Router {
 
     /**
      * Returns an iterator from the route collector.
-     * @return \Iterator the route collection iterator
+     * @return \Brickoo\Component\Common\Collection
      */
-    private function getRouteCollectorIterator() {
-        if ($this->routeCollectorIterator === null) {
-            $this->routeCollectorIterator = $this->routeCollector->collect();
+    private function getRouteCollections() {
+        if ($this->routeCollections === null) {
+            $this->routeCollections = $this->routeCollector->collect();
         }
-        return $this->routeCollectorIterator;
+        return $this->routeCollections;
     }
 
 }
