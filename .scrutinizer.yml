@@ -2,7 +2,6 @@ tools:
     php_sim: true
     php_pdepend: true
     php_analyzer: true
-    php_cs_fixer: false
 filter:
     excluded_paths:
         - 'tests/*'
@@ -102,8 +101,8 @@ checks:
         scope_indentation:
             spaces_per_level: '4'
         remove_php_closing_tag: true
-        psr2_control_structure_declaration: true
-        psr2_switch_declaration: true
+        psr2_control_structure_declaration: false
+        psr2_switch_declaration: false
         no_space_between_concatenation_operator: true
         fix_php_opening_tag: true
         fix_linefeed: true
