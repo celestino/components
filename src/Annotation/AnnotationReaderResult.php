@@ -88,9 +88,9 @@ class AnnotationReaderResult implements IteratorAggregate {
      */
     public function getIterator() {
         return new ArrayIterator(array_merge(
-          $this->annotations[Annotation::TARGET_CLASS],
-          $this->annotations[Annotation::TARGET_METHOD],
-          $this->annotations[Annotation::TARGET_PROPERTY]
+            $this->annotations[Annotation::TARGET_CLASS],
+            $this->annotations[Annotation::TARGET_METHOD],
+            $this->annotations[Annotation::TARGET_PROPERTY]
         ));
     }
 
