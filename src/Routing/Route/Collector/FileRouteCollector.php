@@ -24,14 +24,17 @@
 
 namespace Brickoo\Component\Routing\Route\Collector;
 
+use ArrayIterator;
 use Brickoo\Component\Common\Collection;
 use Brickoo\Component\Routing\Route\RouteCollection;
 use Brickoo\Component\Common\Assert;
 use DirectoryIterator;
+use FilesystemIterator;
 use InvalidArgumentException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RegexIterator;
+use SplFileInfo;
 
 /**
  * FileCollector
@@ -126,13 +129,20 @@ class FileRouteCollector implements RouteCollector {
     private function getRecursiveFilePaths() {
         $collectedFilePaths = [];
 
-        $directory = new RecursiveDirectoryIterator($this->routingPath);
+        $directory = new RecursiveDirectoryIterator($this->routingPath, FilesystemIterator::FOLLOW_SYMLINKS);
         $iterator = new RecursiveIteratorIterator($directory);
-        foreach (new RegexIterator($iterator, "/^.*".$this->routingFilename."$/i", RegexIterator::MATCH) as $splFileInfo) {
+
+        $array = iterator_to_array($iterator);
+        usort($array, function(SplFileInfo $a, SplFileInfo $b) {
+            return $a->getPathname() < $b->getPathname();
+        });
+        $orderedIterator = new ArrayIterator($array);
+
+        foreach (new RegexIterator($orderedIterator, "~".$this->routingFilename."$~i", RegexIterator::MATCH) as $splFileInfo) {
             $collectedFilePaths[] = $splFileInfo->getRealPath();
         }
 
-        return array_reverse($collectedFilePaths);
+        return $collectedFilePaths;
     }
 
 }
