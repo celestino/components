@@ -39,20 +39,20 @@ interface RouteMatcher {
     /**
      * Check if a route collection matches the request at all.
      * @param \Brickoo\Component\Routing\Route\RouteCollection $routeCollection
-     * @return boolean check result
+     * @return boolean
      */
     public function matchesCollection(RouteCollection $routeCollection);
 
     /**
      * Checks if a route matches the complete request.
      * @param \Brickoo\Component\Routing\Route\Route $route
-     * @return boolean check result
+     * @return boolean
      */
     public function matchesRoute(Route $route);
 
     /**
      * Returns the routing parameters and values from the last matched route.
-     * @return array the parameters list as parameter/value pairs
+     * @return array
      */
     public function getRouteParameters();
 
