@@ -57,7 +57,7 @@ class RoutePathRegexGenerator {
      * @return string the regular expression for the route
      */
     public function generate(Route $route) {
-        $routePath  = $this->getRoutePath($route);
+        $routePath = $this->getRoutePath($route);
 
         $matches = [];
         if (preg_match_all("~(\\{(?<parameters>[\\w]+)\\})~", $routePath, $matches)) {
