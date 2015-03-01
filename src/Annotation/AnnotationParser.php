@@ -110,7 +110,7 @@ class AnnotationParser {
      * Returns the matches containing annotations.
      * @param string $annotationPrefix
      * @param string $docComment
-     * @return array the annotations matches
+     * @return array
      */
     private function getAnnotationsMatches($annotationPrefix, $docComment) {
         $matches = [];
@@ -121,15 +121,16 @@ class AnnotationParser {
                 preg_quote($annotationPrefix, "~"),
                 self::REGEX_CAPTURE_VALUES
             ),
-            $docComment, $matches
+            $docComment,
+            $matches
         );
         return $matches;
     }
 
     /**
-     * Returns an array list containing the annotation name and values.
+     * Returns a list containing the annotation name and values.
      * @param array $annotationsMatches
-     * @return array list of annotations
+     * @return array
      */
     private function getAnnotationList(array $annotationsMatches) {
         $annotationList = [];
@@ -147,7 +148,7 @@ class AnnotationParser {
     /**
      * Checks if the annotation is in the whitelist.
      * @param string $annotation
-     * @return boolean check result
+     * @return boolean
      */
     private function isAnnotationInWhitelist($annotation) {
         return in_array($annotation, $this->annotationWhitelist);
@@ -157,7 +158,7 @@ class AnnotationParser {
      * Returns the annotations values.
      * @param string $annotationIndex
      * @param array $annotationsMatches
-     * @return array the annotation values
+     * @return array
      */
     private function getAnnotationValues($annotationIndex, array $annotationsMatches) {
         $valuesString = $annotationsMatches[self::REGEX_CAPTURE_VALUES][$annotationIndex];
@@ -169,7 +170,7 @@ class AnnotationParser {
      * Returns the  parameters values pairs.
      * @param string $valuesString
      * @param string $valuesRegex
-     * @return array the parameters values pairs
+     * @return array
      */
     private function getParameterValues($valuesString, $valuesRegex) {
         $values = [];
@@ -200,7 +201,7 @@ class AnnotationParser {
     /**
      * Converts the value to appropriate type.
      * @param string $value
-     * @return mixed the annotation value
+     * @return mixed
      */
     private function convertValue($value) {
         $value = trim($value, "\"'");

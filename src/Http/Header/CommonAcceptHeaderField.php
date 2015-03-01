@@ -34,7 +34,7 @@ use Brickoo\Component\Common\Assert;
  * Implements common accept header field routines.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class CommonAcceptHeaderField  implements HttpHeaderField {
+class CommonAcceptHeaderField implements HttpHeaderField {
 
     use CommonHeaderFieldStructure;
 

@@ -135,7 +135,7 @@ class ArrayList implements IteratorAggregate, Countable {
      */
     public function indexOf($value) {
         $index = array_search($value, $this->items, true);
-        return ($index === false) ? -1 : $index;
+        return ($index === false) ? -1 : intval($index);
     }
 
     /**
