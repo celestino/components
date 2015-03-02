@@ -4,7 +4,7 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/brickoo/components/badges/coverage.png)](https://scrutinizer-ci.com/g/brickoo/components/)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/brickoo/components/badges/quality-score.png)](https://scrutinizer-ci.com/g/brickoo/components/)
 [![Latest Stable Version](https://img.shields.io/packagist/v/brickoo/components.svg)](https://packagist.org/packages/brickoo/components)
-[![License](https://img.shields.io/packagist/l/brickoo/components.svg)](https://packagist.org/packages/brickoo/components)
+[![License](https://img.shields.io/packagist/l/brickoo/components.svg)](http://www.brickoo.com/#license)
 
 Brickoo components are designed with simplicity in mind.
 
