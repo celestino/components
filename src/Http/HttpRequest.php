@@ -122,7 +122,7 @@ class HttpRequest {
     public function toString() {
         $queryString = (($queryString = $this->getQuery()->toString()) ? "?".$queryString : "");
 
-        $request  = sprintf("%s %s %s\r\n",
+        $request = sprintf("%s %s %s\r\n",
             $this->getMethod()->toString(),
             $this->getUri()->getPath().$queryString,
             $this->getVersion()->toString()

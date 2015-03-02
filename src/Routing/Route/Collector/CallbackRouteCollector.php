@@ -43,7 +43,7 @@ class CallbackRouteCollector implements RouteCollector {
      * @param callable $callback the callback must return a list of route collections
      */
     public function __construct(callable $callback) {
-        $this->callback  = $callback;
+        $this->callback = $callback;
     }
 
     /** {@inheritDoc} */

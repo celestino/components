@@ -49,7 +49,7 @@ class DependencyClassResolver extends DependencyResolver {
             $arguments = $this->collectArguments($injectionDefinition[0]->getArgumentsContainer());
             $dependency = $reflectionClass->newInstanceArgs($arguments);
         }
-        else{
+        else {
             $dependency = $reflectionClass->newInstance();
         }
 

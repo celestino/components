@@ -114,7 +114,7 @@ class DefinitionResolver {
                 self::TYPE_CLASS => (is_string($dependency) && class_exists($dependency)),
                 self::TYPE_UNSUPPORTED => true
             ],
-            function ($value) {return $value === true;}
+            function($value) {return $value === true;}
         );
 
         $types = array_keys($matchingTypes);

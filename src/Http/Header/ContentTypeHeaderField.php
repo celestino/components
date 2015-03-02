@@ -33,7 +33,7 @@ namespace Brickoo\Component\Http\Header;
  */
 class ContentTypeHeaderField extends GenericHeaderField {
 
-    const KEY_TYPE= "type";
+    const KEY_TYPE = "type";
     const KEY_CHARSET = "charset";
 
     /**
@@ -67,7 +67,7 @@ class ContentTypeHeaderField extends GenericHeaderField {
      * @return string
      */
     private function getHeaderPartValue($key) {
-        $matches =  [];
+        $matches = [];
         preg_match(
             sprintf(
                 "~^(?<%s>[a-z\\/\\+\\-\\*0-9]+)\\s*(;\\s*charset=(?<%s>.*))?$~i",
