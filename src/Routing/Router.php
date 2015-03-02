@@ -75,19 +75,11 @@ class Router {
         Assert::isString($routeName);
         Assert::isString($collectionName);
 
-        $route = null;
-        foreach ($this->getRouteCollections() as $routeCollection) {
-            if ($this->isCollectionResponsible($routeName, $collectionName, $routeCollection)) {
-                $route = $routeCollection->getRoute($routeName);
-                break;
-            }
-        }
-
-        if ($route === null || (!$route instanceof Route)) {
+        if (!($routeCollection = $this->getResponsibleRouteCollection($routeName, $collectionName))) {
             throw new RouteNotFoundException($routeName);
         }
 
-        return $route;
+        return $routeCollection->getRoute($routeName);
     }
 
     /**
@@ -158,6 +150,24 @@ class Router {
             }
         }
         return $matchingRoute;
+    }
+
+    /**
+     * Return the responsible route collection
+     * containing the searched route.
+     * @param string $routeName
+     * @param string $collectionName
+     * @return null|\Brickoo\Component\Routing\Route\RouteCollection
+     */
+    private function getResponsibleRouteCollection($routeName, $collectionName) {
+        $responsibleCollection = null;
+        foreach ($this->getRouteCollections() as $routeCollection) {
+            if ($this->isCollectionResponsible($routeName, $collectionName, $routeCollection)) {
+                $responsibleCollection = $routeCollection;
+                break;
+            }
+        }
+        return $responsibleCollection;
     }
 
     /**

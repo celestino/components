@@ -44,6 +44,7 @@ class RouterTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Routing\Router::__construct
      * @covers Brickoo\Component\Routing\Router::getRoute
+     * @covers Brickoo\Component\Routing\Router::getResponsibleRouteCollection
      * @covers Brickoo\Component\Routing\Router::getRouteCollections
      * @covers Brickoo\Component\Routing\Router::isCollectionResponsible
      */
@@ -64,6 +65,7 @@ class RouterTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Routing\Router::getRoute
+     * @covers Brickoo\Component\Routing\Router::getResponsibleRouteCollection
      * @covers Brickoo\Component\Routing\Router::getRouteCollections
      * @covers Brickoo\Component\Routing\Exception\RouteNotFoundException
      * @expectedException \Brickoo\Component\Routing\Exception\RouteNotFoundException
@@ -79,6 +81,7 @@ class RouterTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Routing\Router::hasRoute
      * @covers Brickoo\Component\Routing\Router::getRoute
+     * @covers Brickoo\Component\Routing\Router::getResponsibleRouteCollection
      */
     public function testCheckIfRouteIsAvailable() {
         $route = new GenericRoute("unit.test.route", "/", "Controller");
