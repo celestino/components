@@ -38,14 +38,6 @@ class FilesystemLoggerTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Log\FilesystemLogger::__construct
-     * @expectedException \InvalidArgumentException
-     */
-    public function testConstructorInvalidDirectoryTypeThrowsException() {
-        new FilesystemLogger(["wrongType"]);
-    }
-
-    /**
-     * @covers Brickoo\Component\Log\FilesystemLogger::__construct
      * @covers \Brickoo\Component\Log\FilesystemLogger::log
      * @covers \Brickoo\Component\Log\FilesystemLogger::convertToLogMessage
      */
@@ -64,12 +56,14 @@ class FilesystemLoggerTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-    * @covers \Brickoo\Component\Log\FilesystemLogger::log
-    * @expectedException \InvalidArgumentException
-    */
-    public function testLogInvalidSeverityThrowsException() {
+     * @covers \Brickoo\Component\Log\FilesystemLogger::log
+     * @covers \Brickoo\Component\Log\FilesystemLogger::convertToLogMessage
+     * @covers \Brickoo\Component\Log\Exception\UnknownSeverityException
+     * @expectedException \Brickoo\Component\Log\Exception\UnknownSeverityException
+     */
+    public function testUnknownSeverityThrowsException() {
         $filesystemLogger = new FilesystemLogger(sys_get_temp_dir());
-        $filesystemLogger->log("message", "wrongType");
+        $filesystemLogger->log("message", 123);
     }
 
 }

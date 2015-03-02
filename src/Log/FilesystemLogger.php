@@ -25,6 +25,7 @@
 namespace Brickoo\Component\Log;
 
 use Brickoo\Component\Common\Assert;
+use Brickoo\Component\Log\Exception\UnknownSeverityException;
 
 /**
  * Filesystem
@@ -80,13 +81,15 @@ class FilesystemLogger implements Logger {
 
     /**
      * Converts the messages passed to one message containing the explained log severity.
-     * @todo throw exception if severity is unknown
      * @param array $messages the messages to convert
      * @param integer $severity the severity to explain for each message
      * @return string the packed log message
+     * @throws \Brickoo\Component\Log\Exception\UnknownSeverityException
      */
     private function convertToLogMessage(array $messages, $severity) {
-        Assert::isInteger($severity);
+        if (!isset($this->severityDescription[$severity])) {
+            throw new UnknownSeverityException($severity);
+        }
 
         $messagePrefix = sprintf("[%s][%s] ", date("Y-m-d H:i:s"), $this->severityDescription[$severity]);
         return $messagePrefix.implode(PHP_EOL.$messagePrefix, $messages).PHP_EOL;
