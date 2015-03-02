@@ -36,7 +36,10 @@ use PHPUnit_Framework_TestCase;
  */
 class TemporaryRedirectResponseTest extends PHPUnit_Framework_TestCase {
 
-    /** @covers Brickoo\Component\Http\Response\TemporaryRedirectResponse::__construct */
+    /**
+     * @covers Brickoo\Component\Http\Response\TemporaryRedirectResponse::__construct
+     * @covers Brickoo\Component\Http\Response\CommonRedirectStructure::getRedirectResponse
+     */
     public function testRedirectResponse() {
         $location = "http://brickoo.com/test";
         $response = new TemporaryRedirectResponse($location);

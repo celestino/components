@@ -39,17 +39,14 @@ use Brickoo\Component\Http\Header\GenericHeaderField;
  */
 class SeeOtherRedirectResponse extends HttpResponse {
 
+    use CommonRedirectStructure;
+
     /**
      * Class constructor.
      * @param string $location the redirect location
      */
     public function __construct($location) {
-        $this->inject(
-            (new HttpResponseBuilder())
-                ->setHttpStatus(new HttpStatus(HttpStatus::CODE_SEE_OTHER))
-                ->addHttpHeader(new GenericHeaderField("Location", $location))
-                ->build()
-        );
+        $this->inject($this->getRedirectResponse(HttpStatus::CODE_SEE_OTHER, $location));
     }
 
 }

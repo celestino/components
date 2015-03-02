@@ -24,29 +24,29 @@
 
 namespace Brickoo\Component\Http\Response;
 
-use Brickoo\Component\Http\HttpResponse;
 use Brickoo\Component\Http\HttpStatus;
 use Brickoo\Component\Http\HttpResponseBuilder;
 use Brickoo\Component\Http\Header\GenericHeaderField;
 
 /**
- * TemporaryRedirectResponse
+ * CommonRedirectStructure
  *
- * Implements a temporary redirect response.
- * Request method remain the same.
- * @link http://tools.ietf.org/html/rfc2616#section-10.3.8
+ * Implements a common redirect structure.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-class TemporaryRedirectResponse extends HttpResponse {
-
-    use CommonRedirectStructure;
+trait CommonRedirectStructure {
 
     /**
-     * Class constructor.
-     * @param String $location the redirect location
+     * Create redirect response.
+     * @param integer $status
+     * @param string $location the redirect location
+     * @return \Brickoo\Component\Http\HttpResponse
      */
-    public function __construct($location) {
-        $this->inject($this->getRedirectResponse(HttpStatus::CODE_TEMPORARY_REDIRECT, $location));
+    public function getRedirectResponse($status, $location) {
+        return (new HttpResponseBuilder())
+            ->setHttpStatus(new HttpStatus($status))
+            ->addHttpHeader(new GenericHeaderField("Location", $location))
+            ->build();
     }
 
 }

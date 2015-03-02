@@ -40,17 +40,14 @@ use Brickoo\Component\Http\Header\GenericHeaderField;
  */
 class PermanentlyRedirectResponse extends HttpResponse {
 
+    use CommonRedirectStructure;
+
     /**
      * Class constructor.
      * @param string $location the redirect location
      */
     public function __construct($location) {
-        $this->inject(
-            (new HttpResponseBuilder())
-                ->setHttpStatus(new HttpStatus(HttpStatus::CODE_MOVED_PERMANENTLY))
-                ->addHttpHeader(new GenericHeaderField("Location", $location))
-                ->build()
-        );
+        $this->inject($this->getRedirectResponse(HttpStatus::CODE_MOVED_PERMANENTLY, $location));
     }
 
 }

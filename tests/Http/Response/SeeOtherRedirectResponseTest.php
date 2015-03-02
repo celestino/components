@@ -36,7 +36,10 @@ use PHPUnit_Framework_TestCase;
  */
 class SeeOtherRedirectResponseTest extends PHPUnit_Framework_TestCase {
 
-    /** @covers Brickoo\Component\Http\Response\SeeOtherRedirectResponse::__construct */
+    /**
+     * @covers Brickoo\Component\Http\Response\SeeOtherRedirectResponse::__construct
+     * @covers Brickoo\Component\Http\Response\CommonRedirectStructure::getRedirectResponse
+     */
     public function testRedirectResponse() {
         $location = "http://brickoo.com/test";
         $response =  new SeeOtherRedirectResponse($location);
