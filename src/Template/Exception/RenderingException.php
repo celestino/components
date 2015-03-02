@@ -32,7 +32,6 @@ use Brickoo\Component\Template\Exception;
  * Exception thrown by a template during rendering.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class RenderingException extends Exception {
 
     /**

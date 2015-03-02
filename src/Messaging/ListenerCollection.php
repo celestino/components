@@ -34,7 +34,6 @@ use Brickoo\Component\Common\Assert;
  * Implements a listener collection.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ListenerCollection {
 
     /** @var array */

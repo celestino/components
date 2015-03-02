@@ -36,7 +36,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Http\Aggregator\HttpRequestUriAggregator
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HttpRequestUriAggregatorTest extends PHPUnit_Framework_TestCase {
 
     /**

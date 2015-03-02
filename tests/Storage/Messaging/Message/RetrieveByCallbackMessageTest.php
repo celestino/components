@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Storage\Messaging\Message\RetrieveByCallbackMessage
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class RetrieveByCallbackMessageTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Storage\Messaging\Message\RetrieveByCallbackMessage::__construct */

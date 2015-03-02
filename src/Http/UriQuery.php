@@ -33,7 +33,6 @@ use Brickoo\Component\Common\Assert;
  * Implements a http query parameters container.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class UriQuery extends Container {
 
     /**

@@ -36,7 +36,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Validation\Constraint\AndOrConstraint
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class AndOrConstraintTest extends PHPUnit_Framework_TestCase {
 
     /**

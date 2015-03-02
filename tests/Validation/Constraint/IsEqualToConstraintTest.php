@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Validation\IsEqualToConstraint
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class IsEqualToConstraintTest extends PHPUnit_Framework_TestCase {
 
     /**

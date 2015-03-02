@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Common\Registry
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class RegistryTest extends PHPUnit_Framework_TestCase {
 
     /**

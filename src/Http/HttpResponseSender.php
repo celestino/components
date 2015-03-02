@@ -33,7 +33,6 @@ use Brickoo\Component\Http\Exception\StatusCodeDoesNotAllowMessageBodyException;
  * Implements a default response sender using php output functions.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HttpResponseSender {
 
     /* @var string */

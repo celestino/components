@@ -32,7 +32,6 @@ use Brickoo\Component\Http\Exception;
  * Exception thrown if the http version is not valid.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class InvalidHttpVersionException extends Exception {
 
     /**

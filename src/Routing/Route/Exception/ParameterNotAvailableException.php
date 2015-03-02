@@ -32,7 +32,6 @@ use Brickoo\Component\Routing\Exception;
  * Exception thrown if trying to retrieve the value of a not available parameter.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ParameterNotAvailableException extends Exception {
 
     /**

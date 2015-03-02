@@ -34,7 +34,6 @@ use ReflectionClass;
  * @see Brickoo\Component\Annotation\AnnotationReflectionClassReader
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class AnnotationReflectionClassReaderTest extends PHPUnit_Framework_TestCase {
 
     /**

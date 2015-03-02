@@ -33,7 +33,6 @@ use Brickoo\Component\Common\Assert;
  * Describes the http version.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HttpVersion {
 
     /** http versions */

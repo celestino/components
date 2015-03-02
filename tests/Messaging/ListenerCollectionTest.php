@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Messaging\ListenerCollection
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ListenerCollectionTest extends PHPUnit_Framework_TestCase {
 
     /**

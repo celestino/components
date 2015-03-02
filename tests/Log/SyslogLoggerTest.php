@@ -36,7 +36,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Log\SyslogLogger
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class SyslogLoggerTest extends PHPUnit_Framework_TestCase {
 
     /**

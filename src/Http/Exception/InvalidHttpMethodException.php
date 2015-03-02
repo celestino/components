@@ -32,7 +32,6 @@ use Brickoo\Component\Http\Exception;
  * Exception thrown if the http method is not valid.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class InvalidHttpMethodException extends Exception {
 
     /**

@@ -33,7 +33,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Annotation\AnnotationParser
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class AnnotationParserTest extends PHPUnit_Framework_TestCase {
 
     /**

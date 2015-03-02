@@ -36,7 +36,6 @@ use ReflectionClass;
  * @see Brickoo\Component\Http\UriFactory
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class UriFactoryTest extends PHPUnit_Framework_TestCase {
 
     /**

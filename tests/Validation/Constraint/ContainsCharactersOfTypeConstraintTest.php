@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Validation\Constraint\ContainsCharactersOfTypeConstraint
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ContainsCharactersOfTypeConstraintTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Validation\Constraint\ContainsCharactersOfTypeConstraint::__construct */

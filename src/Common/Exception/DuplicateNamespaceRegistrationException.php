@@ -33,7 +33,6 @@ use Brickoo\Component\Common\Exception;
  * which has been already registered.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class DuplicateNamespaceRegistrationException extends Exception {
 
     /**

@@ -33,7 +33,6 @@ use Brickoo\Component\Common\Assert;
  * Implements the http status codes and phrases.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HttpStatusCode {
 
     const CODE_CONTINUE = 100;

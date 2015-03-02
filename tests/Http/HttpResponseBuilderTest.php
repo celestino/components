@@ -40,7 +40,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Http\HttpResponseBuilder-
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HttpResponseBuilderTest extends PHPUnit_Framework_TestCase {
 
     /**

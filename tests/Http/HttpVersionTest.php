@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Http\HttpVersion
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HttpVersionTest extends PHPUnit_Framework_TestCase {
 
     /**

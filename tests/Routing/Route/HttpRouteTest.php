@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Routing\Route\HttpRoute
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HttpRouteTest extends PHPUnit_Framework_TestCase {
 
     /**

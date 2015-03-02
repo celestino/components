@@ -32,7 +32,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Annotation\Definition\AnnotationParameterDefinition
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class AnnotationParameterDefinitionTest extends PHPUnit_Framework_TestCase {
 
     /**

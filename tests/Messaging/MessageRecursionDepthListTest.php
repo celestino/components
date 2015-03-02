@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Messaging\MessageRecursionDepthList
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class MessageRecursionDepthListTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Messaging\MessageRecursionDepthList::__construct */

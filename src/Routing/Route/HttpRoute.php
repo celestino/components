@@ -32,7 +32,6 @@ use Brickoo\Component\Common\Assert;
  * Implements a http route which can be configured to match http requests.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HttpRoute extends GenericRoute {
 
     /** @var string */

@@ -32,7 +32,6 @@ use Brickoo\Component\Messaging\Exception;
  * thrown if trying to retrieve unavailable listeners for an message.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ListenersNotAvailableException extends Exception {
 
     /**

@@ -39,7 +39,6 @@ use Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint;
  * @link http://tools.ietf.org/html/rfc2616#section-10.2.1
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class SuccessfullyResponse extends HttpResponse {
 
     /**

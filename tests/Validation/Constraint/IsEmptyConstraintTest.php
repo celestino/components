@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Validation\IsEmptyConstraint
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class IsEmptyConstraintTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Validation\Constraint\IsEmptyConstraint::matches */

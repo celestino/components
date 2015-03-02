@@ -33,7 +33,6 @@ use Brickoo\Component\Common\Assert;
  * Object wrapper for the PHP session handling.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class SessionManager {
 
     /** @var boolean */

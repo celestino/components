@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Http\Uri
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class UriTest extends PHPUnit_Framework_TestCase {
 
     /**

@@ -38,7 +38,6 @@ use Brickoo\Component\Http\Header\GenericHeaderField;
  * @link http://tools.ietf.org/html/rfc2616#section-10.3.2
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class PermanentlyRedirectResponse extends HttpResponse {
 
     /**

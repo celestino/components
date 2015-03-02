@@ -32,7 +32,6 @@ use Brickoo\Component\Common\Assert;
  * Implements a generic message listener.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class MessageListener implements Listener {
 
     /** @var string */

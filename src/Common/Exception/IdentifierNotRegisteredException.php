@@ -33,7 +33,6 @@ use Brickoo\Component\Common\Exception;
  * @see Brickoo\Component\Common\Registry:getRegistred
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class IdentifierNotRegisteredException extends Exception {
 
     /**

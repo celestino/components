@@ -30,7 +30,6 @@ namespace Brickoo\Component\Http;
  * Implements a http request.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HttpRequest {
 
     /** @var \Brickoo\Component\Http\HttpMessage */

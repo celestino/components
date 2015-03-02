@@ -30,7 +30,6 @@ namespace Brickoo\Component\Http;
  * Implements a http response.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HttpResponse {
 
     /** @var \Brickoo\Component\Http\HttpStatus */

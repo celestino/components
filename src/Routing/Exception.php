@@ -31,5 +31,4 @@ namespace Brickoo\Component\Routing;
  * Used to catch all exceptions from this component.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class Exception extends \Exception {}

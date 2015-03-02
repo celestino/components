@@ -35,7 +35,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Http\Response\SuccessfullyResponse
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class SuccessfullyResponseTest extends PHPUnit_Framework_TestCase {
 
     /**

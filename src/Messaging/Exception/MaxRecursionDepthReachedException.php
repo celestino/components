@@ -32,7 +32,6 @@ use Brickoo\Component\Messaging\Exception;
  * thrown if an infinite message loop is detected.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class MaxRecursionDepthReachedException extends Exception {
 
     /**

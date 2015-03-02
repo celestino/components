@@ -35,7 +35,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Annotation\Definition\AnnotationDefinitionTargetFilter
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class AnnotationDefinitionTargetFilterTest extends PHPUnit_Framework_TestCase {
 
     /**

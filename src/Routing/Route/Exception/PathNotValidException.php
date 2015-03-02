@@ -32,7 +32,6 @@ use Brickoo\Component\Routing\Exception;
  * Exception thrown if the uri builder could not generate a valid route path.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class PathNotValidException extends Exception {
 
     /**

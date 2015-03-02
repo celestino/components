@@ -32,7 +32,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Annotation\AnnotationReaderResultValidator
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class AnnotationReaderResultValidatorTest extends PHPUnit_Framework_TestCase {
 
     /**

@@ -34,7 +34,6 @@ use Brickoo\Component\Common\Exception;
  * @see Brickoo\Component\Common\Locker::lock
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class LockFailedException extends Exception {
 
     /**

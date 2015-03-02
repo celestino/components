@@ -32,7 +32,6 @@ use Brickoo\Component\Http\Exception;
  * Exception thrown if the form file could not be found.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HttpFormFileNotFoundException extends Exception {
 
     /**

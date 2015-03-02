@@ -32,7 +32,6 @@ use Brickoo\Component\Common\Exception;
  * Exception thrown by the Registry class if trying to register an registered identifier.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class DuplicateRegistrationException extends Exception {
 
     /**

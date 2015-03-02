@@ -36,7 +36,6 @@ use Brickoo\Component\Common\Assert;
  * Implements an iterable route collection.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class RouteCollection implements IteratorAggregate {
 
     /** @var string */

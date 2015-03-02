@@ -36,7 +36,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Validation\Validator\ConstraintValidator
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ConstraintValidatorTest extends PHPUnit_Framework_TestCase {
 
     /**

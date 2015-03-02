@@ -32,7 +32,6 @@ use InvalidArgumentException;
  * Assert the type of an argument value or values.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class Assert {
 
     /** @var boolean */

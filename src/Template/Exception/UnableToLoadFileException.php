@@ -32,7 +32,6 @@ use Brickoo\Component\Template\Exception;
  * Exception thrown by a template if a file could not be loaded.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class UnableToLoadFileException extends Exception {
 
     /**

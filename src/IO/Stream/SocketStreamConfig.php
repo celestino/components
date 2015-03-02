@@ -32,7 +32,6 @@ use Brickoo\Component\Common\Assert;
  * Implements a socket stream configuration.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class SocketStreamConfig {
 
     /** @var string */

@@ -34,7 +34,6 @@ use Brickoo\Component\Common\Exception;
  * @see Brickoo\Component\Common\Registry
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ReadonlyModeException extends Exception {
 
     /**

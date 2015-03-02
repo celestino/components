@@ -32,7 +32,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Annotation\AnnotationReaderResultPrinter
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class AnnotationReaderResultPrinterTest extends PHPUnit_Framework_TestCase {
 
     /**

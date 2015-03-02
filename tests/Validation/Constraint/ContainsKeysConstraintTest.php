@@ -35,7 +35,6 @@ require_once "Fixture/TraversableFixture.php";
  * @see Brickoo\Component\Validation\Constraint\ContainsKeysConstraint
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ContainsKeysConstraintTest extends \PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Validation\Constraint\ContainsKeysConstraint::__construct */

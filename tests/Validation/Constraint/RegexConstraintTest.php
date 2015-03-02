@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Validation\RegexConstraint
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class RegexConstraintTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Validation\Constraint\RegexConstraint::__construct */

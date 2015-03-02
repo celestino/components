@@ -36,7 +36,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Http\HttpRequest
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HttpRequestTest extends PHPUnit_Framework_TestCase {
 
     /**

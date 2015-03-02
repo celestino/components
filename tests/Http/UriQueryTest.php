@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Http\UriQuery
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class UriQueryTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Http\UriQuery::toString */

@@ -30,7 +30,6 @@ namespace Brickoo\Component\Http;
  * Implements a http message.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HttpMessage {
 
     /** @var \Brickoo\Component\Http\HttpMessageHeader */

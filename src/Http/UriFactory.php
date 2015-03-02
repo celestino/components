@@ -32,7 +32,6 @@ use Brickoo\Component\Http\Aggregator\UriAggregator;
  * Implements a http uri factory.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class UriFactory {
 
     /**

@@ -35,7 +35,6 @@ use Brickoo\Component\Http\HttpResponseBuilder;
  * @link http://tools.ietf.org/html/rfc2616#section-10.5.1
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class InternalServerErrorResponse extends HttpResponse {
 
     public function __construct() {

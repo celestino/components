@@ -32,7 +32,6 @@ use Brickoo\Component\Http\Exception;
  * Exception thrown if the cookie field value is invalid.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class InvalidCookieValueException extends Exception {
 
     /**

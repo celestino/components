@@ -32,7 +32,6 @@ use Brickoo\Component\Routing\Exception;
  * Exception thrown if the uri builder is missing required parameters to generate the route path.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class RouteRequiredParametersMissingException extends Exception {
 
     /**

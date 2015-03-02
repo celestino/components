@@ -32,7 +32,6 @@ use Brickoo\Component\Routing\Exception;
  * Exception thrown if the route could not be found.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class RouteNotFoundException extends Exception {
 
     /**

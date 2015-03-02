@@ -35,7 +35,6 @@ use Brickoo\Component\Http\HttpResponseBuilder;
  * @link http://tools.ietf.org/html/rfc2616#section-10.4.5
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class NotFoundResponse extends HttpResponse {
 
     public function __construct() {

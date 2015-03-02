@@ -42,7 +42,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Http\HttpResponse
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HttpResponseTest extends PHPUnit_Framework_TestCase {
 
     /**

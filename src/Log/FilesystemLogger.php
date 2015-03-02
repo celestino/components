@@ -32,7 +32,6 @@ use Brickoo\Component\Common\Assert;
  * Logs the messages to the filesystem.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class FilesystemLogger implements Logger {
 
     /** @var array */

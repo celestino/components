@@ -30,7 +30,6 @@ namespace Brickoo\Component\Http\Header;
  * Implements an accept header field.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class AcceptHeaderField extends CommonAcceptHeaderField {
 
     /**

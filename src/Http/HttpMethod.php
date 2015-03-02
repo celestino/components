@@ -33,7 +33,6 @@ use Brickoo\Component\Common\Assert;
  * Describes a http method.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HttpMethod {
 
     /** http methods */

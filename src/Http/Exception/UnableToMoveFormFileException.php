@@ -32,7 +32,6 @@ use Brickoo\Component\Http\Exception;
  * Exception thrown if the form file could not be moved to an other location.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class UnableToMoveFormFileException extends Exception {
 
     /**

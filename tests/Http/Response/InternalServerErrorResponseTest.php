@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Http\Response\InternalServerErrorResponse
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class InternalServerErrorResponseTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Http\Response\InternalServerErrorResponse::__construct */

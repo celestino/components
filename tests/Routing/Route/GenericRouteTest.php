@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Routing\Route\GenericRoute
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class GenericRouteTest extends PHPUnit_Framework_TestCase {
 
     /**

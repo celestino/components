@@ -33,7 +33,6 @@ use Brickoo\Component\Common\Assert;
  * Implements a list for handling message recursion depth.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class MessageRecursionDepthList extends Container {
 
     /** @var integer */

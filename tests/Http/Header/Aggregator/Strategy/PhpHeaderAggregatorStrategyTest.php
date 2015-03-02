@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Http\Header\Aggregator\PhpHeaderFieldsAggregatorStrategy
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class PhpHeaderAggregatorStrategyTest extends PHPUnit_Framework_TestCase {
 
     /**

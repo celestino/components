@@ -37,7 +37,6 @@ use Brickoo\Component\Http\Header\GenericHeaderField;
  * @link http://tools.ietf.org/html/rfc2616#section-10.3.4
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class SeeOtherRedirectResponse extends HttpResponse {
 
     /**

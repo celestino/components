@@ -30,5 +30,4 @@ namespace Brickoo\Tests\Component\Autoloader\Assets;
  * Test class for the NamespaceAutoloader.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class NamespaceLoadableClass {}

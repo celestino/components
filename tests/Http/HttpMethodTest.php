@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Http\HttpMethod
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HttpMethodTest extends PHPUnit_Framework_TestCase {
 
     /**

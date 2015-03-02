@@ -33,7 +33,6 @@ use Brickoo\Component\Http\Exception;
  * which the status code does not allow.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class StatusCodeDoesNotAllowMessageBodyException extends Exception {
 
     /**

@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Http\Header\SetCookieHeaderField
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class SetCookieHeaderFieldTest extends PHPUnit_Framework_TestCase {
 
     /**

@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Storage\Messaging\Message\FlushMessage
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class FlushMessageTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Storage\Messaging\Message\FlushMessage::__construct */

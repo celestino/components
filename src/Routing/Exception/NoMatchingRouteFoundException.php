@@ -32,7 +32,6 @@ use Brickoo\Component\Routing\Exception;
  * Exception thrown if the router does not found a matching route.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class NoMatchingRouteFoundException extends Exception {
 
     /**

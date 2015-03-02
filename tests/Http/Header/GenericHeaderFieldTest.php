@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Http\Header\GenericHeaderField
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class GenericHeaderFieldTest extends PHPUnit_Framework_TestCase {
 
     /**

@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Http\Header\ContentTypeHeaderField
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ContentTypeHeaderFieldTest extends PHPUnit_Framework_TestCase {
 
     /**

@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Http\HttpStatus-
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HttpStatusTest extends PHPUnit_Framework_TestCase {
 
     /**

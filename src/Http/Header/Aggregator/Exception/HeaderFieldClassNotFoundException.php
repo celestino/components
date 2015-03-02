@@ -32,7 +32,6 @@ use Brickoo\Component\Http\Exception;
  * Exception thrown if a header class could not be found.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HeaderFieldClassNotFoundException extends Exception {
 
     /**

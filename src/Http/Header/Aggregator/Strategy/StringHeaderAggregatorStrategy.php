@@ -32,7 +32,6 @@ use Brickoo\Component\Common\Assert;
  * Implements a http header fields aggregator Strategy based on a header string.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class StringHeaderAggregatorStrategy implements HeaderFieldsAggregatorStrategy {
 
     /** @var string */

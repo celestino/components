@@ -32,7 +32,6 @@ use Brickoo\Component\Template\Exception;
  * Exception thrown by a template during xml transformation.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class XmlTransformationException extends Exception {
 
     /**

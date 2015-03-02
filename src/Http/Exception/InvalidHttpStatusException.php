@@ -32,7 +32,6 @@ use Brickoo\Component\Http\Exception;
  * Exception thrown if the http status is not valid or unknown.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class InvalidHttpStatusException extends Exception {
 
     /**

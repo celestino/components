@@ -30,7 +30,6 @@ namespace Brickoo\Component\Session\Exception;
  * Exception thrown if trying to execute a task after the session has been started.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class SessionAlreadyStartedException extends \Exception {
 
     /**

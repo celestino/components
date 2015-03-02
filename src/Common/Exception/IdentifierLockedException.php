@@ -32,7 +32,6 @@ use Brickoo\Component\Common\Exception;
  * Exception thrown by the Registry class if trying to change an locked identifier.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class IdentifierLockedException extends Exception {
 
     /**

@@ -30,7 +30,6 @@ namespace Brickoo\Component\Http\Header\Aggregator\Strategy;
  * Implements a http header fields aggregator strategy based on the global server values.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class PhpHeaderFieldsAggregatorStrategy implements HeaderFieldsAggregatorStrategy {
 
     /** @var array */

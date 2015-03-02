@@ -32,7 +32,6 @@ use Brickoo\Component\Http\Exception;
  * Exception thrown if a dependency is missing during build process.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class MissingBuilderDependencyException extends Exception {
 
     /**

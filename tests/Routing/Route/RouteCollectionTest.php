@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Routing\Route\RouteCollection
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class RouteCollectionTest extends PHPUnit_Framework_TestCase {
 
     /**

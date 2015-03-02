@@ -35,7 +35,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Session\SessionManager
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class SessionManagerTest extends PHPUnit_Framework_TestCase {
 
     /**

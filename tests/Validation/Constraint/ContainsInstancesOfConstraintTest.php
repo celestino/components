@@ -36,7 +36,6 @@ require_once "Fixture/TraversableInstancesFixture.php";
  * @see Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ContainsInstancesOfConstraintTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Validation\Constraint\ContainsInstancesOfConstraint::__construct */

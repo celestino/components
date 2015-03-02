@@ -32,7 +32,6 @@ use Brickoo\Component\Http\Exception;
  * Exception thrown if the form field could not be found.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HttpFormFieldNotFoundException extends Exception {
 
     /**

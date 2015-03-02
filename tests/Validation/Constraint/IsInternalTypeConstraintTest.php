@@ -33,7 +33,6 @@ use PHPUnit_Framework_TestCase;
  * Test suite for the IsInternalTypeConstraint class.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class IsInternalTypeConstraintTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Validation\Constraint\IsInternalTypeConstraint::__construct */

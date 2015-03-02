@@ -33,7 +33,6 @@ use Brickoo\Component\Http\Exception;
  * a corresponding status phrase.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class StatusCodeUnknownException extends Exception {
 
     /**

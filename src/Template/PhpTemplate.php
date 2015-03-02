@@ -33,7 +33,6 @@ use Brickoo\Component\Common\Assert;
  * Implements a PHP based template.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class PhpTemplate implements Template {
 
     /** @var string */

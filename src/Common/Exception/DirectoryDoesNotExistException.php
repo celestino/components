@@ -32,7 +32,6 @@ use Brickoo\Component\Common\Exception;
  * Exception thrown if trying to access a directory which does not exist.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class DirectoryDoesNotExistException extends Exception {
 
     /**

@@ -33,7 +33,6 @@ use UnexpectedValueException;
  * Implements a generic route.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class GenericRoute implements Route {
 
     /** @var string */

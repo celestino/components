@@ -34,7 +34,6 @@ use InvalidArgumentException;
  * Implements a validator for a value against constraint.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ConstraintValidator implements Validator {
 
     /** @var \Brickoo\Component\Validation\Constraint\AndOrConstraint */

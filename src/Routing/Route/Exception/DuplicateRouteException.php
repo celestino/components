@@ -32,7 +32,6 @@ use Brickoo\Component\Routing\Exception;
  * Exception thrown if trying to create a route with a name already used.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class DuplicateRouteException extends Exception {
 
     /**

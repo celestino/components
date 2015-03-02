@@ -36,7 +36,6 @@ use Brickoo\Component\Common\Assert;
  * Filter annotation definition by its target.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class AnnotationDefinitionTargetFilter {
 
     /** @var \Brickoo\Component\Common\Collection */

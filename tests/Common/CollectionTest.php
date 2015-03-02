@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Common\Collection
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class CollectionTest extends PHPUnit_Framework_TestCase {
 
     /**

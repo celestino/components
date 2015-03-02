@@ -35,7 +35,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Routing\Route\RouteUriBuilder
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class RouteUriBuilderTest extends PHPUnit_Framework_TestCase {
 
     /**

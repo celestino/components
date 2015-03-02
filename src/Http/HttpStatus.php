@@ -33,7 +33,6 @@ use Brickoo\Component\Common\Assert;
  * Describes the http status.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HttpStatus extends HttpStatusCode {
 
     /** @var integer */

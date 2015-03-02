@@ -35,7 +35,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Storage\Messaging\Message\StorageMessage
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class StorageMessageTest extends PHPUnit_Framework_TestCase {
 
     /**

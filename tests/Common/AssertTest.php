@@ -36,7 +36,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Common\Assert
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class ArgumentTest extends PHPUnit_Framework_TestCase {
 
     /** {@inheritdoc} */

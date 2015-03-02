@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Http\Header\Aggregator\StringHeaderAggregatorStrategy
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class StringHeaderAggregatorStrategyTest extends PHPUnit_Framework_TestCase {
 
     /**

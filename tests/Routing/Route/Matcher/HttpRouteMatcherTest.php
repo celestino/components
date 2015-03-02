@@ -39,7 +39,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class HttpRouteMatcherTest extends PHPUnit_Framework_TestCase {
 
     /**

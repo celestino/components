@@ -35,7 +35,6 @@ use Brickoo\Component\Common\Assert;
  * Implements an uri builder to create a route matching uri.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class RouteUriBuilder {
 
     /** @var string */

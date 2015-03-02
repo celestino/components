@@ -34,7 +34,6 @@ use PHPUnit_Framework_TestCase;
  * @see Brickoo\Component\Http\Response\PermanentlyRedirectResponse
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-
 class PermanentlyRedirectResponseTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Http\Response\PermanentlyRedirectResponse::__construct */
