@@ -58,7 +58,7 @@ class BasicRouteMatcherTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Routing\Route\Matcher\BasicRouteMatcher::matchesRoute
-     * @covers Brickoo\Component\Routing\Route\Matcher\CommonRouteMatcherRoutines::isMatchingRoute
+     * @covers Brickoo\Component\Routing\Route\Matcher\CommonRouteMatcherStructure::isMatchingRoute
      */
     public function testRequestPathMatchesRoute() {
         $routeHttpMatcher = new BasicRouteMatcher(
@@ -71,8 +71,8 @@ class BasicRouteMatcherTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Routing\Route\Matcher\BasicRouteMatcher::getRouteParameters
-     * @covers Brickoo\Component\Routing\Route\Matcher\CommonRouteMatcherRoutines::collectRouteParameters
-     * @covers Brickoo\Component\Routing\Route\Matcher\CommonRouteMatcherRoutines::getRuleCorrespondingRouteParameter
+     * @covers Brickoo\Component\Routing\Route\Matcher\CommonRouteMatcherStructure::collectRouteParameters
+     * @covers Brickoo\Component\Routing\Route\Matcher\CommonRouteMatcherStructure::getRuleCorrespondingRouteParameter
      */
     public function testGetRouteParametersWithPageAsDefaultValue() {
         $expectedParameters = [
@@ -95,8 +95,8 @@ class BasicRouteMatcherTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Routing\Route\Matcher\BasicRouteMatcher::getRouteParameters
-     * @covers Brickoo\Component\Routing\Route\Matcher\CommonRouteMatcherRoutines::collectRouteParameters
-     * @covers Brickoo\Component\Routing\Route\Matcher\CommonRouteMatcherRoutines::getRuleCorrespondingRouteParameter
+     * @covers Brickoo\Component\Routing\Route\Matcher\CommonRouteMatcherStructure::collectRouteParameters
+     * @covers Brickoo\Component\Routing\Route\Matcher\CommonRouteMatcherStructure::getRuleCorrespondingRouteParameter
      */
     public function testGetRouteRulesParametersWithoutRulesAreEmpty() {
         $expectedParameters = [];

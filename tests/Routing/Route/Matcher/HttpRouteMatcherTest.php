@@ -60,7 +60,7 @@ class HttpRouteMatcherTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher::matchesRoute
      * @covers Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher::isAllowedRoute
      * @covers Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher::doesPropertyMatch
-     * @covers Brickoo\Component\Routing\Route\Matcher\CommonRouteMatcherRoutines::isMatchingRoute
+     * @covers Brickoo\Component\Routing\Route\Matcher\CommonRouteMatcherStructure::isMatchingRoute
      */
     public function testRequestPathMatchesRoute() {
         $routeHttpMatcher = new HttpRouteMatcher(
@@ -87,8 +87,8 @@ class HttpRouteMatcherTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher::getRouteParameters
-     * @covers Brickoo\Component\Routing\Route\Matcher\CommonRouteMatcherRoutines::collectRouteParameters
-     * @covers Brickoo\Component\Routing\Route\Matcher\CommonRouteMatcherRoutines::getRuleCorrespondingRouteParameter
+     * @covers Brickoo\Component\Routing\Route\Matcher\CommonRouteMatcherStructure::collectRouteParameters
+     * @covers Brickoo\Component\Routing\Route\Matcher\CommonRouteMatcherStructure::getRuleCorrespondingRouteParameter
      */
     public function testGetRouteParametersWithPageAsDefaultValue() {
         $expectedParameters = [
@@ -111,8 +111,8 @@ class HttpRouteMatcherTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Routing\Route\Matcher\HttpRouteMatcher::getRouteParameters
-     * @covers Brickoo\Component\Routing\Route\Matcher\CommonRouteMatcherRoutines::collectRouteParameters
-     * @covers Brickoo\Component\Routing\Route\Matcher\CommonRouteMatcherRoutines::getRuleCorrespondingRouteParameter
+     * @covers Brickoo\Component\Routing\Route\Matcher\CommonRouteMatcherStructure::collectRouteParameters
+     * @covers Brickoo\Component\Routing\Route\Matcher\CommonRouteMatcherStructure::getRuleCorrespondingRouteParameter
      */
     public function testGetRouteRulesParametersWithoutRulesAreEmpty() {
         $expectedParameters = [];

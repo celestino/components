@@ -31,13 +31,13 @@ use Brickoo\Component\Routing\Route\RouteCollection;
 use Brickoo\Component\Routing\Route\RoutePathRegexGenerator;
 
 /**
- * CommonRouteMatcherRoutines
+ * CommonRouteMatcherStructure
  *
  * Implementation common http route matcher routines.
  * Following DRY principle.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
-trait CommonRouteMatcherRoutines {
+trait CommonRouteMatcherStructure {
 
     /** @var array */
     private $pathParameters;

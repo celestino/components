@@ -40,7 +40,7 @@ use Brickoo\Component\Common\Assert;
  */
 class BasicRouteMatcher implements RouteMatcher {
 
-    use CommonRouteMatcherRoutines;
+    use CommonRouteMatcherStructure;
 
     /** @var string */
     private $matchingPath;

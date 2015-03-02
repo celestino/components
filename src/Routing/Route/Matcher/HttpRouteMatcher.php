@@ -38,7 +38,7 @@ use Brickoo\Component\Routing\Route\RoutePathRegexGenerator;
  */
 class HttpRouteMatcher implements RouteMatcher {
 
-    use CommonRouteMatcherRoutines;
+    use CommonRouteMatcherStructure;
 
     /** @var \Brickoo\Component\Http\HttpRequest */
     private $request;
