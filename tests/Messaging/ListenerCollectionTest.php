@@ -40,6 +40,9 @@ class ListenerCollectionTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Messaging\ListenerCollection::__construct
      * @covers Brickoo\Component\Messaging\ListenerCollection::add
+     * @covers Brickoo\Component\Messaging\ListenerCollection::get
+     * @covers Brickoo\Component\Messaging\ListenerCollection::has
+     * @covers Brickoo\Component\Messaging\ListenerCollection::remove
      */
     public function testCommonListenerRoutines() {
         $listener = new MessageListener("unit-test", 100, function() {});
