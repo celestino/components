@@ -26,6 +26,7 @@ namespace Brickoo\Tests\Component\Common;
 
 use Brickoo\Component\Common\Collection;
 use PHPUnit_Framework_TestCase;
+use stdClass;
 
 /**
  * CollectionTest
@@ -75,6 +76,14 @@ class CollectionTest extends PHPUnit_Framework_TestCase {
         $collection = new Collection(["a", "b", "c"]);
         $this->assertEquals("a", $collection->shift());
         $this->assertEquals("c", $collection->pop());
+    }
+
+    /** @covers Brickoo\Component\Common\Collection::contains */
+    public function testCollectionContainsItem() {
+        $expectedObject = new stdClass();
+        $collection = new Collection([$expectedObject, new stdClass()]);
+        $this->assertTrue($collection->contains($expectedObject));
+        $this->assertFalse($collection->contains(new stdClass()));
     }
 
     /**

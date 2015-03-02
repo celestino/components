@@ -93,6 +93,17 @@ class Collection implements \IteratorAggregate, \Countable {
     }
 
     /**
+     * Check if the collection contains the item.
+     * @param mixed $item
+     * @throws \Brickoo\Component\Common\Exception\InvalidTypeException
+     * @return boolean
+     */
+    public function contains($item) {
+        $this->checkItemType($item);
+        return (array_search($item, $this->items, true) !== false);
+    }
+
+    /**
      * Add an item into the collection.
      * @param mixed $item
      * @throws \Brickoo\Component\Common\Exception\InvalidTypeException
