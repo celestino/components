@@ -214,7 +214,7 @@ class ArrayList implements IteratorAggregate, Countable {
      * @return string
      */
     public function toString() {
-        return implode("\n" ,array_map(
+        return implode("\n", array_map(
             function($value) {
                 if (!is_scalar($value)) {
                     return gettype($value);

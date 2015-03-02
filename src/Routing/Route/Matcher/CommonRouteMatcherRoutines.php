@@ -65,7 +65,7 @@ trait CommonRouteMatcherRoutines {
         }
 
         $routeParameters = [];
-        foreach(array_keys($route->getRules()) as $ruleParameter) {
+        foreach (array_keys($route->getRules()) as $ruleParameter) {
             $routeParameters[$ruleParameter] = $this->getRuleCorrespondingRouteParameter($ruleParameter, $route);
         }
         return $routeParameters;

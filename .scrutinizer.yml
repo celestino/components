@@ -4,6 +4,11 @@ filter:
         - 'tests/*'
 coding_style:
     php:
+        spaces:
+            around_operators:
+                concatenation: false
+            other:
+                after_type_cast: false
         braces:
             classes_functions:
                 class: end-of-line

@@ -83,7 +83,7 @@ class HttpResponseSender {
      * @return \Brickoo\Component\Http\HttpResponseSender
      */
     private function sendMessageHeader(HttpMessageHeader $messageHeader) {
-        foreach($messageHeader as $headerField) {
+        foreach ($messageHeader as $headerField) {
             call_user_func($this->headerFunction,
                 sprintf("%s: %s", $headerField->getName(), $headerField->getValue())
             );

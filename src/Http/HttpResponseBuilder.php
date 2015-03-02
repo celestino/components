@@ -146,7 +146,7 @@ class HttpResponseBuilder {
      * @return HttpMessage
      */
     public function getHttpMessage() {
-        if(!$this->httpMessage instanceof HttpMessage) {
+        if (!$this->httpMessage instanceof HttpMessage) {
             $this->httpMessage = new HttpMessage(
                 $this->getHttpMessageHeader(),
                 $this->getHttpMessageBody()

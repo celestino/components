@@ -185,7 +185,7 @@ class Autoloader {
         $chosenPath = "";
         $chosenNamespace = "";
 
-        foreach($this->namespaces as $namespace => $path) {
+        foreach ($this->namespaces as $namespace => $path) {
             if ((strpos($className, $namespace) === 0)
                 && strlen($chosenNamespace) < strlen($namespace)) {
                     $chosenNamespace = $namespace;

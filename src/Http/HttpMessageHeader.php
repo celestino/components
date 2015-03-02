@@ -76,7 +76,7 @@ class HttpMessageHeader extends Container {
         $headerString = "";
 
         $headerFields = $this->normalize($this->toArray());
-        foreach($headerFields as $headerField) {
+        foreach ($headerFields as $headerField) {
             $headerString .= $headerField->toString()."\r\n";
         }
 

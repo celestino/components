@@ -76,7 +76,7 @@ class Registry extends Locker {
             $registrations = [$registrations];
         }
 
-        foreach($registrations as $identifier => $value) {
+        foreach ($registrations as $identifier => $value) {
             $this->register($identifier, $value);
         }
         return $this;
