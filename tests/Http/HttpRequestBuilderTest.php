@@ -50,6 +50,7 @@ class HttpRequestBuilderTest extends PHPUnit_Framework_TestCase {
      * @covers Brickoo\Component\Http\HttpRequestBuilder::buildUri
      * @covers Brickoo\Component\Http\HttpRequestBuilder::build
      * @covers Brickoo\Component\Http\HttpRequestBuilder::getServerVariable
+     * @covers Brickoo\Component\Http\HttpRequestBuilder::checkMessageHeaderDependency
      */
     public function testHttpRequestBuild() {
         $serverVars = [
@@ -101,6 +102,7 @@ class HttpRequestBuilderTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Http\HttpRequestBuilder::buildMessage
+     * @covers Brickoo\Component\Http\HttpRequestBuilder::checkMessageHeaderDependency
      * @covers Brickoo\Component\Http\Exception\MissingBuilderDependencyException
      * @expectedException \Brickoo\Component\Http\Exception\MissingBuilderDependencyException
      */
@@ -121,6 +123,7 @@ class HttpRequestBuilderTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Brickoo\Component\Http\HttpRequestBuilder::buildUri
+     * @covers Brickoo\Component\Http\HttpRequestBuilder::checkMessageHeaderDependency
      * @covers Brickoo\Component\Http\Exception\MissingBuilderDependencyException
      * @expectedException \Brickoo\Component\Http\Exception\MissingBuilderDependencyException
      */
