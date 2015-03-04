@@ -94,12 +94,16 @@ class OutputBufferedPrinterTest extends PHPUnit_Framework_TestCase {
         $this->expectOutputString($text);
     }
 
-    /** @covers Brickoo\Component\IO\Printing\BufferedPrinter::doPrint */
-    public function testBufferedContentIsNotPrinted() {
+    /**
+     * @covers Brickoo\Component\IO\Printing\BufferedPrinter::doPrint
+     * @covers Brickoo\Component\IO\Printing\BufferedPrinter::flushBuffer
+     * @covers Brickoo\Component\IO\Printing\OutputBufferedPrinter::__destruct
+     */
+    public function testBufferedContentIsPrintedOnDestruction() {
         $text = "Test case output";
         $printer = new OutputBufferedPrinter(strlen($text));
         $printer->doPrint($text);
-        $this->expectOutputString("");
+        $this->expectOutputString($text);
     }
 
 }

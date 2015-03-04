@@ -43,6 +43,11 @@ class OutputBufferedPrinter extends BufferedPrinter {
         $this->initializeBuffer($bufferLength);
     }
 
+    /** Flush buffer on destruction */
+    public function __destruct() {
+        $this->flushBuffer();
+    }
+
     /** {@inheritdoc} */
     protected function output($content) {
         echo $content;
