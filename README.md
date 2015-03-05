@@ -1,6 +1,7 @@
 
 ##Brickoo components
 [![Build Status](https://secure.travis-ci.org/brickoo/components.png)](http://travis-ci.org/brickoo/components)
+[![HHVM Status](http://hhvm.h4cc.de/badge/brickoo/components.svg)](http://hhvm.h4cc.de/package/brickoo/components)
 [![Code Coverage](https://scrutinizer-ci.com/g/brickoo/components/badges/coverage.png)](https://scrutinizer-ci.com/g/brickoo/components/)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/brickoo/components/badges/quality-score.png)](https://scrutinizer-ci.com/g/brickoo/components/)
 [![Latest Stable Version](https://img.shields.io/packagist/v/brickoo/components.svg)](https://packagist.org/packages/brickoo/components)
@@ -9,7 +10,8 @@
 Brickoo components are designed with simplicity in mind.
 
 ###Requirements
-PHP 5.4 or any later version required.
+v5.x - PHP 5.4 or any later version required.
+v6.x - PHP 5.5 or any later version required.
 
 
 ###Installation
@@ -36,8 +38,10 @@ Brickoo has been tested with latest stable PHPUnit version.
 
 ###Contributing
 Brickoo is an open source project.
-If you would like to contribute to Brickoo, just clone the repository and send a pull request.
-Please take a look at the [Coding Standards](http://brickoo.com/#coding_standards).
+If you would like to contribute to Brickoo, please take a look at the Coding Standards.
+Create a fork of the repository and send pull requests over github.com containing a description of the issue.
+The pull requests containing bugfixes must be sent to the corresponding branch (if branch does not exist, create an issue),
+requests containing features can only be sent to the master branch.
 
 
 ###License
