@@ -74,7 +74,6 @@ class DIContainer extends Container {
 
     /**
      * Return the resolved dependency.
-     * @todo (PHP 5.5) replace catch block with finally
      * @param string $dependencyName
      * @throws \Brickoo\Component\IoC\Exception
      * @return object the dependency
@@ -89,9 +88,8 @@ class DIContainer extends Container {
                     $dependency = $this->createDependency($dependencyName, $definition);
             }
         }
-        catch (Exception $exception) {
+        finally {
             $this->calledDependencies = [];
-            throw $exception;
         }
 
         return $dependency;
