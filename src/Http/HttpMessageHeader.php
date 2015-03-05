@@ -61,7 +61,6 @@ class HttpMessageHeader extends Container {
     /**
      * Return the header field by its name.
      * @param string $headerFieldName
-     * @throws \Brickoo\Component\Http\Exception\HeaderNotFoundException
      * @return null|\Brickoo\Component\Http\HttpHeaderField
      */
     public function getField($headerFieldName) {
