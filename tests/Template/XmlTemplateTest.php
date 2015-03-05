@@ -42,14 +42,6 @@ class XmlTemplateTest extends PHPUnit_Framework_TestCase {
         if ((!class_exists("DOMDocument")) || (!class_exists("XSLTProcessor"))) {
             $this->markTestSkipped("Missing DOMDocument|XSLTProcessor dependencies.");
         }
-
-        /*
-        if (defined("HHVM_VERSION")) {
-            $this->markTestSkipped(
-                "Problems caused by HHVM v3.2.0 at importing stylesheets."
-            );
-        }
-        */
     }
 
     /**
@@ -109,6 +101,7 @@ class XmlTemplateTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * HHVM will throw a fatal error if the stylesheet is broken, which can not be catched
      * @covers Brickoo\Component\Template\XmlTemplate::render
      * @covers Brickoo\Component\Template\XmlTemplate::getLibXmlErrorMessage
      * @covers Brickoo\Component\Template\XmlTemplate::getErrorMessage
@@ -118,7 +111,6 @@ class XmlTemplateTest extends PHPUnit_Framework_TestCase {
      */
     public function testXsltTemplateThrowsRenderException() {
         if (defined("HHVM_VERSION")) {
-            // HHVM will throw a fatal error if the stylesheet is broken, which can not be catch
             throw new RenderingException(new \Exception("HHVM fatal error replacement"));
         }
         $xsltFilename = __DIR__ . "/assets/ExceptionThrowingTemplate.xsl";
