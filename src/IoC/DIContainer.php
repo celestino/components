@@ -49,6 +49,9 @@ class DIContainer extends Container {
     /** @var array */
     private $singletons;
 
+    /** @var integer */
+    private $recursionCounter;
+
     /**
      * Class constructor.
      * Calls the parent constructor.
@@ -62,6 +65,7 @@ class DIContainer extends Container {
         $this->resolver = $resolver;
         $this->calledDependencies = [];
         $this->singletons = [];
+        $this->recursionCounter = 0;
     }
 
     /**
@@ -79,23 +83,18 @@ class DIContainer extends Container {
      * @return object the dependency
      */
     public function retrieve($dependencyName) {
-        try {
-            $this->checkDependencyAccess($dependencyName);
-            $definition = $this->get($dependencyName);
+        $this->checkDependencyAccess($dependencyName);
+        $definition = $this->get($dependencyName);
 
-            if ((!$this->hasSingletonScope($definition))
-                || (!$dependency = $this->getSingleton($dependencyName))) {
-                    $dependency = $this->createDependency($dependencyName, $definition);
-            }
+        if ($this->hasSingletonScope($definition)
+            && ($dependency = $this->getSingleton($dependencyName)) !== null) {
+                return $dependency;
         }
-        finally {
-            $this->calledDependencies = [];
-        }
-
-        return $dependency;
+        return $this->createDependency($dependencyName, $definition);
     }
 
-    /** Check if the dependency can be accessed.
+    /**
+     * Check if the dependency can be accessed.
      * @param string $dependencyName
      * @throws Exception\InfiniteDependencyResolveLoopException
      * @throws Exception\DefinitionNotAvailableException
@@ -114,37 +113,47 @@ class DIContainer extends Container {
     /**
      * Create the dependency object.
      * @param string $dependencyName
-     * @param DependencyDefinition $definition
+     * @param \Brickoo\Component\IoC\Definition\DependencyDefinition $definition
+     * @throws \Brickoo\Component\IoC\Exception
      * @return object
      */
     private function createDependency($dependencyName, DependencyDefinition $definition) {
-        $this->calledDependencies[$dependencyName] = true;
-        $dependency = $this->resolveDefinition($definition);
-        unset($this->calledDependencies[$dependencyName]);
+        try {
+            $this->calledDependencies[$dependencyName] = true;
+            $dependency = $this->resolveDefinition($definition);
 
-        if ($this->hasSingletonScope($definition)) {
-            $this->storeSingleton($dependencyName, $dependency);
+            if ($this->hasSingletonScope($definition)) {
+                $this->storeSingleton($dependencyName, $dependency);
+            }
+        }
+        finally {
+            unset($this->calledDependencies[$dependencyName]);
         }
         return $dependency;
     }
 
-    private function hasSingletonScope(DependencyDefinition $definition) {
-        return ($definition->getScope() == DependencyDefinition::SCOPE_SINGLETON);
-    }
-
     /**
      * Return the resolved dependency.
-     * @param DependencyDefinition $dependencyDefinition
-     * @return object the defined dependency.
+     * @param \Brickoo\Component\IoC\Definition\DependencyDefinition $dependencyDefinition
+     * @return object
      */
     private function resolveDefinition(DependencyDefinition $dependencyDefinition) {
         return $this->getResolver()->resolve($this, $dependencyDefinition);
     }
 
     /**
+     * Check if the definition targets singleton scope.
+     * @param \Brickoo\Component\IoC\Definition\DependencyDefinition $definition
+     * @return boolean
+     */
+    private function hasSingletonScope(DependencyDefinition $definition) {
+        return ($definition->getScope() == DependencyDefinition::SCOPE_SINGLETON);
+    }
+
+    /**
      * Return the stored singleton dependency.
      * @param string $dependencyName
-     * @return mixed the dependency otherwise null
+     * @return null|object
      */
     private function getSingleton($dependencyName) {
         if (isset($this->singletons[$dependencyName])) {
