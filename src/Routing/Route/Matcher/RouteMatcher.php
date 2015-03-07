@@ -31,6 +31,7 @@ use Brickoo\Component\Routing\Route\RouteCollection;
  * RouteMatcher
  *
  * Defines a route matcher.
+ * The route collection can be checked before iterate over all routes to decrease search overhead.
  * If the route does match, the route rules parameters can be retrieved.
  * @author Celestino Diaz <celestino.diaz@gmx.de>
  */
@@ -44,14 +45,14 @@ interface RouteMatcher {
     public function matchesCollection(RouteCollection $routeCollection);
 
     /**
-     * Checks if a route matches the complete request.
+     * Check if a route matches the complete request.
      * @param \Brickoo\Component\Routing\Route\Route $route
      * @return boolean
      */
     public function matchesRoute(Route $route);
 
     /**
-     * Returns the routing parameters and values from the last matched route.
+     * Return the routing parameters and values from the last matched route.
      * @return array
      */
     public function getRouteParameters();

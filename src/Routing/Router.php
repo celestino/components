@@ -131,7 +131,7 @@ class Router {
     private function getMatchingRoute(RouteCollection $routeCollection) {
         $matchingRoute = null;
         if ($this->routeMatcher->matchesCollection($routeCollection)) {
-            $matchingRoute = $this->getMatchingRouteFromCollection($routeCollection);
+            $matchingRoute = $this->getMatchingRequestRouteFromCollection($routeCollection);
         }
         return $matchingRoute;
     }
@@ -141,7 +141,7 @@ class Router {
      * @param \Brickoo\Component\Routing\Route\RouteCollection $routeCollection
      * @return null|RequestRoute
      */
-    private function getMatchingRouteFromCollection(RouteCollection $routeCollection) {
+    private function getMatchingRequestRouteFromCollection(RouteCollection $routeCollection) {
         $matchingRoute = null;
         foreach ($routeCollection as $route) {
             if ($this->routeMatcher->matchesRoute($route)) {

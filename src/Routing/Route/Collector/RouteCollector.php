@@ -33,7 +33,7 @@ namespace Brickoo\Component\Routing\Route\Collector;
 interface RouteCollector {
 
     /**
-     * Returns a collection of the collected route collections.
+     * Returns a collection of route collections.
      * @return \Brickoo\Component\Common\Collection
      */
     public function collect();

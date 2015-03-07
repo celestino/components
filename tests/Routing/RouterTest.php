@@ -102,7 +102,7 @@ class RouterTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Routing\Router::getRequestRoute
      * @covers Brickoo\Component\Routing\Router::getMatchingRoute
-     * @covers Brickoo\Component\Routing\Router::getMatchingRouteFromCollection
+     * @covers Brickoo\Component\Routing\Router::getMatchingRequestRouteFromCollection
      */
     public function testGetRequestRoute() {
         $route = new GenericRoute("unit.test.route", "/test", "Controller");
@@ -123,7 +123,7 @@ class RouterTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers Brickoo\Component\Routing\Router::getRequestRoute
      * @covers Brickoo\Component\Routing\Router::getMatchingRoute
-     * @covers Brickoo\Component\Routing\Router::getMatchingRouteFromCollection
+     * @covers Brickoo\Component\Routing\Router::getMatchingRequestRouteFromCollection
      * @covers Brickoo\Component\Routing\Exception\NoMatchingRouteFoundException
      * @expectedException \Brickoo\Component\Routing\Exception\NoMatchingRouteFoundException
      */

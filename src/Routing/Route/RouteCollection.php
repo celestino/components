@@ -51,14 +51,16 @@ class RouteCollection implements IteratorAggregate {
      * Class constructor.
      * @param string $name the collection (unique) name
      * @param string $path the routes common path
+     * @param array $routes the initial collection routes
      */
-    public function __construct($name = "", $path = "") {
+    public function __construct($name = "", $path = "", array $routes = []) {
         Assert::isString($name);
         Assert::isString($path);
 
         $this->name = $name;
         $this->path = $path;
         $this->routes = [];
+        $this->addRoutes($routes);
     }
 
     /**
