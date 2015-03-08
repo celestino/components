@@ -217,9 +217,9 @@ class ArrayList implements IteratorAggregate, Countable {
         return implode("\n", array_map(
             function($value) {
                 if (!is_scalar($value)) {
-                    return gettype($value);
+                    return serialize($value);
                 }
-                return is_bool($value) ? ($value ? "true" : "false") : $value;
+                return is_bool($value) ? ($value ? "true" : "false") : (string)$value;
             },
             $this->items
         ));

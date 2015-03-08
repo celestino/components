@@ -141,7 +141,7 @@ class ArrayListTest extends PHPUnit_Framework_TestCase {
 
     /** @covers Brickoo\Component\Common\ArrayList::toString */
     public function testListStringRepresentation() {
-        $expectedString = "1\n2\n3\ntrue\nobject\narray";
+        $expectedString = "1\n2\n3\ntrue\nO:8:\"stdClass\":0:{}\na:0:{}";
         $list= new ArrayList([1, 2, 3, true, new \stdClass(), []]);
         $this->assertEquals($expectedString, $list->toString());
     }
