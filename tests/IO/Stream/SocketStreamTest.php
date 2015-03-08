@@ -37,6 +37,15 @@ use PHPUnit_Framework_TestCase;
  */
 class SocketStreamTest extends PHPUnit_Framework_TestCase {
 
+    /** {@inheritDoc} */
+    public function setUp() {
+        $resource = @fsockopen("www.google.com", 80, $errorNumber, $errorMessage, 5);
+        if (is_resource($resource)) {
+            return fclose($resource);
+        }
+        $this->markTestSkipped("Unable to connect to host.");
+    }
+
     /**
      * @covers Brickoo\Component\IO\Stream\SocketStream::__construct
      * @covers Brickoo\Component\IO\Stream\SocketStream::open
@@ -104,10 +113,9 @@ class SocketStreamTest extends PHPUnit_Framework_TestCase {
 
     /**
      * Returns a socket stream configuration fixture.
-     * @param array $context
-     * @return SocketStreamConfig
+     * @return \Brickoo\Component\IO\Stream\SocketStreamConfig
      */
-    private function getSocketStreamConfigurationFixture($context = array()) {
+    private function getSocketStreamConfigurationFixture() {
         $context = ["http" => [
             "method" => "GET",
             "header"=>"Host: google.com\r\n".
