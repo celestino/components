@@ -59,6 +59,15 @@ class CollectionTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers Brickoo\Component\Common\Collection::__construct
+     * @covers Brickoo\Component\Common\Exception\InvalidTypeException
+     * @expectedException \Brickoo\Component\Common\Exception\InvalidTypeException
+     */
+    public  function testConstructCollectionWithExplicitTypeThrowsException() {
+        new Collection([1, 2, 3], "string");
+    }
+
+    /**
      * @covers Brickoo\Component\Common\Collection::add
      * @covers Brickoo\Component\Common\Collection::count
      */

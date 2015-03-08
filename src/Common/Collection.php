@@ -48,9 +48,10 @@ class Collection implements \IteratorAggregate, \Countable {
     /**
      * Class constructor.
      * @param array $items
+     * @param null|string $type
      */
-    public function __construct(array $items = []) {
-        $this->type = null;
+    public function __construct(array $items = [], $type = null) {
+        $this->type = $type;
         $this->items = [];
         $this->fromArray($items);
     }
