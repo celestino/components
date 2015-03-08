@@ -125,11 +125,11 @@ class DIContainer extends Container {
             if ($this->hasSingletonScope($definition)) {
                 $this->storeSingleton($dependencyName, $dependency);
             }
+            return $dependency;
         }
         finally {
             unset($this->calledDependencies[$dependencyName]);
         }
-        return $dependency;
     }
 
     /**
