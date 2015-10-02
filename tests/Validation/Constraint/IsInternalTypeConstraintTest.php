@@ -42,8 +42,8 @@ class IsInternalTypeConstraintTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Brickoo\Component\Validation\Constraint\FunctionCallbackConstraint::__construct
-     * @covers Brickoo\Component\Validation\Constraint\FunctionCallbackConstraint::matches
+     * @covers Brickoo\Component\Validation\Constraint\IsInternalTypeConstraint::__construct
+     * @covers Brickoo\Component\Validation\Constraint\IsInternalTypeConstraint::matches
      */
     public function testAssertionOfAnValidValue() {
         $IsInternalTypeConstraint = new IsInternalTypeConstraint("string");
@@ -51,8 +51,8 @@ class IsInternalTypeConstraintTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Brickoo\Component\Validation\Constraint\FunctionCallbackConstraint::__construct
-     * @covers Brickoo\Component\Validation\Constraint\FunctionCallbackConstraint::matches
+     * @covers Brickoo\Component\Validation\Constraint\IsInternalTypeConstraint::__construct
+     * @covers Brickoo\Component\Validation\Constraint\IsInternalTypeConstraint::matches
      */
     public function testAssertionOfAnValueFails() {
         $IsInternalTypeConstraint = new IsInternalTypeConstraint("string");

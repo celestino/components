@@ -52,8 +52,8 @@ class ContainsCharactersOfTypeConstraintTest extends PHPUnit_Framework_TestCase 
     }
 
     /**
-     * @covers Brickoo\Component\Validation\Constraint\FunctionCallbackConstraint::__construct
-     * @covers Brickoo\Component\Validation\Constraint\FunctionCallbackConstraint::matches
+     * @covers Brickoo\Component\Validation\Constraint\ContainsCharactersOfTypeConstraint::__construct
+     * @covers Brickoo\Component\Validation\Constraint\ContainsCharactersOfTypeConstraint::matches
      */
     public function testAssertionOfAnValidValue() {
         $ContainsCharactersOfTypeConstraint = new ContainsCharactersOfTypeConstraint("alpha");
@@ -61,8 +61,8 @@ class ContainsCharactersOfTypeConstraintTest extends PHPUnit_Framework_TestCase 
     }
 
     /**
-     * @covers Brickoo\Component\Validation\Constraint\FunctionCallbackConstraint::__construct
-     * @covers Brickoo\Component\Validation\Constraint\FunctionCallbackConstraint::matches
+     * @covers Brickoo\Component\Validation\Constraint\ContainsCharactersOfTypeConstraint::__construct
+     * @covers Brickoo\Component\Validation\Constraint\ContainsCharactersOfTypeConstraint::matches
      */
     public function testAssertionOfOneValueFails() {
         $ContainsCharactersOfTypeConstraint = new ContainsCharactersOfTypeConstraint("alpha");
