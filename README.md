@@ -2,8 +2,8 @@
 ##Brickoo components
 [![Build Status](https://secure.travis-ci.org/brickoo/components.png)](http://travis-ci.org/brickoo/components)
 [![HHVM Status](http://hhvm.h4cc.de/badge/brickoo/components.svg)](http://hhvm.h4cc.de/package/brickoo/components)
-[![Code Coverage](https://scrutinizer-ci.com/g/brickoo/components/badges/coverage.png)](https://scrutinizer-ci.com/g/brickoo/components/)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/brickoo/components/badges/quality-score.png)](https://scrutinizer-ci.com/g/brickoo/components/)
+[![Code Coverage](https://scrutinizer-ci.com/g/brickoo/components/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/brickoo/components/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/brickoo/components/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/brickoo/components/?branch=master)
 [![Latest Stable Version](https://img.shields.io/packagist/v/brickoo/components.svg)](https://packagist.org/packages/brickoo/components)
 [![License](https://img.shields.io/packagist/l/brickoo/components.svg)](http://www.brickoo.com/#license)
 
